@@ -1,0 +1,20 @@
+{
+  "overview": "TicketDepart is an independent travel agency site that helps travelers book flights by phone and through a callback request form.",
+  "features": [
+    "Browse flight booking help and airline guides for Delta, United, and American Airlines",
+    "Call a travel specialist directly at +1 855-544-9001",
+    "Submit an 11-field callback request with trip type, dates, travelers, and cabin",
+    "One-way and round-trip date handling with inline validation",
+    "Mobile-friendly layout with a persistent call bar",
+    "SEO-ready pages with canonical URLs, sitemap, and robots.txt"
+  ],
+  "category": "travel",
+  "tags": [
+    "travel",
+    "flights",
+    "lead-generation",
+    "seo",
+    "callbacks"
+  ],
+  "last_updated": "2026-09-18T21:01:54.105Z"
+}

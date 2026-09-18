@@ -1,0 +1,173 @@
+// Version: 4.0.0
+type AccessControlState__29494204 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__230067015<Principal, UserRole__33357388>
+  };
+type AccessControlState__853242984 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__230067015<Principal, UserRole__494153774>
+  };
+type Cabin__1031267946 =
+  {#business; #economy; #first; #noPreference; #premiumEconomy};
+type Data__44217153<K, V> = {var count : Nat__227979830; kvs : [var ?(K, V)]};
+type Internal__283199666<K, V> =
+  {children : [var ?Node__204828119<K, V>]; data : Data__44217153<K, V>};
+type LeadId__1073473045 = Nat;
+type LeadId__558362835 = LeadId__1073473045;
+type Leaf__598469445<K, V> = {data : Data__44217153<K, V>};
+type List__355132335<T> =
+  {
+    var blockIndex : Nat__227979830;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__227979830
+  };
+type List__836382695<T> = List__355132335<T>;
+type Map__230067015<K, V> = Map__405889023<K, V>;
+type Map__405889023<K, V> = Map__603270868<K, V>;
+type Map__603270868<K, V> =
+  {var root : Node__204828119<K, V>; var size : Nat__227979830};
+type Nat__227979830 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__585248115 =
+  {
+    accessControlState : AccessControlState__853242984;
+    leadState : {var nextLeadId : Nat};
+    leads : List__836382695<NewTripRequest__106034483>
+  };
+type NewActor__664089349 =
+  {
+    accessControlState : AccessControlState__29494204;
+    leadState : {var nextLeadId : Nat};
+    leads : List__836382695<TripRequest__666516691>
+  };
+type NewTripRequest__106034483 =
+  {
+    cabin : {#business; #economy; #first; #noPreference; #premiumEconomy};
+    departureDate : ?Text;
+    destination : Text;
+    details : ?Text;
+    email : Text;
+    id : Nat;
+    name : Text;
+    origin : Text;
+    phone : Text;
+    returnDate : ?Text;
+    submittedAt : Nat;
+    travelers : Nat;
+    tripType :
+      {
+        #businessClass;
+        #firstClass;
+        #groupTravel;
+        #multiCity;
+        #oneWay;
+        #other;
+        #roundTrip
+      }
+  };
+type Node__204828119<K, V> =
+  {#internal : Internal__283199666<K, V>; #leaf : Leaf__598469445<K, V>};
+type OldActor__1058885862 = {};
+type OldActor__672056093 =
+  {
+    accessControlState : AccessControlState__853242984;
+    leadState : {var nextLeadId : Nat};
+    leads : List__836382695<OldTripRequest__1010913406>
+  };
+type OldTripRequest__1010913406 =
+  {
+    destination : Text;
+    details : ?Text;
+    email : Text;
+    id : Nat;
+    name : Text;
+    origin : Text;
+    phone : Text;
+    submittedAt : Nat;
+    travelDates : Text;
+    travelers : Nat;
+    tripType :
+      {
+        #businessClass;
+        #firstClass;
+        #groupTravel;
+        #multiCity;
+        #oneWay;
+        #other;
+        #roundTrip
+      }
+  };
+type Timestamp__301639476 = Nat;
+type Timestamp__523471765 = Timestamp__301639476;
+type TripRequest__666516691 =
+  {
+    destination : Text;
+    details : ?Text;
+    email : Text;
+    id : Nat;
+    name : Text;
+    origin : Text;
+    phone : Text;
+    submittedAt : Nat;
+    travelDates : Text;
+    travelers : Nat;
+    tripType :
+      {
+        #businessClass;
+        #firstClass;
+        #groupTravel;
+        #multiCity;
+        #oneWay;
+        #other;
+        #roundTrip
+      }
+  };
+type TripRequest__991645806 =
+  {
+    cabin : Cabin__1031267946;
+    departureDate : ?Text;
+    destination : Text;
+    details : ?Text;
+    email : Text;
+    id : LeadId__558362835;
+    name : Text;
+    origin : Text;
+    phone : Text;
+    returnDate : ?Text;
+    submittedAt : Timestamp__523471765;
+    travelers : Nat;
+    tripType : TripType__857866162
+  };
+type TripType__857866162 =
+  {
+    #businessClass;
+    #firstClass;
+    #groupTravel;
+    #multiCity;
+    #oneWay;
+    #other;
+    #roundTrip
+  };
+type UserRole__33357388 = {#admin; #guest; #user};
+type UserRole__494153774 = {#admin; #guest; #user};
+type UserRole__91647283 = {#admin; #guest; #user};
+{
+  "20260918_000000" : (_old : OldActor__1058885862) -> NewActor__664089349;
+  "20260918_010000" : (old : OldActor__672056093) -> NewActor__585248115
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__230067015<Principal, UserRole__91647283>
+    };
+  stable leadState : {var nextLeadId : LeadId__558362835};
+  stable leads :
+    {
+      var blockIndex : Nat__227979830;
+      var blocks : [var [var ?TripRequest__991645806]];
+      var elementIndex : Nat__227979830
+    }
+};

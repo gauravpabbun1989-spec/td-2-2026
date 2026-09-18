@@ -1,0 +1,133 @@
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type TripType = 
+ variant {
+   businessClass;
+   firstClass;
+   groupTravel;
+   multiCity;
+   oneWay;
+   other;
+   roundTrip;
+ };
+type TripRequestInput = 
+ record {
+   cabin: Cabin;
+   departureDate: opt text;
+   destination: text;
+   details: opt text;
+   email: text;
+   name: text;
+   origin: text;
+   phone: text;
+   returnDate: opt text;
+   travelers: nat;
+   tripType: TripType;
+ };
+type TripRequest = 
+ record {
+   cabin: Cabin;
+   departureDate: opt text;
+   destination: text;
+   details: opt text;
+   email: text;
+   id: LeadId;
+   name: text;
+   origin: text;
+   phone: text;
+   returnDate: opt text;
+   submittedAt: Timestamp;
+   travelers: nat;
+   tripType: TripType;
+ };
+type Timestamp = nat;
+type SubmitError = 
+ variant {
+   invalidDepartureDate;
+   invalidDestination;
+   invalidEmail;
+   invalidName;
+   invalidOrigin;
+   invalidPhone;
+   invalidReturnDate;
+   invalidTravelers;
+ };
+type Result__1 = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type Result_1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ variant {
+   err: SubmitError;
+   ok: TripRequest;
+ };
+type LeadId = nat;
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+type Cabin = 
+ variant {
+   business;
+   economy;
+   first;
+   noPreference;
+   premiumEconomy;
+ };
+service : {
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result_1);
+  _internet_identity_sign_in_start: () -> (blob);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  execute: (qJson: text) -> (Result__1) query;
+  /// Returns static Markdown documentation for the TicketDepart backend API.
+  getApiDoc: () -> (text) query;
+  getCallerUserRole: () -> (UserRole) query;
+  isCallerAdmin: () -> (bool) query;
+  schema: () -> (text) query;
+  /// Stores a trip request submitted from the contact page lead-capture form.
+  /// Returns the stored record on success, or a caller-actionable error.
+  submitTripRequest: (input: TripRequestInput) -> (Result);
+}

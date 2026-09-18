@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/assets/fonts/SpaceGrotesk.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/assets/fonts/DMSans.woff2") format("woff2");
+  font-weight: 100 1000;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --font-display: "Space Grotesk";
+    --font-body: "DM Sans";
+    --font-mono: "JetBrains Mono";
+    --radius: 0.75rem;
+
+    /* Terminal Blue — light-first aviation-ops palette */
+    --background: 0.975 0.004 95; /* warm paper white */
+    --foreground: 0.255 0.045 250; /* deep ink navy */
+    --card: 1 0 0;
+    --card-foreground: 0.255 0.045 250;
+    --popover: 1 0 0;
+    --popover-foreground: 0.255 0.045 250;
+
+    --primary: 0.33 0.06 249; /* ink navy CTA */
+    --primary-foreground: 0.975 0.004 95;
+
+    --secondary: 0.945 0.008 250;
+    --secondary-foreground: 0.33 0.05 250;
+    --muted: 0.945 0.008 250;
+    --muted-foreground: 0.5 0.028 250;
+
+    --accent: 0.56 0.155 45; /* burnt signal orange */
+    --accent-foreground: 0.99 0.005 45;
+
+    --destructive: 0.55 0.21 27;
+    --destructive-foreground: 0.99 0.005 27;
+    --success: 0.52 0.13 155;
+    --success-foreground: 0.99 0.005 155;
+    --warning: 0.72 0.15 75;
+    --warning-foreground: 0.255 0.045 75;
+
+    --border: 0.9 0.008 250;
+    --input: 0.88 0.01 250;
+    --ring: 0.56 0.155 45;
+
+    --chart-1: 0.56 0.155 45;
+    --chart-2: 0.45 0.09 249;
+    --chart-3: 0.62 0.11 195;
+    --chart-4: 0.72 0.15 75;
+    --chart-5: 0.52 0.13 155;
+
+    --sidebar: 0.975 0.004 95;
+    --sidebar-foreground: 0.255 0.045 250;
+    --sidebar-primary: 0.33 0.06 249;
+    --sidebar-primary-foreground: 0.975 0.004 95;
+    --sidebar-accent: 0.945 0.008 250;
+    --sidebar-accent-foreground: 0.33 0.05 250;
+    --sidebar-border: 0.9 0.008 250;
+    --sidebar-ring: 0.56 0.155 45;
+
+    /* Non-color tokens */
+    --gradient-primary: linear-gradient(
+      135deg,
+      oklch(0.33 0.06 249) 0%,
+      oklch(0.27 0.055 255) 100%
+    );
+    --gradient-subtle: linear-gradient(
+      180deg,
+      oklch(0.975 0.004 95) 0%,
+      oklch(0.955 0.008 250) 100%
+    );
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: 0.175 0.028 252; /* deep night navy */
+    --foreground: 0.945 0.008 250;
+    --card: 0.215 0.032 252;
+    --card-foreground: 0.945 0.008 250;
+    --popover: 0.215 0.032 252;
+    --popover-foreground: 0.945 0.008 250;
+
+    --primary: 0.88 0.02 250;
+    --primary-foreground: 0.175 0.028 252;
+
+    --secondary: 0.26 0.035 252;
+    --secondary-foreground: 0.88 0.012 250;
+    --muted: 0.26 0.035 252;
+    --muted-foreground: 0.62 0.025 250;
+
+    --accent: 0.7 0.155 48;
+    --accent-foreground: 0.175 0.028 48;
+
+    --destructive: 0.65 0.19 27;
+    --destructive-foreground: 0.175 0.028 27;
+    --success: 0.68 0.14 155;
+    --success-foreground: 0.175 0.028 155;
+    --warning: 0.78 0.15 78;
+    --warning-foreground: 0.175 0.028 78;
+
+    --border: 0.3 0.035 252;
+    --input: 0.32 0.035 252;
+    --ring: 0.7 0.155 48;
+
+    --chart-1: 0.7 0.155 48;
+    --chart-2: 0.68 0.09 249;
+    --chart-3: 0.72 0.11 195;
+    --chart-4: 0.78 0.15 78;
+    --chart-5: 0.68 0.14 155;
+
+    --sidebar: 0.215 0.032 252;
+    --sidebar-foreground: 0.945 0.008 250;
+    --sidebar-primary: 0.88 0.02 250;
+    --sidebar-primary-foreground: 0.175 0.028 252;
+    --sidebar-accent: 0.26 0.035 252;
+    --sidebar-accent-foreground: 0.88 0.012 250;
+    --sidebar-border: 0.3 0.035 252;
+    --sidebar-ring: 0.7 0.155 48;
+
+    --gradient-primary: linear-gradient(
+      135deg,
+      oklch(0.88 0.02 250) 0%,
+      oklch(0.78 0.03 250) 100%
+    );
+    --gradient-subtle: linear-gradient(
+      180deg,
+      oklch(0.175 0.028 252) 0%,
+      oklch(0.215 0.032 252) 100%
+    );
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: "kern" 1, "liga" 1;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  /* Departure-board micro-label: the signature typographic detail */
+  .label-board {
+    @apply font-mono text-xs font-medium uppercase tracking-[0.18em];
+  }
+
+  .bg-gradient-primary {
+    background-image: var(--gradient-primary);
+  }
+
+  .bg-gradient-subtle {
+    background-image: var(--gradient-subtle);
+  }
+
+  /* Subtle paper grain for large surfaces */
+  .texture-grain {
+    background-image: radial-gradient(
+      oklch(var(--foreground) / 0.035) 1px,
+      transparent 1px
+    );
+    background-size: 4px 4px;
+  }
+
+  .shadow-subtle {
+    box-shadow: 0 1px 2px 0 oklch(var(--foreground) / 0.05);
+  }
+
+  .shadow-elevated {
+    box-shadow: 0 1px 2px 0 oklch(var(--foreground) / 0.04), 0 12px 32px -12px
+      oklch(var(--foreground) / 0.14);
+  }
+}
