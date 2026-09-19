@@ -1,5 +1,6 @@
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { trackPhoneClick } from "@/lib/analytics";
 import { Phone } from "lucide-react";
 
 type CallCtaProps = {
@@ -40,6 +41,7 @@ export function CallCta({
   return (
     <a
       href={SITE.phoneHref}
+      onClick={() => trackPhoneClick("primary_cta")}
       data-ocid={ocid}
       aria-label={`${SITE.ctaLabel} at ${SITE.phoneDisplay}`}
       className={cn(
