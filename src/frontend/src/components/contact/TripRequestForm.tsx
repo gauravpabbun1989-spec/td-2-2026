@@ -1,5 +1,6 @@
 import { Cabin, SubmitError, TripType, createActor } from "@/backend";
 import { cn } from "@/lib/utils";
+import { SITE } from "@/lib/site";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useMutation } from "@tanstack/react-query";
 import { CheckCircle2, Loader2, Phone, Send } from "lucide-react";
@@ -191,6 +192,28 @@ export function TripRequestForm() {
   const [values, setValues] = useState<FormValues>(EMPTY_FORM);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
+
+  const fallbackEmail = (() => {
+    const subject = encodeURIComponent(
+      `TicketDepart callback request - ${values.name || "Travel inquiry"}`,
+    );
+    const body = encodeURIComponent(
+      [
+        `Name: ${values.name}`,
+        `Phone: ${values.phone}`,
+        `Email: ${values.email}`,
+        `Trip type: ${values.tripType}`,
+        `From: ${values.origin}`,
+        `To: ${values.destination}`,
+        `Departure: ${values.departureDate}`,
+        `Return: ${values.returnDate || "One-way"}`,
+        `Travelers: ${values.travelers}`,
+        `Cabin: ${values.cabin}`,
+        `Trip details: ${values.details || "None"}`,
+      ].join("\\n"),
+    );
+    return `mailto:${SITE.email}?subject=${subject}&body=${body}`;
+  })();
 
   const mutation = useMutation({
     mutationFn: async (input: FormValues) => {
@@ -540,15 +563,36 @@ export function TripRequestForm() {
           data-ocid="contact.error_state"
           className="mt-6 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-medium text-destructive"
         >
-          We could not send your request just now. Please try again, or call{" "}
+          We could not send your request just now. Your details are still on this form. Please try again, or use the email option below.
+        </p>
+      ) : null}
+
+      {mutation.isError ? (
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            data-ocid="contact.retry_button"
+            onClick={() => mutation.mutate(values)}
+            disabled={mutation.isPending}
+            className="inline-flex h-11 items-center justify-center rounded-full border border-primary/25 bg-card px-5 text-sm font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            Try sending again
+          </button>
+          <a
+            href={fallbackEmail}
+            data-ocid="contact.email_fallback_link"
+            className="inline-flex h-11 items-center justify-center rounded-full border border-accent/30 bg-accent/5 px-5 text-sm font-medium text-primary transition-smooth hover:bg-accent/10"
+          >
+            Email my trip details instead
+          </a>
           <a
             href="tel:+18555449001"
-            className="font-semibold underline underline-offset-4"
+            data-ocid="contact.error_call_link"
+            className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-medium text-primary transition-smooth hover:bg-muted"
           >
-            +1 855-544-9001
-          </a>{" "}
-          and we will take the details over the phone.
-        </p>
+            Call +1 855-544-9001
+          </a>
+        </div>
       ) : null}
 
       <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
