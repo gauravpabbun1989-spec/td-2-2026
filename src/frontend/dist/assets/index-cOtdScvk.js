@@ -41919,7 +41919,7 @@ function SectionHeading({
     }
   );
 }
-const DEFAULT_SHARE_IMAGE = "https://caffeine.ai/imgs/share-logo.jpeg";
+const DEFAULT_SHARE_IMAGE = absoluteUrl("/assets/generated/hero-flight.dim_1600x1100.jpg");
 function breadcrumbSchema(items) {
   return {
     "@context": "https://schema.org",
