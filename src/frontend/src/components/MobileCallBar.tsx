@@ -1,6 +1,5 @@
 import { SITE } from "@/lib/site";
 import { Phone } from "lucide-react";
-import { trackPhoneClick } from "@/lib/analytics";
 
 /**
  * Fixed bottom conversion bar for small screens. Keeps the phone number one
@@ -14,7 +13,6 @@ export function MobileCallBar() {
     >
       <a
         href={SITE.phoneHref}
-        onClick={() => trackPhoneClick("mobile_call_bar")}
         data-ocid="mobile_call.button"
         aria-label={`${SITE.ctaLabel} at ${SITE.phoneDisplay}`}
         className="flex min-h-12 w-full items-center justify-center gap-2.5 rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-subtle transition-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
