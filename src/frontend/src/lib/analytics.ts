@@ -7,20 +7,17 @@ export function trackPhoneClick(location: string) {
     page_title: document.title,
   };
 
-  const gtag = (
-    window as typeof window & {
-      gtag?: (...args: unknown[]) => void;
-      dataLayer?: unknown[];
-    }
-  ).gtag;
+  const win = window as typeof window & {
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
+  };
 
-  if (gtag) {
-    gtag("event", "phone_click", eventParams);
+  if (win.gtag) {
+    win.gtag("event", "phone_click", eventParams);
     return;
   }
 
   // Queue the event if the Google tag script has not finished loading yet.
-  // The gtag bootstrap in index.html drains this queue once available.
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push(["event", "phone_click", eventParams]);
+  win.dataLayer = win.dataLayer || [];
+  win.dataLayer.push(["event", "phone_click", eventParams]);
 }
