@@ -6,7 +6,7 @@ import { renderRoute } from "@/test/render-route";
 const AIRLINE_PAGES = [
   {
     path: "/delta-airlines",
-    name: "Delta Air Lines",
+    name: "Delta Airlines",
     heading: /delta bookings handled/i,
     // Delta's image sits below the fold, so it stays lazy-loaded.
     loading: "lazy",
