@@ -65,8 +65,8 @@ export type NavItem = {
 export const NAV_ITEMS: readonly NavItem[] = [
   { label: "Home", to: "/" },
   { label: "Flight Booking", to: "/flight-booking" },
-  { label: "Delta", to: "/delta-airlines" },
-  { label: "United", to: "/united-airlines" },
+  { label: "Delta Airlines", to: "/delta-airlines" },
+  { label: "United Airlines", to: "/united-airlines" },
   { label: "American Airlines", to: "/american-airlines" },
   { label: "Contact", to: "/contact" },
 ] as const;
