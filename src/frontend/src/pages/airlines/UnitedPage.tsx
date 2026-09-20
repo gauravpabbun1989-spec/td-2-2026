@@ -34,12 +34,12 @@ const CAPABILITIES = [
   {
     icon: Ticket,
     title: "Booking assistance",
-    body: "We search United-operated and United-marketed flights across your travel window, compare Economy, Economy Plus, and premium cabin pricing, and complete the reservation with you on the phone.",
+    body: "We search United Airlines-operated and United Airlines-marketed flights across your travel window, compare Economy, Economy Plus, and premium cabin pricing, and complete the reservation with you on the phone.",
   },
   {
     icon: Globe2,
     title: "International booking",
-    body: "Long-haul United routes often connect through a hub and may include partner-operated segments. We check that every connection is legal and comfortable, and that baggage rules are consistent across the whole journey.",
+    body: "Long-haul United Airlines routes often connect through a hub and may include partner-operated segments. We check that every connection is legal and comfortable, and that baggage rules are consistent across the whole journey.",
   },
   {
     icon: MapPin,
@@ -49,7 +49,7 @@ const CAPABILITIES = [
   {
     icon: Briefcase,
     title: "Business and first-class booking",
-    body: "United Polaris and domestic First Class are priced differently by route and date. We review the premium options in your window, explain what the fare includes, and book the cabin that fits the trip.",
+    body: "United Airlines Polaris and domestic First Class are priced differently by route and date. We review the premium options in your window, explain what the fare includes, and book the cabin that fits the trip.",
   },
   {
     icon: Repeat2,
@@ -60,35 +60,35 @@ const CAPABILITIES = [
 
 const CABINS = [
   {
-    name: "United Economy",
+    name: "United Airlines Economy",
     tag: "Standard cabin",
-    body: "The standard main cabin on United flights. Seat selection and baggage allowances depend on the fare you choose, so we compare the fare options in your window and explain what each one includes before you book.",
+    body: "The standard main cabin on United Airlines flights. Seat selection and baggage allowances depend on the fare you choose, so we compare the fare options in your window and explain what each one includes before you book.",
   },
   {
     name: "Economy Plus",
     tag: "Extra legroom",
-    body: "A United seating option with more legroom than standard Economy, located toward the front of the Economy cabin. Availability and pricing vary by aircraft and route, so we check what is open on your specific flights.",
+    body: "A United Airlines seating option with more legroom than standard Economy, located toward the front of the Economy cabin. Availability and pricing vary by aircraft and route, so we check what is open on your specific flights.",
   },
   {
-    name: "United First",
+    name: "United Airlines First",
     tag: "Domestic premium",
-    body: "United's domestic premium cabin, offered on many routes within the United States. What is included — such as seat type and service — varies by aircraft and route, and we confirm the details for your flights.",
+    body: "United Airlines's domestic premium cabin, offered on many routes within the United Airlines States. What is included — such as seat type and service — varies by aircraft and route, and we confirm the details for your flights.",
   },
   {
-    name: "United Polaris",
+    name: "United Airlines Polaris",
     tag: "Long-haul business",
-    body: "United's long-haul international business class, with lie-flat seating on equipped aircraft. It is not available on every international route or aircraft, so we verify the cabin on your specific itinerary.",
+    body: "United Airlines's long-haul international business class, with lie-flat seating on equipped aircraft. It is not available on every international route or aircraft, so we verify the cabin on your specific itinerary.",
   },
 ] as const;
 
 const INTERNATIONAL_NOTES = [
   {
     title: "Connections and hubs",
-    body: "Many international United itineraries connect through a hub before the long-haul leg. We look at connection times with realistic transfer and security buffers in mind, rather than the shortest possible layover.",
+    body: "Many international United Airlines itineraries connect through a hub before the long-haul leg. We look at connection times with realistic transfer and security buffers in mind, rather than the shortest possible layover.",
   },
   {
     title: "Partner-operated segments",
-    body: "An international United itinerary can include segments operated by partner airlines. We map the full journey so you know which carrier operates each leg and where the handoffs happen.",
+    body: "An international United Airlines itinerary can include segments operated by partner airlines. We map the full journey so you know which carrier operates each leg and where the handoffs happen.",
   },
   {
     title: "Baggage across the journey",
@@ -104,7 +104,7 @@ const MULTI_CITY_NOTES = [
   "Open-jaw trips that arrive in one city and depart from another",
   "Three or more stops where the order changes the total price",
   "Mixed cabins, such as Economy on short legs and a premium cabin long-haul",
-  "Itineraries that combine United with a partner on part of the route",
+  "Itineraries that combine United Airlines with a partner on part of the route",
 ] as const;
 
 const CHANGE_STEPS = [
@@ -134,32 +134,32 @@ const CHECKLIST = [
 
 const FAQS = [
   {
-    question: "Is TicketDepart part of United Airlines?",
+    question: "Is TicketDepart part of United Airlines Airlines?",
     answer:
-      "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by United Airlines, and we are not United's official customer service. We book travel for our own clients as a third party.",
+      "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by United Airlines Airlines, and we are not United Airlines's official customer service. We book travel for our own clients as a third party.",
   },
   {
-    question: "What United booking help can I get over the phone?",
+    question: "What United Airlines booking help can I get over the phone?",
     answer:
-      "We can search and compare United itineraries, book new reservations, build multi-city and international routings, book premium cabins, and assist with changes and rebooking. Call and describe your trip and a specialist will take it from there.",
+      "We can search and compare United Airlines itineraries, book new reservations, build multi-city and international routings, book premium cabins, and assist with changes and rebooking. Call and describe your trip and a specialist will take it from there.",
   },
   {
-    question: "Can you book a multi-city United itinerary?",
+    question: "Can you book a multi-city United Airlines itinerary?",
     answer:
       "Yes. Multi-city and open-jaw trips are one of the main reasons travelers call us instead of using a search engine. We sequence the segments deliberately and price the whole itinerary together.",
   },
   {
-    question: "What is the difference between Economy Plus and United Polaris?",
+    question: "What is the difference between Economy Plus and United Airlines Polaris?",
     answer:
-      "Economy Plus is a seat with extra legroom within the Economy cabin. United Polaris is United's long-haul international business class, with lie-flat seating on equipped aircraft. Which cabins are available depends on your route and aircraft, so we check your specific flights.",
+      "Economy Plus is a seat with extra legroom within the Economy cabin. United Airlines Polaris is United Airlines's long-haul international business class, with lie-flat seating on equipped aircraft. Which cabins are available depends on your route and aircraft, so we check your specific flights.",
   },
   {
-    question: "How do I change a United flight I booked through you?",
+    question: "How do I change a United Airlines flight I booked through you?",
     answer:
       "Call us with your confirmation details. We will review the fare rules, explain what the change costs, and handle the rebooking where the ticket allows it. If a change is not possible under your fare, we will tell you that plainly.",
   },
   {
-    question: "Do you help with international United itineraries?",
+    question: "Do you help with international United Airlines itineraries?",
     answer:
       "Yes. International routings involve partner segments, transit requirements, and baggage that can differ by fare. We map the full journey and explain each leg before you book.",
   },
@@ -177,23 +177,23 @@ const RELATED = [
 ] as const;
 
 /**
- * United booking assistance page. Opens with a hero image and capability
+ * United Airlines booking assistance page. Opens with a hero image and capability
  * summary, then the disclosure, cabin options, international and multi-city
- * guidance, change/rebooking steps, a numbered checklist, and a United-specific
+ * guidance, change/rebooking steps, a numbered checklist, and a United Airlines-specific
  * FAQ with matching FAQPage schema.
  */
-export function UnitedPage() {
+export function United AirlinesPage() {
   return (
     <>
       <Seo
-        title="United Flight Booking Assistance | TicketDepart"
-        description="Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 855-544-9001."
+        title="United Airlines Flight Booking Assistance | TicketDepart"
+        description="Independent travel agency for United Airlines Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 855-544-9001."
         path={PATH}
         image={HERO_IMAGE_URL}
         structuredData={[
           breadcrumbSchema([
             { name: "Home", path: "/" },
-            { name: "United", path: PATH },
+            { name: "United Airlines", path: PATH },
           ]),
           faqSchema(FAQS),
         ]}
@@ -212,18 +212,18 @@ export function UnitedPage() {
               </Link>
             </li>
             <li aria-hidden="true">/</li>
-            <li className="font-medium text-foreground">United</li>
+            <li className="font-medium text-foreground">United Airlines</li>
           </ol>
         </nav>
 
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
-            <p className="label-board text-accent">United flight assistance</p>
+            <p className="label-board text-accent">United Airlines flight assistance</p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
-              United itineraries, planned and booked by phone
+              United Airlines itineraries, planned and booked by phone
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              TicketDepart specialists help travelers book United flights every
+              TicketDepart specialists help travelers book United Airlines flights every
               day — from a straightforward domestic round trip to a multi-city
               international routing with partner segments. You describe the
               trip; we handle the search, the fare comparison, and the booking.
@@ -283,8 +283,8 @@ export function UnitedPage() {
                 Independent agency disclosure:
               </span>{" "}
               TicketDepart is an independent travel agency. We are not
-              affiliated with, endorsed by, or sponsored by United Airlines, and
-              we are not United's official customer service. United and all
+              affiliated with, endorsed by, or sponsored by United Airlines Airlines, and
+              we are not United Airlines's official customer service. United Airlines and all
               related names and marks belong to their respective owners and are
               used for identification only.
             </p>
@@ -301,7 +301,7 @@ export function UnitedPage() {
       <Section tone="muted" ocid="united.capabilities">
         <SectionHeading
           eyebrow="What we handle"
-          title="Five ways we help with United travel"
+          title="Five ways we help with United Airlines travel"
           description="Each service is handled by a specialist who can explain the trade-offs before you decide, not after."
         />
         <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -328,8 +328,8 @@ export function UnitedPage() {
       <Section tone="paper" ocid="united.cabins">
         <SectionHeading
           eyebrow="Cabin options"
-          title="Understanding United's cabins"
-          description="United uses different cabin names across domestic and long-haul international flights. Here is how they differ, described generically."
+          title="Understanding United Airlines's cabins"
+          description="United Airlines uses different cabin names across domestic and long-haul international flights. Here is how they differ, described generically."
         />
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {CABINS.map((cabin, index) => (
@@ -358,7 +358,7 @@ export function UnitedPage() {
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <SectionHeading
             eyebrow="International travel"
-            title="What to consider on a long-haul United itinerary"
+            title="What to consider on a long-haul United Airlines itinerary"
             description="International routings have more moving parts than a domestic round trip. These are the ones we work through with you."
           />
           <ul className="grid gap-4">
@@ -432,7 +432,7 @@ export function UnitedPage() {
       <Section tone="muted" ocid="united.changes">
         <SectionHeading
           eyebrow="Changes and rebooking"
-          title="How we handle a change to your United ticket"
+          title="How we handle a change to your United Airlines ticket"
           description="Fare rules decide what is possible. We read them for you and explain the options in plain language."
         />
         <ol className="mt-10 grid gap-5 sm:grid-cols-3">
@@ -486,7 +486,7 @@ export function UnitedPage() {
         <div className="mx-auto max-w-2xl text-center">
           <p className="label-board text-accent">One call, one specialist</p>
           <h2 className="mt-3 text-balance text-3xl font-semibold leading-tight sm:text-4xl">
-            Let's plan your United trip together
+            Let's plan your United Airlines trip together
           </h2>
           <p className="mt-4 text-pretty text-base leading-relaxed text-primary-foreground/80">
             Tell us where you are going and when. We will search the options,
@@ -505,9 +505,9 @@ export function UnitedPage() {
 
       <Section tone="paper" ocid="united.faq">
         <SectionHeading
-          eyebrow="United questions"
+          eyebrow="United Airlines questions"
           title="What travelers ask us most"
-          description="Clear answers about independent agency booking and United itineraries."
+          description="Clear answers about independent agency booking and United Airlines itineraries."
         />
         <dl className="mt-10 grid gap-4 lg:grid-cols-2">
           {FAQS.map((faq, index) => (
