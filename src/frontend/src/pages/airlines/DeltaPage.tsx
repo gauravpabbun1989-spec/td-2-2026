@@ -31,12 +31,12 @@ const TERMINAL_IMAGE_URL = absoluteUrl(TERMINAL_IMAGE.src);
 const SERVICES = [
   {
     icon: Ticket,
-    title: "New Delta flight bookings",
-    body: "Tell us your dates, airports, and how many travelers are flying. A specialist searches available Delta-operated and Delta-marketed itineraries, compares fare families, and books the option that fits your trip — including Main Cabin, Comfort+, and Delta One where available.",
+    title: "New Delta Airlines flight bookings",
+    body: "Tell us your dates, airports, and how many travelers are flying. A specialist searches available Delta Airlines-operated and Delta Airlines-marketed itineraries, compares fare families, and books the option that fits your trip — including Main Cabin, Comfort+, and Delta Airlines One where available.",
   },
   {
     icon: Globe2,
-    title: "International Delta itineraries",
+    title: "International Delta Airlines itineraries",
     body: "Transatlantic and transpacific routings involve partner segments, visa and transit rules, and baggage that differs by fare. We map the full journey end to end, confirm connection times are realistic, and explain what each leg includes before you commit.",
   },
   {
@@ -47,7 +47,7 @@ const SERVICES = [
   {
     icon: BadgeCheck,
     title: "Business and first-class cabins",
-    body: "Premium cabin inventory moves quickly and pricing varies by departure day and routing. We look at the cabin options across your travel window, explain the difference between Delta One and domestic First Class, and book the seat that matches how you actually want to fly.",
+    body: "Premium cabin inventory moves quickly and pricing varies by departure day and routing. We look at the cabin options across your travel window, explain the difference between Delta Airlines One and domestic First Class, and book the seat that matches how you actually want to fly.",
   },
   {
     icon: RefreshCw,
@@ -59,26 +59,26 @@ const SERVICES = [
 const CABINS = [
   {
     name: "Main Cabin",
-    body: "The standard economy experience on Delta-operated flights. Seats are assigned at booking or check-in, and the fare family you choose determines whether a seat selection or a change is included. Basic economy-style fares are more restrictive, so we confirm what your specific fare allows before you book.",
+    body: "The standard economy experience on Delta Airlines-operated flights. Seats are assigned at booking or check-in, and the fare family you choose determines whether a seat selection or a change is included. Basic economy-style fares are more restrictive, so we confirm what your specific fare allows before you book.",
   },
   {
     name: "Comfort+",
-    body: "A extra-legroom economy cabin on many Delta mainline aircraft, with more recline and earlier boarding than standard Main Cabin. It is a seat-and-space upgrade rather than a separate service class, and availability varies by aircraft and route.",
+    body: "A extra-legroom economy cabin on many Delta Airlines mainline aircraft, with more recline and earlier boarding than standard Main Cabin. It is a seat-and-space upgrade rather than a separate service class, and availability varies by aircraft and route.",
   },
   {
     name: "First Class",
-    body: "The domestic premium cabin on Delta mainline routes, with a wider seat, priority boarding, and a higher baggage allowance on most fares. It is offered on select domestic and short-haul international routes rather than on every flight.",
+    body: "The domestic premium cabin on Delta Airlines mainline routes, with a wider seat, priority boarding, and a higher baggage allowance on most fares. It is offered on select domestic and short-haul international routes rather than on every flight.",
   },
   {
-    name: "Delta One",
-    body: "Delta's long-haul premium cabin, offered on many international and select transcontinental routes. It features a lie-flat seat and premium service. Which aircraft and routes carry Delta One changes over time, so we check your specific itinerary rather than assume.",
+    name: "Delta Airlines One",
+    body: "Delta Airlines's long-haul premium cabin, offered on many international and select transcontinental routes. It features a lie-flat seat and premium service. Which aircraft and routes carry Delta Airlines One changes over time, so we check your specific itinerary rather than assume.",
   },
 ] as const;
 
 const INTERNATIONAL_NOTES = [
   {
     title: "Partner-operated segments",
-    body: "A single Delta-marketed itinerary can include legs operated by partner airlines. We identify which carrier actually flies each segment so you know whose check-in desk, baggage rules, and seat map apply.",
+    body: "A single Delta Airlines-marketed itinerary can include legs operated by partner airlines. We identify which carrier actually flies each segment so you know whose check-in desk, baggage rules, and seat map apply.",
   },
   {
     title: "Transit and entry requirements",
@@ -107,13 +107,13 @@ const CHECKLIST = [
 
 const FAQS = [
   {
-    question: "Can TicketDepart book Delta flights for me?",
+    question: "Can TicketDepart book Delta Airlines flights for me?",
     answer:
-      "Yes. TicketDepart is an independent travel agency and our specialists can search, price, and book Delta-operated and Delta-marketed flights on your behalf. We are not Delta and we are not Delta's official customer service — we are a third-party agency that books travel for our clients.",
+      "Yes. TicketDepart is an independent travel agency and our specialists can search, price, and book Delta Airlines-operated and Delta Airlines-marketed flights on your behalf. We are not Delta Airlines and we are not Delta Airlines's official customer service — we are a third-party agency that books travel for our clients.",
   },
   {
     question:
-      "How is booking through an agency different from booking on Delta's website?",
+      "How is booking through an agency different from booking on Delta Airlines's website?",
     answer:
       "You get a person on the phone who can compare fare families, explain what each fare includes, and handle the booking from start to finish. If something changes later, you call the same agency back rather than working through a self-service portal.",
   },
@@ -123,19 +123,19 @@ const FAQS = [
       "Any agency service fee is disclosed to you before your booking is finalized, so you always know the full cost of your itinerary before you agree to it. There are no hidden charges added after the fact.",
   },
   {
-    question: "Can you help with a Delta flight I already booked elsewhere?",
+    question: "Can you help with a Delta Airlines flight I already booked elsewhere?",
     answer:
       "We can look at your existing itinerary and advise on change and rebooking options. Whether we can act on the reservation depends on the fare rules and how the ticket was issued, and we will tell you honestly what is possible before you commit to anything.",
   },
   {
-    question: "What if my Delta flight is delayed or cancelled?",
+    question: "What if my Delta Airlines flight is delayed or cancelled?",
     answer:
       "Call us and we will review your itinerary and the applicable fare rules, then walk you through the rebooking options that are available. We can handle the rebooking for you where the ticket allows it.",
   },
   {
     question: "Can I book business or first class through TicketDepart?",
     answer:
-      "Yes. We book premium cabins including Delta One on long-haul routes and First Class on domestic routes where it is offered. Availability and pricing vary by route and date, so we check your specific travel window.",
+      "Yes. We book premium cabins including Delta Airlines One on long-haul routes and First Class on domestic routes where it is offered. Availability and pricing vary by route and date, so we check your specific travel window.",
   },
 ] as const;
 
@@ -146,23 +146,23 @@ const RELATED = [
 ] as const;
 
 /**
- * Delta booking assistance page. Leads with the independent-agency disclosure,
+ * Delta Airlines booking assistance page. Leads with the independent-agency disclosure,
  * then walks through the five service areas, a cabin comparison, international
  * and multi-city considerations, a before-calling checklist, and a
- * Delta-specific FAQ with matching FAQPage schema.
+ * Delta Airlines-specific FAQ with matching FAQPage schema.
  */
-export function DeltaPage() {
+export function Delta AirlinesPage() {
   return (
     <>
       <Seo
-        title="Delta Flight Booking Assistance | TicketDepart"
-        description="Independent travel agency helping you book, change, and rebook Delta flights — domestic, international, multi-city, and premium cabins. Call +1 855-544-9001."
+        title="Delta Airlines Flight Booking Assistance | TicketDepart"
+        description="Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Call +1 855-544-9001."
         path={PATH}
         image={TERMINAL_IMAGE_URL}
         structuredData={[
           breadcrumbSchema([
             { name: "Home", path: "/" },
-            { name: "Delta", path: PATH },
+            { name: "Delta Airlines", path: PATH },
           ]),
           faqSchema(FAQS),
         ]}
@@ -181,20 +181,20 @@ export function DeltaPage() {
               </Link>
             </li>
             <li aria-hidden="true">/</li>
-            <li className="font-medium text-foreground">Delta</li>
+            <li className="font-medium text-foreground">Delta Airlines</li>
           </ol>
         </nav>
 
         <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
           <div>
-            <p className="label-board text-accent">Delta flight assistance</p>
+            <p className="label-board text-accent">Delta Airlines flight assistance</p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
-              Delta bookings handled by a real travel specialist
+              Delta Airlines bookings handled by a real travel specialist
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               Whether you are flying a simple domestic round trip or piecing
               together a multi-city international itinerary, a TicketDepart
-              specialist can search, price, and book Delta flights with you on
+              specialist can search, price, and book Delta Airlines flights with you on
               the phone — and stay reachable when your plans change.
             </p>
 
@@ -236,8 +236,8 @@ export function DeltaPage() {
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               TicketDepart is an independent travel agency. We are not
-              affiliated with, endorsed by, or sponsored by Delta Air Lines, and
-              we are not Delta's official customer service. Delta and all
+              affiliated with, endorsed by, or sponsored by Delta Airlines Air Lines, and
+              we are not Delta Airlines's official customer service. Delta Airlines and all
               related names and marks belong to their respective owners and are
               used here for identification only.
             </p>
@@ -270,7 +270,7 @@ export function DeltaPage() {
       <Section tone="muted" ocid="delta.services">
         <SectionHeading
           eyebrow="What we handle"
-          title="Five ways we help with Delta travel"
+          title="Five ways we help with Delta Airlines travel"
           description="Each service below is handled by a specialist who can explain the trade-offs before you decide, not after."
         />
         <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -297,7 +297,7 @@ export function DeltaPage() {
       <Section tone="paper" ocid="delta.cabins">
         <SectionHeading
           eyebrow="Cabin options"
-          title="Understanding Delta's cabins before you choose"
+          title="Understanding Delta Airlines's cabins before you choose"
           description="Cabin names and what they include vary by aircraft and route. Here is a plain-language starting point — your specialist confirms the details for your specific flight."
         />
         <dl className="mt-10 grid gap-5 sm:grid-cols-2">
@@ -381,7 +381,7 @@ export function DeltaPage() {
           <div className="max-w-2xl">
             <p className="label-board text-accent">Ready when you are</p>
             <h2 className="mt-3 text-balance text-3xl font-semibold leading-tight sm:text-4xl">
-              Talk through your Delta trip with a specialist
+              Talk through your Delta Airlines trip with a specialist
             </h2>
             <p className="mt-4 text-pretty text-base leading-relaxed text-primary-foreground/80">
               No hold music, no automated menus. Call and speak with a person
@@ -401,9 +401,9 @@ export function DeltaPage() {
 
       <Section tone="paper" ocid="delta.faq">
         <SectionHeading
-          eyebrow="Delta questions"
+          eyebrow="Delta Airlines questions"
           title="Frequently asked questions"
-          description="Straight answers about how agency booking works and what we can do for your Delta itinerary."
+          description="Straight answers about how agency booking works and what we can do for your Delta Airlines itinerary."
         />
         <dl className="mt-10 grid gap-4 lg:grid-cols-2">
           {FAQS.map((faq, index) => (
