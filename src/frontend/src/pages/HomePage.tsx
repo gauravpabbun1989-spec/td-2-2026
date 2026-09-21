@@ -69,6 +69,10 @@ export function HomePage() {
               ["Last-minute flights", "/last-minute-flight-booking"],
               ["Multi-city flights", "/multi-city-flight-booking"],
               ["Group & family flights", "/group-flight-booking"],
+              ["Domestic flights", "/domestic-flight-booking"],
+              ["Business class", "/business-class-flight-booking"],
+              ["One-way flights", "/one-way-flight-booking"],
+              ["Family flights", "/family-flight-booking"],
             ].map(([label, to]) => (
               <Link key={to} to={to} className="rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle">
                 {label} <span aria-hidden="true">→</span>
