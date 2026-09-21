@@ -50,9 +50,10 @@ export function HeroSection() {
 
           <p className="mt-6 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
             TicketDepart plans and books international and domestic flights,
-            multi-city itineraries, and group travel — with a specialist on the
-            phone around the clock. Tell us where you need to go and we will
-            handle the routing, the fare rules, and the details.
+            multi-city itineraries, and group travel for travelers across the
+            United States — with a specialist on the phone around the clock.
+            Tell us where you need to go and we will handle the routing, the
+            fare rules, and the details.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
