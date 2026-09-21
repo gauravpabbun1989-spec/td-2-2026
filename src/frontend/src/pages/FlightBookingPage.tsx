@@ -1,7 +1,7 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
-import { breadcrumbSchema } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import {
@@ -18,13 +18,41 @@ import {
 } from "lucide-react";
 
 const PAGE_PATH = "/flight-booking";
-const PAGE_TITLE = "Flight Booking Assistance | TicketDepart";
+const PAGE_TITLE = "Flight Booking Assistance by Phone | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
+  "Get flight booking assistance by phone for domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
   { name: "Flight Booking", path: PAGE_PATH },
+] as const;
+
+const FAQS = [
+  {
+    question: "Can I book a flight by phone with TicketDepart?",
+    answer:
+      "Yes. TicketDepart provides flight booking assistance by phone. A travel specialist can review your cities, dates, travelers, cabin, connections, and fare conditions with you before you decide what to book.",
+  },
+  {
+    question: "Can you help with international and multi-city flights?",
+    answer:
+      "Yes. TicketDepart handles international, multi-city, and open-jaw itinerary planning, including connection and routing questions. Availability and fare rules depend on the itinerary and carrier.",
+  },
+  {
+    question: "Can you help with business class or first class flights?",
+    answer:
+      "Yes. Specialists can discuss business, first, and premium economy options and compare schedules, cabins, and fare conditions for the requested trip.",
+  },
+  {
+    question: "Is TicketDepart affiliated with Delta, United, or American Airlines?",
+    answer:
+      "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by any airline. Airline names and trademarks belong to their respective owners.",
+  },
+  {
+    question: "What information should I have ready when I call?",
+    answer:
+      "Have your departure and arrival cities, preferred travel dates, number of travelers, and desired cabin ready. If your dates or airports are flexible, mention that so the specialist can consider more options.",
+  },
 ] as const;
 
 type BookingService = {
@@ -157,7 +185,7 @@ export function FlightBookingPage() {
         title={PAGE_TITLE}
         description={PAGE_DESCRIPTION}
         path={PAGE_PATH}
-        structuredData={[breadcrumbSchema([...BREADCRUMBS])]}
+        structuredData={[breadcrumbSchema([...BREADCRUMBS]), faqSchema(FAQS)]}
       />
 
       <Section tone="paper" ocid="flight_booking.page">
@@ -458,6 +486,37 @@ export function FlightBookingPage() {
           </Link>{" "}
           and we will compare the options with you.
         </p>
+      </Section>
+
+
+      <Section
+        tone="muted"
+        ocid="flight_booking.faq"
+        aria-labelledby="flight_booking_faq_heading"
+      >
+        <SectionHeading
+          id="flight_booking_faq_heading"
+          eyebrow="Common questions"
+          title="Flight booking questions, answered before you call"
+          description="A few practical answers for travelers who want to speak with a person about their itinerary."
+        />
+
+        <div className="mt-12 mx-auto max-w-4xl space-y-4">
+          {FAQS.map((faq, index) => (
+            <details
+              key={faq.question}
+              data-ocid={`flight_booking.faq_item.${index + 1}`}
+              className="group rounded-2xl border border-border bg-card p-6 shadow-subtle"
+            >
+              <summary className="cursor-pointer list-none pr-8 font-display text-base font-semibold leading-relaxed marker:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+                {faq.question}
+              </summary>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                {faq.answer}
+              </p>
+            </details>
+          ))}
+        </div>
       </Section>
 
       <Section tone="navy" ocid="flight_booking.cta">
