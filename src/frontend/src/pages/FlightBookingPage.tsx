@@ -475,6 +475,21 @@ export function FlightBookingPage() {
           ))}
         </div>
 
+        <div className="mt-8 rounded-2xl border border-border bg-muted/40 p-6">
+          <h3 className="font-display text-lg font-semibold">Prefer to prepare before you call?</h3>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            Our guide explains what to have ready and which fare, baggage, change, and ticketing questions are worth asking.
+          </p>
+          <Link
+            to="/how-to-book-a-flight-by-phone"
+            data-ocid="flight_booking.phone_guide_link"
+            className="mt-4 inline-flex items-center gap-2 font-semibold text-primary underline underline-offset-4 hover:text-accent"
+          >
+            Read the phone booking guide
+            <ArrowRight aria-hidden="true" className="size-4" />
+          </Link>
+        </div>
+
         <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
           Booking a trip that does not fit one carrier?{" "}
           <Link
