@@ -29,6 +29,18 @@ const routes = {
     heading: "Group and family flight booking help by phone",
     text: "Plan family and group itineraries with help organizing travelers, routing, cabins, connections, and booking details.",
   },
+  "/flight-booking-assistance": {
+    title: "Flight Booking Assistance by Phone | TicketDepart",
+    description: "Need help booking a flight? Speak with an independent TicketDepart travel specialist about domestic, international, multi-city, and complex itineraries at +1 855-544-9001.",
+    heading: "Flight booking assistance from a real travel specialist",
+    text: "Discuss routes, dates, connections, cabins, travelers, and fare conditions with a TicketDepart specialist by phone.",
+  },
+  "/same-day-flight-booking": {
+    title: "Same-Day Flight Booking Assistance by Phone | TicketDepart",
+    description: "Need to travel today? Call TicketDepart for same-day flight booking assistance. Discuss routes, departure airports, connections, and fare conditions with a travel specialist.",
+    heading: "Same-day flight booking help by phone",
+    text: "Discuss urgent travel routing, departure options, connections, and fare conditions with a travel specialist.",
+  },
   "/flight-booking": {
     title: "Flight Booking Assistance | TicketDepart",
     description: "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.",
