@@ -155,7 +155,7 @@ function routeHtml(route, meta) {
     `<script type="application/ld+json">${JSON.stringify(schema)}</script>\n  </head>`,
   );
 
-  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18555449001">Call +1 855-544-9001</a> — available 24/7.</p><p>TicketDepart is an independent U.S. travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
+  const relatedLinks = route === "/flight-booking"\n    ? `<p><a href="/domestic-flight-booking">Domestic flight booking</a> · <a href="/international-flight-booking">International flight booking</a> · <a href="/business-class-flight-booking">Business class booking</a></p>`\n    : `<p><a href="/flight-booking">Flight booking assistance</a> · <a href="/contact">Contact TicketDepart</a></p>`;\n\n  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><h1>${safeHeading}</h1><p>${safeText}</p><h2>Flight booking assistance</h2><p>TicketDepart helps travelers plan and book domestic and international flights, one-way trips, same-day travel, multi-city itineraries, premium cabins, family travel, and group bookings by phone.</p><p><a href="tel:+18555449001">Call +1 855-544-9001</a> — available 24/7.</p>${relatedLinks}<p>TicketDepart is an independent U.S. travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
 
   return html.replace('<div id="root"></div>', `<div id="root">${fallback}</div>`);
 }
