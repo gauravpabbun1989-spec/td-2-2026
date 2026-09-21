@@ -1,7 +1,7 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
-import { breadcrumbSchema } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import {
@@ -18,13 +18,41 @@ import {
 } from "lucide-react";
 
 const PAGE_PATH = "/flight-booking";
-const PAGE_TITLE = "Flight Booking Assistance | TicketDepart";
+const PAGE_TITLE = "Flight Booking Assistance by Phone | TicketDepart";
 const PAGE_DESCRIPTION =
   "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
   { name: "Flight Booking", path: PAGE_PATH },
+] as const;
+
+const FAQS = [
+  {
+    question: "Can I book a flight by phone with TicketDepart?",
+    answer:
+      "Yes. TicketDepart is an independent travel agency, and a travel specialist can discuss your itinerary, compare options, and assist with booking by phone at +1 855-544-9001.",
+  },
+  {
+    question: "Can you help with international and multi-city flights?",
+    answer:
+      "Yes. We assist with domestic, international, multi-city, and open-jaw itineraries, including complex connections and mixed-carrier options.",
+  },
+  {
+    question: "Can you help with business class or first class flights?",
+    answer:
+      "Yes. We can discuss business, first, and premium economy options and explain differences in cabin, schedule, and fare conditions.",
+  },
+  {
+    question: "Is TicketDepart affiliated with Delta, United, or American Airlines?",
+    answer:
+      "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by any airline. Airline names and trademarks belong to their respective owners.",
+  },
+  {
+    question: "What information should I have ready when I call?",
+    answer:
+      "Have your departure and destination cities, preferred travel dates, number of travelers, cabin preference, and any flexibility or special requirements ready if available.",
+  },
 ] as const;
 
 type BookingService = {
@@ -157,7 +185,7 @@ export function FlightBookingPage() {
         title={PAGE_TITLE}
         description={PAGE_DESCRIPTION}
         path={PAGE_PATH}
-        structuredData={[breadcrumbSchema([...BREADCRUMBS])]}
+        structuredData={[breadcrumbSchema([...BREADCRUMBS]), faqSchema(FAQS)]}
       />
 
       <Section tone="paper" ocid="flight_booking.page">
