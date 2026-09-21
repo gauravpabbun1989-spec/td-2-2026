@@ -61,8 +61,10 @@ export function HomePage() {
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">
             Explore focused guides for international travel, urgent departures, multi-city itineraries, and family or group trips.
           </p>
-          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[
+              ["Flight booking help", "/flight-booking-assistance"],
+              ["Same-day flights", "/same-day-flight-booking"],
               ["International flights", "/international-flight-booking"],
               ["Last-minute flights", "/last-minute-flight-booking"],
               ["Multi-city flights", "/multi-city-flight-booking"],
