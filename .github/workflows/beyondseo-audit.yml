@@ -1,0 +1,44 @@
+name: BeyondSEO audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out TicketDepart
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Get pinned BeyondSEO
+        run: |
+          git clone --depth 1 --branch v2.8.0 https://github.com/beyondtahir/beyondseo.git .beyondseo
+
+      - name: Prepare BeyondSEO crawler
+        run: |
+          python .beyondseo/scripts/setup.py --http-only
+
+      - name: Crawl TicketDepart
+        run: |
+          python .beyondseo/scripts/run.py crawl https://ticketdepart.com \
+            --out ./seo-runs/ticketdepart \
+            --max-pages 100 \
+            --mode http
+
+      - name: Upload BeyondSEO report
+        uses: actions/upload-artifact@v4
+        with:
+          name: beyondseo-ticketdepart
+          path: seo-runs/ticketdepart/
+          if-no-files-found: error
+          retention-days: 14
