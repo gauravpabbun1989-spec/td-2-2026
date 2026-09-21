@@ -1,7 +1,7 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
-import { breadcrumbSchema } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import {
@@ -18,13 +18,41 @@ import {
 } from "lucide-react";
 
 const PAGE_PATH = "/flight-booking";
-const PAGE_TITLE = "Flight Booking Assistance | TicketDepart";
+const PAGE_TITLE = "Flight Booking Assistance by Phone | TicketDepart";
 const PAGE_DESCRIPTION =
   "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
   { name: "Flight Booking", path: PAGE_PATH },
+] as const;
+
+const FAQS = [
+  {
+    question: "Can I book a flight by phone with TicketDepart?",
+    answer:
+      "Yes. TicketDepart is an independent travel agency, and a travel specialist can discuss your itinerary, compare options, and assist with booking by phone at +1 855-544-9001.",
+  },
+  {
+    question: "Can you help with international and multi-city flights?",
+    answer:
+      "Yes. We assist with domestic, international, multi-city, and open-jaw itineraries, including complex connections and mixed-carrier options.",
+  },
+  {
+    question: "Can you help with business class or first class flights?",
+    answer:
+      "Yes. We can discuss business, first, and premium economy options and explain differences in cabin, schedule, and fare conditions.",
+  },
+  {
+    question: "Is TicketDepart affiliated with Delta, United, or American Airlines?",
+    answer:
+      "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by any airline. Airline names and trademarks belong to their respective owners.",
+  },
+  {
+    question: "What information should I have ready when I call?",
+    answer:
+      "Have your departure and destination cities, preferred travel dates, number of travelers, cabin preference, and any flexibility or special requirements ready if available.",
+  },
 ] as const;
 
 type BookingService = {
@@ -157,7 +185,7 @@ export function FlightBookingPage() {
         title={PAGE_TITLE}
         description={PAGE_DESCRIPTION}
         path={PAGE_PATH}
-        structuredData={[breadcrumbSchema([...BREADCRUMBS])]}
+        structuredData={[breadcrumbSchema([...BREADCRUMBS]), faqSchema(FAQS)]}
       />
 
       <Section tone="paper" ocid="flight_booking.page">
@@ -458,6 +486,59 @@ export function FlightBookingPage() {
           </Link>{" "}
           and we will compare the options with you.
         </p>
+      </Section>
+
+      <Section
+        tone="muted"
+        ocid="flight_booking.us_intent"
+        aria-labelledby="flight_booking_us_intent_heading"
+      >
+        <SectionHeading
+          id="flight_booking_us_intent_heading"
+          eyebrow="U.S. flight booking"
+          title="Flight booking help from major U.S. gateways"
+          description="If you are flying from or through a major U.S. airport, tell us your cities, dates, and flexibility. We can compare domestic and international itineraries and explain the trade-offs before you book."
+        />
+
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ["New York", "JFK, LGA, EWR"],
+            ["Los Angeles", "LAX"],
+            ["Chicago", "ORD, MDW"],
+            ["Miami", "MIA"],
+            ["Dallas–Fort Worth", "DFW"],
+            ["Atlanta", "ATL"],
+            ["San Francisco", "SFO"],
+            ["Seattle", "SEA"],
+          ].map(([city, airports]) => (
+            <div
+              key={city}
+              className="rounded-xl border border-border bg-card p-5 shadow-subtle"
+            >
+              <h3 className="font-display text-base font-semibold">{city}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{airports}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 rounded-2xl border border-border bg-card p-6 shadow-subtle sm:p-7">
+          <h3 className="font-display text-lg font-semibold">
+            Looking for a specific U.S. route?
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            Tell us the departure airport, destination, dates, number of travelers,
+            and preferred cabin. If you can use nearby airports or flexible dates,
+            mention that too. A specialist can then compare the available
+            itineraries with you by phone.
+          </p>
+          <div className="mt-5">
+            <CallCta
+              variant="outline"
+              size="md"
+              ocid="flight_booking.us_intent_call_button"
+            />
+          </div>
+        </div>
       </Section>
 
       <Section tone="navy" ocid="flight_booking.cta">

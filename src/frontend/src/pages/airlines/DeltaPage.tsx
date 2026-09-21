@@ -63,7 +63,7 @@ const CABINS = [
   },
   {
     name: "Comfort+",
-    body: "A extra-legroom economy cabin on many Delta Airlines mainline aircraft, with more recline and earlier boarding than standard Main Cabin. It is a seat-and-space upgrade rather than a separate service class, and availability varies by aircraft and route.",
+    body: "An extra-legroom economy cabin on many Delta Airlines mainline aircraft, with more recline and earlier boarding than standard Main Cabin. It is a seat-and-space upgrade rather than a separate service class, and availability varies by aircraft and route.",
   },
   {
     name: "First Class",
