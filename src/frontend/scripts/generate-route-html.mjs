@@ -41,6 +41,30 @@ const routes = {
     heading: "Same-day flight booking help by phone",
     text: "Discuss urgent travel routing, departure options, connections, and fare conditions with a travel specialist.",
   },
+  "/domestic-flight-booking": {
+    title: "Domestic Flight Booking Assistance by Phone | TicketDepart",
+    description: "Book a domestic U.S. flight with help from an independent travel specialist. Discuss routes, airports, dates, connections, cabins, and fare conditions at +1 855-544-9001.",
+    heading: "Domestic flight booking help from a real travel specialist",
+    text: "Get independent assistance for domestic U.S. flight routes, dates, airports, connections, cabins, and fare conditions.",
+  },
+  "/business-class-flight-booking": {
+    title: "Business Class Flight Booking Assistance | TicketDepart",
+    description: "Plan business class and premium-cabin flights with an independent travel specialist. Discuss routes, schedules, connections, and fare conditions by phone.",
+    heading: "Business class flight booking assistance by phone",
+    text: "Discuss premium-cabin routing, schedules, connections, and fare conditions with a travel specialist.",
+  },
+  "/one-way-flight-booking": {
+    title: "One-Way Flight Booking Assistance by Phone | TicketDepart",
+    description: "Need a one-way flight? Speak with a TicketDepart travel specialist about routes, dates, connections, cabins, and fare conditions at +1 855-544-9001.",
+    heading: "One-way flight booking help by phone",
+    text: "Plan a domestic or international one-way itinerary with help comparing routing, dates, connections, cabins, and fare conditions.",
+  },
+  "/family-flight-booking": {
+    title: "Family Flight Booking Assistance by Phone | TicketDepart",
+    description: "Plan family flights with help from an independent travel specialist. Discuss travelers, schedules, connections, cabins, seating preferences, and fare conditions by phone.",
+    heading: "Family flight booking help from a travel specialist",
+    text: "Organize family travelers, schedules, connections, cabins, seating preferences, and fare conditions with a specialist.",
+  },
   "/flight-booking": {
     title: "Flight Booking Assistance | TicketDepart",
     description: "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.",
