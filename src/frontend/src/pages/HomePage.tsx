@@ -8,6 +8,7 @@ import { PreCallChecklist } from "@/components/home/PreCallChecklist";
 import { ServiceGrid } from "@/components/home/ServiceGrid";
 import { breadcrumbSchema, organizationSchema, websiteSchema } from "@/lib/seo";
 import { SITE, absoluteUrl } from "@/lib/site";
+import { Link } from "@tanstack/react-router";
 
 const HOME_TITLE =
   "TicketDepart | Flight Booking Help from Travel Specialists 24/7";
@@ -43,6 +44,26 @@ export function HomePage() {
       <ServiceGrid />
       <HowItWorks />
       <PreCallChecklist />
+
+      <section className="border-y border-border bg-muted/40 px-5 py-12 sm:px-8 sm:py-16" aria-labelledby="phone-booking-guide-heading">
+        <div className="mx-auto max-w-6xl">
+          <p className="label-board text-accent">Need a little more detail?</p>
+          <h2 id="phone-booking-guide-heading" className="mt-3 max-w-3xl text-balance text-2xl font-semibold leading-tight sm:text-3xl">
+            Learn how booking a flight by phone works
+          </h2>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">
+            See what to prepare before calling, which questions to ask about fares and changes, and how a phone booking typically moves from trip details to a confirmed ticket.
+          </p>
+          <Link
+            to="/how-to-book-a-flight-by-phone"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-card px-5 py-3 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
+          >
+            Read the phone booking guide
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
+
       <HomeFaq />
       <DisclosureBlock />
       <ContactInfoBlock />
