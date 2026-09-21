@@ -48,8 +48,8 @@ describe("mobile navigation drawer", () => {
     for (const item of [
       "Home",
       "Flight Booking",
-      "Delta",
-      "United",
+      "Delta Airlines",
+      "United Airlines",
       "American Airlines",
       "Contact",
     ]) {

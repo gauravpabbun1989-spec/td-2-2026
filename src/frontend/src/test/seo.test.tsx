@@ -131,8 +131,12 @@ describe("per-route metadata", () => {
 
       const ogImage = metaContent('meta[property="og:image"]');
       expect(ogImage).toContain(asset);
-      // The page image replaces the generic default rather than sitting beside it.
-      expect(ogImage).not.toBe(DEFAULT_SHARE_IMAGE);
+      // The page image replaces the generic default rather than sitting beside
+      // it. The homepage's own hero is the same asset the default points at, so
+      // the inequality only holds for routes whose page image differs from it.
+      if (!DEFAULT_SHARE_IMAGE.endsWith(asset)) {
+        expect(ogImage).not.toBe(DEFAULT_SHARE_IMAGE);
+      }
       expect(metaContent('meta[name="twitter:image"]')).toBe(ogImage);
     },
   );

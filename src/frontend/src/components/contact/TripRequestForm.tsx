@@ -1,6 +1,12 @@
-import { Cabin, SubmitError, TripType, createActor } from "@/backend";
-import { cn } from "@/lib/utils";
+import {
+  Cabin,
+  type EmailStatus,
+  SubmitError,
+  TripType,
+  createActor,
+} from "@/backend";
 import { SITE } from "@/lib/site";
+import { cn } from "@/lib/utils";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useMutation } from "@tanstack/react-query";
 import { CheckCircle2, Loader2, Phone, Send } from "lucide-react";
@@ -192,6 +198,7 @@ export function TripRequestForm() {
   const [values, setValues] = useState<FormValues>(EMPTY_FORM);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<EmailStatus | null>(null);
 
   const fallbackEmail = (() => {
     const subject = encodeURIComponent(
@@ -265,8 +272,20 @@ export function TripRequestForm() {
     mutation.mutate(values, {
       onSuccess: (result) => {
         if (result.__kind__ === "ok") {
+          // `#ok` carries SubmitSuccess { lead; email } and is returned only
+          // after the lead is durably stored, so the stored record is read
+          // from `result.ok.lead` before confirming in place. The email status
+          // is surfaced honestly in the success state below.
+          const { lead, email } = result.ok;
+          if (!lead) {
+            setErrors({
+              name: "We could not confirm your request. Please try again.",
+            });
+            return;
+          }
           setValues(EMPTY_FORM);
           setErrors({});
+          setEmailStatus(email);
           setSubmitted(true);
           return;
         }
@@ -291,6 +310,25 @@ export function TripRequestForm() {
           specialist will review your trip details and follow up using the phone
           number and email you provided.
         </p>
+
+        {emailStatus?.__kind__ === "sent" ? (
+          <p
+            data-ocid="contact.email_sent_state"
+            className="mt-4 rounded-lg border border-success/30 bg-success/5 px-4 py-3 text-sm font-medium text-success"
+          >
+            A confirmation email is on its way to the address you provided.
+          </p>
+        ) : emailStatus?.__kind__ === "failed" ? (
+          <p
+            role="alert"
+            data-ocid="contact.email_failed_state"
+            className="mt-4 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-medium text-destructive"
+          >
+            Your request was received, but we could not send the confirmation
+            email just now. Please keep this page or call us to confirm your
+            trip.
+          </p>
+        ) : null}
 
         <div className="mt-6 rounded-xl border border-accent/30 bg-accent/5 p-5">
           <p className="text-base font-semibold text-foreground">
@@ -563,7 +601,8 @@ export function TripRequestForm() {
           data-ocid="contact.error_state"
           className="mt-6 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-medium text-destructive"
         >
-          We could not send your request just now. Your details are still on this form. Please try again, or use the email option below.
+          We could not send your request just now. Your details are still on
+          this form. Please try again, or use the email option below.
         </p>
       ) : null}
 

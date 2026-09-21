@@ -32,14 +32,15 @@ const RECOVERY_LINKS: readonly RecoveryLink[] = [
   },
   {
     to: "/delta-airlines",
-    label: "Delta airline guide",
-    description: "Routes, cabins, and booking help for Delta flights.",
+    label: "Delta Airlines guide",
+    description: "Routes, cabins, and booking help for Delta Airlines flights.",
     ocid: "not_found.link.delta",
   },
   {
     to: "/united-airlines",
-    label: "United airline guide",
-    description: "Routes, cabins, and booking help for United flights.",
+    label: "United Airlines guide",
+    description:
+      "Routes, cabins, and booking help for United Airlines flights.",
     ocid: "not_found.link.united",
   },
   {

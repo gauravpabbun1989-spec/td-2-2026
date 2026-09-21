@@ -57,6 +57,13 @@ export interface Cell {
     value: Value;
     name: string;
 }
+export type EmailStatus = {
+    __kind__: "sent";
+    sent: null;
+} | {
+    __kind__: "failed";
+    failed: string;
+};
 export type Error_ = {
     __kind__: "FrontendOriginsNotConfigured";
     FrontendOriginsNotConfigured: null;
@@ -102,23 +109,27 @@ export type Error_ = {
     };
 };
 export type LeadId = bigint;
-export type Result = {
-    __kind__: "ok";
-    ok: TripRequest;
-} | {
-    __kind__: "err";
-    err: SubmitError;
-};
-export type Result_1 = {
+export interface Result {
+    hasMore: boolean;
+    rows: Array<Array<Cell>>;
+}
+export type Result__1 = {
     __kind__: "ok";
     ok: null;
 } | {
     __kind__: "err";
     err: Error_;
 };
-export interface Result__1 {
-    hasMore: boolean;
-    rows: Array<Array<Cell>>;
+export type SubmitResult = {
+    __kind__: "ok";
+    ok: SubmitSuccess;
+} | {
+    __kind__: "err";
+    err: SubmitError;
+};
+export interface SubmitSuccess {
+    lead: TripRequest;
+    email: EmailStatus;
 }
 export type Timestamp = bigint;
 export interface TripRequest {
@@ -201,24 +212,29 @@ export enum UserRole {
 }
 export interface backendInterface {
     _initialize_access_control(): Promise<void>;
-    _internet_identity_sign_in_finish(): Promise<Result_1>;
+    _internet_identity_sign_in_finish(): Promise<Result__1>;
     _internet_identity_sign_in_start(): Promise<Uint8Array>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
-    execute(qJson: string): Promise<Result__1>;
+    execute(qJson: string): Promise<Result>;
     /**
      * / Returns static Markdown documentation for the TicketDepart backend API.
      */
     getApiDoc(): Promise<string>;
     getCallerUserRole(): Promise<UserRole>;
     isCallerAdmin(): Promise<boolean>;
+    /**
+     * / Admin-only: returns every stored lead, newest first.
+     */
+    listLeads(): Promise<Array<TripRequest>>;
     schema(): Promise<string>;
     /**
      * / Stores a trip request submitted from the contact page lead-capture form.
-     * / Returns the stored record on success, or a caller-actionable error.
+     * / Returns `#ok` only after the lead is durably written to stable storage.
+     * / The success payload reports whether the notification email was sent.
      */
-    submitTripRequest(input: TripRequestInput): Promise<Result>;
+    submitTripRequest(input: TripRequestInput): Promise<SubmitResult>;
 }
-import type { Cabin as _Cabin, Cell as _Cell, Error as _Error, LeadId as _LeadId, Result as _Result, Result_1 as _Result_1, Result__1 as _Result__1, SubmitError as _SubmitError, Timestamp as _Timestamp, TripRequest as _TripRequest, TripRequestInput as _TripRequestInput, TripType as _TripType, UserRole as _UserRole, Value as _Value } from "./declarations/backend.did.d.ts";
+import type { Cabin as _Cabin, Cell as _Cell, EmailStatus as _EmailStatus, Error as _Error, LeadId as _LeadId, Result as _Result, Result__1 as _Result__1, SubmitError as _SubmitError, SubmitResult as _SubmitResult, SubmitSuccess as _SubmitSuccess, Timestamp as _Timestamp, TripRequest as _TripRequest, TripRequestInput as _TripRequestInput, TripType as _TripType, UserRole as _UserRole, Value as _Value } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
     async _initialize_access_control(): Promise<void> {
@@ -235,18 +251,18 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async _internet_identity_sign_in_finish(): Promise<Result_1> {
+    async _internet_identity_sign_in_finish(): Promise<Result__1> {
         if (this.processError) {
             try {
                 const result = await this.actor._internet_identity_sign_in_finish();
-                return from_candid_Result_1_n1(this._uploadFile, this._downloadFile, result);
+                return from_candid_Result__1_n1(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor._internet_identity_sign_in_finish();
-            return from_candid_Result_1_n1(this._uploadFile, this._downloadFile, result);
+            return from_candid_Result__1_n1(this._uploadFile, this._downloadFile, result);
         }
     }
     async _internet_identity_sign_in_start(): Promise<Uint8Array> {
@@ -277,18 +293,18 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async execute(arg0: string): Promise<Result__1> {
+    async execute(arg0: string): Promise<Result> {
         if (this.processError) {
             try {
                 const result = await this.actor.execute(arg0);
-                return from_candid_Result__1_n6(this._uploadFile, this._downloadFile, result);
+                return from_candid_Result_n6(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.execute(arg0);
-            return from_candid_Result__1_n6(this._uploadFile, this._downloadFile, result);
+            return from_candid_Result_n6(this._uploadFile, this._downloadFile, result);
         }
     }
     async getApiDoc(): Promise<string> {
@@ -333,6 +349,20 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async listLeads(): Promise<Array<TripRequest>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.listLeads();
+                return from_candid_vec_n15(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.listLeads();
+            return from_candid_vec_n15(this._uploadFile, this._downloadFile, result);
+        }
+    }
     async schema(): Promise<string> {
         if (this.processError) {
             try {
@@ -347,46 +377,52 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async submitTripRequest(arg0: TripRequestInput): Promise<Result> {
+    async submitTripRequest(arg0: TripRequestInput): Promise<SubmitResult> {
         if (this.processError) {
             try {
-                const result = await this.actor.submitTripRequest(to_candid_TripRequestInput_n15(this._uploadFile, this._downloadFile, arg0));
-                return from_candid_Result_n19(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.submitTripRequest(to_candid_TripRequestInput_n21(this._uploadFile, this._downloadFile, arg0));
+                return from_candid_SubmitResult_n25(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.submitTripRequest(to_candid_TripRequestInput_n15(this._uploadFile, this._downloadFile, arg0));
-            return from_candid_Result_n19(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.submitTripRequest(to_candid_TripRequestInput_n21(this._uploadFile, this._downloadFile, arg0));
+            return from_candid_SubmitResult_n25(this._uploadFile, this._downloadFile, result);
         }
     }
 }
-function from_candid_Cabin_n25(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Cabin): Cabin {
+function from_candid_Cabin_n20(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Cabin): Cabin {
     return "first" in value ? Cabin.first : "economy" in value ? Cabin.economy : "noPreference" in value ? Cabin.noPreference : "business" in value ? Cabin.business : "premiumEconomy" in value ? Cabin.premiumEconomy : value;
 }
 function from_candid_Cell_n10(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Cell): Cell {
     return from_candid_record_n11(_uploadFile, _downloadFile, value);
 }
+function from_candid_EmailStatus_n29(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _EmailStatus): EmailStatus {
+    return from_candid_variant_n30(_uploadFile, _downloadFile, value);
+}
 function from_candid_Error_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Error): Error_ {
     return from_candid_variant_n4(_uploadFile, _downloadFile, value);
 }
-function from_candid_Result_1_n1(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Result_1): Result_1 {
+function from_candid_Result__1_n1(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Result__1): Result__1 {
     return from_candid_variant_n2(_uploadFile, _downloadFile, value);
 }
-function from_candid_Result__1_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Result__1): Result__1 {
+function from_candid_Result_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Result): Result {
     return from_candid_record_n7(_uploadFile, _downloadFile, value);
 }
-function from_candid_Result_n19(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Result): Result {
-    return from_candid_variant_n20(_uploadFile, _downloadFile, value);
-}
-function from_candid_SubmitError_n26(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _SubmitError): SubmitError {
+function from_candid_SubmitError_n31(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _SubmitError): SubmitError {
     return "invalidEmail" in value ? SubmitError.invalidEmail : "invalidReturnDate" in value ? SubmitError.invalidReturnDate : "invalidOrigin" in value ? SubmitError.invalidOrigin : "invalidPhone" in value ? SubmitError.invalidPhone : "invalidDestination" in value ? SubmitError.invalidDestination : "invalidTravelers" in value ? SubmitError.invalidTravelers : "invalidName" in value ? SubmitError.invalidName : "invalidDepartureDate" in value ? SubmitError.invalidDepartureDate : value;
 }
-function from_candid_TripRequest_n21(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _TripRequest): TripRequest {
-    return from_candid_record_n22(_uploadFile, _downloadFile, value);
+function from_candid_SubmitResult_n25(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _SubmitResult): SubmitResult {
+    return from_candid_variant_n26(_uploadFile, _downloadFile, value);
 }
-function from_candid_TripType_n23(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _TripType): TripType {
+function from_candid_SubmitSuccess_n27(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _SubmitSuccess): SubmitSuccess {
+    return from_candid_record_n28(_uploadFile, _downloadFile, value);
+}
+function from_candid_TripRequest_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _TripRequest): TripRequest {
+    return from_candid_record_n17(_uploadFile, _downloadFile, value);
+}
+function from_candid_TripType_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _TripType): TripType {
     return "other" in value ? TripType.other : "businessClass" in value ? TripType.businessClass : "multiCity" in value ? TripType.multiCity : "roundTrip" in value ? TripType.roundTrip : "firstClass" in value ? TripType.firstClass : "groupTravel" in value ? TripType.groupTravel : "oneWay" in value ? TripType.oneWay : value;
 }
 function from_candid_UserRole_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _UserRole): UserRole {
@@ -395,7 +431,7 @@ function from_candid_UserRole_n14(_uploadFile: (file: ExternalBlob) => Promise<U
 function from_candid_Value_n12(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Value): Value {
     return from_candid_variant_n13(_uploadFile, _downloadFile, value);
 }
-function from_candid_opt_n24(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [string]): string | null {
+function from_candid_opt_n19(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [string]): string | null {
     return value.length === 0 ? null : value[0];
 }
 function from_candid_record_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
@@ -410,7 +446,7 @@ function from_candid_record_n11(_uploadFile: (file: ExternalBlob) => Promise<Uin
         name: value.name
     };
 }
-function from_candid_record_n22(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_record_n17(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     id: _LeadId;
     destination: string;
     tripType: _TripType;
@@ -442,17 +478,29 @@ function from_candid_record_n22(_uploadFile: (file: ExternalBlob) => Promise<Uin
     return {
         id: value.id,
         destination: value.destination,
-        tripType: from_candid_TripType_n23(_uploadFile, _downloadFile, value.tripType),
-        departureDate: record_opt_to_undefined(from_candid_opt_n24(_uploadFile, _downloadFile, value.departureDate)),
-        cabin: from_candid_Cabin_n25(_uploadFile, _downloadFile, value.cabin),
+        tripType: from_candid_TripType_n18(_uploadFile, _downloadFile, value.tripType),
+        departureDate: record_opt_to_undefined(from_candid_opt_n19(_uploadFile, _downloadFile, value.departureDate)),
+        cabin: from_candid_Cabin_n20(_uploadFile, _downloadFile, value.cabin),
         name: value.name,
         origin: value.origin,
         submittedAt: value.submittedAt,
         travelers: value.travelers,
         email: value.email,
-        details: record_opt_to_undefined(from_candid_opt_n24(_uploadFile, _downloadFile, value.details)),
+        details: record_opt_to_undefined(from_candid_opt_n19(_uploadFile, _downloadFile, value.details)),
         phone: value.phone,
-        returnDate: record_opt_to_undefined(from_candid_opt_n24(_uploadFile, _downloadFile, value.returnDate))
+        returnDate: record_opt_to_undefined(from_candid_opt_n19(_uploadFile, _downloadFile, value.returnDate))
+    };
+}
+function from_candid_record_n28(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    lead: _TripRequest;
+    email: _EmailStatus;
+}): {
+    lead: TripRequest;
+    email: EmailStatus;
+} {
+    return {
+        lead: from_candid_TripRequest_n16(_uploadFile, _downloadFile, value.lead),
+        email: from_candid_EmailStatus_n29(_uploadFile, _downloadFile, value.email)
     };
 }
 function from_candid_record_n7(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
@@ -537,23 +585,42 @@ function from_candid_variant_n2(_uploadFile: (file: ExternalBlob) => Promise<Uin
         err: from_candid_Error_n3(_uploadFile, _downloadFile, value.err)
     } : value;
 }
-function from_candid_variant_n20(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
-    ok: _TripRequest;
+function from_candid_variant_n26(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    ok: _SubmitSuccess;
 } | {
     err: _SubmitError;
 }): {
     __kind__: "ok";
-    ok: TripRequest;
+    ok: SubmitSuccess;
 } | {
     __kind__: "err";
     err: SubmitError;
 } {
     return "ok" in value ? {
         __kind__: "ok",
-        ok: from_candid_TripRequest_n21(_uploadFile, _downloadFile, value.ok)
+        ok: from_candid_SubmitSuccess_n27(_uploadFile, _downloadFile, value.ok)
     } : "err" in value ? {
         __kind__: "err",
-        err: from_candid_SubmitError_n26(_uploadFile, _downloadFile, value.err)
+        err: from_candid_SubmitError_n31(_uploadFile, _downloadFile, value.err)
+    } : value;
+}
+function from_candid_variant_n30(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    sent: null;
+} | {
+    failed: string;
+}): {
+    __kind__: "sent";
+    sent: null;
+} | {
+    __kind__: "failed";
+    failed: string;
+} {
+    return "sent" in value ? {
+        __kind__: "sent",
+        sent: value.sent
+    } : "failed" in value ? {
+        __kind__: "failed",
+        failed: value.failed
     } : value;
 }
 function from_candid_variant_n4(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
@@ -665,13 +732,16 @@ function from_candid_variant_n4(_uploadFile: (file: ExternalBlob) => Promise<Uin
         FrontendOriginMismatch: value.FrontendOriginMismatch
     } : value;
 }
+function from_candid_vec_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_TripRequest>): Array<TripRequest> {
+    return value.map((x)=>from_candid_TripRequest_n16(_uploadFile, _downloadFile, x));
+}
 function from_candid_vec_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<Array<_Cell>>): Array<Array<Cell>> {
     return value.map((x)=>from_candid_vec_n9(_uploadFile, _downloadFile, x));
 }
 function from_candid_vec_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_Cell>): Array<Cell> {
     return value.map((x)=>from_candid_Cell_n10(_uploadFile, _downloadFile, x));
 }
-function to_candid_Cabin_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Cabin): _Cabin {
+function to_candid_Cabin_n24(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Cabin): _Cabin {
     return value == Cabin.first ? {
         first: null
     } : value == Cabin.economy ? {
@@ -684,10 +754,10 @@ function to_candid_Cabin_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
         premiumEconomy: null
     } : value;
 }
-function to_candid_TripRequestInput_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: TripRequestInput): _TripRequestInput {
-    return to_candid_record_n16(_uploadFile, _downloadFile, value);
+function to_candid_TripRequestInput_n21(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: TripRequestInput): _TripRequestInput {
+    return to_candid_record_n22(_uploadFile, _downloadFile, value);
 }
-function to_candid_TripType_n17(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: TripType): _TripType {
+function to_candid_TripType_n23(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: TripType): _TripType {
     return value == TripType.other ? {
         other: null
     } : value == TripType.businessClass ? {
@@ -713,7 +783,7 @@ function to_candid_UserRole_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint
         guest: null
     } : value;
 }
-function to_candid_record_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function to_candid_record_n22(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     destination: string;
     tripType: TripType;
     departureDate?: string;
@@ -740,9 +810,9 @@ function to_candid_record_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8
 } {
     return {
         destination: value.destination,
-        tripType: to_candid_TripType_n17(_uploadFile, _downloadFile, value.tripType),
+        tripType: to_candid_TripType_n23(_uploadFile, _downloadFile, value.tripType),
         departureDate: value.departureDate ? candid_some(value.departureDate) : candid_none(),
-        cabin: to_candid_Cabin_n18(_uploadFile, _downloadFile, value.cabin),
+        cabin: to_candid_Cabin_n24(_uploadFile, _downloadFile, value.cabin),
         name: value.name,
         origin: value.origin,
         travelers: value.travelers,

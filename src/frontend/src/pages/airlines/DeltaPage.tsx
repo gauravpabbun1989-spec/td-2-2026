@@ -32,7 +32,7 @@ const SERVICES = [
   {
     icon: Ticket,
     title: "New Delta Airlines flight bookings",
-    body: "Tell us your dates, airports, and how many travelers are flying. A specialist searches available Delta Airlines-operated and Delta Airlines-marketed itineraries, compares fare families, and books the option that fits your trip — including Main Cabin, Comfort+, and Delta Airlines One where available.",
+    body: "Tell us your dates, airports, and how many travelers are flying. A specialist searches available Delta Airlines-operated and Delta Airlines-marketed itineraries, compares fare families, and books the option that fits your trip — including Main Cabin, Comfort+, and Delta One where available.",
   },
   {
     icon: Globe2,
@@ -47,7 +47,7 @@ const SERVICES = [
   {
     icon: BadgeCheck,
     title: "Business and first-class cabins",
-    body: "Premium cabin inventory moves quickly and pricing varies by departure day and routing. We look at the cabin options across your travel window, explain the difference between Delta Airlines One and domestic First Class, and book the seat that matches how you actually want to fly.",
+    body: "Premium cabin inventory moves quickly and pricing varies by departure day and routing. We look at the cabin options across your travel window, explain the difference between Delta One and domestic First Class, and book the seat that matches how you actually want to fly.",
   },
   {
     icon: RefreshCw,
@@ -70,8 +70,8 @@ const CABINS = [
     body: "The domestic premium cabin on Delta Airlines mainline routes, with a wider seat, priority boarding, and a higher baggage allowance on most fares. It is offered on select domestic and short-haul international routes rather than on every flight.",
   },
   {
-    name: "Delta Airlines One",
-    body: "Delta Airlines's long-haul premium cabin, offered on many international and select transcontinental routes. It features a lie-flat seat and premium service. Which aircraft and routes carry Delta Airlines One changes over time, so we check your specific itinerary rather than assume.",
+    name: "Delta One",
+    body: "Delta Airlines' long-haul premium cabin, offered on many international and select transcontinental routes. It features a lie-flat seat and premium service. Which aircraft and routes carry Delta One changes over time, so we check your specific itinerary rather than assume.",
   },
 ] as const;
 
@@ -109,11 +109,11 @@ const FAQS = [
   {
     question: "Can TicketDepart book Delta Airlines flights for me?",
     answer:
-      "Yes. TicketDepart is an independent travel agency and our specialists can search, price, and book Delta Airlines-operated and Delta Airlines-marketed flights on your behalf. We are not Delta Airlines and we are not Delta Airlines's official customer service — we are a third-party agency that books travel for our clients.",
+      "Yes. TicketDepart is an independent travel agency and our specialists can search, price, and book Delta Airlines-operated and Delta Airlines-marketed flights on your behalf. We are not Delta Airlines and we are not Delta Airlines' official customer service — we are a third-party agency that books travel for our clients.",
   },
   {
     question:
-      "How is booking through an agency different from booking on Delta Airlines's website?",
+      "How is booking through an agency different from booking on Delta Airlines' website?",
     answer:
       "You get a person on the phone who can compare fare families, explain what each fare includes, and handle the booking from start to finish. If something changes later, you call the same agency back rather than working through a self-service portal.",
   },
@@ -123,7 +123,8 @@ const FAQS = [
       "Any agency service fee is disclosed to you before your booking is finalized, so you always know the full cost of your itinerary before you agree to it. There are no hidden charges added after the fact.",
   },
   {
-    question: "Can you help with a Delta Airlines flight I already booked elsewhere?",
+    question:
+      "Can you help with a Delta Airlines flight I already booked elsewhere?",
     answer:
       "We can look at your existing itinerary and advise on change and rebooking options. Whether we can act on the reservation depends on the fare rules and how the ticket was issued, and we will tell you honestly what is possible before you commit to anything.",
   },
@@ -135,7 +136,7 @@ const FAQS = [
   {
     question: "Can I book business or first class through TicketDepart?",
     answer:
-      "Yes. We book premium cabins including Delta Airlines One on long-haul routes and First Class on domestic routes where it is offered. Availability and pricing vary by route and date, so we check your specific travel window.",
+      "Yes. We book premium cabins including Delta One on long-haul routes and First Class on domestic routes where it is offered. Availability and pricing vary by route and date, so we check your specific travel window.",
   },
 ] as const;
 
@@ -151,7 +152,7 @@ const RELATED = [
  * and multi-city considerations, a before-calling checklist, and a
  * Delta Airlines-specific FAQ with matching FAQPage schema.
  */
-export function Delta AirlinesPage() {
+export function DeltaPage() {
   return (
     <>
       <Seo
@@ -187,15 +188,17 @@ export function Delta AirlinesPage() {
 
         <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
           <div>
-            <p className="label-board text-accent">Delta Airlines flight assistance</p>
+            <p className="label-board text-accent">
+              Delta Airlines flight assistance
+            </p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
               Delta Airlines bookings handled by a real travel specialist
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               Whether you are flying a simple domestic round trip or piecing
               together a multi-city international itinerary, a TicketDepart
-              specialist can search, price, and book Delta Airlines flights with you on
-              the phone — and stay reachable when your plans change.
+              specialist can search, price, and book Delta Airlines flights with
+              you on the phone — and stay reachable when your plans change.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -236,10 +239,10 @@ export function Delta AirlinesPage() {
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               TicketDepart is an independent travel agency. We are not
-              affiliated with, endorsed by, or sponsored by Delta Airlines Air Lines, and
-              we are not Delta Airlines's official customer service. Delta Airlines and all
-              related names and marks belong to their respective owners and are
-              used here for identification only.
+              affiliated with, endorsed by, or sponsored by Delta Airlines, and
+              we are not Delta Airlines' official customer service. Delta
+              Airlines and all related names and marks belong to their
+              respective owners and are used here for identification only.
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               We do not link out to airline booking websites. Every booking and
@@ -297,7 +300,7 @@ export function Delta AirlinesPage() {
       <Section tone="paper" ocid="delta.cabins">
         <SectionHeading
           eyebrow="Cabin options"
-          title="Understanding Delta Airlines's cabins before you choose"
+          title="Understanding Delta Airlines' cabins before you choose"
           description="Cabin names and what they include vary by aircraft and route. Here is a plain-language starting point — your specialist confirms the details for your specific flight."
         />
         <dl className="mt-10 grid gap-5 sm:grid-cols-2">

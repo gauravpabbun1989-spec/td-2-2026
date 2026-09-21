@@ -1,6 +1,9 @@
+import { createActor } from "@/backend";
 import { CallCta } from "@/components/CallCta";
 import { NAV_ITEMS, SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { useActor, useInternetIdentity } from "@caffeineai/core-infrastructure";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Menu, Phone, Plane, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -11,6 +14,21 @@ import { useEffect, useState } from "react";
  */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { actor, isFetching: actorFetching } = useActor(createActor);
+  const { isAuthenticated } = useInternetIdentity();
+
+  // The leads desk link is only rendered for signed-in administrators.
+  const adminQuery = useQuery({
+    queryKey: ["isCallerAdmin"],
+    queryFn: async () => {
+      if (!actor) return false;
+      return actor.isCallerAdmin();
+    },
+    enabled: !!actor && !actorFetching && isAuthenticated,
+    retry: false,
+  });
+
+  const isAdmin = isAuthenticated && adminQuery.data === true;
 
   // Lock body scroll while the mobile drawer is open.
   useEffect(() => {
@@ -65,6 +83,22 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          {isAdmin ? (
+            <Link
+              to="/admin/leads"
+              data-ocid="nav.link.leads_desk"
+              className={cn(
+                "rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-smooth",
+                "hover:bg-muted hover:text-foreground",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              )}
+              activeProps={{
+                className: "bg-muted text-foreground font-semibold",
+              }}
+            >
+              Leads Desk
+            </Link>
+          ) : null}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -124,6 +158,19 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
+            {isAdmin ? (
+              <Link
+                to="/admin/leads"
+                data-ocid="mobile_nav.link.leads_desk"
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-3 text-base font-medium text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                activeProps={{
+                  className: "bg-muted text-foreground font-semibold",
+                }}
+              >
+                Leads Desk
+              </Link>
+            ) : null}
             <div className="mt-3 flex flex-col gap-2 border-t border-border pt-4">
               <CallCta
                 size="lg"

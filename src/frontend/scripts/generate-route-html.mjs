@@ -12,16 +12,16 @@ const routes = {
     text: "Get practical help comparing flight options, complicated itineraries, premium cabins, group travel, and booking details by phone.",
   },
   "/delta-airlines": {
-    title: "Delta Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency helping you book, change, and rebook Delta flights — domestic, international, multi-city, and premium cabins. Call +1 855-544-9001.",
-    heading: "Delta flight bookings handled by a real travel specialist",
-    text: "Get independent travel assistance for Delta itineraries, including new bookings, changes, rebooking, multi-city trips, and premium cabins.",
+    title: "Delta Airlines Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Call +1 855-544-9001.",
+    heading: "Delta Airlines flight bookings handled by a real travel specialist",
+    text: "Get independent travel assistance for Delta Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and premium cabins.",
   },
   "/united-airlines": {
-    title: "United Flight Booking Assistance | TicketDepart",
+    title: "United Airlines Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 855-544-9001.",
-    heading: "United flight itineraries planned and booked by phone",
-    text: "Get independent travel assistance for United itineraries, including new bookings, changes, rebooking, multi-city trips, and premium cabins.",
+    heading: "United Airlines flight itineraries planned and booked by phone",
+    text: "Get independent travel assistance for United Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and premium cabins.",
   },
   "/american-airlines": {
     title: "American Airlines Flight Booking Assistance | TicketDepart",

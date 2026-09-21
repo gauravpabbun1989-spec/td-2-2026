@@ -51,12 +51,12 @@ const SERVICES = [
 
 const AIRLINE_LINKS = [
   {
-    label: "Delta flight booking help",
+    label: "Delta Airlines flight booking help",
     to: "/delta-airlines",
     ocid: "home.services_delta_link",
   },
   {
-    label: "United flight booking help",
+    label: "United Airlines flight booking help",
     to: "/united-airlines",
     ocid: "home.services_united_link",
   },

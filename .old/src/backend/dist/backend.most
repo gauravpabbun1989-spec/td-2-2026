@@ -4,6 +4,11 @@ type AccessControlState__29494204 =
     var adminAssigned : Bool;
     userRoles : Map__230067015<Principal, UserRole__33357388>
   };
+type AccessControlState__726381554 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__230067015<Principal, UserRole__898470527>
+  };
 type AccessControlState__853242984 =
   {
     var adminAssigned : Bool;
@@ -30,6 +35,12 @@ type Map__603270868<K, V> =
   {var root : Node__204828119<K, V>; var size : Nat__227979830};
 type Nat__227979830 = Nat__920180692;
 type Nat__920180692 = Nat;
+type NewActor__269912 =
+  {
+    accessControlState : AccessControlState__726381554;
+    leadState : {var nextLeadId : Nat};
+    leads : List__836382695<TripRequest__906453459>
+  };
 type NewActor__585248115 =
   {
     accessControlState : AccessControlState__853242984;
@@ -70,6 +81,12 @@ type NewTripRequest__106034483 =
 type Node__204828119<K, V> =
   {#internal : Internal__283199666<K, V>; #leaf : Leaf__598469445<K, V>};
 type OldActor__1058885862 = {};
+type OldActor__224863313 =
+  {
+    accessControlState : AccessControlState__726381554;
+    leadState : {var nextLeadId : Nat};
+    leads : List__836382695<TripRequest__906453459>
+  };
 type OldActor__672056093 =
   {
     accessControlState : AccessControlState__853242984;
@@ -124,6 +141,31 @@ type TripRequest__666516691 =
         #roundTrip
       }
   };
+type TripRequest__906453459 =
+  {
+    cabin : {#business; #economy; #first; #noPreference; #premiumEconomy};
+    departureDate : ?Text;
+    destination : Text;
+    details : ?Text;
+    email : Text;
+    id : Nat;
+    name : Text;
+    origin : Text;
+    phone : Text;
+    returnDate : ?Text;
+    submittedAt : Nat;
+    travelers : Nat;
+    tripType :
+      {
+        #businessClass;
+        #firstClass;
+        #groupTravel;
+        #multiCity;
+        #oneWay;
+        #other;
+        #roundTrip
+      }
+  };
 type TripRequest__991645806 =
   {
     cabin : Cabin__1031267946;
@@ -152,10 +194,12 @@ type TripType__857866162 =
   };
 type UserRole__33357388 = {#admin; #guest; #user};
 type UserRole__494153774 = {#admin; #guest; #user};
+type UserRole__898470527 = {#admin; #guest; #user};
 type UserRole__91647283 = {#admin; #guest; #user};
 {
   "20260918_000000" : (_old : OldActor__1058885862) -> NewActor__664089349;
-  "20260918_010000" : (old : OldActor__672056093) -> NewActor__585248115
+  "20260918_010000" : (old : OldActor__672056093) -> NewActor__585248115;
+  "20260919_000000" : (old : OldActor__224863313) -> NewActor__269912
 }
 actor  {
   stable accessControlState :

@@ -72,12 +72,12 @@ const CABINS = [
   {
     name: "United Airlines First",
     tag: "Domestic premium",
-    body: "United Airlines's domestic premium cabin, offered on many routes within the United Airlines States. What is included — such as seat type and service — varies by aircraft and route, and we confirm the details for your flights.",
+    body: "United Airlines' domestic premium cabin, offered on many routes within the United States. What is included — such as seat type and service — varies by aircraft and route, and we confirm the details for your flights.",
   },
   {
     name: "United Airlines Polaris",
     tag: "Long-haul business",
-    body: "United Airlines's long-haul international business class, with lie-flat seating on equipped aircraft. It is not available on every international route or aircraft, so we verify the cabin on your specific itinerary.",
+    body: "United Airlines' long-haul international business class, with lie-flat seating on equipped aircraft. It is not available on every international route or aircraft, so we verify the cabin on your specific itinerary.",
   },
 ] as const;
 
@@ -134,9 +134,9 @@ const CHECKLIST = [
 
 const FAQS = [
   {
-    question: "Is TicketDepart part of United Airlines Airlines?",
+    question: "Is TicketDepart part of United Airlines?",
     answer:
-      "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by United Airlines Airlines, and we are not United Airlines's official customer service. We book travel for our own clients as a third party.",
+      "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by United Airlines, and we are not United Airlines' official customer service. We book travel for our own clients as a third party.",
   },
   {
     question: "What United Airlines booking help can I get over the phone?",
@@ -149,9 +149,10 @@ const FAQS = [
       "Yes. Multi-city and open-jaw trips are one of the main reasons travelers call us instead of using a search engine. We sequence the segments deliberately and price the whole itinerary together.",
   },
   {
-    question: "What is the difference between Economy Plus and United Airlines Polaris?",
+    question:
+      "What is the difference between Economy Plus and United Airlines Polaris?",
     answer:
-      "Economy Plus is a seat with extra legroom within the Economy cabin. United Airlines Polaris is United Airlines's long-haul international business class, with lie-flat seating on equipped aircraft. Which cabins are available depends on your route and aircraft, so we check your specific flights.",
+      "Economy Plus is a seat with extra legroom within the Economy cabin. United Airlines Polaris is United Airlines' long-haul international business class, with lie-flat seating on equipped aircraft. Which cabins are available depends on your route and aircraft, so we check your specific flights.",
   },
   {
     question: "How do I change a United Airlines flight I booked through you?",
@@ -171,7 +172,7 @@ const FAQS = [
 ] as const;
 
 const RELATED = [
-  { label: "Delta flight assistance", to: "/delta-airlines" },
+  { label: "Delta Airlines flight assistance", to: "/delta-airlines" },
   { label: "American Airlines assistance", to: "/american-airlines" },
   { label: "General flight booking", to: "/flight-booking" },
 ] as const;
@@ -182,12 +183,12 @@ const RELATED = [
  * guidance, change/rebooking steps, a numbered checklist, and a United Airlines-specific
  * FAQ with matching FAQPage schema.
  */
-export function United AirlinesPage() {
+export function UnitedPage() {
   return (
     <>
       <Seo
         title="United Airlines Flight Booking Assistance | TicketDepart"
-        description="Independent travel agency for United Airlines Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 855-544-9001."
+        description="Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 855-544-9001."
         path={PATH}
         image={HERO_IMAGE_URL}
         structuredData={[
@@ -218,15 +219,18 @@ export function United AirlinesPage() {
 
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
-            <p className="label-board text-accent">United Airlines flight assistance</p>
+            <p className="label-board text-accent">
+              United Airlines flight assistance
+            </p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
               United Airlines itineraries, planned and booked by phone
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              TicketDepart specialists help travelers book United Airlines flights every
-              day — from a straightforward domestic round trip to a multi-city
-              international routing with partner segments. You describe the
-              trip; we handle the search, the fare comparison, and the booking.
+              TicketDepart specialists help travelers book United Airlines
+              flights every day — from a straightforward domestic round trip to
+              a multi-city international routing with partner segments. You
+              describe the trip; we handle the search, the fare comparison, and
+              the booking.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -283,10 +287,10 @@ export function United AirlinesPage() {
                 Independent agency disclosure:
               </span>{" "}
               TicketDepart is an independent travel agency. We are not
-              affiliated with, endorsed by, or sponsored by United Airlines Airlines, and
-              we are not United Airlines's official customer service. United Airlines and all
-              related names and marks belong to their respective owners and are
-              used for identification only.
+              affiliated with, endorsed by, or sponsored by United Airlines, and
+              we are not United Airlines' official customer service. United
+              Airlines and all related names and marks belong to their
+              respective owners and are used for identification only.
             </p>
           </div>
           <CallCta
@@ -328,7 +332,7 @@ export function United AirlinesPage() {
       <Section tone="paper" ocid="united.cabins">
         <SectionHeading
           eyebrow="Cabin options"
-          title="Understanding United Airlines's cabins"
+          title="Understanding United Airlines' cabins"
           description="United Airlines uses different cabin names across domestic and long-haul international flights. Here is how they differ, described generically."
         />
         <div className="mt-10 grid gap-5 sm:grid-cols-2">

@@ -11,6 +11,13 @@ export interface Cell {
     value: Value;
     name: string;
 }
+export type EmailStatus = {
+    __kind__: "sent";
+    sent: null;
+} | {
+    __kind__: "failed";
+    failed: string;
+};
 export type Error_ = {
     __kind__: "FrontendOriginsNotConfigured";
     FrontendOriginsNotConfigured: null;
@@ -56,23 +63,27 @@ export type Error_ = {
     };
 };
 export type LeadId = bigint;
-export type Result = {
-    __kind__: "ok";
-    ok: TripRequest;
-} | {
-    __kind__: "err";
-    err: SubmitError;
-};
-export type Result_1 = {
+export interface Result {
+    hasMore: boolean;
+    rows: Array<Array<Cell>>;
+}
+export type Result__1 = {
     __kind__: "ok";
     ok: null;
 } | {
     __kind__: "err";
     err: Error_;
 };
-export interface Result__1 {
-    hasMore: boolean;
-    rows: Array<Array<Cell>>;
+export type SubmitResult = {
+    __kind__: "ok";
+    ok: SubmitSuccess;
+} | {
+    __kind__: "err";
+    err: SubmitError;
+};
+export interface SubmitSuccess {
+    lead: TripRequest;
+    email: EmailStatus;
 }
 export type Timestamp = bigint;
 export interface TripRequest {
@@ -155,17 +166,22 @@ export enum UserRole {
 }
 export interface backendInterface {
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
-    execute(qJson: string): Promise<Result__1>;
+    execute(qJson: string): Promise<Result>;
     /**
      * / Returns static Markdown documentation for the TicketDepart backend API.
      */
     getApiDoc(): Promise<string>;
     getCallerUserRole(): Promise<UserRole>;
     isCallerAdmin(): Promise<boolean>;
+    /**
+     * / Admin-only: returns every stored lead, newest first.
+     */
+    listLeads(): Promise<Array<TripRequest>>;
     schema(): Promise<string>;
     /**
      * / Stores a trip request submitted from the contact page lead-capture form.
-     * / Returns the stored record on success, or a caller-actionable error.
+     * / Returns `#ok` only after the lead is durably written to stable storage.
+     * / The success payload reports whether the notification email was sent.
      */
-    submitTripRequest(input: TripRequestInput): Promise<Result>;
+    submitTripRequest(input: TripRequestInput): Promise<SubmitResult>;
 }

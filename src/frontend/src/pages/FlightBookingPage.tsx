@@ -127,15 +127,15 @@ const PROCESS = [
 const AIRLINE_LINKS = [
   {
     to: "/delta-airlines",
-    label: "Delta Air Lines booking assistance",
+    label: "Delta Airlines booking assistance",
     description:
-      "Routes, cabins, and connection guidance for Delta-operated itineraries.",
+      "Routes, cabins, and connection guidance for Delta Airlines itineraries.",
   },
   {
     to: "/united-airlines",
     label: "United Airlines booking assistance",
     description:
-      "Hub connections, international routings, and fare questions for United.",
+      "Hub connections, international routings, and fare questions for United Airlines.",
   },
   {
     to: "/american-airlines",

@@ -63,8 +63,8 @@ describe("desktop primary navigation", () => {
     for (const [label, href] of [
       ["Home", "/"],
       ["Flight Booking", "/flight-booking"],
-      ["Delta", "/delta-airlines"],
-      ["United", "/united-airlines"],
+      ["Delta Airlines", "/delta-airlines"],
+      ["United Airlines", "/united-airlines"],
       ["American Airlines", "/american-airlines"],
       ["Contact", "/contact"],
     ] as const) {
@@ -133,10 +133,10 @@ describe("homepage service grid", () => {
 
     // The airline cross-links are part of the working service grid.
     expect(
-      scope.getByRole("link", { name: /delta flight booking help/i }),
+      scope.getByRole("link", { name: /delta airlines flight booking help/i }),
     ).toHaveAttribute("href", "/delta-airlines");
     expect(
-      scope.getByRole("link", { name: /united flight booking help/i }),
+      scope.getByRole("link", { name: /united airlines flight booking help/i }),
     ).toHaveAttribute("href", "/united-airlines");
     expect(
       scope.getByRole("link", {

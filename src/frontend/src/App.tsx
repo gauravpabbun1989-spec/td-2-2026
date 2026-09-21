@@ -1,4 +1,5 @@
 import { Layout } from "@/components/Layout";
+import { AdminLeadsPage } from "@/pages/AdminLeadsPage";
 import { ContactPage } from "@/pages/ContactPage";
 import { FlightBookingPage } from "@/pages/FlightBookingPage";
 import { HomePage } from "@/pages/HomePage";
@@ -73,6 +74,12 @@ const termsRoute = createRoute({
   component: TermsPage,
 });
 
+const adminLeadsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/admin/leads",
+  component: AdminLeadsPage,
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   flightBookingRoute,
@@ -82,6 +89,7 @@ const routeTree = rootRoute.addChildren([
   contactRoute,
   privacyRoute,
   termsRoute,
+  adminLeadsRoute,
 ]);
 
 const router = createRouter({

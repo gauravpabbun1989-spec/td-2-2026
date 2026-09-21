@@ -54,6 +54,16 @@ type TripRequest =
    tripType: TripType;
  };
 type Timestamp = nat;
+type SubmitSuccess = 
+ record {
+   email: EmailStatus;
+   lead: TripRequest;
+ };
+type SubmitResult = 
+ variant {
+   err: SubmitError;
+   ok: SubmitSuccess;
+ };
 type SubmitError = 
  variant {
    invalidDepartureDate;
@@ -66,19 +76,14 @@ type SubmitError =
    invalidTravelers;
  };
 type Result__1 = 
- record {
-   hasMore: bool;
-   rows: vec vec Cell;
- };
-type Result_1 = 
  variant {
    err: Error;
    ok;
  };
 type Result = 
- variant {
-   err: SubmitError;
-   ok: TripRequest;
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
  };
 type LeadId = nat;
 type Error = 
@@ -103,6 +108,11 @@ type Error =
    UnknownNonce;
    UntrustedSsoSource: record {domain: text;};
  };
+type EmailStatus = 
+ variant {
+   failed: text;
+   sent;
+ };
 type Cell = 
  record {
    name: text;
@@ -118,16 +128,19 @@ type Cabin =
  };
 service : {
   _initialize_access_control: () -> ();
-  _internet_identity_sign_in_finish: () -> (Result_1);
+  _internet_identity_sign_in_finish: () -> (Result__1);
   _internet_identity_sign_in_start: () -> (blob);
   assignCallerUserRole: (user: principal, role: UserRole) -> ();
-  execute: (qJson: text) -> (Result__1) query;
+  execute: (qJson: text) -> (Result) query;
   /// Returns static Markdown documentation for the TicketDepart backend API.
   getApiDoc: () -> (text) query;
   getCallerUserRole: () -> (UserRole) query;
   isCallerAdmin: () -> (bool) query;
+  /// Admin-only: returns every stored lead, newest first.
+  listLeads: () -> (vec TripRequest) query;
   schema: () -> (text) query;
   /// Stores a trip request submitted from the contact page lead-capture form.
-  /// Returns the stored record on success, or a caller-actionable error.
-  submitTripRequest: (input: TripRequestInput) -> (Result);
+  /// Returns `#ok` only after the lead is durably written to stable storage.
+  /// The success payload reports whether the notification email was sent.
+  submitTripRequest: (input: TripRequestInput) -> (SubmitResult);
 }
