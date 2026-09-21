@@ -127,7 +127,7 @@ const PROCESS = [
 const AIRLINE_LINKS = [
   {
     to: "/delta-airlines",
-    label: "Delta Air Lines booking assistance",
+    label: "Delta Airlines booking assistance",
     description:
       "Routes, cabins, and connection guidance for Delta-operated itineraries.",
   },
