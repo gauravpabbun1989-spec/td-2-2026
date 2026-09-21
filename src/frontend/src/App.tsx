@@ -5,6 +5,7 @@ import { FlightBookingPage } from "@/pages/FlightBookingPage";
 import { HomePage } from "@/pages/HomePage";
 import { HowToBookFlightByPhonePage } from "@/pages/HowToBookFlightByPhonePage";
 import { BookAFlightByPhonePage } from "@/pages/BookAFlightByPhonePage";
+import { InternationalFlightBookingPage, LastMinuteFlightBookingPage, MultiCityFlightBookingPage, GroupFlightBookingPage } from "@/pages/BookingIntentPages";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PrivacyPage } from "@/pages/PrivacyPage";
 import { TermsPage } from "@/pages/TermsPage";
@@ -44,6 +45,30 @@ const bookAFlightByPhoneRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/book-a-flight-by-phone",
   component: BookAFlightByPhonePage,
+});
+
+const internationalFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/international-flight-booking",
+  component: InternationalFlightBookingPage,
+});
+
+const lastMinuteFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/last-minute-flight-booking",
+  component: LastMinuteFlightBookingPage,
+});
+
+const multiCityFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/multi-city-flight-booking",
+  component: MultiCityFlightBookingPage,
+});
+
+const groupFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/group-flight-booking",
+  component: GroupFlightBookingPage,
 });
 
 const flightBookingRoute = createRoute({
@@ -97,6 +122,10 @@ const adminLeadsRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   flightBookingRoute,
+  internationalFlightBookingRoute,
+  lastMinuteFlightBookingRoute,
+  multiCityFlightBookingRoute,
+  groupFlightBookingRoute,
   bookAFlightByPhoneRoute,
   howToBookFlightByPhoneRoute,
   deltaRoute,
