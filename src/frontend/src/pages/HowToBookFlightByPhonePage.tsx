@@ -1,7 +1,7 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
-import { breadcrumbSchema, faqSchema } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, serviceSchema, webPageSchema } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
@@ -56,6 +56,8 @@ export function HowToBookFlightByPhonePage() {
             { name: "How to Book a Flight by Phone", path: PAGE_PATH },
           ]),
           faqSchema(FAQS),
+          webPageSchema({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, path: PAGE_PATH }),
+          serviceSchema({ name: "Phone flight booking assistance", description: PAGE_DESCRIPTION, path: PAGE_PATH }),
         ]}
       />
 
@@ -196,6 +198,26 @@ export function HowToBookFlightByPhonePage() {
               <h2 className="font-display text-lg font-semibold">{title}</h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{text}</p>
             </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="paper" ocid="phone_booking_guide.related">
+        <SectionHeading
+          eyebrow="Continue planning"
+          title="Explore airline-specific booking help"
+          description="If you already know which airline you want to fly, these guides cover booking, cabin options, connections, and changes for that carrier."
+        />
+        <div className="mt-10 grid gap-4 sm:grid-cols-3">
+          {[
+            ["Delta Airlines", "/delta-airlines"],
+            ["United Airlines", "/united-airlines"],
+            ["American Airlines", "/american-airlines"],
+          ].map(([label, to]) => (
+            <Link key={to} to={to} className="group rounded-2xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:shadow-elevated">
+              <span className="font-display text-base font-semibold text-foreground">{label} booking assistance</span>
+              <span className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary">Read the guide <ArrowRight aria-hidden="true" className="size-4 transition-smooth group-hover:translate-x-0.5" /></span>
+            </Link>
           ))}
         </div>
       </Section>

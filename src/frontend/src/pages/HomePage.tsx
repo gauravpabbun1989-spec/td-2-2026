@@ -64,6 +64,29 @@ export function HomePage() {
         </div>
       </section>
 
+      <section className="border-b border-border bg-muted/40 px-5 py-12 sm:px-8 sm:py-16" aria-labelledby="airline-guides-heading">
+        <div className="mx-auto max-w-6xl">
+          <p className="label-board text-accent">Airline booking assistance</p>
+          <h2 id="airline-guides-heading" className="mt-3 max-w-3xl text-balance text-2xl font-semibold leading-tight sm:text-3xl">
+            Planning around a specific airline?
+          </h2>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">
+            Explore our practical booking guides for Delta Airlines, United Airlines, and American Airlines, or call a specialist if your trip uses more than one carrier.
+          </p>
+          <div className="mt-7 grid gap-3 sm:grid-cols-3">
+            {[
+              ["Delta Airlines booking assistance", "/delta-airlines"],
+              ["United Airlines booking assistance", "/united-airlines"],
+              ["American Airlines booking assistance", "/american-airlines"],
+            ].map(([label, to]) => (
+              <Link key={to} to={to} className="rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle">
+                {label} <span aria-hidden="true">→</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <HomeFaq />
       <DisclosureBlock />
       <ContactInfoBlock />

@@ -1,7 +1,7 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
-import { breadcrumbSchema, faqSchema } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, serviceSchema, webPageSchema } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import {
@@ -185,7 +185,7 @@ export function FlightBookingPage() {
         title={PAGE_TITLE}
         description={PAGE_DESCRIPTION}
         path={PAGE_PATH}
-        structuredData={[breadcrumbSchema([...BREADCRUMBS]), faqSchema(FAQS)]}
+        structuredData={[breadcrumbSchema([...BREADCRUMBS]), faqSchema(FAQS), webPageSchema({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, path: PAGE_PATH }), serviceSchema({ name: "Flight booking assistance", description: PAGE_DESCRIPTION, path: PAGE_PATH })]}
       />
 
       <Section tone="paper" ocid="flight_booking.page">
