@@ -64,7 +64,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="border-b border-border bg-paper px-5 py-12 sm:px-8 sm:py-16" aria-labelledby="airline-guides-heading">
+      <section className="border-b border-border bg-muted/40 px-5 py-12 sm:px-8 sm:py-16" aria-labelledby="airline-guides-heading">
         <div className="mx-auto max-w-6xl">
           <p className="label-board text-accent">Airline booking assistance</p>
           <h2 id="airline-guides-heading" className="mt-3 max-w-3xl text-balance text-2xl font-semibold leading-tight sm:text-3xl">
