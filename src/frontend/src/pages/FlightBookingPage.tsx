@@ -488,6 +488,59 @@ export function FlightBookingPage() {
         </p>
       </Section>
 
+      <Section
+        tone="muted"
+        ocid="flight_booking.us_intent"
+        aria-labelledby="flight_booking_us_intent_heading"
+      >
+        <SectionHeading
+          id="flight_booking_us_intent_heading"
+          eyebrow="U.S. flight booking"
+          title="Flight booking help from major U.S. gateways"
+          description="If you are flying from or through a major U.S. airport, tell us your cities, dates, and flexibility. We can compare domestic and international itineraries and explain the trade-offs before you book."
+        />
+
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ["New York", "JFK, LGA, EWR"],
+            ["Los Angeles", "LAX"],
+            ["Chicago", "ORD, MDW"],
+            ["Miami", "MIA"],
+            ["Dallas–Fort Worth", "DFW"],
+            ["Atlanta", "ATL"],
+            ["San Francisco", "SFO"],
+            ["Seattle", "SEA"],
+          ].map(([city, airports]) => (
+            <div
+              key={city}
+              className="rounded-xl border border-border bg-card p-5 shadow-subtle"
+            >
+              <h3 className="font-display text-base font-semibold">{city}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{airports}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 rounded-2xl border border-border bg-card p-6 shadow-subtle sm:p-7">
+          <h3 className="font-display text-lg font-semibold">
+            Looking for a specific U.S. route?
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            Tell us the departure airport, destination, dates, number of travelers,
+            and preferred cabin. If you can use nearby airports or flexible dates,
+            mention that too. A specialist can then compare the available
+            itineraries with you by phone.
+          </p>
+          <div className="mt-5">
+            <CallCta
+              variant="outline"
+              size="md"
+              ocid="flight_booking.us_intent_call_button"
+            />
+          </div>
+        </div>
+      </Section>
+
       <Section tone="navy" ocid="flight_booking.cta">
         <div className="mx-auto max-w-3xl text-center">
           <p className="label-board text-accent">Available 24/7</p>
