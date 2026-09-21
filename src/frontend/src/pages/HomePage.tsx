@@ -52,6 +52,30 @@ export function HomePage() {
           <Link to="/book-a-flight-by-phone" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90">Book by phone <span aria-hidden="true">→</span></Link>
         </div>
       </section>
+      <section className="border-b border-border bg-card px-5 py-12 sm:px-8 sm:py-16" aria-labelledby="booking-needs-heading">
+        <div className="mx-auto max-w-6xl">
+          <p className="label-board text-accent">Popular booking needs</p>
+          <h2 id="booking-needs-heading" className="mt-3 max-w-3xl text-balance text-2xl font-semibold leading-tight sm:text-3xl">
+            Get help with the kind of trip you are actually planning
+          </h2>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">
+            Explore focused guides for international travel, urgent departures, multi-city itineraries, and family or group trips.
+          </p>
+          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["International flights", "/international-flight-booking"],
+              ["Last-minute flights", "/last-minute-flight-booking"],
+              ["Multi-city flights", "/multi-city-flight-booking"],
+              ["Group & family flights", "/group-flight-booking"],
+            ].map(([label, to]) => (
+              <Link key={to} to={to} className="rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle">
+                {label} <span aria-hidden="true">→</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <ServiceGrid />
       <HowItWorks />
       <PreCallChecklist />
