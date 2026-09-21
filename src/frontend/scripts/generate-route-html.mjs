@@ -5,6 +5,30 @@ const distDir = path.resolve("dist");
 const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 
 const routes = {
+  "/international-flight-booking": {
+    title: "International Flight Booking Assistance by Phone | TicketDepart",
+    description: "Plan international flights with a travel specialist. Get help comparing routes, connections, cabins, and fare conditions by phone at +1 855-544-9001.",
+    heading: "International flight booking with a real travel specialist",
+    text: "Plan international itineraries with help comparing routing, connections, cabins, and fare conditions by phone.",
+  },
+  "/last-minute-flight-booking": {
+    title: "Last-Minute Flight Booking Assistance | TicketDepart",
+    description: "Need a flight soon? Speak with a TicketDepart travel specialist about available routing, connection, cabin, and fare options at +1 855-544-9001.",
+    heading: "Last-minute flight booking help by phone",
+    text: "Discuss practical routing options, schedule trade-offs, and fare conditions with a travel specialist.",
+  },
+  "/multi-city-flight-booking": {
+    title: "Multi-City Flight Booking Assistance by Phone | TicketDepart",
+    description: "Plan multi-city and open-jaw flights with a travel specialist. Compare city pairs, connections, cabins, and fare conditions by phone.",
+    heading: "Multi-city flight booking without the guesswork",
+    text: "Organize multiple city pairs and discuss routing, connections, cabins, and fare conditions with a specialist.",
+  },
+  "/group-flight-booking": {
+    title: "Group & Family Flight Booking Assistance | TicketDepart",
+    description: "Get phone assistance planning group and family flights. Discuss travelers, routing, cabins, connections, and booking details with TicketDepart.",
+    heading: "Group and family flight booking help by phone",
+    text: "Plan family and group itineraries with help organizing travelers, routing, cabins, connections, and booking details.",
+  },
   "/flight-booking": {
     title: "Flight Booking Assistance | TicketDepart",
     description: "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.",
