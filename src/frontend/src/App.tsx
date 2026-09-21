@@ -8,6 +8,7 @@ import { BookAFlightByPhonePage } from "@/pages/BookAFlightByPhonePage";
 import { InternationalFlightBookingPage, LastMinuteFlightBookingPage, MultiCityFlightBookingPage, GroupFlightBookingPage } from "@/pages/BookingIntentPages";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { FlightBookingAssistancePage, SameDayFlightBookingPage } from "@/pages/AdditionalBookingIntentPages";
+import { DomesticFlightBookingPage, BusinessClassFlightBookingPage, OneWayFlightBookingPage, FamilyFlightBookingPage } from "@/pages/TravelerIntentPages";
 import { PrivacyPage } from "@/pages/PrivacyPage";
 import { TermsPage } from "@/pages/TermsPage";
 import { AmericanAirlinesPage } from "@/pages/airlines/AmericanAirlinesPage";
@@ -84,6 +85,30 @@ const sameDayFlightBookingRoute = createRoute({
   component: SameDayFlightBookingPage,
 });
 
+const domesticFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/domestic-flight-booking",
+  component: DomesticFlightBookingPage,
+});
+
+const businessClassFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/business-class-flight-booking",
+  component: BusinessClassFlightBookingPage,
+});
+
+const oneWayFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/one-way-flight-booking",
+  component: OneWayFlightBookingPage,
+});
+
+const familyFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/family-flight-booking",
+  component: FamilyFlightBookingPage,
+});
+
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
@@ -135,6 +160,10 @@ const adminLeadsRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   flightBookingRoute,
+  domesticFlightBookingRoute,
+  businessClassFlightBookingRoute,
+  oneWayFlightBookingRoute,
+  familyFlightBookingRoute,
   flightBookingAssistanceRoute,
   sameDayFlightBookingRoute,
   internationalFlightBookingRoute,
