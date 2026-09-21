@@ -41,6 +41,17 @@ export function HomePage() {
       />
 
       <HeroSection />
+
+      <section className="border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-12" aria-labelledby="book-flight-phone-heading">
+        <div className="mx-auto flex max-w-6xl flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="label-board text-accent">Ready to book?</p>
+            <h2 id="book-flight-phone-heading" className="mt-2 text-balance text-2xl font-semibold leading-tight sm:text-3xl">Book a flight by phone with a travel specialist</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">Discuss your route, dates, cabin, baggage, and fare rules before you decide. Phone assistance is available 24/7.</p>
+          </div>
+          <Link to="/book-a-flight-by-phone" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90">Book by phone <span aria-hidden="true">→</span></Link>
+        </div>
+      </section>
       <ServiceGrid />
       <HowItWorks />
       <PreCallChecklist />
