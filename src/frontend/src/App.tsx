@@ -7,6 +7,7 @@ import { HowToBookFlightByPhonePage } from "@/pages/HowToBookFlightByPhonePage";
 import { BookAFlightByPhonePage } from "@/pages/BookAFlightByPhonePage";
 import { InternationalFlightBookingPage, LastMinuteFlightBookingPage, MultiCityFlightBookingPage, GroupFlightBookingPage } from "@/pages/BookingIntentPages";
 import { NotFoundPage } from "@/pages/NotFoundPage";
+import { FlightBookingAssistancePage, SameDayFlightBookingPage } from "@/pages/AdditionalBookingIntentPages";
 import { PrivacyPage } from "@/pages/PrivacyPage";
 import { TermsPage } from "@/pages/TermsPage";
 import { AmericanAirlinesPage } from "@/pages/airlines/AmericanAirlinesPage";
@@ -71,6 +72,18 @@ const groupFlightBookingRoute = createRoute({
   component: GroupFlightBookingPage,
 });
 
+const flightBookingAssistanceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flight-booking-assistance",
+  component: FlightBookingAssistancePage,
+});
+
+const sameDayFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/same-day-flight-booking",
+  component: SameDayFlightBookingPage,
+});
+
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
@@ -122,6 +135,8 @@ const adminLeadsRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   flightBookingRoute,
+  flightBookingAssistanceRoute,
+  sameDayFlightBookingRoute,
   internationalFlightBookingRoute,
   lastMinuteFlightBookingRoute,
   multiCityFlightBookingRoute,
