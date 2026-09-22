@@ -6,7 +6,7 @@
 
 export const SITE = {
   name: "TicketDepart",
-  legalName: "TicketDepart Travel",
+  legalName: "Ticketdepart",
   tagline: "Independent travel agency",
   description:
     "TicketDepart is an independent U.S. travel agency helping travelers plan and book domestic and international flights with a real specialist on the phone.",
