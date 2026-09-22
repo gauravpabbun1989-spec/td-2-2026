@@ -371,7 +371,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
         ]}
       />
 
-      <Section tone="paper" ocid={id + ".hero"}>
+      <Section tone="paper" ocid={`${id}.hero`}>
         <nav aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
             <li>
@@ -399,7 +399,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             {page.intro}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <CallCta size="lg" ocid={id + ".hero_call"} />
+            <CallCta size="lg" ocid={`${id}.hero_call`} />
             <Link
               to="/contact"
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground"
@@ -414,7 +414,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
         </div>
       </Section>
 
-      <Section tone="muted" ocid={id + ".services"}>
+      <Section tone="muted" ocid={`${id}.services`}>
         <SectionHeading
           eyebrow="What we can discuss"
           title="Practical help for your trip"
@@ -436,7 +436,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
         </div>
       </Section>
 
-      <Section tone="paper" ocid={id + ".cta"}>
+      <Section tone="paper" ocid={`${id}.cta`}>
         <div className="mx-auto max-w-3xl text-center">
           <p className="label-board text-accent">Available 24/7</p>
           <h2 className="mt-4 text-balance text-3xl font-semibold sm:text-4xl">
@@ -447,12 +447,12 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             details and any relevant terms before you decide.
           </p>
           <div className="mt-8">
-            <CallCta size="lg" showNumber ocid={id + ".final_call"} />
+            <CallCta size="lg" showNumber ocid={`${id}.final_call`} />
           </div>
         </div>
       </Section>
 
-      <Section tone="paper" ocid={id + ".related"}>
+      <Section tone="paper" ocid={`${id}.related`}>
         <SectionHeading
           eyebrow="Related booking help"
           title="Explore more high-intent flight guides"
@@ -481,7 +481,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
         </div>
       </Section>
 
-      <Section tone="paper" ocid={id + ".faq"}>
+      <Section tone="paper" ocid={`${id}.faq`}>
         <SectionHeading
           eyebrow="FAQ"
           title={page.service + " questions"}
