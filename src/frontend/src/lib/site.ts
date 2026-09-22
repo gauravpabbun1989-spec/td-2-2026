@@ -79,9 +79,9 @@ export const LEGAL_ITEMS: readonly NavItem[] = [
 
 /** Absolute site origin used for canonical URLs and structured data. */
 export function siteOrigin(): string {
-  if (typeof window !== "undefined" && window.location.origin) {
-    return window.location.origin;
-  }
+  // Keep canonical URLs and structured-data URLs pinned to the production
+  // domain. The app can also run on Caffeine drafts or the Cloudflare
+  // workers.dev hostname, but those hosts must never become SEO canonicals.
   return "https://ticketdepart.com";
 }
 
