@@ -10,7 +10,7 @@ const pages = {
   assistance: {
     path: "/flight-booking-assistance",
     title: "Flight Booking Assistance by Phone | TicketDepart",
-    description: "Need help booking a flight? Speak with an independent TicketDepart travel specialist about domestic, international, multi-city, and complex itineraries at +1 855-544-9001.",
+    description: "Need flight booking help? Call TicketDepart to discuss domestic, international, multi-city, and complex itineraries with an independent specialist.",
     heading: "Flight booking assistance from a real travel specialist",
     intro: "If an online flight search leaves you with questions about routing, dates, cabins, travelers, or fare conditions, you can talk through the trip with a TicketDepart specialist.",
     points: [
@@ -34,8 +34,8 @@ const pages = {
   },
   sameDay: {
     path: "/same-day-flight-booking",
-    title: "Same-Day Flight Booking Assistance by Phone | TicketDepart",
-    description: "Need to travel today? Call TicketDepart for same-day flight booking assistance. Discuss routes, departure airports, connections, and fare conditions with a travel specialist.",
+    title: "Same-Day Flight Booking by Phone | TicketDepart",
+    description: "Need to travel today? Call TicketDepart to discuss same-day routes, departure airports, connections, and fare conditions with a travel specialist.",
     heading: "Same-day flight booking help by phone",
     intro: "When travel is urgent, you may need to compare practical options quickly. TicketDepart can help you organize the route and discuss available booking options by phone.",
     points: [
