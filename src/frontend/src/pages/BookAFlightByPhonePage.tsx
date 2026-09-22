@@ -178,6 +178,7 @@ export function BookAFlightByPhonePage() {
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {[
             ["How to book a flight by phone", "/how-to-book-a-flight-by-phone"],
+            ["Flight booking phone number", "/flight-booking-phone-number"],
             ["Delta Airlines", "/delta-airlines"],
             ["United Airlines", "/united-airlines"],
             ["American Airlines", "/american-airlines"],
