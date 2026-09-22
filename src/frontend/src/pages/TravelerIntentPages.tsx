@@ -77,7 +77,7 @@ const CONFIG = {
 
 function Page({ kind }: { kind: PageKey }) {
   const c = CONFIG[kind];
-  const faq = c.faq.map(([question, answer]) => ({ question, answer }));
+  const faq = c.faq.map(([question, answer]: readonly [string, string]) => ({ question, answer }));
   const breadcrumbs = [{ name: "Home", path: "/" }, { name: "Flight Booking", path: "/flight-booking" }, { name: c.eyebrow, path: c.path }];
   return (
     <>
@@ -103,10 +103,10 @@ function Page({ kind }: { kind: PageKey }) {
         <ol className="mt-10 grid gap-4 md:grid-cols-3">{c.steps.map((step, i) => <li key={step} className="rounded-2xl border border-border bg-card p-6"><span className="label-board text-accent">0{i + 1}</span><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{step}</p></li>)}</ol>
       </Section>
       <Section tone="paper"><SectionHeading eyebrow="Questions" title="Frequently asked questions" description="Straight answers before you call." />
-        <dl className="mt-10 grid gap-4 lg:grid-cols-2">{c.faq.map(([q, a]) => <div key={q} className="rounded-2xl border border-border bg-card p-6"><dt className="font-display text-base font-semibold">{q}</dt><dd className="mt-3 text-sm leading-relaxed text-muted-foreground">{a}</dd></div>)}</dl>
+        <dl className="mt-10 grid gap-4 lg:grid-cols-2">{c.faq.map(([q, a]: readonly [string, string]) => <div key={q} className="rounded-2xl border border-border bg-card p-6"><dt className="font-display text-base font-semibold">{q}</dt><dd className="mt-3 text-sm leading-relaxed text-muted-foreground">{a}</dd></div>)}</dl>
       </Section>
       <Section tone="navy"><div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"><div className="max-w-2xl"><p className="label-board text-accent">Ready to plan?</p><h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Talk through your trip with a specialist</h2><p className="mt-4 text-base leading-relaxed text-primary-foreground/80">Call {SITE.phoneDisplay}. We are available 24/7 for travel-planning and booking assistance.</p></div><CallCta size="lg" showNumber ocid={kind + ".final_call"} /></div></Section>
-      <Section tone="paper"><div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"><h2 className="font-display text-xl font-semibold">Related booking help</h2><ul className="flex flex-wrap gap-3">{c.related.map(([label, to]) => <li key={to}><Link to={to} className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-card px-5 py-2.5 text-sm font-medium text-primary">{label} <ArrowRight className="size-3.5" /></Link></li>)}</ul></div></Section>
+      <Section tone="paper"><div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"><h2 className="font-display text-xl font-semibold">Related booking help</h2><ul className="flex flex-wrap gap-3">{c.related.map(([label, to]: readonly [string, string]) => <li key={to}><Link to={to} className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-card px-5 py-2.5 text-sm font-medium text-primary">{label} <ArrowRight className="size-3.5" /></Link></li>)}</ul></div></Section>
     </>
   );
 }
