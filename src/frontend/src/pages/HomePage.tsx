@@ -64,6 +64,7 @@ export function HomePage() {
           <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[
               ["Flight booking help", "/flight-booking-assistance"],
+              ["Flight booking phone number", "/flight-booking-phone-number"],
               ["Same-day flights", "/same-day-flight-booking"],
               ["International flights", "/international-flight-booking"],
               ["Last-minute flights", "/last-minute-flight-booking"],
