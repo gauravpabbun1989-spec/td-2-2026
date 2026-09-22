@@ -125,6 +125,24 @@ const routes = {
     heading: "American Airlines trips booked with a travel specialist",
     text: "Get independent travel assistance for American Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and cabin options.",
   },
+  "/southwest-airlines": {
+    title: "Southwest Airlines Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency assistance for Southwest Airlines flight planning and booking. Discuss routes, dates, travelers, and fare options by phone at +1 855-544-9001.",
+    heading: "Southwest Airlines flight booking help by phone",
+    text: "Discuss Southwest Airlines trip details, routing, dates, travelers, and fare questions with an independent TicketDepart travel specialist."
+  },
+  "/british-airways": {
+    title: "British Airways Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency assistance for British Airways flight planning and booking. Discuss international routes, connections, cabins, and fare conditions by phone.",
+    heading: "British Airways flight booking assistance by phone",
+    text: "Discuss British Airways international routes, connections, cabins, and fare conditions with an independent TicketDepart travel specialist."
+  },
+  "/lufthansa": {
+    title: "Lufthansa Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency assistance for Lufthansa flight planning and booking. Discuss international routes, connections, cabins, and fare conditions by phone.",
+    heading: "Lufthansa flight booking assistance by phone",
+    text: "Discuss Lufthansa international routes, connections, cabins, and fare conditions with an independent TicketDepart travel specialist."
+  },
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
     description: "Contact TicketDepart to plan your next flight. Call +1 855-544-9001 any time, or send your trip details and a travel specialist will follow up with options.",
