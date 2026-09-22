@@ -172,9 +172,7 @@ const FAQS = [
 ] as const;
 
 const RELATED = [
-  { label: "Flight booking phone number", to: "/flight-booking-phone-number" },
-  { label: "Book a flight by phone", to: "/book-a-flight-by-phone" },
-  { label: "Delta Airlines assistance", to: "/delta-airlines" },
+  { label: "Delta Airlines flight assistance", to: "/delta-airlines" },
   { label: "American Airlines assistance", to: "/american-airlines" },
   { label: "General flight booking", to: "/flight-booking" },
 ] as const;
@@ -189,8 +187,8 @@ export function UnitedPage() {
   return (
     <>
       <Seo
-        title="United Airlines Flight Booking by Phone | TicketDepart"
-        description="Book United Airlines flights by phone with an independent TicketDepart travel specialist. Discuss domestic, international, multi-city, and premium-cabin trips at +1 855-544-9001."
+        title="United Airlines Flight Booking Assistance | TicketDepart"
+        description="Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 855-544-9001."
         path={PATH}
         image={HERO_IMAGE_URL}
         structuredData={[

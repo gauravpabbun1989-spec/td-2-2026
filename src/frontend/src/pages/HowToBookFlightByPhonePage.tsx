@@ -1,7 +1,12 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
-import { breadcrumbSchema, faqSchema, serviceSchema, webPageSchema } from "@/lib/seo";
+import {
+  breadcrumbSchema,
+  faqSchema,
+  serviceSchema,
+  webPageSchema,
+} from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
@@ -56,8 +61,16 @@ export function HowToBookFlightByPhonePage() {
             { name: "How to Book a Flight by Phone", path: PAGE_PATH },
           ]),
           faqSchema(FAQS),
-          webPageSchema({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, path: PAGE_PATH }),
-          serviceSchema({ name: "Phone flight booking assistance", description: PAGE_DESCRIPTION, path: PAGE_PATH }),
+          webPageSchema({
+            title: PAGE_TITLE,
+            description: PAGE_DESCRIPTION,
+            path: PAGE_PATH,
+          }),
+          serviceSchema({
+            name: "Phone flight booking assistance",
+            description: PAGE_DESCRIPTION,
+            path: PAGE_PATH,
+          }),
         ]}
       />
 
@@ -65,10 +78,7 @@ export function HowToBookFlightByPhonePage() {
         <nav aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
             <li>
-              <Link
-                to="/"
-                className="font-medium hover:text-foreground"
-              >
+              <Link to="/" className="font-medium hover:text-foreground">
                 Home
               </Link>
             </li>
@@ -76,7 +86,10 @@ export function HowToBookFlightByPhonePage() {
               <ArrowRight className="size-4" />
             </li>
             <li>
-              <span aria-current="page" className="font-semibold text-foreground">
+              <span
+                aria-current="page"
+                className="font-semibold text-foreground"
+              >
                 How to Book a Flight by Phone
               </span>
             </li>
@@ -138,9 +151,14 @@ export function HowToBookFlightByPhonePage() {
               text: "Once you choose an itinerary, verify passenger names and the final terms. A booking is complete only after the responsible travel provider issues the ticket and confirmation.",
             },
           ].map((step) => (
-            <li key={step.number} className="rounded-2xl border border-border bg-card p-6 shadow-subtle">
+            <li
+              key={step.number}
+              className="rounded-2xl border border-border bg-card p-6 shadow-subtle"
+            >
               <span className="label-board text-accent">{step.number}</span>
-              <h2 className="mt-4 font-display text-lg font-semibold">{step.title}</h2>
+              <h2 className="mt-4 font-display text-lg font-semibold">
+                {step.title}
+              </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 {step.text}
               </p>
@@ -160,20 +178,32 @@ export function HowToBookFlightByPhonePage() {
             <ul className="mt-8 space-y-4">
               {CHECKLIST.map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <CheckCircle2 aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-accent" />
-                  <span className="text-sm leading-relaxed text-foreground">{item}</span>
+                  <CheckCircle2
+                    aria-hidden="true"
+                    className="mt-0.5 size-5 shrink-0 text-accent"
+                  />
+                  <span className="text-sm leading-relaxed text-foreground">
+                    {item}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
 
           <div className="rounded-2xl border border-border bg-card p-6 shadow-subtle sm:p-7">
-            <h2 className="font-display text-xl font-semibold">Questions worth asking</h2>
+            <h2 className="font-display text-xl font-semibold">
+              Questions worth asking
+            </h2>
             <ul className="mt-5 space-y-4 text-sm leading-relaxed text-muted-foreground">
-              <li>What is the complete price, including taxes and any agency fee?</li>
+              <li>
+                What is the complete price, including taxes and any agency fee?
+              </li>
               <li>What baggage is included with this fare?</li>
               <li>What are the change and cancellation rules?</li>
-              <li>Are there alternative airports or dates that change the itinerary?</li>
+              <li>
+                Are there alternative airports or dates that change the
+                itinerary?
+              </li>
               <li>Who will issue the ticket and provide the confirmation?</li>
             </ul>
           </div>
@@ -189,14 +219,31 @@ export function HowToBookFlightByPhonePage() {
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            ["Multi-city", "Three or more cities, open-jaw trips, or unusual routing."],
-            ["International", "Long connections, multiple airports, and document questions."],
-            ["Premium cabins", "Business or first class where cabin and aircraft details matter."],
-            ["Groups", "Families, teams, or groups that need coordinated travel."],
+            [
+              "Multi-city",
+              "Three or more cities, open-jaw trips, or unusual routing.",
+            ],
+            [
+              "International",
+              "Long connections, multiple airports, and document questions.",
+            ],
+            [
+              "Premium cabins",
+              "Business or first class where cabin and aircraft details matter.",
+            ],
+            [
+              "Groups",
+              "Families, teams, or groups that need coordinated travel.",
+            ],
           ].map(([title, text]) => (
-            <article key={title} className="rounded-2xl border border-border bg-card p-6 shadow-subtle">
+            <article
+              key={title}
+              className="rounded-2xl border border-border bg-card p-6 shadow-subtle"
+            >
               <h2 className="font-display text-lg font-semibold">{title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{text}</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {text}
+              </p>
             </article>
           ))}
         </div>
@@ -214,9 +261,21 @@ export function HowToBookFlightByPhonePage() {
             ["United Airlines", "/united-airlines"],
             ["American Airlines", "/american-airlines"],
           ].map(([label, to]) => (
-            <Link key={to} to={to} className="group rounded-2xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:shadow-elevated">
-              <span className="font-display text-base font-semibold text-foreground">{label} booking assistance</span>
-              <span className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary">Read the guide <ArrowRight aria-hidden="true" className="size-4 transition-smooth group-hover:translate-x-0.5" /></span>
+            <Link
+              key={to}
+              to={to}
+              className="group rounded-2xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:shadow-elevated"
+            >
+              <span className="font-display text-base font-semibold text-foreground">
+                {label} booking assistance
+              </span>
+              <span className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary">
+                Read the guide{" "}
+                <ArrowRight
+                  aria-hidden="true"
+                  className="size-4 transition-smooth group-hover:translate-x-0.5"
+                />
+              </span>
             </Link>
           ))}
         </div>
@@ -230,8 +289,8 @@ export function HowToBookFlightByPhonePage() {
           </h2>
           <p className="mt-5 text-pretty text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
             TicketDepart is an independent travel agency. Tell us your route,
-            dates, travelers, and preferences, and a specialist can discuss
-            the booking options with you.
+            dates, travelers, and preferences, and a specialist can discuss the
+            booking options with you.
           </p>
           <div className="mt-8">
             <CallCta size="lg" ocid="phone_booking_guide.cta_call_button" />
@@ -248,7 +307,10 @@ export function HowToBookFlightByPhonePage() {
 
         <div className="mx-auto mt-10 max-w-3xl space-y-4">
           {FAQS.map((faq) => (
-            <details key={faq.question} className="rounded-2xl border border-border bg-card p-5 shadow-subtle">
+            <details
+              key={faq.question}
+              className="rounded-2xl border border-border bg-card p-5 shadow-subtle"
+            >
               <summary className="cursor-pointer font-semibold text-foreground">
                 {faq.question}
               </summary>

@@ -123,10 +123,8 @@ const FAQS = [
 ] as const;
 
 const RELATED = [
-  { label: "Flight booking phone number", to: "/flight-booking-phone-number" },
-  { label: "Book a flight by phone", to: "/book-a-flight-by-phone" },
-  { label: "Delta Airlines assistance", to: "/delta-airlines" },
-  { label: "United Airlines assistance", to: "/united-airlines" },
+  { label: "Delta Airlines flight assistance", to: "/delta-airlines" },
+  { label: "United Airlines flight assistance", to: "/united-airlines" },
   { label: "General flight booking", to: "/flight-booking" },
 ] as const;
 
@@ -140,8 +138,8 @@ export function AmericanAirlinesPage() {
   return (
     <>
       <Seo
-        title="American Airlines Flight Booking by Phone | TicketDepart"
-        description="Book American Airlines flights by phone with an independent TicketDepart travel specialist. Discuss domestic, international, multi-city, and cabin options at +1 855-544-9001."
+        title="American Airlines Flight Booking Assistance | TicketDepart"
+        description="Independent travel agency for American Airlines bookings — domestic, international, multi-city, cabin options, and rebooking help. Call +1 855-544-9001."
         path={PATH}
         image={IMAGE_URL}
         structuredData={[

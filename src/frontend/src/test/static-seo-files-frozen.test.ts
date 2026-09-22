@@ -9,7 +9,7 @@ import { describe, expect, it } from "vitest";
  * configuration that declares the Content-Type for `/sitemap.xml` and
  * `/robots.txt` and excludes them from the SPA fallback. It must not alter the
  * bytes of either file. `static-seo-files.test.ts` asserts the structure (the
- * eight canonical URLs and the robots directives); this file freezes the exact
+ * ten canonical URLs and the robots directives); this file freezes the exact
  * content so an accidental edit to `lastmod`, `changefreq`, `priority`, or the
  * robots directives fails loudly instead of shipping silently.
  *
@@ -33,9 +33,21 @@ const EXPECTED_SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
   </url>
   <url>
     <loc>https://ticketdepart.com/flight-booking</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ticketdepart.com/book-a-flight-by-phone</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ticketdepart.com/how-to-book-a-flight-by-phone</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://ticketdepart.com/delta-airlines</loc>
@@ -91,7 +103,7 @@ describe("frozen static SEO assets", () => {
     expect(readPublicFile("robots.txt")).toBe(EXPECTED_ROBOTS);
   });
 
-  it("keeps exactly the eight canonical sitemap URLs in order", () => {
+  it("keeps exactly the ten canonical sitemap URLs in order", () => {
     const locs = Array.from(
       readPublicFile("sitemap.xml").matchAll(/<loc>([^<]+)<\/loc>/g),
     ).map((match) => match[1]);
@@ -99,6 +111,8 @@ describe("frozen static SEO assets", () => {
     expect(locs).toEqual([
       "https://ticketdepart.com/",
       "https://ticketdepart.com/flight-booking",
+      "https://ticketdepart.com/book-a-flight-by-phone",
+      "https://ticketdepart.com/how-to-book-a-flight-by-phone",
       "https://ticketdepart.com/delta-airlines",
       "https://ticketdepart.com/united-airlines",
       "https://ticketdepart.com/american-airlines",

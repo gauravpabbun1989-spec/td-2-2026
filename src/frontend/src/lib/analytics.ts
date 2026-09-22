@@ -1,91 +1,84 @@
 /**
  * GA4 phone-click tracking.
  *
- * The delegated document-level listener is the single source of truth for
- * tel: link clicks. Each event carries page and acquisition context so a
- * phone click can be tied back to the visitor's landing page and campaign.
+ * The delegated document-level listener registered at import time is the single
+ * source of truth for `tel:` link clicks. `trackPhoneClick` remains available
+ * for explicit call sites, but it is idempotent per click event so a component
+ * that also calls it for a `tel:` link cannot produce a second `phone_click`
+ * event for the same click.
  */
 
+/**
+ * Window used to collapse a component's own `trackPhoneClick(location)` call
+ * and the delegated listener into a single event when the component does not
+ * pass the originating click event. Both paths run synchronously within one
+ * click dispatch, so this only needs to cover that dispatch.
+ */
 const DEDUPE_WINDOW_MS = 250;
+
+/** Click events the delegated listener has already emitted for. */
 const handledClicks = new WeakSet<Event>();
+
+/** Location -> timestamp of the most recent emit. */
 const recentEmits = new Map<string, number>();
-
-function firstTouchValue(key: string): string | undefined {
-  if (typeof window === "undefined") return undefined;
-  try {
-    return sessionStorage.getItem(key) || undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-function captureFirstTouch() {
-  if (typeof window === "undefined") return;
-  try {
-    const url = new URL(window.location.href);
-    const values: Record<string, string> = {
-      landing_path: window.location.pathname,
-      landing_referrer: document.referrer,
-    };
-    for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid"]) {
-      const value = url.searchParams.get(key);
-      if (value) values[key] = value;
-    }
-    for (const [key, value] of Object.entries(values)) {
-      const storageKey = `td_first_${key}`;
-      if (!sessionStorage.getItem(storageKey)) sessionStorage.setItem(storageKey, value);
-    }
-  } catch {
-    // Tracking must never interfere with site functionality.
-  }
-}
 
 function emitPhoneClick(location: string) {
   if (typeof window === "undefined") return;
-  captureFirstTouch();
+
+  recentEmits.set(location, Date.now());
+
   const eventParams = {
     cta_location: location,
     page_path: window.location.pathname,
     page_title: document.title,
-    landing_path: firstTouchValue("td_first_landing_path"),
-    landing_referrer: firstTouchValue("td_first_landing_referrer"),
-    utm_source: firstTouchValue("td_first_utm_source"),
-    utm_medium: firstTouchValue("td_first_utm_medium"),
-    utm_campaign: firstTouchValue("td_first_utm_campaign"),
-    utm_term: firstTouchValue("td_first_utm_term"),
-    utm_content: firstTouchValue("td_first_utm_content"),
-    gclid: firstTouchValue("td_first_gclid"),
   };
-  recentEmits.set(location, Date.now());
+
   const win = window as typeof window & {
     gtag?: (...args: unknown[]) => void;
     dataLayer?: unknown[];
   };
+
   if (win.gtag) {
     win.gtag("event", "phone_click", eventParams);
     return;
   }
+
   win.dataLayer = win.dataLayer || [];
   win.dataLayer.push(["event", "phone_click", eventParams]);
 }
 
+/**
+ * Emits a `phone_click` event for `location`. Pass the originating click event
+ * when one is available so a click the delegated listener also observes still
+ * produces exactly one event.
+ */
 export function trackPhoneClick(location: string, event?: Event) {
   if (event && handledClicks.has(event)) return;
   if (event) handledClicks.add(event);
   emitPhoneClick(location);
 }
 
+// Track every tel: link on the site so phone-click measurement does not depend
+// on a specific React component's click handler.
 if (typeof document !== "undefined") {
-  captureFirstTouch();
   document.addEventListener("click", (event) => {
     if (handledClicks.has(event)) return;
+
     const target = event.target as Element | null;
     const link = target?.closest?.('a[href^="tel:"]');
+
     if (!link) return;
+
     handledClicks.add(event);
-    const location = link.getAttribute("data-ocid") || link.getAttribute("aria-label") || "tel_link";
+
+    const location =
+      link.getAttribute("data-ocid") ||
+      link.getAttribute("aria-label") ||
+      "tel_link";
+
     const last = recentEmits.get(location);
     if (last !== undefined && Date.now() - last < DEDUPE_WINDOW_MS) return;
+
     emitPhoneClick(location);
   });
 }

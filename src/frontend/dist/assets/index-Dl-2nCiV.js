@@ -42788,6 +42788,43 @@ function websiteSchema() {
     description: SITE.description
   };
 }
+function webPageSchema(input) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: input.title,
+    description: input.description,
+    url: absoluteUrl(input.path),
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE.name,
+      url: absoluteUrl("/")
+    },
+    about: {
+      "@type": "TravelAgency",
+      name: SITE.name,
+      telephone: SITE.phoneDisplay
+    }
+  };
+}
+function serviceSchema(input) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: input.name,
+    description: input.description,
+    serviceType: "Flight booking assistance",
+    url: absoluteUrl(input.path),
+    areaServed: [...AREA_SERVED],
+    provider: {
+      "@type": "TravelAgency",
+      name: SITE.name,
+      telephone: SITE.phoneDisplay,
+      email: SITE.email,
+      url: absoluteUrl("/")
+    }
+  };
+}
 function faqSchema(faqs) {
   return {
     "@context": "https://schema.org",
@@ -43324,6 +43361,245 @@ function AdminLeadsPage() {
           lead.id.toString()
         )) })
       ] }) })
+    ] })
+  ] });
+}
+const PAGE_PATH$2 = "/book-a-flight-by-phone";
+const PAGE_TITLE$2 = "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart";
+const PAGE_DESCRIPTION$2 = "Book a domestic or international flight by phone with an independent U.S. travel agency. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
+const FAQS$5 = [
+  {
+    question: "Can I book a flight by phone with TicketDepart?",
+    answer: "Yes. TicketDepart is an independent U.S. travel agency. A travel specialist can discuss your itinerary, available booking options, and applicable terms with you before you decide whether to book."
+  },
+  {
+    question: "What flights can I book by phone?",
+    answer: "We can discuss domestic and international trips, one-way and round-trip itineraries, multi-city travel, premium cabins, and group travel. Availability and ticketing options depend on the itinerary and responsible travel provider."
+  },
+  {
+    question: "Can I ask about the total price before paying?",
+    answer: "Yes. Ask for the airfare, taxes and charges, baggage terms, and any applicable agency service fee before authorizing payment. Fares and availability can change until a ticket is issued."
+  },
+  {
+    question: "Can you help with complicated or last-minute trips?",
+    answer: "A phone conversation can be useful for multi-city routing, flexible dates, nearby airports, premium cabins, groups, and trips that need more discussion than a basic online search. Last-minute options depend on available seats and fare rules."
+  }
+];
+const BENEFITS = [
+  [
+    "Domestic & international",
+    "Discuss U.S. domestic trips and international itineraries with a specialist."
+  ],
+  [
+    "Multi-city & complex trips",
+    "Review multiple cities, open-jaw routing, connections, and flexible airports."
+  ],
+  [
+    "Business & first class",
+    "Talk through cabin options, schedules, baggage, and fare conditions."
+  ],
+  [
+    "Groups & families",
+    "Coordinate traveler details and trip requirements in one conversation."
+  ]
+];
+function BookAFlightByPhonePage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Seo,
+      {
+        title: PAGE_TITLE$2,
+        description: PAGE_DESCRIPTION$2,
+        path: PAGE_PATH$2,
+        structuredData: [
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Book a Flight by Phone", path: PAGE_PATH$2 }
+          ]),
+          webPageSchema({
+            title: PAGE_TITLE$2,
+            description: PAGE_DESCRIPTION$2,
+            path: PAGE_PATH$2
+          }),
+          serviceSchema({
+            name: "Flight booking by phone",
+            description: PAGE_DESCRIPTION$2,
+            path: PAGE_PATH$2
+          }),
+          faqSchema(FAQS$5)
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "book_flight_phone.hero", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { "aria-label": "Breadcrumb", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ol", { className: "flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "font-medium hover:text-foreground", children: "Home" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { "aria-hidden": "true", className: "text-border", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "span",
+          {
+            "aria-current": "page",
+            className: "font-semibold text-foreground",
+            children: "Book a Flight by Phone"
+          }
+        ) })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto mt-10 max-w-4xl", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "24/7 phone flight booking" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl", children: "Book a flight by phone with a travel specialist" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "Tell us where you want to fly, when you want to travel, and what matters to you. A specialist can discuss itinerary options, cabin choices, baggage, and fare rules before you decide." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "book_flight_phone.call_button" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Link,
+            {
+              to: "/flight-booking",
+              className: "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground",
+              children: [
+                "Explore flight booking services",
+                /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { "aria-hidden": "true", className: "size-4" })
+              ]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-5 flex items-center gap-2 text-sm text-muted-foreground", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4 text-accent" }),
+          SITE.hours,
+          " · ",
+          SITE.phoneDisplay
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: "book_flight_phone.services", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "What we can discuss",
+          title: "Flight booking help for different kinds of trips",
+          description: "Start with your route and dates. The specialist can then work through the details that matter for your trip."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4", children: BENEFITS.map(([title, text]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "article",
+        {
+          className: "rounded-2xl border border-border bg-card p-6 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-lg font-semibold", children: title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: text })
+          ]
+        },
+        title
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "paper", ocid: "book_flight_phone.process", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-10 lg:grid-cols-2 lg:items-start", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          SectionHeading,
+          {
+            eyebrow: "How it works",
+            title: "A straightforward booking conversation",
+            description: "You remain in control of the booking decision. Review the itinerary and price before authorizing a ticket."
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "mt-8 space-y-5", children: [
+          "Share your departure, destination, dates, travelers, and preferences.",
+          "Review available itinerary details, cabin, baggage terms, and applicable fare rules.",
+          "Confirm the final details and price before the responsible travel provider issues the ticket."
+        ].map((item, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-start gap-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-8 shrink-0 items-center justify-center rounded-full bg-accent/15 text-sm font-semibold text-accent", children: index2 + 1 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "pt-1 text-sm leading-relaxed text-foreground", children: item })
+        ] }, item)) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-border bg-card p-6 shadow-subtle sm:p-7", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-xl font-semibold", children: "Have these details ready" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-5 space-y-4", children: [
+          "Departure and destination cities or airport codes",
+          "Preferred travel dates and flexibility",
+          "Number of travelers",
+          "Cabin preference",
+          "Baggage or accessibility requirements",
+          "Preferred airline or nearby airports, if applicable"
+        ].map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "li",
+          {
+            className: "flex items-start gap-3 text-sm leading-relaxed text-muted-foreground",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                CircleCheck,
+                {
+                  "aria-hidden": "true",
+                  className: "mt-0.5 size-5 shrink-0 text-accent"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: item })
+            ]
+          },
+          item
+        )) })
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "navy", ocid: "book_flight_phone.cta", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-3xl text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "TicketDepart" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 text-balance text-3xl font-semibold leading-tight sm:text-4xl", children: "Ready to discuss your flight?" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 text-pretty text-base leading-relaxed text-primary-foreground/80 sm:text-lg", children: "Call TicketDepart and explain your route, dates, travelers, and preferences. A specialist can walk through the booking options with you." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "book_flight_phone.cta_call_button" }) })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "book_flight_phone.related", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "More flight help",
+          title: "Continue with a specific booking guide",
+          description: "Use these pages if you already know the airline or want a step-by-step phone booking overview."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-4 sm:grid-cols-3", children: [
+        ["How to book a flight by phone", "/how-to-book-a-flight-by-phone"],
+        ["Delta Airlines", "/delta-airlines"],
+        ["United Airlines", "/united-airlines"],
+        ["American Airlines", "/american-airlines"]
+      ].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        Link,
+        {
+          to,
+          className: "group rounded-2xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:shadow-elevated",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-base font-semibold text-foreground", children: label }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary", children: [
+              "Open guide",
+              " ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                ArrowRight,
+                {
+                  "aria-hidden": "true",
+                  className: "size-4 transition-smooth group-hover:translate-x-0.5"
+                }
+              )
+            ] })
+          ]
+        },
+        to
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "book_flight_phone.faq", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "FAQ",
+          title: "Questions before you book by phone",
+          description: "Practical information before you call."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto mt-10 max-w-3xl space-y-4", children: FAQS$5.map((faq) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "details",
+        {
+          className: "rounded-2xl border border-border bg-card p-5 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("summary", { className: "cursor-pointer font-semibold text-foreground", children: faq.question }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: faq.answer })
+          ]
+        },
+        faq.question
+      )) })
     ] })
   ] });
 }
@@ -44066,12 +44342,34 @@ function ContactPage() {
     ] }) })
   ] });
 }
-const PAGE_PATH = "/flight-booking";
-const PAGE_TITLE = "Flight Booking Assistance | TicketDepart";
-const PAGE_DESCRIPTION = "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
+const PAGE_PATH$1 = "/flight-booking";
+const PAGE_TITLE$1 = "Flight Booking Assistance by Phone | TicketDepart";
+const PAGE_DESCRIPTION$1 = "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
-  { name: "Flight Booking", path: PAGE_PATH }
+  { name: "Flight Booking", path: PAGE_PATH$1 }
+];
+const FAQS$4 = [
+  {
+    question: "Can I book a flight by phone with TicketDepart?",
+    answer: "Yes. TicketDepart is an independent travel agency, and a travel specialist can discuss your itinerary, compare options, and assist with booking by phone at +1 855-544-9001."
+  },
+  {
+    question: "Can you help with international and multi-city flights?",
+    answer: "Yes. We assist with domestic, international, multi-city, and open-jaw itineraries, including complex connections and mixed-carrier options."
+  },
+  {
+    question: "Can you help with business class or first class flights?",
+    answer: "Yes. We can discuss business, first, and premium economy options and explain differences in cabin, schedule, and fare conditions."
+  },
+  {
+    question: "Is TicketDepart affiliated with Delta, United, or American Airlines?",
+    answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by any airline. Airline names and trademarks belong to their respective owners."
+  },
+  {
+    question: "What information should I have ready when I call?",
+    answer: "Have your departure and destination cities, preferred travel dates, number of travelers, cabin preference, and any flexibility or special requirements ready if available."
+  }
 ];
 const SERVICES$3 = [
   {
@@ -44174,10 +44472,23 @@ function FlightBookingPage() {
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Seo,
       {
-        title: PAGE_TITLE,
-        description: PAGE_DESCRIPTION,
-        path: PAGE_PATH,
-        structuredData: [breadcrumbSchema([...BREADCRUMBS])]
+        title: PAGE_TITLE$1,
+        description: PAGE_DESCRIPTION$1,
+        path: PAGE_PATH$1,
+        structuredData: [
+          breadcrumbSchema([...BREADCRUMBS]),
+          faqSchema(FAQS$4),
+          webPageSchema({
+            title: PAGE_TITLE$1,
+            description: PAGE_DESCRIPTION$1,
+            path: PAGE_PATH$1
+          }),
+          serviceSchema({
+            name: "Flight booking assistance",
+            description: PAGE_DESCRIPTION$1,
+            path: PAGE_PATH$1
+          })
+        ]
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "flight_booking.page", children: [
@@ -44449,6 +44760,22 @@ function FlightBookingPage() {
             },
             airline.to
           )) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 rounded-2xl border border-border bg-muted/40 p-6", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-display text-lg font-semibold", children: "Prefer to prepare before you call?" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: "Our guide explains what to have ready and which fare, baggage, change, and ticketing questions are worth asking." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              Link,
+              {
+                to: "/how-to-book-a-flight-by-phone",
+                "data-ocid": "flight_booking.phone_guide_link",
+                className: "mt-4 inline-flex items-center gap-2 font-semibold text-primary underline underline-offset-4 hover:text-accent",
+                children: [
+                  "Read the phone booking guide",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { "aria-hidden": "true", className: "size-4" })
+                ]
+              }
+            )
+          ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-8 text-sm leading-relaxed text-muted-foreground", children: [
             "Booking a trip that does not fit one carrier?",
             " ",
@@ -44463,6 +44790,57 @@ function FlightBookingPage() {
             ),
             " ",
             "and we will compare the options with you."
+          ] })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Section,
+      {
+        tone: "muted",
+        ocid: "flight_booking.us_intent",
+        "aria-labelledby": "flight_booking_us_intent_heading",
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SectionHeading,
+            {
+              id: "flight_booking_us_intent_heading",
+              eyebrow: "U.S. flight booking",
+              title: "Flight booking help from major U.S. gateways",
+              description: "If you are flying from or through a major U.S. airport, tell us your cities, dates, and flexibility. We can compare domestic and international itineraries and explain the trade-offs before you book."
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4", children: [
+            ["New York", "JFK, LGA, EWR"],
+            ["Los Angeles", "LAX"],
+            ["Chicago", "ORD, MDW"],
+            ["Miami", "MIA"],
+            ["Dallas–Fort Worth", "DFW"],
+            ["Atlanta", "ATL"],
+            ["San Francisco", "SFO"],
+            ["Seattle", "SEA"]
+          ].map(([city, airports]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: "rounded-xl border border-border bg-card p-5 shadow-subtle",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-display text-base font-semibold", children: city }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm text-muted-foreground", children: airports })
+              ]
+            },
+            city
+          )) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 rounded-2xl border border-border bg-card p-6 shadow-subtle sm:p-7", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-display text-lg font-semibold", children: "Looking for a specific U.S. route?" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: "Tell us the departure airport, destination, dates, number of travelers, and preferred cabin. If you can use nearby airports or flexible dates, mention that too. A specialist can then compare the available itineraries with you by phone." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-5", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              CallCta,
+              {
+                variant: "outline",
+                size: "md",
+                ocid: "flight_booking.us_intent_call_button"
+              }
+            ) })
           ] })
         ]
       }
@@ -44691,7 +45069,7 @@ function HeroSection() {
               children: "Flight booking help from a real travel specialist"
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "TicketDepart plans and books international and domestic flights, multi-city itineraries, and group travel — with a specialist on the phone around the clock. Tell us where you need to go and we will handle the routing, the fare rules, and the details." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "TicketDepart plans and books international and domestic flights, multi-city itineraries, and group travel for travelers across the United States — with a specialist on the phone around the clock. Tell us where you need to go and we will handle the routing, the fare rules, and the details." }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "home.hero_call_button" }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -44927,7 +45305,7 @@ function HowItWorks() {
     }
   );
 }
-const CHECKLIST$3 = [
+const CHECKLIST$4 = [
   {
     title: "Your departure and arrival cities",
     detail: "Airport names or codes if you know them — and whether nearby airports are acceptable."
@@ -44979,7 +45357,7 @@ function PreCallChecklist() {
             className: "[&_p:last-child]:text-primary-foreground/75"
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-12 grid gap-x-8 gap-y-6 sm:grid-cols-2", children: CHECKLIST$3.map((item, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-12 grid gap-x-8 gap-y-6 sm:grid-cols-2", children: CHECKLIST$4.map((item, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "li",
           {
             "data-ocid": `home.checklist_item.${index2 + 1}`,
@@ -45148,9 +45526,107 @@ function HomePage() {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(HeroSection, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "section",
+      {
+        className: "border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-12",
+        "aria-labelledby": "book-flight-phone-heading",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto flex max-w-6xl flex-col gap-5 lg:flex-row lg:items-center lg:justify-between", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Ready to book?" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "h2",
+              {
+                id: "book-flight-phone-heading",
+                className: "mt-2 text-balance text-2xl font-semibold leading-tight sm:text-3xl",
+                children: "Book a flight by phone with a travel specialist"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base", children: "Discuss your route, dates, cabin, baggage, and fare rules before you decide. Phone assistance is available 24/7." })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Link,
+            {
+              to: "/book-a-flight-by-phone",
+              className: "inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90",
+              children: [
+                "Book by phone ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", children: "→" })
+              ]
+            }
+          )
+        ] })
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceGrid, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(HowItWorks, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(PreCallChecklist, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "section",
+      {
+        className: "border-y border-border bg-muted/40 px-5 py-12 sm:px-8 sm:py-16",
+        "aria-labelledby": "phone-booking-guide-heading",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-6xl", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Need a little more detail?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "h2",
+            {
+              id: "phone-booking-guide-heading",
+              className: "mt-3 max-w-3xl text-balance text-2xl font-semibold leading-tight sm:text-3xl",
+              children: "Learn how booking a flight by phone works"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground", children: "See what to prepare before calling, which questions to ask about fares and changes, and how a phone booking typically moves from trip details to a confirmed ticket." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Link,
+            {
+              to: "/how-to-book-a-flight-by-phone",
+              className: "mt-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-card px-5 py-3 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground",
+              children: [
+                "Read the phone booking guide",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", children: "→" })
+              ]
+            }
+          )
+        ] })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "section",
+      {
+        className: "border-b border-border bg-muted/40 px-5 py-12 sm:px-8 sm:py-16",
+        "aria-labelledby": "airline-guides-heading",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-6xl", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Airline booking assistance" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "h2",
+            {
+              id: "airline-guides-heading",
+              className: "mt-3 max-w-3xl text-balance text-2xl font-semibold leading-tight sm:text-3xl",
+              children: "Planning around a specific airline?"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground", children: "Explore our practical booking guides for Delta Airlines, United Airlines, and American Airlines, or call a specialist if your trip uses more than one carrier." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-7 grid gap-3 sm:grid-cols-3", children: [
+            ["Delta Airlines booking assistance", "/delta-airlines"],
+            ["United Airlines booking assistance", "/united-airlines"],
+            ["American Airlines booking assistance", "/american-airlines"]
+          ].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Link,
+            {
+              to,
+              className: "rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle",
+              children: [
+                label,
+                " ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", children: "→" })
+              ]
+            },
+            to
+          )) })
+        ] })
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(HomeFaq, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(DisclosureBlock, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(ContactInfoBlock, {}),
@@ -45161,6 +45637,277 @@ function HomePage() {
       ". ",
       SITE.hours,
       "."
+    ] })
+  ] });
+}
+const PAGE_PATH = "/how-to-book-a-flight-by-phone";
+const PAGE_TITLE = "How to Book a Flight by Phone | TicketDepart";
+const PAGE_DESCRIPTION = "Learn how phone flight booking works, what information to prepare, what to ask about fares and changes, and when speaking with a travel specialist can help.";
+const FAQS$3 = [
+  {
+    question: "Can I book a flight entirely by phone?",
+    answer: "Yes. An independent travel specialist can review itinerary options with you and, when the agency can issue the ticket, complete the booking by phone after you confirm the itinerary, price, and applicable terms."
+  },
+  {
+    question: "What information should I have ready before calling?",
+    answer: "Have your departure and destination cities or airports, travel dates, number of travelers, preferred cabin, and any flexibility. For international trips, have the passenger names and travel-document details available when appropriate."
+  },
+  {
+    question: "Can a travel specialist help with multi-city flights?",
+    answer: "Yes. A specialist can discuss multi-city, open-jaw, and other complex itineraries and explain how the routing, connections, and fare rules differ from a simple round trip."
+  },
+  {
+    question: "Can I ask about baggage and change rules before paying?",
+    answer: "Yes. Ask which baggage is included, what the fare permits, whether changes are allowed, and what fees or fare differences may apply before you confirm a booking."
+  }
+];
+const CHECKLIST$3 = [
+  "Departure and destination cities or airport codes",
+  "Preferred departure and return dates",
+  "Number of travelers and passenger ages when relevant",
+  "Cabin preference: economy, premium economy, business, or first",
+  "Flexible dates or nearby airports you can use",
+  "Baggage, seating, accessibility, or other travel requirements"
+];
+function HowToBookFlightByPhonePage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Seo,
+      {
+        title: PAGE_TITLE,
+        description: PAGE_DESCRIPTION,
+        path: PAGE_PATH,
+        structuredData: [
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "How to Book a Flight by Phone", path: PAGE_PATH }
+          ]),
+          faqSchema(FAQS$3),
+          webPageSchema({
+            title: PAGE_TITLE,
+            description: PAGE_DESCRIPTION,
+            path: PAGE_PATH
+          }),
+          serviceSchema({
+            name: "Phone flight booking assistance",
+            description: PAGE_DESCRIPTION,
+            path: PAGE_PATH
+          })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "phone_booking_guide.hero", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { "aria-label": "Breadcrumb", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ol", { className: "flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "font-medium hover:text-foreground", children: "Home" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { "aria-hidden": "true", className: "text-border", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "span",
+          {
+            "aria-current": "page",
+            className: "font-semibold text-foreground",
+            children: "How to Book a Flight by Phone"
+          }
+        ) })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto mt-10 max-w-4xl", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Phone booking guide" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl", children: "How to book a flight by phone" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "Booking by phone can be useful when your trip is more complicated than a simple search. A travel specialist can talk through dates, airports, connections, cabin options, baggage, and fare rules with you before you decide what to book." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "phone_booking_guide.call_button" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Link,
+            {
+              to: "/flight-booking",
+              className: "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground",
+              children: [
+                "See flight booking services",
+                /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { "aria-hidden": "true", className: "size-4" })
+              ]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-5 flex items-center gap-2 text-sm text-muted-foreground", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4 text-accent" }),
+          SITE.hours,
+          " · ",
+          SITE.phoneDisplay
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: "phone_booking_guide.steps", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "The process",
+          title: "What happens when you book by phone",
+          description: "The exact process depends on the travel provider and itinerary, but these are the practical steps to work through before a ticket is issued."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "mt-12 grid gap-6 md:grid-cols-3", children: [
+        {
+          number: "01",
+          title: "Explain the trip",
+          text: "Give the departure and destination, dates, travelers, cabin preference, and any flexibility. Mention nearby airports or alternate dates if you can use them."
+        },
+        {
+          number: "02",
+          title: "Compare the itinerary",
+          text: "Review departure times, airports, connections, airline, cabin, baggage terms, change rules, and the complete price. Ask questions before agreeing to anything."
+        },
+        {
+          number: "03",
+          title: "Confirm the booking",
+          text: "Once you choose an itinerary, verify passenger names and the final terms. A booking is complete only after the responsible travel provider issues the ticket and confirmation."
+        }
+      ].map((step) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "li",
+        {
+          className: "rounded-2xl border border-border bg-card p-6 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "label-board text-accent", children: step.number }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 font-display text-lg font-semibold", children: step.title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: step.text })
+          ]
+        },
+        step.number
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "paper", ocid: "phone_booking_guide.checklist", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-10 lg:grid-cols-2 lg:items-start", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          SectionHeading,
+          {
+            eyebrow: "Before you call",
+            title: "Have these details ready",
+            description: "You do not need every detail before the call, but having the basics ready makes the conversation faster and reduces avoidable mistakes."
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-8 space-y-4", children: CHECKLIST$3.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-start gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            CircleCheck,
+            {
+              "aria-hidden": "true",
+              className: "mt-0.5 size-5 shrink-0 text-accent"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm leading-relaxed text-foreground", children: item })
+        ] }, item)) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-border bg-card p-6 shadow-subtle sm:p-7", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-xl font-semibold", children: "Questions worth asking" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "mt-5 space-y-4 text-sm leading-relaxed text-muted-foreground", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "What is the complete price, including taxes and any agency fee?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "What baggage is included with this fare?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "What are the change and cancellation rules?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Are there alternative airports or dates that change the itinerary?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Who will issue the ticket and provide the confirmation?" })
+        ] })
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: "phone_booking_guide.when_helpful", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "When it helps",
+          title: "Phone booking is especially useful for complicated trips",
+          description: "A phone conversation can be useful when the itinerary needs more context than a basic origin-and-destination search provides."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4", children: [
+        [
+          "Multi-city",
+          "Three or more cities, open-jaw trips, or unusual routing."
+        ],
+        [
+          "International",
+          "Long connections, multiple airports, and document questions."
+        ],
+        [
+          "Premium cabins",
+          "Business or first class where cabin and aircraft details matter."
+        ],
+        [
+          "Groups",
+          "Families, teams, or groups that need coordinated travel."
+        ]
+      ].map(([title, text]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "article",
+        {
+          className: "rounded-2xl border border-border bg-card p-6 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-lg font-semibold", children: title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: text })
+          ]
+        },
+        title
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "phone_booking_guide.related", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "Continue planning",
+          title: "Explore airline-specific booking help",
+          description: "If you already know which airline you want to fly, these guides cover booking, cabin options, connections, and changes for that carrier."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-4 sm:grid-cols-3", children: [
+        ["Delta Airlines", "/delta-airlines"],
+        ["United Airlines", "/united-airlines"],
+        ["American Airlines", "/american-airlines"]
+      ].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        Link,
+        {
+          to,
+          className: "group rounded-2xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:shadow-elevated",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-display text-base font-semibold text-foreground", children: [
+              label,
+              " booking assistance"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary", children: [
+              "Read the guide",
+              " ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                ArrowRight,
+                {
+                  "aria-hidden": "true",
+                  className: "size-4 transition-smooth group-hover:translate-x-0.5"
+                }
+              )
+            ] })
+          ]
+        },
+        to
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "navy", ocid: "phone_booking_guide.cta", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-3xl text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "TicketDepart" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 text-balance text-3xl font-semibold leading-tight sm:text-4xl", children: "Want to talk through your itinerary?" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 text-pretty text-base leading-relaxed text-primary-foreground/80 sm:text-lg", children: "TicketDepart is an independent travel agency. Tell us your route, dates, travelers, and preferences, and a specialist can discuss the booking options with you." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "phone_booking_guide.cta_call_button" }) })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "phone_booking_guide.faq", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "FAQ",
+          title: "Questions about booking flights by phone",
+          description: "Practical answers before you call."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto mt-10 max-w-3xl space-y-4", children: FAQS$3.map((faq) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "details",
+        {
+          className: "rounded-2xl border border-border bg-card p-5 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("summary", { className: "cursor-pointer font-semibold text-foreground", children: faq.question }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: faq.answer })
+          ]
+        },
+        faq.question
+      )) })
     ] })
   ] });
 }
@@ -46121,7 +46868,7 @@ const CABINS$1 = [
   },
   {
     name: "Comfort+",
-    body: "A extra-legroom economy cabin on many Delta Airlines mainline aircraft, with more recline and earlier boarding than standard Main Cabin. It is a seat-and-space upgrade rather than a separate service class, and availability varies by aircraft and route."
+    body: "An extra-legroom economy cabin on many Delta Airlines mainline aircraft, with more recline and earlier boarding than standard Main Cabin. It is a seat-and-space upgrade rather than a separate service class, and availability varies by aircraft and route."
   },
   {
     name: "First Class",
@@ -46929,6 +47676,16 @@ const indexRoute = createRoute({
   path: "/",
   component: HomePage
 });
+const howToBookFlightByPhoneRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/how-to-book-a-flight-by-phone",
+  component: HowToBookFlightByPhonePage
+});
+const bookAFlightByPhoneRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/book-a-flight-by-phone",
+  component: BookAFlightByPhonePage
+});
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
@@ -46972,6 +47729,8 @@ const adminLeadsRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   flightBookingRoute,
+  bookAFlightByPhoneRoute,
+  howToBookFlightByPhoneRoute,
   deltaRoute,
   unitedRoute,
   americanRoute,

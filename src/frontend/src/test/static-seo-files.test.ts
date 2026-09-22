@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
  * The sitemap and robots file are static assets served from `public/`. They are
  * not rendered by React, so no component test reaches them; this reads them
  * from disk instead. Only the parts intended to stay stable are asserted here:
- * the eight canonical URLs and the robots crawl/sitemap directives. The
+ * the ten canonical URLs and the robots crawl/sitemap directives. The
  * `lastmod` element is being added intentionally, so its absence is not frozen.
  *
  * Vitest runs with the frontend package as its working directory, so `public/`
@@ -22,6 +22,8 @@ function readPublicFile(name: string): string {
 const CANONICAL_PATHS = [
   "/",
   "/flight-booking",
+  "/book-a-flight-by-phone",
+  "/how-to-book-a-flight-by-phone",
   "/delta-airlines",
   "/united-airlines",
   "/american-airlines",
@@ -31,7 +33,7 @@ const CANONICAL_PATHS = [
 ] as const;
 
 describe("sitemap.xml", () => {
-  it("lists all eight canonical URLs", () => {
+  it("lists all ten canonical URLs", () => {
     const sitemap = readPublicFile("sitemap.xml");
     const locs = Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)).map(
       (match) => match[1],

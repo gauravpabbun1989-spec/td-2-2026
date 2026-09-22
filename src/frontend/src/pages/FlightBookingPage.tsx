@@ -1,7 +1,12 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
-import { breadcrumbSchema, faqSchema, serviceSchema, webPageSchema } from "@/lib/seo";
+import {
+  breadcrumbSchema,
+  faqSchema,
+  serviceSchema,
+  webPageSchema,
+} from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import {
@@ -18,9 +23,9 @@ import {
 } from "lucide-react";
 
 const PAGE_PATH = "/flight-booking";
-const PAGE_TITLE = "Flight Booking by Phone | TicketDepart 24/7";
+const PAGE_TITLE = "Flight Booking Assistance by Phone | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Book domestic, international, multi-city, premium-cabin, or group flights by phone with TicketDepart. Call +1 855-544-9001, 24/7.";
+  "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
@@ -44,7 +49,8 @@ const FAQS = [
       "Yes. We can discuss business, first, and premium economy options and explain differences in cabin, schedule, and fare conditions.",
   },
   {
-    question: "Is TicketDepart affiliated with Delta, United, or American Airlines?",
+    question:
+      "Is TicketDepart affiliated with Delta, United, or American Airlines?",
     answer:
       "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by any airline. Airline names and trademarks belong to their respective owners.",
   },
@@ -185,7 +191,20 @@ export function FlightBookingPage() {
         title={PAGE_TITLE}
         description={PAGE_DESCRIPTION}
         path={PAGE_PATH}
-        structuredData={[breadcrumbSchema([...BREADCRUMBS]), faqSchema(FAQS), webPageSchema({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, path: PAGE_PATH }), serviceSchema({ name: "Flight booking assistance", description: PAGE_DESCRIPTION, path: PAGE_PATH })]}
+        structuredData={[
+          breadcrumbSchema([...BREADCRUMBS]),
+          faqSchema(FAQS),
+          webPageSchema({
+            title: PAGE_TITLE,
+            description: PAGE_DESCRIPTION,
+            path: PAGE_PATH,
+          }),
+          serviceSchema({
+            name: "Flight booking assistance",
+            description: PAGE_DESCRIPTION,
+            path: PAGE_PATH,
+          }),
+        ]}
       />
 
       <Section tone="paper" ocid="flight_booking.page">
@@ -440,44 +459,6 @@ export function FlightBookingPage() {
 
       <Section
         tone="paper"
-        ocid="flight_booking.intent_hub"
-        aria-labelledby="flight_booking_intent_hub_heading"
-      >
-        <SectionHeading
-          id="flight_booking_intent_hub_heading"
-          eyebrow="Choose your trip type"
-          title="Find the flight-booking help that matches your situation"
-          description="Start with the page that best describes your trip. Each guide explains what to prepare and gives you a direct way to speak with a specialist."
-        />
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            ["Book a flight by phone", "/book-a-flight-by-phone"],
-            ["Flight booking phone number", "/flight-booking-phone-number"],
-            ["International flights", "/international-flight-booking"],
-            ["Last-minute flights", "/last-minute-flight-booking"],
-            ["Same-day flights", "/same-day-flight-booking"],
-            ["Multi-city flights", "/multi-city-flight-booking"],
-            ["Group & family flights", "/group-flight-booking"],
-            ["Domestic flights", "/domestic-flight-booking"],
-            ["Business class", "/business-class-flight-booking"],
-            ["One-way flights", "/one-way-flight-booking"],
-            ["Travel agent by phone", "/travel-agent-by-phone"],
-            ["Flight changes & rebooking", "/flight-change-rebooking"],
-            ["Book for someone else", "/book-flight-for-someone-else"],
-          ].map(([label, to]) => (
-            <Link
-              key={to}
-              to={to}
-              className="rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle"
-            >
-              {label} <span aria-hidden="true">→</span>
-            </Link>
-          ))}
-        </div>
-      </Section>
-
-      <Section
-        tone="paper"
         ocid="flight_booking.airlines"
         aria-labelledby="flight_booking_airlines_heading"
       >
@@ -514,9 +495,12 @@ export function FlightBookingPage() {
         </div>
 
         <div className="mt-8 rounded-2xl border border-border bg-muted/40 p-6">
-          <h3 className="font-display text-lg font-semibold">Prefer to prepare before you call?</h3>
+          <h3 className="font-display text-lg font-semibold">
+            Prefer to prepare before you call?
+          </h3>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Our guide explains what to have ready and which fare, baggage, change, and ticketing questions are worth asking.
+            Our guide explains what to have ready and which fare, baggage,
+            change, and ticketing questions are worth asking.
           </p>
           <Link
             to="/how-to-book-a-flight-by-phone"
@@ -579,10 +563,10 @@ export function FlightBookingPage() {
             Looking for a specific U.S. route?
           </h3>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Tell us the departure airport, destination, dates, number of travelers,
-            and preferred cabin. If you can use nearby airports or flexible dates,
-            mention that too. A specialist can then compare the available
-            itineraries with you by phone.
+            Tell us the departure airport, destination, dates, number of
+            travelers, and preferred cabin. If you can use nearby airports or
+            flexible dates, mention that too. A specialist can then compare the
+            available itineraries with you by phone.
           </p>
           <div className="mt-5">
             <CallCta

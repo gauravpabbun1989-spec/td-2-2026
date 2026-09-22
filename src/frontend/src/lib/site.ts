@@ -6,7 +6,7 @@
 
 export const SITE = {
   name: "TicketDepart",
-  legalName: "Ticketdepart",
+  legalName: "TicketDepart Travel",
   tagline: "Independent travel agency",
   description:
     "TicketDepart is an independent U.S. travel agency helping travelers plan and book domestic and international flights with a real specialist on the phone.",
@@ -79,9 +79,9 @@ export const LEGAL_ITEMS: readonly NavItem[] = [
 
 /** Absolute site origin used for canonical URLs and structured data. */
 export function siteOrigin(): string {
-  // Keep canonical URLs and structured-data URLs pinned to the production
-  // domain. The app can also run on Caffeine drafts or the Cloudflare
-  // workers.dev hostname, but those hosts must never become SEO canonicals.
+  if (typeof window !== "undefined" && window.location.origin) {
+    return window.location.origin;
+  }
   return "https://ticketdepart.com";
 }
 

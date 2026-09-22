@@ -1,8 +1,0 @@
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "ticket-depart2",
-  "compatibility_date": "2026-09-21",
-  "assets": {
-    "directory": "./src/frontend/dist"
-  }
-}
