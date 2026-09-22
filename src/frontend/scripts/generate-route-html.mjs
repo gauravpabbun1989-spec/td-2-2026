@@ -5,6 +5,12 @@ const distDir = path.resolve("dist");
 const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 
 const routes = {
+  "/flight-booking-guides": {
+    title: "Flight Booking Guides & Phone Assistance | TicketDepart",
+    description: "Practical flight-booking guides from TicketDepart covering phone booking, international, last-minute, multi-city, group, family, premium-cabin, and flight-change questions.",
+    heading: "Practical help for planning and booking flights",
+    text: "Use TicketDepart flight-booking guides to prepare your trip details, understand common booking questions, and decide when phone assistance can help."
+  },
   "/flight-booking-phone-number": {
     title: "Flight Booking Phone Number | TicketDepart",
     description: "Need a flight booking phone number? Call TicketDepart at +1 855-544-9001 for independent domestic or international booking assistance, 24/7.",
