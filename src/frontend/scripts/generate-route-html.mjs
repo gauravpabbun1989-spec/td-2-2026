@@ -5,6 +5,30 @@ const distDir = path.resolve("dist");
 const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 
 const routes = {
+  "/book-a-flight-by-phone": {
+    title: "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart",
+    description: "Book a flight by phone with an independent travel specialist. Discuss routes, dates, cabins, connections, and fare conditions at +1 855-544-9001.",
+    heading: "Book a flight by phone with a travel specialist",
+    text: "Speak with a TicketDepart specialist about domestic or international flight booking, itinerary details, and fare conditions.",
+  },
+  "/how-to-book-a-flight-by-phone": {
+    title: "How to Book a Flight by Phone | TicketDepart",
+    description: "Learn how phone flight booking works, what details to prepare, and what questions to ask before confirming an itinerary with TicketDepart.",
+    heading: "How to book a flight by phone",
+    text: "Prepare your route, dates, travelers, cabin preferences, and questions before speaking with a TicketDepart travel specialist.",
+  },
+  "/travel-agent-by-phone": {
+    title: "Travel Agent by Phone | Flight Booking Help | TicketDepart",
+    description: "Speak with an independent travel agent by phone for flight booking help, complex itineraries, premium cabins, and urgent travel planning. TicketDepart is available 24/7.",
+    heading: "Talk to a travel agent by phone about your flight",
+    text: "Discuss your flight plans, traveler needs, itinerary details, and booking questions with a TicketDepart specialist.",
+  },
+  "/flight-change-rebooking": {
+    title: "Flight Change & Rebooking Assistance by Phone | TicketDepart",
+    description: "Need to change a flight? Speak with a TicketDepart travel specialist about date, time, route, and rebooking options. Independent phone assistance available 24/7.",
+    heading: "Flight change and rebooking help by phone",
+    text: "Review your existing ticket, preferred new travel details, fare conditions, and available rebooking options with a specialist.",
+  },
   "/international-flight-booking": {
     title: "International Flight Booking Assistance by Phone | TicketDepart",
     description: "Plan international flights with a travel specialist. Get help comparing routes, connections, cabins, and fare conditions by phone at +1 855-544-9001.",

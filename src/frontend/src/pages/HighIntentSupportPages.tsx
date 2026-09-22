@@ -6,7 +6,7 @@ import { breadcrumbSchema, faqSchema, serviceSchema, webPageSchema } from "@/lib
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 
-type SupportPage = "travelAgent" | "flightChange";
+type SupportPage = "travelAgent" | "flightChange" | "bookForSomeoneElse";
 
 const PAGES = {
   travelAgent: {
@@ -123,6 +123,65 @@ const PAGES = {
       ["Same-day flight booking", "/same-day-flight-booking"],
       ["Last-minute flight booking", "/last-minute-flight-booking"],
       ["Flight booking assistance", "/flight-booking-assistance"],
+    ],
+  },
+},
+  bookForSomeoneElse: {
+    path: "/book-flight-for-someone-else",
+    title: "Book a Flight for Someone Else | TicketDepart",
+    description:
+      "Need to book a flight for a family member, employee, friend, or client? Speak with a TicketDepart travel specialist about the traveler details and booking process.",
+    eyebrow: "Booking for someone else",
+    heading: "Book a flight for someone else with phone assistance",
+    intro:
+      "Booking for another traveler can add details that are easy to enter incorrectly. TicketDepart can help you organize the traveler's information and discuss the booking process by phone.",
+    points: [
+      "Family and friend travel",
+      "Employee and business travel",
+      "Client and guest travel",
+      "Domestic or international tickets",
+      "Traveler name and trip-detail checks",
+      "Questions about payment and booking details",
+    ],
+    sections: [
+      {
+        title: "Traveler details matter",
+        body:
+          "Have the traveler's name exactly as required by the airline and the dates, cities, and cabin you need. Requirements can vary by carrier and itinerary, so the specialist will tell you what information is needed for the booking.",
+      },
+      {
+        title: "The person paying may be different",
+        body:
+          "The person arranging or paying for a ticket can be different from the person traveling. The booking details must still match the traveler and any airline requirements that apply to the itinerary.",
+      },
+      {
+        title: "Review before confirming",
+        body:
+          "Before a booking is confirmed, review the traveler details, routing, dates, cabin, baggage conditions, and fare rules. TicketDepart does not guarantee a specific price, seat, or airline inventory before confirmation.",
+      },
+    ],
+    faq: [
+      [
+        "Can I book a flight for someone else?",
+        "Yes. Call TicketDepart to discuss the trip and the information required for the traveler. The person arranging or paying for the booking may be different from the traveler.",
+      ],
+      [
+        "What information should I have ready for the traveler?",
+        "Have the traveler's name and trip details ready, including the origin, destination, dates, number of travelers, and preferred cabin. Exact airline requirements can vary.",
+      ],
+      [
+        "Can I pay for another person's flight?",
+        "Payment arrangements depend on the booking and airline requirements. A specialist can explain the applicable process before you confirm the ticket.",
+      ],
+      [
+        "Are you the airline's official booking department?",
+        "No. TicketDepart is an independent U.S. travel agency and is not affiliated with, endorsed by, or sponsored by any airline.",
+      ],
+    ],
+    related: [
+      ["Family flight booking", "/family-flight-booking"],
+      ["Group flight booking", "/group-flight-booking"],
+      ["Book a flight by phone", "/book-a-flight-by-phone"],
     ],
   },
 } as const;
@@ -270,4 +329,8 @@ export function TravelAgentByPhonePage() {
 
 export function FlightChangeRebookingPage() {
   return <SupportPage kind="flightChange" />;
+}
+
+export function BookFlightForSomeoneElsePage() {
+  return <SupportPage kind="bookForSomeoneElse" />;
 }

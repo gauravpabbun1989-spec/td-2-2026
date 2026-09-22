@@ -73,6 +73,8 @@ export function HomePage() {
               ["Business class", "/business-class-flight-booking"],
               ["One-way flights", "/one-way-flight-booking"],
               ["Family flights", "/family-flight-booking"],
+              ["Travel agent by phone", "/travel-agent-by-phone"],
+              ["Flight changes & rebooking", "/flight-change-rebooking"],
             ].map(([label, to]) => (
               <Link key={to} to={to} className="rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle">
                 {label} <span aria-hidden="true">→</span>
