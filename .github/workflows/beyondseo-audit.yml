@@ -1,0 +1,44 @@
+name: BeyondSEO audit
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install BeyondSEO
+        env:
+          BEYONDSEO_DIR: ${{ runner.temp }}/beyondseo
+          BEYONDSEO_RUNTIME: ${{ runner.temp }}/beyondseo-runtime
+        run: |
+          git clone --depth 1 --branch main https://github.com/beyondtahir/beyondseo.git "$BEYONDSEO_DIR"
+          python "$BEYONDSEO_DIR/scripts/setup.py" --http-only --venv "$BEYONDSEO_RUNTIME"
+
+      - name: Crawl TicketDepart
+        env:
+          BEYONDSEO_DIR: ${{ runner.temp }}/beyondseo
+          BEYONDSEO_RUNTIME: ${{ runner.temp }}/beyondseo-runtime
+        run: |
+          rm -rf beyondseo-audit
+          python "$BEYONDSEO_DIR/scripts/run.py" --runtime "$BEYONDSEO_RUNTIME" crawl https://ticketdepart.com --out "$GITHUB_WORKSPACE/beyondseo-audit" --max-pages 50 --mode http
+
+      - name: Upload BeyondSEO report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: beyondseo-audit
+          path: beyondseo-audit/
