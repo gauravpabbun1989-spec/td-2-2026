@@ -32,40 +32,20 @@ Increase qualified organic traffic to https://ticketdepart.com and convert that 
 9. Traveler-specific needs where the business genuinely provides useful assistance
 10. Destination/airport intent only where a page can provide substantial unique value
 
-## Competitor research findings
-Current search results show that phone-booking travel sites commonly emphasize:
-- live human assistance
-- 24/7 availability
-- complex/multi-city/group itineraries
-- international booking
-- clear independent-agency disclosures
-- callback/request forms
-- airline and destination coverage
+## Search-demand loop
+Use Search Console query/page data to identify:
+- impressions with low CTR
+- queries already producing impressions
+- pages ranking outside the strongest positions
+- pages producing phone clicks
+- new query clusters worth expanding
 
-TicketDepart should compete on usefulness and clarity, not by copying competitor claims or publishing unsupported guarantees.
-
-## BeyondSEO operating loop
-Run BeyondSEO against the live site after meaningful releases:
-1. crawl the site
-2. inspect coverage and render errors
-3. inspect titles/meta/headings/internal links
-4. inspect sitemap discovery
-5. review structured-data/readiness findings
-6. fix high-impact issues
-7. crawl again
-8. record the result in the project log
-
-Current known BeyondSEO baseline:
-- Python 3.13.13
-- HTTP crawling available
-- Playwright/Chromium was not installed in the previous environment
-- Previous crawl found 8 pages, 15 medium findings and limited rendered coverage
-- The website has since grown, so a fresh crawl is required before treating that baseline as current.
+Use an external/local SEO crawler when a technical crawl is needed. Keep crawler configuration, third-party tools, credentials, generated audit output and temporary audit repositories outside this website repository.
 
 ## 30-day execution plan
 
 ### Phase 1 — Technical/indexing foundation
-- Fresh BeyondSEO crawl
+- Fresh external/local crawl
 - Verify all live sitemap URLs
 - Verify every intended route has crawlable HTML
 - Fix render/crawl errors
@@ -85,13 +65,6 @@ Expand only where the page can provide meaningful, unique value. Candidate areas
 - complex itinerary help
 
 ### Phase 3 — Search demand capture
-Use Search Console query/page data to identify:
-- impressions with low CTR
-- queries already producing impressions
-- pages ranking outside the strongest positions
-- pages producing phone clicks
-- new query clusters worth expanding
-
 Prioritize improvements from observed demand rather than publishing hundreds of speculative pages.
 
 ### Phase 4 — CRO
@@ -136,4 +109,4 @@ Existing priority pages include:
 - /american-airlines
 
 ## Immediate next action
-Run a fresh BeyondSEO crawl of the live site, then use the results together with Search Console and GA4 to choose the next high-impact technical/content changes.
+Use the current live site, Search Console and GA4 data to choose the next high-impact technical/content changes. Run any external/local crawler separately from the repository.
