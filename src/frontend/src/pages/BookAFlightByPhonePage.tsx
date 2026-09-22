@@ -9,7 +9,7 @@ import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 const PAGE_PATH = "/book-a-flight-by-phone";
 const PAGE_TITLE = "Book a Flight by Phone | TicketDepart 24/7";
 const PAGE_DESCRIPTION =
-  "Book a domestic or international flight by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with an independent travel specialist.";
+  "Book a domestic or international flight by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with an independent specialist.";
 
 const FAQS = [
   {
