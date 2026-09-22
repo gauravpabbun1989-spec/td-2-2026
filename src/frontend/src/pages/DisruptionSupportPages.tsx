@@ -45,10 +45,7 @@ type Kind = keyof typeof PAGES;
 
 function SupportPage({ kind }: { kind: Kind }) {
   const page = PAGES[kind];
-  const faq: { question: string; answer: string }[] = page.faq.map((item) => {
-    const [question, answer] = item;
-    return { question, answer };
-  });
+  const faq: { question: string; answer: string }[] = page.faq.map(([question, answer]) => ({ question, answer }));
   const breadcrumbs = [{ name: "Home", path: "/" }, { name: "Flight Booking", path: "/flight-booking" }, { name: page.heading, path: page.path }];
   return (
     <>
