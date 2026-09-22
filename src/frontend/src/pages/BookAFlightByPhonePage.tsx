@@ -15,7 +15,7 @@ const PAGE_PATH = "/book-a-flight-by-phone";
 const PAGE_TITLE =
   "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Book a domestic or international flight by phone with an independent U.S. travel agency. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
+  "Book a domestic or international flight by phone with an independent U.S. travel agency serving travelers in the USA, Canada, Mexico, and UK. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
 
 const FAQS = [
   {
@@ -130,6 +130,10 @@ export function BookAFlightByPhonePage() {
           <p className="mt-5 flex items-center gap-2 text-sm text-muted-foreground">
             <Phone aria-hidden="true" className="size-4 text-accent" />
             {SITE.hours} · {SITE.phoneDisplay}
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Serving travelers in the USA, Canada, Mexico, and UK · English-speaking support
+          </p>
           </p>
         </div>
       </Section>
