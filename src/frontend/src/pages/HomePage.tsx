@@ -60,6 +60,7 @@ export function HomePage() {
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">
             Explore focused guides for international travel, urgent departures, multi-city itineraries, and family or group trips.
           </p>
+          <Link to="/flight-booking-guides" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary">Browse all flight-booking guides <span aria-hidden="true">→</span></Link>
           <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[
               ["Flight booking help", "/flight-booking-assistance"],
