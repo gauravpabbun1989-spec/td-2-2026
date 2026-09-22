@@ -13,7 +13,7 @@ const routes = {
   },
   "/book-a-flight-by-phone": {
     title: "Book a Flight by Phone | TicketDepart 24/7",
-    description: "Book a domestic or international flight by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with an independent travel specialist.",
+    description: "Book a domestic or international flight by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with an independent specialist.",
     heading: "Book a flight by phone with a travel specialist",
     text: "Speak with a TicketDepart specialist about domestic or international flight booking, itinerary details, and fare conditions.",
   },
