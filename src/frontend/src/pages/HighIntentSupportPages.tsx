@@ -125,7 +125,6 @@ const PAGES = {
       ["Flight booking assistance", "/flight-booking-assistance"],
     ],
   },
-},
   bookForSomeoneElse: {
     path: "/book-flight-for-someone-else",
     title: "Book a Flight for Someone Else | TicketDepart",
