@@ -11,6 +11,7 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Notify IndexNow of sitemap URLs
         env:
           INDEXNOW_KEY: ticketdepart-indexnow-2026-09-22-7f4c9a21d8b3e6a5
