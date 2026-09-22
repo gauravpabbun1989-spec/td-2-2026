@@ -77,7 +77,7 @@ function BookingIntentPage({ kind }: { kind: Key }) {
         path={page.path}
         structuredData={[
           breadcrumbSchema(breadcrumbs),
-          faqSchema(page.faq.map(([question, answer]) => ({ question, answer }))),
+          faqSchema(page.faq.map(([question, answer]: readonly [string, string]) => ({ question, answer }))),
           webPageSchema({ title: page.title, description: page.description, path: page.path }),
           serviceSchema({ name: page.heading, description: page.description, path: page.path }),
         ]}
@@ -113,7 +113,7 @@ function BookingIntentPage({ kind }: { kind: Key }) {
       </Section>
       <Section tone="paper">
         <SectionHeading eyebrow="Questions" title="Frequently asked questions" description="Straight answers before you call." />
-        <dl className="mt-10 grid gap-4 lg:grid-cols-2">{page.faq.map(([question, answer]) => <div key={question} className="rounded-2xl border border-border bg-card p-6"><dt className="font-display text-base font-semibold">{question}</dt><dd className="mt-3 text-sm leading-relaxed text-muted-foreground">{answer}</dd></div>)}</dl>
+        <dl className="mt-10 grid gap-4 lg:grid-cols-2">{page.faq.map(([question, answer]: readonly [string, string]) => <div key={question} className="rounded-2xl border border-border bg-card p-6"><dt className="font-display text-base font-semibold">{question}</dt><dd className="mt-3 text-sm leading-relaxed text-muted-foreground">{answer}</dd></div>)}</dl>
       </Section>
       <Section tone="navy">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
