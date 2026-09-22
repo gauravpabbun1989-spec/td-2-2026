@@ -6,14 +6,14 @@ const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 
 const routes = {
   "/flight-booking-phone-number": {
-    title: "Flight Booking Phone Number | Talk to a Travel Specialist | TicketDepart",
-    description: "Looking for a flight booking phone number? Call TicketDepart at +1 855-544-9001 to discuss domestic or international travel with an independent travel specialist, 24/7.",
+    title: "Flight Booking Phone Number | TicketDepart",
+    description: "Need a flight booking phone number? Call TicketDepart at +1 855-544-9001 for independent domestic or international booking assistance, 24/7.",
     heading: "Need a phone number to book a flight?",
     text: "Call TicketDepart at +1 855-544-9001 to discuss your route, dates, travelers, cabin, connections, and booking questions with an independent travel specialist.",
   },
   "/book-a-flight-by-phone": {
-    title: "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart",
-    description: "Book a flight by phone with an independent travel specialist. Discuss routes, dates, cabins, connections, and fare conditions at +1 855-544-9001.",
+    title: "Book a Flight by Phone | TicketDepart 24/7",
+    description: "Book a domestic or international flight by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with an independent travel specialist.",
     heading: "Book a flight by phone with a travel specialist",
     text: "Speak with a TicketDepart specialist about domestic or international flight booking, itinerary details, and fare conditions.",
   },
@@ -114,26 +114,26 @@ const routes = {
     text: "Organize family travelers, schedules, connections, cabins, seating preferences, and fare conditions with a specialist.",
   },
   "/flight-booking": {
-    title: "Flight Booking Assistance | TicketDepart",
-    description: "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.",
+    title: "Flight Booking by Phone | TicketDepart 24/7",
+    description: "Book domestic, international, multi-city, premium-cabin, or group flights by phone with an independent TicketDepart travel specialist. Call +1 855-544-9001, 24/7.",
     heading: "Flight booking help from a real travel specialist",
     text: "Get practical help comparing flight options, complicated itineraries, premium cabins, group travel, and booking details by phone.",
   },
   "/delta-airlines": {
-    title: "Delta Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Call +1 855-544-9001.",
+    title: "Delta Airlines Flight Booking by Phone | TicketDepart",
+    description: "Book Delta Airlines flights by phone with an independent TicketDepart travel specialist. Discuss domestic, international, multi-city, and premium-cabin trips at +1 855-544-9001.",
     heading: "Delta Airlines flight bookings handled by a real travel specialist",
     text: "Get independent travel assistance for Delta Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and premium cabins.",
   },
   "/united-airlines": {
-    title: "United Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 855-544-9001.",
+    title: "United Airlines Flight Booking by Phone | TicketDepart",
+    description: "Book United Airlines flights by phone with an independent TicketDepart travel specialist. Discuss domestic, international, multi-city, and premium-cabin trips at +1 855-544-9001.",
     heading: "United Airlines flight itineraries planned and booked by phone",
     text: "Get independent travel assistance for United Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and premium cabins.",
   },
   "/american-airlines": {
-    title: "American Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency for American Airlines bookings — domestic, international, multi-city, cabin options, and rebooking help. Call +1 855-544-9001.",
+    title: "American Airlines Flight Booking by Phone | TicketDepart",
+    description: "Book American Airlines flights by phone with an independent TicketDepart travel specialist. Discuss domestic, international, multi-city, and cabin options at +1 855-544-9001.",
     heading: "American Airlines trips booked with a travel specialist",
     text: "Get independent travel assistance for American Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and cabin options.",
   },
