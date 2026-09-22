@@ -32,7 +32,7 @@ function captureFirstTouch() {
       if (value) values[key] = value;
     }
     for (const [key, value] of Object.entries(values)) {
-      const storageKey = "td_first_" + key;
+      const storageKey = `td_first_${key}`;
       if (!sessionStorage.getItem(storageKey)) sessionStorage.setItem(storageKey, value);
     }
   } catch {
