@@ -220,7 +220,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
       <Section tone="muted" ocid={`${id}.services`}>
         <SectionHeading eyebrow="What we can discuss" title={`${page.name} travel support`} description="Start with your route, dates, traveler details, or existing reservation. A specialist can work through the options that apply." />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {page.services.map(([title, body], index) => (
+          {page.services.map(([title, body]) => (
             <article key={title} className="rounded-2xl border border-border bg-card p-6 shadow-subtle">
               <CheckCircle2 className="size-5 text-accent" />
               <h2 className="mt-4 font-display text-lg font-semibold">{title}</h2>
