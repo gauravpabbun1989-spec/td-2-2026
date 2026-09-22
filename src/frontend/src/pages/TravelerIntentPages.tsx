@@ -11,8 +11,8 @@ type PageKey = "domestic" | "business" | "oneWay" | "family";
 const CONFIG = {
   domestic: {
     path: "/domestic-flight-booking",
-    title: "Domestic Flight Booking Assistance by Phone | TicketDepart",
-    description: "Book a domestic U.S. flight with help from an independent travel specialist. Discuss routes, airports, dates, connections, cabins, and fare conditions at +1 855-544-9001.",
+    title: "Domestic Flight Booking by Phone | TicketDepart",
+    description: "Book a domestic U.S. flight by phone with an independent TicketDepart travel specialist. Discuss routes, dates, airports, and fare conditions.",
     eyebrow: "Domestic flights",
     heading: "Domestic flight booking help from a real travel specialist",
     intro: "For a straightforward trip, online booking may be fastest. When dates, airports, connections, travelers, or fare rules make the choice less obvious, TicketDepart can help you work through the options by phone.",
@@ -27,8 +27,8 @@ const CONFIG = {
   },
   business: {
     path: "/business-class-flight-booking",
-    title: "Business Class Flight Booking Assistance | TicketDepart",
-    description: "Plan business class and premium-cabin flights with an independent travel specialist. Discuss routes, schedules, connections, and fare conditions by phone.",
+    title: "Business Class Flight Booking by Phone | TicketDepart",
+    description: "Plan business class and premium-cabin flights by phone with TicketDepart. Discuss routes, schedules, connections, and fare conditions.",
     eyebrow: "Premium cabins",
     heading: "Business class flight booking assistance by phone",
     intro: "Premium-cabin trips can involve different schedules, connection choices, baggage rules, and fare conditions. Talk through the itinerary with a specialist before you decide.",
@@ -43,8 +43,8 @@ const CONFIG = {
   },
   oneWay: {
     path: "/one-way-flight-booking",
-    title: "One-Way Flight Booking Assistance by Phone | TicketDepart",
-    description: "Need a one-way flight? Speak with a TicketDepart travel specialist about routes, dates, connections, cabins, and fare conditions at +1 855-544-9001.",
+    title: "One-Way Flight Booking by Phone | TicketDepart",
+    description: "Need a one-way flight? Call TicketDepart to discuss routes, dates, connections, cabins, and fare conditions with a specialist.",
     eyebrow: "One-way travel",
     heading: "One-way flight booking help by phone",
     intro: "One-way travel can be simple or surprisingly complicated when you have flexible dates, international travel, multiple stops, or a specific arrival requirement. A specialist can help organize the options.",
@@ -59,8 +59,8 @@ const CONFIG = {
   },
   family: {
     path: "/family-flight-booking",
-    title: "Family Flight Booking Assistance by Phone | TicketDepart",
-    description: "Plan family flights with help from an independent travel specialist. Discuss travelers, schedules, connections, cabins, seating preferences, and fare conditions by phone.",
+    title: "Family Flight Booking by Phone | TicketDepart",
+    description: "Plan family flights by phone with an independent TicketDepart specialist. Discuss travelers, schedules, connections, cabins, and fare conditions.",
     eyebrow: "Family travel",
     heading: "Family flight booking help from a travel specialist",
     intro: "Family travel adds details that can make an ordinary flight search harder: different traveler ages, seating preferences, baggage needs, connections, and schedules. TicketDepart helps you organize those requirements by phone.",
