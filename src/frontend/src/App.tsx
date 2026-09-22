@@ -2,6 +2,7 @@ import { Layout } from "@/components/Layout";
 import { AdminLeadsPage } from "@/pages/AdminLeadsPage";
 import { ContactPage } from "@/pages/ContactPage";
 import { FlightBookingPage } from "@/pages/FlightBookingPage";
+import { FlightBookingGuidesPage } from "@/pages/FlightBookingGuidesPage";
 import { HomePage } from "@/pages/HomePage";
 import { HowToBookFlightByPhonePage } from "@/pages/HowToBookFlightByPhonePage";
 import { BookAFlightByPhonePage } from "@/pages/BookAFlightByPhonePage";
@@ -149,6 +150,12 @@ const flightBookingPhoneNumberRoute = createRoute({
   component: FlightBookingPhoneNumberPage,
 });
 
+const flightBookingGuidesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flight-booking-guides",
+  component: FlightBookingGuidesPage,
+});
+
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
@@ -218,6 +225,7 @@ const adminLeadsRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   flightBookingRoute,
+  flightBookingGuidesRoute,
   flightBookingPhoneNumberRoute,
   domesticFlightBookingRoute,
   businessClassFlightBookingRoute,
