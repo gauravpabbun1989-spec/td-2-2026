@@ -65,6 +65,18 @@ const routes = {
     heading: "Group and family flight booking help by phone",
     text: "Plan family and group itineraries with help organizing travelers, routing, cabins, connections, and booking details.",
   },
+  "/flight-cancellation-assistance": {
+    title: "Flight Cancellation Assistance by Phone | TicketDepart",
+    description: "Need help understanding a flight cancellation or refund request? Call TicketDepart to discuss your ticket, fare conditions, and available next steps with an independent travel specialist.",
+    heading: "Flight cancellation and refund assistance by phone",
+    text: "Discuss cancellation, refund, travel-credit, and ticket-condition questions with an independent TicketDepart specialist.",
+  },
+  "/missed-flight-rebooking": {
+    title: "Missed Flight Rebooking Assistance by Phone | TicketDepart",
+    description: "Missed your flight? Call TicketDepart to discuss rebooking information, itinerary details, and available options with an independent travel specialist.",
+    heading: "Missed flight rebooking help by phone",
+    text: "Discuss your missed flight, current itinerary, timing, and rebooking options with an independent travel specialist.",
+  },
   "/flight-booking-assistance": {
     title: "Flight Booking Assistance by Phone | TicketDepart",
     description: "Need help booking a flight? Speak with an independent TicketDepart travel specialist about domestic, international, multi-city, and complex itineraries at +1 855-544-9001.",
