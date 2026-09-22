@@ -123,6 +123,9 @@ export function HomePage() {
               ["Delta Airlines booking assistance", "/delta-airlines"],
               ["United Airlines booking assistance", "/united-airlines"],
               ["American Airlines booking assistance", "/american-airlines"],
+              ["Southwest Airlines assistance", "/southwest-airlines"],
+              ["British Airways assistance", "/british-airways"],
+              ["Lufthansa assistance", "/lufthansa"],
             ].map(([label, to]) => (
               <Link key={to} to={to} className="rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle">
                 {label} <span aria-hidden="true">→</span>
