@@ -229,7 +229,7 @@ function SupportPage({ kind }: { kind: SupportPage }) {
               {page.intro}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <CallCta size="lg" ocid={kind + ".hero_call"} />
+              <CallCta size="lg" ocid={`${kind}.hero_call`} />
               <Link
                 to="/contact"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary"
@@ -297,7 +297,7 @@ function SupportPage({ kind }: { kind: SupportPage }) {
               Call {SITE.phoneDisplay}. Travel specialists are available 24/7.
             </p>
           </div>
-          <CallCta size="lg" showNumber ocid={kind + ".final_call"} />
+          <CallCta size="lg" showNumber ocid={`${kind}.final_call`} />
         </div>
       </Section>
 
