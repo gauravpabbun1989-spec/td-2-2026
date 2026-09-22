@@ -23,6 +23,14 @@ import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PrivacyPage } from "@/pages/PrivacyPage";
 import { TermsPage } from "@/pages/TermsPage";
 import { AmericanAirlinesPage } from "@/pages/airlines/AmericanAirlinesPage";
+import {
+  AirCanadaPage,
+  AlaskaAirlinesPage,
+  BritishAirwaysPage,
+  JetBlueAirwaysPage,
+  LufthansaPage,
+  SouthwestAirlinesPage,
+} from "@/pages/airlines/AdditionalAirlinePages";
 import { DeltaPage } from "@/pages/airlines/DeltaPage";
 import { UnitedPage } from "@/pages/airlines/UnitedPage";
 import {
@@ -144,6 +152,42 @@ const americanRoute = createRoute({
   component: AmericanAirlinesPage,
 });
 
+const southwestAirlinesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/southwest-airlines",
+  component: SouthwestAirlinesPage,
+});
+
+const jetBlueAirwaysRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/jetblue-airways",
+  component: JetBlueAirwaysPage,
+});
+
+const alaskaAirlinesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/alaska-airlines",
+  component: AlaskaAirlinesPage,
+});
+
+const britishAirwaysRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/british-airways",
+  component: BritishAirwaysPage,
+});
+
+const lufthansaRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/lufthansa",
+  component: LufthansaPage,
+});
+
+const airCanadaRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/air-canada",
+  component: AirCanadaPage,
+});
+
 const contactRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/contact",
@@ -186,6 +230,12 @@ const routeTree = rootRoute.addChildren([
   deltaRoute,
   unitedRoute,
   americanRoute,
+  southwestAirlinesRoute,
+  jetBlueAirwaysRoute,
+  alaskaAirlinesRoute,
+  britishAirwaysRoute,
+  lufthansaRoute,
+  airCanadaRoute,
   contactRoute,
   privacyRoute,
   termsRoute,
