@@ -5,7 +5,8 @@ import {
   TripType,
   createActor,
 } from "@/backend";
-import { trackLeadSubmit } from "@/lib/analytics";\nimport { SITE } from "@/lib/site";
+import { trackLeadSubmit } from "@/lib/analytics";
+import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useMutation } from "@tanstack/react-query";
@@ -217,7 +218,8 @@ export function TripRequestForm() {
         `Travelers: ${values.travelers}`,
         `Cabin: ${values.cabin}`,
         `Trip details: ${values.details || "None"}`,
-      ].join("\\n"),
+      ].join("\
+"),
     );
     return `mailto:${SITE.email}?subject=${subject}&body=${body}`;
   })();
