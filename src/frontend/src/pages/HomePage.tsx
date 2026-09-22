@@ -134,6 +134,44 @@ export function HomePage() {
         </div>
       </section>
 
+
+      <section
+        className="border-b border-border bg-card px-5 py-12 sm:px-8 sm:py-16"
+        aria-labelledby="popular-booking-help-heading"
+      >
+        <div className="mx-auto max-w-6xl">
+          <p className="label-board text-accent">Popular booking help</p>
+          <h2
+            id="popular-booking-help-heading"
+            className="mt-3 max-w-3xl text-balance text-2xl font-semibold leading-tight sm:text-3xl"
+          >
+            Need a specific kind of flight booking?
+          </h2>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">
+            Explore focused guides for urgent travel, premium cabins, family
+            trips, affordable fare planning, and changes or cancellations.
+          </p>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              ["Cheap flight booking by phone", "/cheap-flight-booking-by-phone"],
+              ["Business class flight booking", "/business-class-flight-booking"],
+              ["Same-day flight booking", "/same-day-flight-booking"],
+              ["Family flight booking", "/family-flight-booking"],
+              ["Flight change assistance", "/flight-change-assistance"],
+              ["Flight cancellation assistance", "/flight-cancellation-assistance"],
+            ].map(([label, to]) => (
+              <Link
+                key={to}
+                to={to}
+                className="rounded-xl border border-border bg-background px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle"
+              >
+                {label} <span aria-hidden="true">→</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <HomeFaq />
       <DisclosureBlock />
       <ContactInfoBlock />
