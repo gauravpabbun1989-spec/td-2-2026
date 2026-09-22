@@ -134,7 +134,17 @@ export function BookAFlightByPhonePage() {
           <p className="mt-2 text-sm text-muted-foreground">
             Serving travelers in the USA, Canada, Mexico, and UK · English-speaking support
           </p>
-          </p>
+          <div className="mt-5 rounded-2xl border border-accent/25 bg-accent/5 p-4 sm:flex sm:items-center sm:justify-between sm:gap-5">
+            <div>
+              <p className="font-semibold text-foreground">Need to book today?</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Call now with your route, dates, and number of travelers.
+              </p>
+            </div>
+            <div className="mt-3 shrink-0 sm:mt-0">
+              <CallCta size="md" showNumber ocid="book_flight_phone.hero_number_button" />
+            </div>
+          </div>
         </div>
       </Section>
 
@@ -263,6 +273,17 @@ export function BookAFlightByPhonePage() {
           ))}
         </div>
       </Section>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 p-3 shadow-elevated backdrop-blur sm:hidden">
+        <div className="mx-auto max-w-lg">
+          <CallCta
+            size="lg"
+            showNumber
+            className="w-full"
+            ocid="book_flight_phone.mobile_sticky_call"
+          />
+        </div>
+      </div>
 
       <Section tone="paper" ocid="book_flight_phone.faq">
         <SectionHeading
