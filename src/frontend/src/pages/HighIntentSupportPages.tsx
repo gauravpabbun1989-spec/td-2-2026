@@ -187,7 +187,7 @@ const PAGES = {
 
 function SupportPage({ kind }: { kind: SupportPage }) {
   const page = PAGES[kind];
-  const faq = page.faq.map(([question, answer]) => ({ question, answer }));
+  const faq = page.faq.map(([question, answer]: readonly [string, string]) => ({ question, answer }));
   const breadcrumbs = [
     { name: "Home", path: "/" },
     { name: "Flight Booking", path: "/flight-booking" },
@@ -279,7 +279,7 @@ function SupportPage({ kind }: { kind: SupportPage }) {
           description="Straight answers before you pick up the phone."
         />
         <dl className="mt-10 grid gap-4 lg:grid-cols-2">
-          {page.faq.map(([question, answer]) => (
+          {page.faq.map(([question, answer]: readonly [string, string]) => (
             <div key={question} className="rounded-2xl border border-border bg-card p-6">
               <dt className="font-display text-base font-semibold">{question}</dt>
               <dd className="mt-3 text-sm leading-relaxed text-muted-foreground">{answer}</dd>
@@ -305,7 +305,7 @@ function SupportPage({ kind }: { kind: SupportPage }) {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <h2 className="font-display text-xl font-semibold">Related booking help</h2>
           <ul className="flex flex-wrap gap-3">
-            {page.related.map(([label, to]) => (
+            {page.related.map(([label, to]: readonly [string, string]) => (
               <li key={to}>
                 <Link
                   to={to}
