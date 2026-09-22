@@ -52,7 +52,7 @@ function emitPhoneClick(location: string) {
  * when one is available so a click the delegated listener also observes still
  * produces exactly one event.
  */
-export function trackPhoneClick(location: string, event?: Event) {
+export function trackLeadSubmit(location = "contact_form") {\n  if (typeof window === "undefined") return;\n  const eventParams = {\n    lead_type: "callback_request",\n    lead_location: location,\n    page_path: window.location.pathname,\n    page_title: document.title,\n  };\n\n  const win = window as typeof window & {\n    gtag?: (...args: unknown[]) => void;\n    dataLayer?: unknown[];\n  };\n\n  if (win.gtag) {\n    win.gtag("event", "generate_lead", eventParams);\n    return;\n  }\n\n  win.dataLayer = win.dataLayer || [];\n  win.dataLayer.push(["event", "generate_lead", eventParams]);\n}\n\nexport function trackPhoneClick(location: string, event?: Event) {
   if (event && handledClicks.has(event)) return;
   if (event) handledClicks.add(event);
   emitPhoneClick(location);
