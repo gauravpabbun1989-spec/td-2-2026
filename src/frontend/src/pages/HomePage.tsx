@@ -112,15 +112,22 @@ export function HomePage() {
             Planning around a specific airline?
           </h2>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">
-            Explore our practical booking guides for Delta Airlines, United
-            Airlines, and American Airlines, or call a specialist if your trip
-            uses more than one carrier.
+            Explore practical booking guides for major airlines, including Delta,
+            United, American, Southwest, JetBlue, Alaska, British Airways,
+            Lufthansa, and Air Canada, or call a specialist if your trip uses
+            more than one carrier.
           </p>
           <div className="mt-7 grid gap-3 sm:grid-cols-3">
             {[
               ["Delta Airlines booking assistance", "/delta-airlines"],
               ["United Airlines booking assistance", "/united-airlines"],
               ["American Airlines booking assistance", "/american-airlines"],
+              ["Southwest Airlines booking assistance", "/southwest-airlines"],
+              ["JetBlue Airways booking assistance", "/jetblue-airways"],
+              ["Alaska Airlines booking assistance", "/alaska-airlines"],
+              ["British Airways booking assistance", "/british-airways"],
+              ["Lufthansa booking assistance", "/lufthansa"],
+              ["Air Canada booking assistance", "/air-canada"],
             ].map(([label, to]) => (
               <Link
                 key={to}
