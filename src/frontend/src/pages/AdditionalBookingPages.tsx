@@ -484,7 +484,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
       <Section tone="paper" ocid={`${id}.faq`}>
         <SectionHeading
           eyebrow="FAQ"
-          title={page.service + " questions"}
+          title={`${page.service} questions`}
           description="Practical information before you call."
         />
         <div className="mx-auto mt-10 max-w-3xl space-y-4">
