@@ -10,6 +10,7 @@ import { NotFoundPage } from "@/pages/NotFoundPage";
 import { FlightBookingPhoneNumberPage } from "@/pages/FlightBookingPhoneNumberPage";
 import { FlightBookingAssistancePage, SameDayFlightBookingPage } from "@/pages/AdditionalBookingIntentPages";
 import { TravelAgentByPhonePage, FlightChangeRebookingPage, BookFlightForSomeoneElsePage } from "@/pages/HighIntentSupportPages";
+import { FlightCancellationAssistancePage, MissedFlightRebookingPage } from "@/pages/DisruptionSupportPages";
 import { DomesticFlightBookingPage, BusinessClassFlightBookingPage, OneWayFlightBookingPage, FamilyFlightBookingPage } from "@/pages/TravelerIntentPages";
 import { PrivacyPage } from "@/pages/PrivacyPage";
 import { TermsPage } from "@/pages/TermsPage";
@@ -98,6 +99,18 @@ const flightChangeRebookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-change-rebooking",
   component: FlightChangeRebookingPage,
+});
+
+const flightCancellationAssistanceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flight-cancellation-assistance",
+  component: FlightCancellationAssistancePage,
+});
+
+const missedFlightRebookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/missed-flight-rebooking",
+  component: MissedFlightRebookingPage,
 });
 
 const bookFlightForSomeoneElseRoute = createRoute({
@@ -215,6 +228,8 @@ const routeTree = rootRoute.addChildren([
   travelAgentByPhoneRoute,
   flightChangeRebookingRoute,
   bookFlightForSomeoneElseRoute,
+  flightCancellationAssistanceRoute,
+  missedFlightRebookingRoute,
   internationalFlightBookingRoute,
   lastMinuteFlightBookingRoute,
   multiCityFlightBookingRoute,
