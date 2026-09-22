@@ -99,7 +99,7 @@ function IntentPage({ intent }: { intent: IntentKey }) {
           serviceSchema({ name: config.eyebrow, description: config.description, path: config.path })
         ]}
       />
-      <Section tone="paper" ocid={intent + ".page"}>
+      <Section tone="paper" ocid={`${intent}.page`}>
         <nav aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
             <li><Link to="/">Home</Link></li><li aria-hidden="true">/</li>
@@ -113,7 +113,7 @@ function IntentPage({ intent }: { intent: IntentKey }) {
             <h1 className="mt-4 max-w-4xl text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">{config.heading}</h1>
             <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">{config.intro}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <CallCta size="lg" ocid={intent + ".hero_call"} />
+              <CallCta size="lg" ocid={`${intent}.hero_call`} />
               <Link to="/contact" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary">
                 Send trip details <ArrowRight className="size-4" />
               </Link>
@@ -128,25 +128,25 @@ function IntentPage({ intent }: { intent: IntentKey }) {
           </aside>
         </div>
       </Section>
-      <Section tone="muted" ocid={intent + ".process"}>
+      <Section tone="muted" ocid={`${intent}.process`}>
         <SectionHeading eyebrow="How it works" title="A simple phone-booking process" description="The goal is to make the itinerary clear before you decide to book." />
         <ol className="mt-10 grid gap-4 md:grid-cols-3">
           {config.process.map((step, index) => <li key={step} className="rounded-2xl border border-border bg-card p-6"><span className="label-board text-accent">0{index + 1}</span><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{step}</p></li>)}
         </ol>
       </Section>
-      <Section tone="paper" ocid={intent + ".faq"}>
+      <Section tone="paper" ocid={`${intent}.faq`}>
         <SectionHeading eyebrow="Questions" title="Frequently asked questions" description="Straight answers before you call." />
         <dl className="mt-10 grid gap-4 lg:grid-cols-2">
           {config.faq.map((item) => <div key={item.question} className="rounded-2xl border border-border bg-card p-6"><dt className="font-display text-base font-semibold">{item.question}</dt><dd className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.answer}</dd></div>)}
         </dl>
       </Section>
-      <Section tone="navy" ocid={intent + ".cta"}>
+      <Section tone="navy" ocid={`${intent}.cta`}>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl"><p className="label-board text-accent">Ready to plan?</p><h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Talk through your trip with a specialist</h2><p className="mt-4 text-base leading-relaxed text-primary-foreground/80">Call {SITE.phoneDisplay}. We are available 24/7 for travel-planning and booking assistance.</p></div>
-          <CallCta size="lg" showNumber ocid={intent + ".final_call"} />
+          <CallCta size="lg" showNumber ocid={`${intent}.final_call`} />
         </div>
       </Section>
-      <Section tone="paper" ocid={intent + ".related"}>
+      <Section tone="paper" ocid={`${intent}.related`}>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <h2 className="font-display text-xl font-semibold">Related booking help</h2>
           <ul className="flex flex-wrap gap-3">
