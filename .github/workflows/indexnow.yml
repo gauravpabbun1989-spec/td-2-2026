@@ -19,7 +19,7 @@ jobs:
           const fs = require('fs');
           const https = require('https');
           const sitemap = fs.readFileSync('src/frontend/public/sitemap.xml', 'utf8');
-          const urls = [...sitemap.matchAll(/<loc>([^<]+)<\\/loc>/g)].map(m => m[1]);
+          const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
           const body = JSON.stringify({
             host: 'ticketdepart.com',
             key: process.env.INDEXNOW_KEY,
