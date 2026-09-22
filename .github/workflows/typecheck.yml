@@ -37,5 +37,8 @@ jobs:
       - name: Typecheck frontend
         run: pnpm --dir src/frontend typecheck
 
+      - name: Biome lint check
+        run: pnpm --dir src/frontend check
+
       - name: Build frontend
         run: pnpm --dir src/frontend build
