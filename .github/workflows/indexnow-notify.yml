@@ -1,0 +1,63 @@
+name: IndexNow notify
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/frontend/public/sitemap.xml"
+      - "src/frontend/src/pages/**"
+      - "src/frontend/src/App.tsx"
+      - "src/frontend/index.html"
+      - "src/frontend/scripts/generate-route-html.mjs"
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out TicketDepart
+        uses: actions/checkout@v4
+
+      - name: Notify IndexNow
+        env:
+          INDEXNOW_KEY: 64ec236d672a2ce55e8c4088c542ef1a
+          INDEXNOW_KEY_LOCATION: https://ticketdepart.com/64ec236d672a2ce55e8c4088c542ef1a.txt
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+          import xml.etree.ElementTree as ET
+
+          sitemap = "src/frontend/public/sitemap.xml"
+          ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+          root = ET.parse(sitemap).getroot()
+          urls = [
+              node.text.strip()
+              for node in root.findall("sm:url/sm:loc", ns)
+              if node.text and node.text.strip()
+          ]
+
+          payload = {
+              "host": "ticketdepart.com",
+              "key": os.environ["INDEXNOW_KEY"],
+              "keyLocation": os.environ["INDEXNOW_KEY_LOCATION"],
+              "urlList": urls,
+          }
+
+          data = json.dumps(payload).encode("utf-8")
+          request = urllib.request.Request(
+              "https://api.indexnow.org/indexnow",
+              data=data,
+              method="POST",
+              headers={"Content-Type": "application/json; charset=utf-8"},
+          )
+
+          with urllib.request.urlopen(request, timeout=30) as response:
+              print(f"IndexNow response: HTTP {response.status}")
+              print(response.read().decode("utf-8", errors="replace"))
+          print(f"Submitted {len(urls)} canonical sitemap URLs.")
+          PY
