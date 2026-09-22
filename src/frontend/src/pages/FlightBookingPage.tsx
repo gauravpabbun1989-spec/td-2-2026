@@ -440,6 +440,44 @@ export function FlightBookingPage() {
 
       <Section
         tone="paper"
+        ocid="flight_booking.intent_hub"
+        aria-labelledby="flight_booking_intent_hub_heading"
+      >
+        <SectionHeading
+          id="flight_booking_intent_hub_heading"
+          eyebrow="Choose your trip type"
+          title="Find the flight-booking help that matches your situation"
+          description="Start with the page that best describes your trip. Each guide explains what to prepare and gives you a direct way to speak with a specialist."
+        />
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ["Book a flight by phone", "/book-a-flight-by-phone"],
+            ["Flight booking phone number", "/flight-booking-phone-number"],
+            ["International flights", "/international-flight-booking"],
+            ["Last-minute flights", "/last-minute-flight-booking"],
+            ["Same-day flights", "/same-day-flight-booking"],
+            ["Multi-city flights", "/multi-city-flight-booking"],
+            ["Group & family flights", "/group-flight-booking"],
+            ["Domestic flights", "/domestic-flight-booking"],
+            ["Business class", "/business-class-flight-booking"],
+            ["One-way flights", "/one-way-flight-booking"],
+            ["Travel agent by phone", "/travel-agent-by-phone"],
+            ["Flight changes & rebooking", "/flight-change-rebooking"],
+            ["Book for someone else", "/book-flight-for-someone-else"],
+          ].map(([label, to]) => (
+            <Link
+              key={to}
+              to={to}
+              className="rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle"
+            >
+              {label} <span aria-hidden="true">→</span>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        tone="paper"
         ocid="flight_booking.airlines"
         aria-labelledby="flight_booking_airlines_heading"
       >
