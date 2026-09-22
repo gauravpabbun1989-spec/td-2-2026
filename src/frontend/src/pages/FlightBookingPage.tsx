@@ -18,9 +18,9 @@ import {
 } from "lucide-react";
 
 const PAGE_PATH = "/flight-booking";
-const PAGE_TITLE = "Flight Booking Assistance by Phone | TicketDepart";
+const PAGE_TITLE = "Flight Booking by Phone | TicketDepart 24/7";
 const PAGE_DESCRIPTION =
-  "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
+  "Book domestic, international, multi-city, premium-cabin, or group flights by phone with TicketDepart. Call +1 855-544-9001, 24/7.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },

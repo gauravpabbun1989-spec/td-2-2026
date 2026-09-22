@@ -7,9 +7,9 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 
 const PATH = "/flight-booking-phone-number";
-const TITLE = "Flight Booking Phone Number | Talk to a Travel Specialist | TicketDepart";
+const TITLE = "Flight Booking Phone Number | TicketDepart";
 const DESCRIPTION =
-  "Looking for a flight booking phone number? Call TicketDepart at +1 855-544-9001 to discuss domestic or international travel with an independent travel specialist, 24/7.";
+  "Need a flight booking phone number? Call TicketDepart at +1 855-544-9001 for independent domestic or international booking assistance, 24/7.";
 
 const FAQS = [
   {

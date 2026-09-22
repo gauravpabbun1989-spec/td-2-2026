@@ -11,9 +11,9 @@ type SupportPage = "travelAgent" | "flightChange" | "bookForSomeoneElse";
 const PAGES = {
   travelAgent: {
     path: "/travel-agent-by-phone",
-    title: "Travel Agent by Phone | Flight Booking Help | TicketDepart",
+    title: "Travel Agent by Phone | TicketDepart",
     description:
-      "Speak with an independent travel agent by phone for flight booking help, complex itineraries, premium cabins, and urgent travel planning. TicketDepart is available 24/7.",
+      "Speak with an independent TicketDepart travel agent by phone about flight bookings, complex itineraries, premium cabins, and urgent travel planning.",
     eyebrow: "Travel agent by phone",
     heading: "Talk to a travel agent by phone about your flight",
     intro:

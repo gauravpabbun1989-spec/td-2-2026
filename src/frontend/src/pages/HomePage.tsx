@@ -10,10 +10,9 @@ import { breadcrumbSchema, organizationSchema, websiteSchema } from "@/lib/seo";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 
-const HOME_TITLE =
-  "TicketDepart | Flight Booking Help from Travel Specialists 24/7";
+const HOME_TITLE = "Book Flights by Phone | TicketDepart 24/7";
 const HOME_DESCRIPTION =
-  "Independent U.S. travel agency for international and domestic flight booking, multi-city itineraries, business and first class, and group travel. Speak with a travel specialist 24/7 at +1 855-544-9001.";
+  "Book domestic or international flights by phone with TicketDepart, an independent U.S. travel agency. Speak with a travel specialist 24/7 at +1 855-544-9001.";
 
 const HOME_IMAGE = absoluteUrl(
   "/assets/generated/hero-flight.dim_1600x1100.jpg",
