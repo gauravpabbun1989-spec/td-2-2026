@@ -14,6 +14,7 @@ import { DomesticFlightBookingPage, BusinessClassFlightBookingPage, OneWayFlight
 import { PrivacyPage } from "@/pages/PrivacyPage";
 import { TermsPage } from "@/pages/TermsPage";
 import { AmericanAirlinesPage } from "@/pages/airlines/AmericanAirlinesPage";
+import { SouthwestAirlinesPage, BritishAirwaysPage, LufthansaPage } from "@/pages/airlines/AdditionalAirlinesPages";
 import { DeltaPage } from "@/pages/airlines/DeltaPage";
 import { UnitedPage } from "@/pages/airlines/UnitedPage";
 import {
@@ -153,6 +154,24 @@ const unitedRoute = createRoute({
   component: UnitedPage,
 });
 
+const southwestRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/southwest-airlines",
+  component: SouthwestAirlinesPage,
+});
+
+const britishAirwaysRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/british-airways",
+  component: BritishAirwaysPage,
+});
+
+const lufthansaRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/lufthansa",
+  component: LufthansaPage,
+});
+
 const americanRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/american-airlines",
@@ -205,6 +224,9 @@ const routeTree = rootRoute.addChildren([
   deltaRoute,
   unitedRoute,
   americanRoute,
+  southwestRoute,
+  britishAirwaysRoute,
+  lufthansaRoute,
   contactRoute,
   privacyRoute,
   termsRoute,
