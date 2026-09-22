@@ -288,6 +288,7 @@ export function TripRequestForm() {
           setValues(EMPTY_FORM);
           setErrors({});
           setEmailStatus(email);
+          trackLeadSubmit("contact_form");
           setSubmitted(true);
           return;
         }
