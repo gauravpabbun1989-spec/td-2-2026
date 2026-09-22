@@ -178,7 +178,7 @@ function AirlineIntentPage({ airline }: { airline: AirlineKey }) {
         path={config.path}
         structuredData={[breadcrumbSchema(breadcrumbs), faqSchema(config.faq)]}
       />
-      <Section tone="paper" ocid={airline + ".page"}>
+      <Section tone="paper" ocid={`${airline}.page`}>
         <nav aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
             <li><Link to="/">Home</Link></li>
@@ -195,7 +195,7 @@ function AirlineIntentPage({ airline }: { airline: AirlineKey }) {
             <h1 className="mt-4 max-w-4xl text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">{config.heading}</h1>
             <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">{config.intro}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <CallCta size="lg" ocid={airline + ".hero_call"} />
+              <CallCta size="lg" ocid={`${airline}.hero_call`} />
               <Link to="/contact" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary">
                 Send trip details <ArrowRight className="size-4" />
               </Link>
@@ -220,10 +220,10 @@ function AirlineIntentPage({ airline }: { airline: AirlineKey }) {
         </div>
       </Section>
 
-      <Section tone="muted" ocid={airline + ".services"}>
+      <Section tone="muted" ocid={`${airline}.services`}>
         <SectionHeading
           eyebrow="What we can discuss"
-          title={"Practical " + config.name + " booking assistance"}
+          title={`Practical ${config.name} booking assistance`}
           description="The specialist can work through the trip details with you before you decide."
         />
         <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -236,7 +236,7 @@ function AirlineIntentPage({ airline }: { airline: AirlineKey }) {
         </ul>
       </Section>
 
-      <Section tone="paper" ocid={airline + ".planning"}>
+      <Section tone="paper" ocid={`${airline}.planning`}>
         <SectionHeading
           eyebrow="Before you call"
           title="Bring these details for a faster booking discussion"
@@ -252,7 +252,7 @@ function AirlineIntentPage({ airline }: { airline: AirlineKey }) {
         </ol>
       </Section>
 
-      <Section tone="navy" ocid={airline + ".cta"}>
+      <Section tone="navy" ocid={`${airline}.cta`}>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
             <p className="label-board text-accent">Ready to plan?</p>
@@ -261,12 +261,12 @@ function AirlineIntentPage({ airline }: { airline: AirlineKey }) {
               Call {SITE.phoneDisplay}. We are available 24/7 for travel-planning and booking assistance.
             </p>
           </div>
-          <CallCta size="lg" variant="solid" showNumber ocid={airline + ".final_call"} />
+          <CallCta size="lg" variant="solid" showNumber ocid={`${airline}.final_call`} />
         </div>
       </Section>
 
-      <Section tone="paper" ocid={airline + ".faq"}>
-        <SectionHeading eyebrow="Questions" title={config.name + " booking FAQs"} description="Straight answers about independent travel-agency assistance." />
+      <Section tone="paper" ocid={`${airline}.faq`}>
+        <SectionHeading eyebrow="Questions" title={`${config.name} booking FAQs`} description="Straight answers about independent travel-agency assistance." />
         <dl className="mt-10 grid gap-4 lg:grid-cols-2">
           {config.faq.map((item) => (
             <div key={item.question} className="rounded-2xl border border-border bg-card p-6">
@@ -277,7 +277,7 @@ function AirlineIntentPage({ airline }: { airline: AirlineKey }) {
         </dl>
       </Section>
 
-      <Section tone="paper" ocid={airline + ".related"}>
+      <Section tone="paper" ocid={`${airline}.related`}>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <h2 className="font-display text-xl font-semibold">More flight booking help</h2>
           <ul className="flex flex-wrap gap-3">
