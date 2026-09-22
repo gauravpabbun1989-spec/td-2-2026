@@ -13,7 +13,7 @@ import { Link } from "@tanstack/react-router";
 const HOME_TITLE =
   "TicketDepart | Flight Booking Help from Travel Specialists 24/7";
 const HOME_DESCRIPTION =
-  "Independent U.S. travel agency for international and domestic flight booking, multi-city itineraries, business and first class, and group travel. Speak with a travel specialist 24/7 at +1 855-544-9001.";
+  "Independent U.S. travel agency serving travelers in the USA, Canada, Mexico, and UK for domestic and international flight booking, multi-city itineraries, premium cabins, and group travel. Speak with a travel specialist 24/7 at +1 855-544-9001.";
 
 const HOME_IMAGE = absoluteUrl(
   "/assets/generated/hero-flight.dim_1600x1100.jpg",
@@ -66,6 +66,36 @@ export function HomePage() {
           >
             Book by phone <span aria-hidden="true">→</span>
           </Link>
+        </div>
+      </section>
+      <section
+        className="border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-12"
+        aria-labelledby="service-area-heading"
+      >
+        <div className="mx-auto max-w-6xl">
+          <p className="label-board text-accent">Where we serve</p>
+          <h2
+            id="service-area-heading"
+            className="mt-2 text-balance text-2xl font-semibold leading-tight sm:text-3xl"
+          >
+            Flight booking help for travelers in the USA, Canada, Mexico &amp; UK
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            English-speaking travelers can call 24/7 for help discussing domestic,
+            international, last-minute, multi-city, family, group, and premium-cabin
+            itineraries. TicketDepart is an independent travel agency and is not an
+            airline or an airline&apos;s official customer-service department.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-2 text-sm font-medium text-foreground">
+            {["USA", "Canada", "Mexico", "UK"].map((market) => (
+              <span
+                key={market}
+                className="rounded-full border border-border bg-muted px-4 py-2"
+              >
+                {market}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
       <ServiceGrid />
