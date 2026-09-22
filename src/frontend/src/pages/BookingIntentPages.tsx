@@ -18,8 +18,8 @@ type IntentConfig = {
 const CONFIG: Record<IntentKey, IntentConfig> = {
   international: {
     path: "/international-flight-booking",
-    title: "International Flight Booking Assistance by Phone | TicketDepart",
-    description: "Plan international flights with a travel specialist. Get help comparing routes, connections, cabins, and fare conditions by phone at +1 855-544-9001.",
+    title: "International Flight Booking by Phone | TicketDepart",
+    description: "Book international flights by phone with an independent TicketDepart travel specialist. Discuss routes, connections, cabins, and fare conditions at +1 855-544-9001.",
     eyebrow: "International travel",
     heading: "International flight booking with a real travel specialist",
     intro: "International itineraries can involve long connections, multiple carriers, cabin choices, and fare conditions that are easy to overlook. TicketDepart helps you work through those details by phone before you decide.",
@@ -34,8 +34,8 @@ const CONFIG: Record<IntentKey, IntentConfig> = {
   },
   "last-minute": {
     path: "/last-minute-flight-booking",
-    title: "Last-Minute Flight Booking Assistance | TicketDepart",
-    description: "Need a flight soon? Speak with a TicketDepart travel specialist about available routing, connection, cabin, and fare options at +1 855-544-9001.",
+    title: "Last-Minute Flight Booking by Phone | TicketDepart",
+    description: "Need a flight soon? Call TicketDepart to discuss available routing, connections, cabins, and fare conditions with a travel specialist.",
     eyebrow: "Travel soon",
     heading: "Last-minute flight booking help by phone",
     intro: "When your departure is close, time matters. A specialist can help you organize the trip details, compare practical routing options, and explain fare conditions before you confirm.",
@@ -50,8 +50,8 @@ const CONFIG: Record<IntentKey, IntentConfig> = {
   },
   "multi-city": {
     path: "/multi-city-flight-booking",
-    title: "Multi-City Flight Booking Assistance by Phone | TicketDepart",
-    description: "Plan multi-city and open-jaw flights with a travel specialist. Compare city pairs, connections, cabins, and fare conditions by phone.",
+    title: "Multi-City Flight Booking by Phone | TicketDepart",
+    description: "Book multi-city and open-jaw flights by phone. Discuss city pairs, connections, cabins, and fare conditions with a TicketDepart specialist.",
     eyebrow: "Complex itineraries",
     heading: "Multi-city flight booking without the guesswork",
     intro: "A trip with several stops can require more than a simple round-trip search. TicketDepart helps you organize each city pair and compare practical routing and fare options with a specialist.",
@@ -66,8 +66,8 @@ const CONFIG: Record<IntentKey, IntentConfig> = {
   },
   group: {
     path: "/group-flight-booking",
-    title: "Group & Family Flight Booking Assistance | TicketDepart",
-    description: "Get phone assistance planning group and family flights. Discuss travelers, routing, cabins, connections, and booking details with TicketDepart.",
+    title: "Group Flight Booking by Phone | TicketDepart",
+    description: "Plan group and family flights by phone with TicketDepart. Discuss travelers, routing, cabins, connections, and booking details with a specialist.",
     eyebrow: "Groups & families",
     heading: "Group and family flight booking help by phone",
     intro: "Traveling with several people adds coordination questions around dates, routing, cabins, and seating. TicketDepart helps you organize the trip and discuss practical flight options with a specialist.",
