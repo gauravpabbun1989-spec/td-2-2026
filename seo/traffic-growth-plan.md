@@ -54,9 +54,9 @@ Review queries, pages, countries, devices, impressions, clicks and CTR. Prioriti
 
 Google documents these workflows in Search Console's Performance report guidance.
 
-### 4. Use BeyondSEO as the technical evidence loop
+### 4. Use external SEO audits, not repository integrations
 
-BeyondSEO is integrated into this repository under `seo/` and runs as a pinned v2.8.0 GitHub Actions audit. Review crawl coverage, metadata, links, sitemap observations, readiness findings and evidence limits before making SEO changes.
+When a technical crawl is needed, run the SEO crawler separately from this website repository. Do not commit the crawler, its workflow, credentials, business profile, generated reports or tool-specific configuration into the production project.
 
 ### 5. Build authority carefully
 
@@ -81,7 +81,7 @@ Google's spam policies explicitly warn against doorway abuse and scaled content 
 
 ## Review cadence
 
-1. Run BeyondSEO audit.
+1. Run an external/local SEO audit when needed.
 2. Review Search Console and GA4.
 3. Fix technical blockers.
 4. Improve pages with demonstrated demand.
