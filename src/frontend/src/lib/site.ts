@@ -9,7 +9,7 @@ export const SITE = {
   legalName: "TicketDepart Travel",
   tagline: "Independent travel agency",
   description:
-    "TicketDepart is an independent U.S. travel agency helping travelers plan and book domestic and international flights with a real specialist on the phone.",
+    "TicketDepart is an independent U.S. travel agency helping travelers in the United States, Canada, Mexico, and the UK plan and book domestic and international flights with a real specialist on the phone.",
   phoneDisplay: "+1 855-544-9001",
   phoneHref: "tel:+18555449001",
   email: "support@ticketdestinations.com",
@@ -37,6 +37,7 @@ export const AREA_SERVED: readonly string[] = [
   "United States",
   "Canada",
   "Mexico",
+  "United Kingdom",
   "Caribbean",
   "Europe",
   "Asia",
