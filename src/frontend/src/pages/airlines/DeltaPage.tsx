@@ -141,6 +141,8 @@ const FAQS = [
 ] as const;
 
 const RELATED = [
+  { label: "Flight booking phone number", to: "/flight-booking-phone-number" },
+  { label: "Book a flight by phone", to: "/book-a-flight-by-phone" },
   { label: "United Airlines assistance", to: "/united-airlines" },
   { label: "American Airlines assistance", to: "/american-airlines" },
   { label: "General flight booking", to: "/flight-booking" },
@@ -156,8 +158,8 @@ export function DeltaPage() {
   return (
     <>
       <Seo
-        title="Delta Airlines Flight Booking Assistance | TicketDepart"
-        description="Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Call +1 855-544-9001."
+        title="Delta Airlines Flight Booking by Phone | TicketDepart"
+        description="Book Delta Airlines flights by phone with an independent TicketDepart travel specialist. Discuss domestic, international, multi-city, and premium-cabin trips at +1 855-544-9001."
         path={PATH}
         image={TERMINAL_IMAGE_URL}
         structuredData={[
