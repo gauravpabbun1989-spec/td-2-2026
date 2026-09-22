@@ -17,6 +17,12 @@ const routes = {
     heading: "How to book a flight by phone",
     text: "Prepare your route, dates, travelers, cabin preferences, and questions before speaking with a TicketDepart travel specialist.",
   },
+  "/book-flight-for-someone-else": {
+    title: "Book a Flight for Someone Else | TicketDepart",
+    description: "Need to book a flight for a family member, employee, friend, or client? Speak with a TicketDepart travel specialist about the traveler details and booking process.",
+    heading: "Book a flight for someone else with phone assistance",
+    text: "Discuss traveler details, routing, dates, cabin preferences, and the booking process with a TicketDepart specialist.",
+  },
   "/travel-agent-by-phone": {
     title: "Travel Agent by Phone | Flight Booking Help | TicketDepart",
     description: "Speak with an independent travel agent by phone for flight booking help, complex itineraries, premium cabins, and urgent travel planning. TicketDepart is available 24/7.",

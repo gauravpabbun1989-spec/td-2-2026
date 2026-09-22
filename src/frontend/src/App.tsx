@@ -8,7 +8,7 @@ import { BookAFlightByPhonePage } from "@/pages/BookAFlightByPhonePage";
 import { InternationalFlightBookingPage, LastMinuteFlightBookingPage, MultiCityFlightBookingPage, GroupFlightBookingPage } from "@/pages/BookingIntentPages";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { FlightBookingAssistancePage, SameDayFlightBookingPage } from "@/pages/AdditionalBookingIntentPages";
-import { TravelAgentByPhonePage, FlightChangeRebookingPage } from "@/pages/HighIntentSupportPages";
+import { TravelAgentByPhonePage, FlightChangeRebookingPage, BookFlightForSomeoneElsePage } from "@/pages/HighIntentSupportPages";
 import { DomesticFlightBookingPage, BusinessClassFlightBookingPage, OneWayFlightBookingPage, FamilyFlightBookingPage } from "@/pages/TravelerIntentPages";
 import { PrivacyPage } from "@/pages/PrivacyPage";
 import { TermsPage } from "@/pages/TermsPage";
@@ -98,6 +98,12 @@ const flightChangeRebookingRoute = createRoute({
   component: FlightChangeRebookingPage,
 });
 
+const bookFlightForSomeoneElseRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/book-flight-for-someone-else",
+  component: BookFlightForSomeoneElsePage,
+});
+
 const domesticFlightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/domestic-flight-booking",
@@ -181,6 +187,7 @@ const routeTree = rootRoute.addChildren([
   sameDayFlightBookingRoute,
   travelAgentByPhoneRoute,
   flightChangeRebookingRoute,
+  bookFlightForSomeoneElseRoute,
   internationalFlightBookingRoute,
   lastMinuteFlightBookingRoute,
   multiCityFlightBookingRoute,

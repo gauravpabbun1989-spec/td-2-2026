@@ -75,6 +75,7 @@ export function HomePage() {
               ["Family flights", "/family-flight-booking"],
               ["Travel agent by phone", "/travel-agent-by-phone"],
               ["Flight changes & rebooking", "/flight-change-rebooking"],
+              ["Book for someone else", "/book-flight-for-someone-else"],
             ].map(([label, to]) => (
               <Link key={to} to={to} className="rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle">
                 {label} <span aria-hidden="true">→</span>
