@@ -5,7 +5,20 @@ import { ContactPage } from "@/pages/ContactPage";
 import { FlightBookingPage } from "@/pages/FlightBookingPage";
 import { HomePage } from "@/pages/HomePage";
 import { HowToBookFlightByPhonePage } from "@/pages/HowToBookFlightByPhonePage";
-import { GroupFlightBookingPage, InternationalFlightBookingPage, LastMinuteFlightBookingPage, MultiCityFlightBookingPage } from "@/pages/BookingIntentPages";
+import {
+  BusinessClassFlightBookingPage,
+  CheapFlightBookingByPhonePage,
+  FamilyFlightBookingPage,
+  FlightCancellationAssistancePage,
+  FlightChangeAssistancePage,
+  SameDayFlightBookingPage,
+} from "@/pages/AdditionalBookingPages";
+import {
+  GroupFlightBookingPage,
+  InternationalFlightBookingPage,
+  LastMinuteFlightBookingPage,
+  MultiCityFlightBookingPage,
+} from "@/pages/BookingIntentPages";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PrivacyPage } from "@/pages/PrivacyPage";
 import { TermsPage } from "@/pages/TermsPage";
@@ -47,13 +60,65 @@ const bookAFlightByPhoneRoute = createRoute({
   component: BookAFlightByPhonePage,
 });
 
-const internationalFlightBookingRoute = createRoute({ getParentRoute: () => rootRoute, path: "/international-flight-booking", component: InternationalFlightBookingPage });
+const internationalFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/international-flight-booking",
+  component: InternationalFlightBookingPage,
+});
 
-const lastMinuteFlightBookingRoute = createRoute({ getParentRoute: () => rootRoute, path: "/last-minute-flight-booking", component: LastMinuteFlightBookingPage });
+const lastMinuteFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/last-minute-flight-booking",
+  component: LastMinuteFlightBookingPage,
+});
 
-const multiCityFlightBookingRoute = createRoute({ getParentRoute: () => rootRoute, path: "/multi-city-flight-booking", component: MultiCityFlightBookingPage });
+const multiCityFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/multi-city-flight-booking",
+  component: MultiCityFlightBookingPage,
+});
 
-const groupFlightBookingRoute = createRoute({ getParentRoute: () => rootRoute, path: "/group-flight-booking", component: GroupFlightBookingPage });
+const groupFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/group-flight-booking",
+  component: GroupFlightBookingPage,
+});
+
+const cheapFlightBookingByPhoneRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/cheap-flight-booking-by-phone",
+  component: CheapFlightBookingByPhonePage,
+});
+
+const businessClassFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/business-class-flight-booking",
+  component: BusinessClassFlightBookingPage,
+});
+
+const sameDayFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/same-day-flight-booking",
+  component: SameDayFlightBookingPage,
+});
+
+const familyFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/family-flight-booking",
+  component: FamilyFlightBookingPage,
+});
+
+const flightChangeAssistanceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flight-change-assistance",
+  component: FlightChangeAssistancePage,
+});
+
+const flightCancellationAssistanceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flight-cancellation-assistance",
+  component: FlightCancellationAssistancePage,
+});
 
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -110,6 +175,12 @@ const routeTree = rootRoute.addChildren([
   lastMinuteFlightBookingRoute,
   multiCityFlightBookingRoute,
   groupFlightBookingRoute,
+  cheapFlightBookingByPhoneRoute,
+  businessClassFlightBookingRoute,
+  sameDayFlightBookingRoute,
+  familyFlightBookingRoute,
+  flightChangeAssistanceRoute,
+  flightCancellationAssistanceRoute,
   bookAFlightByPhoneRoute,
   howToBookFlightByPhoneRoute,
   deltaRoute,
