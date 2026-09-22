@@ -96,7 +96,7 @@ function BookingIntentPage({ kind }: { kind: Key }) {
             <h1 className="mt-4 max-w-4xl text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">{page.heading}</h1>
             <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">{page.intro}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <CallCta size="lg" ocid={kind + ".hero_call"} />
+              <CallCta size="lg" ocid={`${kind}.hero_call`} />
               <Link to="/contact" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary">Send trip details <ArrowRight className="size-4" /></Link>
             </div>
             <p className="mt-5 flex items-center gap-2 text-sm text-muted-foreground"><Phone className="size-4 text-accent" />{SITE.hours} · {SITE.phoneDisplay}</p>
@@ -118,7 +118,7 @@ function BookingIntentPage({ kind }: { kind: Key }) {
       <Section tone="navy">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl"><p className="label-board text-accent">Ready to plan?</p><h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Talk through your trip with a specialist</h2><p className="mt-4 text-base leading-relaxed text-primary-foreground/80">Call {SITE.phoneDisplay}. We are available 24/7 for travel-planning and booking assistance.</p></div>
-          <CallCta size="lg" showNumber ocid={kind + ".final_call"} />
+          <CallCta size="lg" showNumber ocid={`${kind}.final_call`} />
         </div>
       </Section>
     </>
