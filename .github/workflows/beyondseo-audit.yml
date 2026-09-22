@@ -1,8 +1,10 @@
-name: BeyondSEO audit
+name: BeyondSEO live SEO audit
 
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "17 5 * * *"
   workflow_dispatch:
 
 permissions:
@@ -34,7 +36,7 @@ jobs:
           BEYONDSEO_RUNTIME: ${{ runner.temp }}/beyondseo-runtime
         run: |
           rm -rf beyondseo-audit
-          python "$BEYONDSEO_DIR/scripts/run.py" --runtime "$BEYONDSEO_RUNTIME" crawl https://ticketdepart.com --out "$GITHUB_WORKSPACE/beyondseo-audit" --max-pages 50 --mode http
+          python "$BEYONDSEO_DIR/scripts/run.py" --runtime "$BEYONDSEO_RUNTIME" crawl https://ticketdepart.com --out "$GITHUB_WORKSPACE/beyondseo-audit" --max-pages 100 --mode http --workers 4 --timeout 20 --retries 2
 
       - name: Upload BeyondSEO report
         if: always()
