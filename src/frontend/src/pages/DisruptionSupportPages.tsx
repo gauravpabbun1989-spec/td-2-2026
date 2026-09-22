@@ -45,7 +45,10 @@ type Kind = keyof typeof PAGES;
 
 function SupportPage({ kind }: { kind: Kind }) {
   const page = PAGES[kind];
-  const faq = page.faq.map(([question, answer]) => ({ question, answer }));
+  const faq: { question: string; answer: string }[] = page.faq.map((item) => {
+    const [question, answer] = item;
+    return { question, answer };
+  });
   const breadcrumbs = [{ name: "Home", path: "/" }, { name: "Flight Booking", path: "/flight-booking" }, { name: page.heading, path: page.path }];
   return (
     <>
@@ -58,7 +61,7 @@ function SupportPage({ kind }: { kind: Kind }) {
         </div>
       </Section>
       <Section tone="muted"><SectionHeading eyebrow="How it works" title="Organize the details before you decide" description="A short phone conversation can help clarify what information and conditions apply to the booking." /><ol className="mt-10 grid gap-4 md:grid-cols-3">{page.steps.map((step, index) => <li key={step} className="rounded-2xl border border-border bg-card p-6"><span className="label-board text-accent">0{index + 1}</span><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{step}</p></li>)}</ol></Section>
-      <Section tone="paper"><SectionHeading eyebrow="Questions" title="Frequently asked questions" description="Straight answers before you call." /><dl className="mt-10 grid gap-4 lg:grid-cols-2">{page.faq.map(([question, answer]) => <div key={question} className="rounded-2xl border border-border bg-card p-6"><dt className="font-display text-base font-semibold">{question}</dt><dd className="mt-3 text-sm leading-relaxed text-muted-foreground">{answer}</dd></div>)}</dl></Section>
+      <Section tone="paper"><SectionHeading eyebrow="Questions" title="Frequently asked questions" description="Straight answers before you call." /><dl className="mt-10 grid gap-4 lg:grid-cols-2">{page.faq.map((item) => { const [question, answer] = item; return <div key={question} className="rounded-2xl border border-border bg-card p-6"><dt className="font-display text-base font-semibold">{question}</dt><dd className="mt-3 text-sm leading-relaxed text-muted-foreground">{answer}</dd></div>; })}</dl></Section>
       <Section tone="paper"><SectionHeading eyebrow="Related help" title="More flight-booking assistance" description="Continue with another booking or travel-support topic." /><div className="mt-8 grid gap-3 md:grid-cols-3">{page.related.map(([label, path]) => <Link key={path} to={path} className="rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary">{label} <span aria-hidden="true">→</span></Link>)}</div></Section>
       <Section tone="navy"><div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"><div className="max-w-2xl"><p className="label-board text-accent">Need help now?</p><h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Talk through your flight situation with a specialist</h2><p className="mt-4 text-base leading-relaxed text-primary-foreground/80">Call {SITE.phoneDisplay}. We are available 24/7 for travel-planning and booking assistance.</p></div><CallCta size="lg" showNumber ocid={kind + ".final_call"} /></div></Section>
     </>
