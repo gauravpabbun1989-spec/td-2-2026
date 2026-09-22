@@ -115,7 +115,7 @@ const routes = {
   },
   "/flight-booking": {
     title: "Flight Booking by Phone | TicketDepart 24/7",
-    description: "Book domestic, international, multi-city, premium-cabin, or group flights by phone with an independent TicketDepart travel specialist. Call +1 855-544-9001, 24/7.",
+    description: "Book domestic, international, multi-city, premium-cabin, or group flights by phone with TicketDepart. Call +1 855-544-9001, 24/7.",
     heading: "Flight booking help from a real travel specialist",
     text: "Get practical help comparing flight options, complicated itineraries, premium cabins, group travel, and booking details by phone.",
   },
