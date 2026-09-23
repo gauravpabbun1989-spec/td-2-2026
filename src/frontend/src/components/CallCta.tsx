@@ -7,6 +7,8 @@ type CallCtaProps = {
   size?: "sm" | "md" | "lg";
   className?: string;
   ocid?: string;
+  /** Legacy compatibility: callers may pass this prop, but the number is intentionally never rendered here. */
+  showNumber?: boolean;
 };
 
 const sizeClasses = {
