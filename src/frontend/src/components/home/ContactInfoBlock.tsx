@@ -1,5 +1,5 @@
 import { CallCta } from "@/components/CallCta";
-import { Section, SectionHeading } from "@/components/Section";
+import { Section } from "@/components/Section";
 import { ADDRESS_LINE, SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Clock, Mail, MapPin } from "lucide-react";
