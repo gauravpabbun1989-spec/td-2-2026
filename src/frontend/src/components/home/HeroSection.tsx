@@ -21,7 +21,7 @@ export function HeroSection() {
             <span className="size-2 rounded-full bg-emerald-300" />
             Independent flight reservation assistance
           </div>
-          <h1 id="home-hero-heading" className="mt-6 max-w-2xl text-balance text-[2.75rem] font-bold leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-[4.65rem]">
+          <h1 id="home-hero-heading" className="mt-6 max-w-2xl text-balance text-[2.75rem] font-bold leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-[4.65rem]">Flight Reservation Assistance — <span className="text-sky-200">Human Help 24/7</span>
             Travel plans deserve{" "}
             <span className="text-sky-200">human attention.</span>
           </h1>
