@@ -21,7 +21,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "southwest-airlines",
     name: "Southwest Airlines",
-    title: "Southwest Airlines Flight Booking Assistance | TicketDepart",
+    title: "Southwest Airlines Reservation Support & Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for Southwest Airlines flight booking, family travel, same-day trips, changes, cancellations, and multi-city itineraries.",
     heading: "Southwest Airlines flight assistance, with a specialist on the phone",
     intro: "Planning a Southwest Airlines trip? Tell us your route, dates, travelers, and priorities. A TicketDepart specialist can walk through available itinerary options and applicable terms before you decide to book.",
@@ -44,7 +44,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "jetblue-airways",
     name: "JetBlue Airways",
-    title: "JetBlue Airways Flight Booking Assistance | TicketDepart",
+    title: "JetBlue Airways Reservation Support & Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for JetBlue Airways flight booking, changes, cancellations, family trips, and urgent travel planning.",
     heading: "JetBlue Airways flight booking assistance",
     intro: "Planning a JetBlue Airways trip? A TicketDepart specialist can discuss schedules, routes, travelers, fare conditions, and support needs before you confirm your itinerary.",
@@ -66,7 +66,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "alaska-airlines",
     name: "Alaska Airlines",
-    title: "Alaska Airlines Flight Booking Assistance | TicketDepart",
+    title: "Alaska Airlines Reservation Support & Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for Alaska Airlines flight booking, changes, cancellations, family travel, and multi-city itineraries.",
     heading: "Alaska Airlines flight booking assistance",
     intro: "Tell TicketDepart where you need to go, when you want to travel, and what matters most. A specialist can discuss Alaska Airlines itinerary options and booking support by phone.",
@@ -88,7 +88,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "british-airways",
     name: "British Airways",
-    title: "British Airways Flight Booking Assistance | TicketDepart",
+    title: "British Airways Reservation Support & Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for British Airways flight booking, international itineraries, premium cabins, changes, and cancellations.",
     heading: "British Airways flight booking assistance",
     intro: "For a British Airways trip, the details can matter: dates, connection airports, cabin, baggage, and fare flexibility. TicketDepart can review those choices with you by phone.",
@@ -110,7 +110,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "lufthansa",
     name: "Lufthansa",
-    title: "Lufthansa Flight Booking Assistance | TicketDepart",
+    title: "Lufthansa Reservation Support & Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for Lufthansa flight booking, Europe and international itineraries, premium cabins, changes, and cancellations.",
     heading: "Lufthansa flight booking assistance",
     intro: "Planning a Lufthansa itinerary? A TicketDepart specialist can discuss dates, connections, cabin preferences, baggage considerations, and change flexibility before you book.",
@@ -132,7 +132,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "air-canada",
     name: "Air Canada",
-    title: "Air Canada Flight Booking Assistance | TicketDepart",
+    title: "Air Canada Reservation Support & Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for Air Canada flight booking, international travel, family itineraries, changes, cancellations, and multi-city trips.",
     heading: "Air Canada flight booking assistance",
     intro: "Planning an Air Canada itinerary? Tell TicketDepart your route, dates, travelers, and priorities and a specialist can discuss available options by phone.",
@@ -154,7 +154,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "swiss-air",
     name: "SWISS",
-    title: "SWISS Flight Booking Assistance | TicketDepart",
+    title: "SWISS Reservation Support & Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for SWISS flight booking, Europe and international itineraries, premium cabins, changes, and multi-city travel.",
     heading: "SWISS flight assistance with a travel specialist",
     intro: "Planning a SWISS itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can walk through available itinerary options and applicable fare terms before you decide to book.",
@@ -176,7 +176,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "qatar-airways",
     name: "Qatar Airways",
-    title: "Qatar Airways Flight Booking Assistance | TicketDepart",
+    title: "Qatar Airways Reservation Support & Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for Qatar Airways flight booking, international itineraries, premium cabins, connections, changes, and multi-city trips.",
     heading: "Qatar Airways flight assistance with a travel specialist",
     intro: "Planning a Qatar Airways trip? Tell us your route, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options and applicable booking terms before you authorize a booking.",
@@ -198,7 +198,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "emirates",
     name: "Emirates",
-    title: "Emirates Flight Booking Assistance | TicketDepart",
+    title: "Emirates Reservation Support & Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for Emirates flight booking, international itineraries, premium cabins, connections, changes, and multi-city trips.",
     heading: "Emirates flight assistance with a travel specialist",
     intro: "Planning an Emirates itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can help you understand available itinerary options and applicable terms before booking.",
@@ -220,7 +220,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "norse-atlantic-airways",
     name: "Norse Atlantic Airways",
-    title: "Norse Atlantic Airways Flight Booking Assistance | TicketDepart",
+    title: "Norse Atlantic Airways Reservation Support & Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for Norse Atlantic Airways flight booking, transatlantic itineraries, connections, changes, and multi-city travel.",
     heading: "Norse Atlantic Airways flight assistance with a travel specialist",
     intro: "Planning a Norse Atlantic Airways trip? Share your origin, destination, dates, travelers, and preferences. A TicketDepart specialist can discuss transatlantic itinerary options, connections, and applicable booking terms before you decide to book.",
@@ -243,7 +243,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "lot-polish-airlines",
     name: "LOT Polish Airlines",
-    title: "LOT Polish Airlines Flight Booking Assistance | TicketDepart",
+    title: "LOT Polish Airlines Reservation Support & Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for LOT Polish Airlines flight booking, European and international itineraries, premium cabins, connections, changes, and multi-city trips.",
     heading: "LOT Polish Airlines flight assistance with a travel specialist",
     intro: "Planning a LOT Polish Airlines trip? Share your origin, destination, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options, connections, and applicable booking terms before you decide to book.",
@@ -308,7 +308,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
         </nav>
 
         <div className="mx-auto mt-10 max-w-4xl">
-          <p className="label-board text-accent">{page.name} flight assistance</p>
+          <p className="label-board text-accent">{page.name} reservation support</p>
           <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">{page.heading}</h1>
           <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">{page.intro}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -347,7 +347,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
       </Section>
 
       <Section tone="muted" ocid={`${id}.services`}>
-        <SectionHeading eyebrow="What we can discuss" title={`${page.name} travel support`} description="Start with your route, dates, traveler details, or existing reservation. A specialist can work through the options that apply." />
+        <SectionHeading eyebrow="What we can discuss" title={`${page.name} reservation support and booking services`} description="Start with your route, dates, traveler details, or existing reservation. A specialist can work through the options that apply." />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {page.services.map(([title, body]) => (
             <article key={title} className="group rounded-2xl border border-border/80 bg-card p-6 shadow-subtle transition-smooth hover:-translate-y-1 hover:border-primary/20 hover:shadow-elevated">
@@ -371,7 +371,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
       </Section>
 
       <Section tone="muted" ocid={`${id}.faq`}>
-        <SectionHeading eyebrow="FAQ" title={`${page.name} booking questions`} description="Practical information before you call." />
+        <SectionHeading eyebrow="FAQ" title={`${page.name} reservation support questions`} description="Practical information before you call." />
         <div className="mx-auto mt-10 grid max-w-5xl gap-4 lg:grid-cols-2">
           {page.faqs.map((faq) => (
             <details key={faq.question} className="rounded-2xl border border-border bg-card p-5 shadow-subtle">
