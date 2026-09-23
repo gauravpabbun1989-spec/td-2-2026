@@ -336,7 +336,7 @@ export function AmericanAirlinesPage() {
           <CallCta
             size="lg"
             variant="solid"
-            showNumber
+
             ocid="american.cta.call_button"
             className="shrink-0"
           />
