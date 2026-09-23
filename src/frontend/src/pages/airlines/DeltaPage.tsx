@@ -155,8 +155,8 @@ export function DeltaPage() {
   return (
     <>
       <Seo
-        title="Delta Airlines Flight Booking Assistance | TicketDepart"
-        description="Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Call +1 855-544-9001."
+        title="Delta Airlines Reservation Support & Flight Booking Assistance | TicketDepart"
+        description="Independent travel agency providing Delta Airlines reservation support and flight booking assistance for domestic, international, multi-city, and premium-cabin travel. Call +1 855-544-9001."
         path={PATH}
         image={TERMINAL_IMAGE_URL}
         structuredData={[
@@ -191,7 +191,7 @@ export function DeltaPage() {
               Delta Airlines flight assistance
             </p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
-              Delta Airlines bookings handled by a real travel specialist
+              Delta Airlines reservation support from a real travel specialist
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               Whether you are flying a simple domestic round trip or piecing
@@ -263,8 +263,8 @@ export function DeltaPage() {
       <Section tone="muted" ocid="delta.services">
         <SectionHeading
           eyebrow="What we handle"
-          title="Five ways we help with Delta Airlines travel"
-          description="Each service below is handled by a specialist who can explain the trade-offs before you decide, not after."
+          title="Delta Airlines reservation support and booking services"
+          description="From new reservations and international itineraries to changes and premium cabins, each service is handled by a specialist who explains the options before you decide."
         />
         <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((service, index) => (
@@ -396,7 +396,7 @@ export function DeltaPage() {
         <SectionHeading
           eyebrow="Delta Airlines questions"
           title="Frequently asked questions"
-          description="Straight answers about how agency booking works and what we can do for your Delta Airlines itinerary."
+          description="Straight answers about Delta Airlines reservation support, agency booking, changes, rebooking, and premium-cabin travel."
         />
         <dl className="mt-10 grid gap-4 lg:grid-cols-2">
           {FAQS.map((faq, index) => (
