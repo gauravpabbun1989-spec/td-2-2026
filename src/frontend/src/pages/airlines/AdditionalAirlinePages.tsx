@@ -342,3 +342,6 @@ export function AlaskaAirlinesPage() { return <AirlineAssistancePage page={AIRLI
 export function BritishAirwaysPage() { return <AirlineAssistancePage page={AIRLINES[3]} />; }
 export function LufthansaPage() { return <AirlineAssistancePage page={AIRLINES[4]} />; }
 export function AirCanadaPage() { return <AirlineAssistancePage page={AIRLINES[5]} />; }
+export function SwissAirPage() { return <AirlineAssistancePage page={AIRLINES[6]} />; }
+export function QatarAirwaysPage() { return <AirlineAssistancePage page={AIRLINES[7]} />; }
+export function EmiratesPage() { return <AirlineAssistancePage page={AIRLINES[8]} />; }
