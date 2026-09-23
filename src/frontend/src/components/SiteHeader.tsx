@@ -1,6 +1,6 @@
 import { createActor } from "@/backend";
 import { CallCta } from "@/components/CallCta";
-import { NAV_ITEMS, SITE } from "@/lib/site";
+import { AIRLINE_ITEMS, NAV_ITEMS, SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { useActor, useInternetIdentity } from "@caffeineai/core-infrastructure";
 import { useQuery } from "@tanstack/react-query";
@@ -54,22 +54,19 @@ export function SiteHeader() {
             </Link>
           ))}
           <span className="mx-1 h-5 w-px bg-border" aria-hidden="true" />
-          {[
-            { label: "Delta", to: "/delta-airlines" },
-            { label: "United", to: "/united-airlines" },
-            { label: "American", to: "/american-airlines" },
-            { label: "Southwest", to: "/southwest-airlines" },
-          ].map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              data-ocid={`nav.airline.${item.label.toLowerCase()}`}
-              className={cn("rounded-full px-2.5 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring")}
-              activeProps={{ className: "bg-primary text-primary-foreground font-semibold shadow-subtle" }}
-            >
-              {item.label}
-            </Link>
-          ))}
+          <div className="flex max-w-[42rem] items-center gap-1 overflow-x-auto scrollbar-none">
+            {AIRLINE_ITEMS.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                data-ocid={`nav.airline.${item.label.toLowerCase().replace(/\s+/g, "_")}`}
+                className={cn("whitespace-nowrap rounded-full px-2.5 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring")}
+                activeProps={{ className: "bg-primary text-primary-foreground font-semibold shadow-subtle" }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
           {isAdmin ? <Link to="/admin/leads" data-ocid="nav.link.leads_desk" className="rounded-full px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted">Leads Desk</Link> : null}
         </nav>
 
@@ -94,12 +91,7 @@ export function SiteHeader() {
             ))}
             <div className="border-t border-border pt-3 mt-2">
               <p className="px-4 pb-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Airline Guides</p>
-              {[
-                { label: "Delta Airlines", to: "/delta-airlines" },
-                { label: "United Airlines", to: "/united-airlines" },
-                { label: "American Airlines", to: "/american-airlines" },
-                { label: "Southwest Airlines", to: "/southwest-airlines" },
-              ].map((item) => (
+              {AIRLINE_ITEMS.map((item) => (
                 <Link key={item.to} to={item.to} data-ocid={`mobile_nav.airline.${item.label.toLowerCase().replace(/\s+/g, "_")}`} onClick={() => setOpen(false)} className="block rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground" activeProps={{ className: "bg-primary text-primary-foreground font-semibold" }}>
                   {item.label}
                 </Link>
