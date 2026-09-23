@@ -28,15 +28,15 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header data-ocid="site.header" className="sticky top-0 z-50 border-b border-border/70 bg-white/85 shadow-[0_4px_24px_-18px_rgba(8,24,48,0.35)] backdrop-blur-xl">
-      <div className="mx-auto flex h-[4.5rem] w-full max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:h-20 lg:px-10">
+    <header data-ocid="site.header" className="sticky top-0 z-50 border-b border-border/70 bg-white/90 shadow-[0_4px_24px_-18px_rgba(8,24,48,0.35)] backdrop-blur-xl">
+      <div className="mx-auto flex min-h-[4.25rem] w-full max-w-7xl items-center justify-between gap-2 px-4 sm:min-h-[4.5rem] sm:gap-4 sm:px-8 lg:h-20 lg:px-10">
         <Link to="/" data-ocid="site.logo_link" className="group flex items-center gap-3 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
           <span className="flex size-10 items-center justify-center rounded-xl bg-gradient-primary text-primary-foreground shadow-subtle transition-smooth group-hover:scale-105">
             <Plane aria-hidden="true" className="size-5 -rotate-45" />
           </span>
           <span className="flex flex-col leading-none">
-            <span className="font-display text-xl font-bold tracking-[-0.03em] text-foreground">TicketDepart</span>
-            <span className="mt-1 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Flight assistance</span>
+            <span className="font-display text-lg font-bold tracking-[-0.03em] text-foreground sm:text-xl">TicketDepart</span>
+            <span className="mt-1 hidden text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground sm:block">Flight assistance</span>
           </span>
         </Link>
 
@@ -49,7 +49,7 @@ export function SiteHeader() {
           <div className="relative">
             <details className="group">
               <summary className="cursor-pointer list-none rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">More Airlines</summary>
-              <div className="absolute right-0 top-full z-50 mt-2 min-w-56 rounded-2xl border border-border bg-white p-2 shadow-elevated">
+              <div className="absolute right-0 top-full z-50 mt-2 max-h-[70vh] min-w-56 max-w-[calc(100vw-2rem)] overflow-y-auto rounded-2xl border border-border bg-white p-2 shadow-elevated">
                 {AIRLINE_ITEMS.filter((item) => !["/delta-airlines", "/united-airlines", "/american-airlines", "/southwest-airlines"].includes(item.to)).map((item) => (
                   <Link key={item.to} to={item.to} className="block rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">{item.label}</Link>
                 ))}
@@ -60,18 +60,18 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <CallCta size="sm" className="hidden sm:inline-flex shadow-subtle" ocid="header.call_button" />
-          <a href={SITE.phoneHref} aria-label={SITE.ctaLabel} data-ocid="header.call_icon_button" className="inline-flex size-10 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-subtle transition-smooth hover:scale-105 sm:hidden">
+          <a href={SITE.phoneHref} aria-label={SITE.ctaLabel} data-ocid="header.call_icon_button" className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-subtle transition-smooth hover:scale-105 sm:hidden">
             <Phone aria-hidden="true" className="size-4" />
           </a>
-          <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls="mobile-nav-drawer" aria-label={open ? "Close navigation menu" : "Open navigation menu"} data-ocid="header.menu_toggle" className="inline-flex size-10 items-center justify-center rounded-full border border-border bg-white text-foreground transition-smooth hover:bg-muted lg:hidden">
+          <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls="mobile-nav-drawer" aria-label={open ? "Close navigation menu" : "Open navigation menu"} data-ocid="header.menu_toggle" className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-white text-foreground transition-smooth hover:bg-muted lg:hidden">
             {open ? <X aria-hidden="true" className="size-5" /> : <Menu aria-hidden="true" className="size-5" />}
           </button>
         </div>
       </div>
 
       {open ? (
-        <div id="mobile-nav-drawer" data-ocid="header.mobile_drawer" className="border-t border-border bg-white/95 backdrop-blur-xl lg:hidden">
-          <nav aria-label="Mobile" className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-5 py-4 sm:px-8">
+        <div id="mobile-nav-drawer" data-ocid="header.mobile_drawer" className="max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-border bg-white/95 backdrop-blur-xl lg:hidden">
+          <nav aria-label="Mobile" className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-4 py-4 sm:px-8">
             <Link to="/flight-booking" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Flight Booking</Link>
             <Link to="/delta-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Delta Airlines</Link>
             <Link to="/united-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">United Airlines</Link>
