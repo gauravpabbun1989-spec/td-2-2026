@@ -58,7 +58,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <CallCta size="sm" className="hidden sm:inline-flex shadow-subtle" ocid="header.call_button" />
-          <a href={SITE.phoneHref} aria-label={`Call ${SITE.phoneDisplay}`} data-ocid="header.call_icon_button" className="inline-flex size-10 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-subtle transition-smooth hover:scale-105 sm:hidden">
+          <a href={SITE.phoneHref} aria-label={SITE.ctaLabel} data-ocid="header.call_icon_button" className="inline-flex size-10 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-subtle transition-smooth hover:scale-105 sm:hidden">
             <Phone aria-hidden="true" className="size-4" />
           </a>
           <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls="mobile-nav-drawer" aria-label={open ? "Close navigation menu" : "Open navigation menu"} data-ocid="header.menu_toggle" className="inline-flex size-10 items-center justify-center rounded-full border border-border bg-white text-foreground transition-smooth hover:bg-muted lg:hidden">
