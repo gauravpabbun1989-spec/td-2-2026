@@ -71,4 +71,4 @@ export function HeroSection() {
         <p className="mt-5 max-w-4xl text-xs leading-5 text-white/45">{SITE.disclosure}</p>
       </div>
     </section>
-  ),
+  );
