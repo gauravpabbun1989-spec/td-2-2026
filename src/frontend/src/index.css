@@ -45,7 +45,7 @@
   }
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
-  body { @apply bg-background text-foreground font-body antialiased; font-feature-settings: "kern" 1, "liga" 1; text-rendering: optimizeLegibility; }
+  body { @apply overflow-x-hidden bg-background text-foreground font-body antialiased; font-feature-settings: "kern" 1, "liga" 1; text-rendering: optimizeLegibility; }
   h1,h2,h3,h4 { @apply font-display tracking-tight; }
   :focus-visible { @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background; }
 }
