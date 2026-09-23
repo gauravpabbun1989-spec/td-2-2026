@@ -86,6 +86,7 @@ export const AIRLINE_ITEMS: readonly NavItem[] = [
   { label: "SWISS", to: "/swiss-air" },
   { label: "Qatar Airways", to: "/qatar-airways" },
   { label: "Emirates", to: "/emirates" },
+  { label: "LOT Polish Airlines", to: "/lot-polish-airlines" },
 ] as const;
 
 export const LEGAL_ITEMS: readonly NavItem[] = [
