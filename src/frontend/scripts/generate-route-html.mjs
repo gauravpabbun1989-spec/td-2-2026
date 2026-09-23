@@ -83,6 +83,12 @@ const routes = {
     heading: "Emirates flight assistance with a travel specialist",
     text: "Get independent travel assistance for Emirates itineraries, long-haul connections, premium cabins, changes, and multi-city planning.",
   },
+  "/norse-atlantic-airways": {
+    title: "Norse Atlantic Airways Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency assistance for Norse Atlantic Airways flight booking, transatlantic itineraries, connections, changes, and multi-city travel.",
+    heading: "Norse Atlantic Airways flight assistance with a travel specialist",
+    text: "Get independent travel assistance for Norse Atlantic Airways transatlantic itineraries, connections, changes, and multi-city planning.",
+  },
   "/lot-polish-airlines": {
     title: "LOT Polish Airlines Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency assistance for LOT Polish Airlines flight booking, European and international itineraries, premium cabins, connections, changes, and multi-city trips.",
