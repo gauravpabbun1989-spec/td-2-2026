@@ -217,6 +217,29 @@ const AIRLINES: readonly AirlinePage[] = [
       { question: "Can you help with a multi-city Emirates itinerary?", answer: "Yes. We can discuss multiple destinations, connection timing, and practical itinerary structures before booking." },
     ],
   },
+  {
+    slug: "lot-polish-airlines",
+    name: "LOT Polish Airlines",
+    title: "LOT Polish Airlines Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency assistance for LOT Polish Airlines flight booking, European and international itineraries, premium cabins, connections, changes, and multi-city trips.",
+    heading: "LOT Polish Airlines flight assistance with a travel specialist",
+    intro: "Planning a LOT Polish Airlines trip? Share your origin, destination, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options, connections, and applicable booking terms before you decide to book.",
+    services: [
+      ["International booking", "Discuss European, transatlantic, and other international routing, schedules, connections, and fare conditions."],
+      ["Poland and Europe travel", "Work through routes involving Poland and European destinations, including connection timing and practical airport choices."],
+      ["Premium cabin planning", "Review available premium-cabin options and the fare conditions and inclusions that apply to your itinerary."],
+      ["Connection planning", "Look at the complete itinerary and discuss practical connection timing rather than evaluating each segment alone."],
+      ["Changes and rebooking", "Review an existing reservation and discuss eligible replacement dates, routing, availability, and applicable fare differences."],
+      ["Multi-city travel", "Plan multiple destinations or open-jaw routing and discuss practical itinerary structures before booking."],
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with LOT Polish Airlines?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by LOT Polish Airlines." },
+      { question: "Can I book a LOT Polish Airlines flight by phone?", answer: "Yes. A specialist can discuss your route, dates, travelers, cabin preferences, and available booking options." },
+      { question: "Can you help with LOT Polish Airlines connections?", answer: "Yes. We can discuss the complete itinerary and practical connection considerations. Travelers remain responsible for confirming current passport, visa, transit, and entry requirements." },
+      { question: "Can you help change an existing LOT reservation?", answer: "We can review the reservation and discuss possible changes or rebooking. Exact eligibility and costs depend on the ticket terms and availability." },
+      { question: "Are service fees disclosed before payment?", answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fare, taxes, and other applicable charges are reviewed before you decide." },
+    ],
+  },
 ];
 
 const RELATED = [
@@ -360,3 +383,4 @@ export function AirCanadaPage() { return <AirlineAssistancePage page={AIRLINES[5
 export function SwissAirPage() { return <AirlineAssistancePage page={AIRLINES[6]} />; }
 export function QatarAirwaysPage() { return <AirlineAssistancePage page={AIRLINES[7]} />; }
 export function EmiratesPage() { return <AirlineAssistancePage page={AIRLINES[8]} />; }
+export function LotPolishAirlinesPage() { return <AirlineAssistancePage page={AIRLINES[9]} />; }
