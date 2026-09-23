@@ -12,7 +12,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 const HOME_TITLE = "TicketDepart | Premium Flight Reservation Assistance";
-const HOME_DESCRIPTION = "Independent U.S. travel agency offering human flight reservation assistance for domestic and international travel, multi-city trips, premium cabins, and group itineraries. Specialists are available 24/7.";
+const HOME_DESCRIPTION = "Book flights by phone with TicketDepart. Get 24/7 flight booking assistance for domestic and international travel, changes, and cancellations.";
 
 const HOME_IMAGE = absoluteUrl("/assets/generated/hero-flight.dim_1600x1100.jpg");
 
