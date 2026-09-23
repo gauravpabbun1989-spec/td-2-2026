@@ -40,8 +40,8 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
-          <Link to="/flight-booking" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">Flight Booking</Link>
+        <nav aria-label="Primary" className="hidden min-w-0 items-center gap-0.5 lg:flex xl:gap-1">
+          <Link to="/flight-booking" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">Flight Booking</Link>
           <Link to="/delta-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">Delta Airlines</Link>
           <Link to="/united-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">United Airlines</Link>
           <Link to="/american-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">American Airlines</Link>
@@ -49,7 +49,7 @@ export function SiteHeader() {
           <div className="relative">
             <details className="group">
               <summary className="cursor-pointer list-none rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">More Airlines</summary>
-              <div className="absolute right-0 top-full z-50 mt-2 max-h-[70vh] min-w-56 max-w-[calc(100vw-2rem)] overflow-y-auto rounded-2xl border border-border bg-white p-2 shadow-elevated">
+              <div className="absolute right-0 top-full z-50 mt-2 max-h-[min(70vh,32rem)] min-w-56 max-w-[calc(100vw-1rem)] overflow-y-auto overscroll-contain rounded-2xl border border-border bg-white p-2 shadow-elevated">
                 {AIRLINE_ITEMS.filter((item) => !["/delta-airlines", "/united-airlines", "/american-airlines", "/southwest-airlines"].includes(item.to)).map((item) => (
                   <Link key={item.to} to={item.to} className="block rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">{item.label}</Link>
                 ))}
@@ -59,7 +59,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <CallCta size="sm" className="hidden sm:inline-flex shadow-subtle" ocid="header.call_button" />
+          <CallCta size="sm" className="hidden xl:inline-flex shadow-subtle" ocid="header.call_button" />
           <a href={SITE.phoneHref} aria-label={SITE.ctaLabel} data-ocid="header.call_icon_button" className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-subtle transition-smooth hover:scale-105 sm:hidden">
             <Phone aria-hidden="true" className="size-4" />
           </a>
@@ -70,7 +70,7 @@ export function SiteHeader() {
       </div>
 
       {open ? (
-        <div id="mobile-nav-drawer" data-ocid="header.mobile_drawer" className="max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-border bg-white/95 backdrop-blur-xl lg:hidden">
+        <div id="mobile-nav-drawer" data-ocid="header.mobile_drawer" className="max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain border-t border-border bg-white/95 backdrop-blur-xl lg:hidden">
           <nav aria-label="Mobile" className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-4 py-4 sm:px-8">
             <Link to="/flight-booking" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Flight Booking</Link>
             <Link to="/delta-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Delta Airlines</Link>
