@@ -1,0 +1,532 @@
+import { CallCta } from "@/components/CallCta";
+import { Section, SectionHeading } from "@/components/Section";
+import { Seo } from "@/components/Seo";
+import {
+  breadcrumbSchema,
+  faqSchema,
+  serviceSchema,
+  webPageSchema,
+} from "@/lib/seo";
+import { SITE } from "@/lib/site";
+import { Link } from "@tanstack/react-router";
+import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
+
+type PageConfig = {
+  path: string;
+  title: string;
+  description: string;
+  heading: string;
+  intro: string;
+  service: string;
+  items: readonly [string, string][];
+  faqs: readonly { question: string; answer: string }[];
+};
+
+const PAGES: readonly PageConfig[] = [
+  {
+    path: "/cheap-flight-booking-by-phone",
+    title: "Cheap Flight Booking by Phone | TicketDepart",
+    description:
+      "Discuss affordable domestic and international flight options by phone. Compare dates, nearby airports, cabins, and fare conditions with a TicketDepart travel specialist.",
+    heading: "Cheap flight booking help by phone",
+    intro:
+      "A small change in travel date, airport, cabin, or routing can affect the fare. Tell us what you are trying to balance and a specialist can review available options with you.",
+    service: "Affordable flight booking assistance",
+    items: [
+      [
+        "Flexible travel dates",
+        "Discuss date flexibility that may open different schedules or fares.",
+      ],
+      [
+        "Nearby airports",
+        "Compare practical alternative airports when the trip allows it.",
+      ],
+      [
+        "Domestic and international",
+        "Review options for U.S. trips and international itineraries.",
+      ],
+      [
+        "Cabin choices",
+        "Compare economy and premium cabin options with the fare conditions.",
+      ],
+      [
+        "Baggage details",
+        "Ask what baggage is included and what additional charges may apply.",
+      ],
+      [
+        "Fare conditions",
+        "Review changes, cancellations, and other restrictions before booking.",
+      ],
+    ],
+    faqs: [
+      {
+        question: "Can you help me find a cheaper flight?",
+        answer:
+          "A specialist can discuss available fares, dates, airports, routing, and cabin options. Final prices depend on live availability and fare rules.",
+      },
+      {
+        question: "Can changing my departure airport lower the fare?",
+        answer:
+          "It can in some cases. Nearby airports may have different schedules and prices, but you should compare the total trip cost and ground transportation.",
+      },
+      {
+        question: "Can I ask for the total price before paying?",
+        answer:
+          "Yes. Ask for the full airfare, taxes and charges, baggage terms, and any applicable agency service fee before authorizing payment.",
+      },
+    ],
+  },
+  {
+    path: "/business-class-flight-booking",
+    title: "Business Class Flight Booking Assistance | TicketDepart",
+    description:
+      "Plan business class and premium cabin flights by phone. Discuss schedules, connections, cabin features, baggage, and fare conditions with a TicketDepart specialist.",
+    heading: "Business class flight booking assistance",
+    intro:
+      "Business class travel can differ significantly by aircraft, route, connection, and fare family. A phone conversation lets you explain the experience and schedule you need before booking.",
+    service: "Business class flight booking",
+    items: [
+      [
+        "Business class options",
+        "Compare available business class schedules and routing for your dates.",
+      ],
+      [
+        "Aircraft and seats",
+        "Discuss seat layouts, lie-flat availability, and cabin differences where known.",
+      ],
+      [
+        "Connection planning",
+        "Review layovers and connection airports for long-haul itineraries.",
+      ],
+      [
+        "International travel",
+        "Discuss premium-cabin options for Europe, Asia, Latin America, and other markets.",
+      ],
+      [
+        "Fare flexibility",
+        "Review change and cancellation conditions before you choose a fare.",
+      ],
+      [
+        "Baggage and services",
+        "Ask what the selected fare includes and which services are available.",
+      ],
+    ],
+    faqs: [
+      {
+        question: "Can I book business class by phone?",
+        answer:
+          "Yes. TicketDepart can discuss business class itineraries, cabin preferences, dates, and available booking options by phone.",
+      },
+      {
+        question: "Can you help compare business class seats?",
+        answer:
+          "We can discuss available aircraft and cabin information when it is available for the itinerary. Exact seat maps and availability depend on the airline and fare.",
+      },
+      {
+        question: "Is business class always refundable?",
+        answer:
+          "No. Refund and change conditions depend on the fare purchased and the airline's rules.",
+      },
+    ],
+  },
+  {
+    path: "/same-day-flight-booking",
+    title: "Same-Day Flight Booking Assistance | TicketDepart",
+    description:
+      "Need to travel today? Call TicketDepart to discuss same-day flight availability, nearby airports, connections, and ticketing deadlines with a travel specialist.",
+    heading: "Same-day flight booking help",
+    intro:
+      "Same-day travel can change quickly as seats sell and departure deadlines approach. Call with your route and timing so the specialist can work through the available possibilities.",
+    service: "Same-day flight booking assistance",
+    items: [
+      [
+        "Travel today",
+        "Discuss currently available options when you need to depart the same day.",
+      ],
+      [
+        "Nearby airports",
+        "Consider additional airports if they are practical for your departure.",
+      ],
+      [
+        "Nonstop or connecting",
+        "Compare the fastest practical routing with other available choices.",
+      ],
+      [
+        "Urgent timing",
+        "Discuss check-in, airport, and ticketing timing that may affect the trip.",
+      ],
+      [
+        "Flexible destination airports",
+        "Consider alternate arrival airports when they make the itinerary workable.",
+      ],
+      [
+        "Fare terms",
+        "Review the applicable price, baggage, and change rules before payment.",
+      ],
+    ],
+    faqs: [
+      {
+        question: "Can you help me book a flight for today?",
+        answer:
+          "We can discuss same-day options by phone. Availability depends on live inventory, the route, departure time, and ticketing deadlines.",
+      },
+      {
+        question: "Can you check nearby airports?",
+        answer:
+          "Yes. Additional airports can be considered when they are practical for your trip.",
+      },
+      {
+        question: "Will the price be guaranteed while I decide?",
+        answer:
+          "No. Same-day fares and seat availability can change until a ticket is issued.",
+      },
+    ],
+  },
+  {
+    path: "/family-flight-booking",
+    title: "Family Flight Booking Assistance | TicketDepart",
+    description:
+      "Plan family flights by phone with help coordinating travelers, dates, seats, baggage, connections, and practical itinerary options.",
+    heading: "Family flight booking assistance",
+    intro:
+      "Family travel can involve different ages, baggage needs, seats, schedules, and connection preferences. A specialist can work through those details with you before you confirm the trip.",
+    service: "Family flight booking assistance",
+    items: [
+      [
+        "Traveling together",
+        "Discuss itineraries that keep family members on the same flight where availability allows.",
+      ],
+      [
+        "Seat planning",
+        "Ask about seat availability and seating options for the family.",
+      ],
+      [
+        "Child and infant travel",
+        "Discuss the booking details you should prepare for younger travelers.",
+      ],
+      [
+        "Baggage planning",
+        "Review baggage allowances and applicable fees for your selected fare.",
+      ],
+      [
+        "Connections",
+        "Compare connection times that may be more practical for family travel.",
+      ],
+      [
+        "Flexible scheduling",
+        "Explore date and airport alternatives when your plans allow flexibility.",
+      ],
+    ],
+    faqs: [
+      {
+        question: "Can you help book flights for a family?",
+        answer:
+          "Yes. A specialist can discuss traveler count, ages, routing, dates, cabin preference, and seating considerations.",
+      },
+      {
+        question: "Can you keep the family on the same flight?",
+        answer:
+          "We can discuss coordinated itineraries, but keeping everyone together depends on inventory and the airline's booking and seat availability.",
+      },
+      {
+        question: "What family travel details should I have ready?",
+        answer:
+          "Have traveler count, approximate ages, origin, destination, dates, cabin preference, and any accessibility or seating needs ready if known.",
+      },
+    ],
+  },
+  {
+    path: "/flight-change-assistance",
+    title: "Flight Change Assistance by Phone | TicketDepart",
+    description:
+      "Need to change a flight? Discuss date, time, route, fare difference, and airline change rules with a TicketDepart travel specialist.",
+    heading: "Flight change assistance by phone",
+    intro:
+      "Before changing an existing ticket, review the current fare rules and the practical alternatives. A specialist can help you understand the options available for your itinerary.",
+    service: "Flight change assistance",
+    items: [
+      [
+        "Date or time changes",
+        "Discuss moving the departure or return date and the resulting fare conditions.",
+      ],
+      [
+        "Route changes",
+        "Ask whether a different departure, arrival, or connecting airport can work.",
+      ],
+      [
+        "Fare difference",
+        "Review any fare difference and applicable change charges before authorizing the change.",
+      ],
+      [
+        "Schedule changes",
+        "Discuss options when the airline changes the original schedule.",
+      ],
+      [
+        "Connection alternatives",
+        "Compare replacement itineraries when the original routing no longer fits.",
+      ],
+      [
+        "Ticket details",
+        "Have the confirmation code, passenger name, and existing itinerary ready.",
+      ],
+    ],
+    faqs: [
+      {
+        question: "Can you help change my flight by phone?",
+        answer:
+          "Yes. TicketDepart can discuss possible date, time, route, and itinerary changes. Final changes depend on the ticket's fare rules and the airline's inventory.",
+      },
+      {
+        question: "Will I have to pay a change fee?",
+        answer:
+          "It depends on the fare, airline, route, and timing. You should review any applicable charges and fare difference before authorizing the change.",
+      },
+      {
+        question: "What should I have ready?",
+        answer:
+          "Have the passenger name, confirmation code or ticket number, current itinerary, and preferred new dates or route ready.",
+      },
+    ],
+  },
+  {
+    path: "/flight-cancellation-assistance",
+    title: "Flight Cancellation Assistance by Phone | TicketDepart",
+    description:
+      "Need to cancel a flight? Discuss cancellation rules, refunds, credits, deadlines, and replacement travel options with a TicketDepart specialist.",
+    heading: "Flight cancellation assistance by phone",
+    intro:
+      "Cancellation outcomes depend on the ticket, fare rules, airline policy, and timing. A specialist can help you review the applicable options before you request a cancellation.",
+    service: "Flight cancellation assistance",
+    items: [
+      [
+        "Cancellation review",
+        "Discuss whether the ticket may qualify for a refund, credit, or other option.",
+      ],
+      [
+        "Timing and deadlines",
+        "Review the timing requirements that can affect the outcome.",
+      ],
+      [
+        "Refund questions",
+        "Ask what refund rules appear to apply to the specific ticket.",
+      ],
+      [
+        "Travel credits",
+        "Discuss whether the airline may issue a credit and what restrictions apply.",
+      ],
+      [
+        "Partial itinerary changes",
+        "Review whether canceling one segment affects the rest of the itinerary.",
+      ],
+      [
+        "Replacement travel",
+        "Discuss rebooking alternatives when canceling the original itinerary is not the best fit.",
+      ],
+    ],
+    faqs: [
+      {
+        question: "Can you help me cancel a flight?",
+        answer:
+          "Yes. We can review the ticket details and discuss the cancellation options and applicable terms before anything is processed.",
+      },
+      {
+        question: "Will I get a refund?",
+        answer:
+          "Not necessarily. Refund eligibility depends on the ticket, fare conditions, airline rules, applicable law, and timing.",
+      },
+      {
+        question: "Could I receive a travel credit instead?",
+        answer:
+          "Depending on the ticket and airline policy, a credit may be available. The exact restrictions should be confirmed before cancellation.",
+      },
+    ],
+  },
+];
+
+function AdditionalBookingPage({ page }: { page: PageConfig }) {
+  const id = page.path.slice(1).replaceAll("-", "_");
+
+  return (
+    <>
+      <Seo
+        title={page.title}
+        description={page.description}
+        path={page.path}
+        structuredData={[
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: page.heading, path: page.path },
+          ]),
+          webPageSchema({
+            title: page.title,
+            description: page.description,
+            path: page.path,
+          }),
+          serviceSchema({
+            name: page.service,
+            description: page.description,
+            path: page.path,
+          }),
+          faqSchema(page.faqs),
+        ]}
+      />
+
+      <Section tone="paper" ocid={`${id}.hero`}>
+        <nav aria-label="Breadcrumb">
+          <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+            <li>
+              <Link to="/" className="font-medium hover:text-foreground">
+                Home
+              </Link>
+            </li>
+            <li aria-hidden="true">
+              <ArrowRight className="size-4" />
+            </li>
+            <li>
+              <span aria-current="page" className="font-semibold text-foreground">
+                {page.heading}
+              </span>
+            </li>
+          </ol>
+        </nav>
+
+        <div className="mx-auto mt-10 max-w-4xl">
+          <p className="label-board text-accent">{page.service}</p>
+          <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
+            {page.heading}
+          </h1>
+          <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+            {page.intro}
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <CallCta size="lg" ocid={`${id}.hero_call`} />
+            <Link
+              to="/contact"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground"
+            >
+              Send trip details <ArrowRight className="size-4" />
+            </Link>
+          </div>
+          <p className="mt-5 flex items-center gap-2 text-sm text-muted-foreground">
+            <Phone className="size-4 text-accent" />
+            {SITE.hours} · {SITE.phoneDisplay}
+          </p>
+        </div>
+      </Section>
+
+      <Section tone="muted" ocid={`${id}.services`}>
+        <SectionHeading
+          eyebrow="What we can discuss"
+          title="Practical help for your trip"
+          description="Start with your route, dates, traveler details, or existing booking. The specialist can work through the options that apply."
+        />
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {page.items.map(([title, text]) => (
+            <article
+              key={title}
+              className="rounded-2xl border border-border bg-card p-6 shadow-subtle"
+            >
+              <CheckCircle2 className="size-5 text-accent" />
+              <h2 className="mt-4 font-display text-lg font-semibold">{title}</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {text}
+              </p>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="paper" ocid={`${id}.cta`}>
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="label-board text-accent">Available 24/7</p>
+          <h2 className="mt-4 text-balance text-3xl font-semibold sm:text-4xl">
+            Talk with a flight specialist
+          </h2>
+          <p className="mt-5 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Call {SITE.phoneDisplay}. Review the applicable itinerary or ticket
+            details and any relevant terms before you decide.
+          </p>
+          <div className="mt-8">
+            <CallCta size="lg" showNumber ocid={`${id}.final_call`} />
+          </div>
+        </div>
+      </Section>
+
+      <Section tone="paper" ocid={`${id}.related`}>
+        <SectionHeading
+          eyebrow="Related booking help"
+          title="Explore more high-intent flight guides"
+          description="Continue to another flight-planning or support topic."
+        />
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            ["Flight booking", "/flight-booking"],
+            ["Book a flight by phone", "/book-a-flight-by-phone"],
+            ["International flights", "/international-flight-booking"],
+            ["Last-minute flights", "/last-minute-flight-booking"],
+            ["Multi-city flights", "/multi-city-flight-booking"],
+            ["Group flights", "/group-flight-booking"],
+          ].map(([label, to]) => (
+            <Link
+              key={to}
+              to={to}
+              className="rounded-2xl border border-border bg-card p-5 shadow-subtle hover:shadow-elevated"
+            >
+              <span className="font-display text-base font-semibold">{label}</span>
+              <span className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary">
+                Open guide <ArrowRight className="size-4" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="paper" ocid={`${id}.faq`}>
+        <SectionHeading
+          eyebrow="FAQ"
+          title={`${page.service} questions`}
+          description="Practical information before you call."
+        />
+        <div className="mx-auto mt-10 max-w-3xl space-y-4">
+          {page.faqs.map((faq) => (
+            <details
+              key={faq.question}
+              className="rounded-2xl border border-border bg-card p-5 shadow-subtle"
+            >
+              <summary className="cursor-pointer font-semibold">
+                {faq.question}
+              </summary>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {faq.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </Section>
+    </>
+  );
+}
+
+export function CheapFlightBookingByPhonePage() {
+  return <AdditionalBookingPage page={PAGES[0]} />;
+}
+
+export function BusinessClassFlightBookingPage() {
+  return <AdditionalBookingPage page={PAGES[1]} />;
+}
+
+export function SameDayFlightBookingPage() {
+  return <AdditionalBookingPage page={PAGES[2]} />;
+}
+
+export function FamilyFlightBookingPage() {
+  return <AdditionalBookingPage page={PAGES[3]} />;
+}
+
+export function FlightChangeAssistancePage() {
+  return <AdditionalBookingPage page={PAGES[4]} />;
+}
+
+export function FlightCancellationAssistancePage() {
+  return <AdditionalBookingPage page={PAGES[5]} />;
+}

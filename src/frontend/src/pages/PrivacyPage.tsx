@@ -68,7 +68,7 @@ const POLICY_BLOCKS: readonly PolicyBlock[] = [
     heading: "Your choices and rights",
     paragraphs: [
       "You can ask us what personal information we hold about you, request a correction, or ask us to delete information we are not required to keep. You can also ask us to stop contacting you about anything other than an active request or reservation.",
-      `To make a request, email ${SITE.email} or call ${SITE.phoneDisplay}. We may ask a few questions to confirm your identity before we act on a request.`,
+      `To make a request, email ${SITE.email}. We may ask a few questions to confirm your identity before we act on a request.`,
     ],
   },
   {
@@ -241,7 +241,7 @@ export function PrivacyPage() {
               Questions about your booking or your data?
             </h2>
             <p className="mt-3 text-pretty text-base leading-relaxed text-primary-foreground/80">
-              Call {SITE.phoneDisplay} and a specialist will help you directly.
+              A travel specialist can help you directly by phone.
             </p>
           </div>
           <CallCta

@@ -67,4 +67,26 @@ module {
     #invalidReturnDate;
     #invalidTravelers;
   };
+
+  /// Outcome of the transactional notification email attempted after a lead is
+  /// durably stored. `#sent` means the platform email extension accepted the
+  /// message; `#failed` carries the extension's error text. A `#failed` value
+  /// never means the lead was lost — the lead is already persisted.
+  public type EmailStatus = {
+    #sent;
+    #failed : Text;
+  };
+
+  /// Successful submission result. The lead is durably stored before this value
+  /// is returned; `email` reports whether the notification email was sent.
+  public type SubmitSuccess = {
+    lead : TripRequest;
+    email : EmailStatus;
+  };
+
+  /// Result of a trip-request submission: `#ok` only after durable storage.
+  public type SubmitResult = {
+    #ok : SubmitSuccess;
+    #err : SubmitError;
+  };
 };

@@ -1,4 +1,12 @@
-import { Cabin, SubmitError, TripType, createActor } from "@/backend";
+import {
+  Cabin,
+  type EmailStatus,
+  SubmitError,
+  TripType,
+  createActor,
+} from "@/backend";
+import { trackLeadSubmit } from "@/lib/analytics";
+import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useMutation } from "@tanstack/react-query";
@@ -191,6 +199,30 @@ export function TripRequestForm() {
   const [values, setValues] = useState<FormValues>(EMPTY_FORM);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<EmailStatus | null>(null);
+
+  const fallbackEmail = (() => {
+    const subject = encodeURIComponent(
+      `TicketDepart callback request - ${values.name || "Travel inquiry"}`,
+    );
+    const body = encodeURIComponent(
+      [
+        `Name: ${values.name}`,
+        `Phone: ${values.phone}`,
+        `Email: ${values.email}`,
+        `Trip type: ${values.tripType}`,
+        `From: ${values.origin}`,
+        `To: ${values.destination}`,
+        `Departure: ${values.departureDate}`,
+        `Return: ${values.returnDate || "One-way"}`,
+        `Travelers: ${values.travelers}`,
+        `Cabin: ${values.cabin}`,
+        `Trip details: ${values.details || "None"}`,
+      ].join("\
+"),
+    );
+    return `mailto:${SITE.email}?subject=${subject}&body=${body}`;
+  })();
 
   const mutation = useMutation({
     mutationFn: async (input: FormValues) => {
@@ -242,8 +274,21 @@ export function TripRequestForm() {
     mutation.mutate(values, {
       onSuccess: (result) => {
         if (result.__kind__ === "ok") {
+          // `#ok` carries SubmitSuccess { lead; email } and is returned only
+          // after the lead is durably stored, so the stored record is read
+          // from `result.ok.lead` before confirming in place. The email status
+          // is surfaced honestly in the success state below.
+          const { lead, email } = result.ok;
+          if (!lead) {
+            setErrors({
+              name: "We could not confirm your request. Please try again.",
+            });
+            return;
+          }
           setValues(EMPTY_FORM);
           setErrors({});
+          setEmailStatus(email);
+          trackLeadSubmit("contact_form");
           setSubmitted(true);
           return;
         }
@@ -268,6 +313,25 @@ export function TripRequestForm() {
           specialist will review your trip details and follow up using the phone
           number and email you provided.
         </p>
+
+        {emailStatus?.__kind__ === "sent" ? (
+          <p
+            data-ocid="contact.email_sent_state"
+            className="mt-4 rounded-lg border border-success/30 bg-success/5 px-4 py-3 text-sm font-medium text-success"
+          >
+            A confirmation email is on its way to the address you provided.
+          </p>
+        ) : emailStatus?.__kind__ === "failed" ? (
+          <p
+            role="alert"
+            data-ocid="contact.email_failed_state"
+            className="mt-4 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-medium text-destructive"
+          >
+            Your request was received, but we could not send the confirmation
+            email just now. Please keep this page or call us to confirm your
+            trip.
+          </p>
+        ) : null}
 
         <div className="mt-6 rounded-xl border border-accent/30 bg-accent/5 p-5">
           <p className="text-base font-semibold text-foreground">
@@ -540,15 +604,37 @@ export function TripRequestForm() {
           data-ocid="contact.error_state"
           className="mt-6 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-medium text-destructive"
         >
-          We could not send your request just now. Please try again, or call{" "}
+          We could not send your request just now. Your details are still on
+          this form. Please try again, or use the email option below.
+        </p>
+      ) : null}
+
+      {mutation.isError ? (
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            data-ocid="contact.retry_button"
+            onClick={() => mutation.mutate(values)}
+            disabled={mutation.isPending}
+            className="inline-flex h-11 items-center justify-center rounded-full border border-primary/25 bg-card px-5 text-sm font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            Try sending again
+          </button>
+          <a
+            href={fallbackEmail}
+            data-ocid="contact.email_fallback_link"
+            className="inline-flex h-11 items-center justify-center rounded-full border border-accent/30 bg-accent/5 px-5 text-sm font-medium text-primary transition-smooth hover:bg-accent/10"
+          >
+            Email my trip details instead
+          </a>
           <a
             href="tel:+18555449001"
-            className="font-semibold underline underline-offset-4"
+            data-ocid="contact.error_call_link"
+            className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-medium text-primary transition-smooth hover:bg-muted"
           >
-            +1 855-544-9001
-          </a>{" "}
-          and we will take the details over the phone.
-        </p>
+            Call +1 855-544-9001
+          </a>
+        </div>
       ) : null}
 
       <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

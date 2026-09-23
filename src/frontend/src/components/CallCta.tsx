@@ -3,47 +3,39 @@ import { cn } from "@/lib/utils";
 import { Phone } from "lucide-react";
 
 type CallCtaProps = {
-  /** Visual treatment. `solid` for dark surfaces, `outline` for light ones. */
   variant?: "solid" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
   className?: string;
-  /** Optional ocid override for deterministic testing. */
   ocid?: string;
+  /** Legacy compatibility: callers may pass this prop, but the number is intentionally never rendered here. */
   showNumber?: boolean;
 };
 
-const sizeClasses: Record<NonNullable<CallCtaProps["size"]>, string> = {
+const sizeClasses = {
   sm: "h-10 px-4 text-sm gap-2",
   md: "h-11 px-5 text-sm gap-2",
   lg: "h-12 px-6 text-base gap-2.5",
-};
+} as const;
 
-const variantClasses: Record<NonNullable<CallCtaProps["variant"]>, string> = {
-  solid:
-    "bg-accent text-accent-foreground hover:bg-accent/90 shadow-subtle hover:shadow-elevated",
-  outline:
-    "border border-primary/25 bg-card text-primary hover:bg-primary hover:text-primary-foreground",
+const variantClasses = {
+  solid: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-subtle hover:shadow-elevated",
+  outline: "border border-primary/20 bg-card text-primary hover:bg-primary hover:text-primary-foreground",
   ghost: "text-primary hover:bg-primary/5",
-};
+} as const;
 
-/**
- * The single conversion control used across the site. Always a real tel: link
- * so mobile visitors can tap to call directly from search results.
- */
 export function CallCta({
   variant = "solid",
   size = "md",
   className,
   ocid = "call.primary_button",
-  showNumber = false,
 }: CallCtaProps) {
   return (
     <a
       href={SITE.phoneHref}
       data-ocid={ocid}
-      aria-label={`${SITE.ctaLabel} at ${SITE.phoneDisplay}`}
+      aria-label={SITE.ctaLabel}
       className={cn(
-        "inline-flex items-center justify-center rounded-full font-medium tracking-tight transition-smooth",
+        "inline-flex items-center justify-center rounded-full font-semibold tracking-tight transition-smooth",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         sizeClasses[size],
         variantClasses[variant],
@@ -51,9 +43,7 @@ export function CallCta({
       )}
     >
       <Phone aria-hidden="true" className="size-4 shrink-0" />
-      <span className="whitespace-nowrap">
-        {showNumber ? SITE.phoneDisplay : SITE.ctaLabel}
-      </span>
+      <span className="whitespace-nowrap">{SITE.ctaLabel}</span>
     </a>
   );
 }

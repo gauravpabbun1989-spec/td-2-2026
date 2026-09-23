@@ -9,11 +9,11 @@ const ROUTES = [
   { path: "/flight-booking", heading: /flight booking help for trips/i },
   {
     path: "/delta-airlines",
-    heading: /delta bookings handled by a real travel specialist/i,
+    heading: /delta airlines bookings handled by a real travel specialist/i,
   },
   {
     path: "/united-airlines",
-    heading: /united itineraries, planned and booked by phone/i,
+    heading: /united airlines itineraries, planned and booked by phone/i,
   },
   {
     path: "/american-airlines",

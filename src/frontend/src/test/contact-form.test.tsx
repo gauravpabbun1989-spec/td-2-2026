@@ -4,8 +4,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
   Cabin,
-  type Result,
   SubmitError,
+  type SubmitResult,
   type TripRequestInput,
   TripType,
 } from "@/backend";
@@ -18,7 +18,8 @@ import { renderRoute } from "@/test/render-route";
  * consumer contract (trimmed fields, `bigint` travelers, optional return date
  * and details, and the selected cabin).
  */
-const submitTripRequest = vi.fn<(input: TripRequestInput) => Promise<Result>>();
+const submitTripRequest =
+  vi.fn<(input: TripRequestInput) => Promise<SubmitResult>>();
 
 vi.mock("@caffeineai/core-infrastructure", async (importOriginal) => {
   const actual =
@@ -32,23 +33,31 @@ vi.mock("@caffeineai/core-infrastructure", async (importOriginal) => {
   };
 });
 
-function okResult(input: TripRequestInput): Result {
+/**
+ * The backend returns `#ok` only after the lead is durably stored, and the
+ * success payload carries the stored record plus the notification-email
+ * outcome. The form reads the stored lead from `result.ok.lead`.
+ */
+function okResult(input: TripRequestInput): SubmitResult {
   return {
     __kind__: "ok",
     ok: {
-      id: 1n,
-      name: input.name,
-      phone: input.phone,
-      email: input.email,
-      tripType: input.tripType,
-      origin: input.origin,
-      destination: input.destination,
-      departureDate: input.departureDate,
-      returnDate: input.returnDate,
-      travelers: input.travelers,
-      cabin: input.cabin,
-      details: input.details,
-      submittedAt: 1_700_000_000_000_000_000n,
+      lead: {
+        id: 1n,
+        name: input.name,
+        phone: input.phone,
+        email: input.email,
+        tripType: input.tripType,
+        origin: input.origin,
+        destination: input.destination,
+        departureDate: input.departureDate,
+        returnDate: input.returnDate,
+        travelers: input.travelers,
+        cabin: input.cabin,
+        details: input.details,
+        submittedAt: 1_700_000_000_000_000_000n,
+      },
+      email: { __kind__: "sent", sent: null },
     },
   };
 }
@@ -378,5 +387,97 @@ describe("TripRequestForm", () => {
         /could not send your request/i,
       );
     });
+  });
+
+  it("confirms success from the stored lead in the new #ok payload", async () => {
+    // The backend returns `#ok` only after durable storage, and the stored
+    // record lives at `result.ok.lead`. The form must read that payload rather
+    // than assume the submitted input was stored.
+    submitTripRequest.mockImplementation(async (input) => ({
+      __kind__: "ok",
+      ok: {
+        lead: {
+          id: 42n,
+          name: "Stored Name",
+          phone: input.phone,
+          email: input.email,
+          tripType: input.tripType,
+          origin: input.origin,
+          destination: input.destination,
+          departureDate: input.departureDate,
+          returnDate: input.returnDate,
+          travelers: input.travelers,
+          cabin: input.cabin,
+          details: input.details,
+          submittedAt: 1_700_000_000_000_000_000n,
+        },
+        email: { __kind__: "failed", failed: "smtp unavailable" },
+      },
+    }));
+    const user = userEvent.setup();
+    await openContactForm();
+
+    await fillValidForm(user);
+    await user.click(screen.getByRole("button", { name: /send my request/i }));
+
+    // A failed notification email does not block the stored-lead confirmation.
+    expect(await screen.findByText(/request received/i)).toBeInTheDocument();
+
+    // The email outcome is reported honestly: a failed send is surfaced as an
+    // alert rather than silently claiming the confirmation email went out.
+    const emailFailed = document.querySelector(
+      '[data-ocid="contact.email_failed_state"]',
+    );
+    expect(emailFailed).not.toBeNull();
+    expect(emailFailed).toHaveAttribute("role", "alert");
+    expect(
+      document.querySelector('[data-ocid="contact.email_sent_state"]'),
+    ).toBeNull();
+  });
+
+  it("reports a sent notification email honestly in the success state", async () => {
+    // The `#ok` payload carries the email outcome; a successful send must be
+    // surfaced as sent, not as the failure alert.
+    submitTripRequest.mockImplementation(async (input) => okResult(input));
+    const user = userEvent.setup();
+    await openContactForm();
+
+    await fillValidForm(user);
+    await user.click(screen.getByRole("button", { name: /send my request/i }));
+
+    expect(await screen.findByText(/request received/i)).toBeInTheDocument();
+
+    const emailSent = document.querySelector(
+      '[data-ocid="contact.email_sent_state"]',
+    );
+    expect(emailSent).not.toBeNull();
+    expect(emailSent).toHaveTextContent(/confirmation email is on its way/i);
+    expect(
+      document.querySelector('[data-ocid="contact.email_failed_state"]'),
+    ).toBeNull();
+  });
+
+  it("does not confirm success when #ok carries no stored lead", async () => {
+    // Defensive branch: `#ok` without a lead cannot confirm persistence, so the
+    // form must not show the success state.
+    submitTripRequest.mockResolvedValue({
+      __kind__: "ok",
+      ok: {
+        lead: undefined,
+        email: { __kind__: "sent", sent: null },
+      },
+    } as unknown as SubmitResult);
+    const user = userEvent.setup();
+    await openContactForm();
+
+    await fillValidForm(user);
+    await user.click(screen.getByRole("button", { name: /send my request/i }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/we could not confirm your request/i),
+      ).toBeInTheDocument();
+    });
+    expect(screen.queryByText(/request received/i)).not.toBeInTheDocument();
   });
 });

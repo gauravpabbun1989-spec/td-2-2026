@@ -26,8 +26,19 @@ const ROUTES = [
   "/terms",
 ] as const;
 
-/** Paths the production router in `App.tsx` actually serves. */
-const KNOWN_PATHS = new Set<string>(ROUTES);
+/**
+ * Paths the production router in `App.tsx` actually serves. `ROUTES` lists only
+ * the eight routes the test router in `render-route.tsx` can render, but the
+ * pages it does render now link to the two phone-booking routes and the admin
+ * leads desk, so `KNOWN_PATHS` must cover every route `App.tsx` serves — not
+ * just the ones this file renders — for the internal-link check to be honest.
+ */
+const KNOWN_PATHS = new Set<string>([
+  ...ROUTES,
+  "/book-a-flight-by-phone",
+  "/how-to-book-a-flight-by-phone",
+  "/admin/leads",
+]);
 
 const IGNORED_MESSAGES = [/CANISTER_ID_BACKEND is not set/];
 

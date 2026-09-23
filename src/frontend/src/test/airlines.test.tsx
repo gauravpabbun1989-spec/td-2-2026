@@ -6,15 +6,15 @@ import { renderRoute } from "@/test/render-route";
 const AIRLINE_PAGES = [
   {
     path: "/delta-airlines",
-    name: "Delta Air Lines",
-    heading: /delta bookings handled/i,
+    name: "Delta Airlines",
+    heading: /delta airlines bookings handled/i,
     // Delta's image sits below the fold, so it stays lazy-loaded.
     loading: "lazy",
   },
   {
     path: "/united-airlines",
     name: "United Airlines",
-    heading: /united itineraries/i,
+    heading: /united airlines itineraries/i,
     // United's image is the above-the-fold hero, so it is loaded eagerly with
     // high fetch priority to avoid a late LCP.
     loading: "eager",
@@ -59,10 +59,10 @@ describe("airline pages", () => {
     // Each page's H1 and body must be distinct, not a name substitution.
     expect(new Set(bodies).size).toBe(AIRLINE_PAGES.length);
     expect(bodies[0]).not.toContain(
-      "United itineraries, planned and booked by phone",
+      "United Airlines itineraries, planned and booked by phone",
     );
     expect(bodies[1]).not.toContain(
-      "Delta bookings handled by a real travel specialist",
+      "Delta Airlines bookings handled by a real travel specialist",
     );
   });
 
@@ -103,7 +103,7 @@ describe("airline pages", () => {
     renderRoute("/united-airlines");
     await screen.findByRole("heading", {
       level: 1,
-      name: /united itineraries/i,
+      name: /united airlines itineraries/i,
     });
 
     const image = screen.getAllByRole("img")[0];

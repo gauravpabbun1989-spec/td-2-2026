@@ -16,6 +16,8 @@ export type Cabin = { 'first' : null } |
   { 'business' : null } |
   { 'premiumEconomy' : null };
 export interface Cell { 'value' : Value, 'name' : string }
+export type EmailStatus = { 'sent' : null } |
+  { 'failed' : string };
 export type Error = { 'FrontendOriginsNotConfigured' : null } |
   {
     'MixedSsoSources' : {
@@ -32,11 +34,9 @@ export type Error = { 'FrontendOriginsNotConfigured' : null } |
   { 'MissingField' : string } |
   { 'FrontendOriginMismatch' : { 'got' : string, 'expected' : Array<string> } };
 export type LeadId = bigint;
-export type Result = { 'ok' : TripRequest } |
-  { 'err' : SubmitError };
-export type Result_1 = { 'ok' : null } |
+export interface Result { 'hasMore' : boolean, 'rows' : Array<Array<Cell>> }
+export type Result__1 = { 'ok' : null } |
   { 'err' : Error };
-export interface Result__1 { 'hasMore' : boolean, 'rows' : Array<Array<Cell>> }
 export type SubmitError = { 'invalidEmail' : null } |
   { 'invalidReturnDate' : null } |
   { 'invalidOrigin' : null } |
@@ -45,6 +45,9 @@ export type SubmitError = { 'invalidEmail' : null } |
   { 'invalidTravelers' : null } |
   { 'invalidName' : null } |
   { 'invalidDepartureDate' : null };
+export type SubmitResult = { 'ok' : SubmitSuccess } |
+  { 'err' : SubmitError };
+export interface SubmitSuccess { 'lead' : TripRequest, 'email' : EmailStatus }
 export type Timestamp = bigint;
 export interface TripRequest {
   'id' : LeadId,
@@ -92,22 +95,27 @@ export type Value = { 'int' : bigint } |
   { 'text' : string };
 export interface _SERVICE {
   '_initialize_access_control' : ActorMethod<[], undefined>,
-  '_internet_identity_sign_in_finish' : ActorMethod<[], Result_1>,
+  '_internet_identity_sign_in_finish' : ActorMethod<[], Result__1>,
   '_internet_identity_sign_in_start' : ActorMethod<[], Uint8Array>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
-  'execute' : ActorMethod<[string], Result__1>,
+  'execute' : ActorMethod<[string], Result>,
   /**
    * / Returns static Markdown documentation for the TicketDepart backend API.
    */
   'getApiDoc' : ActorMethod<[], string>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
+  /**
+   * / Admin-only: returns every stored lead, newest first.
+   */
+  'listLeads' : ActorMethod<[], Array<TripRequest>>,
   'schema' : ActorMethod<[], string>,
   /**
    * / Stores a trip request submitted from the contact page lead-capture form.
-   * / Returns the stored record on success, or a caller-actionable error.
+   * / Returns `#ok` only after the lead is durably written to stable storage.
+   * / The success payload reports whether the notification email was sent.
    */
-  'submitTripRequest' : ActorMethod<[TripRequestInput], Result>,
+  'submitTripRequest' : ActorMethod<[TripRequestInput], SubmitResult>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

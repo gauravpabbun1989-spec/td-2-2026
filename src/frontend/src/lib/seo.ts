@@ -10,7 +10,9 @@ export type SeoInput = {
   structuredData?: Record<string, unknown>[];
 };
 
-export const DEFAULT_SHARE_IMAGE = absoluteUrl("/assets/generated/hero-flight.dim_1600x1100.jpg");
+export const DEFAULT_SHARE_IMAGE = absoluteUrl(
+  "/assets/generated/hero-flight.dim_1600x1100.jpg",
+);
 
 export type Breadcrumb = {
   name: string;

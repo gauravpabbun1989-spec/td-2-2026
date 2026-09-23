@@ -1,134 +1,74 @@
 import { CallCta } from "@/components/CallCta";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Clock, Globe2, Headset, Route } from "lucide-react";
+import { ArrowRight, Check, ChevronRight, Globe2, Headset, Route } from "lucide-react";
 
 const HERO_IMAGE = "/assets/generated/hero-flight.dim_1600x1100.jpg";
 
 const HERO_POINTS = [
-  {
-    icon: Globe2,
-    label: "International & domestic",
-    detail: "One team for every route",
-  },
-  {
-    icon: Route,
-    label: "Multi-city itineraries",
-    detail: "Complex trips, planned properly",
-  },
-  {
-    icon: Headset,
-    label: "24/7 travel specialists",
-    detail: "A real person, any hour",
-  },
+  { icon: Globe2, label: "Domestic & international", detail: "Simple or complex itineraries" },
+  { icon: Route, label: "Multi-city & group trips", detail: "Built around your plans" },
+  { icon: Headset, label: "Real specialists 24/7", detail: "Human help when you need it" },
 ] as const;
 
-/**
- * Above-the-fold hero. States the core service in plain language, leads with
- * the click-to-call conversion control, and offers the on-site trip-request
- * form as a secondary path for travelers who cannot call right now.
- */
 export function HeroSection() {
   return (
-    <section
-      data-ocid="home.hero_section"
-      aria-labelledby="home-hero-heading"
-      className="relative overflow-hidden border-b border-border bg-gradient-subtle"
-    >
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-24">
-        <div className="max-w-xl">
-          <p className="label-board text-accent">
-            Independent U.S. travel agency
-          </p>
-
-          <h1
-            id="home-hero-heading"
-            className="mt-4 text-balance text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl"
-          >
-            Flight booking help from a real travel specialist
+    <section data-ocid="home.hero_section" aria-labelledby="home-hero-heading" className="relative overflow-hidden bg-[#061a34] text-white">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,rgba(61,157,207,0.25),transparent_32%),radial-gradient(circle_at_10%_85%,rgba(234,166,76,0.12),transparent_28%)]" />
+      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-10 px-5 py-10 sm:px-8 sm:py-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:px-10 lg:py-16">
+        <div className="max-w-2xl">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.07] px-4 py-2 text-xs font-semibold tracking-wide text-white/85 backdrop-blur">
+            <span className="size-2 rounded-full bg-emerald-300" />
+            Independent flight reservation assistance
+          </div>
+          <h1 id="home-hero-heading" className="mt-6 max-w-2xl text-balance text-[2.75rem] font-bold leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-[4.65rem]">
+            Travel plans deserve{" "}
+            <span className="text-sky-200">human attention.</span>
           </h1>
-
-          <p className="mt-6 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            TicketDepart plans and books international and domestic flights,
-            multi-city itineraries, and group travel — with a specialist on the
-            phone around the clock. Tell us where you need to go and we will
-            handle the routing, the fare rules, and the details.
+          <p className="mt-6 max-w-xl text-pretty text-base leading-8 text-white/72 sm:text-lg">
+            Tell us where you want to go and what matters most. A real travel specialist can help you understand routes, cabins, baggage, and booking details before you decide.
           </p>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <CallCta size="lg" ocid="home.hero_call_button" />
-            <Link
-              to="/contact"
-              data-ocid="home.hero_trip_request_link"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              Send a trip request
-              <ArrowRight aria-hidden="true" className="size-4" />
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <CallCta size="lg" ocid="home.hero_call_button" className="shadow-[0_18px_40px_-18px_rgba(0,0,0,0.75)]" />
+            <Link to="/contact" data-ocid="home.hero_trip_request_link" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-6 text-base font-semibold text-white backdrop-blur transition-smooth hover:bg-white hover:text-primary">
+              Request a callback <ArrowRight className="size-4" />
             </Link>
           </div>
-
-          <p className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
-            <Clock aria-hidden="true" className="size-4 text-accent" />
-            <span>{SITE.hours}</span>
-            <span aria-hidden="true" className="text-border">
-              ·
-            </span>
-            <span className="font-mono text-xs tracking-wide">
-              {SITE.phoneDisplay}
-            </span>
-          </p>
-
-          <dl className="mt-10 grid gap-5 border-t border-border pt-8 sm:grid-cols-3">
-            {HERO_POINTS.map((point) => (
-              <div key={point.label} className="flex items-start gap-3">
-                <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <point.icon aria-hidden="true" className="size-5" />
-                </span>
-                <div className="min-w-0">
-                  <dt className="text-sm font-semibold leading-snug text-foreground">
-                    {point.label}
-                  </dt>
-                  <dd className="mt-0.5 text-xs leading-snug text-muted-foreground">
-                    {point.detail}
-                  </dd>
-                </div>
-              </div>
+          <div className="mt-7 flex flex-wrap gap-x-5 gap-y-3 text-sm text-white/65">
+            {["24/7 availability", "Passenger-first guidance", "Clear booking details"].map((item) => (
+              <span key={item} className="inline-flex items-center gap-2"><Check className="size-4 text-emerald-300" />{item}</span>
             ))}
-          </dl>
-
-          <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
-            Not ready to call?{" "}
-            <Link
-              to="/flight-booking"
-              data-ocid="home.hero_flight_booking_link"
-              className="font-medium text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              See how our flight booking service works
-            </Link>
-            .
-          </p>
-        </div>
-
-        <div className="relative">
-          <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-elevated">
-            <img
-              src={HERO_IMAGE}
-              alt="A commercial passenger jet climbing above a layer of clouds into a golden evening sky"
-              width={1600}
-              height={1100}
-              loading="eager"
-              decoding="async"
-              className="h-full w-full object-cover"
-            />
-          </div>
-
-          <div className="absolute -bottom-5 left-4 right-4 rounded-xl border border-border bg-card/95 p-4 shadow-elevated backdrop-blur sm:left-6 sm:right-auto sm:max-w-xs">
-            <p className="label-board text-accent">On the line now</p>
-            <p className="mt-1.5 text-sm leading-snug text-foreground">
-              Specialists answer calls 24 hours a day, every day of the year.
-            </p>
           </div>
         </div>
+
+        <div className="relative lg:pl-4">
+          <div className="absolute -inset-8 rounded-[3rem] bg-sky-400/10 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-white/10 p-2 shadow-[0_35px_90px_-35px_rgba(0,0,0,0.8)]">
+            <img src={HERO_IMAGE} alt="Passenger aircraft above clouds at golden hour" width={1600} height={1100} loading="eager" decoding="async" className="aspect-[5/4] w-full rounded-[1.5rem] object-cover" />
+            <div className="absolute inset-x-6 bottom-6 rounded-2xl border border-white/20 bg-[#071a35]/80 p-5 shadow-elevated backdrop-blur-xl">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="label-board text-accent">A calmer way to book</p>
+                  <p className="mt-2 text-lg font-semibold text-white">Clear options. Straight answers. A specialist who listens.</p>
+                </div>
+                <span className="hidden size-10 shrink-0 items-center justify-center rounded-full bg-white/10 sm:flex"><ChevronRight className="size-5 text-sky-200" /></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-5 pb-8 sm:px-8 lg:px-10">
+        <div className="grid overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.06] backdrop-blur sm:grid-cols-3">
+          {HERO_POINTS.map((point) => (
+            <div key={point.label} className="group border-b border-white/10 p-5 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+              <point.icon className="size-5 text-sky-200 transition-transform group-hover:scale-110" />
+              <p className="mt-3 text-sm font-semibold text-white">{point.label}</p>
+              <p className="mt-1 text-xs leading-5 text-white/55">{point.detail}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-5 max-w-4xl text-xs leading-5 text-white/45">{SITE.disclosure}</p>
       </div>
     </section>
   );

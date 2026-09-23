@@ -1,0 +1,64 @@
+name: IndexNow URL submission
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "17 13 * * *"
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Submit sitemap URLs to IndexNow
+        shell: bash
+        env:
+          INDEXNOW_KEY: "7f4c2b9e8a1d4635b0c9e2a6d7f8135b"
+          KEY_LOCATION: "https://ticketdepart.com/7f4c2b9e8a1d4635b0c9e2a6d7f8135b.txt"
+          HOST: "ticketdepart.com"
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+          import xml.etree.ElementTree as ET
+
+          sitemap_url = "https://ticketdepart.com/sitemap.xml"
+          key = os.environ["INDEXNOW_KEY"]
+          key_location = os.environ["KEY_LOCATION"]
+          host = os.environ["HOST"]
+
+          with urllib.request.urlopen(sitemap_url, timeout=30) as response:
+              root = ET.fromstring(response.read())
+
+          urls = [
+              node.text.strip()
+              for node in root.iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")
+              if node.text and node.text.strip()
+          ]
+
+          if not urls:
+              raise SystemExit("No URLs found in sitemap")
+
+          payload = {
+              "host": host,
+              "key": key,
+              "keyLocation": key_location,
+              "urlList": urls,
+          }
+
+          data = json.dumps(payload).encode("utf-8")
+          request = urllib.request.Request(
+              "https://api.indexnow.org/indexnow",
+              data=data,
+              headers={"Content-Type": "application/json; charset=utf-8"},
+              method="POST",
+          )
+
+          with urllib.request.urlopen(request, timeout=30) as response:
+              body = response.read().decode("utf-8", errors="replace")
+              print(f"IndexNow response: {response.status}")
+              print(body)
+          print(f"Submitted {len(urls)} URLs from {sitemap_url}")
+          PY

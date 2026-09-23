@@ -21,7 +21,7 @@ actor {
   let leads : List.List<Types.TripRequest>;
   let leadState : { var nextLeadId : Types.LeadId };
 
-  include LeadsApiMixin(leads, leadState);
+  include LeadsApiMixin(leads, leadState, accessControlState);
 
   include Expose({
     entities = [

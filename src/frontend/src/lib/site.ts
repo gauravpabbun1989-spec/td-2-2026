@@ -9,7 +9,7 @@ export const SITE = {
   legalName: "TicketDepart Travel",
   tagline: "Independent travel agency",
   description:
-    "TicketDepart is an independent U.S. travel agency helping travelers plan and book domestic and international flights with a real specialist on the phone.",
+    "TicketDepart is an independent U.S. travel agency helping travelers in the United States, Canada, Mexico, and the UK plan and book domestic and international flights with a real specialist on the phone.",
   phoneDisplay: "+1 855-544-9001",
   phoneHref: "tel:+18555449001",
   email: "support@ticketdestinations.com",
@@ -37,6 +37,7 @@ export const AREA_SERVED: readonly string[] = [
   "United States",
   "Canada",
   "Mexico",
+  "United Kingdom",
   "Caribbean",
   "Europe",
   "Asia",
@@ -65,13 +66,30 @@ export type NavItem = {
 export const NAV_ITEMS: readonly NavItem[] = [
   { label: "Home", to: "/" },
   { label: "Flight Booking", to: "/flight-booking" },
-  { label: "Delta", to: "/delta-airlines" },
-  { label: "United", to: "/united-airlines" },
-  { label: "American Airlines", to: "/american-airlines" },
+  { label: "Book by Phone", to: "/book-a-flight-by-phone" },
+  { label: "International", to: "/international-flight-booking" },
+  { label: "Last-Minute", to: "/last-minute-flight-booking" },
   { label: "Contact", to: "/contact" },
 ] as const;
 
 /** Legal pages, linked from the footer rather than the primary navigation. */
+export const AIRLINE_ITEMS: readonly NavItem[] = [
+  { label: "Delta", to: "/delta-airlines" },
+  { label: "United", to: "/united-airlines" },
+  { label: "American", to: "/american-airlines" },
+  { label: "Southwest", to: "/southwest-airlines" },
+  { label: "JetBlue", to: "/jetblue-airways" },
+  { label: "Alaska", to: "/alaska-airlines" },
+  { label: "British Airways", to: "/british-airways" },
+  { label: "Lufthansa", to: "/lufthansa" },
+  { label: "Air Canada", to: "/air-canada" },
+  { label: "SWISS", to: "/swiss-air" },
+  { label: "Qatar Airways", to: "/qatar-airways" },
+  { label: "Emirates", to: "/emirates" },
+  { label: "LOT Polish Airlines", to: "/lot-polish-airlines" },
+  { label: "Norse Atlantic Airways", to: "/norse-atlantic-airways" },
+] as const;
+
 export const LEGAL_ITEMS: readonly NavItem[] = [
   { label: "Privacy Policy", to: "/privacy" },
   { label: "Terms of Service", to: "/terms" },

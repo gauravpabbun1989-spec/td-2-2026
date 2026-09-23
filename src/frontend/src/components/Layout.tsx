@@ -27,7 +27,7 @@ export function Layout({ children }: LayoutProps) {
       <main
         id="main-content"
         data-ocid="site.main"
-        className="flex-1 pb-24 sm:pb-0"
+        className="flex-1 pb-24"
       >
         {children}
       </main>

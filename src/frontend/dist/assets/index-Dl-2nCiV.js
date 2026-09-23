@@ -33213,8 +33213,8 @@ const OPENING_HOURS = {
 const NAV_ITEMS = [
   { label: "Home", to: "/" },
   { label: "Flight Booking", to: "/flight-booking" },
-  { label: "Delta", to: "/delta-airlines" },
-  { label: "United", to: "/united-airlines" },
+  { label: "Delta Airlines", to: "/delta-airlines" },
+  { label: "United Airlines", to: "/united-airlines" },
   { label: "American Airlines", to: "/american-airlines" },
   { label: "Contact", to: "/contact" }
 ];
@@ -33338,7 +33338,7 @@ const createLucideIcon = (iconName, iconNode) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$y = [
+const __iconNode$D = [
   ["path", { d: "M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3", key: "irtipd" }],
   [
     "path",
@@ -33350,36 +33350,36 @@ const __iconNode$y = [
   ["path", { d: "M5 18v2", key: "ppbyun" }],
   ["path", { d: "M19 18v2", key: "gy7782" }]
 ];
-const Armchair = createLucideIcon("armchair", __iconNode$y);
+const Armchair = createLucideIcon("armchair", __iconNode$D);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$x = [
+const __iconNode$C = [
   ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
   ["path", { d: "M19 12H5", key: "x3x0zl" }]
 ];
-const ArrowLeft = createLucideIcon("arrow-left", __iconNode$x);
+const ArrowLeft = createLucideIcon("arrow-left", __iconNode$C);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$w = [
+const __iconNode$B = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
 ];
-const ArrowRight = createLucideIcon("arrow-right", __iconNode$w);
+const ArrowRight = createLucideIcon("arrow-right", __iconNode$B);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$v = [
+const __iconNode$A = [
   [
     "path",
     {
@@ -33389,25 +33389,25 @@ const __iconNode$v = [
   ],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const BadgeCheck = createLucideIcon("badge-check", __iconNode$v);
+const BadgeCheck = createLucideIcon("badge-check", __iconNode$A);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$u = [
+const __iconNode$z = [
   ["path", { d: "M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16", key: "jecpp" }],
   ["rect", { width: "20", height: "14", x: "2", y: "6", rx: "2", key: "i6l2r4" }]
 ];
-const Briefcase = createLucideIcon("briefcase", __iconNode$u);
+const Briefcase = createLucideIcon("briefcase", __iconNode$z);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$t = [
+const __iconNode$y = [
   ["path", { d: "M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5", key: "1osxxc" }],
   ["path", { d: "M16 2v4", key: "4m81vk" }],
   ["path", { d: "M8 2v4", key: "1cmpym" }],
@@ -33415,14 +33415,33 @@ const __iconNode$t = [
   ["path", { d: "M17.5 17.5 16 16.3V14", key: "akvzfd" }],
   ["circle", { cx: "16", cy: "16", r: "6", key: "qoo3c4" }]
 ];
-const CalendarClock = createLucideIcon("calendar-clock", __iconNode$t);
+const CalendarClock = createLucideIcon("calendar-clock", __iconNode$y);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$s = [
+const __iconNode$x = [
+  ["path", { d: "M8 2v4", key: "1cmpym" }],
+  ["path", { d: "M16 2v4", key: "4m81vk" }],
+  ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
+  ["path", { d: "M3 10h18", key: "8toen8" }],
+  ["path", { d: "M8 14h.01", key: "6423bh" }],
+  ["path", { d: "M12 14h.01", key: "1etili" }],
+  ["path", { d: "M16 14h.01", key: "1gbofw" }],
+  ["path", { d: "M8 18h.01", key: "lrp35t" }],
+  ["path", { d: "M12 18h.01", key: "mhygvu" }],
+  ["path", { d: "M16 18h.01", key: "kzsmim" }]
+];
+const CalendarDays = createLucideIcon("calendar-days", __iconNode$x);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$w = [
   ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
   ["path", { d: "M16 2v4", key: "4m81vk" }],
   ["path", { d: "M3 10h18", key: "8toen8" }],
@@ -33432,49 +33451,49 @@ const __iconNode$s = [
   ["path", { d: "M7 14h.01", key: "1qa3f1" }],
   ["path", { d: "M17 18h.01", key: "1bdyru" }]
 ];
-const CalendarRange = createLucideIcon("calendar-range", __iconNode$s);
+const CalendarRange = createLucideIcon("calendar-range", __iconNode$w);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$r = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
-const Check = createLucideIcon("check", __iconNode$r);
+const __iconNode$v = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
+const Check = createLucideIcon("check", __iconNode$v);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$q = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$q);
+const __iconNode$u = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$u);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$p = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$p);
+const __iconNode$t = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$t);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$o = [
+const __iconNode$s = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const CircleCheck = createLucideIcon("circle-check", __iconNode$o);
+const CircleCheck = createLucideIcon("circle-check", __iconNode$s);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$n = [
+const __iconNode$r = [
   ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
   [
     "path",
@@ -33488,36 +33507,36 @@ const __iconNode$n = [
   ["path", { d: "M8 11h.01", key: "1dfujw" }],
   ["path", { d: "M8 16h.01", key: "18s6g9" }]
 ];
-const ClipboardList = createLucideIcon("clipboard-list", __iconNode$n);
+const ClipboardList = createLucideIcon("clipboard-list", __iconNode$r);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$m = [
+const __iconNode$q = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["polyline", { points: "12 6 12 12 16.5 12", key: "1aq6pp" }]
 ];
-const Clock3 = createLucideIcon("clock-3", __iconNode$m);
+const Clock3 = createLucideIcon("clock-3", __iconNode$q);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$l = [
+const __iconNode$p = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["polyline", { points: "12 6 12 12 16 14", key: "68esgv" }]
 ];
-const Clock = createLucideIcon("clock", __iconNode$l);
+const Clock = createLucideIcon("clock", __iconNode$p);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$k = [
+const __iconNode$o = [
   [
     "path",
     {
@@ -33527,14 +33546,14 @@ const __iconNode$k = [
   ],
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
 ];
-const Compass = createLucideIcon("compass", __iconNode$k);
+const Compass = createLucideIcon("compass", __iconNode$o);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$j = [
+const __iconNode$n = [
   ["path", { d: "M21.54 15H17a2 2 0 0 0-2 2v4.54", key: "1djwo0" }],
   [
     "path",
@@ -33546,14 +33565,14 @@ const __iconNode$j = [
   ["path", { d: "M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05", key: "14pb5j" }],
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
 ];
-const Earth = createLucideIcon("earth", __iconNode$j);
+const Earth = createLucideIcon("earth", __iconNode$n);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$i = [
+const __iconNode$m = [
   [
     "path",
     {
@@ -33562,14 +33581,14 @@ const __iconNode$i = [
     }
   ]
 ];
-const Headphones = createLucideIcon("headphones", __iconNode$i);
+const Headphones = createLucideIcon("headphones", __iconNode$m);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$h = [
+const __iconNode$l = [
   [
     "path",
     {
@@ -33579,26 +33598,43 @@ const __iconNode$h = [
   ],
   ["path", { d: "M21 16v2a4 4 0 0 1-4 4h-5", key: "1x7m43" }]
 ];
-const Headset = createLucideIcon("headset", __iconNode$h);
+const Headset = createLucideIcon("headset", __iconNode$l);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$g = [
+const __iconNode$k = [
+  ["polyline", { points: "22 12 16 12 14 15 10 15 8 12 2 12", key: "o97t9d" }],
+  [
+    "path",
+    {
+      d: "M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z",
+      key: "oot6mr"
+    }
+  ]
+];
+const Inbox = createLucideIcon("inbox", __iconNode$k);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$j = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "M12 16v-4", key: "1dtifu" }],
   ["path", { d: "M12 8h.01", key: "e9boi3" }]
 ];
-const Info = createLucideIcon("info", __iconNode$g);
+const Info = createLucideIcon("info", __iconNode$j);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$f = [
+const __iconNode$i = [
   [
     "path",
     {
@@ -33621,15 +33657,49 @@ const __iconNode$f = [
     }
   ]
 ];
-const Layers = createLucideIcon("layers", __iconNode$f);
+const Layers = createLucideIcon("layers", __iconNode$i);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$e = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
-const LoaderCircle = createLucideIcon("loader-circle", __iconNode$e);
+const __iconNode$h = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
+const LoaderCircle = createLucideIcon("loader-circle", __iconNode$h);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$g = [
+  ["rect", { width: "18", height: "11", x: "3", y: "11", rx: "2", ry: "2", key: "1w4ew1" }],
+  ["path", { d: "M7 11V7a5 5 0 0 1 10 0v4", key: "fwvmzm" }]
+];
+const Lock = createLucideIcon("lock", __iconNode$g);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$f = [
+  ["path", { d: "m10 17 5-5-5-5", key: "1bsop3" }],
+  ["path", { d: "M15 12H3", key: "6jk70r" }],
+  ["path", { d: "M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4", key: "u53s6r" }]
+];
+const LogIn = createLucideIcon("log-in", __iconNode$f);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$e = [
+  ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
+  ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
+];
+const Mail = createLucideIcon("mail", __iconNode$e);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33637,17 +33707,6 @@ const LoaderCircle = createLucideIcon("loader-circle", __iconNode$e);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$d = [
-  ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
-  ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
-];
-const Mail = createLucideIcon("mail", __iconNode$d);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$c = [
   [
     "path",
     {
@@ -33657,14 +33716,14 @@ const __iconNode$c = [
   ],
   ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
 ];
-const MapPin = createLucideIcon("map-pin", __iconNode$c);
+const MapPin = createLucideIcon("map-pin", __iconNode$d);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$b = [
+const __iconNode$c = [
   [
     "path",
     {
@@ -33681,7 +33740,19 @@ const __iconNode$b = [
     }
   ]
 ];
-const MapPinned = createLucideIcon("map-pinned", __iconNode$b);
+const MapPinned = createLucideIcon("map-pinned", __iconNode$c);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$b = [
+  ["path", { d: "M4 12h16", key: "1lakjw" }],
+  ["path", { d: "M4 18h16", key: "19g7jn" }],
+  ["path", { d: "M4 6h16", key: "1o0s65" }]
+];
+const Menu = createLucideIcon("menu", __iconNode$b);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33689,11 +33760,15 @@ const MapPinned = createLucideIcon("map-pinned", __iconNode$b);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$a = [
-  ["path", { d: "M4 12h16", key: "1lakjw" }],
-  ["path", { d: "M4 18h16", key: "19g7jn" }],
-  ["path", { d: "M4 6h16", key: "1o0s65" }]
+  [
+    "path",
+    {
+      d: "M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384",
+      key: "9njp5v"
+    }
+  ]
 ];
-const Menu = createLucideIcon("menu", __iconNode$a);
+const Phone = createLucideIcon("phone", __iconNode$a);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33704,12 +33779,12 @@ const __iconNode$9 = [
   [
     "path",
     {
-      d: "M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384",
-      key: "9njp5v"
+      d: "M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z",
+      key: "1v9wt8"
     }
   ]
 ];
-const Phone = createLucideIcon("phone", __iconNode$9);
+const Plane = createLucideIcon("plane", __iconNode$9);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33717,15 +33792,12 @@ const Phone = createLucideIcon("phone", __iconNode$9);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$8 = [
-  [
-    "path",
-    {
-      d: "M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z",
-      key: "1v9wt8"
-    }
-  ]
+  ["path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8", key: "v9h5vc" }],
+  ["path", { d: "M21 3v5h-5", key: "1q7to0" }],
+  ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
+  ["path", { d: "M8 16H3v5", key: "1cv678" }]
 ];
-const Plane = createLucideIcon("plane", __iconNode$8);
+const RefreshCw = createLucideIcon("refresh-cw", __iconNode$8);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33733,12 +33805,12 @@ const Plane = createLucideIcon("plane", __iconNode$8);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$7 = [
-  ["path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8", key: "v9h5vc" }],
-  ["path", { d: "M21 3v5h-5", key: "1q7to0" }],
-  ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
-  ["path", { d: "M8 16H3v5", key: "1cv678" }]
+  ["path", { d: "m2 9 3-3 3 3", key: "1ltn5i" }],
+  ["path", { d: "M13 18H7a2 2 0 0 1-2-2V6", key: "1r6tfw" }],
+  ["path", { d: "m22 15-3 3-3-3", key: "4rnwn2" }],
+  ["path", { d: "M11 6h6a2 2 0 0 1 2 2v10", key: "2f72bc" }]
 ];
-const RefreshCw = createLucideIcon("refresh-cw", __iconNode$7);
+const Repeat2 = createLucideIcon("repeat-2", __iconNode$7);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33746,12 +33818,11 @@ const RefreshCw = createLucideIcon("refresh-cw", __iconNode$7);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$6 = [
-  ["path", { d: "m2 9 3-3 3 3", key: "1ltn5i" }],
-  ["path", { d: "M13 18H7a2 2 0 0 1-2-2V6", key: "1r6tfw" }],
-  ["path", { d: "m22 15-3 3-3-3", key: "4rnwn2" }],
-  ["path", { d: "M11 6h6a2 2 0 0 1 2 2v10", key: "2f72bc" }]
+  ["circle", { cx: "6", cy: "19", r: "3", key: "1kj8tv" }],
+  ["path", { d: "M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15", key: "1d8sl" }],
+  ["circle", { cx: "18", cy: "5", r: "3", key: "gq8acd" }]
 ];
-const Repeat2 = createLucideIcon("repeat-2", __iconNode$6);
+const Route$1 = createLucideIcon("route", __iconNode$6);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33759,11 +33830,16 @@ const Repeat2 = createLucideIcon("repeat-2", __iconNode$6);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$5 = [
-  ["circle", { cx: "6", cy: "19", r: "3", key: "1kj8tv" }],
-  ["path", { d: "M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15", key: "1d8sl" }],
-  ["circle", { cx: "18", cy: "5", r: "3", key: "gq8acd" }]
+  [
+    "path",
+    {
+      d: "M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z",
+      key: "1ffxy3"
+    }
+  ],
+  ["path", { d: "m21.854 2.147-10.94 10.939", key: "12cjpa" }]
 ];
-const Route$1 = createLucideIcon("route", __iconNode$5);
+const Send = createLucideIcon("send", __iconNode$5);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33774,13 +33850,14 @@ const __iconNode$4 = [
   [
     "path",
     {
-      d: "M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z",
-      key: "1ffxy3"
+      d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",
+      key: "oel41y"
     }
   ],
-  ["path", { d: "m21.854 2.147-10.94 10.939", key: "12cjpa" }]
+  ["path", { d: "M12 8v4", key: "1got3b" }],
+  ["path", { d: "M12 16h.01", key: "1drbdi" }]
 ];
-const Send = createLucideIcon("send", __iconNode$4);
+const ShieldAlert = createLucideIcon("shield-alert", __iconNode$4);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -39196,6 +39273,687 @@ function SiteFooter() {
     }
   );
 }
+const Error$1 = Variant({
+  "FrontendOriginsNotConfigured": Null,
+  "MixedSsoSources": Record({
+    "otherKeys": Vec(Text),
+    "ssoKeys": Vec(Text)
+  }),
+  "Stale": Record({ "ageNs": Nat }),
+  "MalformedCandid": Null,
+  "AmbiguousAttribute": Record({
+    "field": Text,
+    "sources": Vec(Text)
+  }),
+  "NoAttributes": Null,
+  "UnknownNonce": Null,
+  "UntrustedSsoSource": Record({ "domain": Text }),
+  "MissingField": Text,
+  "FrontendOriginMismatch": Record({
+    "got": Text,
+    "expected": Vec(Text)
+  })
+});
+const Result__1 = Variant({ "ok": Null, "err": Error$1 });
+const UserRole = Variant({
+  "admin": Null,
+  "user": Null,
+  "guest": Null
+});
+const Value = Variant({
+  "int": Int,
+  "nat": Nat,
+  "float": Float64,
+  "bool": Bool,
+  "null": Null,
+  "text": Text
+});
+const Cell = Record({ "value": Value, "name": Text });
+const Result = Record({
+  "hasMore": Bool,
+  "rows": Vec(Vec(Cell))
+});
+const LeadId = Nat;
+const TripType$1 = Variant({
+  "other": Null,
+  "businessClass": Null,
+  "multiCity": Null,
+  "roundTrip": Null,
+  "firstClass": Null,
+  "groupTravel": Null,
+  "oneWay": Null
+});
+const Cabin$1 = Variant({
+  "first": Null,
+  "economy": Null,
+  "noPreference": Null,
+  "business": Null,
+  "premiumEconomy": Null
+});
+const Timestamp = Nat;
+const TripRequest = Record({
+  "id": LeadId,
+  "destination": Text,
+  "tripType": TripType$1,
+  "departureDate": Opt(Text),
+  "cabin": Cabin$1,
+  "name": Text,
+  "origin": Text,
+  "submittedAt": Timestamp,
+  "travelers": Nat,
+  "email": Text,
+  "details": Opt(Text),
+  "phone": Text,
+  "returnDate": Opt(Text)
+});
+const TripRequestInput = Record({
+  "destination": Text,
+  "tripType": TripType$1,
+  "departureDate": Opt(Text),
+  "cabin": Cabin$1,
+  "name": Text,
+  "origin": Text,
+  "travelers": Nat,
+  "email": Text,
+  "details": Opt(Text),
+  "phone": Text,
+  "returnDate": Opt(Text)
+});
+const EmailStatus = Variant({
+  "sent": Null,
+  "failed": Text
+});
+const SubmitSuccess = Record({
+  "lead": TripRequest,
+  "email": EmailStatus
+});
+const SubmitError$1 = Variant({
+  "invalidEmail": Null,
+  "invalidReturnDate": Null,
+  "invalidOrigin": Null,
+  "invalidPhone": Null,
+  "invalidDestination": Null,
+  "invalidTravelers": Null,
+  "invalidName": Null,
+  "invalidDepartureDate": Null
+});
+const SubmitResult = Variant({
+  "ok": SubmitSuccess,
+  "err": SubmitError$1
+});
+Service({
+  "_initialize_access_control": Func([], [], []),
+  "_internet_identity_sign_in_finish": Func([], [Result__1], []),
+  "_internet_identity_sign_in_start": Func([], [Vec(Nat8)], []),
+  "assignCallerUserRole": Func([Principal2, UserRole], [], []),
+  "execute": Func([Text], [Result], ["query"]),
+  "getApiDoc": Func([], [Text], ["query"]),
+  "getCallerUserRole": Func([], [UserRole], ["query"]),
+  "isCallerAdmin": Func([], [Bool], ["query"]),
+  "listLeads": Func([], [Vec(TripRequest)], ["query"]),
+  "schema": Func([], [Text], ["query"]),
+  "submitTripRequest": Func([TripRequestInput], [SubmitResult], [])
+});
+const idlFactory = ({ IDL: IDL2 }) => {
+  const Error2 = IDL2.Variant({
+    "FrontendOriginsNotConfigured": IDL2.Null,
+    "MixedSsoSources": IDL2.Record({
+      "otherKeys": IDL2.Vec(IDL2.Text),
+      "ssoKeys": IDL2.Vec(IDL2.Text)
+    }),
+    "Stale": IDL2.Record({ "ageNs": IDL2.Nat }),
+    "MalformedCandid": IDL2.Null,
+    "AmbiguousAttribute": IDL2.Record({
+      "field": IDL2.Text,
+      "sources": IDL2.Vec(IDL2.Text)
+    }),
+    "NoAttributes": IDL2.Null,
+    "UnknownNonce": IDL2.Null,
+    "UntrustedSsoSource": IDL2.Record({ "domain": IDL2.Text }),
+    "MissingField": IDL2.Text,
+    "FrontendOriginMismatch": IDL2.Record({
+      "got": IDL2.Text,
+      "expected": IDL2.Vec(IDL2.Text)
+    })
+  });
+  const Result__12 = IDL2.Variant({ "ok": IDL2.Null, "err": Error2 });
+  const UserRole2 = IDL2.Variant({
+    "admin": IDL2.Null,
+    "user": IDL2.Null,
+    "guest": IDL2.Null
+  });
+  const Value2 = IDL2.Variant({
+    "int": IDL2.Int,
+    "nat": IDL2.Nat,
+    "float": IDL2.Float64,
+    "bool": IDL2.Bool,
+    "null": IDL2.Null,
+    "text": IDL2.Text
+  });
+  const Cell2 = IDL2.Record({ "value": Value2, "name": IDL2.Text });
+  const Result2 = IDL2.Record({
+    "hasMore": IDL2.Bool,
+    "rows": IDL2.Vec(IDL2.Vec(Cell2))
+  });
+  const LeadId2 = IDL2.Nat;
+  const TripType2 = IDL2.Variant({
+    "other": IDL2.Null,
+    "businessClass": IDL2.Null,
+    "multiCity": IDL2.Null,
+    "roundTrip": IDL2.Null,
+    "firstClass": IDL2.Null,
+    "groupTravel": IDL2.Null,
+    "oneWay": IDL2.Null
+  });
+  const Cabin2 = IDL2.Variant({
+    "first": IDL2.Null,
+    "economy": IDL2.Null,
+    "noPreference": IDL2.Null,
+    "business": IDL2.Null,
+    "premiumEconomy": IDL2.Null
+  });
+  const Timestamp2 = IDL2.Nat;
+  const TripRequest2 = IDL2.Record({
+    "id": LeadId2,
+    "destination": IDL2.Text,
+    "tripType": TripType2,
+    "departureDate": IDL2.Opt(IDL2.Text),
+    "cabin": Cabin2,
+    "name": IDL2.Text,
+    "origin": IDL2.Text,
+    "submittedAt": Timestamp2,
+    "travelers": IDL2.Nat,
+    "email": IDL2.Text,
+    "details": IDL2.Opt(IDL2.Text),
+    "phone": IDL2.Text,
+    "returnDate": IDL2.Opt(IDL2.Text)
+  });
+  const TripRequestInput2 = IDL2.Record({
+    "destination": IDL2.Text,
+    "tripType": TripType2,
+    "departureDate": IDL2.Opt(IDL2.Text),
+    "cabin": Cabin2,
+    "name": IDL2.Text,
+    "origin": IDL2.Text,
+    "travelers": IDL2.Nat,
+    "email": IDL2.Text,
+    "details": IDL2.Opt(IDL2.Text),
+    "phone": IDL2.Text,
+    "returnDate": IDL2.Opt(IDL2.Text)
+  });
+  const EmailStatus2 = IDL2.Variant({ "sent": IDL2.Null, "failed": IDL2.Text });
+  const SubmitSuccess2 = IDL2.Record({
+    "lead": TripRequest2,
+    "email": EmailStatus2
+  });
+  const SubmitError2 = IDL2.Variant({
+    "invalidEmail": IDL2.Null,
+    "invalidReturnDate": IDL2.Null,
+    "invalidOrigin": IDL2.Null,
+    "invalidPhone": IDL2.Null,
+    "invalidDestination": IDL2.Null,
+    "invalidTravelers": IDL2.Null,
+    "invalidName": IDL2.Null,
+    "invalidDepartureDate": IDL2.Null
+  });
+  const SubmitResult2 = IDL2.Variant({
+    "ok": SubmitSuccess2,
+    "err": SubmitError2
+  });
+  return IDL2.Service({
+    "_initialize_access_control": IDL2.Func([], [], []),
+    "_internet_identity_sign_in_finish": IDL2.Func([], [Result__12], []),
+    "_internet_identity_sign_in_start": IDL2.Func([], [IDL2.Vec(IDL2.Nat8)], []),
+    "assignCallerUserRole": IDL2.Func([IDL2.Principal, UserRole2], [], []),
+    "execute": IDL2.Func([IDL2.Text], [Result2], ["query"]),
+    "getApiDoc": IDL2.Func([], [IDL2.Text], ["query"]),
+    "getCallerUserRole": IDL2.Func([], [UserRole2], ["query"]),
+    "isCallerAdmin": IDL2.Func([], [IDL2.Bool], ["query"]),
+    "listLeads": IDL2.Func([], [IDL2.Vec(TripRequest2)], ["query"]),
+    "schema": IDL2.Func([], [IDL2.Text], ["query"]),
+    "submitTripRequest": IDL2.Func([TripRequestInput2], [SubmitResult2], [])
+  });
+};
+function candid_some(value) {
+  return [
+    value
+  ];
+}
+function candid_none() {
+  return [];
+}
+function record_opt_to_undefined(arg) {
+  return arg == null ? void 0 : arg;
+}
+var Cabin = /* @__PURE__ */ ((Cabin2) => {
+  Cabin2["first"] = "first";
+  Cabin2["economy"] = "economy";
+  Cabin2["noPreference"] = "noPreference";
+  Cabin2["business"] = "business";
+  Cabin2["premiumEconomy"] = "premiumEconomy";
+  return Cabin2;
+})(Cabin || {});
+var SubmitError = /* @__PURE__ */ ((SubmitError2) => {
+  SubmitError2["invalidEmail"] = "invalidEmail";
+  SubmitError2["invalidReturnDate"] = "invalidReturnDate";
+  SubmitError2["invalidOrigin"] = "invalidOrigin";
+  SubmitError2["invalidPhone"] = "invalidPhone";
+  SubmitError2["invalidDestination"] = "invalidDestination";
+  SubmitError2["invalidTravelers"] = "invalidTravelers";
+  SubmitError2["invalidName"] = "invalidName";
+  SubmitError2["invalidDepartureDate"] = "invalidDepartureDate";
+  return SubmitError2;
+})(SubmitError || {});
+var TripType = /* @__PURE__ */ ((TripType2) => {
+  TripType2["other"] = "other";
+  TripType2["businessClass"] = "businessClass";
+  TripType2["multiCity"] = "multiCity";
+  TripType2["roundTrip"] = "roundTrip";
+  TripType2["firstClass"] = "firstClass";
+  TripType2["groupTravel"] = "groupTravel";
+  TripType2["oneWay"] = "oneWay";
+  return TripType2;
+})(TripType || {});
+class Backend {
+  constructor(actor, _uploadFile, _downloadFile, processError2) {
+    this.actor = actor;
+    this._uploadFile = _uploadFile;
+    this._downloadFile = _downloadFile;
+    this.processError = processError2;
+  }
+  async _initialize_access_control() {
+    if (this.processError) {
+      try {
+        const result = await this.actor._initialize_access_control();
+        return result;
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor._initialize_access_control();
+      return result;
+    }
+  }
+  async _internet_identity_sign_in_finish() {
+    if (this.processError) {
+      try {
+        const result = await this.actor._internet_identity_sign_in_finish();
+        return from_candid_Result__1_n1(this._uploadFile, this._downloadFile, result);
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor._internet_identity_sign_in_finish();
+      return from_candid_Result__1_n1(this._uploadFile, this._downloadFile, result);
+    }
+  }
+  async _internet_identity_sign_in_start() {
+    if (this.processError) {
+      try {
+        const result = await this.actor._internet_identity_sign_in_start();
+        return result;
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor._internet_identity_sign_in_start();
+      return result;
+    }
+  }
+  async assignCallerUserRole(arg0, arg1) {
+    if (this.processError) {
+      try {
+        const result = await this.actor.assignCallerUserRole(arg0, to_candid_UserRole_n5(this._uploadFile, this._downloadFile, arg1));
+        return result;
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.assignCallerUserRole(arg0, to_candid_UserRole_n5(this._uploadFile, this._downloadFile, arg1));
+      return result;
+    }
+  }
+  async execute(arg0) {
+    if (this.processError) {
+      try {
+        const result = await this.actor.execute(arg0);
+        return from_candid_Result_n6(this._uploadFile, this._downloadFile, result);
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.execute(arg0);
+      return from_candid_Result_n6(this._uploadFile, this._downloadFile, result);
+    }
+  }
+  async getApiDoc() {
+    if (this.processError) {
+      try {
+        const result = await this.actor.getApiDoc();
+        return result;
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.getApiDoc();
+      return result;
+    }
+  }
+  async getCallerUserRole() {
+    if (this.processError) {
+      try {
+        const result = await this.actor.getCallerUserRole();
+        return from_candid_UserRole_n14(this._uploadFile, this._downloadFile, result);
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.getCallerUserRole();
+      return from_candid_UserRole_n14(this._uploadFile, this._downloadFile, result);
+    }
+  }
+  async isCallerAdmin() {
+    if (this.processError) {
+      try {
+        const result = await this.actor.isCallerAdmin();
+        return result;
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.isCallerAdmin();
+      return result;
+    }
+  }
+  async listLeads() {
+    if (this.processError) {
+      try {
+        const result = await this.actor.listLeads();
+        return from_candid_vec_n15(this._uploadFile, this._downloadFile, result);
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.listLeads();
+      return from_candid_vec_n15(this._uploadFile, this._downloadFile, result);
+    }
+  }
+  async schema() {
+    if (this.processError) {
+      try {
+        const result = await this.actor.schema();
+        return result;
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.schema();
+      return result;
+    }
+  }
+  async submitTripRequest(arg0) {
+    if (this.processError) {
+      try {
+        const result = await this.actor.submitTripRequest(to_candid_TripRequestInput_n21(this._uploadFile, this._downloadFile, arg0));
+        return from_candid_SubmitResult_n25(this._uploadFile, this._downloadFile, result);
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.submitTripRequest(to_candid_TripRequestInput_n21(this._uploadFile, this._downloadFile, arg0));
+      return from_candid_SubmitResult_n25(this._uploadFile, this._downloadFile, result);
+    }
+  }
+}
+function from_candid_Cabin_n20(_uploadFile, _downloadFile, value) {
+  return "first" in value ? "first" : "economy" in value ? "economy" : "noPreference" in value ? "noPreference" : "business" in value ? "business" : "premiumEconomy" in value ? "premiumEconomy" : value;
+}
+function from_candid_Cell_n10(_uploadFile, _downloadFile, value) {
+  return from_candid_record_n11(_uploadFile, _downloadFile, value);
+}
+function from_candid_EmailStatus_n29(_uploadFile, _downloadFile, value) {
+  return from_candid_variant_n30(_uploadFile, _downloadFile, value);
+}
+function from_candid_Error_n3(_uploadFile, _downloadFile, value) {
+  return from_candid_variant_n4(_uploadFile, _downloadFile, value);
+}
+function from_candid_Result__1_n1(_uploadFile, _downloadFile, value) {
+  return from_candid_variant_n2(_uploadFile, _downloadFile, value);
+}
+function from_candid_Result_n6(_uploadFile, _downloadFile, value) {
+  return from_candid_record_n7(_uploadFile, _downloadFile, value);
+}
+function from_candid_SubmitError_n31(_uploadFile, _downloadFile, value) {
+  return "invalidEmail" in value ? "invalidEmail" : "invalidReturnDate" in value ? "invalidReturnDate" : "invalidOrigin" in value ? "invalidOrigin" : "invalidPhone" in value ? "invalidPhone" : "invalidDestination" in value ? "invalidDestination" : "invalidTravelers" in value ? "invalidTravelers" : "invalidName" in value ? "invalidName" : "invalidDepartureDate" in value ? "invalidDepartureDate" : value;
+}
+function from_candid_SubmitResult_n25(_uploadFile, _downloadFile, value) {
+  return from_candid_variant_n26(_uploadFile, _downloadFile, value);
+}
+function from_candid_SubmitSuccess_n27(_uploadFile, _downloadFile, value) {
+  return from_candid_record_n28(_uploadFile, _downloadFile, value);
+}
+function from_candid_TripRequest_n16(_uploadFile, _downloadFile, value) {
+  return from_candid_record_n17(_uploadFile, _downloadFile, value);
+}
+function from_candid_TripType_n18(_uploadFile, _downloadFile, value) {
+  return "other" in value ? "other" : "businessClass" in value ? "businessClass" : "multiCity" in value ? "multiCity" : "roundTrip" in value ? "roundTrip" : "firstClass" in value ? "firstClass" : "groupTravel" in value ? "groupTravel" : "oneWay" in value ? "oneWay" : value;
+}
+function from_candid_UserRole_n14(_uploadFile, _downloadFile, value) {
+  return "admin" in value ? "admin" : "user" in value ? "user" : "guest" in value ? "guest" : value;
+}
+function from_candid_Value_n12(_uploadFile, _downloadFile, value) {
+  return from_candid_variant_n13(_uploadFile, _downloadFile, value);
+}
+function from_candid_opt_n19(_uploadFile, _downloadFile, value) {
+  return value.length === 0 ? null : value[0];
+}
+function from_candid_record_n11(_uploadFile, _downloadFile, value) {
+  return {
+    value: from_candid_Value_n12(_uploadFile, _downloadFile, value.value),
+    name: value.name
+  };
+}
+function from_candid_record_n17(_uploadFile, _downloadFile, value) {
+  return {
+    id: value.id,
+    destination: value.destination,
+    tripType: from_candid_TripType_n18(_uploadFile, _downloadFile, value.tripType),
+    departureDate: record_opt_to_undefined(from_candid_opt_n19(_uploadFile, _downloadFile, value.departureDate)),
+    cabin: from_candid_Cabin_n20(_uploadFile, _downloadFile, value.cabin),
+    name: value.name,
+    origin: value.origin,
+    submittedAt: value.submittedAt,
+    travelers: value.travelers,
+    email: value.email,
+    details: record_opt_to_undefined(from_candid_opt_n19(_uploadFile, _downloadFile, value.details)),
+    phone: value.phone,
+    returnDate: record_opt_to_undefined(from_candid_opt_n19(_uploadFile, _downloadFile, value.returnDate))
+  };
+}
+function from_candid_record_n28(_uploadFile, _downloadFile, value) {
+  return {
+    lead: from_candid_TripRequest_n16(_uploadFile, _downloadFile, value.lead),
+    email: from_candid_EmailStatus_n29(_uploadFile, _downloadFile, value.email)
+  };
+}
+function from_candid_record_n7(_uploadFile, _downloadFile, value) {
+  return {
+    hasMore: value.hasMore,
+    rows: from_candid_vec_n8(_uploadFile, _downloadFile, value.rows)
+  };
+}
+function from_candid_variant_n13(_uploadFile, _downloadFile, value) {
+  return "int" in value ? {
+    __kind__: "int",
+    int: value.int
+  } : "nat" in value ? {
+    __kind__: "nat",
+    nat: value.nat
+  } : "float" in value ? {
+    __kind__: "float",
+    float: value.float
+  } : "bool" in value ? {
+    __kind__: "bool",
+    bool: value.bool
+  } : "null" in value ? {
+    __kind__: "null",
+    null: value.null
+  } : "text" in value ? {
+    __kind__: "text",
+    text: value.text
+  } : value;
+}
+function from_candid_variant_n2(_uploadFile, _downloadFile, value) {
+  return "ok" in value ? {
+    __kind__: "ok",
+    ok: value.ok
+  } : "err" in value ? {
+    __kind__: "err",
+    err: from_candid_Error_n3(_uploadFile, _downloadFile, value.err)
+  } : value;
+}
+function from_candid_variant_n26(_uploadFile, _downloadFile, value) {
+  return "ok" in value ? {
+    __kind__: "ok",
+    ok: from_candid_SubmitSuccess_n27(_uploadFile, _downloadFile, value.ok)
+  } : "err" in value ? {
+    __kind__: "err",
+    err: from_candid_SubmitError_n31(_uploadFile, _downloadFile, value.err)
+  } : value;
+}
+function from_candid_variant_n30(_uploadFile, _downloadFile, value) {
+  return "sent" in value ? {
+    __kind__: "sent",
+    sent: value.sent
+  } : "failed" in value ? {
+    __kind__: "failed",
+    failed: value.failed
+  } : value;
+}
+function from_candid_variant_n4(_uploadFile, _downloadFile, value) {
+  return "FrontendOriginsNotConfigured" in value ? {
+    __kind__: "FrontendOriginsNotConfigured",
+    FrontendOriginsNotConfigured: value.FrontendOriginsNotConfigured
+  } : "MixedSsoSources" in value ? {
+    __kind__: "MixedSsoSources",
+    MixedSsoSources: value.MixedSsoSources
+  } : "Stale" in value ? {
+    __kind__: "Stale",
+    Stale: value.Stale
+  } : "MalformedCandid" in value ? {
+    __kind__: "MalformedCandid",
+    MalformedCandid: value.MalformedCandid
+  } : "AmbiguousAttribute" in value ? {
+    __kind__: "AmbiguousAttribute",
+    AmbiguousAttribute: value.AmbiguousAttribute
+  } : "NoAttributes" in value ? {
+    __kind__: "NoAttributes",
+    NoAttributes: value.NoAttributes
+  } : "UnknownNonce" in value ? {
+    __kind__: "UnknownNonce",
+    UnknownNonce: value.UnknownNonce
+  } : "UntrustedSsoSource" in value ? {
+    __kind__: "UntrustedSsoSource",
+    UntrustedSsoSource: value.UntrustedSsoSource
+  } : "MissingField" in value ? {
+    __kind__: "MissingField",
+    MissingField: value.MissingField
+  } : "FrontendOriginMismatch" in value ? {
+    __kind__: "FrontendOriginMismatch",
+    FrontendOriginMismatch: value.FrontendOriginMismatch
+  } : value;
+}
+function from_candid_vec_n15(_uploadFile, _downloadFile, value) {
+  return value.map((x2) => from_candid_TripRequest_n16(_uploadFile, _downloadFile, x2));
+}
+function from_candid_vec_n8(_uploadFile, _downloadFile, value) {
+  return value.map((x2) => from_candid_vec_n9(_uploadFile, _downloadFile, x2));
+}
+function from_candid_vec_n9(_uploadFile, _downloadFile, value) {
+  return value.map((x2) => from_candid_Cell_n10(_uploadFile, _downloadFile, x2));
+}
+function to_candid_Cabin_n24(_uploadFile, _downloadFile, value) {
+  return value == "first" ? {
+    first: null
+  } : value == "economy" ? {
+    economy: null
+  } : value == "noPreference" ? {
+    noPreference: null
+  } : value == "business" ? {
+    business: null
+  } : value == "premiumEconomy" ? {
+    premiumEconomy: null
+  } : value;
+}
+function to_candid_TripRequestInput_n21(_uploadFile, _downloadFile, value) {
+  return to_candid_record_n22(_uploadFile, _downloadFile, value);
+}
+function to_candid_TripType_n23(_uploadFile, _downloadFile, value) {
+  return value == "other" ? {
+    other: null
+  } : value == "businessClass" ? {
+    businessClass: null
+  } : value == "multiCity" ? {
+    multiCity: null
+  } : value == "roundTrip" ? {
+    roundTrip: null
+  } : value == "firstClass" ? {
+    firstClass: null
+  } : value == "groupTravel" ? {
+    groupTravel: null
+  } : value == "oneWay" ? {
+    oneWay: null
+  } : value;
+}
+function to_candid_UserRole_n5(_uploadFile, _downloadFile, value) {
+  return value == "admin" ? {
+    admin: null
+  } : value == "user" ? {
+    user: null
+  } : value == "guest" ? {
+    guest: null
+  } : value;
+}
+function to_candid_record_n22(_uploadFile, _downloadFile, value) {
+  return {
+    destination: value.destination,
+    tripType: to_candid_TripType_n23(_uploadFile, _downloadFile, value.tripType),
+    departureDate: value.departureDate ? candid_some(value.departureDate) : candid_none(),
+    cabin: to_candid_Cabin_n24(_uploadFile, _downloadFile, value.cabin),
+    name: value.name,
+    origin: value.origin,
+    travelers: value.travelers,
+    email: value.email,
+    details: value.details ? candid_some(value.details) : candid_none(),
+    phone: value.phone,
+    returnDate: value.returnDate ? candid_some(value.returnDate) : candid_none()
+  };
+}
+function createActor(canisterId, _uploadFile, _downloadFile, options = {}) {
+  const agent = options.agent || HttpAgent.createSync({
+    ...options.agentOptions
+  });
+  if (options.agent && options.agentOptions) {
+    console.warn("Detected both agent and agentOptions passed to createActor. Ignoring agentOptions and proceeding with the provided agent.");
+  }
+  const actor = Actor.createActor(idlFactory, {
+    agent,
+    canisterId,
+    ...options.actorOptions
+  });
+  return new Backend(actor, _uploadFile, _downloadFile, options.processError);
+}
 function r(e) {
   var t, f2, n = "";
   if ("string" == typeof e || "number" == typeof e) n += e;
@@ -41710,6 +42468,18 @@ function CallCta({
 }
 function SiteHeader() {
   const [open, setOpen] = reactExports.useState(false);
+  const { actor, isFetching: actorFetching } = useActor(createActor);
+  const { isAuthenticated } = useInternetIdentity();
+  const adminQuery = useQuery({
+    queryKey: ["isCallerAdmin"],
+    queryFn: async () => {
+      if (!actor) return false;
+      return actor.isCallerAdmin();
+    },
+    enabled: !!actor && !actorFetching && isAuthenticated,
+    retry: false
+  });
+  const isAdmin = isAuthenticated && adminQuery.data === true;
   reactExports.useEffect(() => {
     if (!open) return;
     const previous = document.body.style.overflow;
@@ -41740,24 +42510,42 @@ function SiteHeader() {
               ]
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { "aria-label": "Primary", className: "hidden items-center gap-1 lg:flex", children: NAV_ITEMS.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-            Link,
-            {
-              to: item.to,
-              "data-ocid": `nav.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`,
-              activeOptions: { exact: item.to === "/" },
-              className: cn(
-                "rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-smooth",
-                "hover:bg-muted hover:text-foreground",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              ),
-              activeProps: {
-                className: "bg-muted text-foreground font-semibold"
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("nav", { "aria-label": "Primary", className: "hidden items-center gap-1 lg:flex", children: [
+            NAV_ITEMS.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              Link,
+              {
+                to: item.to,
+                "data-ocid": `nav.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`,
+                activeOptions: { exact: item.to === "/" },
+                className: cn(
+                  "rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-smooth",
+                  "hover:bg-muted hover:text-foreground",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                ),
+                activeProps: {
+                  className: "bg-muted text-foreground font-semibold"
+                },
+                children: item.label
               },
-              children: item.label
-            },
-            item.to
-          )) }),
+              item.to
+            )),
+            isAdmin ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+              Link,
+              {
+                to: "/admin/leads",
+                "data-ocid": "nav.link.leads_desk",
+                className: cn(
+                  "rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-smooth",
+                  "hover:bg-muted hover:text-foreground",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                ),
+                activeProps: {
+                  className: "bg-muted text-foreground font-semibold"
+                },
+                children: "Leads Desk"
+              }
+            ) : null
+          ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               CallCta,
@@ -41819,6 +42607,19 @@ function SiteHeader() {
                     },
                     item.to
                   )),
+                  isAdmin ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    Link,
+                    {
+                      to: "/admin/leads",
+                      "data-ocid": "mobile_nav.link.leads_desk",
+                      onClick: () => setOpen(false),
+                      className: "rounded-lg px-3 py-3 text-base font-medium text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                      activeProps: {
+                        className: "bg-muted text-foreground font-semibold"
+                      },
+                      children: "Leads Desk"
+                    }
+                  ) : null,
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex flex-col gap-2 border-t border-border pt-4", children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       CallCta,
@@ -41919,7 +42720,9 @@ function SectionHeading({
     }
   );
 }
-const DEFAULT_SHARE_IMAGE = absoluteUrl("/assets/generated/hero-flight.dim_1600x1100.jpg");
+const DEFAULT_SHARE_IMAGE = absoluteUrl(
+  "/assets/generated/hero-flight.dim_1600x1100.jpg"
+);
 function breadcrumbSchema(items) {
   return {
     "@context": "https://schema.org",
@@ -41983,6 +42786,43 @@ function websiteSchema() {
     name: SITE.name,
     url: absoluteUrl("/"),
     description: SITE.description
+  };
+}
+function webPageSchema(input) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: input.title,
+    description: input.description,
+    url: absoluteUrl(input.path),
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE.name,
+      url: absoluteUrl("/")
+    },
+    about: {
+      "@type": "TravelAgency",
+      name: SITE.name,
+      telephone: SITE.phoneDisplay
+    }
+  };
+}
+function serviceSchema(input) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: input.name,
+    description: input.description,
+    serviceType: "Flight booking assistance",
+    url: absoluteUrl(input.path),
+    areaServed: [...AREA_SERVED],
+    provider: {
+      "@type": "TravelAgency",
+      name: SITE.name,
+      telephone: SITE.phoneDisplay,
+      email: SITE.email,
+      url: absoluteUrl("/")
+    }
   };
 }
 function faqSchema(faqs) {
@@ -42183,627 +43023,585 @@ function Seo({
   }, [title, description, canonical, image, serialized]);
   return null;
 }
-const Error$1 = Variant({
-  "FrontendOriginsNotConfigured": Null,
-  "MixedSsoSources": Record({
-    "otherKeys": Vec(Text),
-    "ssoKeys": Vec(Text)
-  }),
-  "Stale": Record({ "ageNs": Nat }),
-  "MalformedCandid": Null,
-  "AmbiguousAttribute": Record({
-    "field": Text,
-    "sources": Vec(Text)
-  }),
-  "NoAttributes": Null,
-  "UnknownNonce": Null,
-  "UntrustedSsoSource": Record({ "domain": Text }),
-  "MissingField": Text,
-  "FrontendOriginMismatch": Record({
-    "got": Text,
-    "expected": Vec(Text)
-  })
-});
-const Result_1 = Variant({ "ok": Null, "err": Error$1 });
-const UserRole = Variant({
-  "admin": Null,
-  "user": Null,
-  "guest": Null
-});
-const Value = Variant({
-  "int": Int,
-  "nat": Nat,
-  "float": Float64,
-  "bool": Bool,
-  "null": Null,
-  "text": Text
-});
-const Cell = Record({ "value": Value, "name": Text });
-const Result__1 = Record({
-  "hasMore": Bool,
-  "rows": Vec(Vec(Cell))
-});
-const TripType$1 = Variant({
-  "other": Null,
-  "businessClass": Null,
-  "multiCity": Null,
-  "roundTrip": Null,
-  "firstClass": Null,
-  "groupTravel": Null,
-  "oneWay": Null
-});
-const Cabin$1 = Variant({
-  "first": Null,
-  "economy": Null,
-  "noPreference": Null,
-  "business": Null,
-  "premiumEconomy": Null
-});
-const TripRequestInput = Record({
-  "destination": Text,
-  "tripType": TripType$1,
-  "departureDate": Opt(Text),
-  "cabin": Cabin$1,
-  "name": Text,
-  "origin": Text,
-  "travelers": Nat,
-  "email": Text,
-  "details": Opt(Text),
-  "phone": Text,
-  "returnDate": Opt(Text)
-});
-const LeadId = Nat;
-const Timestamp = Nat;
-const TripRequest = Record({
-  "id": LeadId,
-  "destination": Text,
-  "tripType": TripType$1,
-  "departureDate": Opt(Text),
-  "cabin": Cabin$1,
-  "name": Text,
-  "origin": Text,
-  "submittedAt": Timestamp,
-  "travelers": Nat,
-  "email": Text,
-  "details": Opt(Text),
-  "phone": Text,
-  "returnDate": Opt(Text)
-});
-const SubmitError$1 = Variant({
-  "invalidEmail": Null,
-  "invalidReturnDate": Null,
-  "invalidOrigin": Null,
-  "invalidPhone": Null,
-  "invalidDestination": Null,
-  "invalidTravelers": Null,
-  "invalidName": Null,
-  "invalidDepartureDate": Null
-});
-const Result = Variant({ "ok": TripRequest, "err": SubmitError$1 });
-Service({
-  "_initialize_access_control": Func([], [], []),
-  "_internet_identity_sign_in_finish": Func([], [Result_1], []),
-  "_internet_identity_sign_in_start": Func([], [Vec(Nat8)], []),
-  "assignCallerUserRole": Func([Principal2, UserRole], [], []),
-  "execute": Func([Text], [Result__1], ["query"]),
-  "getApiDoc": Func([], [Text], ["query"]),
-  "getCallerUserRole": Func([], [UserRole], ["query"]),
-  "isCallerAdmin": Func([], [Bool], ["query"]),
-  "schema": Func([], [Text], ["query"]),
-  "submitTripRequest": Func([TripRequestInput], [Result], [])
-});
-const idlFactory = ({ IDL: IDL2 }) => {
-  const Error2 = IDL2.Variant({
-    "FrontendOriginsNotConfigured": IDL2.Null,
-    "MixedSsoSources": IDL2.Record({
-      "otherKeys": IDL2.Vec(IDL2.Text),
-      "ssoKeys": IDL2.Vec(IDL2.Text)
-    }),
-    "Stale": IDL2.Record({ "ageNs": IDL2.Nat }),
-    "MalformedCandid": IDL2.Null,
-    "AmbiguousAttribute": IDL2.Record({
-      "field": IDL2.Text,
-      "sources": IDL2.Vec(IDL2.Text)
-    }),
-    "NoAttributes": IDL2.Null,
-    "UnknownNonce": IDL2.Null,
-    "UntrustedSsoSource": IDL2.Record({ "domain": IDL2.Text }),
-    "MissingField": IDL2.Text,
-    "FrontendOriginMismatch": IDL2.Record({
-      "got": IDL2.Text,
-      "expected": IDL2.Vec(IDL2.Text)
-    })
-  });
-  const Result_12 = IDL2.Variant({ "ok": IDL2.Null, "err": Error2 });
-  const UserRole2 = IDL2.Variant({
-    "admin": IDL2.Null,
-    "user": IDL2.Null,
-    "guest": IDL2.Null
-  });
-  const Value2 = IDL2.Variant({
-    "int": IDL2.Int,
-    "nat": IDL2.Nat,
-    "float": IDL2.Float64,
-    "bool": IDL2.Bool,
-    "null": IDL2.Null,
-    "text": IDL2.Text
-  });
-  const Cell2 = IDL2.Record({ "value": Value2, "name": IDL2.Text });
-  const Result__12 = IDL2.Record({
-    "hasMore": IDL2.Bool,
-    "rows": IDL2.Vec(IDL2.Vec(Cell2))
-  });
-  const TripType2 = IDL2.Variant({
-    "other": IDL2.Null,
-    "businessClass": IDL2.Null,
-    "multiCity": IDL2.Null,
-    "roundTrip": IDL2.Null,
-    "firstClass": IDL2.Null,
-    "groupTravel": IDL2.Null,
-    "oneWay": IDL2.Null
-  });
-  const Cabin2 = IDL2.Variant({
-    "first": IDL2.Null,
-    "economy": IDL2.Null,
-    "noPreference": IDL2.Null,
-    "business": IDL2.Null,
-    "premiumEconomy": IDL2.Null
-  });
-  const TripRequestInput2 = IDL2.Record({
-    "destination": IDL2.Text,
-    "tripType": TripType2,
-    "departureDate": IDL2.Opt(IDL2.Text),
-    "cabin": Cabin2,
-    "name": IDL2.Text,
-    "origin": IDL2.Text,
-    "travelers": IDL2.Nat,
-    "email": IDL2.Text,
-    "details": IDL2.Opt(IDL2.Text),
-    "phone": IDL2.Text,
-    "returnDate": IDL2.Opt(IDL2.Text)
-  });
-  const LeadId2 = IDL2.Nat;
-  const Timestamp2 = IDL2.Nat;
-  const TripRequest2 = IDL2.Record({
-    "id": LeadId2,
-    "destination": IDL2.Text,
-    "tripType": TripType2,
-    "departureDate": IDL2.Opt(IDL2.Text),
-    "cabin": Cabin2,
-    "name": IDL2.Text,
-    "origin": IDL2.Text,
-    "submittedAt": Timestamp2,
-    "travelers": IDL2.Nat,
-    "email": IDL2.Text,
-    "details": IDL2.Opt(IDL2.Text),
-    "phone": IDL2.Text,
-    "returnDate": IDL2.Opt(IDL2.Text)
-  });
-  const SubmitError2 = IDL2.Variant({
-    "invalidEmail": IDL2.Null,
-    "invalidReturnDate": IDL2.Null,
-    "invalidOrigin": IDL2.Null,
-    "invalidPhone": IDL2.Null,
-    "invalidDestination": IDL2.Null,
-    "invalidTravelers": IDL2.Null,
-    "invalidName": IDL2.Null,
-    "invalidDepartureDate": IDL2.Null
-  });
-  const Result2 = IDL2.Variant({ "ok": TripRequest2, "err": SubmitError2 });
-  return IDL2.Service({
-    "_initialize_access_control": IDL2.Func([], [], []),
-    "_internet_identity_sign_in_finish": IDL2.Func([], [Result_12], []),
-    "_internet_identity_sign_in_start": IDL2.Func([], [IDL2.Vec(IDL2.Nat8)], []),
-    "assignCallerUserRole": IDL2.Func([IDL2.Principal, UserRole2], [], []),
-    "execute": IDL2.Func([IDL2.Text], [Result__12], ["query"]),
-    "getApiDoc": IDL2.Func([], [IDL2.Text], ["query"]),
-    "getCallerUserRole": IDL2.Func([], [UserRole2], ["query"]),
-    "isCallerAdmin": IDL2.Func([], [IDL2.Bool], ["query"]),
-    "schema": IDL2.Func([], [IDL2.Text], ["query"]),
-    "submitTripRequest": IDL2.Func([TripRequestInput2], [Result2], [])
-  });
+const TRIP_TYPE_LABEL = {
+  [TripType.roundTrip]: "Round trip",
+  [TripType.oneWay]: "One way",
+  [TripType.multiCity]: "Multi-city",
+  [TripType.businessClass]: "Business class",
+  [TripType.firstClass]: "First class",
+  [TripType.groupTravel]: "Group travel",
+  [TripType.other]: "Other"
 };
-function candid_some(value) {
-  return [
-    value
-  ];
+const CABIN_LABEL = {
+  [Cabin.economy]: "Economy",
+  [Cabin.premiumEconomy]: "Premium Economy",
+  [Cabin.business]: "Business",
+  [Cabin.first]: "First",
+  [Cabin.noPreference]: "No preference"
+};
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "medium",
+  timeStyle: "short"
+});
+function formatTimestamp(timestamp) {
+  const date = new Date(Number(timestamp / 1000000n));
+  return Number.isNaN(date.getTime()) ? "Unknown time" : dateFormatter.format(date);
 }
-function candid_none() {
-  return [];
+function formatDate(value) {
+  if (!value) return "—";
+  const date = /* @__PURE__ */ new Date(`${value}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(date);
 }
-function record_opt_to_undefined(arg) {
-  return arg == null ? void 0 : arg;
+function DetailItem({
+  icon,
+  label,
+  children
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-w-0 flex-col gap-1", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("dt", { className: "label-board flex items-center gap-1.5 text-muted-foreground", children: [
+      icon,
+      label
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "min-w-0 break-words text-sm font-medium text-foreground", children })
+  ] });
 }
-var Cabin = /* @__PURE__ */ ((Cabin2) => {
-  Cabin2["first"] = "first";
-  Cabin2["economy"] = "economy";
-  Cabin2["noPreference"] = "noPreference";
-  Cabin2["business"] = "business";
-  Cabin2["premiumEconomy"] = "premiumEconomy";
-  return Cabin2;
-})(Cabin || {});
-var SubmitError = /* @__PURE__ */ ((SubmitError2) => {
-  SubmitError2["invalidEmail"] = "invalidEmail";
-  SubmitError2["invalidReturnDate"] = "invalidReturnDate";
-  SubmitError2["invalidOrigin"] = "invalidOrigin";
-  SubmitError2["invalidPhone"] = "invalidPhone";
-  SubmitError2["invalidDestination"] = "invalidDestination";
-  SubmitError2["invalidTravelers"] = "invalidTravelers";
-  SubmitError2["invalidName"] = "invalidName";
-  SubmitError2["invalidDepartureDate"] = "invalidDepartureDate";
-  return SubmitError2;
-})(SubmitError || {});
-var TripType = /* @__PURE__ */ ((TripType2) => {
-  TripType2["other"] = "other";
-  TripType2["businessClass"] = "businessClass";
-  TripType2["multiCity"] = "multiCity";
-  TripType2["roundTrip"] = "roundTrip";
-  TripType2["firstClass"] = "firstClass";
-  TripType2["groupTravel"] = "groupTravel";
-  TripType2["oneWay"] = "oneWay";
-  return TripType2;
-})(TripType || {});
-class Backend {
-  constructor(actor, _uploadFile, _downloadFile, processError2) {
-    this.actor = actor;
-    this._uploadFile = _uploadFile;
-    this._downloadFile = _downloadFile;
-    this.processError = processError2;
-  }
-  async _initialize_access_control() {
-    if (this.processError) {
-      try {
-        const result = await this.actor._initialize_access_control();
-        return result;
-      } catch (e) {
-        this.processError(e);
-        throw new Error("unreachable");
-      }
-    } else {
-      const result = await this.actor._initialize_access_control();
-      return result;
+function LeadCard({ lead, index: index2 }) {
+  var _a2;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "article",
+    {
+      "data-ocid": `admin.leads.item.${index2 + 1}`,
+      className: "rounded-2xl border border-border bg-card p-5 shadow-subtle sm:p-6",
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "flex flex-wrap items-start justify-between gap-3 border-b border-border pb-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-w-0", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "label-board text-accent", children: [
+              "Lead #",
+              lead.id.toString()
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mt-1.5 truncate text-lg font-semibold", children: lead.name })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-mono text-xs text-muted-foreground", children: formatTimestamp(lead.submittedAt) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("dl", { className: "mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DetailItem,
+            {
+              icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-3.5" }),
+              label: "Phone",
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "a",
+                {
+                  href: `tel:${lead.phone.replace(/[^\d+]/g, "")}`,
+                  className: "underline-offset-4 hover:text-accent hover:underline",
+                  children: lead.phone
+                }
+              )
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DetailItem,
+            {
+              icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Mail, { "aria-hidden": "true", className: "size-3.5" }),
+              label: "Email",
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "a",
+                {
+                  href: `mailto:${lead.email}`,
+                  className: "break-all underline-offset-4 hover:text-accent hover:underline",
+                  children: lead.email
+                }
+              )
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DetailItem,
+            {
+              icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Plane, { "aria-hidden": "true", className: "size-3.5" }),
+              label: "Trip type",
+              children: TRIP_TYPE_LABEL[lead.tripType]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            DetailItem,
+            {
+              icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Plane, { "aria-hidden": "true", className: "size-3.5" }),
+              label: "Route",
+              children: [
+                lead.origin,
+                " → ",
+                lead.destination
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DetailItem,
+            {
+              icon: /* @__PURE__ */ jsxRuntimeExports.jsx(CalendarDays, { "aria-hidden": "true", className: "size-3.5" }),
+              label: "Departure",
+              children: formatDate(lead.departureDate)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DetailItem,
+            {
+              icon: /* @__PURE__ */ jsxRuntimeExports.jsx(CalendarDays, { "aria-hidden": "true", className: "size-3.5" }),
+              label: "Return",
+              children: formatDate(lead.returnDate)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DetailItem,
+            {
+              icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Users, { "aria-hidden": "true", className: "size-3.5" }),
+              label: "Travelers",
+              children: lead.travelers.toString()
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            DetailItem,
+            {
+              icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Plane, { "aria-hidden": "true", className: "size-3.5" }),
+              label: "Cabin",
+              children: CABIN_LABEL[lead.cabin]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 border-t border-border pt-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-muted-foreground", children: "Trip details" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1.5 whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground", children: ((_a2 = lead.details) == null ? void 0 : _a2.trim()) ? lead.details : "No additional details." })
+        ] })
+      ]
     }
-  }
-  async _internet_identity_sign_in_finish() {
-    if (this.processError) {
-      try {
-        const result = await this.actor._internet_identity_sign_in_finish();
-        return from_candid_Result_1_n1(this._uploadFile, this._downloadFile, result);
-      } catch (e) {
-        this.processError(e);
-        throw new Error("unreachable");
-      }
-    } else {
-      const result = await this.actor._internet_identity_sign_in_finish();
-      return from_candid_Result_1_n1(this._uploadFile, this._downloadFile, result);
+  );
+}
+function StatePanel({
+  icon,
+  eyebrow,
+  title,
+  body,
+  action,
+  ocid
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      "data-ocid": ocid,
+      className: "mx-auto max-w-xl rounded-2xl border border-border bg-card p-8 text-center shadow-elevated",
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mx-auto inline-flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary", children: icon }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board mt-5 text-accent", children: eyebrow }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-2 text-2xl font-semibold", children: title }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-pretty text-base leading-relaxed text-muted-foreground", children: body }),
+        action ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-6 flex justify-center", children: action }) : null
+      ]
     }
-  }
-  async _internet_identity_sign_in_start() {
-    if (this.processError) {
-      try {
-        const result = await this.actor._internet_identity_sign_in_start();
-        return result;
-      } catch (e) {
-        this.processError(e);
-        throw new Error("unreachable");
-      }
-    } else {
-      const result = await this.actor._internet_identity_sign_in_start();
-      return result;
-    }
-  }
-  async assignCallerUserRole(arg0, arg1) {
-    if (this.processError) {
-      try {
-        const result = await this.actor.assignCallerUserRole(arg0, to_candid_UserRole_n5(this._uploadFile, this._downloadFile, arg1));
-        return result;
-      } catch (e) {
-        this.processError(e);
-        throw new Error("unreachable");
-      }
-    } else {
-      const result = await this.actor.assignCallerUserRole(arg0, to_candid_UserRole_n5(this._uploadFile, this._downloadFile, arg1));
-      return result;
-    }
-  }
-  async execute(arg0) {
-    if (this.processError) {
-      try {
-        const result = await this.actor.execute(arg0);
-        return from_candid_Result__1_n6(this._uploadFile, this._downloadFile, result);
-      } catch (e) {
-        this.processError(e);
-        throw new Error("unreachable");
-      }
-    } else {
-      const result = await this.actor.execute(arg0);
-      return from_candid_Result__1_n6(this._uploadFile, this._downloadFile, result);
-    }
-  }
-  async getApiDoc() {
-    if (this.processError) {
-      try {
-        const result = await this.actor.getApiDoc();
-        return result;
-      } catch (e) {
-        this.processError(e);
-        throw new Error("unreachable");
-      }
-    } else {
-      const result = await this.actor.getApiDoc();
-      return result;
-    }
-  }
-  async getCallerUserRole() {
-    if (this.processError) {
-      try {
-        const result = await this.actor.getCallerUserRole();
-        return from_candid_UserRole_n14(this._uploadFile, this._downloadFile, result);
-      } catch (e) {
-        this.processError(e);
-        throw new Error("unreachable");
-      }
-    } else {
-      const result = await this.actor.getCallerUserRole();
-      return from_candid_UserRole_n14(this._uploadFile, this._downloadFile, result);
-    }
-  }
-  async isCallerAdmin() {
-    if (this.processError) {
-      try {
-        const result = await this.actor.isCallerAdmin();
-        return result;
-      } catch (e) {
-        this.processError(e);
-        throw new Error("unreachable");
-      }
-    } else {
-      const result = await this.actor.isCallerAdmin();
-      return result;
-    }
-  }
-  async schema() {
-    if (this.processError) {
-      try {
-        const result = await this.actor.schema();
-        return result;
-      } catch (e) {
-        this.processError(e);
-        throw new Error("unreachable");
-      }
-    } else {
-      const result = await this.actor.schema();
-      return result;
-    }
-  }
-  async submitTripRequest(arg0) {
-    if (this.processError) {
-      try {
-        const result = await this.actor.submitTripRequest(to_candid_TripRequestInput_n15(this._uploadFile, this._downloadFile, arg0));
-        return from_candid_Result_n19(this._uploadFile, this._downloadFile, result);
-      } catch (e) {
-        this.processError(e);
-        throw new Error("unreachable");
-      }
-    } else {
-      const result = await this.actor.submitTripRequest(to_candid_TripRequestInput_n15(this._uploadFile, this._downloadFile, arg0));
-      return from_candid_Result_n19(this._uploadFile, this._downloadFile, result);
-    }
-  }
+  );
 }
-function from_candid_Cabin_n25(_uploadFile, _downloadFile, value) {
-  return "first" in value ? "first" : "economy" in value ? "economy" : "noPreference" in value ? "noPreference" : "business" in value ? "business" : "premiumEconomy" in value ? "premiumEconomy" : value;
-}
-function from_candid_Cell_n10(_uploadFile, _downloadFile, value) {
-  return from_candid_record_n11(_uploadFile, _downloadFile, value);
-}
-function from_candid_Error_n3(_uploadFile, _downloadFile, value) {
-  return from_candid_variant_n4(_uploadFile, _downloadFile, value);
-}
-function from_candid_Result_1_n1(_uploadFile, _downloadFile, value) {
-  return from_candid_variant_n2(_uploadFile, _downloadFile, value);
-}
-function from_candid_Result__1_n6(_uploadFile, _downloadFile, value) {
-  return from_candid_record_n7(_uploadFile, _downloadFile, value);
-}
-function from_candid_Result_n19(_uploadFile, _downloadFile, value) {
-  return from_candid_variant_n20(_uploadFile, _downloadFile, value);
-}
-function from_candid_SubmitError_n26(_uploadFile, _downloadFile, value) {
-  return "invalidEmail" in value ? "invalidEmail" : "invalidReturnDate" in value ? "invalidReturnDate" : "invalidOrigin" in value ? "invalidOrigin" : "invalidPhone" in value ? "invalidPhone" : "invalidDestination" in value ? "invalidDestination" : "invalidTravelers" in value ? "invalidTravelers" : "invalidName" in value ? "invalidName" : "invalidDepartureDate" in value ? "invalidDepartureDate" : value;
-}
-function from_candid_TripRequest_n21(_uploadFile, _downloadFile, value) {
-  return from_candid_record_n22(_uploadFile, _downloadFile, value);
-}
-function from_candid_TripType_n23(_uploadFile, _downloadFile, value) {
-  return "other" in value ? "other" : "businessClass" in value ? "businessClass" : "multiCity" in value ? "multiCity" : "roundTrip" in value ? "roundTrip" : "firstClass" in value ? "firstClass" : "groupTravel" in value ? "groupTravel" : "oneWay" in value ? "oneWay" : value;
-}
-function from_candid_UserRole_n14(_uploadFile, _downloadFile, value) {
-  return "admin" in value ? "admin" : "user" in value ? "user" : "guest" in value ? "guest" : value;
-}
-function from_candid_Value_n12(_uploadFile, _downloadFile, value) {
-  return from_candid_variant_n13(_uploadFile, _downloadFile, value);
-}
-function from_candid_opt_n24(_uploadFile, _downloadFile, value) {
-  return value.length === 0 ? null : value[0];
-}
-function from_candid_record_n11(_uploadFile, _downloadFile, value) {
-  return {
-    value: from_candid_Value_n12(_uploadFile, _downloadFile, value.value),
-    name: value.name
-  };
-}
-function from_candid_record_n22(_uploadFile, _downloadFile, value) {
-  return {
-    id: value.id,
-    destination: value.destination,
-    tripType: from_candid_TripType_n23(_uploadFile, _downloadFile, value.tripType),
-    departureDate: record_opt_to_undefined(from_candid_opt_n24(_uploadFile, _downloadFile, value.departureDate)),
-    cabin: from_candid_Cabin_n25(_uploadFile, _downloadFile, value.cabin),
-    name: value.name,
-    origin: value.origin,
-    submittedAt: value.submittedAt,
-    travelers: value.travelers,
-    email: value.email,
-    details: record_opt_to_undefined(from_candid_opt_n24(_uploadFile, _downloadFile, value.details)),
-    phone: value.phone,
-    returnDate: record_opt_to_undefined(from_candid_opt_n24(_uploadFile, _downloadFile, value.returnDate))
-  };
-}
-function from_candid_record_n7(_uploadFile, _downloadFile, value) {
-  return {
-    hasMore: value.hasMore,
-    rows: from_candid_vec_n8(_uploadFile, _downloadFile, value.rows)
-  };
-}
-function from_candid_variant_n13(_uploadFile, _downloadFile, value) {
-  return "int" in value ? {
-    __kind__: "int",
-    int: value.int
-  } : "nat" in value ? {
-    __kind__: "nat",
-    nat: value.nat
-  } : "float" in value ? {
-    __kind__: "float",
-    float: value.float
-  } : "bool" in value ? {
-    __kind__: "bool",
-    bool: value.bool
-  } : "null" in value ? {
-    __kind__: "null",
-    null: value.null
-  } : "text" in value ? {
-    __kind__: "text",
-    text: value.text
-  } : value;
-}
-function from_candid_variant_n2(_uploadFile, _downloadFile, value) {
-  return "ok" in value ? {
-    __kind__: "ok",
-    ok: value.ok
-  } : "err" in value ? {
-    __kind__: "err",
-    err: from_candid_Error_n3(_uploadFile, _downloadFile, value.err)
-  } : value;
-}
-function from_candid_variant_n20(_uploadFile, _downloadFile, value) {
-  return "ok" in value ? {
-    __kind__: "ok",
-    ok: from_candid_TripRequest_n21(_uploadFile, _downloadFile, value.ok)
-  } : "err" in value ? {
-    __kind__: "err",
-    err: from_candid_SubmitError_n26(_uploadFile, _downloadFile, value.err)
-  } : value;
-}
-function from_candid_variant_n4(_uploadFile, _downloadFile, value) {
-  return "FrontendOriginsNotConfigured" in value ? {
-    __kind__: "FrontendOriginsNotConfigured",
-    FrontendOriginsNotConfigured: value.FrontendOriginsNotConfigured
-  } : "MixedSsoSources" in value ? {
-    __kind__: "MixedSsoSources",
-    MixedSsoSources: value.MixedSsoSources
-  } : "Stale" in value ? {
-    __kind__: "Stale",
-    Stale: value.Stale
-  } : "MalformedCandid" in value ? {
-    __kind__: "MalformedCandid",
-    MalformedCandid: value.MalformedCandid
-  } : "AmbiguousAttribute" in value ? {
-    __kind__: "AmbiguousAttribute",
-    AmbiguousAttribute: value.AmbiguousAttribute
-  } : "NoAttributes" in value ? {
-    __kind__: "NoAttributes",
-    NoAttributes: value.NoAttributes
-  } : "UnknownNonce" in value ? {
-    __kind__: "UnknownNonce",
-    UnknownNonce: value.UnknownNonce
-  } : "UntrustedSsoSource" in value ? {
-    __kind__: "UntrustedSsoSource",
-    UntrustedSsoSource: value.UntrustedSsoSource
-  } : "MissingField" in value ? {
-    __kind__: "MissingField",
-    MissingField: value.MissingField
-  } : "FrontendOriginMismatch" in value ? {
-    __kind__: "FrontendOriginMismatch",
-    FrontendOriginMismatch: value.FrontendOriginMismatch
-  } : value;
-}
-function from_candid_vec_n8(_uploadFile, _downloadFile, value) {
-  return value.map((x2) => from_candid_vec_n9(_uploadFile, _downloadFile, x2));
-}
-function from_candid_vec_n9(_uploadFile, _downloadFile, value) {
-  return value.map((x2) => from_candid_Cell_n10(_uploadFile, _downloadFile, x2));
-}
-function to_candid_Cabin_n18(_uploadFile, _downloadFile, value) {
-  return value == "first" ? {
-    first: null
-  } : value == "economy" ? {
-    economy: null
-  } : value == "noPreference" ? {
-    noPreference: null
-  } : value == "business" ? {
-    business: null
-  } : value == "premiumEconomy" ? {
-    premiumEconomy: null
-  } : value;
-}
-function to_candid_TripRequestInput_n15(_uploadFile, _downloadFile, value) {
-  return to_candid_record_n16(_uploadFile, _downloadFile, value);
-}
-function to_candid_TripType_n17(_uploadFile, _downloadFile, value) {
-  return value == "other" ? {
-    other: null
-  } : value == "businessClass" ? {
-    businessClass: null
-  } : value == "multiCity" ? {
-    multiCity: null
-  } : value == "roundTrip" ? {
-    roundTrip: null
-  } : value == "firstClass" ? {
-    firstClass: null
-  } : value == "groupTravel" ? {
-    groupTravel: null
-  } : value == "oneWay" ? {
-    oneWay: null
-  } : value;
-}
-function to_candid_UserRole_n5(_uploadFile, _downloadFile, value) {
-  return value == "admin" ? {
-    admin: null
-  } : value == "user" ? {
-    user: null
-  } : value == "guest" ? {
-    guest: null
-  } : value;
-}
-function to_candid_record_n16(_uploadFile, _downloadFile, value) {
-  return {
-    destination: value.destination,
-    tripType: to_candid_TripType_n17(_uploadFile, _downloadFile, value.tripType),
-    departureDate: value.departureDate ? candid_some(value.departureDate) : candid_none(),
-    cabin: to_candid_Cabin_n18(_uploadFile, _downloadFile, value.cabin),
-    name: value.name,
-    origin: value.origin,
-    travelers: value.travelers,
-    email: value.email,
-    details: value.details ? candid_some(value.details) : candid_none(),
-    phone: value.phone,
-    returnDate: value.returnDate ? candid_some(value.returnDate) : candid_none()
-  };
-}
-function createActor(canisterId, _uploadFile, _downloadFile, options = {}) {
-  const agent = options.agent || HttpAgent.createSync({
-    ...options.agentOptions
+function AdminLeadsPage() {
+  const { actor, isFetching: actorFetching } = useActor(createActor);
+  const { isAuthenticated, isInitializing, isLoggingIn, login } = useInternetIdentity();
+  const adminQuery = useQuery({
+    queryKey: ["isCallerAdmin"],
+    queryFn: async () => {
+      if (!actor) return false;
+      return actor.isCallerAdmin();
+    },
+    enabled: !!actor && !actorFetching && isAuthenticated,
+    retry: false
   });
-  if (options.agent && options.agentOptions) {
-    console.warn("Detected both agent and agentOptions passed to createActor. Ignoring agentOptions and proceeding with the provided agent.");
-  }
-  const actor = Actor.createActor(idlFactory, {
-    agent,
-    canisterId,
-    ...options.actorOptions
+  const isAdmin = adminQuery.data === true;
+  const leadsQuery = useQuery({
+    queryKey: ["leads"],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.listLeads();
+    },
+    enabled: isAdmin,
+    retry: false
   });
-  return new Backend(actor, _uploadFile, _downloadFile, options.processError);
+  const leads = leadsQuery.data ?? [];
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Seo,
+      {
+        title: "Leads Desk | TicketDepart",
+        description: "Private TicketDepart travel desk for reviewing submitted trip requests.",
+        path: "/admin/leads"
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "admin.leads.section", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Travel desk" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-3 text-balance text-4xl font-semibold leading-[1.08] sm:text-5xl", children: "Submitted leads" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground", children: "Every trip request captured from the contact form, newest first. This view is restricted to authorized travel desk administrators." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10", children: !isAuthenticated ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        StatePanel,
+        {
+          ocid: "admin.leads.signin_state",
+          icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Lock, { "aria-hidden": "true", className: "size-6" }),
+          eyebrow: "Restricted",
+          title: "Sign in to view leads",
+          body: "This page is limited to authorized travel desk administrators. Sign in with Internet Identity to continue.",
+          action: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              type: "button",
+              onClick: () => login(),
+              disabled: isInitializing || isLoggingIn,
+              "data-ocid": "admin.leads.signin_button",
+              className: "inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent px-6 text-base font-medium text-accent-foreground shadow-subtle transition-smooth hover:bg-accent/90 hover:shadow-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-70",
+              children: [
+                isInitializing || isLoggingIn ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  LoaderCircle,
+                  {
+                    "aria-hidden": "true",
+                    className: "size-4 animate-spin"
+                  }
+                ) : /* @__PURE__ */ jsxRuntimeExports.jsx(LogIn, { "aria-hidden": "true", className: "size-4" }),
+                isInitializing ? "Preparing sign-in…" : isLoggingIn ? "Signing in…" : "Sign in with Internet Identity"
+              ]
+            }
+          )
+        }
+      ) : adminQuery.isLoading ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          "data-ocid": "admin.leads.loading_state",
+          className: "flex items-center justify-center gap-3 rounded-2xl border border-border bg-card p-10 text-muted-foreground shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(LoaderCircle, { "aria-hidden": "true", className: "size-5 animate-spin" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm font-medium", children: "Checking your access…" })
+          ]
+        }
+      ) : adminQuery.isError ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        StatePanel,
+        {
+          ocid: "admin.leads.error_state",
+          icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldAlert, { "aria-hidden": "true", className: "size-6" }),
+          eyebrow: "Something went wrong",
+          title: "We could not verify your access",
+          body: "The travel desk could not confirm your administrator role just now. Please refresh the page and try again.",
+          action: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              type: "button",
+              onClick: () => void adminQuery.refetch(),
+              "data-ocid": "admin.leads.retry_button",
+              className: "inline-flex h-11 items-center justify-center rounded-full border border-primary/25 bg-card px-5 text-sm font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              children: "Try again"
+            }
+          )
+        }
+      ) : !isAdmin ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        StatePanel,
+        {
+          ocid: "admin.leads.denied_state",
+          icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldAlert, { "aria-hidden": "true", className: "size-6" }),
+          eyebrow: "Access denied",
+          title: "You do not have access to leads",
+          body: "Your account is signed in, but it is not an administrator of the TicketDepart travel desk. Ask the site owner to grant your account the admin role."
+        }
+      ) : leadsQuery.isLoading ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          "data-ocid": "admin.leads.loading_state",
+          className: "flex items-center justify-center gap-3 rounded-2xl border border-border bg-card p-10 text-muted-foreground shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(LoaderCircle, { "aria-hidden": "true", className: "size-5 animate-spin" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm font-medium", children: "Loading leads…" })
+          ]
+        }
+      ) : leadsQuery.isError ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        StatePanel,
+        {
+          ocid: "admin.leads.error_state",
+          icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldAlert, { "aria-hidden": "true", className: "size-6" }),
+          eyebrow: "Something went wrong",
+          title: "We could not load the leads",
+          body: "The travel desk could not fetch submitted leads just now. Please try again.",
+          action: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              type: "button",
+              onClick: () => void leadsQuery.refetch(),
+              "data-ocid": "admin.leads.retry_button",
+              className: "inline-flex h-11 items-center justify-center rounded-full border border-primary/25 bg-card px-5 text-sm font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              children: "Try again"
+            }
+          )
+        }
+      ) : leads.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        StatePanel,
+        {
+          ocid: "admin.leads.empty_state",
+          icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Inbox, { "aria-hidden": "true", className: "size-6" }),
+          eyebrow: "No leads yet",
+          title: "No trip requests have been submitted",
+          body: "When a traveler sends their trip details from the contact form, the request will appear here with its submission ID and timestamp."
+        }
+      ) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "p",
+          {
+            "data-ocid": "admin.leads.count",
+            className: "label-board text-muted-foreground",
+            children: [
+              leads.length,
+              " ",
+              leads.length === 1 ? "lead" : "leads"
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { "data-ocid": "admin.leads.list", className: "flex flex-col gap-5", children: leads.map((lead, index2) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          LeadCard,
+          {
+            lead,
+            index: index2
+          },
+          lead.id.toString()
+        )) })
+      ] }) })
+    ] })
+  ] });
+}
+const PAGE_PATH$2 = "/book-a-flight-by-phone";
+const PAGE_TITLE$2 = "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart";
+const PAGE_DESCRIPTION$2 = "Book a domestic or international flight by phone with an independent U.S. travel agency. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
+const FAQS$5 = [
+  {
+    question: "Can I book a flight by phone with TicketDepart?",
+    answer: "Yes. TicketDepart is an independent U.S. travel agency. A travel specialist can discuss your itinerary, available booking options, and applicable terms with you before you decide whether to book."
+  },
+  {
+    question: "What flights can I book by phone?",
+    answer: "We can discuss domestic and international trips, one-way and round-trip itineraries, multi-city travel, premium cabins, and group travel. Availability and ticketing options depend on the itinerary and responsible travel provider."
+  },
+  {
+    question: "Can I ask about the total price before paying?",
+    answer: "Yes. Ask for the airfare, taxes and charges, baggage terms, and any applicable agency service fee before authorizing payment. Fares and availability can change until a ticket is issued."
+  },
+  {
+    question: "Can you help with complicated or last-minute trips?",
+    answer: "A phone conversation can be useful for multi-city routing, flexible dates, nearby airports, premium cabins, groups, and trips that need more discussion than a basic online search. Last-minute options depend on available seats and fare rules."
+  }
+];
+const BENEFITS = [
+  [
+    "Domestic & international",
+    "Discuss U.S. domestic trips and international itineraries with a specialist."
+  ],
+  [
+    "Multi-city & complex trips",
+    "Review multiple cities, open-jaw routing, connections, and flexible airports."
+  ],
+  [
+    "Business & first class",
+    "Talk through cabin options, schedules, baggage, and fare conditions."
+  ],
+  [
+    "Groups & families",
+    "Coordinate traveler details and trip requirements in one conversation."
+  ]
+];
+function BookAFlightByPhonePage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Seo,
+      {
+        title: PAGE_TITLE$2,
+        description: PAGE_DESCRIPTION$2,
+        path: PAGE_PATH$2,
+        structuredData: [
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Book a Flight by Phone", path: PAGE_PATH$2 }
+          ]),
+          webPageSchema({
+            title: PAGE_TITLE$2,
+            description: PAGE_DESCRIPTION$2,
+            path: PAGE_PATH$2
+          }),
+          serviceSchema({
+            name: "Flight booking by phone",
+            description: PAGE_DESCRIPTION$2,
+            path: PAGE_PATH$2
+          }),
+          faqSchema(FAQS$5)
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "book_flight_phone.hero", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { "aria-label": "Breadcrumb", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ol", { className: "flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "font-medium hover:text-foreground", children: "Home" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { "aria-hidden": "true", className: "text-border", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "span",
+          {
+            "aria-current": "page",
+            className: "font-semibold text-foreground",
+            children: "Book a Flight by Phone"
+          }
+        ) })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto mt-10 max-w-4xl", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "24/7 phone flight booking" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl", children: "Book a flight by phone with a travel specialist" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "Tell us where you want to fly, when you want to travel, and what matters to you. A specialist can discuss itinerary options, cabin choices, baggage, and fare rules before you decide." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "book_flight_phone.call_button" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Link,
+            {
+              to: "/flight-booking",
+              className: "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground",
+              children: [
+                "Explore flight booking services",
+                /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { "aria-hidden": "true", className: "size-4" })
+              ]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-5 flex items-center gap-2 text-sm text-muted-foreground", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4 text-accent" }),
+          SITE.hours,
+          " · ",
+          SITE.phoneDisplay
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: "book_flight_phone.services", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "What we can discuss",
+          title: "Flight booking help for different kinds of trips",
+          description: "Start with your route and dates. The specialist can then work through the details that matter for your trip."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4", children: BENEFITS.map(([title, text]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "article",
+        {
+          className: "rounded-2xl border border-border bg-card p-6 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-lg font-semibold", children: title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: text })
+          ]
+        },
+        title
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "paper", ocid: "book_flight_phone.process", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-10 lg:grid-cols-2 lg:items-start", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          SectionHeading,
+          {
+            eyebrow: "How it works",
+            title: "A straightforward booking conversation",
+            description: "You remain in control of the booking decision. Review the itinerary and price before authorizing a ticket."
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "mt-8 space-y-5", children: [
+          "Share your departure, destination, dates, travelers, and preferences.",
+          "Review available itinerary details, cabin, baggage terms, and applicable fare rules.",
+          "Confirm the final details and price before the responsible travel provider issues the ticket."
+        ].map((item, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-start gap-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-8 shrink-0 items-center justify-center rounded-full bg-accent/15 text-sm font-semibold text-accent", children: index2 + 1 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "pt-1 text-sm leading-relaxed text-foreground", children: item })
+        ] }, item)) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-border bg-card p-6 shadow-subtle sm:p-7", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-xl font-semibold", children: "Have these details ready" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-5 space-y-4", children: [
+          "Departure and destination cities or airport codes",
+          "Preferred travel dates and flexibility",
+          "Number of travelers",
+          "Cabin preference",
+          "Baggage or accessibility requirements",
+          "Preferred airline or nearby airports, if applicable"
+        ].map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "li",
+          {
+            className: "flex items-start gap-3 text-sm leading-relaxed text-muted-foreground",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                CircleCheck,
+                {
+                  "aria-hidden": "true",
+                  className: "mt-0.5 size-5 shrink-0 text-accent"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: item })
+            ]
+          },
+          item
+        )) })
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "navy", ocid: "book_flight_phone.cta", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-3xl text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "TicketDepart" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 text-balance text-3xl font-semibold leading-tight sm:text-4xl", children: "Ready to discuss your flight?" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 text-pretty text-base leading-relaxed text-primary-foreground/80 sm:text-lg", children: "Call TicketDepart and explain your route, dates, travelers, and preferences. A specialist can walk through the booking options with you." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "book_flight_phone.cta_call_button" }) })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "book_flight_phone.related", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "More flight help",
+          title: "Continue with a specific booking guide",
+          description: "Use these pages if you already know the airline or want a step-by-step phone booking overview."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-4 sm:grid-cols-3", children: [
+        ["How to book a flight by phone", "/how-to-book-a-flight-by-phone"],
+        ["Delta Airlines", "/delta-airlines"],
+        ["United Airlines", "/united-airlines"],
+        ["American Airlines", "/american-airlines"]
+      ].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        Link,
+        {
+          to,
+          className: "group rounded-2xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:shadow-elevated",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-base font-semibold text-foreground", children: label }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary", children: [
+              "Open guide",
+              " ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                ArrowRight,
+                {
+                  "aria-hidden": "true",
+                  className: "size-4 transition-smooth group-hover:translate-x-0.5"
+                }
+              )
+            ] })
+          ]
+        },
+        to
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "book_flight_phone.faq", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "FAQ",
+          title: "Questions before you book by phone",
+          description: "Practical information before you call."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto mt-10 max-w-3xl space-y-4", children: FAQS$5.map((faq) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "details",
+        {
+          className: "rounded-2xl border border-border bg-card p-5 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("summary", { className: "cursor-pointer font-semibold text-foreground", children: faq.question }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: faq.answer })
+          ]
+        },
+        faq.question
+      )) })
+    ] })
+  ] });
 }
 const EMPTY_FORM = {
   name: "",
@@ -42930,6 +43728,28 @@ function TripRequestForm() {
   const [values, setValues] = reactExports.useState(EMPTY_FORM);
   const [errors, setErrors] = reactExports.useState({});
   const [submitted, setSubmitted] = reactExports.useState(false);
+  const [emailStatus, setEmailStatus] = reactExports.useState(null);
+  const fallbackEmail = (() => {
+    const subject = encodeURIComponent(
+      `TicketDepart callback request - ${values.name || "Travel inquiry"}`
+    );
+    const body = encodeURIComponent(
+      [
+        `Name: ${values.name}`,
+        `Phone: ${values.phone}`,
+        `Email: ${values.email}`,
+        `Trip type: ${values.tripType}`,
+        `From: ${values.origin}`,
+        `To: ${values.destination}`,
+        `Departure: ${values.departureDate}`,
+        `Return: ${values.returnDate || "One-way"}`,
+        `Travelers: ${values.travelers}`,
+        `Cabin: ${values.cabin}`,
+        `Trip details: ${values.details || "None"}`
+      ].join("\\n")
+    );
+    return `mailto:${SITE.email}?subject=${subject}&body=${body}`;
+  })();
   const mutation = useMutation({
     mutationFn: async (input) => {
       if (!actor) throw new Error("Backend is not ready");
@@ -42973,8 +43793,16 @@ function TripRequestForm() {
     mutation.mutate(values, {
       onSuccess: (result) => {
         if (result.__kind__ === "ok") {
+          const { lead, email } = result.ok;
+          if (!lead) {
+            setErrors({
+              name: "We could not confirm your request. Please try again."
+            });
+            return;
+          }
           setValues(EMPTY_FORM);
           setErrors({});
+          setEmailStatus(email);
           setSubmitted(true);
           return;
         }
@@ -42993,6 +43821,22 @@ function TripRequestForm() {
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-flex size-11 items-center justify-center rounded-full bg-success/10 text-success", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { "aria-hidden": "true", className: "size-6" }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mt-4 text-2xl font-semibold", children: "Request received" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-base leading-relaxed text-muted-foreground", children: "Thank you — your callback request is with our travel desk. A specialist will review your trip details and follow up using the phone number and email you provided." }),
+          (emailStatus == null ? void 0 : emailStatus.__kind__) === "sent" ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "p",
+            {
+              "data-ocid": "contact.email_sent_state",
+              className: "mt-4 rounded-lg border border-success/30 bg-success/5 px-4 py-3 text-sm font-medium text-success",
+              children: "A confirmation email is on its way to the address you provided."
+            }
+          ) : (emailStatus == null ? void 0 : emailStatus.__kind__) === "failed" ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "p",
+            {
+              role: "alert",
+              "data-ocid": "contact.email_failed_state",
+              className: "mt-4 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-medium text-destructive",
+              children: "Your request was received, but we could not send the confirmation email just now. Please keep this page or call us to confirm your trip."
+            }
+          ) : null,
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-6 rounded-xl border border-accent/30 bg-accent/5 p-5", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-base font-semibold text-foreground", children: [
             "Need help faster? Call a Travel Specialist:",
             " ",
@@ -43263,28 +44107,46 @@ function TripRequestForm() {
             }
           )
         ] }),
-        mutation.isError ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        mutation.isError ? /* @__PURE__ */ jsxRuntimeExports.jsx(
           "p",
           {
             role: "alert",
             "data-ocid": "contact.error_state",
             className: "mt-6 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-medium text-destructive",
-            children: [
-              "We could not send your request just now. Please try again, or call",
-              " ",
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "a",
-                {
-                  href: "tel:+18555449001",
-                  className: "font-semibold underline underline-offset-4",
-                  children: "+1 855-544-9001"
-                }
-              ),
-              " ",
-              "and we will take the details over the phone."
-            ]
+            children: "We could not send your request just now. Your details are still on this form. Please try again, or use the email option below."
           }
         ) : null,
+        mutation.isError ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 flex flex-col gap-3 sm:flex-row", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              type: "button",
+              "data-ocid": "contact.retry_button",
+              onClick: () => mutation.mutate(values),
+              disabled: mutation.isPending,
+              className: "inline-flex h-11 items-center justify-center rounded-full border border-primary/25 bg-card px-5 text-sm font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-70",
+              children: "Try sending again"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "a",
+            {
+              href: fallbackEmail,
+              "data-ocid": "contact.email_fallback_link",
+              className: "inline-flex h-11 items-center justify-center rounded-full border border-accent/30 bg-accent/5 px-5 text-sm font-medium text-primary transition-smooth hover:bg-accent/10",
+              children: "Email my trip details instead"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "a",
+            {
+              href: "tel:+18555449001",
+              "data-ocid": "contact.error_call_link",
+              className: "inline-flex h-11 items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-medium text-primary transition-smooth hover:bg-muted",
+              children: "Call +1 855-544-9001"
+            }
+          )
+        ] }) : null,
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
@@ -43480,12 +44342,34 @@ function ContactPage() {
     ] }) })
   ] });
 }
-const PAGE_PATH = "/flight-booking";
-const PAGE_TITLE = "Flight Booking Assistance | TicketDepart";
-const PAGE_DESCRIPTION = "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
+const PAGE_PATH$1 = "/flight-booking";
+const PAGE_TITLE$1 = "Flight Booking Assistance by Phone | TicketDepart";
+const PAGE_DESCRIPTION$1 = "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
-  { name: "Flight Booking", path: PAGE_PATH }
+  { name: "Flight Booking", path: PAGE_PATH$1 }
+];
+const FAQS$4 = [
+  {
+    question: "Can I book a flight by phone with TicketDepart?",
+    answer: "Yes. TicketDepart is an independent travel agency, and a travel specialist can discuss your itinerary, compare options, and assist with booking by phone at +1 855-544-9001."
+  },
+  {
+    question: "Can you help with international and multi-city flights?",
+    answer: "Yes. We assist with domestic, international, multi-city, and open-jaw itineraries, including complex connections and mixed-carrier options."
+  },
+  {
+    question: "Can you help with business class or first class flights?",
+    answer: "Yes. We can discuss business, first, and premium economy options and explain differences in cabin, schedule, and fare conditions."
+  },
+  {
+    question: "Is TicketDepart affiliated with Delta, United, or American Airlines?",
+    answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by any airline. Airline names and trademarks belong to their respective owners."
+  },
+  {
+    question: "What information should I have ready when I call?",
+    answer: "Have your departure and destination cities, preferred travel dates, number of travelers, cabin preference, and any flexibility or special requirements ready if available."
+  }
 ];
 const SERVICES$3 = [
   {
@@ -43569,13 +44453,13 @@ const PROCESS = [
 const AIRLINE_LINKS$1 = [
   {
     to: "/delta-airlines",
-    label: "Delta Air Lines booking assistance",
-    description: "Routes, cabins, and connection guidance for Delta-operated itineraries."
+    label: "Delta Airlines booking assistance",
+    description: "Routes, cabins, and connection guidance for Delta Airlines itineraries."
   },
   {
     to: "/united-airlines",
     label: "United Airlines booking assistance",
-    description: "Hub connections, international routings, and fare questions for United."
+    description: "Hub connections, international routings, and fare questions for United Airlines."
   },
   {
     to: "/american-airlines",
@@ -43588,10 +44472,23 @@ function FlightBookingPage() {
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Seo,
       {
-        title: PAGE_TITLE,
-        description: PAGE_DESCRIPTION,
-        path: PAGE_PATH,
-        structuredData: [breadcrumbSchema([...BREADCRUMBS])]
+        title: PAGE_TITLE$1,
+        description: PAGE_DESCRIPTION$1,
+        path: PAGE_PATH$1,
+        structuredData: [
+          breadcrumbSchema([...BREADCRUMBS]),
+          faqSchema(FAQS$4),
+          webPageSchema({
+            title: PAGE_TITLE$1,
+            description: PAGE_DESCRIPTION$1,
+            path: PAGE_PATH$1
+          }),
+          serviceSchema({
+            name: "Flight booking assistance",
+            description: PAGE_DESCRIPTION$1,
+            path: PAGE_PATH$1
+          })
+        ]
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "flight_booking.page", children: [
@@ -43863,6 +44760,22 @@ function FlightBookingPage() {
             },
             airline.to
           )) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 rounded-2xl border border-border bg-muted/40 p-6", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-display text-lg font-semibold", children: "Prefer to prepare before you call?" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: "Our guide explains what to have ready and which fare, baggage, change, and ticketing questions are worth asking." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              Link,
+              {
+                to: "/how-to-book-a-flight-by-phone",
+                "data-ocid": "flight_booking.phone_guide_link",
+                className: "mt-4 inline-flex items-center gap-2 font-semibold text-primary underline underline-offset-4 hover:text-accent",
+                children: [
+                  "Read the phone booking guide",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { "aria-hidden": "true", className: "size-4" })
+                ]
+              }
+            )
+          ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-8 text-sm leading-relaxed text-muted-foreground", children: [
             "Booking a trip that does not fit one carrier?",
             " ",
@@ -43877,6 +44790,57 @@ function FlightBookingPage() {
             ),
             " ",
             "and we will compare the options with you."
+          ] })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Section,
+      {
+        tone: "muted",
+        ocid: "flight_booking.us_intent",
+        "aria-labelledby": "flight_booking_us_intent_heading",
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SectionHeading,
+            {
+              id: "flight_booking_us_intent_heading",
+              eyebrow: "U.S. flight booking",
+              title: "Flight booking help from major U.S. gateways",
+              description: "If you are flying from or through a major U.S. airport, tell us your cities, dates, and flexibility. We can compare domestic and international itineraries and explain the trade-offs before you book."
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4", children: [
+            ["New York", "JFK, LGA, EWR"],
+            ["Los Angeles", "LAX"],
+            ["Chicago", "ORD, MDW"],
+            ["Miami", "MIA"],
+            ["Dallas–Fort Worth", "DFW"],
+            ["Atlanta", "ATL"],
+            ["San Francisco", "SFO"],
+            ["Seattle", "SEA"]
+          ].map(([city, airports]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: "rounded-xl border border-border bg-card p-5 shadow-subtle",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-display text-base font-semibold", children: city }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm text-muted-foreground", children: airports })
+              ]
+            },
+            city
+          )) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 rounded-2xl border border-border bg-card p-6 shadow-subtle sm:p-7", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-display text-lg font-semibold", children: "Looking for a specific U.S. route?" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: "Tell us the departure airport, destination, dates, number of travelers, and preferred cabin. If you can use nearby airports or flexible dates, mention that too. A specialist can then compare the available itineraries with you by phone." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-5", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              CallCta,
+              {
+                variant: "outline",
+                size: "md",
+                ocid: "flight_booking.us_intent_call_button"
+              }
+            ) })
           ] })
         ]
       }
@@ -44105,7 +45069,7 @@ function HeroSection() {
               children: "Flight booking help from a real travel specialist"
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "TicketDepart plans and books international and domestic flights, multi-city itineraries, and group travel — with a specialist on the phone around the clock. Tell us where you need to go and we will handle the routing, the fare rules, and the details." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "TicketDepart plans and books international and domestic flights, multi-city itineraries, and group travel for travelers across the United States — with a specialist on the phone around the clock. Tell us where you need to go and we will handle the routing, the fare rules, and the details." }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "home.hero_call_button" }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -44341,7 +45305,7 @@ function HowItWorks() {
     }
   );
 }
-const CHECKLIST$3 = [
+const CHECKLIST$4 = [
   {
     title: "Your departure and arrival cities",
     detail: "Airport names or codes if you know them — and whether nearby airports are acceptable."
@@ -44393,7 +45357,7 @@ function PreCallChecklist() {
             className: "[&_p:last-child]:text-primary-foreground/75"
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-12 grid gap-x-8 gap-y-6 sm:grid-cols-2", children: CHECKLIST$3.map((item, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-12 grid gap-x-8 gap-y-6 sm:grid-cols-2", children: CHECKLIST$4.map((item, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "li",
           {
             "data-ocid": `home.checklist_item.${index2 + 1}`,
@@ -44461,12 +45425,12 @@ const SERVICES$2 = [
 ];
 const AIRLINE_LINKS = [
   {
-    label: "Delta flight booking help",
+    label: "Delta Airlines flight booking help",
     to: "/delta-airlines",
     ocid: "home.services_delta_link"
   },
   {
-    label: "United flight booking help",
+    label: "United Airlines flight booking help",
     to: "/united-airlines",
     ocid: "home.services_united_link"
   },
@@ -44562,9 +45526,107 @@ function HomePage() {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(HeroSection, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "section",
+      {
+        className: "border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-12",
+        "aria-labelledby": "book-flight-phone-heading",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto flex max-w-6xl flex-col gap-5 lg:flex-row lg:items-center lg:justify-between", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Ready to book?" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "h2",
+              {
+                id: "book-flight-phone-heading",
+                className: "mt-2 text-balance text-2xl font-semibold leading-tight sm:text-3xl",
+                children: "Book a flight by phone with a travel specialist"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base", children: "Discuss your route, dates, cabin, baggage, and fare rules before you decide. Phone assistance is available 24/7." })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Link,
+            {
+              to: "/book-a-flight-by-phone",
+              className: "inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90",
+              children: [
+                "Book by phone ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", children: "→" })
+              ]
+            }
+          )
+        ] })
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceGrid, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(HowItWorks, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(PreCallChecklist, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "section",
+      {
+        className: "border-y border-border bg-muted/40 px-5 py-12 sm:px-8 sm:py-16",
+        "aria-labelledby": "phone-booking-guide-heading",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-6xl", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Need a little more detail?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "h2",
+            {
+              id: "phone-booking-guide-heading",
+              className: "mt-3 max-w-3xl text-balance text-2xl font-semibold leading-tight sm:text-3xl",
+              children: "Learn how booking a flight by phone works"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground", children: "See what to prepare before calling, which questions to ask about fares and changes, and how a phone booking typically moves from trip details to a confirmed ticket." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Link,
+            {
+              to: "/how-to-book-a-flight-by-phone",
+              className: "mt-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-card px-5 py-3 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground",
+              children: [
+                "Read the phone booking guide",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", children: "→" })
+              ]
+            }
+          )
+        ] })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "section",
+      {
+        className: "border-b border-border bg-muted/40 px-5 py-12 sm:px-8 sm:py-16",
+        "aria-labelledby": "airline-guides-heading",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-6xl", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Airline booking assistance" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "h2",
+            {
+              id: "airline-guides-heading",
+              className: "mt-3 max-w-3xl text-balance text-2xl font-semibold leading-tight sm:text-3xl",
+              children: "Planning around a specific airline?"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground", children: "Explore our practical booking guides for Delta Airlines, United Airlines, and American Airlines, or call a specialist if your trip uses more than one carrier." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-7 grid gap-3 sm:grid-cols-3", children: [
+            ["Delta Airlines booking assistance", "/delta-airlines"],
+            ["United Airlines booking assistance", "/united-airlines"],
+            ["American Airlines booking assistance", "/american-airlines"]
+          ].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Link,
+            {
+              to,
+              className: "rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle",
+              children: [
+                label,
+                " ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", children: "→" })
+              ]
+            },
+            to
+          )) })
+        ] })
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(HomeFaq, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(DisclosureBlock, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(ContactInfoBlock, {}),
@@ -44575,6 +45637,277 @@ function HomePage() {
       ". ",
       SITE.hours,
       "."
+    ] })
+  ] });
+}
+const PAGE_PATH = "/how-to-book-a-flight-by-phone";
+const PAGE_TITLE = "How to Book a Flight by Phone | TicketDepart";
+const PAGE_DESCRIPTION = "Learn how phone flight booking works, what information to prepare, what to ask about fares and changes, and when speaking with a travel specialist can help.";
+const FAQS$3 = [
+  {
+    question: "Can I book a flight entirely by phone?",
+    answer: "Yes. An independent travel specialist can review itinerary options with you and, when the agency can issue the ticket, complete the booking by phone after you confirm the itinerary, price, and applicable terms."
+  },
+  {
+    question: "What information should I have ready before calling?",
+    answer: "Have your departure and destination cities or airports, travel dates, number of travelers, preferred cabin, and any flexibility. For international trips, have the passenger names and travel-document details available when appropriate."
+  },
+  {
+    question: "Can a travel specialist help with multi-city flights?",
+    answer: "Yes. A specialist can discuss multi-city, open-jaw, and other complex itineraries and explain how the routing, connections, and fare rules differ from a simple round trip."
+  },
+  {
+    question: "Can I ask about baggage and change rules before paying?",
+    answer: "Yes. Ask which baggage is included, what the fare permits, whether changes are allowed, and what fees or fare differences may apply before you confirm a booking."
+  }
+];
+const CHECKLIST$3 = [
+  "Departure and destination cities or airport codes",
+  "Preferred departure and return dates",
+  "Number of travelers and passenger ages when relevant",
+  "Cabin preference: economy, premium economy, business, or first",
+  "Flexible dates or nearby airports you can use",
+  "Baggage, seating, accessibility, or other travel requirements"
+];
+function HowToBookFlightByPhonePage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Seo,
+      {
+        title: PAGE_TITLE,
+        description: PAGE_DESCRIPTION,
+        path: PAGE_PATH,
+        structuredData: [
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "How to Book a Flight by Phone", path: PAGE_PATH }
+          ]),
+          faqSchema(FAQS$3),
+          webPageSchema({
+            title: PAGE_TITLE,
+            description: PAGE_DESCRIPTION,
+            path: PAGE_PATH
+          }),
+          serviceSchema({
+            name: "Phone flight booking assistance",
+            description: PAGE_DESCRIPTION,
+            path: PAGE_PATH
+          })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "phone_booking_guide.hero", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { "aria-label": "Breadcrumb", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ol", { className: "flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "font-medium hover:text-foreground", children: "Home" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { "aria-hidden": "true", className: "text-border", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "span",
+          {
+            "aria-current": "page",
+            className: "font-semibold text-foreground",
+            children: "How to Book a Flight by Phone"
+          }
+        ) })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto mt-10 max-w-4xl", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Phone booking guide" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl", children: "How to book a flight by phone" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "Booking by phone can be useful when your trip is more complicated than a simple search. A travel specialist can talk through dates, airports, connections, cabin options, baggage, and fare rules with you before you decide what to book." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "phone_booking_guide.call_button" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Link,
+            {
+              to: "/flight-booking",
+              className: "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground",
+              children: [
+                "See flight booking services",
+                /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { "aria-hidden": "true", className: "size-4" })
+              ]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-5 flex items-center gap-2 text-sm text-muted-foreground", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4 text-accent" }),
+          SITE.hours,
+          " · ",
+          SITE.phoneDisplay
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: "phone_booking_guide.steps", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "The process",
+          title: "What happens when you book by phone",
+          description: "The exact process depends on the travel provider and itinerary, but these are the practical steps to work through before a ticket is issued."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "mt-12 grid gap-6 md:grid-cols-3", children: [
+        {
+          number: "01",
+          title: "Explain the trip",
+          text: "Give the departure and destination, dates, travelers, cabin preference, and any flexibility. Mention nearby airports or alternate dates if you can use them."
+        },
+        {
+          number: "02",
+          title: "Compare the itinerary",
+          text: "Review departure times, airports, connections, airline, cabin, baggage terms, change rules, and the complete price. Ask questions before agreeing to anything."
+        },
+        {
+          number: "03",
+          title: "Confirm the booking",
+          text: "Once you choose an itinerary, verify passenger names and the final terms. A booking is complete only after the responsible travel provider issues the ticket and confirmation."
+        }
+      ].map((step) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "li",
+        {
+          className: "rounded-2xl border border-border bg-card p-6 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "label-board text-accent", children: step.number }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 font-display text-lg font-semibold", children: step.title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: step.text })
+          ]
+        },
+        step.number
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "paper", ocid: "phone_booking_guide.checklist", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-10 lg:grid-cols-2 lg:items-start", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          SectionHeading,
+          {
+            eyebrow: "Before you call",
+            title: "Have these details ready",
+            description: "You do not need every detail before the call, but having the basics ready makes the conversation faster and reduces avoidable mistakes."
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-8 space-y-4", children: CHECKLIST$3.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-start gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            CircleCheck,
+            {
+              "aria-hidden": "true",
+              className: "mt-0.5 size-5 shrink-0 text-accent"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm leading-relaxed text-foreground", children: item })
+        ] }, item)) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-border bg-card p-6 shadow-subtle sm:p-7", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-xl font-semibold", children: "Questions worth asking" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "mt-5 space-y-4 text-sm leading-relaxed text-muted-foreground", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "What is the complete price, including taxes and any agency fee?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "What baggage is included with this fare?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "What are the change and cancellation rules?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Are there alternative airports or dates that change the itinerary?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Who will issue the ticket and provide the confirmation?" })
+        ] })
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: "phone_booking_guide.when_helpful", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "When it helps",
+          title: "Phone booking is especially useful for complicated trips",
+          description: "A phone conversation can be useful when the itinerary needs more context than a basic origin-and-destination search provides."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4", children: [
+        [
+          "Multi-city",
+          "Three or more cities, open-jaw trips, or unusual routing."
+        ],
+        [
+          "International",
+          "Long connections, multiple airports, and document questions."
+        ],
+        [
+          "Premium cabins",
+          "Business or first class where cabin and aircraft details matter."
+        ],
+        [
+          "Groups",
+          "Families, teams, or groups that need coordinated travel."
+        ]
+      ].map(([title, text]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "article",
+        {
+          className: "rounded-2xl border border-border bg-card p-6 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-lg font-semibold", children: title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: text })
+          ]
+        },
+        title
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "phone_booking_guide.related", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "Continue planning",
+          title: "Explore airline-specific booking help",
+          description: "If you already know which airline you want to fly, these guides cover booking, cabin options, connections, and changes for that carrier."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-4 sm:grid-cols-3", children: [
+        ["Delta Airlines", "/delta-airlines"],
+        ["United Airlines", "/united-airlines"],
+        ["American Airlines", "/american-airlines"]
+      ].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        Link,
+        {
+          to,
+          className: "group rounded-2xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:shadow-elevated",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-display text-base font-semibold text-foreground", children: [
+              label,
+              " booking assistance"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary", children: [
+              "Read the guide",
+              " ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                ArrowRight,
+                {
+                  "aria-hidden": "true",
+                  className: "size-4 transition-smooth group-hover:translate-x-0.5"
+                }
+              )
+            ] })
+          ]
+        },
+        to
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "navy", ocid: "phone_booking_guide.cta", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-3xl text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "TicketDepart" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 text-balance text-3xl font-semibold leading-tight sm:text-4xl", children: "Want to talk through your itinerary?" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 text-pretty text-base leading-relaxed text-primary-foreground/80 sm:text-lg", children: "TicketDepart is an independent travel agency. Tell us your route, dates, travelers, and preferences, and a specialist can discuss the booking options with you." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "phone_booking_guide.cta_call_button" }) })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "phone_booking_guide.faq", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "FAQ",
+          title: "Questions about booking flights by phone",
+          description: "Practical answers before you call."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto mt-10 max-w-3xl space-y-4", children: FAQS$3.map((faq) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "details",
+        {
+          className: "rounded-2xl border border-border bg-card p-5 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("summary", { className: "cursor-pointer font-semibold text-foreground", children: faq.question }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: faq.answer })
+          ]
+        },
+        faq.question
+      )) })
     ] })
   ] });
 }
@@ -44593,14 +45926,14 @@ const RECOVERY_LINKS = [
   },
   {
     to: "/delta-airlines",
-    label: "Delta airline guide",
-    description: "Routes, cabins, and booking help for Delta flights.",
+    label: "Delta Airlines guide",
+    description: "Routes, cabins, and booking help for Delta Airlines flights.",
     ocid: "not_found.link.delta"
   },
   {
     to: "/united-airlines",
-    label: "United airline guide",
-    description: "Routes, cabins, and booking help for United flights.",
+    label: "United Airlines guide",
+    description: "Routes, cabins, and booking help for United Airlines flights.",
     ocid: "not_found.link.united"
   },
   {
@@ -45229,8 +46562,8 @@ const FAQS$2 = [
   }
 ];
 const RELATED$2 = [
-  { label: "Delta flight assistance", to: "/delta-airlines" },
-  { label: "United flight assistance", to: "/united-airlines" },
+  { label: "Delta Airlines flight assistance", to: "/delta-airlines" },
+  { label: "United Airlines flight assistance", to: "/united-airlines" },
   { label: "General flight booking", to: "/flight-booking" }
 ];
 function AmericanAirlinesPage() {
@@ -45504,12 +46837,12 @@ const TERMINAL_IMAGE_URL = absoluteUrl(TERMINAL_IMAGE.src);
 const SERVICES = [
   {
     icon: Ticket,
-    title: "New Delta flight bookings",
-    body: "Tell us your dates, airports, and how many travelers are flying. A specialist searches available Delta-operated and Delta-marketed itineraries, compares fare families, and books the option that fits your trip — including Main Cabin, Comfort+, and Delta One where available."
+    title: "New Delta Airlines flight bookings",
+    body: "Tell us your dates, airports, and how many travelers are flying. A specialist searches available Delta Airlines-operated and Delta Airlines-marketed itineraries, compares fare families, and books the option that fits your trip — including Main Cabin, Comfort+, and Delta One where available."
   },
   {
     icon: Earth,
-    title: "International Delta itineraries",
+    title: "International Delta Airlines itineraries",
     body: "Transatlantic and transpacific routings involve partner segments, visa and transit rules, and baggage that differs by fare. We map the full journey end to end, confirm connection times are realistic, and explain what each leg includes before you commit."
   },
   {
@@ -45531,25 +46864,25 @@ const SERVICES = [
 const CABINS$1 = [
   {
     name: "Main Cabin",
-    body: "The standard economy experience on Delta-operated flights. Seats are assigned at booking or check-in, and the fare family you choose determines whether a seat selection or a change is included. Basic economy-style fares are more restrictive, so we confirm what your specific fare allows before you book."
+    body: "The standard economy experience on Delta Airlines-operated flights. Seats are assigned at booking or check-in, and the fare family you choose determines whether a seat selection or a change is included. Basic economy-style fares are more restrictive, so we confirm what your specific fare allows before you book."
   },
   {
     name: "Comfort+",
-    body: "A extra-legroom economy cabin on many Delta mainline aircraft, with more recline and earlier boarding than standard Main Cabin. It is a seat-and-space upgrade rather than a separate service class, and availability varies by aircraft and route."
+    body: "An extra-legroom economy cabin on many Delta Airlines mainline aircraft, with more recline and earlier boarding than standard Main Cabin. It is a seat-and-space upgrade rather than a separate service class, and availability varies by aircraft and route."
   },
   {
     name: "First Class",
-    body: "The domestic premium cabin on Delta mainline routes, with a wider seat, priority boarding, and a higher baggage allowance on most fares. It is offered on select domestic and short-haul international routes rather than on every flight."
+    body: "The domestic premium cabin on Delta Airlines mainline routes, with a wider seat, priority boarding, and a higher baggage allowance on most fares. It is offered on select domestic and short-haul international routes rather than on every flight."
   },
   {
     name: "Delta One",
-    body: "Delta's long-haul premium cabin, offered on many international and select transcontinental routes. It features a lie-flat seat and premium service. Which aircraft and routes carry Delta One changes over time, so we check your specific itinerary rather than assume."
+    body: "Delta Airlines' long-haul premium cabin, offered on many international and select transcontinental routes. It features a lie-flat seat and premium service. Which aircraft and routes carry Delta One changes over time, so we check your specific itinerary rather than assume."
   }
 ];
 const INTERNATIONAL_NOTES$1 = [
   {
     title: "Partner-operated segments",
-    body: "A single Delta-marketed itinerary can include legs operated by partner airlines. We identify which carrier actually flies each segment so you know whose check-in desk, baggage rules, and seat map apply."
+    body: "A single Delta Airlines-marketed itinerary can include legs operated by partner airlines. We identify which carrier actually flies each segment so you know whose check-in desk, baggage rules, and seat map apply."
   },
   {
     title: "Transit and entry requirements",
@@ -45576,11 +46909,11 @@ const CHECKLIST$1 = [
 ];
 const FAQS$1 = [
   {
-    question: "Can TicketDepart book Delta flights for me?",
-    answer: "Yes. TicketDepart is an independent travel agency and our specialists can search, price, and book Delta-operated and Delta-marketed flights on your behalf. We are not Delta and we are not Delta's official customer service — we are a third-party agency that books travel for our clients."
+    question: "Can TicketDepart book Delta Airlines flights for me?",
+    answer: "Yes. TicketDepart is an independent travel agency and our specialists can search, price, and book Delta Airlines-operated and Delta Airlines-marketed flights on your behalf. We are not Delta Airlines and we are not Delta Airlines' official customer service — we are a third-party agency that books travel for our clients."
   },
   {
-    question: "How is booking through an agency different from booking on Delta's website?",
+    question: "How is booking through an agency different from booking on Delta Airlines' website?",
     answer: "You get a person on the phone who can compare fare families, explain what each fare includes, and handle the booking from start to finish. If something changes later, you call the same agency back rather than working through a self-service portal."
   },
   {
@@ -45588,11 +46921,11 @@ const FAQS$1 = [
     answer: "Any agency service fee is disclosed to you before your booking is finalized, so you always know the full cost of your itinerary before you agree to it. There are no hidden charges added after the fact."
   },
   {
-    question: "Can you help with a Delta flight I already booked elsewhere?",
+    question: "Can you help with a Delta Airlines flight I already booked elsewhere?",
     answer: "We can look at your existing itinerary and advise on change and rebooking options. Whether we can act on the reservation depends on the fare rules and how the ticket was issued, and we will tell you honestly what is possible before you commit to anything."
   },
   {
-    question: "What if my Delta flight is delayed or cancelled?",
+    question: "What if my Delta Airlines flight is delayed or cancelled?",
     answer: "Call us and we will review your itinerary and the applicable fare rules, then walk you through the rebooking options that are available. We can handle the rebooking for you where the ticket allows it."
   },
   {
@@ -45610,14 +46943,14 @@ function DeltaPage() {
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Seo,
       {
-        title: "Delta Flight Booking Assistance | TicketDepart",
-        description: "Independent travel agency helping you book, change, and rebook Delta flights — domestic, international, multi-city, and premium cabins. Call +1 855-544-9001.",
+        title: "Delta Airlines Flight Booking Assistance | TicketDepart",
+        description: "Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Call +1 855-544-9001.",
         path: PATH$1,
         image: TERMINAL_IMAGE_URL,
         structuredData: [
           breadcrumbSchema([
             { name: "Home", path: "/" },
-            { name: "Delta", path: PATH$1 }
+            { name: "Delta Airlines", path: PATH$1 }
           ]),
           faqSchema(FAQS$1)
         ]
@@ -45635,13 +46968,13 @@ function DeltaPage() {
           }
         ) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("li", { "aria-hidden": "true", children: "/" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { className: "font-medium text-foreground", children: "Delta" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { className: "font-medium text-foreground", children: "Delta Airlines" })
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Delta flight assistance" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl", children: "Delta bookings handled by a real travel specialist" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "Whether you are flying a simple domestic round trip or piecing together a multi-city international itinerary, a TicketDepart specialist can search, price, and book Delta flights with you on the phone — and stay reachable when your plans change." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Delta Airlines flight assistance" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl", children: "Delta Airlines bookings handled by a real travel specialist" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "Whether you are flying a simple domestic round trip or piecing together a multi-city international itinerary, a TicketDepart specialist can search, price, and book Delta Airlines flights with you on the phone — and stay reachable when your plans change." }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "delta.call_button" }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -45682,7 +47015,7 @@ function DeltaPage() {
                 /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldCheck, { "aria-hidden": "true", className: "size-5 text-accent" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-lg font-semibold", children: "Independent agency disclosure" })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-sm leading-relaxed text-muted-foreground", children: "TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Delta Air Lines, and we are not Delta's official customer service. Delta and all related names and marks belong to their respective owners and are used here for identification only." }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-sm leading-relaxed text-muted-foreground", children: "TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Delta Airlines, and we are not Delta Airlines' official customer service. Delta Airlines and all related names and marks belong to their respective owners and are used here for identification only." }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-sm leading-relaxed text-muted-foreground", children: "We do not link out to airline booking websites. Every booking and change is handled on this site by phone with one of our specialists." })
             ]
           }
@@ -45710,7 +47043,7 @@ function DeltaPage() {
         SectionHeading,
         {
           eyebrow: "What we handle",
-          title: "Five ways we help with Delta travel",
+          title: "Five ways we help with Delta Airlines travel",
           description: "Each service below is handled by a specialist who can explain the trade-offs before you decide, not after."
         }
       ),
@@ -45733,7 +47066,7 @@ function DeltaPage() {
         SectionHeading,
         {
           eyebrow: "Cabin options",
-          title: "Understanding Delta's cabins before you choose",
+          title: "Understanding Delta Airlines' cabins before you choose",
           description: "Cabin names and what they include vary by aircraft and route. Here is a plain-language starting point — your specialist confirms the details for your specific flight."
         }
       ),
@@ -45803,7 +47136,7 @@ function DeltaPage() {
     /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "navy", ocid: "delta.cta", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-2xl", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Ready when you are" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-3 text-balance text-3xl font-semibold leading-tight sm:text-4xl", children: "Talk through your Delta trip with a specialist" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-3 text-balance text-3xl font-semibold leading-tight sm:text-4xl", children: "Talk through your Delta Airlines trip with a specialist" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-pretty text-base leading-relaxed text-primary-foreground/80", children: "No hold music, no automated menus. Call and speak with a person who can search fares and book your itinerary while you are on the line." })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -45821,9 +47154,9 @@ function DeltaPage() {
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         SectionHeading,
         {
-          eyebrow: "Delta questions",
+          eyebrow: "Delta Airlines questions",
           title: "Frequently asked questions",
-          description: "Straight answers about how agency booking works and what we can do for your Delta itinerary."
+          description: "Straight answers about how agency booking works and what we can do for your Delta Airlines itinerary."
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("dl", { className: "mt-10 grid gap-4 lg:grid-cols-2", children: FAQS$1.map((faq, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -45871,12 +47204,12 @@ const CAPABILITIES = [
   {
     icon: Ticket,
     title: "Booking assistance",
-    body: "We search United-operated and United-marketed flights across your travel window, compare Economy, Economy Plus, and premium cabin pricing, and complete the reservation with you on the phone."
+    body: "We search United Airlines-operated and United Airlines-marketed flights across your travel window, compare Economy, Economy Plus, and premium cabin pricing, and complete the reservation with you on the phone."
   },
   {
     icon: Earth,
     title: "International booking",
-    body: "Long-haul United routes often connect through a hub and may include partner-operated segments. We check that every connection is legal and comfortable, and that baggage rules are consistent across the whole journey."
+    body: "Long-haul United Airlines routes often connect through a hub and may include partner-operated segments. We check that every connection is legal and comfortable, and that baggage rules are consistent across the whole journey."
   },
   {
     icon: MapPin,
@@ -45886,7 +47219,7 @@ const CAPABILITIES = [
   {
     icon: Briefcase,
     title: "Business and first-class booking",
-    body: "United Polaris and domestic First Class are priced differently by route and date. We review the premium options in your window, explain what the fare includes, and book the cabin that fits the trip."
+    body: "United Airlines Polaris and domestic First Class are priced differently by route and date. We review the premium options in your window, explain what the fare includes, and book the cabin that fits the trip."
   },
   {
     icon: Repeat2,
@@ -45896,34 +47229,34 @@ const CAPABILITIES = [
 ];
 const CABINS = [
   {
-    name: "United Economy",
+    name: "United Airlines Economy",
     tag: "Standard cabin",
-    body: "The standard main cabin on United flights. Seat selection and baggage allowances depend on the fare you choose, so we compare the fare options in your window and explain what each one includes before you book."
+    body: "The standard main cabin on United Airlines flights. Seat selection and baggage allowances depend on the fare you choose, so we compare the fare options in your window and explain what each one includes before you book."
   },
   {
     name: "Economy Plus",
     tag: "Extra legroom",
-    body: "A United seating option with more legroom than standard Economy, located toward the front of the Economy cabin. Availability and pricing vary by aircraft and route, so we check what is open on your specific flights."
+    body: "A United Airlines seating option with more legroom than standard Economy, located toward the front of the Economy cabin. Availability and pricing vary by aircraft and route, so we check what is open on your specific flights."
   },
   {
-    name: "United First",
+    name: "United Airlines First",
     tag: "Domestic premium",
-    body: "United's domestic premium cabin, offered on many routes within the United States. What is included — such as seat type and service — varies by aircraft and route, and we confirm the details for your flights."
+    body: "United Airlines' domestic premium cabin, offered on many routes within the United States. What is included — such as seat type and service — varies by aircraft and route, and we confirm the details for your flights."
   },
   {
-    name: "United Polaris",
+    name: "United Airlines Polaris",
     tag: "Long-haul business",
-    body: "United's long-haul international business class, with lie-flat seating on equipped aircraft. It is not available on every international route or aircraft, so we verify the cabin on your specific itinerary."
+    body: "United Airlines' long-haul international business class, with lie-flat seating on equipped aircraft. It is not available on every international route or aircraft, so we verify the cabin on your specific itinerary."
   }
 ];
 const INTERNATIONAL_NOTES = [
   {
     title: "Connections and hubs",
-    body: "Many international United itineraries connect through a hub before the long-haul leg. We look at connection times with realistic transfer and security buffers in mind, rather than the shortest possible layover."
+    body: "Many international United Airlines itineraries connect through a hub before the long-haul leg. We look at connection times with realistic transfer and security buffers in mind, rather than the shortest possible layover."
   },
   {
     title: "Partner-operated segments",
-    body: "An international United itinerary can include segments operated by partner airlines. We map the full journey so you know which carrier operates each leg and where the handoffs happen."
+    body: "An international United Airlines itinerary can include segments operated by partner airlines. We map the full journey so you know which carrier operates each leg and where the handoffs happen."
   },
   {
     title: "Baggage across the journey",
@@ -45938,7 +47271,7 @@ const MULTI_CITY_NOTES = [
   "Open-jaw trips that arrive in one city and depart from another",
   "Three or more stops where the order changes the total price",
   "Mixed cabins, such as Economy on short legs and a premium cabin long-haul",
-  "Itineraries that combine United with a partner on part of the route"
+  "Itineraries that combine United Airlines with a partner on part of the route"
 ];
 const CHANGE_STEPS = [
   {
@@ -45966,26 +47299,26 @@ const CHECKLIST = [
 const FAQS = [
   {
     question: "Is TicketDepart part of United Airlines?",
-    answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by United Airlines, and we are not United's official customer service. We book travel for our own clients as a third party."
+    answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by United Airlines, and we are not United Airlines' official customer service. We book travel for our own clients as a third party."
   },
   {
-    question: "What United booking help can I get over the phone?",
-    answer: "We can search and compare United itineraries, book new reservations, build multi-city and international routings, book premium cabins, and assist with changes and rebooking. Call and describe your trip and a specialist will take it from there."
+    question: "What United Airlines booking help can I get over the phone?",
+    answer: "We can search and compare United Airlines itineraries, book new reservations, build multi-city and international routings, book premium cabins, and assist with changes and rebooking. Call and describe your trip and a specialist will take it from there."
   },
   {
-    question: "Can you book a multi-city United itinerary?",
+    question: "Can you book a multi-city United Airlines itinerary?",
     answer: "Yes. Multi-city and open-jaw trips are one of the main reasons travelers call us instead of using a search engine. We sequence the segments deliberately and price the whole itinerary together."
   },
   {
-    question: "What is the difference between Economy Plus and United Polaris?",
-    answer: "Economy Plus is a seat with extra legroom within the Economy cabin. United Polaris is United's long-haul international business class, with lie-flat seating on equipped aircraft. Which cabins are available depends on your route and aircraft, so we check your specific flights."
+    question: "What is the difference between Economy Plus and United Airlines Polaris?",
+    answer: "Economy Plus is a seat with extra legroom within the Economy cabin. United Airlines Polaris is United Airlines' long-haul international business class, with lie-flat seating on equipped aircraft. Which cabins are available depends on your route and aircraft, so we check your specific flights."
   },
   {
-    question: "How do I change a United flight I booked through you?",
+    question: "How do I change a United Airlines flight I booked through you?",
     answer: "Call us with your confirmation details. We will review the fare rules, explain what the change costs, and handle the rebooking where the ticket allows it. If a change is not possible under your fare, we will tell you that plainly."
   },
   {
-    question: "Do you help with international United itineraries?",
+    question: "Do you help with international United Airlines itineraries?",
     answer: "Yes. International routings involve partner segments, transit requirements, and baggage that can differ by fare. We map the full journey and explain each leg before you book."
   },
   {
@@ -45994,7 +47327,7 @@ const FAQS = [
   }
 ];
 const RELATED = [
-  { label: "Delta flight assistance", to: "/delta-airlines" },
+  { label: "Delta Airlines flight assistance", to: "/delta-airlines" },
   { label: "American Airlines assistance", to: "/american-airlines" },
   { label: "General flight booking", to: "/flight-booking" }
 ];
@@ -46003,14 +47336,14 @@ function UnitedPage() {
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Seo,
       {
-        title: "United Flight Booking Assistance | TicketDepart",
+        title: "United Airlines Flight Booking Assistance | TicketDepart",
         description: "Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 855-544-9001.",
         path: PATH,
         image: HERO_IMAGE_URL,
         structuredData: [
           breadcrumbSchema([
             { name: "Home", path: "/" },
-            { name: "United", path: PATH }
+            { name: "United Airlines", path: PATH }
           ]),
           faqSchema(FAQS)
         ]
@@ -46028,13 +47361,13 @@ function UnitedPage() {
           }
         ) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("li", { "aria-hidden": "true", children: "/" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { className: "font-medium text-foreground", children: "United" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { className: "font-medium text-foreground", children: "United Airlines" })
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "United flight assistance" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl", children: "United itineraries, planned and booked by phone" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "TicketDepart specialists help travelers book United flights every day — from a straightforward domestic round trip to a multi-city international routing with partner segments. You describe the trip; we handle the search, the fare comparison, and the booking." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "United Airlines flight assistance" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl", children: "United Airlines itineraries, planned and booked by phone" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "TicketDepart specialists help travelers book United Airlines flights every day — from a straightforward domestic round trip to a multi-city international routing with partner segments. You describe the trip; we handle the search, the fare comparison, and the booking." }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "united.call_button" }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -46098,7 +47431,7 @@ function UnitedPage() {
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "max-w-2xl text-sm leading-relaxed text-muted-foreground", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold text-foreground", children: "Independent agency disclosure:" }),
             " ",
-            "TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by United Airlines, and we are not United's official customer service. United and all related names and marks belong to their respective owners and are used for identification only."
+            "TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by United Airlines, and we are not United Airlines' official customer service. United Airlines and all related names and marks belong to their respective owners and are used for identification only."
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -46117,7 +47450,7 @@ function UnitedPage() {
         SectionHeading,
         {
           eyebrow: "What we handle",
-          title: "Five ways we help with United travel",
+          title: "Five ways we help with United Airlines travel",
           description: "Each service is handled by a specialist who can explain the trade-offs before you decide, not after."
         }
       ),
@@ -46140,8 +47473,8 @@ function UnitedPage() {
         SectionHeading,
         {
           eyebrow: "Cabin options",
-          title: "Understanding United's cabins",
-          description: "United uses different cabin names across domestic and long-haul international flights. Here is how they differ, described generically."
+          title: "Understanding United Airlines' cabins",
+          description: "United Airlines uses different cabin names across domestic and long-haul international flights. Here is how they differ, described generically."
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-5 sm:grid-cols-2", children: CABINS.map((cabin, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -46165,7 +47498,7 @@ function UnitedPage() {
         SectionHeading,
         {
           eyebrow: "International travel",
-          title: "What to consider on a long-haul United itinerary",
+          title: "What to consider on a long-haul United Airlines itinerary",
           description: "International routings have more moving parts than a domestic round trip. These are the ones we work through with you."
         }
       ),
@@ -46238,7 +47571,7 @@ function UnitedPage() {
         SectionHeading,
         {
           eyebrow: "Changes and rebooking",
-          title: "How we handle a change to your United ticket",
+          title: "How we handle a change to your United Airlines ticket",
           description: "Fare rules decide what is possible. We read them for you and explain the options in plain language."
         }
       ),
@@ -46280,7 +47613,7 @@ function UnitedPage() {
     ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "navy", ocid: "united.cta", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-2xl text-center", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "One call, one specialist" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-3 text-balance text-3xl font-semibold leading-tight sm:text-4xl", children: "Let's plan your United trip together" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-3 text-balance text-3xl font-semibold leading-tight sm:text-4xl", children: "Let's plan your United Airlines trip together" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-pretty text-base leading-relaxed text-primary-foreground/80", children: "Tell us where you are going and when. We will search the options, explain the differences, and book the itinerary that works for you." }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8 flex justify-center", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         CallCta,
@@ -46296,9 +47629,9 @@ function UnitedPage() {
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         SectionHeading,
         {
-          eyebrow: "United questions",
+          eyebrow: "United Airlines questions",
           title: "What travelers ask us most",
-          description: "Clear answers about independent agency booking and United itineraries."
+          description: "Clear answers about independent agency booking and United Airlines itineraries."
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("dl", { className: "mt-10 grid gap-4 lg:grid-cols-2", children: FAQS.map((faq, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -46343,6 +47676,16 @@ const indexRoute = createRoute({
   path: "/",
   component: HomePage
 });
+const howToBookFlightByPhoneRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/how-to-book-a-flight-by-phone",
+  component: HowToBookFlightByPhonePage
+});
+const bookAFlightByPhoneRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/book-a-flight-by-phone",
+  component: BookAFlightByPhonePage
+});
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
@@ -46378,15 +47721,23 @@ const termsRoute = createRoute({
   path: "/terms",
   component: TermsPage
 });
+const adminLeadsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/admin/leads",
+  component: AdminLeadsPage
+});
 const routeTree = rootRoute.addChildren([
   indexRoute,
   flightBookingRoute,
+  bookAFlightByPhoneRoute,
+  howToBookFlightByPhoneRoute,
   deltaRoute,
   unitedRoute,
   americanRoute,
   contactRoute,
   privacyRoute,
-  termsRoute
+  termsRoute,
+  adminLeadsRoute
 ]);
 const router = createRouter({
   routeTree,
@@ -46395,6 +47746,39 @@ const router = createRouter({
 });
 function App() {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(RouterProvider, { router });
+}
+const DEDUPE_WINDOW_MS = 250;
+const handledClicks = /* @__PURE__ */ new WeakSet();
+const recentEmits = /* @__PURE__ */ new Map();
+function emitPhoneClick(location2) {
+  if (typeof window === "undefined") return;
+  recentEmits.set(location2, Date.now());
+  const eventParams = {
+    cta_location: location2,
+    page_path: window.location.pathname,
+    page_title: document.title
+  };
+  const win = window;
+  if (win.gtag) {
+    win.gtag("event", "phone_click", eventParams);
+    return;
+  }
+  win.dataLayer = win.dataLayer || [];
+  win.dataLayer.push(["event", "phone_click", eventParams]);
+}
+if (typeof document !== "undefined") {
+  document.addEventListener("click", (event) => {
+    var _a2;
+    if (handledClicks.has(event)) return;
+    const target = event.target;
+    const link = (_a2 = target == null ? void 0 : target.closest) == null ? void 0 : _a2.call(target, 'a[href^="tel:"]');
+    if (!link) return;
+    handledClicks.add(event);
+    const location2 = link.getAttribute("data-ocid") || link.getAttribute("aria-label") || "tel_link";
+    const last2 = recentEmits.get(location2);
+    if (last2 !== void 0 && Date.now() - last2 < DEDUPE_WINDOW_MS) return;
+    emitPhoneClick(location2);
+  });
 }
 BigInt.prototype.toJSON = function() {
   return this.toString();

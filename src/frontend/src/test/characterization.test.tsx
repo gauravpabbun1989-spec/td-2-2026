@@ -18,14 +18,14 @@ import { renderRoute } from "@/test/render-route";
 const AIRLINE_PAGES = [
   {
     path: "/delta-airlines",
-    heading: /delta bookings handled/i,
+    heading: /delta airlines bookings handled/i,
     faqOcid: "delta.faq",
     // A question unique to the Delta page, so a copy-paste across pages fails.
-    uniqueQuestion: /can ticketdepart book delta flights for me\?/i,
+    uniqueQuestion: /can ticketdepart book delta airlines flights for me\?/i,
   },
   {
     path: "/united-airlines",
-    heading: /united itineraries/i,
+    heading: /united airlines itineraries/i,
     faqOcid: "united.faq",
     uniqueQuestion: /is ticketdepart part of united airlines\?/i,
   },

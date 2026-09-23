@@ -12,7 +12,6 @@ import {
   Globe2,
   Headphones,
   Layers,
-  Phone,
   Plane,
   RefreshCw,
   Route,
@@ -123,8 +122,8 @@ const FAQS = [
 ] as const;
 
 const RELATED = [
-  { label: "Delta flight assistance", to: "/delta-airlines" },
-  { label: "United flight assistance", to: "/united-airlines" },
+  { label: "Delta Airlines flight assistance", to: "/delta-airlines" },
+  { label: "United Airlines flight assistance", to: "/united-airlines" },
   { label: "General flight booking", to: "/flight-booking" },
 ] as const;
 
@@ -138,8 +137,8 @@ export function AmericanAirlinesPage() {
   return (
     <>
       <Seo
-        title="American Airlines Flight Booking Assistance | TicketDepart"
-        description="Independent travel agency for American Airlines bookings — domestic, international, multi-city, cabin options, and rebooking help. Call +1 855-544-9001."
+        title="American Airlines Reservation Support & Flight Booking Assistance | TicketDepart"
+        description="Independent travel agency providing American Airlines reservation support and flight booking assistance for domestic, international, multi-city, cabin options, and rebooking help. Call +1 855-544-9001."
         path={PATH}
         image={IMAGE_URL}
         structuredData={[
@@ -171,10 +170,10 @@ export function AmericanAirlinesPage() {
         <div className="grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-center">
           <div>
             <p className="label-board text-accent">
-              American Airlines flight assistance
+              American Airlines reservation support
             </p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
-              American Airlines trips, booked with a specialist on the line
+              American Airlines reservation support from a real travel specialist
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               From a single domestic round trip to a multi-city international
@@ -206,14 +205,9 @@ export function AmericanAirlinesPage() {
               {SITE.hours}. Call and a specialist will pick up, search fares,
               and book your itinerary while you are on the line.
             </p>
-            <a
-              href={SITE.phoneHref}
-              data-ocid="american.phone_link"
-              className="mt-4 inline-flex items-center gap-2 rounded-sm font-display text-xl font-bold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              <Phone aria-hidden="true" className="size-5" />
-              {SITE.phoneDisplay}
-            </a>
+            <p className="mt-4 text-sm font-semibold text-primary">
+              Call for flight assistance when you are ready.
+            </p>
           </div>
         </div>
 
@@ -336,7 +330,7 @@ export function AmericanAirlinesPage() {
           <CallCta
             size="lg"
             variant="solid"
-            showNumber
+
             ocid="american.cta.call_button"
             className="shrink-0"
           />
