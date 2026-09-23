@@ -137,8 +137,8 @@ export function AmericanAirlinesPage() {
   return (
     <>
       <Seo
-        title="American Airlines Flight Booking Assistance | TicketDepart"
-        description="Independent travel agency for American Airlines bookings — domestic, international, multi-city, cabin options, and rebooking help. Call +1 855-544-9001."
+        title="American Airlines Reservation Support & Flight Booking Assistance | TicketDepart"
+        description="Independent travel agency providing American Airlines reservation support and flight booking assistance for domestic, international, multi-city, cabin options, and rebooking help. Call +1 855-544-9001."
         path={PATH}
         image={IMAGE_URL}
         structuredData={[
@@ -170,10 +170,10 @@ export function AmericanAirlinesPage() {
         <div className="grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-center">
           <div>
             <p className="label-board text-accent">
-              American Airlines flight assistance
+              American Airlines reservation support
             </p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
-              American Airlines trips, booked with a specialist on the line
+              American Airlines reservation support from a real travel specialist
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               From a single domestic round trip to a multi-city international
