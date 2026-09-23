@@ -38,7 +38,7 @@ export function ServiceGrid() {
           <div><p className="label-board text-accent">Airline guides</p><h3 className="mt-2 text-2xl font-semibold">Planning around a specific airline?</h3><p className="mt-2 max-w-2xl text-sm leading-6 text-white/60">Explore practical booking guidance for major carriers or start with the flight booking overview.</p></div>
           <div className="flex flex-wrap gap-2.5">
             {[
-              ["Delta", "/delta-airlines"], ["United", "/united-airlines"], ["American", "/american-airlines"],
+              ["Delta", "/delta-airlines"], ["United", "/united-airlines"], ["American", "/american-airlines"], ["Southwest", "/southwest-airlines"],
             ].map(([label, to]) => <Link key={to} to={to} className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 text-sm font-semibold text-white hover:bg-white hover:text-primary">{label}<ArrowUpRight className="size-4" /></Link>)}
           </div>
         </div>
