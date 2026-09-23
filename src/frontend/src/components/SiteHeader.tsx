@@ -41,14 +41,14 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary" className="hidden min-w-0 items-center gap-0.5 lg:flex xl:gap-1">
-          <Link to="/flight-booking" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">Flight Booking</Link>
-          <Link to="/delta-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">Delta Airlines</Link>
-          <Link to="/united-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">United Airlines</Link>
-          <Link to="/american-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">American Airlines</Link>
-          <Link to="/southwest-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">Southwest Airlines</Link>
+          <Link to="/flight-booking" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">Flight Booking</Link>
+          <Link to="/delta-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">Delta Airlines</Link>
+          <Link to="/united-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">United Airlines</Link>
+          <Link to="/american-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">American Airlines</Link>
+          <Link to="/southwest-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">Southwest Airlines</Link>
           <div className="relative">
             <details className="group">
-              <summary className="cursor-pointer list-none rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">More Airlines</summary>
+              <summary className="cursor-pointer list-none rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">More Airlines</summary>
               <div className="absolute right-0 top-full z-50 mt-2 max-h-[min(70vh,32rem)] min-w-56 max-w-[calc(100vw-1rem)] overflow-y-auto overscroll-contain rounded-2xl border border-border bg-white p-2 shadow-elevated">
                 {AIRLINE_ITEMS.filter((item) => !["/delta-airlines", "/united-airlines", "/american-airlines", "/southwest-airlines"].includes(item.to)).map((item) => (
                   <Link key={item.to} to={item.to} className="block rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">{item.label}</Link>
