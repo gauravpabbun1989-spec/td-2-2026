@@ -2,108 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Space Grotesk";
-  src: url("/assets/fonts/SpaceGrotesk.woff2") format("woff2");
-  font-weight: 300 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: "DM Sans";
-  src: url("/assets/fonts/DMSans.woff2") format("woff2");
-  font-weight: 100 1000;
-  font-display: swap;
-}
-@font-face {
-  font-family: "JetBrains Mono";
-  src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
-  font-weight: 100 800;
-  font-display: swap;
-}
+@font-face { font-family: "Space Grotesk"; src: url("/assets/fonts/SpaceGrotesk.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "DM Sans"; src: url("/assets/fonts/DMSans.woff2") format("woff2"); font-weight: 100 1000; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2"); font-weight: 100 800; font-display: swap; }
 
 @layer base {
   :root {
     --font-display: "Space Grotesk";
     --font-body: "DM Sans";
     --font-mono: "JetBrains Mono";
-    --radius: 1rem;
+    --radius: 1.15rem;
     --background: 0.985 0.006 95;
-    --foreground: 0.22 0.045 250;
+    --foreground: 0.19 0.045 250;
     --card: 1 0 0;
-    --card-foreground: 0.22 0.045 250;
+    --card-foreground: 0.19 0.045 250;
     --popover: 1 0 0;
-    --popover-foreground: 0.22 0.045 250;
-    --primary: 0.29 0.075 252;
+    --popover-foreground: 0.19 0.045 250;
+    --primary: 0.28 0.075 252;
     --primary-foreground: 0.985 0.006 95;
     --secondary: 0.95 0.012 245;
-    --secondary-foreground: 0.29 0.055 250;
+    --secondary-foreground: 0.28 0.055 250;
     --muted: 0.955 0.012 245;
-    --muted-foreground: 0.47 0.03 250;
-    --accent: 0.64 0.17 52;
+    --muted-foreground: 0.45 0.03 250;
+    --accent: 0.66 0.17 52;
     --accent-foreground: 0.99 0.005 52;
     --destructive: 0.55 0.21 27;
     --destructive-foreground: 0.99 0.005 27;
-    --success: 0.52 0.13 155;
-    --success-foreground: 0.99 0.005 155;
-    --warning: 0.72 0.15 75;
-    --warning-foreground: 0.255 0.045 75;
-    --border: 0.88 0.012 245;
+    --border: 0.89 0.012 245;
     --input: 0.86 0.014 245;
     --ring: 0.64 0.17 52;
     --sidebar: 0.985 0.006 95;
-    --sidebar-foreground: 0.22 0.045 250;
-    --sidebar-primary: 0.29 0.075 252;
+    --sidebar-foreground: 0.19 0.045 250;
+    --sidebar-primary: 0.28 0.075 252;
     --sidebar-primary-foreground: 0.985 0.006 95;
     --sidebar-accent: 0.95 0.012 245;
-    --sidebar-accent-foreground: 0.29 0.055 250;
-    --sidebar-border: 0.88 0.012 245;
+    --sidebar-accent-foreground: 0.28 0.055 250;
+    --sidebar-border: 0.89 0.012 245;
     --sidebar-ring: 0.64 0.17 52;
-    --gradient-primary: linear-gradient(135deg, oklch(0.29 0.075 252), oklch(0.2 0.07 260));
+    --gradient-primary: linear-gradient(135deg, oklch(0.28 0.075 252), oklch(0.18 0.07 260));
     --gradient-subtle: linear-gradient(180deg, oklch(0.99 0.004 95), oklch(0.955 0.012 245));
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .dark {
-    --background: 0.16 0.03 252;
-    --foreground: 0.95 0.01 250;
-    --card: 0.205 0.035 252;
-    --card-foreground: 0.95 0.01 250;
-    --popover: 0.205 0.035 252;
-    --popover-foreground: 0.95 0.01 250;
-    --primary: 0.9 0.018 250;
-    --primary-foreground: 0.16 0.03 252;
-    --secondary: 0.25 0.04 252;
-    --secondary-foreground: 0.9 0.015 250;
-    --muted: 0.25 0.04 252;
-    --muted-foreground: 0.63 0.025 250;
-    --accent: 0.73 0.17 52;
-    --accent-foreground: 0.16 0.03 252;
-    --destructive: 0.65 0.19 27;
-    --destructive-foreground: 0.16 0.03 252;
-    --success: 0.68 0.14 155;
-    --success-foreground: 0.16 0.03 252;
-    --warning: 0.78 0.15 78;
-    --warning-foreground: 0.16 0.03 252;
-    --border: 0.3 0.035 252;
-    --input: 0.32 0.035 252;
-    --ring: 0.73 0.17 52;
-    --sidebar: 0.205 0.035 252;
-    --sidebar-foreground: 0.95 0.01 250;
-    --sidebar-primary: 0.9 0.018 250;
-    --sidebar-primary-foreground: 0.16 0.03 252;
-    --sidebar-accent: 0.25 0.04 252;
-    --sidebar-accent-foreground: 0.9 0.015 250;
-    --sidebar-border: 0.3 0.035 252;
-    --sidebar-ring: 0.73 0.17 52;
-    --gradient-primary: linear-gradient(135deg, oklch(0.9 0.018 250), oklch(0.78 0.03 250));
-    --gradient-subtle: linear-gradient(180deg, oklch(0.16 0.03 252), oklch(0.205 0.035 252));
-  }
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
-  body {
-    @apply bg-background text-foreground font-body antialiased;
-    font-feature-settings: "kern" 1, "liga" 1;
-    text-rendering: optimizeLegibility;
-  }
+  body { @apply bg-background text-foreground font-body antialiased; font-feature-settings: "kern" 1, "liga" 1; text-rendering: optimizeLegibility; }
   h1,h2,h3,h4 { @apply font-display tracking-tight; }
   :focus-visible { @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background; }
 }
@@ -112,20 +54,8 @@
   .label-board { @apply font-mono text-xs font-medium uppercase tracking-[0.18em]; }
   .bg-gradient-primary { background-image: var(--gradient-primary); }
   .bg-gradient-subtle { background-image: var(--gradient-subtle); }
-  .texture-grain {
-    background-image: radial-gradient(oklch(var(--foreground) / 0.035) 1px, transparent 1px);
-    background-size: 4px 4px;
-  }
-  .shadow-subtle { box-shadow: 0 1px 3px oklch(var(--foreground) / 0.05); }
-  .shadow-elevated {
-    box-shadow: 0 2px 5px oklch(var(--foreground) / 0.05), 0 24px 60px -24px oklch(var(--foreground) / 0.22);
-  }
-  .shadow-premium {
-    box-shadow: 0 10px 30px -12px oklch(var(--foreground) / 0.18), 0 28px 70px -30px oklch(var(--foreground) / 0.22);
-  }
-  .glass-card {
-    background: oklch(var(--card) / 0.86);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-  }
+  .shadow-subtle { box-shadow: 0 1px 3px oklch(var(--foreground) / 0.05), 0 8px 24px -18px oklch(var(--foreground) / 0.22); }
+  .shadow-elevated { box-shadow: 0 2px 5px oklch(var(--foreground) / 0.05), 0 24px 60px -24px oklch(var(--foreground) / 0.22); }
+  .shadow-premium { box-shadow: 0 14px 38px -18px oklch(var(--foreground) / 0.2), 0 32px 80px -34px oklch(var(--foreground) / 0.26); }
+  .glass-card { background: oklch(var(--card) / 0.86); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
 }
