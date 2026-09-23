@@ -274,14 +274,29 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
           <p className="mt-5 text-sm text-muted-foreground">{SITE.hours}</p>
         </div>
 
-        <div className="mx-auto mt-10 max-w-4xl rounded-2xl border border-border bg-muted p-6">
+        <div className="mx-auto mt-10 max-w-4xl rounded-[1.75rem] border border-border/80 bg-card p-6 shadow-subtle sm:p-7">
           <div className="flex items-start gap-3">
-            <ShieldCheck className="mt-0.5 size-5 shrink-0 text-accent" />
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+              <ShieldCheck className="size-5 text-accent" />
+            </span>
             <p className="text-sm leading-relaxed text-muted-foreground">
               <span className="font-semibold text-foreground">Independent agency disclosure:</span>{" "}
               TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by {page.name}, and we are not that airline's official customer service. Airline names and marks belong to their respective owners and are used for identification only.
             </p>
           </div>
+        </div>
+
+        <div className="mx-auto mt-6 grid max-w-4xl gap-3 sm:grid-cols-3">
+          {[
+            ["24/7", "Travel specialist availability"],
+            ["Phone-first", "Human itinerary guidance"],
+            ["Clear terms", "Applicable fees disclosed before payment"],
+          ].map(([value, label]) => (
+            <div key={value} className="rounded-2xl border border-border/70 bg-muted/60 p-5">
+              <p className="font-display text-lg font-bold text-foreground">{value}</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">{label}</p>
+            </div>
+          ))}
         </div>
       </Section>
 
@@ -289,7 +304,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
         <SectionHeading eyebrow="What we can discuss" title={`${page.name} travel support`} description="Start with your route, dates, traveler details, or existing reservation. A specialist can work through the options that apply." />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {page.services.map(([title, body]) => (
-            <article key={title} className="rounded-2xl border border-border bg-card p-6 shadow-subtle">
+            <article key={title} className="group rounded-2xl border border-border/80 bg-card p-6 shadow-subtle transition-smooth hover:-translate-y-1 hover:border-primary/20 hover:shadow-elevated">
               <CheckCircle2 className="size-5 text-accent" />
               <h2 className="mt-4 font-display text-lg font-semibold">{title}</h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
@@ -325,7 +340,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
         <SectionHeading eyebrow="Airline booking help" title="Explore another airline" description="Choose another airline-specific guide or return to general flight booking help." />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {RELATED.filter(([, name]) => name !== page.name).map(([to, name]) => (
-            <Link key={to} to={to} className="rounded-2xl border border-border bg-card p-5 shadow-subtle hover:shadow-elevated">
+            <Link key={to} to={to} className="group rounded-2xl border border-border/80 bg-card p-5 shadow-subtle transition-smooth hover:-translate-y-1 hover:border-primary/20 hover:shadow-elevated">
               <span className="font-display text-base font-semibold">{name}</span>
               <span className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary">Open guide <ArrowRight className="size-4" /></span>
             </Link>
