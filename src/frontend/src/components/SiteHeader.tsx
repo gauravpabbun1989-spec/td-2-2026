@@ -18,7 +18,6 @@ export function SiteHeader() {
     enabled: !!actor && !actorFetching && isAuthenticated,
     retry: false,
   });
-  const isAdmin = isAuthenticated && adminQuery.data === true;
 
   useEffect(() => {
     if (!open) return;
