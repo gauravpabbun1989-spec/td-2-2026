@@ -5,6 +5,78 @@ const distDir = path.resolve("dist");
 const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 
 const routes = {
+  "/book-a-flight-by-phone": {
+    title: "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart",
+    description: "Book a domestic or international flight by phone with an independent U.S. travel agency. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.",
+    heading: "Book a flight by phone with a travel specialist",
+    text: "Discuss domestic and international flight options, multi-city trips, premium cabins, family travel, and booking details with a travel specialist.",
+  },
+  "/how-to-book-a-flight-by-phone": {
+    title: "How to Book a Flight by Phone | TicketDepart",
+    description: "Learn how to prepare for a phone flight booking, compare itinerary details, review fare conditions, and confirm the final trip before payment.",
+    heading: "How to book a flight by phone",
+    text: "A practical guide to preparing your trip details, discussing flight options, reviewing terms, and confirming a booking by phone.",
+  },
+  "/international-flight-booking": {
+    title: "International Flight Booking Assistance | TicketDepart",
+    description: "Get help planning and booking international flights by phone. Discuss routes, connections, cabins, dates, and fare conditions with an independent travel specialist.",
+    heading: "International flight booking assistance by phone",
+    text: "Discuss international routes, connections, cabins, flexible dates, travel-document questions, and fare conditions before booking.",
+  },
+  "/last-minute-flight-booking": {
+    title: "Last-Minute Flight Booking Assistance | TicketDepart",
+    description: "Need a last-minute flight? Discuss available routes, nearby airports, flexible dates, connections, and fare conditions with a travel specialist.",
+    heading: "Last-minute flight booking help when time matters",
+    text: "Discuss urgent departures, nearby airports, flexible dates, connections, same-day questions, and fare conditions.",
+  },
+  "/multi-city-flight-booking": {
+    title: "Multi-City Flight Booking Assistance | TicketDepart",
+    description: "Plan a multi-city or open-jaw flight itinerary by phone. Discuss multiple stops, connections, flexible dates, cabins, and fare rules.",
+    heading: "Multi-city flight booking for complex itineraries",
+    text: "Discuss multiple city pairs, open-jaw routing, connections, mixed carriers, flexible dates, and fare rules.",
+  },
+  "/group-flight-booking": {
+    title: "Group Flight Booking Assistance | TicketDepart",
+    description: "Plan group flight travel by phone with help reviewing traveler details, routing, cabin options, baggage, and applicable booking terms.",
+    heading: "Group flight booking assistance",
+    text: "Discuss group traveler details, routing, cabin preferences, baggage needs, and applicable booking conditions.",
+  },
+  "/cheap-flight-booking-by-phone": {
+    title: "Cheap Flight Booking by Phone | TicketDepart",
+    description: "Discuss practical ways to compare flight options, flexible dates, nearby airports, baggage terms, and fare conditions by phone.",
+    heading: "Cheap flight booking assistance by phone",
+    text: "Discuss practical fare-comparison factors including flexible dates, nearby airports, itinerary trade-offs, and fare conditions.",
+  },
+  "/business-class-flight-booking": {
+    title: "Business Class Flight Booking Assistance | TicketDepart",
+    description: "Discuss business-class flight options, routes, schedules, connections, baggage, and fare conditions with an independent travel specialist.",
+    heading: "Business class flight booking assistance",
+    text: "Review business-class itinerary options, schedules, connections, baggage, and fare conditions before booking.",
+  },
+  "/same-day-flight-booking": {
+    title: "Same-Day Flight Booking Assistance | TicketDepart",
+    description: "Need to travel today? Discuss same-day flight options, departure airports, connections, ticketing deadlines, and fare conditions by phone.",
+    heading: "Same-day flight booking assistance",
+    text: "Discuss same-day options, nearby departure airports, connections, ticketing deadlines, and applicable fare conditions.",
+  },
+  "/family-flight-booking": {
+    title: "Family Flight Booking Assistance | TicketDepart",
+    description: "Plan family flights by phone and discuss traveler details, seats, baggage, routing, dates, and applicable booking terms.",
+    heading: "Family flight booking assistance",
+    text: "Discuss family traveler details, routing, cabin preferences, baggage, dates, and applicable booking conditions.",
+  },
+  "/flight-change-assistance": {
+    title: "Flight Change Assistance by Phone | TicketDepart",
+    description: "Need to change a flight? Discuss date, time, route, fare difference, and airline change rules with a TicketDepart travel specialist.",
+    heading: "Flight change assistance by phone",
+    text: "Review possible date, time, route, connection, and fare changes for an existing itinerary before authorizing a change.",
+  },
+  "/flight-cancellation-assistance": {
+    title: "Flight Cancellation Assistance by Phone | TicketDepart",
+    description: "Need to cancel a flight? Discuss cancellation rules, refunds, credits, deadlines, and replacement travel options with a TicketDepart specialist.",
+    heading: "Flight cancellation assistance by phone",
+    text: "Review cancellation timing, refund or credit questions, partial itinerary effects, and replacement travel options.",
+  },
   "/flight-booking": {
     title: "Flight Booking Assistance | TicketDepart",
     description: "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.",
