@@ -29,6 +29,12 @@ const routes = {
     heading: "American Airlines trips booked with a travel specialist",
     text: "Get independent travel assistance for American Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and cabin options.",
   },
+  "/southwest-airlines": {
+    title: "Southwest Airlines Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency assistance for Southwest Airlines flight booking, family travel, same-day trips, changes, cancellations, and multi-city itineraries.",
+    heading: "Southwest Airlines flight assistance, with a specialist on the phone",
+    text: "Get independent travel assistance for Southwest Airlines itineraries, including new bookings, family travel, same-day trips, changes, cancellations, and multi-city planning.",
+  },
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
     description: "Contact TicketDepart to plan your next flight. Call +1 855-544-9001 any time, or send your trip details and a travel specialist will follow up with options.",
