@@ -188,7 +188,7 @@ export function DeltaPage() {
         <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
           <div>
             <p className="label-board text-accent">
-              Delta Airlines flight assistance
+              Delta Airlines reservation support
             </p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
               Delta Airlines reservation support from a real travel specialist
