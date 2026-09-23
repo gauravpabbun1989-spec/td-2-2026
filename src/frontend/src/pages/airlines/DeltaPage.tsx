@@ -11,7 +11,6 @@ import {
   CheckCircle2,
   Globe2,
   Layers,
-  Phone,
   RefreshCw,
   ShieldCheck,
   Ticket,
@@ -213,17 +212,8 @@ export function DeltaPage() {
               </Link>
             </div>
 
-            <p className="mt-6 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-              <Phone aria-hidden="true" className="size-4" />
-              <span>{SITE.hours}</span>
-              <span aria-hidden="true">·</span>
-              <a
-                href={SITE.phoneHref}
-                data-ocid="delta.phone_link"
-                className="rounded-sm font-semibold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                {SITE.phoneDisplay}
-              </a>
+            <p className="mt-6 text-sm text-muted-foreground">
+              {SITE.hours}. Call for flight assistance when you are ready.
             </p>
           </div>
 
