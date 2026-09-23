@@ -245,17 +245,9 @@ export function UnitedPage() {
               </Link>
             </div>
 
-            <p className="mt-6 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+            <p className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
               <Phone aria-hidden="true" className="size-4" />
               <span>{SITE.hours}</span>
-              <span aria-hidden="true">·</span>
-              <a
-                href={SITE.phoneHref}
-                data-ocid="united.phone_link"
-                className="rounded-sm font-semibold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                {SITE.phoneDisplay}
-              </a>
             </p>
           </div>
 
@@ -419,15 +411,7 @@ export function UnitedPage() {
               </p>
             </div>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Call{" "}
-              <a
-                href={SITE.phoneHref}
-                data-ocid="united.multicity.phone_link"
-                className="rounded-sm font-semibold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                {SITE.phoneDisplay}
-              </a>{" "}
-              and a specialist will pick up.
+              Call for flight assistance and a specialist will pick up.
             </p>
           </div>
         </div>
@@ -500,7 +484,7 @@ export function UnitedPage() {
             <CallCta
               size="lg"
               variant="solid"
-              showNumber
+
               ocid="united.cta.call_button"
             />
           </div>
