@@ -129,7 +129,7 @@ export function BookAFlightByPhonePage() {
           </div>
           <p className="mt-5 flex items-center gap-2 text-sm text-muted-foreground">
             <Phone aria-hidden="true" className="size-4 text-accent" />
-            {SITE.hours} · {SITE.phoneDisplay}
+            {SITE.hours}
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
             Serving travelers in the USA, Canada, Mexico, and UK · English-speaking support
@@ -278,7 +278,7 @@ export function BookAFlightByPhonePage() {
         <div className="mx-auto max-w-lg">
           <CallCta
             size="lg"
-            showNumber
+
             className="w-full"
             ocid="book_flight_phone.mobile_sticky_call"
           />
