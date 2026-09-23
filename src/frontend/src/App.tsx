@@ -30,6 +30,9 @@ import {
   JetBlueAirwaysPage,
   LufthansaPage,
   SouthwestAirlinesPage,
+  SwissAirPage,
+  QatarAirwaysPage,
+  EmiratesPage,
 } from "@/pages/airlines/AdditionalAirlinePages";
 import { DeltaPage } from "@/pages/airlines/DeltaPage";
 import { UnitedPage } from "@/pages/airlines/UnitedPage";
@@ -188,6 +191,24 @@ const airCanadaRoute = createRoute({
   component: AirCanadaPage,
 });
 
+const swissAirRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/swiss-air",
+  component: SwissAirPage,
+});
+
+const qatarAirwaysRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/qatar-airways",
+  component: QatarAirwaysPage,
+});
+
+const emiratesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/emirates",
+  component: EmiratesPage,
+});
+
 const contactRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/contact",
@@ -236,6 +257,9 @@ const routeTree = rootRoute.addChildren([
   britishAirwaysRoute,
   lufthansaRoute,
   airCanadaRoute,
+  swissAirRoute,
+  qatarAirwaysRoute,
+  emiratesRoute,
   contactRoute,
   privacyRoute,
   termsRoute,
