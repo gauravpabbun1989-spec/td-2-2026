@@ -4,7 +4,7 @@ import { Seo } from "@/components/Seo";
 import { breadcrumbSchema, faqSchema } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Phone, ShieldCheck } from "lucide-react";
+import { ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 
 type AirlinePage = {
   slug: string;
@@ -202,9 +202,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
               Book by phone <ArrowRight className="size-4" />
             </Link>
           </div>
-          <p className="mt-5 flex items-center gap-2 text-sm text-muted-foreground">
-            <Phone className="size-4 text-accent" /> {SITE.hours} · {SITE.phoneDisplay}
-          </p>
+          <p className="mt-5 text-sm text-muted-foreground">{SITE.hours}</p>
         </div>
 
         <div className="mx-auto mt-10 max-w-4xl rounded-2xl border border-border bg-muted p-6">
@@ -236,9 +234,9 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
           <p className="label-board text-accent">Available 24/7</p>
           <h2 className="mt-4 text-balance text-3xl font-semibold sm:text-4xl">Talk with a {page.name} travel specialist</h2>
           <p className="mt-5 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Call {SITE.phoneDisplay}. Have your route, dates, traveler details, or existing confirmation ready if available.
+            Call for flight assistance when you are ready. Have your route, dates, traveler details, or existing confirmation ready if available.
           </p>
-          <div className="mt-8"><CallCta size="lg" showNumber ocid={`${id}.final_call`} /></div>
+          <div className="mt-8"><CallCta size="lg" ocid={`${id}.final_call`} /></div>
         </div>
       </Section>
 
