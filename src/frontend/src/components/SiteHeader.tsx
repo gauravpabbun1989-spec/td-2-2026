@@ -1,6 +1,6 @@
 import { createActor } from "@/backend";
 import { CallCta } from "@/components/CallCta";
-import { AIRLINE_ITEMS, NAV_ITEMS, SITE } from "@/lib/site";
+import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { useActor, useInternetIdentity } from "@caffeineai/core-infrastructure";
 import { useQuery } from "@tanstack/react-query";
@@ -41,33 +41,11 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              data-ocid={`nav.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`}
-              activeOptions={{ exact: item.to === "/" }}
-              className={cn("rounded-full px-3 py-2.5 text-sm font-medium text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring")}
-              activeProps={{ className: "bg-primary text-primary-foreground font-semibold shadow-subtle" }}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <span className="mx-1 h-5 w-px bg-border" aria-hidden="true" />
-          <div className="flex max-w-[42rem] items-center gap-1 overflow-x-auto scrollbar-none">
-            {AIRLINE_ITEMS.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                data-ocid={`nav.airline.${item.label.toLowerCase().replace(/\s+/g, "_")}`}
-                className={cn("whitespace-nowrap rounded-full px-2.5 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring")}
-                activeProps={{ className: "bg-primary text-primary-foreground font-semibold shadow-subtle" }}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-          {isAdmin ? <Link to="/admin/leads" data-ocid="nav.link.leads_desk" className="rounded-full px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted">Leads Desk</Link> : null}
+          <Link to="/flight-booking" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">Flight Booking</Link>
+          <Link to="/delta-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">Delta Airlines</Link>
+          <Link to="/united-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">United Airlines</Link>
+          <Link to="/american-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">American Airlines</Link>
+          <Link to="/southwest-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">Southwest Airlines</Link>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -84,20 +62,11 @@ export function SiteHeader() {
       {open ? (
         <div id="mobile-nav-drawer" data-ocid="header.mobile_drawer" className="border-t border-border bg-white/95 backdrop-blur-xl lg:hidden">
           <nav aria-label="Mobile" className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-5 py-4 sm:px-8">
-            {NAV_ITEMS.map((item) => (
-              <Link key={item.to} to={item.to} data-ocid={`mobile_nav.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`} activeOptions={{ exact: item.to === "/" }} onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground" activeProps={{ className: "bg-primary text-primary-foreground font-semibold" }}>
-                {item.label}
-              </Link>
-            ))}
-            <div className="border-t border-border pt-3 mt-2">
-              <p className="px-4 pb-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Airline Guides</p>
-              {AIRLINE_ITEMS.map((item) => (
-                <Link key={item.to} to={item.to} data-ocid={`mobile_nav.airline.${item.label.toLowerCase().replace(/\s+/g, "_")}`} onClick={() => setOpen(false)} className="block rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground" activeProps={{ className: "bg-primary text-primary-foreground font-semibold" }}>
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-            {isAdmin ? <Link to="/admin/leads" data-ocid="mobile_nav.link.leads_desk" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted">Leads Desk</Link> : null}
+            <Link to="/flight-booking" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Flight Booking</Link>
+            <Link to="/delta-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Delta Airlines</Link>
+            <Link to="/united-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">United Airlines</Link>
+            <Link to="/american-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">American Airlines</Link>
+            <Link to="/southwest-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Southwest Airlines</Link>
             <div className="mt-3 flex flex-col gap-2 border-t border-border pt-4">
               <CallCta size="lg" className="w-full" ocid="mobile_nav.call_button" />
               <p className="text-center text-sm text-muted-foreground">{SITE.hours}</p>
