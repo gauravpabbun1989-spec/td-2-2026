@@ -187,8 +187,8 @@ export function UnitedPage() {
   return (
     <>
       <Seo
-        title="United Airlines Flight Booking Assistance | TicketDepart"
-        description="Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 855-544-9001."
+        title="United Airlines Reservation Support & Flight Booking Assistance | TicketDepart"
+        description="Independent travel agency providing United Airlines reservation support and flight booking assistance for domestic, international, multi-city, premium-cabin travel, and rebooking help. Call +1 855-544-9001."
         path={PATH}
         image={HERO_IMAGE_URL}
         structuredData={[
@@ -220,10 +220,10 @@ export function UnitedPage() {
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="label-board text-accent">
-              United Airlines flight assistance
+              United Airlines reservation support
             </p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
-              United Airlines itineraries, planned and booked by phone
+              United Airlines reservation support from a real travel specialist
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               TicketDepart specialists help travelers book United Airlines
