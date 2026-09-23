@@ -47,7 +47,24 @@ export function SiteHeader() {
               to={item.to}
               data-ocid={`nav.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`}
               activeOptions={{ exact: item.to === "/" }}
-              className={cn("rounded-full px-4 py-2.5 text-sm font-medium text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring")}
+              className={cn("rounded-full px-3 py-2.5 text-sm font-medium text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring")}
+              activeProps={{ className: "bg-primary text-primary-foreground font-semibold shadow-subtle" }}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <span className="mx-1 h-5 w-px bg-border" aria-hidden="true" />
+          {[
+            { label: "Delta", to: "/delta-airlines" },
+            { label: "United", to: "/united-airlines" },
+            { label: "American", to: "/american-airlines" },
+            { label: "Southwest", to: "/southwest-airlines" },
+          ].map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              data-ocid={`nav.airline.${item.label.toLowerCase()}`}
+              className={cn("rounded-full px-2.5 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring")}
               activeProps={{ className: "bg-primary text-primary-foreground font-semibold shadow-subtle" }}
             >
               {item.label}
@@ -75,6 +92,19 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
+            <div className="border-t border-border pt-3 mt-2">
+              <p className="px-4 pb-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Airline Guides</p>
+              {[
+                { label: "Delta Airlines", to: "/delta-airlines" },
+                { label: "United Airlines", to: "/united-airlines" },
+                { label: "American Airlines", to: "/american-airlines" },
+                { label: "Southwest Airlines", to: "/southwest-airlines" },
+              ].map((item) => (
+                <Link key={item.to} to={item.to} data-ocid={`mobile_nav.airline.${item.label.toLowerCase().replace(/\s+/g, "_")}`} onClick={() => setOpen(false)} className="block rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground" activeProps={{ className: "bg-primary text-primary-foreground font-semibold" }}>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
             {isAdmin ? <Link to="/admin/leads" data-ocid="mobile_nav.link.leads_desk" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted">Leads Desk</Link> : null}
             <div className="mt-3 flex flex-col gap-2 border-t border-border pt-4">
               <CallCta size="lg" className="w-full" ocid="mobile_nav.call_button" />
