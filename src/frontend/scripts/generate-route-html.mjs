@@ -83,6 +83,12 @@ const routes = {
     heading: "Emirates flight assistance with a travel specialist",
     text: "Get independent travel assistance for Emirates itineraries, long-haul connections, premium cabins, changes, and multi-city planning.",
   },
+  "/lot-polish-airlines": {
+    title: "LOT Polish Airlines Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency assistance for LOT Polish Airlines flight booking, European and international itineraries, premium cabins, connections, changes, and multi-city trips.",
+    heading: "LOT Polish Airlines flight assistance with a travel specialist",
+    text: "Get independent travel assistance for LOT Polish Airlines itineraries, including European travel, transatlantic trips, connections, premium cabins, changes, and multi-city planning.",
+  },
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
     description: "Contact TicketDepart to plan your next flight. Call +1 855-544-9001 any time, or send your trip details and a travel specialist will follow up with options.",
