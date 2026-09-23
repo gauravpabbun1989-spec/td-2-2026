@@ -218,6 +218,29 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
   },
   {
+    slug: "norse-atlantic-airways",
+    name: "Norse Atlantic Airways",
+    title: "Norse Atlantic Airways Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency assistance for Norse Atlantic Airways flight booking, transatlantic itineraries, connections, changes, and multi-city travel.",
+    heading: "Norse Atlantic Airways flight assistance with a travel specialist",
+    intro: "Planning a Norse Atlantic Airways trip? Share your origin, destination, dates, travelers, and preferences. A TicketDepart specialist can discuss transatlantic itinerary options, connections, and applicable booking terms before you decide to book.",
+    services: [
+      ["Transatlantic booking", "Discuss available transatlantic routing, travel dates, airports, and fare conditions."],
+      ["Europe travel", "Work through U.S.-Europe and Europe-U.S. itinerary options and practical airport choices."],
+      ["Connection planning", "Review the complete itinerary and discuss connection timing and airport considerations."],
+      ["Changes and rebooking", "Review an existing reservation and discuss possible replacement dates, routing, availability, and applicable fare differences."],
+      ["Cancellation questions", "Review the applicable ticket terms and discuss possible cancellation, refund, or credit outcomes."],
+      ["Multi-city travel", "Discuss multiple destinations and practical itinerary structures before booking."],
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with Norse Atlantic Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Norse Atlantic Airways." },
+      { question: "Can I book a Norse Atlantic Airways flight by phone?", answer: "Yes. A specialist can discuss your route, dates, travelers, preferences, and available booking options." },
+      { question: "Can you help with a Norse Atlantic Airways connection?", answer: "Yes. We can discuss the complete itinerary and practical connection considerations. Travelers remain responsible for confirming current passport, visa, transit, and entry requirements." },
+      { question: "Can you help change an existing Norse Atlantic Airways reservation?", answer: "We can review the reservation and discuss possible changes or rebooking. Exact eligibility and costs depend on the ticket terms and availability." },
+      { question: "Are service fees disclosed before payment?", answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fare, taxes, and other applicable charges are reviewed before you decide." },
+    ],
+  },
+  {
     slug: "lot-polish-airlines",
     name: "LOT Polish Airlines",
     title: "LOT Polish Airlines Flight Booking Assistance | TicketDepart",
@@ -384,3 +407,4 @@ export function SwissAirPage() { return <AirlineAssistancePage page={AIRLINES[6]
 export function QatarAirwaysPage() { return <AirlineAssistancePage page={AIRLINES[7]} />; }
 export function EmiratesPage() { return <AirlineAssistancePage page={AIRLINES[8]} />; }
 export function LotPolishAirlinesPage() { return <AirlineAssistancePage page={AIRLINES[9]} />; }
+export function NorseAtlanticAirwaysPage() { return <AirlineAssistancePage page={AIRLINES[10]} />; }
