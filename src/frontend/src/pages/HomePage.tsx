@@ -9,6 +9,7 @@ import { ServiceGrid } from "@/components/home/ServiceGrid";
 import { breadcrumbSchema, organizationSchema, websiteSchema } from "@/lib/seo";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 
 const HOME_TITLE = "TicketDepart | Premium Flight Reservation Assistance";
 const HOME_DESCRIPTION = "Independent U.S. travel agency offering human flight reservation assistance for domestic and international travel, multi-city trips, premium cabins, and group itineraries. Specialists are available 24/7.";
