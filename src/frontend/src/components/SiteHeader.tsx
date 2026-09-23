@@ -1,23 +1,12 @@
-import { createActor } from "@/backend";
 import { CallCta } from "@/components/CallCta";
 import { AIRLINE_ITEMS, SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
-import { useActor, useInternetIdentity } from "@caffeineai/core-infrastructure";
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Menu, Phone, Plane, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const { actor, isFetching: actorFetching } = useActor(createActor);
-  const { isAuthenticated } = useInternetIdentity();
-  const adminQuery = useQuery({
-    queryKey: ["isCallerAdmin"],
-    queryFn: async () => (actor ? actor.isCallerAdmin() : false),
-    enabled: !!actor && !actorFetching && isAuthenticated,
-    retry: false,
-  });
 
   useEffect(() => {
     if (!open) return;
