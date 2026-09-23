@@ -395,7 +395,7 @@ export function DeltaPage() {
           <CallCta
             size="lg"
             variant="solid"
-            showNumber
+
             ocid="delta.cta.call_button"
             className="shrink-0"
           />
