@@ -12,7 +12,6 @@ import {
   Globe2,
   Headphones,
   Layers,
-  Phone,
   Plane,
   RefreshCw,
   Route,
@@ -206,14 +205,9 @@ export function AmericanAirlinesPage() {
               {SITE.hours}. Call and a specialist will pick up, search fares,
               and book your itinerary while you are on the line.
             </p>
-            <a
-              href={SITE.phoneHref}
-              data-ocid="american.phone_link"
-              className="mt-4 inline-flex items-center gap-2 rounded-sm font-display text-xl font-bold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              <Phone aria-hidden="true" className="size-5" />
-              {SITE.phoneDisplay}
-            </a>
+            <p className="mt-4 text-sm font-semibold text-primary">
+              Call for flight assistance when you are ready.
+            </p>
           </div>
         </div>
 
