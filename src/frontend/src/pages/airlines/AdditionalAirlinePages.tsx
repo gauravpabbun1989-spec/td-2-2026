@@ -151,6 +151,72 @@ const AIRLINES: readonly AirlinePage[] = [
       { question: "Can you help with U.S.-Canada and international itineraries?", answer: "Yes. We can discuss routing and connection considerations, while travelers remain responsible for confirming current entry and transit requirements." },
     ],
   },
+  {
+    slug: "swiss-air",
+    name: "SWISS",
+    title: "SWISS Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency assistance for SWISS flight booking, Europe and international itineraries, premium cabins, changes, and multi-city travel.",
+    heading: "SWISS flight assistance with a travel specialist",
+    intro: "Planning a SWISS itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can walk through available itinerary options and applicable fare terms before you decide to book.",
+    services: [
+      ["International booking", "Discuss Europe, North America, and other international routing, connections, cabins, and fare conditions."],
+      ["Premium cabin planning", "Review available Business or First cabin options and the fare conditions that apply to your itinerary."],
+      ["Connection planning", "Work through the complete itinerary and practical connection timing before booking."],
+      ["Changes and rebooking", "Review an existing reservation and discuss eligible dates, routing, availability, and applicable fare differences."],
+      ["Cancellation questions", "Review the ticket terms and discuss whether a refund, credit, or another outcome may apply."],
+      ["Multi-city travel", "Plan several destinations or open-jaw routing and discuss practical itinerary structures."],
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with SWISS?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by SWISS." },
+      { question: "Can I book a SWISS flight by phone?", answer: "Yes. A specialist can discuss your origin, destination, dates, travelers, cabin, and available booking options." },
+      { question: "Can you help with an existing SWISS reservation?", answer: "We can review the reservation and discuss possible changes, rebooking, or cancellation options. Exact outcomes depend on the ticket terms and availability." },
+      { question: "Are service fees disclosed before payment?", answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fare, taxes, and other applicable charges are reviewed before you decide." },
+    ],
+  },
+  {
+    slug: "qatar-airways",
+    name: "Qatar Airways",
+    title: "Qatar Airways Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency assistance for Qatar Airways flight booking, international itineraries, premium cabins, connections, changes, and multi-city trips.",
+    heading: "Qatar Airways flight assistance with a travel specialist",
+    intro: "Planning a Qatar Airways trip? Tell us your route, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options and applicable booking terms before you authorize a booking.",
+    services: [
+      ["International booking", "Discuss long-haul routing, connections, travel dates, and available fare options."],
+      ["Premium cabin planning", "Review Business and other cabin options, baggage considerations, and applicable fare conditions."],
+      ["Connection planning", "Look at the complete itinerary, connection airports, and practical timing."],
+      ["Family travel", "Coordinate traveler details, schedules, baggage needs, and connection preferences for family trips."],
+      ["Changes and rebooking", "Review an existing ticket and discuss available replacement dates, routing, and fare differences."],
+      ["Multi-city itineraries", "Build a practical multi-stop plan and discuss how the segments fit together before booking."],
+    ],
+    faqs: [
+      { question: "Is TicketDepart part of Qatar Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Qatar Airways." },
+      { question: "Can I book Qatar Airways by phone?", answer: "Yes. A specialist can discuss your route, dates, travelers, cabin preferences, and available booking options." },
+      { question: "Can you help with a Qatar Airways change?", answer: "We can review the existing reservation and discuss possible changes or rebooking. Exact eligibility and cost depend on the ticket and availability." },
+      { question: "Can you help with international connections?", answer: "Yes. We can discuss the complete routing and connection considerations, while travelers remain responsible for confirming current entry and transit requirements." },
+    ],
+  },
+  {
+    slug: "emirates",
+    name: "Emirates",
+    title: "Emirates Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency assistance for Emirates flight booking, international itineraries, premium cabins, connections, changes, and multi-city trips.",
+    heading: "Emirates flight assistance with a travel specialist",
+    intro: "Planning an Emirates itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can help you understand available itinerary options and applicable terms before booking.",
+    services: [
+      ["International booking", "Discuss long-haul routing, schedules, connections, and fare conditions for your trip."],
+      ["Premium cabin planning", "Review available premium-cabin options and the inclusions and conditions associated with the itinerary."],
+      ["Connection planning", "Work through the complete itinerary and practical connection timing."],
+      ["Family travel", "Discuss coordinated travel, baggage needs, traveler details, and connection preferences."],
+      ["Changes and rebooking", "Review an existing reservation and discuss eligible replacement dates, routing, and fare differences."],
+      ["Multi-city travel", "Plan several destinations and discuss practical itinerary structures before you authorize a booking."],
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with Emirates?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Emirates." },
+      { question: "Can I book an Emirates flight by phone?", answer: "Yes. A specialist can discuss your origin, destination, dates, travelers, cabin, and available booking options." },
+      { question: "Can you help with an existing Emirates reservation?", answer: "We can review the reservation and discuss possible changes, rebooking, or cancellation options. Exact outcomes depend on ticket terms and availability." },
+      { question: "Can you help with a multi-city Emirates itinerary?", answer: "Yes. We can discuss multiple destinations, connection timing, and practical itinerary structures before booking." },
+    ],
+  },
 ];
 
 const RELATED = [
@@ -163,6 +229,9 @@ const RELATED = [
   ["/british-airways", "British Airways"],
   ["/lufthansa", "Lufthansa"],
   ["/air-canada", "Air Canada"],
+  ["/swiss-air", "SWISS"],
+  ["/qatar-airways", "Qatar Airways"],
+  ["/emirates", "Emirates"],
 ] as const;
 
 function AirlineAssistancePage({ page }: { page: AirlinePage }) {
