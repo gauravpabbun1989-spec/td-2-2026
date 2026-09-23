@@ -34,6 +34,7 @@ import {
   QatarAirwaysPage,
   EmiratesPage,
   LotPolishAirlinesPage,
+  NorseAtlanticAirwaysPage,
 } from "@/pages/airlines/AdditionalAirlinePages";
 import { DeltaPage } from "@/pages/airlines/DeltaPage";
 import { UnitedPage } from "@/pages/airlines/UnitedPage";
@@ -216,6 +217,12 @@ const lotPolishAirlinesRoute = createRoute({
   component: LotPolishAirlinesPage,
 });
 
+const norseAtlanticAirwaysRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/norse-atlantic-airways",
+  component: NorseAtlanticAirwaysPage,
+});
+
 const contactRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/contact",
@@ -268,6 +275,7 @@ const routeTree = rootRoute.addChildren([
   qatarAirwaysRoute,
   emiratesRoute,
   lotPolishAirlinesRoute,
+  norseAtlanticAirwaysRoute,
   contactRoute,
   privacyRoute,
   termsRoute,
