@@ -1,6 +1,6 @@
 import { createActor } from "@/backend";
 import { CallCta } from "@/components/CallCta";
-import { SITE } from "@/lib/site";
+import { AIRLINE_ITEMS, SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { useActor, useInternetIdentity } from "@caffeineai/core-infrastructure";
 import { useQuery } from "@tanstack/react-query";
@@ -46,6 +46,16 @@ export function SiteHeader() {
           <Link to="/united-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">United Airlines</Link>
           <Link to="/american-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">American Airlines</Link>
           <Link to="/southwest-airlines" className="rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">Southwest Airlines</Link>
+          <div className="relative">
+            <details className="group">
+              <summary className="cursor-pointer list-none rounded-full px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground">More Airlines</summary>
+              <div className="absolute right-0 top-full z-50 mt-2 min-w-56 rounded-2xl border border-border bg-white p-2 shadow-elevated">
+                {AIRLINE_ITEMS.filter((item) => !["/delta-airlines", "/united-airlines", "/american-airlines", "/southwest-airlines"].includes(item.to)).map((item) => (
+                  <Link key={item.to} to={item.to} className="block rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">{item.label}</Link>
+                ))}
+              </div>
+            </details>
+          </div>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -67,6 +77,12 @@ export function SiteHeader() {
             <Link to="/united-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">United Airlines</Link>
             <Link to="/american-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">American Airlines</Link>
             <Link to="/southwest-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Southwest Airlines</Link>
+            <div className="border-t border-border pt-3 mt-2">
+              <p className="px-4 pb-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">More Airlines</p>
+              {AIRLINE_ITEMS.filter((item) => !["/delta-airlines", "/united-airlines", "/american-airlines", "/southwest-airlines"].includes(item.to)).map((item) => (
+                <Link key={item.to} to={item.to} onClick={() => setOpen(false)} className="block rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground">{item.label}</Link>
+              ))}
+            </div>
             <div className="mt-3 flex flex-col gap-2 border-t border-border pt-4">
               <CallCta size="lg" className="w-full" ocid="mobile_nav.call_button" />
               <p className="text-center text-sm text-muted-foreground">{SITE.hours}</p>
