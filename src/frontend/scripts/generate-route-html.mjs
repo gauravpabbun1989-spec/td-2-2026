@@ -77,6 +77,18 @@ const routes = {
     heading: "Flight cancellation assistance by phone",
     text: "Review cancellation timing, refund or credit questions, partial itinerary effects, and replacement travel options.",
   },
+  "/airline-reservation-assistance": {
+    title: "Airline Reservation Assistance by Phone | TicketDepart",
+    description: "Need help with an airline reservation? Discuss booking, changes, cancellations, connections, baggage, and fare conditions with a TicketDepart travel specialist.",
+    heading: "Airline reservation assistance by phone",
+    text: "Discuss new or existing airline reservation questions, changes, cancellations, baggage, connections, and fare conditions with a travel specialist.",
+  },
+  "/flight-booking-assistance": {
+    title: "Flight Booking Assistance by Phone | TicketDepart",
+    description: "Get flight booking assistance by phone for domestic, international, multi-city, family, group, and premium-cabin travel with an independent travel specialist.",
+    heading: "Flight booking assistance by phone",
+    text: "Discuss routes, dates, airports, connections, cabins, traveler details, and fare conditions before you confirm a flight booking.",
+  },
   "/flight-booking": {
     title: "Flight Booking Assistance | TicketDepart",
     description: "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.",
