@@ -1,26 +1,32 @@
 /**
- * GA4 phone-click tracking.
+ * GA4 phone-click and lead tracking.
  *
- * The delegated document-level listener registered at import time is the single
- * source of truth for `tel:` link clicks. `trackPhoneClick` remains available
- * for explicit call sites, but it is idempotent per click event so a component
- * that also calls it for a `tel:` link cannot produce a second `phone_click`
- * event for the same click.
+ * Phone clicks are tracked centrally from tel: links so measurement does not
+ * depend on individual CTA components. Page paths are normalized before being
+ * attached to custom events to prevent malformed concatenated URL strings from
+ * polluting the conversion funnel reports.
  */
 
-/**
- * Window used to collapse a component's own `trackPhoneClick(location)` call
- * and the delegated listener into a single event when the component does not
- * pass the originating click event. Both paths run synchronously within one
- * click dispatch, so this only needs to cover that dispatch.
- */
 const DEDUPE_WINDOW_MS = 250;
-
-/** Click events the delegated listener has already emitted for. */
 const handledClicks = new WeakSet<Event>();
-
-/** Location -> timestamp of the most recent emit. */
 const recentEmits = new Map<string, number>();
+
+function getCleanPagePath() {
+  if (typeof window === "undefined") return "/";
+
+  const raw = window.location.pathname || "/";
+  const absoluteUrlIndex = raw.indexOf("https://");
+  const httpUrlIndex = raw.indexOf("http://");
+  const cutAt = [absoluteUrlIndex, httpUrlIndex]
+    .filter((index) => index >= 0)
+    .sort((a, b) => a - b)[0];
+
+  if (cutAt !== undefined && cutAt > 0) {
+    return raw.slice(0, cutAt).replace(/\\/+$/, "") || "/";
+  }
+
+  return raw;
+}
 
 function emitPhoneClick(location: string) {
   if (typeof window === "undefined") return;
@@ -29,7 +35,7 @@ function emitPhoneClick(location: string) {
 
   const eventParams = {
     cta_location: location,
-    page_path: window.location.pathname,
+    page_path: getCleanPagePath(),
     page_title: document.title,
   };
 
@@ -47,17 +53,13 @@ function emitPhoneClick(location: string) {
   win.dataLayer.push(["event", "phone_click", eventParams]);
 }
 
-/**
- * Emits a `phone_click` event for `location`. Pass the originating click event
- * when one is available so a click the delegated listener also observes still
- * produces exactly one event.
- */
 export function trackLeadSubmit(location = "contact_form") {
   if (typeof window === "undefined") return;
+
   const eventParams = {
     lead_type: "callback_request",
     lead_location: location,
-    page_path: window.location.pathname,
+    page_path: getCleanPagePath(),
     page_title: document.title,
   };
 
@@ -81,8 +83,6 @@ export function trackPhoneClick(location: string, event?: Event) {
   emitPhoneClick(location);
 }
 
-// Track every tel: link on the site so phone-click measurement does not depend
-// on a specific React component's click handler.
 if (typeof document !== "undefined") {
   document.addEventListener("click", (event) => {
     if (handledClicks.has(event)) return;
