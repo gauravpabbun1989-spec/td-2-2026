@@ -21,7 +21,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "southwest-airlines",
     name: "Southwest Airlines",
-    title: "Southwest Airlines Reservation Support & Flight Booking Assistance | TicketDepart",
+    title: "Southwest Airlines Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency providing Southwest Airlines reservation support for booking, family travel, same-day trips, changes, cancellations, and multi-city itineraries.",
     heading: "Southwest Airlines reservation support from a travel specialist",
     intro: "Planning a Southwest Airlines trip? Tell us your route, dates, travelers, and priorities. A TicketDepart specialist can walk through available itinerary options and applicable terms before you decide to book.",
@@ -44,7 +44,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "jetblue-airways",
     name: "JetBlue Airways",
-    title: "JetBlue Airways Reservation Support & Flight Booking Assistance | TicketDepart",
+    title: "JetBlue Airways Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency providing JetBlue Airways reservation support for booking, changes, cancellations, family trips, and urgent travel planning.",
     heading: "JetBlue Airways reservation support from a travel specialist",
     intro: "Planning a JetBlue Airways trip? A TicketDepart specialist can discuss schedules, routes, travelers, fare conditions, and support needs before you confirm your itinerary.",
@@ -66,7 +66,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "alaska-airlines",
     name: "Alaska Airlines",
-    title: "Alaska Airlines Reservation Support & Flight Booking Assistance | TicketDepart",
+    title: "Alaska Airlines Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency providing Alaska Airlines reservation support for booking, changes, cancellations, family travel, and multi-city itineraries.",
     heading: "Alaska Airlines reservation support from a travel specialist",
     intro: "Tell TicketDepart where you need to go, when you want to travel, and what matters most. A specialist can discuss Alaska Airlines itinerary options and booking support by phone.",
@@ -88,7 +88,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "british-airways",
     name: "British Airways",
-    title: "British Airways Reservation Support & Flight Booking Assistance | TicketDepart",
+    title: "British Airways Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency providing British Airways reservation support for international itineraries, premium cabins, changes, and cancellations.",
     heading: "British Airways reservation support from a travel specialist",
     intro: "For a British Airways trip, the details can matter: dates, connection airports, cabin, baggage, and fare flexibility. TicketDepart can review those choices with you by phone.",
@@ -110,7 +110,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "lufthansa",
     name: "Lufthansa",
-    title: "Lufthansa Reservation Support & Flight Booking Assistance | TicketDepart",
+    title: "Lufthansa Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency providing Lufthansa reservation support for Europe and international itineraries, premium cabins, changes, and cancellations.",
     heading: "Lufthansa reservation support from a travel specialist",
     intro: "Planning a Lufthansa itinerary? A TicketDepart specialist can discuss dates, connections, cabin preferences, baggage considerations, and change flexibility before you book.",
@@ -132,7 +132,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "air-canada",
     name: "Air Canada",
-    title: "Air Canada Reservation Support & Flight Booking Assistance | TicketDepart",
+    title: "Air Canada Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency providing Air Canada reservation support for international travel, family itineraries, changes, cancellations, and multi-city trips.",
     heading: "Air Canada reservation support from a travel specialist",
     intro: "Planning an Air Canada itinerary? Tell TicketDepart your route, dates, travelers, and priorities and a specialist can discuss available options by phone.",
@@ -154,7 +154,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "swiss-air",
     name: "SWISS",
-    title: "SWISS Reservation Support & Flight Booking Assistance | TicketDepart",
+    title: "SWISS Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency providing SWISS reservation support for Europe and international itineraries, premium cabins, changes, and multi-city travel.",
     heading: "SWISS reservation support from a travel specialist",
     intro: "Planning a SWISS itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can walk through available itinerary options and applicable fare terms before you decide to book.",
@@ -176,7 +176,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "qatar-airways",
     name: "Qatar Airways",
-    title: "Qatar Airways Reservation Support & Flight Booking Assistance | TicketDepart",
+    title: "Qatar Airways Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency providing Qatar Airways reservation support for international itineraries, premium cabins, connections, changes, and multi-city trips.",
     heading: "Qatar Airways reservation support from a travel specialist",
     intro: "Planning a Qatar Airways trip? Tell us your route, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options and applicable booking terms before you authorize a booking.",
@@ -198,7 +198,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "emirates",
     name: "Emirates",
-    title: "Emirates Reservation Support & Flight Booking Assistance | TicketDepart",
+    title: "Emirates Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency providing Emirates reservation support for international itineraries, premium cabins, connections, changes, and multi-city trips.",
     heading: "Emirates reservation support from a travel specialist",
     intro: "Planning an Emirates itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can help you understand available itinerary options and applicable terms before booking.",
@@ -220,7 +220,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "norse-atlantic-airways",
     name: "Norse Atlantic Airways",
-    title: "Norse Atlantic Airways Reservation Support & Flight Booking Assistance | TicketDepart",
+    title: "Norse Atlantic Airways Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency providing Norse Atlantic Airways reservation support for transatlantic itineraries, connections, changes, and multi-city travel.",
     heading: "Norse Atlantic Airways reservation support from a travel specialist",
     intro: "Planning a Norse Atlantic Airways trip? Share your origin, destination, dates, travelers, and preferences. A TicketDepart specialist can discuss transatlantic itinerary options, connections, and applicable booking terms before you decide to book.",
@@ -243,7 +243,7 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "lot-polish-airlines",
     name: "LOT Polish Airlines",
-    title: "LOT Polish Airlines Reservation Support & Flight Booking Assistance | TicketDepart",
+    title: "LOT Polish Airlines Flight Booking Assistance | TicketDepart",
     description: "Independent travel agency providing LOT Polish Airlines reservation support for European and international itineraries, premium cabins, connections, changes, and multi-city trips.",
     heading: "LOT Polish Airlines reservation support from a travel specialist",
     intro: "Planning a LOT Polish Airlines trip? Share your origin, destination, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options, connections, and applicable booking terms before you decide to book.",
