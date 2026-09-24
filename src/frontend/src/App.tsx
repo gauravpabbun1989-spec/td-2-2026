@@ -12,6 +12,10 @@ import {
   FamilyFlightBookingPage,
   FlightBookingAssistancePage,
   FlightCancellationAssistancePage,
+  UsaToCanadaFlightsPage,
+  UsaToUkFlightsPage,
+  UsaToEuropeFlightsPage,
+  UsaToMexicoFlightsPage,
   FlightChangeAssistancePage,
   SameDayFlightBookingPage,
 } from "@/pages/AdditionalBookingPages";
@@ -147,6 +151,31 @@ const flightBookingAssistanceRoute = createRoute({
   component: FlightBookingAssistancePage,
 });
 
+
+const usaToCanadaFlightsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-usa-to-canada",
+  component: UsaToCanadaFlightsPage,
+});
+
+const usaToUkFlightsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-usa-to-uk",
+  component: UsaToUkFlightsPage,
+});
+
+const usaToEuropeFlightsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-usa-to-europe",
+  component: UsaToEuropeFlightsPage,
+});
+
+const usaToMexicoFlightsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-usa-to-mexico",
+  component: UsaToMexicoFlightsPage,
+});
+
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
@@ -276,6 +305,10 @@ const routeTree = rootRoute.addChildren([
   flightCancellationAssistanceRoute,
   airlineReservationAssistanceRoute,
   flightBookingAssistanceRoute,
+  usaToCanadaFlightsRoute,
+  usaToUkFlightsRoute,
+  usaToEuropeFlightsRoute,
+  usaToMexicoFlightsRoute,
   bookAFlightByPhoneRoute,
   howToBookFlightByPhoneRoute,
   deltaRoute,

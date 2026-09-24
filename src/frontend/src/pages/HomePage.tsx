@@ -67,6 +67,26 @@ export function HomePage() {
       </section>
 
       <ServiceGrid />
+
+      <section className="border-b border-border bg-background px-5 py-14 sm:px-8 sm:py-20" aria-labelledby="regional-flights-heading">
+        <div className="mx-auto max-w-6xl">
+          <p className="label-board text-accent">Popular international routes</p>
+          <h2 id="regional-flights-heading" className="mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl">Planning travel between the USA and another country?</h2>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">Start with a focused guide for common international travel markets. Compare routing, airports, dates, cabins, baggage, and fare conditions before you book.</p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["USA to Canada flights", "/flights-usa-to-canada"],
+              ["USA to UK flights", "/flights-usa-to-uk"],
+              ["USA to Europe flights", "/flights-usa-to-europe"],
+              ["USA to Mexico flights", "/flights-usa-to-mexico"],
+            ].map(([label, to]) => (
+              <Link key={to} to={to} className="group rounded-[1.5rem] border border-border bg-card px-5 py-6 text-sm font-semibold text-primary shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated">
+                {label}<span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
       <HowItWorks />
       <PreCallChecklist />
 
