@@ -179,6 +179,30 @@ const routes = {
     heading: "LOT Polish Airlines flight assistance with a travel specialist",
     text: "Get independent travel assistance for LOT Polish Airlines itineraries, including European travel, transatlantic trips, connections, premium cabins, changes, and multi-city planning.",
   },
+  "/flights-usa-to-canada": {
+    title: "USA to Canada Flights | Booking Assistance | TicketDepart",
+    description: "Get help comparing flights from the USA to Canada by phone, including cities, airports, dates, connections, cabins, baggage, and fare conditions.",
+    heading: "USA to Canada flight booking assistance",
+    text: "Discuss USA-to-Canada routes, nearby airports, dates, connections, cabins, baggage, and fare conditions with a travel specialist.",
+  },
+  "/flights-usa-to-uk": {
+    title: "USA to UK Flights | Booking Assistance | TicketDepart",
+    description: "Plan USA to UK flights by phone and discuss destinations, dates, connections, cabins, baggage, and fare conditions with a travel specialist.",
+    heading: "USA to UK flight booking assistance",
+    text: "Discuss USA-to-UK routes, UK arrival airports, schedules, cabins, baggage, and fare conditions with a travel specialist.",
+  },
+  "/flights-usa-to-europe": {
+    title: "USA to Europe Flights | Booking Assistance | TicketDepart",
+    description: "Plan USA to Europe flights by phone and discuss destinations, connections, dates, cabins, baggage, and fare conditions with a travel specialist.",
+    heading: "USA to Europe flight booking assistance",
+    text: "Discuss European destinations, connections, flexible dates, cabins, multi-city routing, baggage, and fare conditions.",
+  },
+  "/flights-usa-to-mexico": {
+    title: "USA to Mexico Flights | Booking Assistance | TicketDepart",
+    description: "Plan USA to Mexico flights by phone and discuss destinations, airports, dates, connections, cabins, baggage, and fare conditions.",
+    heading: "USA to Mexico flight booking assistance",
+    text: "Discuss USA-to-Mexico routes, destinations, nearby airports, family travel, cabins, baggage, and fare conditions.",
+  },
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
     description: "Contact TicketDepart to plan your next flight. Call +1 855-544-9001 any time, or send your trip details and a travel specialist will follow up with options.",
