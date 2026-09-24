@@ -155,7 +155,7 @@ export function DeltaPage() {
   return (
     <>
       <Seo
-        title="Delta Airlines Reservation Support & Flight Booking Assistance | TicketDepart"
+        title="Delta Airlines Flight Booking Assistance | TicketDepart"
         description="Independent travel agency providing Delta Airlines reservation support and flight booking assistance for domestic, international, multi-city, and premium-cabin travel. Call +1 855-544-9001."
         path={PATH}
         image={TERMINAL_IMAGE_URL}
