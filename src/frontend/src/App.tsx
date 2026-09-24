@@ -6,9 +6,11 @@ import { FlightBookingPage } from "@/pages/FlightBookingPage";
 import { HomePage } from "@/pages/HomePage";
 import { HowToBookFlightByPhonePage } from "@/pages/HowToBookFlightByPhonePage";
 import {
+  AirlineReservationAssistancePage,
   BusinessClassFlightBookingPage,
   CheapFlightBookingByPhonePage,
   FamilyFlightBookingPage,
+  FlightBookingAssistancePage,
   FlightCancellationAssistancePage,
   FlightChangeAssistancePage,
   SameDayFlightBookingPage,
@@ -131,6 +133,18 @@ const flightCancellationAssistanceRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-cancellation-assistance",
   component: FlightCancellationAssistancePage,
+});
+
+const airlineReservationAssistanceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/airline-reservation-assistance",
+  component: AirlineReservationAssistancePage,
+});
+
+const flightBookingAssistanceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flight-booking-assistance",
+  component: FlightBookingAssistancePage,
 });
 
 const flightBookingRoute = createRoute({
@@ -260,6 +274,8 @@ const routeTree = rootRoute.addChildren([
   familyFlightBookingRoute,
   flightChangeAssistanceRoute,
   flightCancellationAssistanceRoute,
+  airlineReservationAssistanceRoute,
+  flightBookingAssistanceRoute,
   bookAFlightByPhoneRoute,
   howToBookFlightByPhoneRoute,
   deltaRoute,

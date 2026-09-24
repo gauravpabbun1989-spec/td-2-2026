@@ -340,7 +340,49 @@ const PAGES: readonly PageConfig[] = [
           "Depending on the ticket and airline policy, a credit may be available. The exact restrictions should be confirmed before cancellation.",
       },
     ],
+  },,
+  {
+    path: "/airline-reservation-assistance",
+    title: "Airline Reservation Assistance by Phone | TicketDepart",
+    description: "Need help with an airline reservation? Discuss booking, changes, cancellations, connections, baggage, and fare conditions with a TicketDepart travel specialist.",
+    heading: "Airline reservation assistance by phone",
+    intro: "If you are comparing a new trip or need help with an existing airline reservation, a specialist can walk through the itinerary, ticket details, and applicable terms with you.",
+    service: "Airline reservation assistance",
+    items: [
+      ["New reservations", "Discuss route, dates, travelers, cabin, and airline preferences before booking."],
+      ["Existing reservations", "Review your current itinerary and the information you should have ready before requesting help."],
+      ["Changes and rebooking", "Discuss date, time, route, connection, and fare-difference questions."],
+      ["Cancellation questions", "Review possible refund, credit, deadline, and ticket-condition questions before cancellation."],
+      ["Baggage and fare terms", "Ask what the selected fare includes and what restrictions may apply."],
+      ["Complex itineraries", "Discuss international, multi-city, family, group, and premium-cabin travel needs."]
+    ],
+    faqs: [
+      { question: "Can I get airline reservation help by phone?", answer: "Yes. TicketDepart can discuss new and existing reservation questions by phone. Exact actions and availability depend on the ticket, airline, and applicable rules." },
+      { question: "Can you help change an existing reservation?", answer: "We can discuss possible changes and the information needed. Final changes depend on the ticket's fare rules, airline inventory, and applicable terms." },
+      { question: "What should I have ready when I call?", answer: "Have the passenger name, confirmation code or ticket number, current itinerary, desired change or new trip details, and traveler count ready if available." }
+    ]
   },
+  {
+    path: "/flight-booking-assistance",
+    title: "Flight Booking Assistance by Phone | TicketDepart",
+    description: "Get flight booking assistance by phone for domestic, international, multi-city, family, group, and premium-cabin travel with an independent travel specialist.",
+    heading: "Flight booking assistance by phone",
+    intro: "Tell us where you are going, when you want to travel, and what matters most. A specialist can help you compare practical itinerary options and review booking terms before you decide.",
+    service: "Flight booking assistance",
+    items: [
+      ["Domestic flights", "Discuss one-way and round-trip travel between major and regional U.S. airports."],
+      ["International flights", "Review international routes, connections, cabins, dates, and fare conditions."],
+      ["Flexible itinerary planning", "Compare nearby airports, flexible dates, and routing alternatives when practical."],
+      ["Premium cabins", "Discuss economy, premium economy, business, and first-class options."],
+      ["Family and group travel", "Work through traveler counts, coordinated schedules, baggage, and seating questions."],
+      ["Before you pay", "Review the itinerary, fare conditions, baggage terms, and any applicable service fee before authorizing payment."]
+    ],
+    faqs: [
+      { question: "Can I book a flight by phone?", answer: "Yes. TicketDepart provides independent travel assistance for domestic and international flight booking by phone." },
+      { question: "Can you compare different flight options?", answer: "A specialist can discuss available routing, schedules, connections, cabins, airports, and fare conditions for your trip." },
+      { question: "Will the price stay the same while I decide?", answer: "Not necessarily. Airfare and seat availability can change until a ticket is issued." }
+    ]
+  }
 ];
 
 function AdditionalBookingPage({ page }: { page: PageConfig }) {
@@ -529,4 +571,12 @@ export function FlightChangeAssistancePage() {
 
 export function FlightCancellationAssistancePage() {
   return <AdditionalBookingPage page={PAGES[5]} />;
+}
+
+export function AirlineReservationAssistancePage() {
+  return <AdditionalBookingPage page={PAGES[6]} />;
+}
+
+export function FlightBookingAssistancePage() {
+  return <AdditionalBookingPage page={PAGES[7]} />;
 }
