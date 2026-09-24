@@ -383,6 +383,90 @@ const PAGES: readonly PageConfig[] = [
       { question: "Will the price stay the same while I decide?", answer: "Not necessarily. Airfare and seat availability can change until a ticket is issued." }
     ]
   }
+  {
+    path: "/flights-usa-to-canada",
+    title: "USA to Canada Flights | Booking Assistance | TicketDepart",
+    description: "Get help comparing flights from the USA to Canada by phone. Discuss cities, airports, dates, connections, baggage, cabins, and fare conditions with a travel specialist.",
+    heading: "USA to Canada flight booking assistance",
+    intro: "Planning a trip between the United States and Canada? Discuss departure and arrival cities, nearby airports, dates, connections, cabin choices, baggage, and fare conditions with a travel specialist.",
+    service: "USA to Canada flight assistance",
+    items: [
+      ["Popular cross-border trips", "Discuss practical options for major U.S. and Canadian city pairs."],
+      ["Flexible airports", "Consider nearby departure or arrival airports when practical."],
+      ["Nonstop and connections", "Compare routing and connection options for your dates."],
+      ["Dates and schedules", "Review schedule choices when your dates are flexible."],
+      ["Baggage and cabin", "Ask about baggage terms and cabin options before booking."],
+      ["Fare conditions", "Review applicable change, cancellation, and payment terms."],
+    ],
+    faqs: [
+      { question: "Can you help with USA to Canada flights?", answer: "Yes. A specialist can discuss available itineraries between U.S. and Canadian cities. Final availability and pricing depend on live airline inventory." },
+      { question: "Can nearby airports be compared?", answer: "Yes. Nearby airports can be considered when they make sense for your trip and ground transportation." },
+      { question: "Are international travel documents included?", answer: "Travel-document requirements depend on your citizenship and itinerary. Confirm current requirements with the appropriate government and airline sources." },
+    ],
+  },
+  {
+    path: "/flights-usa-to-uk",
+    title: "USA to UK Flights | Booking Assistance | TicketDepart",
+    description: "Plan USA to UK flights by phone. Discuss London and other UK destinations, dates, connections, cabins, baggage, and fare conditions with a travel specialist.",
+    heading: "USA to UK flight booking assistance",
+    intro: "Planning travel from the United States to the United Kingdom? Explain your preferred cities, dates, cabin, connection tolerance, and baggage needs and review available options by phone.",
+    service: "USA to UK flight assistance",
+    items: [
+      ["UK destination options", "Discuss London and other UK arrival cities that fit your plans."],
+      ["East Coast and West Coast", "Compare routing choices from different U.S. departure regions."],
+      ["Nonstop and connections", "Review nonstop and connecting itineraries where available."],
+      ["Premium cabins", "Discuss economy, premium economy, business, and other available cabins."],
+      ["Baggage and fare rules", "Review what the selected fare includes before payment."],
+      ["Schedule flexibility", "Consider nearby dates when your plans allow flexibility."],
+    ],
+    faqs: [
+      { question: "Can you help book a flight from the USA to the UK?", answer: "Yes. TicketDepart can discuss USA-to-UK itineraries by phone. Live inventory, fares, and airline rules determine the final options." },
+      { question: "Can I compare different UK airports?", answer: "Yes. When practical, you can discuss different arrival airports and the onward ground-travel implications." },
+      { question: "Can you guarantee a fare while I decide?", answer: "Airline fares and availability can change until a ticket is issued, so a quote should not be treated as a guarantee unless the applicable terms say otherwise." },
+    ],
+  },
+  {
+    path: "/flights-usa-to-europe",
+    title: "USA to Europe Flights | Booking Assistance | TicketDepart",
+    description: "Plan USA to Europe flights by phone. Discuss destinations, connections, dates, cabins, baggage, and fare conditions with a travel specialist.",
+    heading: "USA to Europe flight booking assistance",
+    intro: "European trips can involve many routing and airport choices. Tell a specialist where you want to go, your dates, preferred cabin, and connection preferences and discuss practical itinerary options.",
+    service: "USA to Europe flight assistance",
+    items: [
+      ["Europe destination planning", "Discuss major European destinations and practical arrival airports."],
+      ["One-stop routing", "Compare connection options when nonstop service is unavailable or unsuitable."],
+      ["Flexible dates", "Review nearby dates when flexibility may open different schedules."],
+      ["Cabin choices", "Compare available cabin options and fare conditions."],
+      ["Multi-city trips", "Discuss open-jaw and multi-city European itineraries."],
+      ["Baggage and changes", "Review baggage terms and applicable change or cancellation conditions."],
+    ],
+    faqs: [
+      { question: "Can you help plan flights to Europe?", answer: "Yes. A specialist can discuss European routes, dates, connections, cabins, and itinerary structure by phone." },
+      { question: "Can I plan a multi-city Europe trip?", answer: "Yes. Multi-city and open-jaw itineraries can be discussed when supported by available airline inventory and fare rules." },
+      { question: "Do European fares include every charge?", answer: "The total depends on the selected fare and applicable taxes, fees, baggage, and agency charges. Ask for the complete price before authorizing payment." },
+    ],
+  },
+  {
+    path: "/flights-usa-to-mexico",
+    title: "USA to Mexico Flights | Booking Assistance | TicketDepart",
+    description: "Plan USA to Mexico flights by phone. Discuss destinations, airports, dates, connections, cabins, baggage, and fare conditions with a travel specialist.",
+    heading: "USA to Mexico flight booking assistance",
+    intro: "Whether you are planning a vacation, family visit, or business trip, discuss U.S.-Mexico flight options by phone and compare practical dates, airports, routing, and fare conditions.",
+    service: "USA to Mexico flight assistance",
+    items: [
+      ["Popular Mexico destinations", "Discuss major destinations and arrival-airport choices for your trip."],
+      ["Flexible departure airports", "Consider nearby U.S. airports when they are practical."],
+      ["Nonstop and connections", "Review available routing and connection choices."],
+      ["Family travel", "Discuss traveler count, seating, baggage, and schedule preferences."],
+      ["Cabin and baggage", "Compare cabin options and understand baggage terms before booking."],
+      ["Fare and change rules", "Review applicable fare conditions, changes, and cancellations."],
+    ],
+    faqs: [
+      { question: "Can you help book flights from the USA to Mexico?", answer: "Yes. TicketDepart can discuss USA-to-Mexico flight options by phone, subject to live airline availability." },
+      { question: "Can you help with family trips to Mexico?", answer: "Yes. Discuss traveler count, ages, seating needs, baggage, and schedule preferences with a specialist." },
+      { question: "What should I verify before international travel?", answer: "Verify current passport, entry, visa, and other travel requirements for your nationality and itinerary with official government and airline sources." },
+    ],
+  },
 ];
 
 function AdditionalBookingPage({ page }: { page: PageConfig }) {
@@ -579,4 +663,20 @@ export function AirlineReservationAssistancePage() {
 
 export function FlightBookingAssistancePage() {
   return <AdditionalBookingPage page={PAGES[7]!} />;
+}
+
+export function UsaToCanadaFlightsPage() {
+  return <AdditionalBookingPage page={PAGES[8]!} />;
+}
+
+export function UsaToUkFlightsPage() {
+  return <AdditionalBookingPage page={PAGES[9]!} />;
+}
+
+export function UsaToEuropeFlightsPage() {
+  return <AdditionalBookingPage page={PAGES[10]!} />;
+}
+
+export function UsaToMexicoFlightsPage() {
+  return <AdditionalBookingPage page={PAGES[11]!} />;
 }
