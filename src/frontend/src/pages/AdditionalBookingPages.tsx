@@ -340,7 +340,7 @@ const PAGES: readonly PageConfig[] = [
           "Depending on the ticket and airline policy, a credit may be available. The exact restrictions should be confirmed before cancellation.",
       },
     ],
-  },,
+  },
   {
     path: "/airline-reservation-assistance",
     title: "Airline Reservation Assistance by Phone | TicketDepart",
@@ -550,33 +550,33 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
 }
 
 export function CheapFlightBookingByPhonePage() {
-  return <AdditionalBookingPage page={PAGES[0]} />;
+  return <AdditionalBookingPage page={PAGES[0]!} />;
 }
 
 export function BusinessClassFlightBookingPage() {
-  return <AdditionalBookingPage page={PAGES[1]} />;
+  return <AdditionalBookingPage page={PAGES[1]!} />;
 }
 
 export function SameDayFlightBookingPage() {
-  return <AdditionalBookingPage page={PAGES[2]} />;
+  return <AdditionalBookingPage page={PAGES[2]!} />;
 }
 
 export function FamilyFlightBookingPage() {
-  return <AdditionalBookingPage page={PAGES[3]} />;
+  return <AdditionalBookingPage page={PAGES[3]!} />;
 }
 
 export function FlightChangeAssistancePage() {
-  return <AdditionalBookingPage page={PAGES[4]} />;
+  return <AdditionalBookingPage page={PAGES[4]!} />;
 }
 
 export function FlightCancellationAssistancePage() {
-  return <AdditionalBookingPage page={PAGES[5]} />;
+  return <AdditionalBookingPage page={PAGES[5]!} />;
 }
 
 export function AirlineReservationAssistancePage() {
-  return <AdditionalBookingPage page={PAGES[6]} />;
+  return <AdditionalBookingPage page={PAGES[6]!} />;
 }
 
 export function FlightBookingAssistancePage() {
-  return <AdditionalBookingPage page={PAGES[7]} />;
+  return <AdditionalBookingPage page={PAGES[7]!} />;
 }
