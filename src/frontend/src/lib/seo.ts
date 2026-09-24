@@ -8,6 +8,8 @@ export type SeoInput = {
   image?: string;
   /** JSON-LD graph nodes rendered into the document head. */
   structuredData?: Record<string, unknown>[];
+  /** Whether search engines should index this route. */
+  indexable?: boolean;
 };
 
 export const DEFAULT_SHARE_IMAGE = absoluteUrl(
