@@ -22,7 +22,7 @@ function getCleanPagePath() {
     .sort((a, b) => a - b)[0];
 
   if (cutAt !== undefined && cutAt > 0) {
-    return raw.slice(0, cutAt).replace(/\\/+$/, "") || "/";
+    return raw.slice(0, cutAt).replace(/\/+$/, "") || "/";
   }
 
   return raw;
