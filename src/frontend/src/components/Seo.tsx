@@ -47,6 +47,7 @@ export function Seo({
   path,
   image = DEFAULT_SHARE_IMAGE,
   structuredData = [],
+  indexable = true,
 }: SeoInput) {
   const canonical = absoluteUrl(path);
   const serialized = JSON.stringify(structuredData);
@@ -71,7 +72,7 @@ export function Seo({
         meta.setAttribute("name", "robots");
         return meta;
       },
-      "index, follow, max-image-preview:large",
+      indexable ? "index, follow, max-image-preview:large" : "noindex, nofollow",
     );
 
     upsertMeta(
@@ -217,7 +218,7 @@ export function Seo({
     return () => {
       script.remove();
     };
-  }, [title, description, canonical, image, serialized]);
+  }, [title, description, canonical, image, serialized, indexable]);
 
   return null;
 }

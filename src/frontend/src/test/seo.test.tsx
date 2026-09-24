@@ -238,3 +238,12 @@ describe("structured data", () => {
     expect(organization?.areaServed).toContain("United States");
   });
 });
+
+
+describe("indexability controls", () => {
+  it("marks the private admin route noindex", async () => {
+    renderRoute("/admin/leads");
+    await screen.findByRole("heading", { level: 1 });
+    expect(metaContent('meta[name="robots"]')).toBe("noindex, nofollow");
+  });
+});

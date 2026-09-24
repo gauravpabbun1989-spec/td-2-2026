@@ -239,6 +239,7 @@ export function AdminLeadsPage() {
         title="Leads Desk | TicketDepart"
         description="Private TicketDepart travel desk for reviewing submitted trip requests."
         path="/admin/leads"
+        indexable={false}
       />
 
       <Section tone="paper" ocid="admin.leads.section">
