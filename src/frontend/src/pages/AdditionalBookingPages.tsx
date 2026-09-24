@@ -382,7 +382,7 @@ const PAGES: readonly PageConfig[] = [
       { question: "Can you compare different flight options?", answer: "A specialist can discuss available routing, schedules, connections, cabins, airports, and fare conditions for your trip." },
       { question: "Will the price stay the same while I decide?", answer: "Not necessarily. Airfare and seat availability can change until a ticket is issued." }
     ]
-  }
+  },
   {
     path: "/flights-usa-to-canada",
     title: "USA to Canada Flights | Booking Assistance | TicketDepart",
