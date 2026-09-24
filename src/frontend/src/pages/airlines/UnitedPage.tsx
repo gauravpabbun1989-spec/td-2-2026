@@ -187,7 +187,7 @@ export function UnitedPage() {
   return (
     <>
       <Seo
-        title="United Airlines Reservation Support & Flight Booking Assistance | TicketDepart"
+        title="United Airlines Flight Booking Assistance | TicketDepart"
         description="Independent travel agency providing United Airlines reservation support and flight booking assistance for domestic, international, multi-city, premium-cabin travel, and rebooking help. Call +1 855-544-9001."
         path={PATH}
         image={HERO_IMAGE_URL}
