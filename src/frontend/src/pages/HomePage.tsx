@@ -1,6 +1,7 @@
 import { Seo } from "@/components/Seo";
 import { ContactInfoBlock } from "@/components/home/ContactInfoBlock";
 import { DisclosureBlock } from "@/components/home/DisclosureBlock";
+import { CallCta } from "@/components/CallCta";
 import { HeroSection } from "@/components/home/HeroSection";
 import { HomeFaq, homeFaqSchema } from "@/components/home/HomeFaq";
 import { HowItWorks } from "@/components/home/HowItWorks";
@@ -35,6 +36,33 @@ export function HomePage() {
           <h2 className="mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl">Flight assistance for travelers across the USA, Canada, Mexico & UK.</h2>
           <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">English-speaking travelers can get help with domestic, international, last-minute, multi-city, family, group, and premium-cabin itineraries. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department.</p>
           <div className="mt-7 flex flex-wrap gap-2">{["USA","Canada","Mexico","UK"].map(m=><span key={m} className="rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold shadow-subtle">{m}</span>)}</div>
+        </div>
+      </section>
+
+      <section className="border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-12" aria-labelledby="call-reasons-heading">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <p className="label-board text-accent">Why travelers call</p>
+              <h2 id="call-reasons-heading" className="mt-2 max-w-3xl text-balance text-2xl font-semibold sm:text-3xl">Get a person involved when the itinerary needs more than a search box.</h2>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                {[
+                  ["Compare routes", "Talk through nonstop, connecting, and alternate-airport options."],
+                  ["Ask before booking", "Clarify baggage, cabin, fare rules, and change questions."],
+                  ["Handle complex trips", "Get help with multi-city, group, international, or urgent travel."],
+                ].map(([title, description]) => (
+                  <div key={title} className="rounded-2xl border border-border bg-background p-4">
+                    <p className="text-sm font-semibold text-foreground">{title}</p>
+                    <p className="mt-1 text-xs leading-5 text-muted-foreground">{description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="lg:pl-4">
+              <CallCta size="lg" ocid="home.call_reasons_button" className="w-full sm:w-auto" />
+              <p className="mt-2 text-center text-xs text-muted-foreground lg:text-right">{SITE.hours}</p>
+            </div>
+          </div>
         </div>
       </section>
 
