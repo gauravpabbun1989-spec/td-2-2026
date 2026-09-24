@@ -137,7 +137,7 @@ export function AmericanAirlinesPage() {
   return (
     <>
       <Seo
-        title="American Airlines Reservation Support & Flight Booking Assistance | TicketDepart"
+        title="American Airlines Flight Booking Assistance | TicketDepart"
         description="Independent travel agency providing American Airlines reservation support and flight booking assistance for domestic, international, multi-city, cabin options, and rebooking help. Call +1 855-544-9001."
         path={PATH}
         image={IMAGE_URL}
