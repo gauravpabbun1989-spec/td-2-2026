@@ -94,7 +94,7 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     .slice(0, 10);
   const cityMap = new Map<string, Airport>();
   for (const airport of matched) {
-    const key = airport.city.toLowerCase() + "|" + airport.country.toLowerCase();
+    const key = `${airport.city.toLowerCase()}|${airport.country.toLowerCase()}`;
     if (!cityMap.has(key)) cityMap.set(key, airport);
   }
   const cities = Array.from(cityMap.values()).slice(0, 3).map((a) => ({
@@ -103,7 +103,7 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     country: a.country,
     iata: a.iata,
     timezone: a.timezone,
-    label: a.city + ", " + a.country + " — Primary airport (" + a.iata + ")",
+    label: `${a.city}, ${a.country} — Primary airport (${a.iata})`,
   }));
   const airportChoices = matched.slice(0, 7).map((a) => ({
     type: "airport" as const,
@@ -111,7 +111,7 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     country: a.country,
     iata: a.iata,
     timezone: a.timezone,
-    label: a.city + " — " + a.name + " (" + a.iata + ")",
+    label: `${a.city} — ${a.name} (${a.iata})`,
   }));
   return [...cities, ...airportChoices];
 }
@@ -145,11 +145,11 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
       times.forEach((time, timeIndex) => {
         const arrival = calculateArrival(String(time), requestedDate, durationMinutes, originTimezone, destinationTimezone);
         results.push({
-          id: [route.route_id, airline.airline_code, requestedDay, time, airlineIndex, dayIndex, timeIndex].join("-"),
+          id: `${route.route_id}-${airline.airline_code}-${requestedDay}-${time}-${airlineIndex}-${dayIndex}-${timeIndex}`,
           airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
           airlineCode: airline.airline_code ? String(airline.airline_code).toUpperCase() : undefined,
           logoUrl: airline.airline_code
-            ? "https://images.kiwi.com/airlines/64/" + encodeURIComponent(String(airline.airline_code).toUpperCase()) + ".png"
+            ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(String(airline.airline_code).toUpperCase())}.png`
             : undefined,
           departure: {
             iata: String(origin ?? ""),
@@ -178,7 +178,7 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
 function formatDuration(minutes: number): string {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
-  return mins ? hours + "h " + mins + "m" : hours + "h";
+  return mins ? `${hours}h ${mins}m` : `${hours}h`;
 }
 
 function calculateArrival(
@@ -207,7 +207,7 @@ function calculateArrival(
   const dd = String(arrivalLocal.getUTCDate()).padStart(2, "0");
   const hh = String(arrivalLocal.getUTCHours()).padStart(2, "0");
   const min = String(arrivalLocal.getUTCMinutes()).padStart(2, "0");
-  return { date: yyyy + "-" + mm + "-" + dd, time: hh + ":" + min };
+  return { date: `${yyyy}-${mm}-${dd}`, time: `${hh}:${min}` };
 }
 
 function getTimezoneOffsetMinutes(date: Date, timezone: string): number {
@@ -228,9 +228,9 @@ function dateToAirRoutesDay(date: string): string {
 }
 
 async function fetchAirRoutesRoute(origin: string, destination: string, date: string, cabin: string, originTimezone?: string, destinationTimezone?: string) {
-  const response = await fetch(AIR_ROUTES_API + "/" + encodeURIComponent(origin) + "-" + encodeURIComponent(destination));
+  const response = await fetch(`${AIR_ROUTES_API}/${encodeURIComponent(origin)}-${encodeURIComponent(destination)}`);
   if (!response.ok) {
-    throw new Error("Air-Routes could not return route information for " + origin + " to " + destination + ".");
+    throw new Error(`Air-Routes could not return route information for ${origin} to ${destination}.`);
   }
   return normalizeSchedule(await response.json(), date, cabin, originTimezone, destinationTimezone);
 }
@@ -325,13 +325,13 @@ export function FlightSearchPage() {
         {values.map((choice, index) => (
           <button
             type="button"
-            key={choice.type + "-" + choice.city + "-" + (choice.iata ?? index)}
+            key={`${choice.type}-${choice.city}-${choice.iata ?? index}`}
             onClick={() => {
               setChoice(choice);
               setValue(
                 choice.type === "city"
-                  ? choice.city + ", " + choice.country
-                  : choice.city + " (" + choice.iata + ")",
+                  ? `${choice.city}, ${choice.country}`
+                  : `${choice.city} (${choice.iata})`,
               );
             }}
             className="block w-full rounded-lg px-3 py-3 text-left text-sm hover:bg-muted"
@@ -480,7 +480,7 @@ export function FlightSearchPage() {
                 {loading ? "Finding schedules…" : "Search schedules"}
               </button>
               <span className="text-sm text-muted-foreground">
-                {tripType} · {date ? "Depart: " + date + " · " : ""}{returnDate ? "Return: " + returnDate + " · " : ""}
+                {tripType} · {date ? `Depart: ${date} · ` : ""}{returnDate ? `Return: ${returnDate} · ` : ""}
                 {travelers} traveler{travelers === "1" ? "" : "s"} · {cabin}
               </span>
             </div>
@@ -497,7 +497,7 @@ export function FlightSearchPage() {
         <SectionHeading
           id="flight_search_results_heading"
           eyebrow="Flight schedules"
-          title={results.length ? results.length + " scheduled flight" + (results.length === 1 ? "" : "s") : "Scheduled flight times"}
+          title={results.length ? `${results.length} scheduled flight${results.length === 1 ? "" : "s"}` : "Scheduled flight times"}
           description="Each result is a compact flight card with the airline logo, airline name, scheduled departure, estimated arrival time, and a phone CTA."
         />
 
@@ -512,7 +512,7 @@ export function FlightSearchPage() {
                         {result.logoUrl ? (
                           <img
                             src={result.logoUrl}
-                            alt={result.airlineName + " logo"}
+                            alt={`${result.airlineName} logo`}
                             className="h-12 w-20 object-contain"
                             loading="lazy"
                             onError={(event) => {
@@ -540,7 +540,7 @@ export function FlightSearchPage() {
                         <Clock3 aria-hidden="true" className="size-4" />
                         {result.duration ?? "Schedule"}
                         <ArrowRight aria-hidden="true" className="size-5 text-accent" />
-                        {result.stops === 0 ? "Nonstop" : result.stops + " stop" + (result.stops === 1 ? "" : "s")}
+                        {result.stops === 0 ? "Nonstop" : `${result.stops} stop${result.stops === 1 ? "" : "s"}`}
                       </div>
                       <div className="sm:text-right">
                         <p className="text-lg font-bold">{result.arrival.time || "Time not supplied"}</p>
