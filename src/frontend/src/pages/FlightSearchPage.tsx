@@ -9,13 +9,14 @@ const AIRPORTS_URL =
   "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat";
 const AIR_ROUTES_API = "https://air-routes.com/api/route";
 
-type Airport = { id: string; name: string; city: string; country: string; iata: string };
+type Airport = { id: string; name: string; city: string; country: string; iata: string; timezone?: string };
 type LocationChoice = {
   type: "city" | "airport";
   city: string;
   country: string;
   iata?: string;
   label: string;
+  timezone?: string;
 };
 type FlightSchedule = {
   id: string;
@@ -80,6 +81,7 @@ async function loadAirports(): Promise<Airport[]> {
       city: r[2] ?? "",
       country: r[3] ?? "",
       iata: r[4] === "\\N" ? "" : r[4] ?? "",
+      timezone: r[11] === "\\N" ? undefined : r[11] || undefined,
     }))
     .filter((a) => a.iata);
 }
@@ -101,6 +103,7 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     country: a.country,
     iata: a.iata,
     label: a.city + ", " + a.country + " — Primary airport (" + a.iata + ")",
+    timezone: a.timezone,
   }));
   const airportChoices = matched.slice(0, 7).map((a) => ({
     type: "airport" as const,
@@ -108,11 +111,12 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     country: a.country,
     iata: a.iata,
     label: a.city + " — " + a.name + " (" + a.iata + ")",
+    timezone: a.timezone,
   }));
   return [...cities, ...airportChoices];
 }
 
-function normalizeSchedule(payload: unknown, requestedDate: string, requestedCabin: string): FlightSchedule[] {
+function normalizeSchedule(payload: unknown, requestedDate: string, requestedCabin: string, originTimezone?: string, destinationTimezone?: string): FlightSchedule[] {
   const route = payload as {
     route_id?: string;
     from?: string;
@@ -130,7 +134,8 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
 
   const [origin, destination] = String(route.route_id ?? "").split("-");
   const requestedDay = dateToAirRoutesDay(requestedDate);
-  const duration = Number.isFinite(route.flying_min) ? formatDuration(Number(route.flying_min)) : undefined;
+  const durationMinutes = Number.isFinite(route.flying_min) ? Number(route.flying_min) : undefined;
+  const duration = durationMinutes !== undefined ? formatDuration(durationMinutes) : undefined;
   const results: FlightSchedule[] = [];
 
   route.airlines.forEach((airline, airlineIndex) => {
@@ -138,6 +143,7 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
       if (entry.day !== requestedDay) return;
       const times = Array.isArray(entry.times) ? entry.times : [];
       times.forEach((time, timeIndex) => {
+        const arrival = calculateArrival(String(time), requestedDate, durationMinutes, originTimezone, destinationTimezone);
         results.push({
           id: [route.route_id, airline.airline_code, requestedDay, time, airlineIndex, dayIndex, timeIndex].join("-"),
           airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
@@ -154,8 +160,8 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
           arrival: {
             iata: String(destination ?? ""),
             city: "",
-            date: requestedDate,
-            time: "Time not supplied",
+            date: arrival?.date ?? requestedDate,
+            time: arrival?.time ?? "Time not supplied",
           },
           duration,
           stops: 0,
@@ -175,18 +181,58 @@ function formatDuration(minutes: number): string {
   return mins ? hours + "h " + mins + "m" : hours + "h";
 }
 
+function calculateArrival(
+  departureTime: string,
+  departureDate: string,
+  durationMinutes?: number,
+  originTimezone?: string,
+  destinationTimezone?: string,
+): { date: string; time: string } | null {
+  if (durationMinutes === undefined || !originTimezone || !destinationTimezone) return null;
+  const match = departureTime.match(/^(\\d{1,2}):(\\d{2})/);
+  if (!match) return null;
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  if (hours > 23 || minutes > 59) return null;
+
+  const [year, month, day] = departureDate.split("-").map(Number);
+  const localAsUtc = Date.UTC(year, month - 1, day, hours, minutes);
+  const originOffset = getTimezoneOffsetMinutes(new Date(localAsUtc), originTimezone);
+  const departureUtc = localAsUtc - originOffset * 60_000;
+  const arrivalUtc = departureUtc + durationMinutes * 60_000;
+  const arrivalOffset = getTimezoneOffsetMinutes(new Date(arrivalUtc), destinationTimezone);
+  const arrivalLocal = new Date(arrivalUtc + arrivalOffset * 60_000);
+  const yyyy = arrivalLocal.getUTCFullYear();
+  const mm = String(arrivalLocal.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(arrivalLocal.getUTCDate()).padStart(2, "0");
+  const hh = String(arrivalLocal.getUTCHours()).padStart(2, "0");
+  const min = String(arrivalLocal.getUTCMinutes()).padStart(2, "0");
+  return { date: yyyy + "-" + mm + "-" + dd, time: hh + ":" + min };
+}
+
+function getTimezoneOffsetMinutes(date: Date, timezone: string): number {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: timezone,
+    year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23",
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.filter((part) => part.type !== "literal").map((part) => [part.type, part.value]));
+  const asUtc = Date.UTC(Number(values.year), Number(values.month) - 1, Number(values.day), Number(values.hour), Number(values.minute), Number(values.second));
+  return Math.round((asUtc - date.getTime()) / 60_000);
+}
+
 function dateToAirRoutesDay(date: string): string {
   const [year, month, day] = date.split("-").map(Number);
   const weekday = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
   return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][weekday] ?? "";
 }
 
-async function fetchAirRoutesRoute(origin: string, destination: string, date: string, cabin: string) {
+async function fetchAirRoutesRoute(origin: string, destination: string, date: string, cabin: string, originTimezone?: string, destinationTimezone?: string) {
   const response = await fetch(AIR_ROUTES_API + "/" + encodeURIComponent(origin) + "-" + encodeURIComponent(destination));
   if (!response.ok) {
     throw new Error("Air-Routes could not return route information for " + origin + " to " + destination + ".");
   }
-  return normalizeSchedule(await response.json(), date, cabin);
+  return normalizeSchedule(await response.json(), date, cabin, originTimezone, destinationTimezone);
 }
 
 async function fetchSchedules(
@@ -203,9 +249,9 @@ async function fetchSchedules(
   const origin = fromChoice.iata ?? "";
   const destination = toChoice.iata ?? "";
   if (!origin || !destination) throw new Error("Select airports with valid IATA codes.");
-  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin);
+  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, fromChoice.timezone, toChoice.timezone);
   if (!returnDate) return outbound;
-  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin);
+  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, toChoice.timezone, fromChoice.timezone);
   return [...outbound, ...inbound];
 }
 
