@@ -1,7 +1,8 @@
 import { CallCta } from "@/components/CallCta";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Check, ChevronRight, Globe2, Headset, Route } from "lucide-react";
+import { ArrowRight, Check, ChevronRight, Globe2, Headset, Route, Search } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 const HERO_IMAGE = "/assets/generated/hero-flight.dim_1600x1100.jpg";
 
@@ -28,6 +29,20 @@ export function HeroSection() {
           <p className="mt-6 max-w-xl text-pretty text-base leading-8 text-white/72 sm:text-lg">
             Tell us where you want to go and what matters most. A real travel specialist can help you understand routes, cabins, baggage, and booking details before you decide.
           </p>
+          <div className="mt-8 rounded-3xl border border-white/15 bg-white/[0.08] p-4 backdrop-blur-xl sm:p-5">
+            <div className="flex items-center gap-2 text-sm font-semibold text-white">
+              <Search className="size-4 text-sky-200" />
+              Search airports & routes
+            </div>
+            <p className="mt-1 text-xs leading-5 text-white/60">Free route reference data. No fares are shown.</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white/55">From — city or airport</div>
+              <div className="rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white/55">To — city or airport</div>
+            </div>
+            <Link to="/flight-search" className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-primary hover:bg-white/90">
+              Search flights <ArrowRight className="size-4" />
+            </Link>
+          </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <CallCta size="lg" ocid="home.hero_call_button" className="shadow-[0_18px_40px_-18px_rgba(0,0,0,0.75)]" />
             <Link to="/contact" data-ocid="home.hero_trip_request_link" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-6 text-base font-semibold text-white backdrop-blur transition-smooth hover:bg-white hover:text-primary">
