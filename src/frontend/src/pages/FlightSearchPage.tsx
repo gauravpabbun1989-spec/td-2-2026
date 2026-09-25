@@ -93,10 +93,10 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     .filter((a) => [a.iata, a.name, a.city, a.country].join(" ").toLowerCase().includes(q))
     .slice(0, 10);
   const cityMap = new Map<string, Airport>();
-  matched.forEach((airport) => {
+  for (const airport of matched) {
     const key = airport.city.toLowerCase() + "|" + airport.country.toLowerCase();
     if (!cityMap.has(key)) cityMap.set(key, airport);
-  });
+  }
   const cities = Array.from(cityMap.values()).slice(0, 3).map((a) => ({
     type: "city" as const,
     city: a.city,
