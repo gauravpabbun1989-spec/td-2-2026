@@ -142,6 +142,7 @@ const FAQS = [
 const RELATED = [
   { label: "United Airlines assistance", to: "/united-airlines" },
   { label: "American Airlines assistance", to: "/american-airlines" },
+  { label: "International flight booking assistance", to: "/international-flight-booking" },
   { label: "General flight booking", to: "/flight-booking" },
 ] as const;
 
