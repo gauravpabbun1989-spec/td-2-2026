@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 
 const AIRPORTS_URL =
   "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat";
-const SCHEDULE_API_URL = import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL ?? "";
+const SCHEDULE_API_URL = import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL ?? "/api/flight-schedules";
 
 type Airport = { id: string; name: string; city: string; country: string; iata: string };
 type LocationChoice = {
@@ -177,7 +177,9 @@ async function fetchSchedules(
   if (!response.ok) {
     throw new Error("The flight schedule service could not return schedules for this search.");
   }
-  return normalizeSchedule(await response.json());
+  const schedules = normalizeSchedule(await response.json());
+  const requestedDates = new Set([date, ...(returnDate ? [returnDate] : [])]);
+  return schedules.filter((flight) => flight.departure.date && requestedDates.has(flight.departure.date));
 }
 
 export function FlightSearchPage() {
@@ -508,7 +510,7 @@ export function FlightSearchPage() {
 
       <Section tone="muted" ocid="flight_search.disclosure">
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Schedule information is displayed from the configured flight-schedule provider. Current fare, availability, baggage, and booking conditions are confirmed before booking.{" "}
+          Date-specific schedule information is displayed from the configured flight-data provider. Results are filtered to the exact selected travel date(s). Current fare, availability, baggage, and booking conditions are confirmed before booking.{" "}
           {SITE.disclosure}
         </p>
       </Section>
