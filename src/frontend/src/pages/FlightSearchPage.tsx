@@ -138,8 +138,22 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
   route.airlines.forEach((airline, airlineIndex) => {
     (airline.schedule ?? []).forEach((entry, dayIndex) => {
       if (entry.day !== requestedDay) return;
-      const times = Array.isArray(entry.times) && entry.times.length ? entry.times : [""];
+      const times = Array.isArray(entry.times) ? entry.times : [];
       times.forEach((time, timeIndex) => {
+        const verified = airline.airline_code
+          ? findVerifiedFlight({
+              airlineCode: String(airline.airline_code),
+              origin: String(origin ?? ""),
+              destination: String(destination ?? ""),
+              departureTime: String(time),
+              date: requestedDate,
+            })
+          : null;
+        if (!verified) return;
+
+        const arrivalDate = new Date(requestedDate + "T00:00:00Z");
+        arrivalDate.setUTCDate(arrivalDate.getUTCDate() + verified.arrivalDateOffset);
+
         results.push({
           id: [route.route_id, airline.airline_code, requestedDay, time, airlineIndex, dayIndex, timeIndex].join("-"),
           airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
@@ -147,15 +161,7 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
           logoUrl: airline.airline_code
             ? "https://images.kiwi.com/airlines/64/" + encodeURIComponent(String(airline.airline_code).toUpperCase()) + ".png"
             : undefined,
-          flightNumber: airline.airline_code
-            ? findVerifiedFlight({
-                airlineCode: String(airline.airline_code),
-                origin: String(origin ?? ""),
-                destination: String(destination ?? ""),
-                departureTime: String(time),
-                date: requestedDate,
-              })?.flightNumber ?? ""
-            : "",
+          flightNumber: verified.flightNumber,
           departure: {
             iata: String(origin ?? ""),
             city: "",
@@ -219,7 +225,7 @@ async function fetchAirRoutesRoute(origin: string, destination: string, date: st
   if (!response.ok) {
     throw new Error("Air-Routes could not return route information for " + origin + " to " + destination + ".");
   }
-  return normalizeSchedule(await response.json(), date, cabin).filter((result) => result.flightNumber);
+  return normalizeSchedule(await response.json(), date, cabin);
 }
 
 async function fetchSchedules(
