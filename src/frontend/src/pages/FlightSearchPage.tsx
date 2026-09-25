@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 
 const AIRPORTS_URL =
   "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat";
-const SCHEDULE_API_URL = import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL ?? "/api/flight-schedules";
+const SCHEDULE_API_URL = "/api/flight-schedules";
 
 type Airport = { id: string; name: string; city: string; country: string; iata: string };
 type LocationChoice = {
@@ -145,7 +145,7 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
         status: f.status ? String(f.status) : undefined,
       };
     })
-    .filter((f) => f.departure.iata && f.arrival.iata && f.departure.time && f.arrival.time);
+    .filter((f) => f.departure.iata && f.arrival.iata && f.departure.time);
 }
 
 async function fetchSchedules(
