@@ -66,6 +66,7 @@ export type NavItem = {
 export const NAV_ITEMS: readonly NavItem[] = [
   { label: "Home", to: "/" },
   { label: "Flight Booking", to: "/flight-booking" },
+  { label: "Search Flights", to: "/flight-search" },
   { label: "Book by Phone", to: "/book-a-flight-by-phone" },
   { label: "International", to: "/international-flight-booking" },
   { label: "Last-Minute", to: "/last-minute-flight-booking" },
