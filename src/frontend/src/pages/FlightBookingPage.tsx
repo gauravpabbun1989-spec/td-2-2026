@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 
 const PAGE_PATH = "/flight-booking";
-const PAGE_TITLE = "Flight Booking Assistance by Phone | TicketDepart";
+const PAGE_TITLE = "Flight Booking by Phone | Domestic & International | TicketDepart";
 const PAGE_DESCRIPTION =
   "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
 
@@ -240,11 +240,7 @@ export function FlightBookingPage() {
               Flight booking help for trips a search box cannot finish
             </h1>
             <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              TicketDepart is an independent travel agency. Our specialists help
-              you plan and book domestic, international, multi-city, premium
-              cabin, and group flights — comparing schedules, connections, and
-              fare conditions with you on the phone before anything is
-              confirmed.
+              TicketDepart is an independent travel agency for flight booking by phone. Our specialists help you book domestic and international flights, multi-city itineraries, premium cabins, and group travel — comparing schedules, connections, and fare conditions before anything is confirmed.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
