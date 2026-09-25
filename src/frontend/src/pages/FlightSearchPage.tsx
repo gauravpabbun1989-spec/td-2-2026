@@ -20,6 +20,8 @@ type LocationChoice = {
 type FlightSchedule = {
   id: string;
   airlineName: string;
+  airlineCode?: string;
+  logoUrl?: string;
   flightNumber: string;
   departure: { iata: string; city: string; date?: string; time: string };
   arrival: { iata: string; city: string; date?: string; time: string };
@@ -140,6 +142,10 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
         results.push({
           id: [route.route_id, airline.airline_code, requestedDay, time, airlineIndex, dayIndex, timeIndex].join("-"),
           airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
+          airlineCode: airline.airline_code ? String(airline.airline_code).toUpperCase() : undefined,
+          logoUrl: airline.airline_code
+            ? "https://images.kiwi.com/airlines/64/" + encodeURIComponent(String(airline.airline_code).toUpperCase()) + ".png"
+            : undefined,
           flightNumber: "",
           departure: {
             iata: String(origin ?? ""),
@@ -455,7 +461,7 @@ export function FlightSearchPage() {
           id="flight_search_results_heading"
           eyebrow="Flight schedules"
           title={results.length ? results.length + " scheduled flight" + (results.length === 1 ? "" : "s") : "Scheduled flight times"}
-          description="Schedules show airline, scheduled departure time, flying time, and nonstop/connection information from Air-Routes. Air-Routes does not supply unique flight numbers or fare data."
+          description="Each result shows the operating airline logo and name. Flight numbers are displayed when supplied by the schedule provider; Air-Routes does not currently supply unique flight numbers or fare data."
         />
 
         {results.length > 0 ? (
@@ -465,10 +471,27 @@ export function FlightSearchPage() {
                 <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                      <span className="rounded-full bg-primary/5 px-3 py-1 font-semibold text-primary">
-                        {result.airlineName}
-                      </span>
-                      {result.flightNumber && <span>Flight {result.flightNumber}</span>}
+                      <div className="flex min-w-[112px] flex-col items-center justify-center rounded-xl border border-border bg-background px-4 py-3 text-center">
+                        {result.logoUrl ? (
+                          <img
+                            src={result.logoUrl}
+                            alt={result.airlineName + " logo"}
+                            className="h-12 w-20 object-contain"
+                            loading="lazy"
+                            onError={(event) => {
+                              event.currentTarget.style.display = "none";
+                            }}
+                          />
+                        ) : (
+                          <div className="flex h-12 w-20 items-center justify-center rounded-lg bg-muted text-sm font-bold text-muted-foreground">
+                            {result.airlineCode ?? "AIR"}
+                          </div>
+                        )}
+                        <span className="mt-2 text-xs font-bold text-foreground">{result.airlineName}</span>
+                        <span className="mt-0.5 text-[11px] text-muted-foreground">
+                          {result.flightNumber ? "Flight " + result.flightNumber : "Flight number not supplied"}
+                        </span>
+                      </div>
                       {result.status && <span className="rounded-full border border-border px-3 py-1">{result.status}</span>}
                     </div>
 
@@ -531,7 +554,7 @@ export function FlightSearchPage() {
             <p className="label-board text-accent">Ready to book?</p>
             <h2 className="mt-3 text-3xl font-bold">Call to confirm the schedule</h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              A specialist can confirm the current schedule, fare, taxes, baggage allowance, and booking conditions for your selected trip.
+              A specialist can confirm the current schedule, flight number, fare, taxes, baggage allowance, and booking conditions for your selected trip.
             </p>
           </div>
           <CallCta size="lg" ocid="flight_search.call_button" />
