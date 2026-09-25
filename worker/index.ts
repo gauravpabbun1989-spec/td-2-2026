@@ -4,7 +4,7 @@ function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "access-control-allow-origin": "*" } });
 }
 
-function validDate(value: string) { return /^\\d{4}-\\d{2}-\\d{2}$/.test(value); }
+function validDate(value: string) { return /^\d{4}-\d{2}-\d{2}$/.test(value); }
 function weekday(value: string) { return new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "UTC" }).format(new Date(value + "T00:00:00Z")); }
 function formatDuration(minutes?: number) { if (!minutes || minutes <= 0) return undefined; const hours = Math.floor(minutes / 60); const mins = minutes % 60; return hours ? hours + "h " + mins + "m" : mins + "m"; }
 
