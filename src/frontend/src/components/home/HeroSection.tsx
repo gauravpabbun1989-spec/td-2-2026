@@ -46,7 +46,7 @@ export function HeroSection() {
             <Link to="/flight-search" className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-primary hover:bg-white/90">
               Search flights <ArrowRight className="size-4" />
             </Link>
-            <p className="mt-2 text-right text-[10px] leading-4 text-white/55">*Available on eligible fares. Terms and availability apply.</p>
+            <p className="mt-2 text-right text-[8px] leading-3 text-white/45">*Available on eligible fares. Terms and availability apply.</p>
           </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <CallCta size="lg" ocid="home.hero_call_button" className="shadow-[0_18px_40px_-18px_rgba(0,0,0,0.75)]" />
