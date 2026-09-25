@@ -350,6 +350,14 @@ const adminLeadsRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
+  flightsFromNewYorkRoute,
+  flightsFromLosAngelesRoute,
+  flightsFromChicagoRoute,
+  flightsFromMiamiRoute,
+  flightsFromAtlantaRoute,
+  flightsFromDallasRoute,
+  flightsFromOrlandoRoute,
+  flightsFromSanFranciscoRoute,
   flightBookingRoute,
   internationalFlightBookingRoute,
   lastMinuteFlightBookingRoute,
