@@ -241,17 +241,26 @@ export function FlightSearchPage() {
   return (
     <>
       <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />
-      <Section tone="paper" ocid="flight_search.hero">
-        <p className="label-board text-accent">Free flight reference search</p>
-        <h1 className="mt-4 max-w-4xl text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
-          Search airports, airlines, and routes — then call for the fare
-        </h1>
-        <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Explore free airport, airline, and route reference data. No fare is shown here.
-          Call TicketDepart for current pricing, schedules, and availability.
-        </p>
+      <section
+        className="relative overflow-visible bg-cover bg-center py-16 sm:py-24"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)",
+        }}
+      >
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-5xl text-center text-white">
+            <p className="label-board text-white/90">Free flight reference search</p>
+            <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
+              Search airports, airlines, and routes — then call for the fare
+            </h1>
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/90 sm:text-lg">
+              Explore free airport, airline, and route reference data. No fare is shown here.
+              Call TicketDepart for current pricing, schedules, and availability.
+            </p>
+          </div>
 
-        <div className="mt-10 rounded-2xl border border-border bg-card p-5 shadow-elevated sm:p-7">
+        <div className="mt-10 rounded-2xl border border-white/30 bg-white/95 p-5 shadow-elevated backdrop-blur-sm sm:p-7">
           <div className="grid gap-5 md:grid-cols-2">
             <label className="relative">
               <span className="text-sm font-semibold">From</span>
@@ -305,7 +314,8 @@ export function FlightSearchPage() {
           </div>
           {error && <p role="alert" className="mt-4 rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">{error}</p>}
         </div>
-      </Section>
+        </div>
+      </section>
 
       <Section tone="muted" ocid="flight_search.results" aria-labelledby="flight_search_results_heading">
         <SectionHeading id="flight_search_results_heading" eyebrow="Route results"
