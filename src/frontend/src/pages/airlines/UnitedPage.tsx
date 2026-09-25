@@ -227,8 +227,8 @@ export function UnitedPage() {
               United Airlines reservation support from a real travel specialist
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              TicketDepart specialists help travelers book United Airlines
-              flights every day — from a straightforward domestic round trip to
+              TicketDepart specialists help travelers with United Airlines flight booking
+              every day — from a straightforward domestic round trip to
               a multi-city international routing with partner segments. You
               describe the trip; we handle the search, the fare comparison, and
               the booking.
