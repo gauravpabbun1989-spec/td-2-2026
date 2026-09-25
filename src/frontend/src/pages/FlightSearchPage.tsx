@@ -13,6 +13,7 @@ const ROUTES_URL =
   "https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat";
 
 type Airport = { id: string; name: string; city: string; country: string; iata: string };
+type LocationChoice = { type: "city" | "airport"; city: string; iata?: string; label: string };
 type Airline = { id: string; name: string };
 type Route = {
   airline: string;
@@ -111,19 +112,45 @@ async function loadData() {
   return { airports, airlines, routes };
 }
 
-function matches(airports: Airport[], query: string) {
+function matches(airports: Airport[], query: string): Airport[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
   return airports
     .filter((a) =>
       [a.iata, a.name, a.city, a.country].join(" ").toLowerCase().includes(q),
     )
-    .slice(0, 7);
+    .slice(0, 10);
+}
+
+function choices(airports: Airport[], query: string): LocationChoice[] {
+  const matched = matches(airports, query);
+  if (!query.trim()) return [];
+  const cityMap = new Map<string, Airport>();
+  matched.forEach((airport) => {
+    const key = airport.city.toLowerCase() + "|" + airport.country.toLowerCase();
+    if (!cityMap.has(key)) cityMap.set(key, airport);
+  });
+  const cityChoices: LocationChoice[] = Array.from(cityMap.values())
+    .slice(0, 3)
+    .map((airport) => ({
+      type: "city" as const,
+      city: airport.city,
+      label: airport.city + ", " + airport.country + " — All airports",
+    }));
+  const airportChoices: LocationChoice[] = matched.slice(0, 7).map((airport) => ({
+    type: "airport" as const,
+    city: airport.city,
+    iata: airport.iata,
+    label: airport.city + " — " + airport.name + " (" + airport.iata + ")",
+  }));
+  return [...cityChoices, ...airportChoices];
 }
 
 export function FlightSearchPage() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [fromChoice, setFromChoice] = useState<LocationChoice | null>(null);
+  const [toChoice, setToChoice] = useState<LocationChoice | null>(null);
   const [date, setDate] = useState("");
   const [travelers, setTravelers] = useState("1");
   const [cabin, setCabin] = useState("Economy");
@@ -132,8 +159,8 @@ export function FlightSearchPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const fromMatches = useMemo(() => matches(data?.airports ?? [], from), [data, from]);
-  const toMatches = useMemo(() => matches(data?.airports ?? [], to), [data, to]);
+  const fromMatches = useMemo(() => choices(data?.airports ?? [], from), [data, from]);
+  const toMatches = useMemo(() => choices(data?.airports ?? [], to), [data, to]);
 
   const search = async () => {
     setLoading(true);
@@ -142,21 +169,39 @@ export function FlightSearchPage() {
     try {
       const loaded = data ?? (await loadData());
       if (!data) setData(loaded);
-      const source = matches(loaded.airports, from)[0];
-      const destination = matches(loaded.airports, to)[0];
-      if (!source || !destination) {
-        throw new Error("Choose both departure and destination airports from the suggestions.");
+      if (!fromChoice || !toChoice) {
+        throw new Error("Select a City or Airport from the suggestions for both departure and destination.");
       }
+      const sourceAirports = loaded.airports.filter((airport) =>
+        fromChoice.type === "airport"
+          ? airport.iata === fromChoice.iata
+          : airport.city.toLowerCase() === fromChoice.city.toLowerCase(),
+      );
+      const destinationAirports = loaded.airports.filter((airport) =>
+        toChoice.type === "airport"
+          ? airport.iata === toChoice.iata
+          : airport.city.toLowerCase() === toChoice.city.toLowerCase(),
+      );
+      const sourceCodes = new Set(sourceAirports.map((airport) => airport.iata));
+      const destinationCodes = new Set(destinationAirports.map((airport) => airport.iata));
+      const airportByIata = new Map(loaded.airports.map((airport) => [airport.iata, airport]));
       const airlineNames = new Map(loaded.airlines.map((a) => [a.id, a.name]));
       setResults(
         loaded.routes
-          .filter((r) => r.source === source.iata && r.destination === destination.iata)
-          .map((r) => ({
-            ...r,
-            airlineName: airlineNames.get(r.airlineId) ?? r.airline ?? "Airline not listed",
-            sourceAirport: source,
-            destinationAirport: destination,
-          }))
+          .filter((r) => sourceCodes.has(r.source) && destinationCodes.has(r.destination))
+          .map((r) => {
+            const source = airportByIata.get(r.source);
+            const destination = airportByIata.get(r.destination);
+            return source && destination
+              ? {
+                  ...r,
+                  airlineName: airlineNames.get(r.airlineId) ?? r.airline ?? "Airline not listed",
+                  sourceAirport: source,
+                  destinationAirport: destination,
+                }
+              : null;
+          })
+          .filter((result): result is Result => Boolean(result))
           .slice(0, 40),
       );
     } catch (e) {
@@ -167,20 +212,27 @@ export function FlightSearchPage() {
   };
 
   const suggestionList = (
-    values: Airport[],
-    target: "from" | "to",
+    values: LocationChoice[],
     setValue: (value: string) => void,
+    setChoice: (choice: LocationChoice) => void,
   ) =>
     values.length > 0 ? (
-      <div className="absolute z-20 mt-1 w-full rounded-xl border border-border bg-card p-1 shadow-elevated">
-        {values.map((airport) => (
+      <div className="absolute z-20 mt-1 w-full overflow-hidden rounded-xl border border-border bg-card p-1 shadow-elevated">
+        {values.map((choice, index) => (
           <button
             type="button"
-            key={airport.id}
-            onClick={() => setValue(airport.city + " (" + airport.iata + ")")}
-            className="block w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-muted"
+            key={choice.type + "-" + choice.city + "-" + (choice.iata ?? index)}
+            onClick={() => {
+              setChoice(choice);
+              setValue(choice.type === "city" ? choice.city + ", " + choice.label.split(", ")[1] : choice.city + " (" + choice.iata + ")");
+            }}
+            className="block w-full rounded-lg px-3 py-3 text-left text-sm hover:bg-muted"
           >
-            <strong>{airport.city}</strong> — {airport.name} ({airport.iata})
+            <span className="mr-2 rounded-full border border-border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">
+              {choice.type === "city" ? "City" : "Airport"}
+            </span>
+            <strong>{choice.type === "city" ? choice.label : choice.city}</strong>
+            {choice.type === "airport" && <span className="text-muted-foreground"> — {choice.label.split(" — ")[1]}</span>}
           </button>
         ))}
       </div>
@@ -203,17 +255,17 @@ export function FlightSearchPage() {
           <div className="grid gap-5 md:grid-cols-2">
             <label className="relative">
               <span className="text-sm font-semibold">From</span>
-              <input value={from} onChange={(e) => setFrom(e.target.value)}
+              <input value={from} onChange={(e) => { setFrom(e.target.value); setFromChoice(null); }}
                 placeholder="City or airport code"
                 className="mt-2 h-12 w-full rounded-xl border border-border bg-background px-4 outline-none focus-visible:ring-2 focus-visible:ring-ring" />
-              {suggestionList(fromMatches, "from", setFrom)}
+              {suggestionList(fromMatches, setFrom, setFromChoice)}
             </label>
             <label className="relative">
               <span className="text-sm font-semibold">To</span>
-              <input value={to} onChange={(e) => setTo(e.target.value)}
+              <input value={to} onChange={(e) => { setTo(e.target.value); setToChoice(null); }}
                 placeholder="City or airport code"
                 className="mt-2 h-12 w-full rounded-xl border border-border bg-background px-4 outline-none focus-visible:ring-2 focus-visible:ring-ring" />
-              {suggestionList(toMatches, "to", setTo)}
+              {suggestionList(toMatches, setTo, setToChoice)}
             </label>
             <label>
               <span className="text-sm font-semibold">Departure date</span>
