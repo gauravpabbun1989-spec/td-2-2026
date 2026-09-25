@@ -156,7 +156,7 @@ export function DeltaPage() {
   return (
     <>
       <Seo
-        title="Delta Airlines Flight Booking Assistance | TicketDepart"
+        title="Delta Airlines Flight Booking and Reservation Assistance | TicketDepart"
         description="Independent travel agency providing Delta Airlines reservation support and flight booking assistance for domestic, international, multi-city, and premium-cabin travel. Call +1 855-544-9001."
         path={PATH}
         image={TERMINAL_IMAGE_URL}
@@ -195,10 +195,7 @@ export function DeltaPage() {
               Delta Airlines reservation support from a real travel specialist
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Whether you are flying a simple domestic round trip or piecing
-              together a multi-city international itinerary, a TicketDepart
-              specialist can search, price, and book Delta Airlines flights with
-              you on the phone — and stay reachable when your plans change.
+              Whether you need Delta Airlines flight booking for a simple domestic round trip or a multi-city international itinerary, a TicketDepart specialist can search, compare, and book Delta Airlines flights with you by phone — including international, premium-cabin, and complex routing options.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
