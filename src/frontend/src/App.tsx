@@ -25,6 +25,16 @@ import {
   LastMinuteFlightBookingPage,
   MultiCityFlightBookingPage,
 } from "@/pages/BookingIntentPages";
+import {
+  FlightsFromNewYorkPage,
+  FlightsFromLosAngelesPage,
+  FlightsFromChicagoPage,
+  FlightsFromMiamiPage,
+  FlightsFromAtlantaPage,
+  FlightsFromDallasPage,
+  FlightsFromOrlandoPage,
+  FlightsFromSanFranciscoPage,
+} from "@/pages/UsGatewayFlightPages";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PrivacyPage } from "@/pages/PrivacyPage";
 import { TermsPage } from "@/pages/TermsPage";
