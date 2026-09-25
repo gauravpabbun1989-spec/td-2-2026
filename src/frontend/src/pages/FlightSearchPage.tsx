@@ -98,7 +98,8 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     type: "city" as const,
     city: a.city,
     country: a.country,
-    label: a.city + ", " + a.country + " — All airports",
+    iata: a.iata,
+    label: a.city + ", " + a.country + " — Primary airport (" + a.iata + ")",
   }));
   const airportChoices = matched.slice(0, 7).map((a) => ({
     type: "airport" as const,
