@@ -228,6 +228,12 @@ const flightsFromOrlandoRoute = createRoute({
   component: FlightsFromOrlandoPage,
 });
 
+const flightsFromSanFranciscoRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-from-san-francisco",
+  component: FlightsFromSanFranciscoPage,
+});
+
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
