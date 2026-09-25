@@ -619,6 +619,42 @@ export function FlightBookingPage() {
         </div>
       </Section>
 
+      <Section
+        tone="paper"
+        ocid="flight_booking.route_intent"
+        aria-labelledby="flight_booking_route_intent_heading"
+      >
+        <SectionHeading
+          id="flight_booking_route_intent_heading"
+          eyebrow="Popular international routes"
+          title="Start with your departure city and destination"
+          description="Route-specific planning can be useful when you already know where you are flying. Discuss dates, cabins, airport choices, and fare conditions by phone."
+        />
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ["New York → London", "/flights-new-york-to-london"],
+            ["New York → Paris", "/flights-new-york-to-paris"],
+            ["New York → Dubai", "/flights-new-york-to-dubai"],
+            ["Los Angeles → Tokyo", "/flights-los-angeles-to-tokyo"],
+            ["Los Angeles → London", "/flights-los-angeles-to-london"],
+            ["Miami → Cancun", "/flights-miami-to-cancun"],
+            ["Chicago → London", "/flights-chicago-to-london"],
+            ["San Francisco → Tokyo", "/flights-san-francisco-to-tokyo"],
+          ].map(([label, to]) => (
+            <Link
+              key={to}
+              to={to}
+              className="rounded-xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:shadow-elevated"
+            >
+              <h3 className="font-display text-base font-semibold">{label}</h3>
+              <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                View route help <ArrowRight aria-hidden="true" className="size-4" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
       <Section tone="navy" ocid="flight_booking.cta">
         <div className="mx-auto max-w-3xl text-center">
           <p className="label-board text-accent">Available 24/7</p>
