@@ -2,7 +2,6 @@ import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
-import { findVerifiedFlight } from "@/data/flight-number-db";
 import { ArrowRight, Clock3, Luggage, Phone, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -23,7 +22,6 @@ type FlightSchedule = {
   airlineName: string;
   airlineCode?: string;
   logoUrl?: string;
-  flightNumber: string;
   departure: { iata: string; city: string; date?: string; time: string };
   arrival: { iata: string; city: string; date?: string; time: string };
   duration?: string;
@@ -140,20 +138,6 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
       if (entry.day !== requestedDay) return;
       const times = Array.isArray(entry.times) ? entry.times : [];
       times.forEach((time, timeIndex) => {
-        const verified = airline.airline_code
-          ? findVerifiedFlight({
-              airlineCode: String(airline.airline_code),
-              origin: String(origin ?? ""),
-              destination: String(destination ?? ""),
-              departureTime: String(time),
-              date: requestedDate,
-            })
-          : null;
-        if (!verified) return;
-
-        const arrivalDate = new Date(requestedDate + "T00:00:00Z");
-        arrivalDate.setUTCDate(arrivalDate.getUTCDate() + verified.arrivalDateOffset);
-
         results.push({
           id: [route.route_id, airline.airline_code, requestedDay, time, airlineIndex, dayIndex, timeIndex].join("-"),
           airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
@@ -161,7 +145,6 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
           logoUrl: airline.airline_code
             ? "https://images.kiwi.com/airlines/64/" + encodeURIComponent(String(airline.airline_code).toUpperCase()) + ".png"
             : undefined,
-          flightNumber: verified.flightNumber,
           departure: {
             iata: String(origin ?? ""),
             city: "",
@@ -171,8 +154,8 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
           arrival: {
             iata: String(destination ?? ""),
             city: "",
-            date: arrivalDate.toISOString().slice(0, 10),
-            time: verified.arrivalTime,
+            date: requestedDate,
+            time: "Time not supplied",
           },
           duration,
           stops: 0,
@@ -469,7 +452,7 @@ export function FlightSearchPage() {
           id="flight_search_results_heading"
           eyebrow="Flight schedules"
           title={results.length ? results.length + " scheduled flight" + (results.length === 1 ? "" : "s") : "Scheduled flight times"}
-          description="Each result is a compact flight card with the airline logo, verified flight number, exact departure and arrival details, and a phone CTA."
+          description="Each result is a compact flight card with the airline logo, airline name, schedule times when supplied, and a phone CTA."
         />
 
         {results.length > 0 ? (
@@ -571,7 +554,7 @@ export function FlightSearchPage() {
 
       <Section tone="muted" ocid="flight_search.disclosure">
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Date-specific schedule information is displayed from the configured flight-data provider. Results are filtered to the exact selected travel date(s). Current fare, availability, baggage, and booking conditions are confirmed before booking.{" "}
+          Schedule information is displayed from the configured flight-data provider and filtered to the selected travel date(s). Air-Routes provides route operating days and scheduled times, but it does not provide live flight-status data. Current fare, availability, baggage, and booking conditions are confirmed by phone before booking.{" "}
           {SITE.disclosure}
         </p>
       </Section>
