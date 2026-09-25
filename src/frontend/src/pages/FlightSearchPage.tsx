@@ -15,6 +15,7 @@ type LocationChoice = {
   city: string;
   country: string;
   iata?: string;
+  timezone?: string;
   label: string;
   timezone?: string;
 };
@@ -81,6 +82,7 @@ async function loadAirports(): Promise<Airport[]> {
       city: r[2] ?? "",
       country: r[3] ?? "",
       iata: r[4] === "\\N" ? "" : r[4] ?? "",
+      timezone: r[11] === "\\N" ? "" : r[11] ?? "",
       timezone: r[11] === "\\N" ? undefined : r[11] || undefined,
     }))
     .filter((a) => a.iata);
@@ -102,6 +104,7 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     city: a.city,
     country: a.country,
     iata: a.iata,
+    timezone: a.timezone,
     label: a.city + ", " + a.country + " — Primary airport (" + a.iata + ")",
     timezone: a.timezone,
   }));
@@ -110,6 +113,7 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     city: a.city,
     country: a.country,
     iata: a.iata,
+    timezone: a.timezone,
     label: a.city + " — " + a.name + " (" + a.iata + ")",
     timezone: a.timezone,
   }));
@@ -161,7 +165,7 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
             iata: String(destination ?? ""),
             city: "",
             date: arrival?.date ?? requestedDate,
-            time: arrival?.time ?? "Time not supplied",
+            time: arrival?.time ?? (durationMinutes !== undefined ? "Estimated arrival" : "Arrival time unavailable"),
           },
           duration,
           stops: 0,
@@ -498,7 +502,7 @@ export function FlightSearchPage() {
           id="flight_search_results_heading"
           eyebrow="Flight schedules"
           title={results.length ? results.length + " scheduled flight" + (results.length === 1 ? "" : "s") : "Scheduled flight times"}
-          description="Each result is a compact flight card with the airline logo, airline name, schedule times when supplied, and a phone CTA."
+          description="Each result is a compact flight card with the airline logo, airline name, scheduled departure, estimated arrival time, and a phone CTA."
         />
 
         {results.length > 0 ? (
@@ -588,7 +592,7 @@ export function FlightSearchPage() {
             <p className="label-board text-accent">Ready to book?</p>
             <h2 className="mt-3 text-3xl font-bold">Call for Prices / Confirm / Book the schedule</h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              A specialist can confirm the current schedule, flight number, fare, taxes, baggage allowance, and booking conditions for your selected trip.
+              A specialist can confirm the current schedule, fare, taxes, baggage allowance, and booking conditions for your selected trip.
             </p>
           </div>
           <CallCta size="lg" ocid="flight_search.call_button" />
@@ -597,7 +601,7 @@ export function FlightSearchPage() {
 
       <Section tone="muted" ocid="flight_search.disclosure">
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Schedule information is displayed from the configured flight-data provider and filtered to the selected travel date(s). Air-Routes provides route operating days and scheduled times, but it does not provide live flight-status data. Current fare, availability, baggage, and booking conditions are confirmed by phone before booking.{" "}
+          Schedule information is displayed from Air-Routes and filtered to the selected travel date(s). Departure times are provider-supplied schedules; arrival time is calculated from the published flying time and airport time zones, so it is an estimate rather than live flight status. Current fare, availability, baggage, and booking conditions are confirmed by phone before booking.{" "}
           {SITE.disclosure}
         </p>
       </Section>
