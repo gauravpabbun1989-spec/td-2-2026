@@ -1,5 +1,6 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
+import { findVerifiedFlight } from "@/data/flight-number-db";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
 import { ArrowRight, Clock3, Luggage, Phone, Search } from "lucide-react";
@@ -35,7 +36,7 @@ type FlightSchedule = {
 const PAGE_PATH = "/flight-search";
 const PAGE_TITLE = "Flight Schedule Search | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Search free Air-Routes scheduled route information by city or airport and travel date, then call TicketDepart to confirm booking details.";
+  "Search scheduled route information by city or airport and travel date, then call TicketDepart for prices, confirmation, and booking.";
 
 function parseDat(text: string): string[][] {
   const rows: string[][] = [];
@@ -113,7 +114,7 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
   return [...cities, ...airportChoices];
 }
 
-function normalizeSchedule(payload: unknown): FlightSchedule[] {
+function normalizeSchedule(payload: unknown, requestedDate: string, requestedCabin: string): FlightSchedule[] {
   const route = payload as {
     route_id?: string;
     from?: string;
@@ -130,7 +131,7 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
   if (!route || !Array.isArray(route.airlines)) return [];
 
   const [origin, destination] = String(route.route_id ?? "").split("-");
-  const requestedDay = currentRequestedDay;
+  const requestedDay = dateToAirRoutesDay(requestedDate);
   const duration = Number.isFinite(route.flying_min) ? formatDuration(Number(route.flying_min)) : undefined;
   const results: FlightSchedule[] = [];
 
@@ -139,18 +140,29 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
       if (entry.day !== requestedDay) return;
       const times = Array.isArray(entry.times) && entry.times.length ? entry.times : [""];
       times.forEach((time, timeIndex) => {
+        const verified = airline.airline_code && time
+          ? findVerifiedFlight({
+              airlineCode: String(airline.airline_code),
+              origin: String(origin ?? ""),
+              destination: String(destination ?? ""),
+              departureTime: String(time),
+              date: requestedDate,
+            })
+          : null;
+        if (!verified) return;
+
         results.push({
-          id: [route.route_id, airline.airline_code, requestedDay, time, airlineIndex, dayIndex, timeIndex].join("-"),
+          id: [route.route_id, airline.airline_code, requestedDay, time, verified.flightNumber, airlineIndex, dayIndex, timeIndex].join("-"),
           airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
           airlineCode: airline.airline_code ? String(airline.airline_code).toUpperCase() : undefined,
           logoUrl: airline.airline_code
             ? "https://images.kiwi.com/airlines/64/" + encodeURIComponent(String(airline.airline_code).toUpperCase()) + ".png"
             : undefined,
-          flightNumber: "",
+          flightNumber: verified.flightNumber,
           departure: {
             iata: String(origin ?? ""),
             city: "",
-            date: currentRequestedDate,
+            date: requestedDate,
             time: String(time || "Time not supplied"),
           },
           arrival: {
@@ -161,7 +173,7 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
           },
           duration,
           stops: 0,
-          cabin: currentRequestedCabin,
+          cabin: requestedCabin,
           baggage: "Allowance varies by fare",
           status: String(route.status ?? "Scheduled"),
         });
@@ -171,9 +183,11 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
   return results;
 }
 
-let currentRequestedDay = "";
-let currentRequestedDate = "";
-let currentRequestedCabin = "Economy";
+function addDaysToIsoDate(date: string, offset: number): string {
+  const parsed = new Date(date + "T00:00:00Z");
+  parsed.setUTCDate(parsed.getUTCDate() + offset);
+  return parsed.toISOString().slice(0, 10);
+}
 
 function formatDuration(minutes: number): string {
   const hours = Math.floor(minutes / 60);
@@ -188,14 +202,11 @@ function dateToAirRoutesDay(date: string): string {
 }
 
 async function fetchAirRoutesRoute(origin: string, destination: string, date: string, cabin: string) {
-  currentRequestedDay = dateToAirRoutesDay(date);
-  currentRequestedDate = date;
-  currentRequestedCabin = cabin;
   const response = await fetch(AIR_ROUTES_API + "/" + encodeURIComponent(origin) + "-" + encodeURIComponent(destination));
   if (!response.ok) {
     throw new Error("Air-Routes could not return route information for " + origin + " to " + destination + ".");
   }
-  return normalizeSchedule(await response.json());
+  return normalizeSchedule(await response.json(), date, cabin);
 }
 
 async function fetchSchedules(
@@ -328,8 +339,8 @@ export function FlightSearchPage() {
               Find scheduled flights by city or airport
             </h1>
             <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/90 sm:text-lg">
-              Choose your route, dates, travelers, and cabin. Review departure and arrival times, then call
-              TicketDepart to confirm the current schedule and booking conditions.
+              Choose your route, dates, travelers, and cabin. Review verified departure and arrival times, then call
+              TicketDepart for prices, confirmation, and booking.
             </p>
           </div>
 
@@ -461,7 +472,7 @@ export function FlightSearchPage() {
           id="flight_search_results_heading"
           eyebrow="Flight schedules"
           title={results.length ? results.length + " scheduled flight" + (results.length === 1 ? "" : "s") : "Scheduled flight times"}
-          description="Each result shows the operating airline logo and name. Flight numbers are displayed when supplied by the schedule provider; Air-Routes does not currently supply unique flight numbers or fare data."
+          description="Each result is shown only when a verified flight number and arrival time match the selected route, date, airline, and scheduled departure time."
         />
 
         {results.length > 0 ? (
@@ -478,9 +489,6 @@ export function FlightSearchPage() {
                             alt={result.airlineName + " logo"}
                             className="h-12 w-20 object-contain"
                             loading="lazy"
-                            onError={(event) => {
-                              event.currentTarget.style.display = "none";
-                            }}
                           />
                         ) : (
                           <div className="flex h-12 w-20 items-center justify-center rounded-lg bg-muted text-sm font-bold text-muted-foreground">
@@ -489,7 +497,7 @@ export function FlightSearchPage() {
                         )}
                         <span className="mt-2 text-xs font-bold text-foreground">{result.airlineName}</span>
                         <span className="mt-0.5 text-[11px] text-muted-foreground">
-                          {result.flightNumber ? "Flight " + result.flightNumber : "Flight number not supplied"}
+                          {"Flight " + result.flightNumber}
                         </span>
                       </div>
                       {result.status && <span className="rounded-full border border-border px-3 py-1">{result.status}</span>}
@@ -531,7 +539,7 @@ export function FlightSearchPage() {
                       href={SITE.phoneHref}
                       className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 font-semibold text-primary-foreground"
                     >
-                      <Phone aria-hidden="true" className="size-4" /> Call to confirm
+                      <Phone aria-hidden="true" className="size-4" /> Call for Prices / Confirm / Book
                     </a>
                     <p className="mt-2 text-center text-[11px] leading-4 text-muted-foreground">
                       *Complimentary extra add-ons may be available with select fares. Availability and eligibility vary.
@@ -554,7 +562,7 @@ export function FlightSearchPage() {
             <p className="label-board text-accent">Ready to book?</p>
             <h2 className="mt-3 text-3xl font-bold">Call to confirm the schedule</h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              A specialist can confirm the current schedule, flight number, fare, taxes, baggage allowance, and booking conditions for your selected trip.
+              A specialist can provide current pricing and confirm the flight number, schedule, baggage allowance, and booking conditions for your selected trip.
             </p>
           </div>
           <CallCta size="lg" ocid="flight_search.call_button" />
@@ -563,7 +571,7 @@ export function FlightSearchPage() {
 
       <Section tone="muted" ocid="flight_search.disclosure">
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Date-specific schedule information is displayed from the configured flight-data provider. Results are filtered to the exact selected travel date(s). Current fare, availability, baggage, and booking conditions are confirmed before booking.{" "}
+          Results are filtered to the selected travel date(s) and displayed only when the local verified flight database contains a matching flight number and arrival time. Air-Routes supplies route operating-day and departure-time information; it does not supply the verified flight number or arrival time. Current fare, availability, baggage, and booking conditions are confirmed before booking.{" "}
           {SITE.disclosure}
         </p>
       </Section>
