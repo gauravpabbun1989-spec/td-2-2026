@@ -2,7 +2,6 @@ import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
-import { findVerifiedFlight } from "@/data/flight-number-db";
 import { ArrowRight, Clock3, Luggage, Phone, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -10,12 +9,13 @@ const AIRPORTS_URL =
   "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat";
 const AIR_ROUTES_API = "https://air-routes.com/api/route";
 
-type Airport = { id: string; name: string; city: string; country: string; iata: string };
+type Airport = { id: string; name: string; city: string; country: string; iata: string; timezone?: string };
 type LocationChoice = {
   type: "city" | "airport";
   city: string;
   country: string;
   iata?: string;
+  timezone?: string;
   label: string;
 };
 type FlightSchedule = {
@@ -23,7 +23,6 @@ type FlightSchedule = {
   airlineName: string;
   airlineCode?: string;
   logoUrl?: string;
-  flightNumber: string;
   departure: { iata: string; city: string; date?: string; time: string };
   arrival: { iata: string; city: string; date?: string; time: string };
   duration?: string;
@@ -82,6 +81,7 @@ async function loadAirports(): Promise<Airport[]> {
       city: r[2] ?? "",
       country: r[3] ?? "",
       iata: r[4] === "\\N" ? "" : r[4] ?? "",
+      timezone: r[11] === "\\N" ? undefined : r[11] || undefined,
     }))
     .filter((a) => a.iata);
 }
@@ -93,15 +93,16 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     .filter((a) => [a.iata, a.name, a.city, a.country].join(" ").toLowerCase().includes(q))
     .slice(0, 10);
   const cityMap = new Map<string, Airport>();
-  matched.forEach((airport) => {
+  for (const airport of matched) {
     const key = airport.city.toLowerCase() + "|" + airport.country.toLowerCase();
     if (!cityMap.has(key)) cityMap.set(key, airport);
-  });
+  }
   const cities = Array.from(cityMap.values()).slice(0, 3).map((a) => ({
     type: "city" as const,
     city: a.city,
     country: a.country,
     iata: a.iata,
+    timezone: a.timezone,
     label: a.city + ", " + a.country + " — Primary airport (" + a.iata + ")",
   }));
   const airportChoices = matched.slice(0, 7).map((a) => ({
@@ -109,12 +110,13 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     city: a.city,
     country: a.country,
     iata: a.iata,
+    timezone: a.timezone,
     label: a.city + " — " + a.name + " (" + a.iata + ")",
   }));
   return [...cities, ...airportChoices];
 }
 
-function normalizeSchedule(payload: unknown, requestedDate: string, requestedCabin: string): FlightSchedule[] {
+function normalizeSchedule(payload: unknown, requestedDate: string, requestedCabin: string, originTimezone?: string, destinationTimezone?: string): FlightSchedule[] {
   const route = payload as {
     route_id?: string;
     from?: string;
@@ -132,7 +134,8 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
 
   const [origin, destination] = String(route.route_id ?? "").split("-");
   const requestedDay = dateToAirRoutesDay(requestedDate);
-  const duration = Number.isFinite(route.flying_min) ? formatDuration(Number(route.flying_min)) : undefined;
+  const durationMinutes = Number.isFinite(route.flying_min) ? Number(route.flying_min) : undefined;
+  const duration = durationMinutes !== undefined ? formatDuration(durationMinutes) : undefined;
   const results: FlightSchedule[] = [];
 
   route.airlines.forEach((airline, airlineIndex) => {
@@ -140,20 +143,7 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
       if (entry.day !== requestedDay) return;
       const times = Array.isArray(entry.times) ? entry.times : [];
       times.forEach((time, timeIndex) => {
-        const verified = airline.airline_code
-          ? findVerifiedFlight({
-              airlineCode: String(airline.airline_code),
-              origin: String(origin ?? ""),
-              destination: String(destination ?? ""),
-              departureTime: String(time),
-              date: requestedDate,
-            })
-          : null;
-        if (!verified) return;
-
-        const arrivalDate = new Date(requestedDate + "T00:00:00Z");
-        arrivalDate.setUTCDate(arrivalDate.getUTCDate() + verified.arrivalDateOffset);
-
+        const arrival = calculateArrival(String(time), requestedDate, durationMinutes, originTimezone, destinationTimezone);
         results.push({
           id: [route.route_id, airline.airline_code, requestedDay, time, airlineIndex, dayIndex, timeIndex].join("-"),
           airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
@@ -161,7 +151,6 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
           logoUrl: airline.airline_code
             ? "https://images.kiwi.com/airlines/64/" + encodeURIComponent(String(airline.airline_code).toUpperCase()) + ".png"
             : undefined,
-          flightNumber: verified.flightNumber,
           departure: {
             iata: String(origin ?? ""),
             city: "",
@@ -171,8 +160,8 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
           arrival: {
             iata: String(destination ?? ""),
             city: "",
-            date: arrivalDate.toISOString().slice(0, 10),
-            time: verified.arrivalTime,
+            date: arrival?.date ?? requestedDate,
+            time: arrival?.time ?? (durationMinutes !== undefined ? "Estimated arrival" : "Arrival time unavailable"),
           },
           duration,
           stops: 0,
@@ -192,18 +181,58 @@ function formatDuration(minutes: number): string {
   return mins ? hours + "h " + mins + "m" : hours + "h";
 }
 
+function calculateArrival(
+  departureTime: string,
+  departureDate: string,
+  durationMinutes?: number,
+  originTimezone?: string,
+  destinationTimezone?: string,
+): { date: string; time: string } | null {
+  if (durationMinutes === undefined || !originTimezone || !destinationTimezone) return null;
+  const match = departureTime.match(/^(\\d{1,2}):(\\d{2})/);
+  if (!match) return null;
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  if (hours > 23 || minutes > 59) return null;
+
+  const [year, month, day] = departureDate.split("-").map(Number);
+  const localAsUtc = Date.UTC(year, month - 1, day, hours, minutes);
+  const originOffset = getTimezoneOffsetMinutes(new Date(localAsUtc), originTimezone);
+  const departureUtc = localAsUtc - originOffset * 60_000;
+  const arrivalUtc = departureUtc + durationMinutes * 60_000;
+  const arrivalOffset = getTimezoneOffsetMinutes(new Date(arrivalUtc), destinationTimezone);
+  const arrivalLocal = new Date(arrivalUtc + arrivalOffset * 60_000);
+  const yyyy = arrivalLocal.getUTCFullYear();
+  const mm = String(arrivalLocal.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(arrivalLocal.getUTCDate()).padStart(2, "0");
+  const hh = String(arrivalLocal.getUTCHours()).padStart(2, "0");
+  const min = String(arrivalLocal.getUTCMinutes()).padStart(2, "0");
+  return { date: yyyy + "-" + mm + "-" + dd, time: hh + ":" + min };
+}
+
+function getTimezoneOffsetMinutes(date: Date, timezone: string): number {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: timezone,
+    year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23",
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.filter((part) => part.type !== "literal").map((part) => [part.type, part.value]));
+  const asUtc = Date.UTC(Number(values.year), Number(values.month) - 1, Number(values.day), Number(values.hour), Number(values.minute), Number(values.second));
+  return Math.round((asUtc - date.getTime()) / 60_000);
+}
+
 function dateToAirRoutesDay(date: string): string {
   const [year, month, day] = date.split("-").map(Number);
   const weekday = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
   return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][weekday] ?? "";
 }
 
-async function fetchAirRoutesRoute(origin: string, destination: string, date: string, cabin: string) {
+async function fetchAirRoutesRoute(origin: string, destination: string, date: string, cabin: string, originTimezone?: string, destinationTimezone?: string) {
   const response = await fetch(AIR_ROUTES_API + "/" + encodeURIComponent(origin) + "-" + encodeURIComponent(destination));
   if (!response.ok) {
     throw new Error("Air-Routes could not return route information for " + origin + " to " + destination + ".");
   }
-  return normalizeSchedule(await response.json(), date, cabin);
+  return normalizeSchedule(await response.json(), date, cabin, originTimezone, destinationTimezone);
 }
 
 async function fetchSchedules(
@@ -220,9 +249,9 @@ async function fetchSchedules(
   const origin = fromChoice.iata ?? "";
   const destination = toChoice.iata ?? "";
   if (!origin || !destination) throw new Error("Select airports with valid IATA codes.");
-  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin);
+  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, fromChoice.timezone, toChoice.timezone);
   if (!returnDate) return outbound;
-  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin);
+  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, toChoice.timezone, fromChoice.timezone);
   return [...outbound, ...inbound];
 }
 
@@ -469,7 +498,7 @@ export function FlightSearchPage() {
           id="flight_search_results_heading"
           eyebrow="Flight schedules"
           title={results.length ? results.length + " scheduled flight" + (results.length === 1 ? "" : "s") : "Scheduled flight times"}
-          description="Each result is a compact flight card with the airline logo, verified flight number, exact departure and arrival details, and a phone CTA."
+          description="Each result is a compact flight card with the airline logo, airline name, scheduled departure, estimated arrival time, and a phone CTA."
         />
 
         {results.length > 0 ? (
@@ -496,9 +525,6 @@ export function FlightSearchPage() {
                           </div>
                         )}
                         <span className="mt-2 text-xs font-bold text-foreground">{result.airlineName}</span>
-                        <span className="mt-0.5 text-[11px] text-muted-foreground">
-                          {"Flight " + result.flightNumber}
-                        </span>
                       </div>
                       {result.status && <span className="rounded-full border border-border px-3 py-1">{result.status}</span>}
                     </div>
@@ -562,7 +588,7 @@ export function FlightSearchPage() {
             <p className="label-board text-accent">Ready to book?</p>
             <h2 className="mt-3 text-3xl font-bold">Call for Prices / Confirm / Book the schedule</h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              A specialist can confirm the current schedule, flight number, fare, taxes, baggage allowance, and booking conditions for your selected trip.
+              A specialist can confirm the current schedule, fare, taxes, baggage allowance, and booking conditions for your selected trip.
             </p>
           </div>
           <CallCta size="lg" ocid="flight_search.call_button" />
@@ -571,7 +597,7 @@ export function FlightSearchPage() {
 
       <Section tone="muted" ocid="flight_search.disclosure">
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Date-specific schedule information is displayed from the configured flight-data provider. Results are filtered to the exact selected travel date(s). Current fare, availability, baggage, and booking conditions are confirmed before booking.{" "}
+          Schedule information is displayed from Air-Routes and filtered to the selected travel date(s). Departure times are provider-supplied schedules; arrival time is calculated from the published flying time and airport time zones, so it is an estimate rather than live flight status. Current fare, availability, baggage, and booking conditions are confirmed by phone before booking.{" "}
           {SITE.disclosure}
         </p>
       </Section>
