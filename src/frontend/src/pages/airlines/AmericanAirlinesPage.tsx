@@ -177,7 +177,7 @@ export function AmericanAirlinesPage() {
               American Airlines reservation support from a real travel specialist
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              From a single domestic round trip to a multi-city international
+              From American Airlines flight booking for a simple domestic trip to a multi-city international
               routing, a TicketDepart specialist can search, compare, and book
               American Airlines flights for you — and stay reachable when your
               plans change.
