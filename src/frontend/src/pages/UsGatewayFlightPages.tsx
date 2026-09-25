@@ -238,7 +238,7 @@ function GatewayFlightPage({ page }: { page: GatewayPage }) {
         structuredData={[
           breadcrumbSchema([
             { name: "Home", path: "/" },
-            { name: page.heading ?? page.title, path: page.path },
+            { name: `Flights from ${page.city}`, path: page.path },
           ]),
           webPageSchema({
             title: page.title,
