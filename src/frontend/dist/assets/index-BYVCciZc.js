@@ -33172,7 +33172,7 @@ const SITE = {
   name: "TicketDepart",
   legalName: "TicketDepart Travel",
   tagline: "Independent travel agency",
-  description: "TicketDepart is an independent U.S. travel agency helping travelers plan and book domestic and international flights with a real specialist on the phone.",
+  description: "TicketDepart is an independent U.S. travel agency helping travelers in the United States, Canada, Mexico, and the UK plan and book domestic and international flights with a real specialist on the phone.",
   phoneDisplay: "+1 855-544-9001",
   phoneHref: "tel:+18555449001",
   email: "support@ticketdestinations.com",
@@ -33193,6 +33193,7 @@ const AREA_SERVED = [
   "United States",
   "Canada",
   "Mexico",
+  "United Kingdom",
   "Caribbean",
   "Europe",
   "Asia"
@@ -33213,10 +33214,26 @@ const OPENING_HOURS = {
 const NAV_ITEMS = [
   { label: "Home", to: "/" },
   { label: "Flight Booking", to: "/flight-booking" },
-  { label: "Delta Airlines", to: "/delta-airlines" },
-  { label: "United Airlines", to: "/united-airlines" },
-  { label: "American Airlines", to: "/american-airlines" },
+  { label: "Book by Phone", to: "/book-a-flight-by-phone" },
+  { label: "International", to: "/international-flight-booking" },
+  { label: "Last-Minute", to: "/last-minute-flight-booking" },
   { label: "Contact", to: "/contact" }
+];
+const AIRLINE_ITEMS = [
+  { label: "Delta", to: "/delta-airlines" },
+  { label: "United", to: "/united-airlines" },
+  { label: "American", to: "/american-airlines" },
+  { label: "Southwest", to: "/southwest-airlines" },
+  { label: "JetBlue", to: "/jetblue-airways" },
+  { label: "Alaska", to: "/alaska-airlines" },
+  { label: "British Airways", to: "/british-airways" },
+  { label: "Lufthansa", to: "/lufthansa" },
+  { label: "Air Canada", to: "/air-canada" },
+  { label: "SWISS", to: "/swiss-air" },
+  { label: "Qatar Airways", to: "/qatar-airways" },
+  { label: "Emirates", to: "/emirates" },
+  { label: "LOT Polish Airlines", to: "/lot-polish-airlines" },
+  { label: "Norse Atlantic Airways", to: "/norse-atlantic-airways" }
 ];
 const LEGAL_ITEMS = [
   { label: "Privacy Policy", to: "/privacy" },
@@ -33338,7 +33355,7 @@ const createLucideIcon = (iconName, iconNode) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$D = [
+const __iconNode$F = [
   ["path", { d: "M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3", key: "irtipd" }],
   [
     "path",
@@ -33350,7 +33367,29 @@ const __iconNode$D = [
   ["path", { d: "M5 18v2", key: "ppbyun" }],
   ["path", { d: "M19 18v2", key: "gy7782" }]
 ];
-const Armchair = createLucideIcon("armchair", __iconNode$D);
+const Armchair = createLucideIcon("armchair", __iconNode$F);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$E = [
+  ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
+  ["path", { d: "M19 12H5", key: "x3x0zl" }]
+];
+const ArrowLeft = createLucideIcon("arrow-left", __iconNode$E);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$D = [
+  ["path", { d: "M5 12h14", key: "1ays0h" }],
+  ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
+];
+const ArrowRight = createLucideIcon("arrow-right", __iconNode$D);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33358,10 +33397,10 @@ const Armchair = createLucideIcon("armchair", __iconNode$D);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$C = [
-  ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
-  ["path", { d: "M19 12H5", key: "x3x0zl" }]
+  ["path", { d: "M7 7h10v10", key: "1tivn9" }],
+  ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowLeft = createLucideIcon("arrow-left", __iconNode$C);
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$C);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33369,17 +33408,6 @@ const ArrowLeft = createLucideIcon("arrow-left", __iconNode$C);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$B = [
-  ["path", { d: "M5 12h14", key: "1ays0h" }],
-  ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
-];
-const ArrowRight = createLucideIcon("arrow-right", __iconNode$B);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$A = [
   [
     "path",
     {
@@ -33389,7 +33417,20 @@ const __iconNode$A = [
   ],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const BadgeCheck = createLucideIcon("badge-check", __iconNode$A);
+const BadgeCheck = createLucideIcon("badge-check", __iconNode$B);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$A = [
+  ["path", { d: "M12 12h.01", key: "1mp3jc" }],
+  ["path", { d: "M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2", key: "1ksdt3" }],
+  ["path", { d: "M22 13a18.15 18.15 0 0 1-20 0", key: "12hx5q" }],
+  ["rect", { width: "20", height: "14", x: "2", y: "6", rx: "2", key: "i6l2r4" }]
+];
+const BriefcaseBusiness = createLucideIcon("briefcase-business", __iconNode$A);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33923,24 +33964,2538 @@ function MobileCallBar() {
     "div",
     {
       "data-ocid": "mobile_call.bar",
-      className: "fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-card/85 sm:hidden",
-      children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "a",
-        {
-          href: SITE.phoneHref,
-          "data-ocid": "mobile_call.button",
-          "aria-label": `${SITE.ctaLabel} at ${SITE.phoneDisplay}`,
-          className: "flex min-h-12 w-full items-center justify-center gap-2.5 rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-subtle transition-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4 shrink-0" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "truncate", children: [
-              SITE.ctaLabel,
-              " · ",
-              SITE.phoneDisplay
-            ] })
-          ]
+      className: "fixed inset-x-0 bottom-0 z-[70] border-t border-white/10 bg-[#071a35]/95 px-4 py-3 text-white shadow-[0_-12px_40px_-20px_rgba(0,0,0,0.5)] backdrop-blur-xl",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto flex w-full max-w-7xl items-center justify-center gap-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hidden min-w-0 sm:block", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold uppercase tracking-[0.16em] text-white/55", children: "Need flight assistance?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-0.5 text-sm font-medium text-white/90", children: "Speak with a reservation specialist." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "a",
+          {
+            href: SITE.phoneHref,
+            "data-ocid": "mobile_call.button",
+            "aria-label": SITE.ctaLabel,
+            className: "flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-accent px-3 text-xs sm:gap-2.5 sm:px-5 sm:text-sm font-bold text-accent-foreground shadow-[0_10px_24px_-12px_rgba(0,0,0,0.65)] transition-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:w-auto sm:min-w-[20rem]",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4 shrink-0" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Call for Flight Assistance" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "whitespace-nowrap", children: SITE.phoneDisplay })
+            ]
+          }
+        )
+      ] })
+    }
+  );
+}
+function r(e) {
+  var t, f2, n = "";
+  if ("string" == typeof e || "number" == typeof e) n += e;
+  else if ("object" == typeof e) if (Array.isArray(e)) {
+    var o = e.length;
+    for (t = 0; t < o; t++) e[t] && (f2 = r(e[t])) && (n && (n += " "), n += f2);
+  } else for (f2 in e) e[f2] && (n && (n += " "), n += f2);
+  return n;
+}
+function clsx() {
+  for (var e, t, f2 = 0, n = "", o = arguments.length; f2 < o; f2++) (e = arguments[f2]) && (t = r(e)) && (n && (n += " "), n += t);
+  return n;
+}
+const CLASS_PART_SEPARATOR = "-";
+const createClassGroupUtils = (config) => {
+  const classMap = createClassMap(config);
+  const {
+    conflictingClassGroups,
+    conflictingClassGroupModifiers
+  } = config;
+  const getClassGroupId = (className) => {
+    const classParts = className.split(CLASS_PART_SEPARATOR);
+    if (classParts[0] === "" && classParts.length !== 1) {
+      classParts.shift();
+    }
+    return getGroupRecursive(classParts, classMap) || getGroupIdForArbitraryProperty(className);
+  };
+  const getConflictingClassGroupIds = (classGroupId, hasPostfixModifier) => {
+    const conflicts = conflictingClassGroups[classGroupId] || [];
+    if (hasPostfixModifier && conflictingClassGroupModifiers[classGroupId]) {
+      return [...conflicts, ...conflictingClassGroupModifiers[classGroupId]];
+    }
+    return conflicts;
+  };
+  return {
+    getClassGroupId,
+    getConflictingClassGroupIds
+  };
+};
+const getGroupRecursive = (classParts, classPartObject) => {
+  var _a2;
+  if (classParts.length === 0) {
+    return classPartObject.classGroupId;
+  }
+  const currentClassPart = classParts[0];
+  const nextClassPartObject = classPartObject.nextPart.get(currentClassPart);
+  const classGroupFromNextClassPart = nextClassPartObject ? getGroupRecursive(classParts.slice(1), nextClassPartObject) : void 0;
+  if (classGroupFromNextClassPart) {
+    return classGroupFromNextClassPart;
+  }
+  if (classPartObject.validators.length === 0) {
+    return void 0;
+  }
+  const classRest = classParts.join(CLASS_PART_SEPARATOR);
+  return (_a2 = classPartObject.validators.find(({
+    validator
+  }) => validator(classRest))) == null ? void 0 : _a2.classGroupId;
+};
+const arbitraryPropertyRegex = /^\[(.+)\]$/;
+const getGroupIdForArbitraryProperty = (className) => {
+  if (arbitraryPropertyRegex.test(className)) {
+    const arbitraryPropertyClassName = arbitraryPropertyRegex.exec(className)[1];
+    const property = arbitraryPropertyClassName == null ? void 0 : arbitraryPropertyClassName.substring(0, arbitraryPropertyClassName.indexOf(":"));
+    if (property) {
+      return "arbitrary.." + property;
+    }
+  }
+};
+const createClassMap = (config) => {
+  const {
+    theme,
+    prefix: prefix2
+  } = config;
+  const classMap = {
+    nextPart: /* @__PURE__ */ new Map(),
+    validators: []
+  };
+  const prefixedClassGroupEntries = getPrefixedClassGroupEntries(Object.entries(config.classGroups), prefix2);
+  prefixedClassGroupEntries.forEach(([classGroupId, classGroup]) => {
+    processClassesRecursively(classGroup, classMap, classGroupId, theme);
+  });
+  return classMap;
+};
+const processClassesRecursively = (classGroup, classPartObject, classGroupId, theme) => {
+  classGroup.forEach((classDefinition) => {
+    if (typeof classDefinition === "string") {
+      const classPartObjectToEdit = classDefinition === "" ? classPartObject : getPart(classPartObject, classDefinition);
+      classPartObjectToEdit.classGroupId = classGroupId;
+      return;
+    }
+    if (typeof classDefinition === "function") {
+      if (isThemeGetter(classDefinition)) {
+        processClassesRecursively(classDefinition(theme), classPartObject, classGroupId, theme);
+        return;
+      }
+      classPartObject.validators.push({
+        validator: classDefinition,
+        classGroupId
+      });
+      return;
+    }
+    Object.entries(classDefinition).forEach(([key, classGroup2]) => {
+      processClassesRecursively(classGroup2, getPart(classPartObject, key), classGroupId, theme);
+    });
+  });
+};
+const getPart = (classPartObject, path) => {
+  let currentClassPartObject = classPartObject;
+  path.split(CLASS_PART_SEPARATOR).forEach((pathPart) => {
+    if (!currentClassPartObject.nextPart.has(pathPart)) {
+      currentClassPartObject.nextPart.set(pathPart, {
+        nextPart: /* @__PURE__ */ new Map(),
+        validators: []
+      });
+    }
+    currentClassPartObject = currentClassPartObject.nextPart.get(pathPart);
+  });
+  return currentClassPartObject;
+};
+const isThemeGetter = (func) => func.isThemeGetter;
+const getPrefixedClassGroupEntries = (classGroupEntries, prefix2) => {
+  if (!prefix2) {
+    return classGroupEntries;
+  }
+  return classGroupEntries.map(([classGroupId, classGroup]) => {
+    const prefixedClassGroup = classGroup.map((classDefinition) => {
+      if (typeof classDefinition === "string") {
+        return prefix2 + classDefinition;
+      }
+      if (typeof classDefinition === "object") {
+        return Object.fromEntries(Object.entries(classDefinition).map(([key, value]) => [prefix2 + key, value]));
+      }
+      return classDefinition;
+    });
+    return [classGroupId, prefixedClassGroup];
+  });
+};
+const createLruCache = (maxCacheSize) => {
+  if (maxCacheSize < 1) {
+    return {
+      get: () => void 0,
+      set: () => {
+      }
+    };
+  }
+  let cacheSize = 0;
+  let cache = /* @__PURE__ */ new Map();
+  let previousCache = /* @__PURE__ */ new Map();
+  const update = (key, value) => {
+    cache.set(key, value);
+    cacheSize++;
+    if (cacheSize > maxCacheSize) {
+      cacheSize = 0;
+      previousCache = cache;
+      cache = /* @__PURE__ */ new Map();
+    }
+  };
+  return {
+    get(key) {
+      let value = cache.get(key);
+      if (value !== void 0) {
+        return value;
+      }
+      if ((value = previousCache.get(key)) !== void 0) {
+        update(key, value);
+        return value;
+      }
+    },
+    set(key, value) {
+      if (cache.has(key)) {
+        cache.set(key, value);
+      } else {
+        update(key, value);
+      }
+    }
+  };
+};
+const IMPORTANT_MODIFIER = "!";
+const createParseClassName = (config) => {
+  const {
+    separator,
+    experimentalParseClassName
+  } = config;
+  const isSeparatorSingleCharacter = separator.length === 1;
+  const firstSeparatorCharacter = separator[0];
+  const separatorLength = separator.length;
+  const parseClassName = (className) => {
+    const modifiers = [];
+    let bracketDepth = 0;
+    let modifierStart = 0;
+    let postfixModifierPosition;
+    for (let index2 = 0; index2 < className.length; index2++) {
+      let currentCharacter = className[index2];
+      if (bracketDepth === 0) {
+        if (currentCharacter === firstSeparatorCharacter && (isSeparatorSingleCharacter || className.slice(index2, index2 + separatorLength) === separator)) {
+          modifiers.push(className.slice(modifierStart, index2));
+          modifierStart = index2 + separatorLength;
+          continue;
         }
-      )
+        if (currentCharacter === "/") {
+          postfixModifierPosition = index2;
+          continue;
+        }
+      }
+      if (currentCharacter === "[") {
+        bracketDepth++;
+      } else if (currentCharacter === "]") {
+        bracketDepth--;
+      }
+    }
+    const baseClassNameWithImportantModifier = modifiers.length === 0 ? className : className.substring(modifierStart);
+    const hasImportantModifier = baseClassNameWithImportantModifier.startsWith(IMPORTANT_MODIFIER);
+    const baseClassName = hasImportantModifier ? baseClassNameWithImportantModifier.substring(1) : baseClassNameWithImportantModifier;
+    const maybePostfixModifierPosition = postfixModifierPosition && postfixModifierPosition > modifierStart ? postfixModifierPosition - modifierStart : void 0;
+    return {
+      modifiers,
+      hasImportantModifier,
+      baseClassName,
+      maybePostfixModifierPosition
+    };
+  };
+  if (experimentalParseClassName) {
+    return (className) => experimentalParseClassName({
+      className,
+      parseClassName
+    });
+  }
+  return parseClassName;
+};
+const sortModifiers = (modifiers) => {
+  if (modifiers.length <= 1) {
+    return modifiers;
+  }
+  const sortedModifiers = [];
+  let unsortedModifiers = [];
+  modifiers.forEach((modifier) => {
+    const isArbitraryVariant = modifier[0] === "[";
+    if (isArbitraryVariant) {
+      sortedModifiers.push(...unsortedModifiers.sort(), modifier);
+      unsortedModifiers = [];
+    } else {
+      unsortedModifiers.push(modifier);
+    }
+  });
+  sortedModifiers.push(...unsortedModifiers.sort());
+  return sortedModifiers;
+};
+const createConfigUtils = (config) => ({
+  cache: createLruCache(config.cacheSize),
+  parseClassName: createParseClassName(config),
+  ...createClassGroupUtils(config)
+});
+const SPLIT_CLASSES_REGEX = /\s+/;
+const mergeClassList = (classList, configUtils) => {
+  const {
+    parseClassName,
+    getClassGroupId,
+    getConflictingClassGroupIds
+  } = configUtils;
+  const classGroupsInConflict = [];
+  const classNames = classList.trim().split(SPLIT_CLASSES_REGEX);
+  let result = "";
+  for (let index2 = classNames.length - 1; index2 >= 0; index2 -= 1) {
+    const originalClassName = classNames[index2];
+    const {
+      modifiers,
+      hasImportantModifier,
+      baseClassName,
+      maybePostfixModifierPosition
+    } = parseClassName(originalClassName);
+    let hasPostfixModifier = Boolean(maybePostfixModifierPosition);
+    let classGroupId = getClassGroupId(hasPostfixModifier ? baseClassName.substring(0, maybePostfixModifierPosition) : baseClassName);
+    if (!classGroupId) {
+      if (!hasPostfixModifier) {
+        result = originalClassName + (result.length > 0 ? " " + result : result);
+        continue;
+      }
+      classGroupId = getClassGroupId(baseClassName);
+      if (!classGroupId) {
+        result = originalClassName + (result.length > 0 ? " " + result : result);
+        continue;
+      }
+      hasPostfixModifier = false;
+    }
+    const variantModifier = sortModifiers(modifiers).join(":");
+    const modifierId = hasImportantModifier ? variantModifier + IMPORTANT_MODIFIER : variantModifier;
+    const classId = modifierId + classGroupId;
+    if (classGroupsInConflict.includes(classId)) {
+      continue;
+    }
+    classGroupsInConflict.push(classId);
+    const conflictGroups = getConflictingClassGroupIds(classGroupId, hasPostfixModifier);
+    for (let i = 0; i < conflictGroups.length; ++i) {
+      const group = conflictGroups[i];
+      classGroupsInConflict.push(modifierId + group);
+    }
+    result = originalClassName + (result.length > 0 ? " " + result : result);
+  }
+  return result;
+};
+function twJoin() {
+  let index2 = 0;
+  let argument;
+  let resolvedValue;
+  let string = "";
+  while (index2 < arguments.length) {
+    if (argument = arguments[index2++]) {
+      if (resolvedValue = toValue$1(argument)) {
+        string && (string += " ");
+        string += resolvedValue;
+      }
+    }
+  }
+  return string;
+}
+const toValue$1 = (mix) => {
+  if (typeof mix === "string") {
+    return mix;
+  }
+  let resolvedValue;
+  let string = "";
+  for (let k2 = 0; k2 < mix.length; k2++) {
+    if (mix[k2]) {
+      if (resolvedValue = toValue$1(mix[k2])) {
+        string && (string += " ");
+        string += resolvedValue;
+      }
+    }
+  }
+  return string;
+};
+function createTailwindMerge(createConfigFirst, ...createConfigRest) {
+  let configUtils;
+  let cacheGet;
+  let cacheSet;
+  let functionToCall = initTailwindMerge;
+  function initTailwindMerge(classList) {
+    const config = createConfigRest.reduce((previousConfig, createConfigCurrent) => createConfigCurrent(previousConfig), createConfigFirst());
+    configUtils = createConfigUtils(config);
+    cacheGet = configUtils.cache.get;
+    cacheSet = configUtils.cache.set;
+    functionToCall = tailwindMerge;
+    return tailwindMerge(classList);
+  }
+  function tailwindMerge(classList) {
+    const cachedResult = cacheGet(classList);
+    if (cachedResult) {
+      return cachedResult;
+    }
+    const result = mergeClassList(classList, configUtils);
+    cacheSet(classList, result);
+    return result;
+  }
+  return function callTailwindMerge() {
+    return functionToCall(twJoin.apply(null, arguments));
+  };
+}
+const fromTheme = (key) => {
+  const themeGetter = (theme) => theme[key] || [];
+  themeGetter.isThemeGetter = true;
+  return themeGetter;
+};
+const arbitraryValueRegex = /^\[(?:([a-z-]+):)?(.+)\]$/i;
+const fractionRegex = /^\d+\/\d+$/;
+const stringLengths = /* @__PURE__ */ new Set(["px", "full", "screen"]);
+const tshirtUnitRegex = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/;
+const lengthUnitRegex = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/;
+const colorFunctionRegex = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/;
+const shadowRegex = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/;
+const imageRegex = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/;
+const isLength = (value) => isNumber(value) || stringLengths.has(value) || fractionRegex.test(value);
+const isArbitraryLength = (value) => getIsArbitraryValue(value, "length", isLengthOnly);
+const isNumber = (value) => Boolean(value) && !Number.isNaN(Number(value));
+const isArbitraryNumber = (value) => getIsArbitraryValue(value, "number", isNumber);
+const isInteger = (value) => Boolean(value) && Number.isInteger(Number(value));
+const isPercent = (value) => value.endsWith("%") && isNumber(value.slice(0, -1));
+const isArbitraryValue = (value) => arbitraryValueRegex.test(value);
+const isTshirtSize = (value) => tshirtUnitRegex.test(value);
+const sizeLabels = /* @__PURE__ */ new Set(["length", "size", "percentage"]);
+const isArbitrarySize = (value) => getIsArbitraryValue(value, sizeLabels, isNever);
+const isArbitraryPosition = (value) => getIsArbitraryValue(value, "position", isNever);
+const imageLabels = /* @__PURE__ */ new Set(["image", "url"]);
+const isArbitraryImage = (value) => getIsArbitraryValue(value, imageLabels, isImage);
+const isArbitraryShadow = (value) => getIsArbitraryValue(value, "", isShadow);
+const isAny = () => true;
+const getIsArbitraryValue = (value, label, testValue) => {
+  const result = arbitraryValueRegex.exec(value);
+  if (result) {
+    if (result[1]) {
+      return typeof label === "string" ? result[1] === label : label.has(result[1]);
+    }
+    return testValue(result[2]);
+  }
+  return false;
+};
+const isLengthOnly = (value) => (
+  // `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
+  // For example, `hsl(0 0% 0%)` would be classified as a length without this check.
+  // I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
+  lengthUnitRegex.test(value) && !colorFunctionRegex.test(value)
+);
+const isNever = () => false;
+const isShadow = (value) => shadowRegex.test(value);
+const isImage = (value) => imageRegex.test(value);
+const getDefaultConfig = () => {
+  const colors = fromTheme("colors");
+  const spacing = fromTheme("spacing");
+  const blur = fromTheme("blur");
+  const brightness = fromTheme("brightness");
+  const borderColor = fromTheme("borderColor");
+  const borderRadius = fromTheme("borderRadius");
+  const borderSpacing = fromTheme("borderSpacing");
+  const borderWidth = fromTheme("borderWidth");
+  const contrast = fromTheme("contrast");
+  const grayscale = fromTheme("grayscale");
+  const hueRotate = fromTheme("hueRotate");
+  const invert2 = fromTheme("invert");
+  const gap = fromTheme("gap");
+  const gradientColorStops = fromTheme("gradientColorStops");
+  const gradientColorStopPositions = fromTheme("gradientColorStopPositions");
+  const inset = fromTheme("inset");
+  const margin = fromTheme("margin");
+  const opacity = fromTheme("opacity");
+  const padding = fromTheme("padding");
+  const saturate = fromTheme("saturate");
+  const scale = fromTheme("scale");
+  const sepia = fromTheme("sepia");
+  const skew = fromTheme("skew");
+  const space = fromTheme("space");
+  const translate = fromTheme("translate");
+  const getOverscroll = () => ["auto", "contain", "none"];
+  const getOverflow = () => ["auto", "hidden", "clip", "visible", "scroll"];
+  const getSpacingWithAutoAndArbitrary = () => ["auto", isArbitraryValue, spacing];
+  const getSpacingWithArbitrary = () => [isArbitraryValue, spacing];
+  const getLengthWithEmptyAndArbitrary = () => ["", isLength, isArbitraryLength];
+  const getNumberWithAutoAndArbitrary = () => ["auto", isNumber, isArbitraryValue];
+  const getPositions = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"];
+  const getLineStyles = () => ["solid", "dashed", "dotted", "double", "none"];
+  const getBlendModes = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"];
+  const getAlign = () => ["start", "end", "center", "between", "around", "evenly", "stretch"];
+  const getZeroAndEmpty = () => ["", "0", isArbitraryValue];
+  const getBreaks = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"];
+  const getNumberAndArbitrary = () => [isNumber, isArbitraryValue];
+  return {
+    cacheSize: 500,
+    separator: ":",
+    theme: {
+      colors: [isAny],
+      spacing: [isLength, isArbitraryLength],
+      blur: ["none", "", isTshirtSize, isArbitraryValue],
+      brightness: getNumberAndArbitrary(),
+      borderColor: [colors],
+      borderRadius: ["none", "", "full", isTshirtSize, isArbitraryValue],
+      borderSpacing: getSpacingWithArbitrary(),
+      borderWidth: getLengthWithEmptyAndArbitrary(),
+      contrast: getNumberAndArbitrary(),
+      grayscale: getZeroAndEmpty(),
+      hueRotate: getNumberAndArbitrary(),
+      invert: getZeroAndEmpty(),
+      gap: getSpacingWithArbitrary(),
+      gradientColorStops: [colors],
+      gradientColorStopPositions: [isPercent, isArbitraryLength],
+      inset: getSpacingWithAutoAndArbitrary(),
+      margin: getSpacingWithAutoAndArbitrary(),
+      opacity: getNumberAndArbitrary(),
+      padding: getSpacingWithArbitrary(),
+      saturate: getNumberAndArbitrary(),
+      scale: getNumberAndArbitrary(),
+      sepia: getZeroAndEmpty(),
+      skew: getNumberAndArbitrary(),
+      space: getSpacingWithArbitrary(),
+      translate: getSpacingWithArbitrary()
+    },
+    classGroups: {
+      // Layout
+      /**
+       * Aspect Ratio
+       * @see https://tailwindcss.com/docs/aspect-ratio
+       */
+      aspect: [{
+        aspect: ["auto", "square", "video", isArbitraryValue]
+      }],
+      /**
+       * Container
+       * @see https://tailwindcss.com/docs/container
+       */
+      container: ["container"],
+      /**
+       * Columns
+       * @see https://tailwindcss.com/docs/columns
+       */
+      columns: [{
+        columns: [isTshirtSize]
+      }],
+      /**
+       * Break After
+       * @see https://tailwindcss.com/docs/break-after
+       */
+      "break-after": [{
+        "break-after": getBreaks()
+      }],
+      /**
+       * Break Before
+       * @see https://tailwindcss.com/docs/break-before
+       */
+      "break-before": [{
+        "break-before": getBreaks()
+      }],
+      /**
+       * Break Inside
+       * @see https://tailwindcss.com/docs/break-inside
+       */
+      "break-inside": [{
+        "break-inside": ["auto", "avoid", "avoid-page", "avoid-column"]
+      }],
+      /**
+       * Box Decoration Break
+       * @see https://tailwindcss.com/docs/box-decoration-break
+       */
+      "box-decoration": [{
+        "box-decoration": ["slice", "clone"]
+      }],
+      /**
+       * Box Sizing
+       * @see https://tailwindcss.com/docs/box-sizing
+       */
+      box: [{
+        box: ["border", "content"]
+      }],
+      /**
+       * Display
+       * @see https://tailwindcss.com/docs/display
+       */
+      display: ["block", "inline-block", "inline", "flex", "inline-flex", "table", "inline-table", "table-caption", "table-cell", "table-column", "table-column-group", "table-footer-group", "table-header-group", "table-row-group", "table-row", "flow-root", "grid", "inline-grid", "contents", "list-item", "hidden"],
+      /**
+       * Floats
+       * @see https://tailwindcss.com/docs/float
+       */
+      float: [{
+        float: ["right", "left", "none", "start", "end"]
+      }],
+      /**
+       * Clear
+       * @see https://tailwindcss.com/docs/clear
+       */
+      clear: [{
+        clear: ["left", "right", "both", "none", "start", "end"]
+      }],
+      /**
+       * Isolation
+       * @see https://tailwindcss.com/docs/isolation
+       */
+      isolation: ["isolate", "isolation-auto"],
+      /**
+       * Object Fit
+       * @see https://tailwindcss.com/docs/object-fit
+       */
+      "object-fit": [{
+        object: ["contain", "cover", "fill", "none", "scale-down"]
+      }],
+      /**
+       * Object Position
+       * @see https://tailwindcss.com/docs/object-position
+       */
+      "object-position": [{
+        object: [...getPositions(), isArbitraryValue]
+      }],
+      /**
+       * Overflow
+       * @see https://tailwindcss.com/docs/overflow
+       */
+      overflow: [{
+        overflow: getOverflow()
+      }],
+      /**
+       * Overflow X
+       * @see https://tailwindcss.com/docs/overflow
+       */
+      "overflow-x": [{
+        "overflow-x": getOverflow()
+      }],
+      /**
+       * Overflow Y
+       * @see https://tailwindcss.com/docs/overflow
+       */
+      "overflow-y": [{
+        "overflow-y": getOverflow()
+      }],
+      /**
+       * Overscroll Behavior
+       * @see https://tailwindcss.com/docs/overscroll-behavior
+       */
+      overscroll: [{
+        overscroll: getOverscroll()
+      }],
+      /**
+       * Overscroll Behavior X
+       * @see https://tailwindcss.com/docs/overscroll-behavior
+       */
+      "overscroll-x": [{
+        "overscroll-x": getOverscroll()
+      }],
+      /**
+       * Overscroll Behavior Y
+       * @see https://tailwindcss.com/docs/overscroll-behavior
+       */
+      "overscroll-y": [{
+        "overscroll-y": getOverscroll()
+      }],
+      /**
+       * Position
+       * @see https://tailwindcss.com/docs/position
+       */
+      position: ["static", "fixed", "absolute", "relative", "sticky"],
+      /**
+       * Top / Right / Bottom / Left
+       * @see https://tailwindcss.com/docs/top-right-bottom-left
+       */
+      inset: [{
+        inset: [inset]
+      }],
+      /**
+       * Right / Left
+       * @see https://tailwindcss.com/docs/top-right-bottom-left
+       */
+      "inset-x": [{
+        "inset-x": [inset]
+      }],
+      /**
+       * Top / Bottom
+       * @see https://tailwindcss.com/docs/top-right-bottom-left
+       */
+      "inset-y": [{
+        "inset-y": [inset]
+      }],
+      /**
+       * Start
+       * @see https://tailwindcss.com/docs/top-right-bottom-left
+       */
+      start: [{
+        start: [inset]
+      }],
+      /**
+       * End
+       * @see https://tailwindcss.com/docs/top-right-bottom-left
+       */
+      end: [{
+        end: [inset]
+      }],
+      /**
+       * Top
+       * @see https://tailwindcss.com/docs/top-right-bottom-left
+       */
+      top: [{
+        top: [inset]
+      }],
+      /**
+       * Right
+       * @see https://tailwindcss.com/docs/top-right-bottom-left
+       */
+      right: [{
+        right: [inset]
+      }],
+      /**
+       * Bottom
+       * @see https://tailwindcss.com/docs/top-right-bottom-left
+       */
+      bottom: [{
+        bottom: [inset]
+      }],
+      /**
+       * Left
+       * @see https://tailwindcss.com/docs/top-right-bottom-left
+       */
+      left: [{
+        left: [inset]
+      }],
+      /**
+       * Visibility
+       * @see https://tailwindcss.com/docs/visibility
+       */
+      visibility: ["visible", "invisible", "collapse"],
+      /**
+       * Z-Index
+       * @see https://tailwindcss.com/docs/z-index
+       */
+      z: [{
+        z: ["auto", isInteger, isArbitraryValue]
+      }],
+      // Flexbox and Grid
+      /**
+       * Flex Basis
+       * @see https://tailwindcss.com/docs/flex-basis
+       */
+      basis: [{
+        basis: getSpacingWithAutoAndArbitrary()
+      }],
+      /**
+       * Flex Direction
+       * @see https://tailwindcss.com/docs/flex-direction
+       */
+      "flex-direction": [{
+        flex: ["row", "row-reverse", "col", "col-reverse"]
+      }],
+      /**
+       * Flex Wrap
+       * @see https://tailwindcss.com/docs/flex-wrap
+       */
+      "flex-wrap": [{
+        flex: ["wrap", "wrap-reverse", "nowrap"]
+      }],
+      /**
+       * Flex
+       * @see https://tailwindcss.com/docs/flex
+       */
+      flex: [{
+        flex: ["1", "auto", "initial", "none", isArbitraryValue]
+      }],
+      /**
+       * Flex Grow
+       * @see https://tailwindcss.com/docs/flex-grow
+       */
+      grow: [{
+        grow: getZeroAndEmpty()
+      }],
+      /**
+       * Flex Shrink
+       * @see https://tailwindcss.com/docs/flex-shrink
+       */
+      shrink: [{
+        shrink: getZeroAndEmpty()
+      }],
+      /**
+       * Order
+       * @see https://tailwindcss.com/docs/order
+       */
+      order: [{
+        order: ["first", "last", "none", isInteger, isArbitraryValue]
+      }],
+      /**
+       * Grid Template Columns
+       * @see https://tailwindcss.com/docs/grid-template-columns
+       */
+      "grid-cols": [{
+        "grid-cols": [isAny]
+      }],
+      /**
+       * Grid Column Start / End
+       * @see https://tailwindcss.com/docs/grid-column
+       */
+      "col-start-end": [{
+        col: ["auto", {
+          span: ["full", isInteger, isArbitraryValue]
+        }, isArbitraryValue]
+      }],
+      /**
+       * Grid Column Start
+       * @see https://tailwindcss.com/docs/grid-column
+       */
+      "col-start": [{
+        "col-start": getNumberWithAutoAndArbitrary()
+      }],
+      /**
+       * Grid Column End
+       * @see https://tailwindcss.com/docs/grid-column
+       */
+      "col-end": [{
+        "col-end": getNumberWithAutoAndArbitrary()
+      }],
+      /**
+       * Grid Template Rows
+       * @see https://tailwindcss.com/docs/grid-template-rows
+       */
+      "grid-rows": [{
+        "grid-rows": [isAny]
+      }],
+      /**
+       * Grid Row Start / End
+       * @see https://tailwindcss.com/docs/grid-row
+       */
+      "row-start-end": [{
+        row: ["auto", {
+          span: [isInteger, isArbitraryValue]
+        }, isArbitraryValue]
+      }],
+      /**
+       * Grid Row Start
+       * @see https://tailwindcss.com/docs/grid-row
+       */
+      "row-start": [{
+        "row-start": getNumberWithAutoAndArbitrary()
+      }],
+      /**
+       * Grid Row End
+       * @see https://tailwindcss.com/docs/grid-row
+       */
+      "row-end": [{
+        "row-end": getNumberWithAutoAndArbitrary()
+      }],
+      /**
+       * Grid Auto Flow
+       * @see https://tailwindcss.com/docs/grid-auto-flow
+       */
+      "grid-flow": [{
+        "grid-flow": ["row", "col", "dense", "row-dense", "col-dense"]
+      }],
+      /**
+       * Grid Auto Columns
+       * @see https://tailwindcss.com/docs/grid-auto-columns
+       */
+      "auto-cols": [{
+        "auto-cols": ["auto", "min", "max", "fr", isArbitraryValue]
+      }],
+      /**
+       * Grid Auto Rows
+       * @see https://tailwindcss.com/docs/grid-auto-rows
+       */
+      "auto-rows": [{
+        "auto-rows": ["auto", "min", "max", "fr", isArbitraryValue]
+      }],
+      /**
+       * Gap
+       * @see https://tailwindcss.com/docs/gap
+       */
+      gap: [{
+        gap: [gap]
+      }],
+      /**
+       * Gap X
+       * @see https://tailwindcss.com/docs/gap
+       */
+      "gap-x": [{
+        "gap-x": [gap]
+      }],
+      /**
+       * Gap Y
+       * @see https://tailwindcss.com/docs/gap
+       */
+      "gap-y": [{
+        "gap-y": [gap]
+      }],
+      /**
+       * Justify Content
+       * @see https://tailwindcss.com/docs/justify-content
+       */
+      "justify-content": [{
+        justify: ["normal", ...getAlign()]
+      }],
+      /**
+       * Justify Items
+       * @see https://tailwindcss.com/docs/justify-items
+       */
+      "justify-items": [{
+        "justify-items": ["start", "end", "center", "stretch"]
+      }],
+      /**
+       * Justify Self
+       * @see https://tailwindcss.com/docs/justify-self
+       */
+      "justify-self": [{
+        "justify-self": ["auto", "start", "end", "center", "stretch"]
+      }],
+      /**
+       * Align Content
+       * @see https://tailwindcss.com/docs/align-content
+       */
+      "align-content": [{
+        content: ["normal", ...getAlign(), "baseline"]
+      }],
+      /**
+       * Align Items
+       * @see https://tailwindcss.com/docs/align-items
+       */
+      "align-items": [{
+        items: ["start", "end", "center", "baseline", "stretch"]
+      }],
+      /**
+       * Align Self
+       * @see https://tailwindcss.com/docs/align-self
+       */
+      "align-self": [{
+        self: ["auto", "start", "end", "center", "stretch", "baseline"]
+      }],
+      /**
+       * Place Content
+       * @see https://tailwindcss.com/docs/place-content
+       */
+      "place-content": [{
+        "place-content": [...getAlign(), "baseline"]
+      }],
+      /**
+       * Place Items
+       * @see https://tailwindcss.com/docs/place-items
+       */
+      "place-items": [{
+        "place-items": ["start", "end", "center", "baseline", "stretch"]
+      }],
+      /**
+       * Place Self
+       * @see https://tailwindcss.com/docs/place-self
+       */
+      "place-self": [{
+        "place-self": ["auto", "start", "end", "center", "stretch"]
+      }],
+      // Spacing
+      /**
+       * Padding
+       * @see https://tailwindcss.com/docs/padding
+       */
+      p: [{
+        p: [padding]
+      }],
+      /**
+       * Padding X
+       * @see https://tailwindcss.com/docs/padding
+       */
+      px: [{
+        px: [padding]
+      }],
+      /**
+       * Padding Y
+       * @see https://tailwindcss.com/docs/padding
+       */
+      py: [{
+        py: [padding]
+      }],
+      /**
+       * Padding Start
+       * @see https://tailwindcss.com/docs/padding
+       */
+      ps: [{
+        ps: [padding]
+      }],
+      /**
+       * Padding End
+       * @see https://tailwindcss.com/docs/padding
+       */
+      pe: [{
+        pe: [padding]
+      }],
+      /**
+       * Padding Top
+       * @see https://tailwindcss.com/docs/padding
+       */
+      pt: [{
+        pt: [padding]
+      }],
+      /**
+       * Padding Right
+       * @see https://tailwindcss.com/docs/padding
+       */
+      pr: [{
+        pr: [padding]
+      }],
+      /**
+       * Padding Bottom
+       * @see https://tailwindcss.com/docs/padding
+       */
+      pb: [{
+        pb: [padding]
+      }],
+      /**
+       * Padding Left
+       * @see https://tailwindcss.com/docs/padding
+       */
+      pl: [{
+        pl: [padding]
+      }],
+      /**
+       * Margin
+       * @see https://tailwindcss.com/docs/margin
+       */
+      m: [{
+        m: [margin]
+      }],
+      /**
+       * Margin X
+       * @see https://tailwindcss.com/docs/margin
+       */
+      mx: [{
+        mx: [margin]
+      }],
+      /**
+       * Margin Y
+       * @see https://tailwindcss.com/docs/margin
+       */
+      my: [{
+        my: [margin]
+      }],
+      /**
+       * Margin Start
+       * @see https://tailwindcss.com/docs/margin
+       */
+      ms: [{
+        ms: [margin]
+      }],
+      /**
+       * Margin End
+       * @see https://tailwindcss.com/docs/margin
+       */
+      me: [{
+        me: [margin]
+      }],
+      /**
+       * Margin Top
+       * @see https://tailwindcss.com/docs/margin
+       */
+      mt: [{
+        mt: [margin]
+      }],
+      /**
+       * Margin Right
+       * @see https://tailwindcss.com/docs/margin
+       */
+      mr: [{
+        mr: [margin]
+      }],
+      /**
+       * Margin Bottom
+       * @see https://tailwindcss.com/docs/margin
+       */
+      mb: [{
+        mb: [margin]
+      }],
+      /**
+       * Margin Left
+       * @see https://tailwindcss.com/docs/margin
+       */
+      ml: [{
+        ml: [margin]
+      }],
+      /**
+       * Space Between X
+       * @see https://tailwindcss.com/docs/space
+       */
+      "space-x": [{
+        "space-x": [space]
+      }],
+      /**
+       * Space Between X Reverse
+       * @see https://tailwindcss.com/docs/space
+       */
+      "space-x-reverse": ["space-x-reverse"],
+      /**
+       * Space Between Y
+       * @see https://tailwindcss.com/docs/space
+       */
+      "space-y": [{
+        "space-y": [space]
+      }],
+      /**
+       * Space Between Y Reverse
+       * @see https://tailwindcss.com/docs/space
+       */
+      "space-y-reverse": ["space-y-reverse"],
+      // Sizing
+      /**
+       * Width
+       * @see https://tailwindcss.com/docs/width
+       */
+      w: [{
+        w: ["auto", "min", "max", "fit", "svw", "lvw", "dvw", isArbitraryValue, spacing]
+      }],
+      /**
+       * Min-Width
+       * @see https://tailwindcss.com/docs/min-width
+       */
+      "min-w": [{
+        "min-w": [isArbitraryValue, spacing, "min", "max", "fit"]
+      }],
+      /**
+       * Max-Width
+       * @see https://tailwindcss.com/docs/max-width
+       */
+      "max-w": [{
+        "max-w": [isArbitraryValue, spacing, "none", "full", "min", "max", "fit", "prose", {
+          screen: [isTshirtSize]
+        }, isTshirtSize]
+      }],
+      /**
+       * Height
+       * @see https://tailwindcss.com/docs/height
+       */
+      h: [{
+        h: [isArbitraryValue, spacing, "auto", "min", "max", "fit", "svh", "lvh", "dvh"]
+      }],
+      /**
+       * Min-Height
+       * @see https://tailwindcss.com/docs/min-height
+       */
+      "min-h": [{
+        "min-h": [isArbitraryValue, spacing, "min", "max", "fit", "svh", "lvh", "dvh"]
+      }],
+      /**
+       * Max-Height
+       * @see https://tailwindcss.com/docs/max-height
+       */
+      "max-h": [{
+        "max-h": [isArbitraryValue, spacing, "min", "max", "fit", "svh", "lvh", "dvh"]
+      }],
+      /**
+       * Size
+       * @see https://tailwindcss.com/docs/size
+       */
+      size: [{
+        size: [isArbitraryValue, spacing, "auto", "min", "max", "fit"]
+      }],
+      // Typography
+      /**
+       * Font Size
+       * @see https://tailwindcss.com/docs/font-size
+       */
+      "font-size": [{
+        text: ["base", isTshirtSize, isArbitraryLength]
+      }],
+      /**
+       * Font Smoothing
+       * @see https://tailwindcss.com/docs/font-smoothing
+       */
+      "font-smoothing": ["antialiased", "subpixel-antialiased"],
+      /**
+       * Font Style
+       * @see https://tailwindcss.com/docs/font-style
+       */
+      "font-style": ["italic", "not-italic"],
+      /**
+       * Font Weight
+       * @see https://tailwindcss.com/docs/font-weight
+       */
+      "font-weight": [{
+        font: ["thin", "extralight", "light", "normal", "medium", "semibold", "bold", "extrabold", "black", isArbitraryNumber]
+      }],
+      /**
+       * Font Family
+       * @see https://tailwindcss.com/docs/font-family
+       */
+      "font-family": [{
+        font: [isAny]
+      }],
+      /**
+       * Font Variant Numeric
+       * @see https://tailwindcss.com/docs/font-variant-numeric
+       */
+      "fvn-normal": ["normal-nums"],
+      /**
+       * Font Variant Numeric
+       * @see https://tailwindcss.com/docs/font-variant-numeric
+       */
+      "fvn-ordinal": ["ordinal"],
+      /**
+       * Font Variant Numeric
+       * @see https://tailwindcss.com/docs/font-variant-numeric
+       */
+      "fvn-slashed-zero": ["slashed-zero"],
+      /**
+       * Font Variant Numeric
+       * @see https://tailwindcss.com/docs/font-variant-numeric
+       */
+      "fvn-figure": ["lining-nums", "oldstyle-nums"],
+      /**
+       * Font Variant Numeric
+       * @see https://tailwindcss.com/docs/font-variant-numeric
+       */
+      "fvn-spacing": ["proportional-nums", "tabular-nums"],
+      /**
+       * Font Variant Numeric
+       * @see https://tailwindcss.com/docs/font-variant-numeric
+       */
+      "fvn-fraction": ["diagonal-fractions", "stacked-fractions"],
+      /**
+       * Letter Spacing
+       * @see https://tailwindcss.com/docs/letter-spacing
+       */
+      tracking: [{
+        tracking: ["tighter", "tight", "normal", "wide", "wider", "widest", isArbitraryValue]
+      }],
+      /**
+       * Line Clamp
+       * @see https://tailwindcss.com/docs/line-clamp
+       */
+      "line-clamp": [{
+        "line-clamp": ["none", isNumber, isArbitraryNumber]
+      }],
+      /**
+       * Line Height
+       * @see https://tailwindcss.com/docs/line-height
+       */
+      leading: [{
+        leading: ["none", "tight", "snug", "normal", "relaxed", "loose", isLength, isArbitraryValue]
+      }],
+      /**
+       * List Style Image
+       * @see https://tailwindcss.com/docs/list-style-image
+       */
+      "list-image": [{
+        "list-image": ["none", isArbitraryValue]
+      }],
+      /**
+       * List Style Type
+       * @see https://tailwindcss.com/docs/list-style-type
+       */
+      "list-style-type": [{
+        list: ["none", "disc", "decimal", isArbitraryValue]
+      }],
+      /**
+       * List Style Position
+       * @see https://tailwindcss.com/docs/list-style-position
+       */
+      "list-style-position": [{
+        list: ["inside", "outside"]
+      }],
+      /**
+       * Placeholder Color
+       * @deprecated since Tailwind CSS v3.0.0
+       * @see https://tailwindcss.com/docs/placeholder-color
+       */
+      "placeholder-color": [{
+        placeholder: [colors]
+      }],
+      /**
+       * Placeholder Opacity
+       * @see https://tailwindcss.com/docs/placeholder-opacity
+       */
+      "placeholder-opacity": [{
+        "placeholder-opacity": [opacity]
+      }],
+      /**
+       * Text Alignment
+       * @see https://tailwindcss.com/docs/text-align
+       */
+      "text-alignment": [{
+        text: ["left", "center", "right", "justify", "start", "end"]
+      }],
+      /**
+       * Text Color
+       * @see https://tailwindcss.com/docs/text-color
+       */
+      "text-color": [{
+        text: [colors]
+      }],
+      /**
+       * Text Opacity
+       * @see https://tailwindcss.com/docs/text-opacity
+       */
+      "text-opacity": [{
+        "text-opacity": [opacity]
+      }],
+      /**
+       * Text Decoration
+       * @see https://tailwindcss.com/docs/text-decoration
+       */
+      "text-decoration": ["underline", "overline", "line-through", "no-underline"],
+      /**
+       * Text Decoration Style
+       * @see https://tailwindcss.com/docs/text-decoration-style
+       */
+      "text-decoration-style": [{
+        decoration: [...getLineStyles(), "wavy"]
+      }],
+      /**
+       * Text Decoration Thickness
+       * @see https://tailwindcss.com/docs/text-decoration-thickness
+       */
+      "text-decoration-thickness": [{
+        decoration: ["auto", "from-font", isLength, isArbitraryLength]
+      }],
+      /**
+       * Text Underline Offset
+       * @see https://tailwindcss.com/docs/text-underline-offset
+       */
+      "underline-offset": [{
+        "underline-offset": ["auto", isLength, isArbitraryValue]
+      }],
+      /**
+       * Text Decoration Color
+       * @see https://tailwindcss.com/docs/text-decoration-color
+       */
+      "text-decoration-color": [{
+        decoration: [colors]
+      }],
+      /**
+       * Text Transform
+       * @see https://tailwindcss.com/docs/text-transform
+       */
+      "text-transform": ["uppercase", "lowercase", "capitalize", "normal-case"],
+      /**
+       * Text Overflow
+       * @see https://tailwindcss.com/docs/text-overflow
+       */
+      "text-overflow": ["truncate", "text-ellipsis", "text-clip"],
+      /**
+       * Text Wrap
+       * @see https://tailwindcss.com/docs/text-wrap
+       */
+      "text-wrap": [{
+        text: ["wrap", "nowrap", "balance", "pretty"]
+      }],
+      /**
+       * Text Indent
+       * @see https://tailwindcss.com/docs/text-indent
+       */
+      indent: [{
+        indent: getSpacingWithArbitrary()
+      }],
+      /**
+       * Vertical Alignment
+       * @see https://tailwindcss.com/docs/vertical-align
+       */
+      "vertical-align": [{
+        align: ["baseline", "top", "middle", "bottom", "text-top", "text-bottom", "sub", "super", isArbitraryValue]
+      }],
+      /**
+       * Whitespace
+       * @see https://tailwindcss.com/docs/whitespace
+       */
+      whitespace: [{
+        whitespace: ["normal", "nowrap", "pre", "pre-line", "pre-wrap", "break-spaces"]
+      }],
+      /**
+       * Word Break
+       * @see https://tailwindcss.com/docs/word-break
+       */
+      break: [{
+        break: ["normal", "words", "all", "keep"]
+      }],
+      /**
+       * Hyphens
+       * @see https://tailwindcss.com/docs/hyphens
+       */
+      hyphens: [{
+        hyphens: ["none", "manual", "auto"]
+      }],
+      /**
+       * Content
+       * @see https://tailwindcss.com/docs/content
+       */
+      content: [{
+        content: ["none", isArbitraryValue]
+      }],
+      // Backgrounds
+      /**
+       * Background Attachment
+       * @see https://tailwindcss.com/docs/background-attachment
+       */
+      "bg-attachment": [{
+        bg: ["fixed", "local", "scroll"]
+      }],
+      /**
+       * Background Clip
+       * @see https://tailwindcss.com/docs/background-clip
+       */
+      "bg-clip": [{
+        "bg-clip": ["border", "padding", "content", "text"]
+      }],
+      /**
+       * Background Opacity
+       * @deprecated since Tailwind CSS v3.0.0
+       * @see https://tailwindcss.com/docs/background-opacity
+       */
+      "bg-opacity": [{
+        "bg-opacity": [opacity]
+      }],
+      /**
+       * Background Origin
+       * @see https://tailwindcss.com/docs/background-origin
+       */
+      "bg-origin": [{
+        "bg-origin": ["border", "padding", "content"]
+      }],
+      /**
+       * Background Position
+       * @see https://tailwindcss.com/docs/background-position
+       */
+      "bg-position": [{
+        bg: [...getPositions(), isArbitraryPosition]
+      }],
+      /**
+       * Background Repeat
+       * @see https://tailwindcss.com/docs/background-repeat
+       */
+      "bg-repeat": [{
+        bg: ["no-repeat", {
+          repeat: ["", "x", "y", "round", "space"]
+        }]
+      }],
+      /**
+       * Background Size
+       * @see https://tailwindcss.com/docs/background-size
+       */
+      "bg-size": [{
+        bg: ["auto", "cover", "contain", isArbitrarySize]
+      }],
+      /**
+       * Background Image
+       * @see https://tailwindcss.com/docs/background-image
+       */
+      "bg-image": [{
+        bg: ["none", {
+          "gradient-to": ["t", "tr", "r", "br", "b", "bl", "l", "tl"]
+        }, isArbitraryImage]
+      }],
+      /**
+       * Background Color
+       * @see https://tailwindcss.com/docs/background-color
+       */
+      "bg-color": [{
+        bg: [colors]
+      }],
+      /**
+       * Gradient Color Stops From Position
+       * @see https://tailwindcss.com/docs/gradient-color-stops
+       */
+      "gradient-from-pos": [{
+        from: [gradientColorStopPositions]
+      }],
+      /**
+       * Gradient Color Stops Via Position
+       * @see https://tailwindcss.com/docs/gradient-color-stops
+       */
+      "gradient-via-pos": [{
+        via: [gradientColorStopPositions]
+      }],
+      /**
+       * Gradient Color Stops To Position
+       * @see https://tailwindcss.com/docs/gradient-color-stops
+       */
+      "gradient-to-pos": [{
+        to: [gradientColorStopPositions]
+      }],
+      /**
+       * Gradient Color Stops From
+       * @see https://tailwindcss.com/docs/gradient-color-stops
+       */
+      "gradient-from": [{
+        from: [gradientColorStops]
+      }],
+      /**
+       * Gradient Color Stops Via
+       * @see https://tailwindcss.com/docs/gradient-color-stops
+       */
+      "gradient-via": [{
+        via: [gradientColorStops]
+      }],
+      /**
+       * Gradient Color Stops To
+       * @see https://tailwindcss.com/docs/gradient-color-stops
+       */
+      "gradient-to": [{
+        to: [gradientColorStops]
+      }],
+      // Borders
+      /**
+       * Border Radius
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      rounded: [{
+        rounded: [borderRadius]
+      }],
+      /**
+       * Border Radius Start
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-s": [{
+        "rounded-s": [borderRadius]
+      }],
+      /**
+       * Border Radius End
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-e": [{
+        "rounded-e": [borderRadius]
+      }],
+      /**
+       * Border Radius Top
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-t": [{
+        "rounded-t": [borderRadius]
+      }],
+      /**
+       * Border Radius Right
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-r": [{
+        "rounded-r": [borderRadius]
+      }],
+      /**
+       * Border Radius Bottom
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-b": [{
+        "rounded-b": [borderRadius]
+      }],
+      /**
+       * Border Radius Left
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-l": [{
+        "rounded-l": [borderRadius]
+      }],
+      /**
+       * Border Radius Start Start
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-ss": [{
+        "rounded-ss": [borderRadius]
+      }],
+      /**
+       * Border Radius Start End
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-se": [{
+        "rounded-se": [borderRadius]
+      }],
+      /**
+       * Border Radius End End
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-ee": [{
+        "rounded-ee": [borderRadius]
+      }],
+      /**
+       * Border Radius End Start
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-es": [{
+        "rounded-es": [borderRadius]
+      }],
+      /**
+       * Border Radius Top Left
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-tl": [{
+        "rounded-tl": [borderRadius]
+      }],
+      /**
+       * Border Radius Top Right
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-tr": [{
+        "rounded-tr": [borderRadius]
+      }],
+      /**
+       * Border Radius Bottom Right
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-br": [{
+        "rounded-br": [borderRadius]
+      }],
+      /**
+       * Border Radius Bottom Left
+       * @see https://tailwindcss.com/docs/border-radius
+       */
+      "rounded-bl": [{
+        "rounded-bl": [borderRadius]
+      }],
+      /**
+       * Border Width
+       * @see https://tailwindcss.com/docs/border-width
+       */
+      "border-w": [{
+        border: [borderWidth]
+      }],
+      /**
+       * Border Width X
+       * @see https://tailwindcss.com/docs/border-width
+       */
+      "border-w-x": [{
+        "border-x": [borderWidth]
+      }],
+      /**
+       * Border Width Y
+       * @see https://tailwindcss.com/docs/border-width
+       */
+      "border-w-y": [{
+        "border-y": [borderWidth]
+      }],
+      /**
+       * Border Width Start
+       * @see https://tailwindcss.com/docs/border-width
+       */
+      "border-w-s": [{
+        "border-s": [borderWidth]
+      }],
+      /**
+       * Border Width End
+       * @see https://tailwindcss.com/docs/border-width
+       */
+      "border-w-e": [{
+        "border-e": [borderWidth]
+      }],
+      /**
+       * Border Width Top
+       * @see https://tailwindcss.com/docs/border-width
+       */
+      "border-w-t": [{
+        "border-t": [borderWidth]
+      }],
+      /**
+       * Border Width Right
+       * @see https://tailwindcss.com/docs/border-width
+       */
+      "border-w-r": [{
+        "border-r": [borderWidth]
+      }],
+      /**
+       * Border Width Bottom
+       * @see https://tailwindcss.com/docs/border-width
+       */
+      "border-w-b": [{
+        "border-b": [borderWidth]
+      }],
+      /**
+       * Border Width Left
+       * @see https://tailwindcss.com/docs/border-width
+       */
+      "border-w-l": [{
+        "border-l": [borderWidth]
+      }],
+      /**
+       * Border Opacity
+       * @see https://tailwindcss.com/docs/border-opacity
+       */
+      "border-opacity": [{
+        "border-opacity": [opacity]
+      }],
+      /**
+       * Border Style
+       * @see https://tailwindcss.com/docs/border-style
+       */
+      "border-style": [{
+        border: [...getLineStyles(), "hidden"]
+      }],
+      /**
+       * Divide Width X
+       * @see https://tailwindcss.com/docs/divide-width
+       */
+      "divide-x": [{
+        "divide-x": [borderWidth]
+      }],
+      /**
+       * Divide Width X Reverse
+       * @see https://tailwindcss.com/docs/divide-width
+       */
+      "divide-x-reverse": ["divide-x-reverse"],
+      /**
+       * Divide Width Y
+       * @see https://tailwindcss.com/docs/divide-width
+       */
+      "divide-y": [{
+        "divide-y": [borderWidth]
+      }],
+      /**
+       * Divide Width Y Reverse
+       * @see https://tailwindcss.com/docs/divide-width
+       */
+      "divide-y-reverse": ["divide-y-reverse"],
+      /**
+       * Divide Opacity
+       * @see https://tailwindcss.com/docs/divide-opacity
+       */
+      "divide-opacity": [{
+        "divide-opacity": [opacity]
+      }],
+      /**
+       * Divide Style
+       * @see https://tailwindcss.com/docs/divide-style
+       */
+      "divide-style": [{
+        divide: getLineStyles()
+      }],
+      /**
+       * Border Color
+       * @see https://tailwindcss.com/docs/border-color
+       */
+      "border-color": [{
+        border: [borderColor]
+      }],
+      /**
+       * Border Color X
+       * @see https://tailwindcss.com/docs/border-color
+       */
+      "border-color-x": [{
+        "border-x": [borderColor]
+      }],
+      /**
+       * Border Color Y
+       * @see https://tailwindcss.com/docs/border-color
+       */
+      "border-color-y": [{
+        "border-y": [borderColor]
+      }],
+      /**
+       * Border Color S
+       * @see https://tailwindcss.com/docs/border-color
+       */
+      "border-color-s": [{
+        "border-s": [borderColor]
+      }],
+      /**
+       * Border Color E
+       * @see https://tailwindcss.com/docs/border-color
+       */
+      "border-color-e": [{
+        "border-e": [borderColor]
+      }],
+      /**
+       * Border Color Top
+       * @see https://tailwindcss.com/docs/border-color
+       */
+      "border-color-t": [{
+        "border-t": [borderColor]
+      }],
+      /**
+       * Border Color Right
+       * @see https://tailwindcss.com/docs/border-color
+       */
+      "border-color-r": [{
+        "border-r": [borderColor]
+      }],
+      /**
+       * Border Color Bottom
+       * @see https://tailwindcss.com/docs/border-color
+       */
+      "border-color-b": [{
+        "border-b": [borderColor]
+      }],
+      /**
+       * Border Color Left
+       * @see https://tailwindcss.com/docs/border-color
+       */
+      "border-color-l": [{
+        "border-l": [borderColor]
+      }],
+      /**
+       * Divide Color
+       * @see https://tailwindcss.com/docs/divide-color
+       */
+      "divide-color": [{
+        divide: [borderColor]
+      }],
+      /**
+       * Outline Style
+       * @see https://tailwindcss.com/docs/outline-style
+       */
+      "outline-style": [{
+        outline: ["", ...getLineStyles()]
+      }],
+      /**
+       * Outline Offset
+       * @see https://tailwindcss.com/docs/outline-offset
+       */
+      "outline-offset": [{
+        "outline-offset": [isLength, isArbitraryValue]
+      }],
+      /**
+       * Outline Width
+       * @see https://tailwindcss.com/docs/outline-width
+       */
+      "outline-w": [{
+        outline: [isLength, isArbitraryLength]
+      }],
+      /**
+       * Outline Color
+       * @see https://tailwindcss.com/docs/outline-color
+       */
+      "outline-color": [{
+        outline: [colors]
+      }],
+      /**
+       * Ring Width
+       * @see https://tailwindcss.com/docs/ring-width
+       */
+      "ring-w": [{
+        ring: getLengthWithEmptyAndArbitrary()
+      }],
+      /**
+       * Ring Width Inset
+       * @see https://tailwindcss.com/docs/ring-width
+       */
+      "ring-w-inset": ["ring-inset"],
+      /**
+       * Ring Color
+       * @see https://tailwindcss.com/docs/ring-color
+       */
+      "ring-color": [{
+        ring: [colors]
+      }],
+      /**
+       * Ring Opacity
+       * @see https://tailwindcss.com/docs/ring-opacity
+       */
+      "ring-opacity": [{
+        "ring-opacity": [opacity]
+      }],
+      /**
+       * Ring Offset Width
+       * @see https://tailwindcss.com/docs/ring-offset-width
+       */
+      "ring-offset-w": [{
+        "ring-offset": [isLength, isArbitraryLength]
+      }],
+      /**
+       * Ring Offset Color
+       * @see https://tailwindcss.com/docs/ring-offset-color
+       */
+      "ring-offset-color": [{
+        "ring-offset": [colors]
+      }],
+      // Effects
+      /**
+       * Box Shadow
+       * @see https://tailwindcss.com/docs/box-shadow
+       */
+      shadow: [{
+        shadow: ["", "inner", "none", isTshirtSize, isArbitraryShadow]
+      }],
+      /**
+       * Box Shadow Color
+       * @see https://tailwindcss.com/docs/box-shadow-color
+       */
+      "shadow-color": [{
+        shadow: [isAny]
+      }],
+      /**
+       * Opacity
+       * @see https://tailwindcss.com/docs/opacity
+       */
+      opacity: [{
+        opacity: [opacity]
+      }],
+      /**
+       * Mix Blend Mode
+       * @see https://tailwindcss.com/docs/mix-blend-mode
+       */
+      "mix-blend": [{
+        "mix-blend": [...getBlendModes(), "plus-lighter", "plus-darker"]
+      }],
+      /**
+       * Background Blend Mode
+       * @see https://tailwindcss.com/docs/background-blend-mode
+       */
+      "bg-blend": [{
+        "bg-blend": getBlendModes()
+      }],
+      // Filters
+      /**
+       * Filter
+       * @deprecated since Tailwind CSS v3.0.0
+       * @see https://tailwindcss.com/docs/filter
+       */
+      filter: [{
+        filter: ["", "none"]
+      }],
+      /**
+       * Blur
+       * @see https://tailwindcss.com/docs/blur
+       */
+      blur: [{
+        blur: [blur]
+      }],
+      /**
+       * Brightness
+       * @see https://tailwindcss.com/docs/brightness
+       */
+      brightness: [{
+        brightness: [brightness]
+      }],
+      /**
+       * Contrast
+       * @see https://tailwindcss.com/docs/contrast
+       */
+      contrast: [{
+        contrast: [contrast]
+      }],
+      /**
+       * Drop Shadow
+       * @see https://tailwindcss.com/docs/drop-shadow
+       */
+      "drop-shadow": [{
+        "drop-shadow": ["", "none", isTshirtSize, isArbitraryValue]
+      }],
+      /**
+       * Grayscale
+       * @see https://tailwindcss.com/docs/grayscale
+       */
+      grayscale: [{
+        grayscale: [grayscale]
+      }],
+      /**
+       * Hue Rotate
+       * @see https://tailwindcss.com/docs/hue-rotate
+       */
+      "hue-rotate": [{
+        "hue-rotate": [hueRotate]
+      }],
+      /**
+       * Invert
+       * @see https://tailwindcss.com/docs/invert
+       */
+      invert: [{
+        invert: [invert2]
+      }],
+      /**
+       * Saturate
+       * @see https://tailwindcss.com/docs/saturate
+       */
+      saturate: [{
+        saturate: [saturate]
+      }],
+      /**
+       * Sepia
+       * @see https://tailwindcss.com/docs/sepia
+       */
+      sepia: [{
+        sepia: [sepia]
+      }],
+      /**
+       * Backdrop Filter
+       * @deprecated since Tailwind CSS v3.0.0
+       * @see https://tailwindcss.com/docs/backdrop-filter
+       */
+      "backdrop-filter": [{
+        "backdrop-filter": ["", "none"]
+      }],
+      /**
+       * Backdrop Blur
+       * @see https://tailwindcss.com/docs/backdrop-blur
+       */
+      "backdrop-blur": [{
+        "backdrop-blur": [blur]
+      }],
+      /**
+       * Backdrop Brightness
+       * @see https://tailwindcss.com/docs/backdrop-brightness
+       */
+      "backdrop-brightness": [{
+        "backdrop-brightness": [brightness]
+      }],
+      /**
+       * Backdrop Contrast
+       * @see https://tailwindcss.com/docs/backdrop-contrast
+       */
+      "backdrop-contrast": [{
+        "backdrop-contrast": [contrast]
+      }],
+      /**
+       * Backdrop Grayscale
+       * @see https://tailwindcss.com/docs/backdrop-grayscale
+       */
+      "backdrop-grayscale": [{
+        "backdrop-grayscale": [grayscale]
+      }],
+      /**
+       * Backdrop Hue Rotate
+       * @see https://tailwindcss.com/docs/backdrop-hue-rotate
+       */
+      "backdrop-hue-rotate": [{
+        "backdrop-hue-rotate": [hueRotate]
+      }],
+      /**
+       * Backdrop Invert
+       * @see https://tailwindcss.com/docs/backdrop-invert
+       */
+      "backdrop-invert": [{
+        "backdrop-invert": [invert2]
+      }],
+      /**
+       * Backdrop Opacity
+       * @see https://tailwindcss.com/docs/backdrop-opacity
+       */
+      "backdrop-opacity": [{
+        "backdrop-opacity": [opacity]
+      }],
+      /**
+       * Backdrop Saturate
+       * @see https://tailwindcss.com/docs/backdrop-saturate
+       */
+      "backdrop-saturate": [{
+        "backdrop-saturate": [saturate]
+      }],
+      /**
+       * Backdrop Sepia
+       * @see https://tailwindcss.com/docs/backdrop-sepia
+       */
+      "backdrop-sepia": [{
+        "backdrop-sepia": [sepia]
+      }],
+      // Tables
+      /**
+       * Border Collapse
+       * @see https://tailwindcss.com/docs/border-collapse
+       */
+      "border-collapse": [{
+        border: ["collapse", "separate"]
+      }],
+      /**
+       * Border Spacing
+       * @see https://tailwindcss.com/docs/border-spacing
+       */
+      "border-spacing": [{
+        "border-spacing": [borderSpacing]
+      }],
+      /**
+       * Border Spacing X
+       * @see https://tailwindcss.com/docs/border-spacing
+       */
+      "border-spacing-x": [{
+        "border-spacing-x": [borderSpacing]
+      }],
+      /**
+       * Border Spacing Y
+       * @see https://tailwindcss.com/docs/border-spacing
+       */
+      "border-spacing-y": [{
+        "border-spacing-y": [borderSpacing]
+      }],
+      /**
+       * Table Layout
+       * @see https://tailwindcss.com/docs/table-layout
+       */
+      "table-layout": [{
+        table: ["auto", "fixed"]
+      }],
+      /**
+       * Caption Side
+       * @see https://tailwindcss.com/docs/caption-side
+       */
+      caption: [{
+        caption: ["top", "bottom"]
+      }],
+      // Transitions and Animation
+      /**
+       * Tranisition Property
+       * @see https://tailwindcss.com/docs/transition-property
+       */
+      transition: [{
+        transition: ["none", "all", "", "colors", "opacity", "shadow", "transform", isArbitraryValue]
+      }],
+      /**
+       * Transition Duration
+       * @see https://tailwindcss.com/docs/transition-duration
+       */
+      duration: [{
+        duration: getNumberAndArbitrary()
+      }],
+      /**
+       * Transition Timing Function
+       * @see https://tailwindcss.com/docs/transition-timing-function
+       */
+      ease: [{
+        ease: ["linear", "in", "out", "in-out", isArbitraryValue]
+      }],
+      /**
+       * Transition Delay
+       * @see https://tailwindcss.com/docs/transition-delay
+       */
+      delay: [{
+        delay: getNumberAndArbitrary()
+      }],
+      /**
+       * Animation
+       * @see https://tailwindcss.com/docs/animation
+       */
+      animate: [{
+        animate: ["none", "spin", "ping", "pulse", "bounce", isArbitraryValue]
+      }],
+      // Transforms
+      /**
+       * Transform
+       * @see https://tailwindcss.com/docs/transform
+       */
+      transform: [{
+        transform: ["", "gpu", "none"]
+      }],
+      /**
+       * Scale
+       * @see https://tailwindcss.com/docs/scale
+       */
+      scale: [{
+        scale: [scale]
+      }],
+      /**
+       * Scale X
+       * @see https://tailwindcss.com/docs/scale
+       */
+      "scale-x": [{
+        "scale-x": [scale]
+      }],
+      /**
+       * Scale Y
+       * @see https://tailwindcss.com/docs/scale
+       */
+      "scale-y": [{
+        "scale-y": [scale]
+      }],
+      /**
+       * Rotate
+       * @see https://tailwindcss.com/docs/rotate
+       */
+      rotate: [{
+        rotate: [isInteger, isArbitraryValue]
+      }],
+      /**
+       * Translate X
+       * @see https://tailwindcss.com/docs/translate
+       */
+      "translate-x": [{
+        "translate-x": [translate]
+      }],
+      /**
+       * Translate Y
+       * @see https://tailwindcss.com/docs/translate
+       */
+      "translate-y": [{
+        "translate-y": [translate]
+      }],
+      /**
+       * Skew X
+       * @see https://tailwindcss.com/docs/skew
+       */
+      "skew-x": [{
+        "skew-x": [skew]
+      }],
+      /**
+       * Skew Y
+       * @see https://tailwindcss.com/docs/skew
+       */
+      "skew-y": [{
+        "skew-y": [skew]
+      }],
+      /**
+       * Transform Origin
+       * @see https://tailwindcss.com/docs/transform-origin
+       */
+      "transform-origin": [{
+        origin: ["center", "top", "top-right", "right", "bottom-right", "bottom", "bottom-left", "left", "top-left", isArbitraryValue]
+      }],
+      // Interactivity
+      /**
+       * Accent Color
+       * @see https://tailwindcss.com/docs/accent-color
+       */
+      accent: [{
+        accent: ["auto", colors]
+      }],
+      /**
+       * Appearance
+       * @see https://tailwindcss.com/docs/appearance
+       */
+      appearance: [{
+        appearance: ["none", "auto"]
+      }],
+      /**
+       * Cursor
+       * @see https://tailwindcss.com/docs/cursor
+       */
+      cursor: [{
+        cursor: ["auto", "default", "pointer", "wait", "text", "move", "help", "not-allowed", "none", "context-menu", "progress", "cell", "crosshair", "vertical-text", "alias", "copy", "no-drop", "grab", "grabbing", "all-scroll", "col-resize", "row-resize", "n-resize", "e-resize", "s-resize", "w-resize", "ne-resize", "nw-resize", "se-resize", "sw-resize", "ew-resize", "ns-resize", "nesw-resize", "nwse-resize", "zoom-in", "zoom-out", isArbitraryValue]
+      }],
+      /**
+       * Caret Color
+       * @see https://tailwindcss.com/docs/just-in-time-mode#caret-color-utilities
+       */
+      "caret-color": [{
+        caret: [colors]
+      }],
+      /**
+       * Pointer Events
+       * @see https://tailwindcss.com/docs/pointer-events
+       */
+      "pointer-events": [{
+        "pointer-events": ["none", "auto"]
+      }],
+      /**
+       * Resize
+       * @see https://tailwindcss.com/docs/resize
+       */
+      resize: [{
+        resize: ["none", "y", "x", ""]
+      }],
+      /**
+       * Scroll Behavior
+       * @see https://tailwindcss.com/docs/scroll-behavior
+       */
+      "scroll-behavior": [{
+        scroll: ["auto", "smooth"]
+      }],
+      /**
+       * Scroll Margin
+       * @see https://tailwindcss.com/docs/scroll-margin
+       */
+      "scroll-m": [{
+        "scroll-m": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Margin X
+       * @see https://tailwindcss.com/docs/scroll-margin
+       */
+      "scroll-mx": [{
+        "scroll-mx": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Margin Y
+       * @see https://tailwindcss.com/docs/scroll-margin
+       */
+      "scroll-my": [{
+        "scroll-my": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Margin Start
+       * @see https://tailwindcss.com/docs/scroll-margin
+       */
+      "scroll-ms": [{
+        "scroll-ms": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Margin End
+       * @see https://tailwindcss.com/docs/scroll-margin
+       */
+      "scroll-me": [{
+        "scroll-me": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Margin Top
+       * @see https://tailwindcss.com/docs/scroll-margin
+       */
+      "scroll-mt": [{
+        "scroll-mt": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Margin Right
+       * @see https://tailwindcss.com/docs/scroll-margin
+       */
+      "scroll-mr": [{
+        "scroll-mr": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Margin Bottom
+       * @see https://tailwindcss.com/docs/scroll-margin
+       */
+      "scroll-mb": [{
+        "scroll-mb": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Margin Left
+       * @see https://tailwindcss.com/docs/scroll-margin
+       */
+      "scroll-ml": [{
+        "scroll-ml": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Padding
+       * @see https://tailwindcss.com/docs/scroll-padding
+       */
+      "scroll-p": [{
+        "scroll-p": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Padding X
+       * @see https://tailwindcss.com/docs/scroll-padding
+       */
+      "scroll-px": [{
+        "scroll-px": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Padding Y
+       * @see https://tailwindcss.com/docs/scroll-padding
+       */
+      "scroll-py": [{
+        "scroll-py": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Padding Start
+       * @see https://tailwindcss.com/docs/scroll-padding
+       */
+      "scroll-ps": [{
+        "scroll-ps": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Padding End
+       * @see https://tailwindcss.com/docs/scroll-padding
+       */
+      "scroll-pe": [{
+        "scroll-pe": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Padding Top
+       * @see https://tailwindcss.com/docs/scroll-padding
+       */
+      "scroll-pt": [{
+        "scroll-pt": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Padding Right
+       * @see https://tailwindcss.com/docs/scroll-padding
+       */
+      "scroll-pr": [{
+        "scroll-pr": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Padding Bottom
+       * @see https://tailwindcss.com/docs/scroll-padding
+       */
+      "scroll-pb": [{
+        "scroll-pb": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Padding Left
+       * @see https://tailwindcss.com/docs/scroll-padding
+       */
+      "scroll-pl": [{
+        "scroll-pl": getSpacingWithArbitrary()
+      }],
+      /**
+       * Scroll Snap Align
+       * @see https://tailwindcss.com/docs/scroll-snap-align
+       */
+      "snap-align": [{
+        snap: ["start", "end", "center", "align-none"]
+      }],
+      /**
+       * Scroll Snap Stop
+       * @see https://tailwindcss.com/docs/scroll-snap-stop
+       */
+      "snap-stop": [{
+        snap: ["normal", "always"]
+      }],
+      /**
+       * Scroll Snap Type
+       * @see https://tailwindcss.com/docs/scroll-snap-type
+       */
+      "snap-type": [{
+        snap: ["none", "x", "y", "both"]
+      }],
+      /**
+       * Scroll Snap Type Strictness
+       * @see https://tailwindcss.com/docs/scroll-snap-type
+       */
+      "snap-strictness": [{
+        snap: ["mandatory", "proximity"]
+      }],
+      /**
+       * Touch Action
+       * @see https://tailwindcss.com/docs/touch-action
+       */
+      touch: [{
+        touch: ["auto", "none", "manipulation"]
+      }],
+      /**
+       * Touch Action X
+       * @see https://tailwindcss.com/docs/touch-action
+       */
+      "touch-x": [{
+        "touch-pan": ["x", "left", "right"]
+      }],
+      /**
+       * Touch Action Y
+       * @see https://tailwindcss.com/docs/touch-action
+       */
+      "touch-y": [{
+        "touch-pan": ["y", "up", "down"]
+      }],
+      /**
+       * Touch Action Pinch Zoom
+       * @see https://tailwindcss.com/docs/touch-action
+       */
+      "touch-pz": ["touch-pinch-zoom"],
+      /**
+       * User Select
+       * @see https://tailwindcss.com/docs/user-select
+       */
+      select: [{
+        select: ["none", "text", "all", "auto"]
+      }],
+      /**
+       * Will Change
+       * @see https://tailwindcss.com/docs/will-change
+       */
+      "will-change": [{
+        "will-change": ["auto", "scroll", "contents", "transform", isArbitraryValue]
+      }],
+      // SVG
+      /**
+       * Fill
+       * @see https://tailwindcss.com/docs/fill
+       */
+      fill: [{
+        fill: [colors, "none"]
+      }],
+      /**
+       * Stroke Width
+       * @see https://tailwindcss.com/docs/stroke-width
+       */
+      "stroke-w": [{
+        stroke: [isLength, isArbitraryLength, isArbitraryNumber]
+      }],
+      /**
+       * Stroke
+       * @see https://tailwindcss.com/docs/stroke
+       */
+      stroke: [{
+        stroke: [colors, "none"]
+      }],
+      // Accessibility
+      /**
+       * Screen Readers
+       * @see https://tailwindcss.com/docs/screen-readers
+       */
+      sr: ["sr-only", "not-sr-only"],
+      /**
+       * Forced Color Adjust
+       * @see https://tailwindcss.com/docs/forced-color-adjust
+       */
+      "forced-color-adjust": [{
+        "forced-color-adjust": ["auto", "none"]
+      }]
+    },
+    conflictingClassGroups: {
+      overflow: ["overflow-x", "overflow-y"],
+      overscroll: ["overscroll-x", "overscroll-y"],
+      inset: ["inset-x", "inset-y", "start", "end", "top", "right", "bottom", "left"],
+      "inset-x": ["right", "left"],
+      "inset-y": ["top", "bottom"],
+      flex: ["basis", "grow", "shrink"],
+      gap: ["gap-x", "gap-y"],
+      p: ["px", "py", "ps", "pe", "pt", "pr", "pb", "pl"],
+      px: ["pr", "pl"],
+      py: ["pt", "pb"],
+      m: ["mx", "my", "ms", "me", "mt", "mr", "mb", "ml"],
+      mx: ["mr", "ml"],
+      my: ["mt", "mb"],
+      size: ["w", "h"],
+      "font-size": ["leading"],
+      "fvn-normal": ["fvn-ordinal", "fvn-slashed-zero", "fvn-figure", "fvn-spacing", "fvn-fraction"],
+      "fvn-ordinal": ["fvn-normal"],
+      "fvn-slashed-zero": ["fvn-normal"],
+      "fvn-figure": ["fvn-normal"],
+      "fvn-spacing": ["fvn-normal"],
+      "fvn-fraction": ["fvn-normal"],
+      "line-clamp": ["display", "overflow"],
+      rounded: ["rounded-s", "rounded-e", "rounded-t", "rounded-r", "rounded-b", "rounded-l", "rounded-ss", "rounded-se", "rounded-ee", "rounded-es", "rounded-tl", "rounded-tr", "rounded-br", "rounded-bl"],
+      "rounded-s": ["rounded-ss", "rounded-es"],
+      "rounded-e": ["rounded-se", "rounded-ee"],
+      "rounded-t": ["rounded-tl", "rounded-tr"],
+      "rounded-r": ["rounded-tr", "rounded-br"],
+      "rounded-b": ["rounded-br", "rounded-bl"],
+      "rounded-l": ["rounded-tl", "rounded-bl"],
+      "border-spacing": ["border-spacing-x", "border-spacing-y"],
+      "border-w": ["border-w-s", "border-w-e", "border-w-t", "border-w-r", "border-w-b", "border-w-l"],
+      "border-w-x": ["border-w-r", "border-w-l"],
+      "border-w-y": ["border-w-t", "border-w-b"],
+      "border-color": ["border-color-s", "border-color-e", "border-color-t", "border-color-r", "border-color-b", "border-color-l"],
+      "border-color-x": ["border-color-r", "border-color-l"],
+      "border-color-y": ["border-color-t", "border-color-b"],
+      "scroll-m": ["scroll-mx", "scroll-my", "scroll-ms", "scroll-me", "scroll-mt", "scroll-mr", "scroll-mb", "scroll-ml"],
+      "scroll-mx": ["scroll-mr", "scroll-ml"],
+      "scroll-my": ["scroll-mt", "scroll-mb"],
+      "scroll-p": ["scroll-px", "scroll-py", "scroll-ps", "scroll-pe", "scroll-pt", "scroll-pr", "scroll-pb", "scroll-pl"],
+      "scroll-px": ["scroll-pr", "scroll-pl"],
+      "scroll-py": ["scroll-pt", "scroll-pb"],
+      touch: ["touch-x", "touch-y", "touch-pz"],
+      "touch-x": ["touch"],
+      "touch-y": ["touch"],
+      "touch-pz": ["touch"]
+    },
+    conflictingClassGroupModifiers: {
+      "font-size": ["leading"]
+    }
+  };
+};
+const twMerge = /* @__PURE__ */ createTailwindMerge(getDefaultConfig);
+function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
+const sizeClasses = {
+  sm: "h-10 px-4 text-sm gap-2",
+  md: "h-11 px-5 text-sm gap-2",
+  lg: "h-12 px-6 text-base gap-2.5"
+};
+const variantClasses = {
+  solid: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-subtle hover:shadow-elevated",
+  outline: "border border-primary/20 bg-card text-primary hover:bg-primary hover:text-primary-foreground",
+  ghost: "text-primary hover:bg-primary/5"
+};
+function CallCta({
+  variant = "solid",
+  size = "md",
+  className,
+  ocid = "call.primary_button"
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "a",
+    {
+      href: SITE.phoneHref,
+      "data-ocid": ocid,
+      "aria-label": SITE.ctaLabel,
+      className: cn(
+        "inline-flex items-center justify-center rounded-full font-semibold tracking-tight transition-smooth",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        sizeClasses[size],
+        variantClasses[variant],
+        className
+      ),
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4 shrink-0" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "whitespace-nowrap", children: SITE.ctaLabel })
+      ]
     }
   );
 }
@@ -35653,7 +38208,7 @@ function encode(obj, stringify = String) {
   }
   return result.toString();
 }
-function toValue$1(str) {
+function toValue(str) {
   if (!str) return "";
   if (str === "false") return false;
   if (str === "true") return true;
@@ -35665,11 +38220,11 @@ function decode(str) {
   for (const [key, value] of searchParams.entries()) {
     const previousValue = result[key];
     if (previousValue == null) {
-      result[key] = toValue$1(value);
+      result[key] = toValue(value);
     } else if (Array.isArray(previousValue)) {
-      previousValue.push(toValue$1(value));
+      previousValue.push(toValue(value));
     } else {
-      result[key] = [previousValue, toValue$1(value)];
+      result[key] = [previousValue, toValue(value)];
     }
   }
   return result;
@@ -39162,116 +41717,146 @@ const CAFFEINE_URL = `https://caffeine.ai?utm_source=caffeine-footer&utm_medium=
 )}`;
 function SiteFooter() {
   const year = (/* @__PURE__ */ new Date()).getFullYear();
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "footer",
-    {
-      "data-ocid": "site.footer",
-      className: "border-t border-primary/20 bg-primary text-primary-foreground",
-      children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 sm:py-16", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-10 md:grid-cols-2 lg:grid-cols-4", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "lg:col-span-2", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2.5", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-9 items-center justify-center rounded-lg bg-accent text-accent-foreground", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plane, { "aria-hidden": "true", className: "size-5 -rotate-45" }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-lg font-bold tracking-tight", children: SITE.name })
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("footer", { "data-ocid": "site.footer", className: "relative overflow-hidden bg-[#071a35] text-white", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -right-32 top-0 h-80 w-80 rounded-full bg-accent/10 blur-3xl" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative mx-auto w-full max-w-7xl px-5 py-14 sm:px-8 sm:py-16 lg:px-10", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-10 rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur sm:p-8", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Independent travel agency" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-2 font-display text-2xl font-semibold", children: "Flight help without the runaround." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 max-w-2xl text-sm leading-6 text-white/60", children: "Clear information, human assistance, and a straightforward booking experience." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "footer.call_button" })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-10 md:grid-cols-2 lg:grid-cols-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "lg:col-span-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-10 items-center justify-center rounded-xl bg-accent text-accent-foreground", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plane, { "aria-hidden": "true", className: "size-5 -rotate-45" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-xl font-bold", children: SITE.name })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-md text-sm leading-6 text-white/65", children: SITE.description }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board mt-5 text-accent", children: SITE.hours })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "label-board text-white/45", children: "Contact" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "mt-4 space-y-3 text-sm", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: SITE.emailHref, "data-ocid": "footer.email_link", className: "flex gap-2.5 text-white/70 hover:text-accent", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Mail, { className: "mt-0.5 size-4 shrink-0", "aria-hidden": "true" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "break-all", children: SITE.email })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex gap-2.5 text-white/70", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(MapPin, { className: "mt-0.5 size-4 shrink-0", "aria-hidden": "true" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("address", { className: "not-italic", children: ADDRESS_LINE })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-md text-sm leading-relaxed text-primary-foreground/75", children: SITE.description }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board mt-5 text-accent", children: SITE.hours })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "label-board text-primary-foreground/60", children: "Contact" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "mt-4 space-y-3 text-sm", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                "a",
-                {
-                  href: SITE.phoneHref,
-                  "data-ocid": "footer.call_link",
-                  className: "flex items-start gap-2.5 rounded-md text-primary-foreground/85 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-primary",
-                  children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      Phone,
-                      {
-                        "aria-hidden": "true",
-                        className: "mt-0.5 size-4 shrink-0"
-                      }
-                    ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: SITE.phoneDisplay })
-                  ]
-                }
-              ) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                "a",
-                {
-                  href: SITE.emailHref,
-                  "data-ocid": "footer.email_link",
-                  className: "flex items-start gap-2.5 rounded-md break-all text-primary-foreground/85 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-primary",
-                  children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(Mail, { "aria-hidden": "true", className: "mt-0.5 size-4 shrink-0" }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: SITE.email })
-                  ]
-                }
-              ) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-start gap-2.5 text-primary-foreground/85", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(MapPin, { "aria-hidden": "true", className: "mt-0.5 size-4 shrink-0" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("address", { className: "not-italic", children: ADDRESS_LINE })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-start gap-2.5 text-primary-foreground/85", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { "aria-hidden": "true", className: "mt-0.5 size-4 shrink-0" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Open 24 hours, 7 days a week" })
-              ] })
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex gap-2.5 text-white/70", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { className: "mt-0.5 size-4 shrink-0", "aria-hidden": "true" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Open 24 hours, 7 days a week" })
             ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "label-board text-primary-foreground/60", children: "Explore" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-4 space-y-2.5 text-sm", children: NAV_ITEMS.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Link,
-              {
-                to: item.to,
-                "data-ocid": `footer.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`,
-                className: "rounded-md text-primary-foreground/85 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-primary",
-                children: item.label
-              }
-            ) }, item.to)) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "label-board mt-6 text-primary-foreground/60", children: "Legal" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-4 space-y-2.5 text-sm", children: LEGAL_ITEMS.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Link,
-              {
-                to: item.to,
-                "data-ocid": `footer.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`,
-                className: "rounded-md text-primary-foreground/85 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-primary",
-                children: item.label
-              }
-            ) }, item.to)) })
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-12 border-t border-primary-foreground/15 pt-8", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs leading-relaxed text-primary-foreground/60", children: SITE.disclosure }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 flex flex-col gap-2 text-xs text-primary-foreground/60 sm:flex-row sm:items-center sm:justify-between", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
-              "© ",
-              year,
-              " ",
-              SITE.legalName,
-              ". All rights reserved."
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
-              "Built with love using",
-              " ",
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "a",
-                {
-                  href: CAFFEINE_URL,
-                  target: "_blank",
-                  rel: "noopener noreferrer",
-                  className: "rounded-sm underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-primary",
-                  children: "caffeine.ai"
-                }
-              )
-            ] })
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "label-board text-white/45", children: "Explore" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-4 space-y-2.5 text-sm", children: NAV_ITEMS.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: item.to, "data-ocid": `footer.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`, className: "text-white/70 transition-smooth hover:text-accent", children: item.label }) }, item.to)) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "label-board mt-6 text-white/45", children: "Legal" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-4 space-y-2.5 text-sm", children: LEGAL_ITEMS.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: item.to, "data-ocid": `footer.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`, className: "text-white/70 transition-smooth hover:text-accent", children: item.label }) }, item.to)) })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-12 border-t border-white/10 pt-7", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "max-w-5xl text-xs leading-5 text-white/45", children: SITE.disclosure }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 flex flex-col gap-2 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+            "© ",
+            year,
+            " ",
+            SITE.legalName,
+            ". All rights reserved."
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+            "Built with love using ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: CAFFEINE_URL, target: "_blank", rel: "noopener noreferrer", className: "underline underline-offset-4 hover:text-accent", children: "caffeine.ai" })
           ] })
         ] })
       ] })
-    }
-  );
+    ] })
+  ] });
+}
+function SiteHeader() {
+  const [open, setOpen] = reactExports.useState(false);
+  reactExports.useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { "data-ocid": "site.header", className: "sticky top-0 z-50 border-b border-border/70 bg-white/90 shadow-[0_4px_24px_-18px_rgba(8,24,48,0.35)] backdrop-blur-xl", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto flex min-h-[4.25rem] w-full max-w-7xl items-center justify-between gap-2 px-4 sm:min-h-[4.5rem] sm:gap-4 sm:px-8 lg:h-20 lg:px-10", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: "/", "data-ocid": "site.logo_link", className: "group flex items-center gap-3 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-10 items-center justify-center rounded-xl bg-gradient-primary text-primary-foreground shadow-subtle transition-smooth group-hover:scale-105", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plane, { "aria-hidden": "true", className: "size-5 -rotate-45" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "flex flex-col leading-none", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-lg font-bold tracking-[-0.03em] text-foreground sm:text-xl", children: "TicketDepart" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mt-1 hidden text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground sm:block", children: "Flight assistance" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("nav", { "aria-label": "Primary", className: "hidden min-w-0 items-center gap-0.5 lg:flex xl:gap-1", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/flight-booking", className: "rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm", children: "Flight Booking" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/delta-airlines", className: "rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm", children: "Delta Airlines" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/united-airlines", className: "rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm", children: "United Airlines" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/american-airlines", className: "rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm", children: "American Airlines" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/southwest-airlines", className: "rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm", children: "Southwest Airlines" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("details", { className: "group", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("summary", { className: "cursor-pointer list-none rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm", children: "More Airlines" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute right-0 top-full z-50 mt-2 max-h-[min(70vh,32rem)] min-w-56 max-w-[calc(100vw-1rem)] overflow-y-auto overscroll-contain rounded-2xl border border-border bg-white p-2 shadow-elevated", children: AIRLINE_ITEMS.filter((item) => !["/delta-airlines", "/united-airlines", "/american-airlines", "/southwest-airlines"].includes(item.to)).map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: item.to, className: "block rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground", children: item.label }, item.to)) })
+        ] }) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "sm", className: "hidden xl:inline-flex shadow-subtle", ocid: "header.call_button" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: SITE.phoneHref, "aria-label": SITE.ctaLabel, "data-ocid": "header.call_icon_button", className: "inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-subtle transition-smooth hover:scale-105 sm:hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: () => setOpen((value) => !value), "aria-expanded": open, "aria-controls": "mobile-nav-drawer", "aria-label": open ? "Close navigation menu" : "Open navigation menu", "data-ocid": "header.menu_toggle", className: "inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-white text-foreground transition-smooth hover:bg-muted lg:hidden", children: open ? /* @__PURE__ */ jsxRuntimeExports.jsx(X, { "aria-hidden": "true", className: "size-5" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { "aria-hidden": "true", className: "size-5" }) })
+      ] })
+    ] }),
+    open ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "mobile-nav-drawer", "data-ocid": "header.mobile_drawer", className: "max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain border-t border-border bg-white/95 backdrop-blur-xl lg:hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("nav", { "aria-label": "Mobile", className: "mx-auto flex w-full max-w-7xl flex-col gap-1 px-4 py-4 sm:px-8", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/flight-booking", onClick: () => setOpen(false), className: "rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground", children: "Flight Booking" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/delta-airlines", onClick: () => setOpen(false), className: "rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground", children: "Delta Airlines" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/united-airlines", onClick: () => setOpen(false), className: "rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground", children: "United Airlines" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/american-airlines", onClick: () => setOpen(false), className: "rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground", children: "American Airlines" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/southwest-airlines", onClick: () => setOpen(false), className: "rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground", children: "Southwest Airlines" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t border-border pt-3 mt-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "px-4 pb-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground", children: "More Airlines" }),
+        AIRLINE_ITEMS.filter((item) => !["/delta-airlines", "/united-airlines", "/american-airlines", "/southwest-airlines"].includes(item.to)).map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: item.to, onClick: () => setOpen(false), className: "block rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground", children: item.label }, item.to))
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex flex-col gap-2 border-t border-border pt-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", className: "w-full", ocid: "mobile_nav.call_button" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-center text-sm text-muted-foreground", children: SITE.hours })
+      ] })
+    ] }) }) : null
+  ] });
+}
+function Layout({ children }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-h-dvh flex-col bg-background", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "a",
+      {
+        href: "#main-content",
+        "data-ocid": "site.skip_link",
+        className: "sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-primary-foreground focus:shadow-elevated",
+        children: "Skip to main content"
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(SiteHeader, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "main",
+      {
+        id: "main-content",
+        "data-ocid": "site.main",
+        className: "flex-1 pb-24",
+        children
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(SiteFooter, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(MobileCallBar, {})
+  ] });
 }
 const Error$1 = Variant({
   "FrontendOriginsNotConfigured": Null,
@@ -39954,2717 +42539,6 @@ function createActor(canisterId, _uploadFile, _downloadFile, options = {}) {
   });
   return new Backend(actor, _uploadFile, _downloadFile, options.processError);
 }
-function r(e) {
-  var t, f2, n = "";
-  if ("string" == typeof e || "number" == typeof e) n += e;
-  else if ("object" == typeof e) if (Array.isArray(e)) {
-    var o = e.length;
-    for (t = 0; t < o; t++) e[t] && (f2 = r(e[t])) && (n && (n += " "), n += f2);
-  } else for (f2 in e) e[f2] && (n && (n += " "), n += f2);
-  return n;
-}
-function clsx() {
-  for (var e, t, f2 = 0, n = "", o = arguments.length; f2 < o; f2++) (e = arguments[f2]) && (t = r(e)) && (n && (n += " "), n += t);
-  return n;
-}
-const CLASS_PART_SEPARATOR = "-";
-const createClassGroupUtils = (config) => {
-  const classMap = createClassMap(config);
-  const {
-    conflictingClassGroups,
-    conflictingClassGroupModifiers
-  } = config;
-  const getClassGroupId = (className) => {
-    const classParts = className.split(CLASS_PART_SEPARATOR);
-    if (classParts[0] === "" && classParts.length !== 1) {
-      classParts.shift();
-    }
-    return getGroupRecursive(classParts, classMap) || getGroupIdForArbitraryProperty(className);
-  };
-  const getConflictingClassGroupIds = (classGroupId, hasPostfixModifier) => {
-    const conflicts = conflictingClassGroups[classGroupId] || [];
-    if (hasPostfixModifier && conflictingClassGroupModifiers[classGroupId]) {
-      return [...conflicts, ...conflictingClassGroupModifiers[classGroupId]];
-    }
-    return conflicts;
-  };
-  return {
-    getClassGroupId,
-    getConflictingClassGroupIds
-  };
-};
-const getGroupRecursive = (classParts, classPartObject) => {
-  var _a2;
-  if (classParts.length === 0) {
-    return classPartObject.classGroupId;
-  }
-  const currentClassPart = classParts[0];
-  const nextClassPartObject = classPartObject.nextPart.get(currentClassPart);
-  const classGroupFromNextClassPart = nextClassPartObject ? getGroupRecursive(classParts.slice(1), nextClassPartObject) : void 0;
-  if (classGroupFromNextClassPart) {
-    return classGroupFromNextClassPart;
-  }
-  if (classPartObject.validators.length === 0) {
-    return void 0;
-  }
-  const classRest = classParts.join(CLASS_PART_SEPARATOR);
-  return (_a2 = classPartObject.validators.find(({
-    validator
-  }) => validator(classRest))) == null ? void 0 : _a2.classGroupId;
-};
-const arbitraryPropertyRegex = /^\[(.+)\]$/;
-const getGroupIdForArbitraryProperty = (className) => {
-  if (arbitraryPropertyRegex.test(className)) {
-    const arbitraryPropertyClassName = arbitraryPropertyRegex.exec(className)[1];
-    const property = arbitraryPropertyClassName == null ? void 0 : arbitraryPropertyClassName.substring(0, arbitraryPropertyClassName.indexOf(":"));
-    if (property) {
-      return "arbitrary.." + property;
-    }
-  }
-};
-const createClassMap = (config) => {
-  const {
-    theme,
-    prefix: prefix2
-  } = config;
-  const classMap = {
-    nextPart: /* @__PURE__ */ new Map(),
-    validators: []
-  };
-  const prefixedClassGroupEntries = getPrefixedClassGroupEntries(Object.entries(config.classGroups), prefix2);
-  prefixedClassGroupEntries.forEach(([classGroupId, classGroup]) => {
-    processClassesRecursively(classGroup, classMap, classGroupId, theme);
-  });
-  return classMap;
-};
-const processClassesRecursively = (classGroup, classPartObject, classGroupId, theme) => {
-  classGroup.forEach((classDefinition) => {
-    if (typeof classDefinition === "string") {
-      const classPartObjectToEdit = classDefinition === "" ? classPartObject : getPart(classPartObject, classDefinition);
-      classPartObjectToEdit.classGroupId = classGroupId;
-      return;
-    }
-    if (typeof classDefinition === "function") {
-      if (isThemeGetter(classDefinition)) {
-        processClassesRecursively(classDefinition(theme), classPartObject, classGroupId, theme);
-        return;
-      }
-      classPartObject.validators.push({
-        validator: classDefinition,
-        classGroupId
-      });
-      return;
-    }
-    Object.entries(classDefinition).forEach(([key, classGroup2]) => {
-      processClassesRecursively(classGroup2, getPart(classPartObject, key), classGroupId, theme);
-    });
-  });
-};
-const getPart = (classPartObject, path) => {
-  let currentClassPartObject = classPartObject;
-  path.split(CLASS_PART_SEPARATOR).forEach((pathPart) => {
-    if (!currentClassPartObject.nextPart.has(pathPart)) {
-      currentClassPartObject.nextPart.set(pathPart, {
-        nextPart: /* @__PURE__ */ new Map(),
-        validators: []
-      });
-    }
-    currentClassPartObject = currentClassPartObject.nextPart.get(pathPart);
-  });
-  return currentClassPartObject;
-};
-const isThemeGetter = (func) => func.isThemeGetter;
-const getPrefixedClassGroupEntries = (classGroupEntries, prefix2) => {
-  if (!prefix2) {
-    return classGroupEntries;
-  }
-  return classGroupEntries.map(([classGroupId, classGroup]) => {
-    const prefixedClassGroup = classGroup.map((classDefinition) => {
-      if (typeof classDefinition === "string") {
-        return prefix2 + classDefinition;
-      }
-      if (typeof classDefinition === "object") {
-        return Object.fromEntries(Object.entries(classDefinition).map(([key, value]) => [prefix2 + key, value]));
-      }
-      return classDefinition;
-    });
-    return [classGroupId, prefixedClassGroup];
-  });
-};
-const createLruCache = (maxCacheSize) => {
-  if (maxCacheSize < 1) {
-    return {
-      get: () => void 0,
-      set: () => {
-      }
-    };
-  }
-  let cacheSize = 0;
-  let cache = /* @__PURE__ */ new Map();
-  let previousCache = /* @__PURE__ */ new Map();
-  const update = (key, value) => {
-    cache.set(key, value);
-    cacheSize++;
-    if (cacheSize > maxCacheSize) {
-      cacheSize = 0;
-      previousCache = cache;
-      cache = /* @__PURE__ */ new Map();
-    }
-  };
-  return {
-    get(key) {
-      let value = cache.get(key);
-      if (value !== void 0) {
-        return value;
-      }
-      if ((value = previousCache.get(key)) !== void 0) {
-        update(key, value);
-        return value;
-      }
-    },
-    set(key, value) {
-      if (cache.has(key)) {
-        cache.set(key, value);
-      } else {
-        update(key, value);
-      }
-    }
-  };
-};
-const IMPORTANT_MODIFIER = "!";
-const createParseClassName = (config) => {
-  const {
-    separator,
-    experimentalParseClassName
-  } = config;
-  const isSeparatorSingleCharacter = separator.length === 1;
-  const firstSeparatorCharacter = separator[0];
-  const separatorLength = separator.length;
-  const parseClassName = (className) => {
-    const modifiers = [];
-    let bracketDepth = 0;
-    let modifierStart = 0;
-    let postfixModifierPosition;
-    for (let index2 = 0; index2 < className.length; index2++) {
-      let currentCharacter = className[index2];
-      if (bracketDepth === 0) {
-        if (currentCharacter === firstSeparatorCharacter && (isSeparatorSingleCharacter || className.slice(index2, index2 + separatorLength) === separator)) {
-          modifiers.push(className.slice(modifierStart, index2));
-          modifierStart = index2 + separatorLength;
-          continue;
-        }
-        if (currentCharacter === "/") {
-          postfixModifierPosition = index2;
-          continue;
-        }
-      }
-      if (currentCharacter === "[") {
-        bracketDepth++;
-      } else if (currentCharacter === "]") {
-        bracketDepth--;
-      }
-    }
-    const baseClassNameWithImportantModifier = modifiers.length === 0 ? className : className.substring(modifierStart);
-    const hasImportantModifier = baseClassNameWithImportantModifier.startsWith(IMPORTANT_MODIFIER);
-    const baseClassName = hasImportantModifier ? baseClassNameWithImportantModifier.substring(1) : baseClassNameWithImportantModifier;
-    const maybePostfixModifierPosition = postfixModifierPosition && postfixModifierPosition > modifierStart ? postfixModifierPosition - modifierStart : void 0;
-    return {
-      modifiers,
-      hasImportantModifier,
-      baseClassName,
-      maybePostfixModifierPosition
-    };
-  };
-  if (experimentalParseClassName) {
-    return (className) => experimentalParseClassName({
-      className,
-      parseClassName
-    });
-  }
-  return parseClassName;
-};
-const sortModifiers = (modifiers) => {
-  if (modifiers.length <= 1) {
-    return modifiers;
-  }
-  const sortedModifiers = [];
-  let unsortedModifiers = [];
-  modifiers.forEach((modifier) => {
-    const isArbitraryVariant = modifier[0] === "[";
-    if (isArbitraryVariant) {
-      sortedModifiers.push(...unsortedModifiers.sort(), modifier);
-      unsortedModifiers = [];
-    } else {
-      unsortedModifiers.push(modifier);
-    }
-  });
-  sortedModifiers.push(...unsortedModifiers.sort());
-  return sortedModifiers;
-};
-const createConfigUtils = (config) => ({
-  cache: createLruCache(config.cacheSize),
-  parseClassName: createParseClassName(config),
-  ...createClassGroupUtils(config)
-});
-const SPLIT_CLASSES_REGEX = /\s+/;
-const mergeClassList = (classList, configUtils) => {
-  const {
-    parseClassName,
-    getClassGroupId,
-    getConflictingClassGroupIds
-  } = configUtils;
-  const classGroupsInConflict = [];
-  const classNames = classList.trim().split(SPLIT_CLASSES_REGEX);
-  let result = "";
-  for (let index2 = classNames.length - 1; index2 >= 0; index2 -= 1) {
-    const originalClassName = classNames[index2];
-    const {
-      modifiers,
-      hasImportantModifier,
-      baseClassName,
-      maybePostfixModifierPosition
-    } = parseClassName(originalClassName);
-    let hasPostfixModifier = Boolean(maybePostfixModifierPosition);
-    let classGroupId = getClassGroupId(hasPostfixModifier ? baseClassName.substring(0, maybePostfixModifierPosition) : baseClassName);
-    if (!classGroupId) {
-      if (!hasPostfixModifier) {
-        result = originalClassName + (result.length > 0 ? " " + result : result);
-        continue;
-      }
-      classGroupId = getClassGroupId(baseClassName);
-      if (!classGroupId) {
-        result = originalClassName + (result.length > 0 ? " " + result : result);
-        continue;
-      }
-      hasPostfixModifier = false;
-    }
-    const variantModifier = sortModifiers(modifiers).join(":");
-    const modifierId = hasImportantModifier ? variantModifier + IMPORTANT_MODIFIER : variantModifier;
-    const classId = modifierId + classGroupId;
-    if (classGroupsInConflict.includes(classId)) {
-      continue;
-    }
-    classGroupsInConflict.push(classId);
-    const conflictGroups = getConflictingClassGroupIds(classGroupId, hasPostfixModifier);
-    for (let i = 0; i < conflictGroups.length; ++i) {
-      const group = conflictGroups[i];
-      classGroupsInConflict.push(modifierId + group);
-    }
-    result = originalClassName + (result.length > 0 ? " " + result : result);
-  }
-  return result;
-};
-function twJoin() {
-  let index2 = 0;
-  let argument;
-  let resolvedValue;
-  let string = "";
-  while (index2 < arguments.length) {
-    if (argument = arguments[index2++]) {
-      if (resolvedValue = toValue(argument)) {
-        string && (string += " ");
-        string += resolvedValue;
-      }
-    }
-  }
-  return string;
-}
-const toValue = (mix) => {
-  if (typeof mix === "string") {
-    return mix;
-  }
-  let resolvedValue;
-  let string = "";
-  for (let k2 = 0; k2 < mix.length; k2++) {
-    if (mix[k2]) {
-      if (resolvedValue = toValue(mix[k2])) {
-        string && (string += " ");
-        string += resolvedValue;
-      }
-    }
-  }
-  return string;
-};
-function createTailwindMerge(createConfigFirst, ...createConfigRest) {
-  let configUtils;
-  let cacheGet;
-  let cacheSet;
-  let functionToCall = initTailwindMerge;
-  function initTailwindMerge(classList) {
-    const config = createConfigRest.reduce((previousConfig, createConfigCurrent) => createConfigCurrent(previousConfig), createConfigFirst());
-    configUtils = createConfigUtils(config);
-    cacheGet = configUtils.cache.get;
-    cacheSet = configUtils.cache.set;
-    functionToCall = tailwindMerge;
-    return tailwindMerge(classList);
-  }
-  function tailwindMerge(classList) {
-    const cachedResult = cacheGet(classList);
-    if (cachedResult) {
-      return cachedResult;
-    }
-    const result = mergeClassList(classList, configUtils);
-    cacheSet(classList, result);
-    return result;
-  }
-  return function callTailwindMerge() {
-    return functionToCall(twJoin.apply(null, arguments));
-  };
-}
-const fromTheme = (key) => {
-  const themeGetter = (theme) => theme[key] || [];
-  themeGetter.isThemeGetter = true;
-  return themeGetter;
-};
-const arbitraryValueRegex = /^\[(?:([a-z-]+):)?(.+)\]$/i;
-const fractionRegex = /^\d+\/\d+$/;
-const stringLengths = /* @__PURE__ */ new Set(["px", "full", "screen"]);
-const tshirtUnitRegex = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/;
-const lengthUnitRegex = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/;
-const colorFunctionRegex = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/;
-const shadowRegex = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/;
-const imageRegex = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/;
-const isLength = (value) => isNumber(value) || stringLengths.has(value) || fractionRegex.test(value);
-const isArbitraryLength = (value) => getIsArbitraryValue(value, "length", isLengthOnly);
-const isNumber = (value) => Boolean(value) && !Number.isNaN(Number(value));
-const isArbitraryNumber = (value) => getIsArbitraryValue(value, "number", isNumber);
-const isInteger = (value) => Boolean(value) && Number.isInteger(Number(value));
-const isPercent = (value) => value.endsWith("%") && isNumber(value.slice(0, -1));
-const isArbitraryValue = (value) => arbitraryValueRegex.test(value);
-const isTshirtSize = (value) => tshirtUnitRegex.test(value);
-const sizeLabels = /* @__PURE__ */ new Set(["length", "size", "percentage"]);
-const isArbitrarySize = (value) => getIsArbitraryValue(value, sizeLabels, isNever);
-const isArbitraryPosition = (value) => getIsArbitraryValue(value, "position", isNever);
-const imageLabels = /* @__PURE__ */ new Set(["image", "url"]);
-const isArbitraryImage = (value) => getIsArbitraryValue(value, imageLabels, isImage);
-const isArbitraryShadow = (value) => getIsArbitraryValue(value, "", isShadow);
-const isAny = () => true;
-const getIsArbitraryValue = (value, label, testValue) => {
-  const result = arbitraryValueRegex.exec(value);
-  if (result) {
-    if (result[1]) {
-      return typeof label === "string" ? result[1] === label : label.has(result[1]);
-    }
-    return testValue(result[2]);
-  }
-  return false;
-};
-const isLengthOnly = (value) => (
-  // `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
-  // For example, `hsl(0 0% 0%)` would be classified as a length without this check.
-  // I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
-  lengthUnitRegex.test(value) && !colorFunctionRegex.test(value)
-);
-const isNever = () => false;
-const isShadow = (value) => shadowRegex.test(value);
-const isImage = (value) => imageRegex.test(value);
-const getDefaultConfig = () => {
-  const colors = fromTheme("colors");
-  const spacing = fromTheme("spacing");
-  const blur = fromTheme("blur");
-  const brightness = fromTheme("brightness");
-  const borderColor = fromTheme("borderColor");
-  const borderRadius = fromTheme("borderRadius");
-  const borderSpacing = fromTheme("borderSpacing");
-  const borderWidth = fromTheme("borderWidth");
-  const contrast = fromTheme("contrast");
-  const grayscale = fromTheme("grayscale");
-  const hueRotate = fromTheme("hueRotate");
-  const invert2 = fromTheme("invert");
-  const gap = fromTheme("gap");
-  const gradientColorStops = fromTheme("gradientColorStops");
-  const gradientColorStopPositions = fromTheme("gradientColorStopPositions");
-  const inset = fromTheme("inset");
-  const margin = fromTheme("margin");
-  const opacity = fromTheme("opacity");
-  const padding = fromTheme("padding");
-  const saturate = fromTheme("saturate");
-  const scale = fromTheme("scale");
-  const sepia = fromTheme("sepia");
-  const skew = fromTheme("skew");
-  const space = fromTheme("space");
-  const translate = fromTheme("translate");
-  const getOverscroll = () => ["auto", "contain", "none"];
-  const getOverflow = () => ["auto", "hidden", "clip", "visible", "scroll"];
-  const getSpacingWithAutoAndArbitrary = () => ["auto", isArbitraryValue, spacing];
-  const getSpacingWithArbitrary = () => [isArbitraryValue, spacing];
-  const getLengthWithEmptyAndArbitrary = () => ["", isLength, isArbitraryLength];
-  const getNumberWithAutoAndArbitrary = () => ["auto", isNumber, isArbitraryValue];
-  const getPositions = () => ["bottom", "center", "left", "left-bottom", "left-top", "right", "right-bottom", "right-top", "top"];
-  const getLineStyles = () => ["solid", "dashed", "dotted", "double", "none"];
-  const getBlendModes = () => ["normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"];
-  const getAlign = () => ["start", "end", "center", "between", "around", "evenly", "stretch"];
-  const getZeroAndEmpty = () => ["", "0", isArbitraryValue];
-  const getBreaks = () => ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"];
-  const getNumberAndArbitrary = () => [isNumber, isArbitraryValue];
-  return {
-    cacheSize: 500,
-    separator: ":",
-    theme: {
-      colors: [isAny],
-      spacing: [isLength, isArbitraryLength],
-      blur: ["none", "", isTshirtSize, isArbitraryValue],
-      brightness: getNumberAndArbitrary(),
-      borderColor: [colors],
-      borderRadius: ["none", "", "full", isTshirtSize, isArbitraryValue],
-      borderSpacing: getSpacingWithArbitrary(),
-      borderWidth: getLengthWithEmptyAndArbitrary(),
-      contrast: getNumberAndArbitrary(),
-      grayscale: getZeroAndEmpty(),
-      hueRotate: getNumberAndArbitrary(),
-      invert: getZeroAndEmpty(),
-      gap: getSpacingWithArbitrary(),
-      gradientColorStops: [colors],
-      gradientColorStopPositions: [isPercent, isArbitraryLength],
-      inset: getSpacingWithAutoAndArbitrary(),
-      margin: getSpacingWithAutoAndArbitrary(),
-      opacity: getNumberAndArbitrary(),
-      padding: getSpacingWithArbitrary(),
-      saturate: getNumberAndArbitrary(),
-      scale: getNumberAndArbitrary(),
-      sepia: getZeroAndEmpty(),
-      skew: getNumberAndArbitrary(),
-      space: getSpacingWithArbitrary(),
-      translate: getSpacingWithArbitrary()
-    },
-    classGroups: {
-      // Layout
-      /**
-       * Aspect Ratio
-       * @see https://tailwindcss.com/docs/aspect-ratio
-       */
-      aspect: [{
-        aspect: ["auto", "square", "video", isArbitraryValue]
-      }],
-      /**
-       * Container
-       * @see https://tailwindcss.com/docs/container
-       */
-      container: ["container"],
-      /**
-       * Columns
-       * @see https://tailwindcss.com/docs/columns
-       */
-      columns: [{
-        columns: [isTshirtSize]
-      }],
-      /**
-       * Break After
-       * @see https://tailwindcss.com/docs/break-after
-       */
-      "break-after": [{
-        "break-after": getBreaks()
-      }],
-      /**
-       * Break Before
-       * @see https://tailwindcss.com/docs/break-before
-       */
-      "break-before": [{
-        "break-before": getBreaks()
-      }],
-      /**
-       * Break Inside
-       * @see https://tailwindcss.com/docs/break-inside
-       */
-      "break-inside": [{
-        "break-inside": ["auto", "avoid", "avoid-page", "avoid-column"]
-      }],
-      /**
-       * Box Decoration Break
-       * @see https://tailwindcss.com/docs/box-decoration-break
-       */
-      "box-decoration": [{
-        "box-decoration": ["slice", "clone"]
-      }],
-      /**
-       * Box Sizing
-       * @see https://tailwindcss.com/docs/box-sizing
-       */
-      box: [{
-        box: ["border", "content"]
-      }],
-      /**
-       * Display
-       * @see https://tailwindcss.com/docs/display
-       */
-      display: ["block", "inline-block", "inline", "flex", "inline-flex", "table", "inline-table", "table-caption", "table-cell", "table-column", "table-column-group", "table-footer-group", "table-header-group", "table-row-group", "table-row", "flow-root", "grid", "inline-grid", "contents", "list-item", "hidden"],
-      /**
-       * Floats
-       * @see https://tailwindcss.com/docs/float
-       */
-      float: [{
-        float: ["right", "left", "none", "start", "end"]
-      }],
-      /**
-       * Clear
-       * @see https://tailwindcss.com/docs/clear
-       */
-      clear: [{
-        clear: ["left", "right", "both", "none", "start", "end"]
-      }],
-      /**
-       * Isolation
-       * @see https://tailwindcss.com/docs/isolation
-       */
-      isolation: ["isolate", "isolation-auto"],
-      /**
-       * Object Fit
-       * @see https://tailwindcss.com/docs/object-fit
-       */
-      "object-fit": [{
-        object: ["contain", "cover", "fill", "none", "scale-down"]
-      }],
-      /**
-       * Object Position
-       * @see https://tailwindcss.com/docs/object-position
-       */
-      "object-position": [{
-        object: [...getPositions(), isArbitraryValue]
-      }],
-      /**
-       * Overflow
-       * @see https://tailwindcss.com/docs/overflow
-       */
-      overflow: [{
-        overflow: getOverflow()
-      }],
-      /**
-       * Overflow X
-       * @see https://tailwindcss.com/docs/overflow
-       */
-      "overflow-x": [{
-        "overflow-x": getOverflow()
-      }],
-      /**
-       * Overflow Y
-       * @see https://tailwindcss.com/docs/overflow
-       */
-      "overflow-y": [{
-        "overflow-y": getOverflow()
-      }],
-      /**
-       * Overscroll Behavior
-       * @see https://tailwindcss.com/docs/overscroll-behavior
-       */
-      overscroll: [{
-        overscroll: getOverscroll()
-      }],
-      /**
-       * Overscroll Behavior X
-       * @see https://tailwindcss.com/docs/overscroll-behavior
-       */
-      "overscroll-x": [{
-        "overscroll-x": getOverscroll()
-      }],
-      /**
-       * Overscroll Behavior Y
-       * @see https://tailwindcss.com/docs/overscroll-behavior
-       */
-      "overscroll-y": [{
-        "overscroll-y": getOverscroll()
-      }],
-      /**
-       * Position
-       * @see https://tailwindcss.com/docs/position
-       */
-      position: ["static", "fixed", "absolute", "relative", "sticky"],
-      /**
-       * Top / Right / Bottom / Left
-       * @see https://tailwindcss.com/docs/top-right-bottom-left
-       */
-      inset: [{
-        inset: [inset]
-      }],
-      /**
-       * Right / Left
-       * @see https://tailwindcss.com/docs/top-right-bottom-left
-       */
-      "inset-x": [{
-        "inset-x": [inset]
-      }],
-      /**
-       * Top / Bottom
-       * @see https://tailwindcss.com/docs/top-right-bottom-left
-       */
-      "inset-y": [{
-        "inset-y": [inset]
-      }],
-      /**
-       * Start
-       * @see https://tailwindcss.com/docs/top-right-bottom-left
-       */
-      start: [{
-        start: [inset]
-      }],
-      /**
-       * End
-       * @see https://tailwindcss.com/docs/top-right-bottom-left
-       */
-      end: [{
-        end: [inset]
-      }],
-      /**
-       * Top
-       * @see https://tailwindcss.com/docs/top-right-bottom-left
-       */
-      top: [{
-        top: [inset]
-      }],
-      /**
-       * Right
-       * @see https://tailwindcss.com/docs/top-right-bottom-left
-       */
-      right: [{
-        right: [inset]
-      }],
-      /**
-       * Bottom
-       * @see https://tailwindcss.com/docs/top-right-bottom-left
-       */
-      bottom: [{
-        bottom: [inset]
-      }],
-      /**
-       * Left
-       * @see https://tailwindcss.com/docs/top-right-bottom-left
-       */
-      left: [{
-        left: [inset]
-      }],
-      /**
-       * Visibility
-       * @see https://tailwindcss.com/docs/visibility
-       */
-      visibility: ["visible", "invisible", "collapse"],
-      /**
-       * Z-Index
-       * @see https://tailwindcss.com/docs/z-index
-       */
-      z: [{
-        z: ["auto", isInteger, isArbitraryValue]
-      }],
-      // Flexbox and Grid
-      /**
-       * Flex Basis
-       * @see https://tailwindcss.com/docs/flex-basis
-       */
-      basis: [{
-        basis: getSpacingWithAutoAndArbitrary()
-      }],
-      /**
-       * Flex Direction
-       * @see https://tailwindcss.com/docs/flex-direction
-       */
-      "flex-direction": [{
-        flex: ["row", "row-reverse", "col", "col-reverse"]
-      }],
-      /**
-       * Flex Wrap
-       * @see https://tailwindcss.com/docs/flex-wrap
-       */
-      "flex-wrap": [{
-        flex: ["wrap", "wrap-reverse", "nowrap"]
-      }],
-      /**
-       * Flex
-       * @see https://tailwindcss.com/docs/flex
-       */
-      flex: [{
-        flex: ["1", "auto", "initial", "none", isArbitraryValue]
-      }],
-      /**
-       * Flex Grow
-       * @see https://tailwindcss.com/docs/flex-grow
-       */
-      grow: [{
-        grow: getZeroAndEmpty()
-      }],
-      /**
-       * Flex Shrink
-       * @see https://tailwindcss.com/docs/flex-shrink
-       */
-      shrink: [{
-        shrink: getZeroAndEmpty()
-      }],
-      /**
-       * Order
-       * @see https://tailwindcss.com/docs/order
-       */
-      order: [{
-        order: ["first", "last", "none", isInteger, isArbitraryValue]
-      }],
-      /**
-       * Grid Template Columns
-       * @see https://tailwindcss.com/docs/grid-template-columns
-       */
-      "grid-cols": [{
-        "grid-cols": [isAny]
-      }],
-      /**
-       * Grid Column Start / End
-       * @see https://tailwindcss.com/docs/grid-column
-       */
-      "col-start-end": [{
-        col: ["auto", {
-          span: ["full", isInteger, isArbitraryValue]
-        }, isArbitraryValue]
-      }],
-      /**
-       * Grid Column Start
-       * @see https://tailwindcss.com/docs/grid-column
-       */
-      "col-start": [{
-        "col-start": getNumberWithAutoAndArbitrary()
-      }],
-      /**
-       * Grid Column End
-       * @see https://tailwindcss.com/docs/grid-column
-       */
-      "col-end": [{
-        "col-end": getNumberWithAutoAndArbitrary()
-      }],
-      /**
-       * Grid Template Rows
-       * @see https://tailwindcss.com/docs/grid-template-rows
-       */
-      "grid-rows": [{
-        "grid-rows": [isAny]
-      }],
-      /**
-       * Grid Row Start / End
-       * @see https://tailwindcss.com/docs/grid-row
-       */
-      "row-start-end": [{
-        row: ["auto", {
-          span: [isInteger, isArbitraryValue]
-        }, isArbitraryValue]
-      }],
-      /**
-       * Grid Row Start
-       * @see https://tailwindcss.com/docs/grid-row
-       */
-      "row-start": [{
-        "row-start": getNumberWithAutoAndArbitrary()
-      }],
-      /**
-       * Grid Row End
-       * @see https://tailwindcss.com/docs/grid-row
-       */
-      "row-end": [{
-        "row-end": getNumberWithAutoAndArbitrary()
-      }],
-      /**
-       * Grid Auto Flow
-       * @see https://tailwindcss.com/docs/grid-auto-flow
-       */
-      "grid-flow": [{
-        "grid-flow": ["row", "col", "dense", "row-dense", "col-dense"]
-      }],
-      /**
-       * Grid Auto Columns
-       * @see https://tailwindcss.com/docs/grid-auto-columns
-       */
-      "auto-cols": [{
-        "auto-cols": ["auto", "min", "max", "fr", isArbitraryValue]
-      }],
-      /**
-       * Grid Auto Rows
-       * @see https://tailwindcss.com/docs/grid-auto-rows
-       */
-      "auto-rows": [{
-        "auto-rows": ["auto", "min", "max", "fr", isArbitraryValue]
-      }],
-      /**
-       * Gap
-       * @see https://tailwindcss.com/docs/gap
-       */
-      gap: [{
-        gap: [gap]
-      }],
-      /**
-       * Gap X
-       * @see https://tailwindcss.com/docs/gap
-       */
-      "gap-x": [{
-        "gap-x": [gap]
-      }],
-      /**
-       * Gap Y
-       * @see https://tailwindcss.com/docs/gap
-       */
-      "gap-y": [{
-        "gap-y": [gap]
-      }],
-      /**
-       * Justify Content
-       * @see https://tailwindcss.com/docs/justify-content
-       */
-      "justify-content": [{
-        justify: ["normal", ...getAlign()]
-      }],
-      /**
-       * Justify Items
-       * @see https://tailwindcss.com/docs/justify-items
-       */
-      "justify-items": [{
-        "justify-items": ["start", "end", "center", "stretch"]
-      }],
-      /**
-       * Justify Self
-       * @see https://tailwindcss.com/docs/justify-self
-       */
-      "justify-self": [{
-        "justify-self": ["auto", "start", "end", "center", "stretch"]
-      }],
-      /**
-       * Align Content
-       * @see https://tailwindcss.com/docs/align-content
-       */
-      "align-content": [{
-        content: ["normal", ...getAlign(), "baseline"]
-      }],
-      /**
-       * Align Items
-       * @see https://tailwindcss.com/docs/align-items
-       */
-      "align-items": [{
-        items: ["start", "end", "center", "baseline", "stretch"]
-      }],
-      /**
-       * Align Self
-       * @see https://tailwindcss.com/docs/align-self
-       */
-      "align-self": [{
-        self: ["auto", "start", "end", "center", "stretch", "baseline"]
-      }],
-      /**
-       * Place Content
-       * @see https://tailwindcss.com/docs/place-content
-       */
-      "place-content": [{
-        "place-content": [...getAlign(), "baseline"]
-      }],
-      /**
-       * Place Items
-       * @see https://tailwindcss.com/docs/place-items
-       */
-      "place-items": [{
-        "place-items": ["start", "end", "center", "baseline", "stretch"]
-      }],
-      /**
-       * Place Self
-       * @see https://tailwindcss.com/docs/place-self
-       */
-      "place-self": [{
-        "place-self": ["auto", "start", "end", "center", "stretch"]
-      }],
-      // Spacing
-      /**
-       * Padding
-       * @see https://tailwindcss.com/docs/padding
-       */
-      p: [{
-        p: [padding]
-      }],
-      /**
-       * Padding X
-       * @see https://tailwindcss.com/docs/padding
-       */
-      px: [{
-        px: [padding]
-      }],
-      /**
-       * Padding Y
-       * @see https://tailwindcss.com/docs/padding
-       */
-      py: [{
-        py: [padding]
-      }],
-      /**
-       * Padding Start
-       * @see https://tailwindcss.com/docs/padding
-       */
-      ps: [{
-        ps: [padding]
-      }],
-      /**
-       * Padding End
-       * @see https://tailwindcss.com/docs/padding
-       */
-      pe: [{
-        pe: [padding]
-      }],
-      /**
-       * Padding Top
-       * @see https://tailwindcss.com/docs/padding
-       */
-      pt: [{
-        pt: [padding]
-      }],
-      /**
-       * Padding Right
-       * @see https://tailwindcss.com/docs/padding
-       */
-      pr: [{
-        pr: [padding]
-      }],
-      /**
-       * Padding Bottom
-       * @see https://tailwindcss.com/docs/padding
-       */
-      pb: [{
-        pb: [padding]
-      }],
-      /**
-       * Padding Left
-       * @see https://tailwindcss.com/docs/padding
-       */
-      pl: [{
-        pl: [padding]
-      }],
-      /**
-       * Margin
-       * @see https://tailwindcss.com/docs/margin
-       */
-      m: [{
-        m: [margin]
-      }],
-      /**
-       * Margin X
-       * @see https://tailwindcss.com/docs/margin
-       */
-      mx: [{
-        mx: [margin]
-      }],
-      /**
-       * Margin Y
-       * @see https://tailwindcss.com/docs/margin
-       */
-      my: [{
-        my: [margin]
-      }],
-      /**
-       * Margin Start
-       * @see https://tailwindcss.com/docs/margin
-       */
-      ms: [{
-        ms: [margin]
-      }],
-      /**
-       * Margin End
-       * @see https://tailwindcss.com/docs/margin
-       */
-      me: [{
-        me: [margin]
-      }],
-      /**
-       * Margin Top
-       * @see https://tailwindcss.com/docs/margin
-       */
-      mt: [{
-        mt: [margin]
-      }],
-      /**
-       * Margin Right
-       * @see https://tailwindcss.com/docs/margin
-       */
-      mr: [{
-        mr: [margin]
-      }],
-      /**
-       * Margin Bottom
-       * @see https://tailwindcss.com/docs/margin
-       */
-      mb: [{
-        mb: [margin]
-      }],
-      /**
-       * Margin Left
-       * @see https://tailwindcss.com/docs/margin
-       */
-      ml: [{
-        ml: [margin]
-      }],
-      /**
-       * Space Between X
-       * @see https://tailwindcss.com/docs/space
-       */
-      "space-x": [{
-        "space-x": [space]
-      }],
-      /**
-       * Space Between X Reverse
-       * @see https://tailwindcss.com/docs/space
-       */
-      "space-x-reverse": ["space-x-reverse"],
-      /**
-       * Space Between Y
-       * @see https://tailwindcss.com/docs/space
-       */
-      "space-y": [{
-        "space-y": [space]
-      }],
-      /**
-       * Space Between Y Reverse
-       * @see https://tailwindcss.com/docs/space
-       */
-      "space-y-reverse": ["space-y-reverse"],
-      // Sizing
-      /**
-       * Width
-       * @see https://tailwindcss.com/docs/width
-       */
-      w: [{
-        w: ["auto", "min", "max", "fit", "svw", "lvw", "dvw", isArbitraryValue, spacing]
-      }],
-      /**
-       * Min-Width
-       * @see https://tailwindcss.com/docs/min-width
-       */
-      "min-w": [{
-        "min-w": [isArbitraryValue, spacing, "min", "max", "fit"]
-      }],
-      /**
-       * Max-Width
-       * @see https://tailwindcss.com/docs/max-width
-       */
-      "max-w": [{
-        "max-w": [isArbitraryValue, spacing, "none", "full", "min", "max", "fit", "prose", {
-          screen: [isTshirtSize]
-        }, isTshirtSize]
-      }],
-      /**
-       * Height
-       * @see https://tailwindcss.com/docs/height
-       */
-      h: [{
-        h: [isArbitraryValue, spacing, "auto", "min", "max", "fit", "svh", "lvh", "dvh"]
-      }],
-      /**
-       * Min-Height
-       * @see https://tailwindcss.com/docs/min-height
-       */
-      "min-h": [{
-        "min-h": [isArbitraryValue, spacing, "min", "max", "fit", "svh", "lvh", "dvh"]
-      }],
-      /**
-       * Max-Height
-       * @see https://tailwindcss.com/docs/max-height
-       */
-      "max-h": [{
-        "max-h": [isArbitraryValue, spacing, "min", "max", "fit", "svh", "lvh", "dvh"]
-      }],
-      /**
-       * Size
-       * @see https://tailwindcss.com/docs/size
-       */
-      size: [{
-        size: [isArbitraryValue, spacing, "auto", "min", "max", "fit"]
-      }],
-      // Typography
-      /**
-       * Font Size
-       * @see https://tailwindcss.com/docs/font-size
-       */
-      "font-size": [{
-        text: ["base", isTshirtSize, isArbitraryLength]
-      }],
-      /**
-       * Font Smoothing
-       * @see https://tailwindcss.com/docs/font-smoothing
-       */
-      "font-smoothing": ["antialiased", "subpixel-antialiased"],
-      /**
-       * Font Style
-       * @see https://tailwindcss.com/docs/font-style
-       */
-      "font-style": ["italic", "not-italic"],
-      /**
-       * Font Weight
-       * @see https://tailwindcss.com/docs/font-weight
-       */
-      "font-weight": [{
-        font: ["thin", "extralight", "light", "normal", "medium", "semibold", "bold", "extrabold", "black", isArbitraryNumber]
-      }],
-      /**
-       * Font Family
-       * @see https://tailwindcss.com/docs/font-family
-       */
-      "font-family": [{
-        font: [isAny]
-      }],
-      /**
-       * Font Variant Numeric
-       * @see https://tailwindcss.com/docs/font-variant-numeric
-       */
-      "fvn-normal": ["normal-nums"],
-      /**
-       * Font Variant Numeric
-       * @see https://tailwindcss.com/docs/font-variant-numeric
-       */
-      "fvn-ordinal": ["ordinal"],
-      /**
-       * Font Variant Numeric
-       * @see https://tailwindcss.com/docs/font-variant-numeric
-       */
-      "fvn-slashed-zero": ["slashed-zero"],
-      /**
-       * Font Variant Numeric
-       * @see https://tailwindcss.com/docs/font-variant-numeric
-       */
-      "fvn-figure": ["lining-nums", "oldstyle-nums"],
-      /**
-       * Font Variant Numeric
-       * @see https://tailwindcss.com/docs/font-variant-numeric
-       */
-      "fvn-spacing": ["proportional-nums", "tabular-nums"],
-      /**
-       * Font Variant Numeric
-       * @see https://tailwindcss.com/docs/font-variant-numeric
-       */
-      "fvn-fraction": ["diagonal-fractions", "stacked-fractions"],
-      /**
-       * Letter Spacing
-       * @see https://tailwindcss.com/docs/letter-spacing
-       */
-      tracking: [{
-        tracking: ["tighter", "tight", "normal", "wide", "wider", "widest", isArbitraryValue]
-      }],
-      /**
-       * Line Clamp
-       * @see https://tailwindcss.com/docs/line-clamp
-       */
-      "line-clamp": [{
-        "line-clamp": ["none", isNumber, isArbitraryNumber]
-      }],
-      /**
-       * Line Height
-       * @see https://tailwindcss.com/docs/line-height
-       */
-      leading: [{
-        leading: ["none", "tight", "snug", "normal", "relaxed", "loose", isLength, isArbitraryValue]
-      }],
-      /**
-       * List Style Image
-       * @see https://tailwindcss.com/docs/list-style-image
-       */
-      "list-image": [{
-        "list-image": ["none", isArbitraryValue]
-      }],
-      /**
-       * List Style Type
-       * @see https://tailwindcss.com/docs/list-style-type
-       */
-      "list-style-type": [{
-        list: ["none", "disc", "decimal", isArbitraryValue]
-      }],
-      /**
-       * List Style Position
-       * @see https://tailwindcss.com/docs/list-style-position
-       */
-      "list-style-position": [{
-        list: ["inside", "outside"]
-      }],
-      /**
-       * Placeholder Color
-       * @deprecated since Tailwind CSS v3.0.0
-       * @see https://tailwindcss.com/docs/placeholder-color
-       */
-      "placeholder-color": [{
-        placeholder: [colors]
-      }],
-      /**
-       * Placeholder Opacity
-       * @see https://tailwindcss.com/docs/placeholder-opacity
-       */
-      "placeholder-opacity": [{
-        "placeholder-opacity": [opacity]
-      }],
-      /**
-       * Text Alignment
-       * @see https://tailwindcss.com/docs/text-align
-       */
-      "text-alignment": [{
-        text: ["left", "center", "right", "justify", "start", "end"]
-      }],
-      /**
-       * Text Color
-       * @see https://tailwindcss.com/docs/text-color
-       */
-      "text-color": [{
-        text: [colors]
-      }],
-      /**
-       * Text Opacity
-       * @see https://tailwindcss.com/docs/text-opacity
-       */
-      "text-opacity": [{
-        "text-opacity": [opacity]
-      }],
-      /**
-       * Text Decoration
-       * @see https://tailwindcss.com/docs/text-decoration
-       */
-      "text-decoration": ["underline", "overline", "line-through", "no-underline"],
-      /**
-       * Text Decoration Style
-       * @see https://tailwindcss.com/docs/text-decoration-style
-       */
-      "text-decoration-style": [{
-        decoration: [...getLineStyles(), "wavy"]
-      }],
-      /**
-       * Text Decoration Thickness
-       * @see https://tailwindcss.com/docs/text-decoration-thickness
-       */
-      "text-decoration-thickness": [{
-        decoration: ["auto", "from-font", isLength, isArbitraryLength]
-      }],
-      /**
-       * Text Underline Offset
-       * @see https://tailwindcss.com/docs/text-underline-offset
-       */
-      "underline-offset": [{
-        "underline-offset": ["auto", isLength, isArbitraryValue]
-      }],
-      /**
-       * Text Decoration Color
-       * @see https://tailwindcss.com/docs/text-decoration-color
-       */
-      "text-decoration-color": [{
-        decoration: [colors]
-      }],
-      /**
-       * Text Transform
-       * @see https://tailwindcss.com/docs/text-transform
-       */
-      "text-transform": ["uppercase", "lowercase", "capitalize", "normal-case"],
-      /**
-       * Text Overflow
-       * @see https://tailwindcss.com/docs/text-overflow
-       */
-      "text-overflow": ["truncate", "text-ellipsis", "text-clip"],
-      /**
-       * Text Wrap
-       * @see https://tailwindcss.com/docs/text-wrap
-       */
-      "text-wrap": [{
-        text: ["wrap", "nowrap", "balance", "pretty"]
-      }],
-      /**
-       * Text Indent
-       * @see https://tailwindcss.com/docs/text-indent
-       */
-      indent: [{
-        indent: getSpacingWithArbitrary()
-      }],
-      /**
-       * Vertical Alignment
-       * @see https://tailwindcss.com/docs/vertical-align
-       */
-      "vertical-align": [{
-        align: ["baseline", "top", "middle", "bottom", "text-top", "text-bottom", "sub", "super", isArbitraryValue]
-      }],
-      /**
-       * Whitespace
-       * @see https://tailwindcss.com/docs/whitespace
-       */
-      whitespace: [{
-        whitespace: ["normal", "nowrap", "pre", "pre-line", "pre-wrap", "break-spaces"]
-      }],
-      /**
-       * Word Break
-       * @see https://tailwindcss.com/docs/word-break
-       */
-      break: [{
-        break: ["normal", "words", "all", "keep"]
-      }],
-      /**
-       * Hyphens
-       * @see https://tailwindcss.com/docs/hyphens
-       */
-      hyphens: [{
-        hyphens: ["none", "manual", "auto"]
-      }],
-      /**
-       * Content
-       * @see https://tailwindcss.com/docs/content
-       */
-      content: [{
-        content: ["none", isArbitraryValue]
-      }],
-      // Backgrounds
-      /**
-       * Background Attachment
-       * @see https://tailwindcss.com/docs/background-attachment
-       */
-      "bg-attachment": [{
-        bg: ["fixed", "local", "scroll"]
-      }],
-      /**
-       * Background Clip
-       * @see https://tailwindcss.com/docs/background-clip
-       */
-      "bg-clip": [{
-        "bg-clip": ["border", "padding", "content", "text"]
-      }],
-      /**
-       * Background Opacity
-       * @deprecated since Tailwind CSS v3.0.0
-       * @see https://tailwindcss.com/docs/background-opacity
-       */
-      "bg-opacity": [{
-        "bg-opacity": [opacity]
-      }],
-      /**
-       * Background Origin
-       * @see https://tailwindcss.com/docs/background-origin
-       */
-      "bg-origin": [{
-        "bg-origin": ["border", "padding", "content"]
-      }],
-      /**
-       * Background Position
-       * @see https://tailwindcss.com/docs/background-position
-       */
-      "bg-position": [{
-        bg: [...getPositions(), isArbitraryPosition]
-      }],
-      /**
-       * Background Repeat
-       * @see https://tailwindcss.com/docs/background-repeat
-       */
-      "bg-repeat": [{
-        bg: ["no-repeat", {
-          repeat: ["", "x", "y", "round", "space"]
-        }]
-      }],
-      /**
-       * Background Size
-       * @see https://tailwindcss.com/docs/background-size
-       */
-      "bg-size": [{
-        bg: ["auto", "cover", "contain", isArbitrarySize]
-      }],
-      /**
-       * Background Image
-       * @see https://tailwindcss.com/docs/background-image
-       */
-      "bg-image": [{
-        bg: ["none", {
-          "gradient-to": ["t", "tr", "r", "br", "b", "bl", "l", "tl"]
-        }, isArbitraryImage]
-      }],
-      /**
-       * Background Color
-       * @see https://tailwindcss.com/docs/background-color
-       */
-      "bg-color": [{
-        bg: [colors]
-      }],
-      /**
-       * Gradient Color Stops From Position
-       * @see https://tailwindcss.com/docs/gradient-color-stops
-       */
-      "gradient-from-pos": [{
-        from: [gradientColorStopPositions]
-      }],
-      /**
-       * Gradient Color Stops Via Position
-       * @see https://tailwindcss.com/docs/gradient-color-stops
-       */
-      "gradient-via-pos": [{
-        via: [gradientColorStopPositions]
-      }],
-      /**
-       * Gradient Color Stops To Position
-       * @see https://tailwindcss.com/docs/gradient-color-stops
-       */
-      "gradient-to-pos": [{
-        to: [gradientColorStopPositions]
-      }],
-      /**
-       * Gradient Color Stops From
-       * @see https://tailwindcss.com/docs/gradient-color-stops
-       */
-      "gradient-from": [{
-        from: [gradientColorStops]
-      }],
-      /**
-       * Gradient Color Stops Via
-       * @see https://tailwindcss.com/docs/gradient-color-stops
-       */
-      "gradient-via": [{
-        via: [gradientColorStops]
-      }],
-      /**
-       * Gradient Color Stops To
-       * @see https://tailwindcss.com/docs/gradient-color-stops
-       */
-      "gradient-to": [{
-        to: [gradientColorStops]
-      }],
-      // Borders
-      /**
-       * Border Radius
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      rounded: [{
-        rounded: [borderRadius]
-      }],
-      /**
-       * Border Radius Start
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-s": [{
-        "rounded-s": [borderRadius]
-      }],
-      /**
-       * Border Radius End
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-e": [{
-        "rounded-e": [borderRadius]
-      }],
-      /**
-       * Border Radius Top
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-t": [{
-        "rounded-t": [borderRadius]
-      }],
-      /**
-       * Border Radius Right
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-r": [{
-        "rounded-r": [borderRadius]
-      }],
-      /**
-       * Border Radius Bottom
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-b": [{
-        "rounded-b": [borderRadius]
-      }],
-      /**
-       * Border Radius Left
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-l": [{
-        "rounded-l": [borderRadius]
-      }],
-      /**
-       * Border Radius Start Start
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-ss": [{
-        "rounded-ss": [borderRadius]
-      }],
-      /**
-       * Border Radius Start End
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-se": [{
-        "rounded-se": [borderRadius]
-      }],
-      /**
-       * Border Radius End End
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-ee": [{
-        "rounded-ee": [borderRadius]
-      }],
-      /**
-       * Border Radius End Start
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-es": [{
-        "rounded-es": [borderRadius]
-      }],
-      /**
-       * Border Radius Top Left
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-tl": [{
-        "rounded-tl": [borderRadius]
-      }],
-      /**
-       * Border Radius Top Right
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-tr": [{
-        "rounded-tr": [borderRadius]
-      }],
-      /**
-       * Border Radius Bottom Right
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-br": [{
-        "rounded-br": [borderRadius]
-      }],
-      /**
-       * Border Radius Bottom Left
-       * @see https://tailwindcss.com/docs/border-radius
-       */
-      "rounded-bl": [{
-        "rounded-bl": [borderRadius]
-      }],
-      /**
-       * Border Width
-       * @see https://tailwindcss.com/docs/border-width
-       */
-      "border-w": [{
-        border: [borderWidth]
-      }],
-      /**
-       * Border Width X
-       * @see https://tailwindcss.com/docs/border-width
-       */
-      "border-w-x": [{
-        "border-x": [borderWidth]
-      }],
-      /**
-       * Border Width Y
-       * @see https://tailwindcss.com/docs/border-width
-       */
-      "border-w-y": [{
-        "border-y": [borderWidth]
-      }],
-      /**
-       * Border Width Start
-       * @see https://tailwindcss.com/docs/border-width
-       */
-      "border-w-s": [{
-        "border-s": [borderWidth]
-      }],
-      /**
-       * Border Width End
-       * @see https://tailwindcss.com/docs/border-width
-       */
-      "border-w-e": [{
-        "border-e": [borderWidth]
-      }],
-      /**
-       * Border Width Top
-       * @see https://tailwindcss.com/docs/border-width
-       */
-      "border-w-t": [{
-        "border-t": [borderWidth]
-      }],
-      /**
-       * Border Width Right
-       * @see https://tailwindcss.com/docs/border-width
-       */
-      "border-w-r": [{
-        "border-r": [borderWidth]
-      }],
-      /**
-       * Border Width Bottom
-       * @see https://tailwindcss.com/docs/border-width
-       */
-      "border-w-b": [{
-        "border-b": [borderWidth]
-      }],
-      /**
-       * Border Width Left
-       * @see https://tailwindcss.com/docs/border-width
-       */
-      "border-w-l": [{
-        "border-l": [borderWidth]
-      }],
-      /**
-       * Border Opacity
-       * @see https://tailwindcss.com/docs/border-opacity
-       */
-      "border-opacity": [{
-        "border-opacity": [opacity]
-      }],
-      /**
-       * Border Style
-       * @see https://tailwindcss.com/docs/border-style
-       */
-      "border-style": [{
-        border: [...getLineStyles(), "hidden"]
-      }],
-      /**
-       * Divide Width X
-       * @see https://tailwindcss.com/docs/divide-width
-       */
-      "divide-x": [{
-        "divide-x": [borderWidth]
-      }],
-      /**
-       * Divide Width X Reverse
-       * @see https://tailwindcss.com/docs/divide-width
-       */
-      "divide-x-reverse": ["divide-x-reverse"],
-      /**
-       * Divide Width Y
-       * @see https://tailwindcss.com/docs/divide-width
-       */
-      "divide-y": [{
-        "divide-y": [borderWidth]
-      }],
-      /**
-       * Divide Width Y Reverse
-       * @see https://tailwindcss.com/docs/divide-width
-       */
-      "divide-y-reverse": ["divide-y-reverse"],
-      /**
-       * Divide Opacity
-       * @see https://tailwindcss.com/docs/divide-opacity
-       */
-      "divide-opacity": [{
-        "divide-opacity": [opacity]
-      }],
-      /**
-       * Divide Style
-       * @see https://tailwindcss.com/docs/divide-style
-       */
-      "divide-style": [{
-        divide: getLineStyles()
-      }],
-      /**
-       * Border Color
-       * @see https://tailwindcss.com/docs/border-color
-       */
-      "border-color": [{
-        border: [borderColor]
-      }],
-      /**
-       * Border Color X
-       * @see https://tailwindcss.com/docs/border-color
-       */
-      "border-color-x": [{
-        "border-x": [borderColor]
-      }],
-      /**
-       * Border Color Y
-       * @see https://tailwindcss.com/docs/border-color
-       */
-      "border-color-y": [{
-        "border-y": [borderColor]
-      }],
-      /**
-       * Border Color S
-       * @see https://tailwindcss.com/docs/border-color
-       */
-      "border-color-s": [{
-        "border-s": [borderColor]
-      }],
-      /**
-       * Border Color E
-       * @see https://tailwindcss.com/docs/border-color
-       */
-      "border-color-e": [{
-        "border-e": [borderColor]
-      }],
-      /**
-       * Border Color Top
-       * @see https://tailwindcss.com/docs/border-color
-       */
-      "border-color-t": [{
-        "border-t": [borderColor]
-      }],
-      /**
-       * Border Color Right
-       * @see https://tailwindcss.com/docs/border-color
-       */
-      "border-color-r": [{
-        "border-r": [borderColor]
-      }],
-      /**
-       * Border Color Bottom
-       * @see https://tailwindcss.com/docs/border-color
-       */
-      "border-color-b": [{
-        "border-b": [borderColor]
-      }],
-      /**
-       * Border Color Left
-       * @see https://tailwindcss.com/docs/border-color
-       */
-      "border-color-l": [{
-        "border-l": [borderColor]
-      }],
-      /**
-       * Divide Color
-       * @see https://tailwindcss.com/docs/divide-color
-       */
-      "divide-color": [{
-        divide: [borderColor]
-      }],
-      /**
-       * Outline Style
-       * @see https://tailwindcss.com/docs/outline-style
-       */
-      "outline-style": [{
-        outline: ["", ...getLineStyles()]
-      }],
-      /**
-       * Outline Offset
-       * @see https://tailwindcss.com/docs/outline-offset
-       */
-      "outline-offset": [{
-        "outline-offset": [isLength, isArbitraryValue]
-      }],
-      /**
-       * Outline Width
-       * @see https://tailwindcss.com/docs/outline-width
-       */
-      "outline-w": [{
-        outline: [isLength, isArbitraryLength]
-      }],
-      /**
-       * Outline Color
-       * @see https://tailwindcss.com/docs/outline-color
-       */
-      "outline-color": [{
-        outline: [colors]
-      }],
-      /**
-       * Ring Width
-       * @see https://tailwindcss.com/docs/ring-width
-       */
-      "ring-w": [{
-        ring: getLengthWithEmptyAndArbitrary()
-      }],
-      /**
-       * Ring Width Inset
-       * @see https://tailwindcss.com/docs/ring-width
-       */
-      "ring-w-inset": ["ring-inset"],
-      /**
-       * Ring Color
-       * @see https://tailwindcss.com/docs/ring-color
-       */
-      "ring-color": [{
-        ring: [colors]
-      }],
-      /**
-       * Ring Opacity
-       * @see https://tailwindcss.com/docs/ring-opacity
-       */
-      "ring-opacity": [{
-        "ring-opacity": [opacity]
-      }],
-      /**
-       * Ring Offset Width
-       * @see https://tailwindcss.com/docs/ring-offset-width
-       */
-      "ring-offset-w": [{
-        "ring-offset": [isLength, isArbitraryLength]
-      }],
-      /**
-       * Ring Offset Color
-       * @see https://tailwindcss.com/docs/ring-offset-color
-       */
-      "ring-offset-color": [{
-        "ring-offset": [colors]
-      }],
-      // Effects
-      /**
-       * Box Shadow
-       * @see https://tailwindcss.com/docs/box-shadow
-       */
-      shadow: [{
-        shadow: ["", "inner", "none", isTshirtSize, isArbitraryShadow]
-      }],
-      /**
-       * Box Shadow Color
-       * @see https://tailwindcss.com/docs/box-shadow-color
-       */
-      "shadow-color": [{
-        shadow: [isAny]
-      }],
-      /**
-       * Opacity
-       * @see https://tailwindcss.com/docs/opacity
-       */
-      opacity: [{
-        opacity: [opacity]
-      }],
-      /**
-       * Mix Blend Mode
-       * @see https://tailwindcss.com/docs/mix-blend-mode
-       */
-      "mix-blend": [{
-        "mix-blend": [...getBlendModes(), "plus-lighter", "plus-darker"]
-      }],
-      /**
-       * Background Blend Mode
-       * @see https://tailwindcss.com/docs/background-blend-mode
-       */
-      "bg-blend": [{
-        "bg-blend": getBlendModes()
-      }],
-      // Filters
-      /**
-       * Filter
-       * @deprecated since Tailwind CSS v3.0.0
-       * @see https://tailwindcss.com/docs/filter
-       */
-      filter: [{
-        filter: ["", "none"]
-      }],
-      /**
-       * Blur
-       * @see https://tailwindcss.com/docs/blur
-       */
-      blur: [{
-        blur: [blur]
-      }],
-      /**
-       * Brightness
-       * @see https://tailwindcss.com/docs/brightness
-       */
-      brightness: [{
-        brightness: [brightness]
-      }],
-      /**
-       * Contrast
-       * @see https://tailwindcss.com/docs/contrast
-       */
-      contrast: [{
-        contrast: [contrast]
-      }],
-      /**
-       * Drop Shadow
-       * @see https://tailwindcss.com/docs/drop-shadow
-       */
-      "drop-shadow": [{
-        "drop-shadow": ["", "none", isTshirtSize, isArbitraryValue]
-      }],
-      /**
-       * Grayscale
-       * @see https://tailwindcss.com/docs/grayscale
-       */
-      grayscale: [{
-        grayscale: [grayscale]
-      }],
-      /**
-       * Hue Rotate
-       * @see https://tailwindcss.com/docs/hue-rotate
-       */
-      "hue-rotate": [{
-        "hue-rotate": [hueRotate]
-      }],
-      /**
-       * Invert
-       * @see https://tailwindcss.com/docs/invert
-       */
-      invert: [{
-        invert: [invert2]
-      }],
-      /**
-       * Saturate
-       * @see https://tailwindcss.com/docs/saturate
-       */
-      saturate: [{
-        saturate: [saturate]
-      }],
-      /**
-       * Sepia
-       * @see https://tailwindcss.com/docs/sepia
-       */
-      sepia: [{
-        sepia: [sepia]
-      }],
-      /**
-       * Backdrop Filter
-       * @deprecated since Tailwind CSS v3.0.0
-       * @see https://tailwindcss.com/docs/backdrop-filter
-       */
-      "backdrop-filter": [{
-        "backdrop-filter": ["", "none"]
-      }],
-      /**
-       * Backdrop Blur
-       * @see https://tailwindcss.com/docs/backdrop-blur
-       */
-      "backdrop-blur": [{
-        "backdrop-blur": [blur]
-      }],
-      /**
-       * Backdrop Brightness
-       * @see https://tailwindcss.com/docs/backdrop-brightness
-       */
-      "backdrop-brightness": [{
-        "backdrop-brightness": [brightness]
-      }],
-      /**
-       * Backdrop Contrast
-       * @see https://tailwindcss.com/docs/backdrop-contrast
-       */
-      "backdrop-contrast": [{
-        "backdrop-contrast": [contrast]
-      }],
-      /**
-       * Backdrop Grayscale
-       * @see https://tailwindcss.com/docs/backdrop-grayscale
-       */
-      "backdrop-grayscale": [{
-        "backdrop-grayscale": [grayscale]
-      }],
-      /**
-       * Backdrop Hue Rotate
-       * @see https://tailwindcss.com/docs/backdrop-hue-rotate
-       */
-      "backdrop-hue-rotate": [{
-        "backdrop-hue-rotate": [hueRotate]
-      }],
-      /**
-       * Backdrop Invert
-       * @see https://tailwindcss.com/docs/backdrop-invert
-       */
-      "backdrop-invert": [{
-        "backdrop-invert": [invert2]
-      }],
-      /**
-       * Backdrop Opacity
-       * @see https://tailwindcss.com/docs/backdrop-opacity
-       */
-      "backdrop-opacity": [{
-        "backdrop-opacity": [opacity]
-      }],
-      /**
-       * Backdrop Saturate
-       * @see https://tailwindcss.com/docs/backdrop-saturate
-       */
-      "backdrop-saturate": [{
-        "backdrop-saturate": [saturate]
-      }],
-      /**
-       * Backdrop Sepia
-       * @see https://tailwindcss.com/docs/backdrop-sepia
-       */
-      "backdrop-sepia": [{
-        "backdrop-sepia": [sepia]
-      }],
-      // Tables
-      /**
-       * Border Collapse
-       * @see https://tailwindcss.com/docs/border-collapse
-       */
-      "border-collapse": [{
-        border: ["collapse", "separate"]
-      }],
-      /**
-       * Border Spacing
-       * @see https://tailwindcss.com/docs/border-spacing
-       */
-      "border-spacing": [{
-        "border-spacing": [borderSpacing]
-      }],
-      /**
-       * Border Spacing X
-       * @see https://tailwindcss.com/docs/border-spacing
-       */
-      "border-spacing-x": [{
-        "border-spacing-x": [borderSpacing]
-      }],
-      /**
-       * Border Spacing Y
-       * @see https://tailwindcss.com/docs/border-spacing
-       */
-      "border-spacing-y": [{
-        "border-spacing-y": [borderSpacing]
-      }],
-      /**
-       * Table Layout
-       * @see https://tailwindcss.com/docs/table-layout
-       */
-      "table-layout": [{
-        table: ["auto", "fixed"]
-      }],
-      /**
-       * Caption Side
-       * @see https://tailwindcss.com/docs/caption-side
-       */
-      caption: [{
-        caption: ["top", "bottom"]
-      }],
-      // Transitions and Animation
-      /**
-       * Tranisition Property
-       * @see https://tailwindcss.com/docs/transition-property
-       */
-      transition: [{
-        transition: ["none", "all", "", "colors", "opacity", "shadow", "transform", isArbitraryValue]
-      }],
-      /**
-       * Transition Duration
-       * @see https://tailwindcss.com/docs/transition-duration
-       */
-      duration: [{
-        duration: getNumberAndArbitrary()
-      }],
-      /**
-       * Transition Timing Function
-       * @see https://tailwindcss.com/docs/transition-timing-function
-       */
-      ease: [{
-        ease: ["linear", "in", "out", "in-out", isArbitraryValue]
-      }],
-      /**
-       * Transition Delay
-       * @see https://tailwindcss.com/docs/transition-delay
-       */
-      delay: [{
-        delay: getNumberAndArbitrary()
-      }],
-      /**
-       * Animation
-       * @see https://tailwindcss.com/docs/animation
-       */
-      animate: [{
-        animate: ["none", "spin", "ping", "pulse", "bounce", isArbitraryValue]
-      }],
-      // Transforms
-      /**
-       * Transform
-       * @see https://tailwindcss.com/docs/transform
-       */
-      transform: [{
-        transform: ["", "gpu", "none"]
-      }],
-      /**
-       * Scale
-       * @see https://tailwindcss.com/docs/scale
-       */
-      scale: [{
-        scale: [scale]
-      }],
-      /**
-       * Scale X
-       * @see https://tailwindcss.com/docs/scale
-       */
-      "scale-x": [{
-        "scale-x": [scale]
-      }],
-      /**
-       * Scale Y
-       * @see https://tailwindcss.com/docs/scale
-       */
-      "scale-y": [{
-        "scale-y": [scale]
-      }],
-      /**
-       * Rotate
-       * @see https://tailwindcss.com/docs/rotate
-       */
-      rotate: [{
-        rotate: [isInteger, isArbitraryValue]
-      }],
-      /**
-       * Translate X
-       * @see https://tailwindcss.com/docs/translate
-       */
-      "translate-x": [{
-        "translate-x": [translate]
-      }],
-      /**
-       * Translate Y
-       * @see https://tailwindcss.com/docs/translate
-       */
-      "translate-y": [{
-        "translate-y": [translate]
-      }],
-      /**
-       * Skew X
-       * @see https://tailwindcss.com/docs/skew
-       */
-      "skew-x": [{
-        "skew-x": [skew]
-      }],
-      /**
-       * Skew Y
-       * @see https://tailwindcss.com/docs/skew
-       */
-      "skew-y": [{
-        "skew-y": [skew]
-      }],
-      /**
-       * Transform Origin
-       * @see https://tailwindcss.com/docs/transform-origin
-       */
-      "transform-origin": [{
-        origin: ["center", "top", "top-right", "right", "bottom-right", "bottom", "bottom-left", "left", "top-left", isArbitraryValue]
-      }],
-      // Interactivity
-      /**
-       * Accent Color
-       * @see https://tailwindcss.com/docs/accent-color
-       */
-      accent: [{
-        accent: ["auto", colors]
-      }],
-      /**
-       * Appearance
-       * @see https://tailwindcss.com/docs/appearance
-       */
-      appearance: [{
-        appearance: ["none", "auto"]
-      }],
-      /**
-       * Cursor
-       * @see https://tailwindcss.com/docs/cursor
-       */
-      cursor: [{
-        cursor: ["auto", "default", "pointer", "wait", "text", "move", "help", "not-allowed", "none", "context-menu", "progress", "cell", "crosshair", "vertical-text", "alias", "copy", "no-drop", "grab", "grabbing", "all-scroll", "col-resize", "row-resize", "n-resize", "e-resize", "s-resize", "w-resize", "ne-resize", "nw-resize", "se-resize", "sw-resize", "ew-resize", "ns-resize", "nesw-resize", "nwse-resize", "zoom-in", "zoom-out", isArbitraryValue]
-      }],
-      /**
-       * Caret Color
-       * @see https://tailwindcss.com/docs/just-in-time-mode#caret-color-utilities
-       */
-      "caret-color": [{
-        caret: [colors]
-      }],
-      /**
-       * Pointer Events
-       * @see https://tailwindcss.com/docs/pointer-events
-       */
-      "pointer-events": [{
-        "pointer-events": ["none", "auto"]
-      }],
-      /**
-       * Resize
-       * @see https://tailwindcss.com/docs/resize
-       */
-      resize: [{
-        resize: ["none", "y", "x", ""]
-      }],
-      /**
-       * Scroll Behavior
-       * @see https://tailwindcss.com/docs/scroll-behavior
-       */
-      "scroll-behavior": [{
-        scroll: ["auto", "smooth"]
-      }],
-      /**
-       * Scroll Margin
-       * @see https://tailwindcss.com/docs/scroll-margin
-       */
-      "scroll-m": [{
-        "scroll-m": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Margin X
-       * @see https://tailwindcss.com/docs/scroll-margin
-       */
-      "scroll-mx": [{
-        "scroll-mx": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Margin Y
-       * @see https://tailwindcss.com/docs/scroll-margin
-       */
-      "scroll-my": [{
-        "scroll-my": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Margin Start
-       * @see https://tailwindcss.com/docs/scroll-margin
-       */
-      "scroll-ms": [{
-        "scroll-ms": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Margin End
-       * @see https://tailwindcss.com/docs/scroll-margin
-       */
-      "scroll-me": [{
-        "scroll-me": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Margin Top
-       * @see https://tailwindcss.com/docs/scroll-margin
-       */
-      "scroll-mt": [{
-        "scroll-mt": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Margin Right
-       * @see https://tailwindcss.com/docs/scroll-margin
-       */
-      "scroll-mr": [{
-        "scroll-mr": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Margin Bottom
-       * @see https://tailwindcss.com/docs/scroll-margin
-       */
-      "scroll-mb": [{
-        "scroll-mb": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Margin Left
-       * @see https://tailwindcss.com/docs/scroll-margin
-       */
-      "scroll-ml": [{
-        "scroll-ml": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Padding
-       * @see https://tailwindcss.com/docs/scroll-padding
-       */
-      "scroll-p": [{
-        "scroll-p": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Padding X
-       * @see https://tailwindcss.com/docs/scroll-padding
-       */
-      "scroll-px": [{
-        "scroll-px": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Padding Y
-       * @see https://tailwindcss.com/docs/scroll-padding
-       */
-      "scroll-py": [{
-        "scroll-py": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Padding Start
-       * @see https://tailwindcss.com/docs/scroll-padding
-       */
-      "scroll-ps": [{
-        "scroll-ps": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Padding End
-       * @see https://tailwindcss.com/docs/scroll-padding
-       */
-      "scroll-pe": [{
-        "scroll-pe": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Padding Top
-       * @see https://tailwindcss.com/docs/scroll-padding
-       */
-      "scroll-pt": [{
-        "scroll-pt": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Padding Right
-       * @see https://tailwindcss.com/docs/scroll-padding
-       */
-      "scroll-pr": [{
-        "scroll-pr": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Padding Bottom
-       * @see https://tailwindcss.com/docs/scroll-padding
-       */
-      "scroll-pb": [{
-        "scroll-pb": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Padding Left
-       * @see https://tailwindcss.com/docs/scroll-padding
-       */
-      "scroll-pl": [{
-        "scroll-pl": getSpacingWithArbitrary()
-      }],
-      /**
-       * Scroll Snap Align
-       * @see https://tailwindcss.com/docs/scroll-snap-align
-       */
-      "snap-align": [{
-        snap: ["start", "end", "center", "align-none"]
-      }],
-      /**
-       * Scroll Snap Stop
-       * @see https://tailwindcss.com/docs/scroll-snap-stop
-       */
-      "snap-stop": [{
-        snap: ["normal", "always"]
-      }],
-      /**
-       * Scroll Snap Type
-       * @see https://tailwindcss.com/docs/scroll-snap-type
-       */
-      "snap-type": [{
-        snap: ["none", "x", "y", "both"]
-      }],
-      /**
-       * Scroll Snap Type Strictness
-       * @see https://tailwindcss.com/docs/scroll-snap-type
-       */
-      "snap-strictness": [{
-        snap: ["mandatory", "proximity"]
-      }],
-      /**
-       * Touch Action
-       * @see https://tailwindcss.com/docs/touch-action
-       */
-      touch: [{
-        touch: ["auto", "none", "manipulation"]
-      }],
-      /**
-       * Touch Action X
-       * @see https://tailwindcss.com/docs/touch-action
-       */
-      "touch-x": [{
-        "touch-pan": ["x", "left", "right"]
-      }],
-      /**
-       * Touch Action Y
-       * @see https://tailwindcss.com/docs/touch-action
-       */
-      "touch-y": [{
-        "touch-pan": ["y", "up", "down"]
-      }],
-      /**
-       * Touch Action Pinch Zoom
-       * @see https://tailwindcss.com/docs/touch-action
-       */
-      "touch-pz": ["touch-pinch-zoom"],
-      /**
-       * User Select
-       * @see https://tailwindcss.com/docs/user-select
-       */
-      select: [{
-        select: ["none", "text", "all", "auto"]
-      }],
-      /**
-       * Will Change
-       * @see https://tailwindcss.com/docs/will-change
-       */
-      "will-change": [{
-        "will-change": ["auto", "scroll", "contents", "transform", isArbitraryValue]
-      }],
-      // SVG
-      /**
-       * Fill
-       * @see https://tailwindcss.com/docs/fill
-       */
-      fill: [{
-        fill: [colors, "none"]
-      }],
-      /**
-       * Stroke Width
-       * @see https://tailwindcss.com/docs/stroke-width
-       */
-      "stroke-w": [{
-        stroke: [isLength, isArbitraryLength, isArbitraryNumber]
-      }],
-      /**
-       * Stroke
-       * @see https://tailwindcss.com/docs/stroke
-       */
-      stroke: [{
-        stroke: [colors, "none"]
-      }],
-      // Accessibility
-      /**
-       * Screen Readers
-       * @see https://tailwindcss.com/docs/screen-readers
-       */
-      sr: ["sr-only", "not-sr-only"],
-      /**
-       * Forced Color Adjust
-       * @see https://tailwindcss.com/docs/forced-color-adjust
-       */
-      "forced-color-adjust": [{
-        "forced-color-adjust": ["auto", "none"]
-      }]
-    },
-    conflictingClassGroups: {
-      overflow: ["overflow-x", "overflow-y"],
-      overscroll: ["overscroll-x", "overscroll-y"],
-      inset: ["inset-x", "inset-y", "start", "end", "top", "right", "bottom", "left"],
-      "inset-x": ["right", "left"],
-      "inset-y": ["top", "bottom"],
-      flex: ["basis", "grow", "shrink"],
-      gap: ["gap-x", "gap-y"],
-      p: ["px", "py", "ps", "pe", "pt", "pr", "pb", "pl"],
-      px: ["pr", "pl"],
-      py: ["pt", "pb"],
-      m: ["mx", "my", "ms", "me", "mt", "mr", "mb", "ml"],
-      mx: ["mr", "ml"],
-      my: ["mt", "mb"],
-      size: ["w", "h"],
-      "font-size": ["leading"],
-      "fvn-normal": ["fvn-ordinal", "fvn-slashed-zero", "fvn-figure", "fvn-spacing", "fvn-fraction"],
-      "fvn-ordinal": ["fvn-normal"],
-      "fvn-slashed-zero": ["fvn-normal"],
-      "fvn-figure": ["fvn-normal"],
-      "fvn-spacing": ["fvn-normal"],
-      "fvn-fraction": ["fvn-normal"],
-      "line-clamp": ["display", "overflow"],
-      rounded: ["rounded-s", "rounded-e", "rounded-t", "rounded-r", "rounded-b", "rounded-l", "rounded-ss", "rounded-se", "rounded-ee", "rounded-es", "rounded-tl", "rounded-tr", "rounded-br", "rounded-bl"],
-      "rounded-s": ["rounded-ss", "rounded-es"],
-      "rounded-e": ["rounded-se", "rounded-ee"],
-      "rounded-t": ["rounded-tl", "rounded-tr"],
-      "rounded-r": ["rounded-tr", "rounded-br"],
-      "rounded-b": ["rounded-br", "rounded-bl"],
-      "rounded-l": ["rounded-tl", "rounded-bl"],
-      "border-spacing": ["border-spacing-x", "border-spacing-y"],
-      "border-w": ["border-w-s", "border-w-e", "border-w-t", "border-w-r", "border-w-b", "border-w-l"],
-      "border-w-x": ["border-w-r", "border-w-l"],
-      "border-w-y": ["border-w-t", "border-w-b"],
-      "border-color": ["border-color-s", "border-color-e", "border-color-t", "border-color-r", "border-color-b", "border-color-l"],
-      "border-color-x": ["border-color-r", "border-color-l"],
-      "border-color-y": ["border-color-t", "border-color-b"],
-      "scroll-m": ["scroll-mx", "scroll-my", "scroll-ms", "scroll-me", "scroll-mt", "scroll-mr", "scroll-mb", "scroll-ml"],
-      "scroll-mx": ["scroll-mr", "scroll-ml"],
-      "scroll-my": ["scroll-mt", "scroll-mb"],
-      "scroll-p": ["scroll-px", "scroll-py", "scroll-ps", "scroll-pe", "scroll-pt", "scroll-pr", "scroll-pb", "scroll-pl"],
-      "scroll-px": ["scroll-pr", "scroll-pl"],
-      "scroll-py": ["scroll-pt", "scroll-pb"],
-      touch: ["touch-x", "touch-y", "touch-pz"],
-      "touch-x": ["touch"],
-      "touch-y": ["touch"],
-      "touch-pz": ["touch"]
-    },
-    conflictingClassGroupModifiers: {
-      "font-size": ["leading"]
-    }
-  };
-};
-const twMerge = /* @__PURE__ */ createTailwindMerge(getDefaultConfig);
-function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
-const sizeClasses = {
-  sm: "h-10 px-4 text-sm gap-2",
-  md: "h-11 px-5 text-sm gap-2",
-  lg: "h-12 px-6 text-base gap-2.5"
-};
-const variantClasses = {
-  solid: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-subtle hover:shadow-elevated",
-  outline: "border border-primary/25 bg-card text-primary hover:bg-primary hover:text-primary-foreground",
-  ghost: "text-primary hover:bg-primary/5"
-};
-function CallCta({
-  variant = "solid",
-  size = "md",
-  className,
-  ocid = "call.primary_button",
-  showNumber = false
-}) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "a",
-    {
-      href: SITE.phoneHref,
-      "data-ocid": ocid,
-      "aria-label": `${SITE.ctaLabel} at ${SITE.phoneDisplay}`,
-      className: cn(
-        "inline-flex items-center justify-center rounded-full font-medium tracking-tight transition-smooth",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        sizeClasses[size],
-        variantClasses[variant],
-        className
-      ),
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4 shrink-0" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "whitespace-nowrap", children: showNumber ? SITE.phoneDisplay : SITE.ctaLabel })
-      ]
-    }
-  );
-}
-function SiteHeader() {
-  const [open, setOpen] = reactExports.useState(false);
-  const { actor, isFetching: actorFetching } = useActor(createActor);
-  const { isAuthenticated } = useInternetIdentity();
-  const adminQuery = useQuery({
-    queryKey: ["isCallerAdmin"],
-    queryFn: async () => {
-      if (!actor) return false;
-      return actor.isCallerAdmin();
-    },
-    enabled: !!actor && !actorFetching && isAuthenticated,
-    retry: false
-  });
-  const isAdmin = isAuthenticated && adminQuery.data === true;
-  reactExports.useEffect(() => {
-    if (!open) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previous;
-    };
-  }, [open]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "header",
-    {
-      "data-ocid": "site.header",
-      className: "sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/85",
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-5 sm:px-8 lg:h-20", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            Link,
-            {
-              to: "/",
-              "data-ocid": "site.logo_link",
-              className: "group flex items-center gap-2.5 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-smooth group-hover:bg-primary/90", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plane, { "aria-hidden": "true", className: "size-5 -rotate-45" }) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "flex flex-col leading-none", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-lg font-bold tracking-tight text-foreground", children: "TicketDepart" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "label-board mt-0.5 text-[0.6rem] text-muted-foreground", children: SITE.tagline })
-                ] })
-              ]
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("nav", { "aria-label": "Primary", className: "hidden items-center gap-1 lg:flex", children: [
-            NAV_ITEMS.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Link,
-              {
-                to: item.to,
-                "data-ocid": `nav.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`,
-                activeOptions: { exact: item.to === "/" },
-                className: cn(
-                  "rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-smooth",
-                  "hover:bg-muted hover:text-foreground",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                ),
-                activeProps: {
-                  className: "bg-muted text-foreground font-semibold"
-                },
-                children: item.label
-              },
-              item.to
-            )),
-            isAdmin ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Link,
-              {
-                to: "/admin/leads",
-                "data-ocid": "nav.link.leads_desk",
-                className: cn(
-                  "rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-smooth",
-                  "hover:bg-muted hover:text-foreground",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                ),
-                activeProps: {
-                  className: "bg-muted text-foreground font-semibold"
-                },
-                children: "Leads Desk"
-              }
-            ) : null
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              CallCta,
-              {
-                size: "sm",
-                className: "hidden sm:inline-flex",
-                ocid: "header.call_button"
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "a",
-              {
-                href: SITE.phoneHref,
-                "aria-label": `Call ${SITE.phoneDisplay}`,
-                "data-ocid": "header.call_icon_button",
-                className: "inline-flex size-10 items-center justify-center rounded-full bg-accent text-accent-foreground transition-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:hidden",
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4" })
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                type: "button",
-                onClick: () => setOpen((value) => !value),
-                "aria-expanded": open,
-                "aria-controls": "mobile-nav-drawer",
-                "aria-label": open ? "Close navigation menu" : "Open navigation menu",
-                "data-ocid": "header.menu_toggle",
-                className: "inline-flex size-10 items-center justify-center rounded-full border border-border text-foreground transition-smooth hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background lg:hidden",
-                children: open ? /* @__PURE__ */ jsxRuntimeExports.jsx(X, { "aria-hidden": "true", className: "size-5" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { "aria-hidden": "true", className: "size-5" })
-              }
-            )
-          ] })
-        ] }),
-        open ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "div",
-          {
-            id: "mobile-nav-drawer",
-            "data-ocid": "header.mobile_drawer",
-            className: "border-t border-border bg-card lg:hidden",
-            children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "nav",
-              {
-                "aria-label": "Mobile",
-                className: "mx-auto flex w-full max-w-6xl flex-col gap-1 px-5 py-4 sm:px-8",
-                children: [
-                  NAV_ITEMS.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    Link,
-                    {
-                      to: item.to,
-                      "data-ocid": `mobile_nav.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`,
-                      activeOptions: { exact: item.to === "/" },
-                      onClick: () => setOpen(false),
-                      className: "rounded-lg px-3 py-3 text-base font-medium text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                      activeProps: {
-                        className: "bg-muted text-foreground font-semibold"
-                      },
-                      children: item.label
-                    },
-                    item.to
-                  )),
-                  isAdmin ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    Link,
-                    {
-                      to: "/admin/leads",
-                      "data-ocid": "mobile_nav.link.leads_desk",
-                      onClick: () => setOpen(false),
-                      className: "rounded-lg px-3 py-3 text-base font-medium text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                      activeProps: {
-                        className: "bg-muted text-foreground font-semibold"
-                      },
-                      children: "Leads Desk"
-                    }
-                  ) : null,
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex flex-col gap-2 border-t border-border pt-4", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      CallCta,
-                      {
-                        size: "lg",
-                        className: "w-full",
-                        ocid: "mobile_nav.call_button"
-                      }
-                    ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-center text-sm text-muted-foreground", children: SITE.hours })
-                  ] })
-                ]
-              }
-            )
-          }
-        ) : null
-      ]
-    }
-  );
-}
-function Layout({ children }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-h-dvh flex-col bg-background", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "a",
-      {
-        href: "#main-content",
-        "data-ocid": "site.skip_link",
-        className: "sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-primary-foreground focus:shadow-elevated",
-        children: "Skip to main content"
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(SiteHeader, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "main",
-      {
-        id: "main-content",
-        "data-ocid": "site.main",
-        className: "flex-1 pb-24 sm:pb-0",
-        children
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(SiteFooter, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(MobileCallBar, {})
-  ] });
-}
 const toneClasses = {
   paper: "bg-background text-foreground",
   muted: "bg-muted text-foreground",
@@ -42868,7 +42742,8 @@ function Seo({
   description,
   path,
   image = DEFAULT_SHARE_IMAGE,
-  structuredData = []
+  structuredData = [],
+  indexable = true
 }) {
   const canonical = absoluteUrl(path);
   const serialized = JSON.stringify(structuredData);
@@ -42890,7 +42765,7 @@ function Seo({
         meta.setAttribute("name", "robots");
         return meta;
       },
-      "index, follow, max-image-preview:large"
+      indexable ? "index, follow, max-image-preview:large" : "noindex, nofollow"
     );
     upsertMeta(
       'meta[property="og:title"]',
@@ -43020,7 +42895,7 @@ function Seo({
     return () => {
       script.remove();
     };
-  }, [title, description, canonical, image, serialized]);
+  }, [title, description, canonical, image, serialized, indexable]);
   return null;
 }
 const TRIP_TYPE_LABEL = {
@@ -43227,7 +43102,8 @@ function AdminLeadsPage() {
       {
         title: "Leads Desk | TicketDepart",
         description: "Private TicketDepart travel desk for reviewing submitted trip requests.",
-        path: "/admin/leads"
+        path: "/admin/leads",
+        indexable: false
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "admin.leads.section", children: [
@@ -43366,7 +43242,7 @@ function AdminLeadsPage() {
 }
 const PAGE_PATH$2 = "/book-a-flight-by-phone";
 const PAGE_TITLE$2 = "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart";
-const PAGE_DESCRIPTION$2 = "Book a domestic or international flight by phone with an independent U.S. travel agency. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
+const PAGE_DESCRIPTION$2 = "Book a domestic or international flight by phone with an independent U.S. travel agency serving travelers in the USA, Canada, Mexico, and UK. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
 const FAQS$5 = [
   {
     question: "Can I book a flight by phone with TicketDepart?",
@@ -43463,9 +43339,15 @@ function BookAFlightByPhonePage() {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-5 flex items-center gap-2 text-sm text-muted-foreground", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4 text-accent" }),
-          SITE.hours,
-          " · ",
-          SITE.phoneDisplay
+          SITE.hours
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-muted-foreground", children: "Serving travelers in the USA, Canada, Mexico, and UK · English-speaking support" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-5 rounded-2xl border border-accent/25 bg-accent/5 p-4 sm:flex sm:items-center sm:justify-between sm:gap-5", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold text-foreground", children: "Need to book today?" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm text-muted-foreground", children: "Call now with your route, dates, and number of travelers." })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-3 shrink-0 sm:mt-0", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "md", showNumber: true, ocid: "book_flight_phone.hero_number_button" }) })
         ] })
       ] })
     ] }),
@@ -43580,6 +43462,14 @@ function BookAFlightByPhonePage() {
         to
       )) })
     ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 p-3 shadow-elevated backdrop-blur sm:hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto max-w-lg", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      CallCta,
+      {
+        size: "lg",
+        className: "w-full",
+        ocid: "book_flight_phone.mobile_sticky_call"
+      }
+    ) }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "book_flight_phone.faq", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         SectionHeading,
@@ -43602,6 +43492,66 @@ function BookAFlightByPhonePage() {
       )) })
     ] })
   ] });
+}
+const DEDUPE_WINDOW_MS = 250;
+const handledClicks = /* @__PURE__ */ new WeakSet();
+const recentEmits = /* @__PURE__ */ new Map();
+function getCleanPagePath() {
+  if (typeof window === "undefined") return "/";
+  const raw = window.location.pathname || "/";
+  const absoluteUrlIndex = raw.indexOf("https://");
+  const httpUrlIndex = raw.indexOf("http://");
+  const cutAt = [absoluteUrlIndex, httpUrlIndex].filter((index2) => index2 >= 0).sort((a2, b2) => a2 - b2)[0];
+  if (cutAt !== void 0 && cutAt > 0) {
+    return raw.slice(0, cutAt).replace(/\/+$/, "") || "/";
+  }
+  return raw;
+}
+function emitPhoneClick(location2) {
+  if (typeof window === "undefined") return;
+  recentEmits.set(location2, Date.now());
+  const eventParams = {
+    cta_location: location2,
+    page_path: getCleanPagePath(),
+    page_title: document.title
+  };
+  const win = window;
+  if (win.gtag) {
+    win.gtag("event", "phone_click", eventParams);
+    return;
+  }
+  win.dataLayer = win.dataLayer || [];
+  win.dataLayer.push(["event", "phone_click", eventParams]);
+}
+function trackLeadSubmit(location2 = "contact_form") {
+  if (typeof window === "undefined") return;
+  const eventParams = {
+    lead_type: "callback_request",
+    lead_location: location2,
+    page_path: getCleanPagePath(),
+    page_title: document.title
+  };
+  const win = window;
+  if (win.gtag) {
+    win.gtag("event", "generate_lead", eventParams);
+    return;
+  }
+  win.dataLayer = win.dataLayer || [];
+  win.dataLayer.push(["event", "generate_lead", eventParams]);
+}
+if (typeof document !== "undefined") {
+  document.addEventListener("click", (event) => {
+    var _a2;
+    if (handledClicks.has(event)) return;
+    const target = event.target;
+    const link = (_a2 = target == null ? void 0 : target.closest) == null ? void 0 : _a2.call(target, 'a[href^="tel:"]');
+    if (!link) return;
+    handledClicks.add(event);
+    const location2 = link.getAttribute("data-ocid") || link.getAttribute("aria-label") || "tel_link";
+    const last2 = recentEmits.get(location2);
+    if (last2 !== void 0 && Date.now() - last2 < DEDUPE_WINDOW_MS) return;
+    emitPhoneClick(location2);
+  });
 }
 const EMPTY_FORM = {
   name: "",
@@ -43746,7 +43696,7 @@ function TripRequestForm() {
         `Travelers: ${values.travelers}`,
         `Cabin: ${values.cabin}`,
         `Trip details: ${values.details || "None"}`
-      ].join("\\n")
+      ].join("")
     );
     return `mailto:${SITE.email}?subject=${subject}&body=${body}`;
   })();
@@ -43803,6 +43753,7 @@ function TripRequestForm() {
           setValues(EMPTY_FORM);
           setErrors({});
           setEmailStatus(email);
+          trackLeadSubmit("contact_form");
           setSubmitted(true);
           return;
         }
@@ -44181,13 +44132,6 @@ function TripRequestForm() {
 }
 const CONTACT_DETAILS = [
   {
-    icon: Phone,
-    label: "Phone",
-    value: SITE.phoneDisplay,
-    href: SITE.phoneHref,
-    note: "Fastest way to reach a specialist"
-  },
-  {
     icon: Mail,
     label: "Email",
     value: SITE.email,
@@ -44208,21 +44152,9 @@ const CONTACT_DETAILS = [
   }
 ];
 const WHAT_HAPPENS_NEXT = [
-  {
-    step: "01",
-    title: "We review your request",
-    body: "A specialist reads your route, dates, and traveler count, then checks live availability across the airlines that serve it."
-  },
-  {
-    step: "02",
-    title: "We call or email you back",
-    body: "You get real options with total prices and the trade-offs explained — no pressure and no obligation to book."
-  },
-  {
-    step: "03",
-    title: "You decide, we handle the rest",
-    body: "If you want to move forward, we take care of ticketing, seat requests, and the details that are easy to miss."
-  }
+  { step: "01", title: "We review your request", body: "A specialist reads your route, dates, and traveler count, then reviews the trip details you provide." },
+  { step: "02", title: "We call or email you back", body: "You get clear options and the important trade-offs explained — no pressure and no obligation to book." },
+  { step: "03", title: "You decide, we handle the rest", body: "If you want to move forward, we help with the booking details and next steps." }
 ];
 function ContactPage() {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
@@ -44230,115 +44162,53 @@ function ContactPage() {
       Seo,
       {
         title: "Contact TicketDepart | Speak with a Travel Specialist",
-        description: "Contact TicketDepart to plan your next flight. Call +1 855-544-9001 any time, or send your trip details and a travel specialist will follow up with options.",
+        description: "Contact TicketDepart to plan your next flight. Send your trip details and a travel specialist will follow up with options.",
         path: "/contact",
         structuredData: [
           organizationSchema(),
           contactPointSchema(),
-          breadcrumbSchema([
-            { name: "Home", path: "/" },
-            { name: "Contact", path: "/contact" }
-          ])
+          breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Contact", path: "/contact" }])
         ]
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "contact.hero.section", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Contact" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-3 max-w-3xl text-balance text-4xl font-semibold leading-[1.08] sm:text-5xl lg:text-6xl", children: "Talk to a real travel specialist" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground", children: "Tell us where you are going and when. A specialist from our travel desk will compare the options and call you back with clear pricing — usually the same day." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground", children: "Tell us where you are going and when. A specialist from our travel desk can review your trip and help you understand the next steps." }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "contact.hero.call_button" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "a",
-          {
-            href: "#trip-request",
-            "data-ocid": "contact.hero.form_link",
-            className: "inline-flex h-12 items-center justify-center rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-            children: "Send trip details instead"
-          }
-        )
+        /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#trip-request", "data-ocid": "contact.hero.form_link", className: "inline-flex h-12 items-center justify-center rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground", children: "Send trip details instead" })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-4 text-sm text-muted-foreground", children: [
-        SITE.hours,
-        " — call ",
-        SITE.phoneDisplay,
-        " any time, day or night."
-      ] })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-sm text-muted-foreground", children: SITE.hours })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: "contact.details.section", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        SectionHeading,
-        {
-          eyebrow: "Reach us",
-          title: "Every way to get in touch",
-          description: "Call for the fastest answer, or use the details below if you would rather write to us first."
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("dl", { className: "mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4", children: CONTACT_DETAILS.map((detail) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          "data-ocid": `contact.detail.${detail.label.toLowerCase()}`,
-          className: "flex flex-col rounded-2xl border border-border bg-card p-5 shadow-subtle",
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary", children: /* @__PURE__ */ jsxRuntimeExports.jsx(detail.icon, { "aria-hidden": "true", className: "size-5" }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "label-board mt-4 text-muted-foreground", children: detail.label }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "mt-2 text-base font-medium leading-snug", children: "href" in detail && detail.href ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "a",
-              {
-                href: detail.href,
-                className: "underline-offset-4 hover:text-accent hover:underline",
-                children: detail.value
-              }
-            ) : detail.value }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "mt-1 text-sm text-muted-foreground", children: detail.note })
-          ]
-        },
-        detail.label
-      )) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SectionHeading, { eyebrow: "Reach us", title: "Simple ways to get in touch", description: "Call for the fastest answer, or use the details below if you would rather write to us first." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("dl", { className: "mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3", children: CONTACT_DETAILS.map((detail) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { "data-ocid": `contact.detail.${detail.label.toLowerCase()}`, className: "flex flex-col rounded-[1.5rem] border border-border bg-card p-6 shadow-subtle", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary", children: /* @__PURE__ */ jsxRuntimeExports.jsx(detail.icon, { "aria-hidden": "true", className: "size-5" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "label-board mt-4 text-muted-foreground", children: detail.label }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "mt-2 text-base font-medium leading-snug", children: "href" in detail && detail.href ? /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: detail.href, className: "break-words hover:text-accent hover:underline", children: detail.value }) : detail.value }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "mt-1 text-sm text-muted-foreground", children: detail.note })
+      ] }, detail.label)) })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      Section,
-      {
-        id: "trip-request",
-        tone: "paper",
-        ocid: "contact.form.section",
-        "aria-labelledby": "trip-request-heading",
-        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] lg:gap-14", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { id: "trip-request", tone: "paper", ocid: "contact.form.section", "aria-labelledby": "trip-request-heading", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] lg:gap-14", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SectionHeading, { id: "trip-request-heading", eyebrow: "Trip request", title: "Send your trip details", description: "Share the basics and we will come back with options. Fields marked with an asterisk are required." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "mt-8 space-y-6", children: WHAT_HAPPENS_NEXT.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex gap-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "label-board mt-1 shrink-0 text-accent", children: item.step }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              SectionHeading,
-              {
-                id: "trip-request-heading",
-                eyebrow: "Trip request",
-                title: "Send your trip details",
-                description: "Share the basics and we will come back with options. Fields marked with an asterisk are required."
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "mt-8 space-y-6", children: WHAT_HAPPENS_NEXT.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex gap-4", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "label-board mt-1 shrink-0 text-accent", children: item.step }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-base font-semibold", children: item.title }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm leading-relaxed text-muted-foreground", children: item.body })
-              ] })
-            ] }, item.step)) })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TripRequestForm, {})
-        ] })
-      }
-    ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-base font-semibold", children: item.title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm leading-relaxed text-muted-foreground", children: item.body })
+          ] })
+        ] }, item.step)) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(TripRequestForm, {})
+    ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "navy", ocid: "contact.disclosure.section", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Independent agency" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-3 text-2xl font-semibold sm:text-3xl", children: "Who you are working with" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-pretty text-base leading-relaxed text-primary-foreground/80", children: SITE.disclosure }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-pretty text-base leading-relaxed text-primary-foreground/80", children: "We are a U.S.-based travel agency, not an airline. Every booking is made through the airline or an authorized distributor, and your ticket is issued in your own name." }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        CallCta,
-        {
-          variant: "solid",
-          size: "lg",
-          ocid: "contact.disclosure.call_button"
-        }
-      ) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-pretty text-base leading-relaxed text-primary-foreground/80", children: "We are a U.S.-based travel agency, not an airline. Your booking is made through an airline or authorized distributor, and applicable airline fare rules and conditions apply." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { variant: "solid", size: "lg", ocid: "contact.disclosure.call_button" }) })
     ] }) })
   ] });
 }
@@ -44450,7 +44320,7 @@ const PROCESS = [
     description: "You decide what works, ask questions about bags and changes, and confirm the itinerary with a person on the phone — not a checkout timer."
   }
 ];
-const AIRLINE_LINKS$1 = [
+const AIRLINE_LINKS = [
   {
     to: "/delta-airlines",
     label: "Delta Airlines booking assistance",
@@ -44737,7 +44607,7 @@ function FlightBookingPage() {
               description: "Each guide covers the routes, hubs, and cabin questions travelers ask us most about that carrier."
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-12 grid gap-6 md:grid-cols-3", children: AIRLINE_LINKS$1.map((airline) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-12 grid gap-6 md:grid-cols-3", children: AIRLINE_LINKS.map((airline) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
             Link,
             {
               to: airline.to,
@@ -44883,114 +44753,54 @@ function FlightBookingPage() {
   ] });
 }
 function ContactInfoBlock() {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    Section,
-    {
-      tone: "paper",
-      ocid: "home.contact_section",
-      "aria-labelledby": "home-contact-heading",
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          SectionHeading,
-          {
-            id: "home-contact-heading",
-            eyebrow: "Contact",
-            title: "Talk to a travel specialist",
-            description: "Call any time, day or night. Prefer to write? Email works too."
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-12 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-border bg-card p-6 shadow-subtle sm:p-8", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-5" }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Call us" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "a",
-                  {
-                    href: SITE.phoneHref,
-                    "data-ocid": "home.contact_phone_link",
-                    className: "mt-1 block font-display text-2xl font-bold tracking-tight text-foreground transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:text-3xl",
-                    children: SITE.phoneDisplay
-                  }
-                )
-              ] })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-5 flex items-center gap-2 text-sm text-muted-foreground", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { "aria-hidden": "true", className: "size-4 text-accent" }),
-              SITE.hours
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-              CallCta,
-              {
-                size: "lg",
-                className: "w-full sm:w-auto",
-                ocid: "home.contact_call_button"
-              }
-            ) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-6 text-sm leading-relaxed text-muted-foreground", children: [
-              "Prefer to write?",
-              " ",
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                Link,
-                {
-                  to: "/contact",
-                  "data-ocid": "home.contact_trip_request_link",
-                  className: "font-medium text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                  children: "Send a trip request"
-                }
-              ),
-              " ",
-              "and we will follow up by email."
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("dl", { className: "grid gap-4", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-border bg-card p-6 shadow-subtle", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("dt", { className: "flex items-center gap-2.5", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Mail, { "aria-hidden": "true", className: "size-5 text-accent" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "label-board text-muted-foreground", children: "Email" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "mt-2.5", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "a",
-                {
-                  href: SITE.emailHref,
-                  "data-ocid": "home.contact_email_link",
-                  className: "break-words text-base font-medium text-foreground underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                  children: SITE.email
-                }
-              ) })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-border bg-card p-6 shadow-subtle", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("dt", { className: "flex items-center gap-2.5", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(MapPin, { "aria-hidden": "true", className: "size-5 text-accent" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "label-board text-muted-foreground", children: "Mailing address" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "mt-2.5 text-base leading-relaxed text-foreground", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("address", { className: "not-italic", children: [
-                SITE.legalName,
-                /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                ADDRESS_LINE
-              ] }) })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-border bg-card p-6 shadow-subtle", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "label-board text-muted-foreground", children: "Before you call" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "mt-2.5", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                Link,
-                {
-                  to: "/flight-booking",
-                  "data-ocid": "home.contact_flight_booking_link",
-                  className: "inline-flex min-h-11 items-center gap-2 text-base font-medium text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                  children: [
-                    "See how our flight booking service works",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { "aria-hidden": "true", className: "size-4" })
-                  ]
-                }
-              ) })
-            ] })
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "paper", ocid: "home.contact_section", "aria-labelledby": "home-contact-heading", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative overflow-hidden rounded-[2rem] bg-gradient-primary p-7 text-white shadow-premium sm:p-10", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -right-20 -top-20 size-56 rounded-full bg-accent/20 blur-3xl" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Here when you need us" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { id: "home-contact-heading", className: "mt-3 max-w-xl text-balance text-3xl font-semibold leading-tight sm:text-4xl", children: "Helpful flight guidance, without the pressure." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 max-w-xl text-base leading-7 text-white/70", children: "Speak with a travel specialist about your route, dates, cabin, baggage, changes, or other booking questions. You stay in control of the decision." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "home.contact_call_button" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: "/contact", "data-ocid": "home.contact_trip_request_link", className: "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur hover:bg-white hover:text-primary", children: [
+            "Request a callback ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex items-center gap-2 text-sm text-white/65", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { className: "size-4 text-accent", "aria-hidden": "true" }),
+          SITE.hours
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "rounded-[1.5rem] border border-border bg-card p-6 shadow-subtle sm:p-7", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-11 items-center justify-center rounded-2xl bg-accent/10 text-accent", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Mail, { className: "size-5", "aria-hidden": "true" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-muted-foreground", children: "Email" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: SITE.emailHref, "data-ocid": "home.contact_email_link", className: "mt-1 block break-words font-semibold text-foreground hover:text-accent", children: SITE.email })
+        ] })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "rounded-[1.5rem] border border-border bg-card p-6 shadow-subtle sm:p-7", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MapPin, { className: "size-5", "aria-hidden": "true" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-muted-foreground", children: "Mailing address" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("address", { className: "mt-1 text-sm leading-6 not-italic text-foreground", children: [
+            SITE.legalName,
+            /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+            ADDRESS_LINE
           ] })
         ] })
-      ]
-    }
-  );
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-[1.5rem] border border-border bg-card p-6 shadow-subtle sm:p-7", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-muted-foreground", children: "Explore before you call" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: "/flight-booking", "data-ocid": "home.contact_flight_booking_link", className: "mt-2 inline-flex items-center gap-2 font-semibold text-primary hover:text-accent", children: [
+          "See how flight booking assistance works ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" })
+        ] })
+      ] })
+    ] })
+  ] }) });
 }
 function DisclosureBlock() {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -45035,105 +44845,62 @@ function DisclosureBlock() {
 }
 const HERO_IMAGE$1 = "/assets/generated/hero-flight.dim_1600x1100.jpg";
 const HERO_POINTS = [
-  {
-    icon: Earth,
-    label: "International & domestic",
-    detail: "One team for every route"
-  },
-  {
-    icon: Route$1,
-    label: "Multi-city itineraries",
-    detail: "Complex trips, planned properly"
-  },
-  {
-    icon: Headset,
-    label: "24/7 travel specialists",
-    detail: "A real person, any hour"
-  }
+  { icon: Earth, label: "Domestic & international", detail: "Simple or complex itineraries" },
+  { icon: Route$1, label: "Multi-city & group trips", detail: "Built around your plans" },
+  { icon: Headset, label: "Real specialists 24/7", detail: "Human help when you need it" }
 ];
 function HeroSection() {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "section",
-    {
-      "data-ocid": "home.hero_section",
-      "aria-labelledby": "home-hero-heading",
-      className: "relative overflow-hidden border-b border-border bg-gradient-subtle",
-      children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto grid w-full max-w-6xl items-center gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-24", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-xl", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Independent U.S. travel agency" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "h1",
-            {
-              id: "home-hero-heading",
-              className: "mt-4 text-balance text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl",
-              children: "Flight booking help from a real travel specialist"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "TicketDepart plans and books international and domestic flights, multi-city itineraries, and group travel for travelers across the United States — with a specialist on the phone around the clock. Tell us where you need to go and we will handle the routing, the fare rules, and the details." }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "home.hero_call_button" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              Link,
-              {
-                to: "/contact",
-                "data-ocid": "home.hero_trip_request_link",
-                className: "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                children: [
-                  "Send a trip request",
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { "aria-hidden": "true", className: "size-4" })
-                ]
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { "aria-hidden": "true", className: "size-4 text-accent" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: SITE.hours }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", className: "text-border", children: "·" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-xs tracking-wide", children: SITE.phoneDisplay })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("dl", { className: "mt-10 grid gap-5 border-t border-border pt-8 sm:grid-cols-3", children: HERO_POINTS.map((point) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-3", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary", children: /* @__PURE__ */ jsxRuntimeExports.jsx(point.icon, { "aria-hidden": "true", className: "size-5" }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-w-0", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "text-sm font-semibold leading-snug text-foreground", children: point.label }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "mt-0.5 text-xs leading-snug text-muted-foreground", children: point.detail })
-            ] })
-          ] }, point.label)) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-8 text-sm leading-relaxed text-muted-foreground", children: [
-            "Not ready to call?",
-            " ",
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Link,
-              {
-                to: "/flight-booking",
-                "data-ocid": "home.hero_flight_booking_link",
-                className: "font-medium text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                children: "See how our flight booking service works"
-              }
-            ),
-            "."
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { "data-ocid": "home.hero_section", "aria-labelledby": "home-hero-heading", className: "relative overflow-hidden bg-[#061a34] text-white", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,rgba(61,157,207,0.25),transparent_32%),radial-gradient(circle_at_10%_85%,rgba(234,166,76,0.12),transparent_28%)]" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative mx-auto grid w-full max-w-7xl items-center gap-10 px-5 py-10 sm:px-8 sm:py-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:px-10 lg:py-16", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-2xl", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.07] px-4 py-2 text-xs font-semibold tracking-wide text-white/85 backdrop-blur", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "size-2 rounded-full bg-emerald-300" }),
+          "Independent flight reservation assistance"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { id: "home-hero-heading", className: "mt-6 max-w-2xl text-balance text-[2.75rem] font-bold leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-[4.65rem]", children: [
+          "Flight Reservation Assistance — ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sky-200", children: "Human Help 24/7" }),
+          "Travel plans deserve",
+          " ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sky-200", children: "human attention." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-xl text-pretty text-base leading-8 text-white/72 sm:text-lg", children: "Tell us where you want to go and what matters most. A real travel specialist can help you understand routes, cabins, baggage, and booking details before you decide." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "home.hero_call_button", className: "shadow-[0_18px_40px_-18px_rgba(0,0,0,0.75)]" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: "/contact", "data-ocid": "home.hero_trip_request_link", className: "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-6 text-base font-semibold text-white backdrop-blur transition-smooth hover:bg-white hover:text-primary", children: [
+            "Request a callback ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" })
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-hidden rounded-2xl border border-border bg-card shadow-elevated", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "img",
-            {
-              src: HERO_IMAGE$1,
-              alt: "A commercial passenger jet climbing above a layer of clouds into a golden evening sky",
-              width: 1600,
-              height: 1100,
-              loading: "eager",
-              decoding: "async",
-              className: "h-full w-full object-cover"
-            }
-          ) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute -bottom-5 left-4 right-4 rounded-xl border border-border bg-card/95 p-4 shadow-elevated backdrop-blur sm:left-6 sm:right-auto sm:max-w-xs", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "On the line now" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1.5 text-sm leading-snug text-foreground", children: "Specialists answer calls 24 hours a day, every day of the year." })
-          ] })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-7 flex flex-wrap gap-x-5 gap-y-3 text-sm text-white/65", children: ["24/7 availability", "Passenger-first guidance", "Clear booking details"].map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "inline-flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Check, { className: "size-4 text-emerald-300" }),
+          item
+        ] }, item)) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative lg:pl-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -inset-8 rounded-[3rem] bg-sky-400/10 blur-3xl" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative overflow-hidden rounded-[2rem] border border-white/15 bg-white/10 p-2 shadow-[0_35px_90px_-35px_rgba(0,0,0,0.8)]", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: HERO_IMAGE$1, alt: "Passenger aircraft above clouds at golden hour", width: 1600, height: 1100, loading: "eager", decoding: "async", className: "aspect-[5/4] w-full rounded-[1.5rem] object-cover" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-x-6 bottom-6 rounded-2xl border border-white/20 bg-[#071a35]/80 p-5 shadow-elevated backdrop-blur-xl", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start justify-between gap-4", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "A calmer way to book" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-lg font-semibold text-white", children: "Clear options. Straight answers. A specialist who listens." })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "hidden size-10 shrink-0 items-center justify-center rounded-full bg-white/10 sm:flex", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { className: "size-5 text-sky-200" }) })
+          ] }) })
         ] })
       ] })
-    }
-  );
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative mx-auto max-w-7xl px-5 pb-8 sm:px-8 lg:px-10", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.06] backdrop-blur sm:grid-cols-3", children: HERO_POINTS.map((point) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "group border-b border-white/10 p-5 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(point.icon, { className: "size-5 text-sky-200 transition-transform group-hover:scale-110" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm font-semibold text-white", children: point.label }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-xs leading-5 text-white/55", children: point.detail })
+      ] }, point.label)) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 max-w-4xl text-xs leading-5 text-white/45", children: SITE.disclosure })
+    ] })
+  ] });
 }
 const HOME_FAQS = [
   {
@@ -45230,80 +44997,37 @@ function homeFaqSchema() {
   return faqSchema(HOME_FAQS);
 }
 const STEPS = [
-  {
-    title: "You call and tell us the trip",
-    description: "A specialist answers, asks where you are flying from and to, your dates, how many travelers, and any flexibility you have. No forms, no hold music."
-  },
-  {
-    title: "We search and compare options",
-    description: "We look across carriers and fare classes, then walk you through the realistic choices — including what each fare includes and what it does not."
-  },
-  {
-    title: "You choose, we book",
-    description: "Once you pick an option, we confirm the details with you, complete the booking, and send your confirmation and itinerary."
-  },
-  {
-    title: "We stay available after booking",
-    description: "Seat questions, schedule changes, or a rebooking later on — call back and the same team picks up where you left off."
-  }
+  ["01", "Tell us about your trip", "Share your route, dates, travelers, cabin preferences, and anything that matters."],
+  ["02", "We compare the options", "Understand routing, fare details, baggage, and practical choices with a specialist."],
+  ["03", "You choose what works", "You stay in control. Details are explained before booking or payment is authorized."],
+  ["04", "We help after booking", "Questions, seats, changes, or rebooking needs can be discussed afterward."]
 ];
 function HowItWorks() {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    Section,
-    {
-      tone: "paper",
-      ocid: "home.how_it_works_section",
-      "aria-labelledby": "home-how-it-works-heading",
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          SectionHeading,
-          {
-            id: "home-how-it-works-heading",
-            eyebrow: "How it works",
-            title: "What happens when you call",
-            description: "Four straightforward steps, from your first ring to a confirmed itinerary."
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "mt-12 grid gap-6 lg:grid-cols-4", children: STEPS.map((step, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "li",
-          {
-            "data-ocid": `home.step.${index2 + 1}`,
-            className: "relative flex flex-col border-t-2 border-primary/15 pt-6",
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "label-board text-accent", children: [
-                "Step ",
-                String(index2 + 1).padStart(2, "0")
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mt-3 text-lg font-semibold leading-snug", children: step.title }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2.5 text-sm leading-relaxed text-muted-foreground", children: step.description })
-            ]
-          },
-          step.title
-        )) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-12 flex flex-col items-start gap-4 rounded-2xl border border-border bg-card p-6 shadow-subtle sm:flex-row sm:items-center sm:justify-between", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-display text-lg font-semibold", children: "Ready to start? The line is open." }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-1 text-sm text-muted-foreground", children: [
-              "Prefer to write?",
-              " ",
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                Link,
-                {
-                  to: "/contact",
-                  "data-ocid": "home.how_it_works_trip_request_link",
-                  className: "font-medium text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                  children: "Send a trip request"
-                }
-              ),
-              " ",
-              "and we will follow up."
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "home.how_it_works_call_button" })
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: "home.how_it_works_section", "aria-labelledby": "home-how-it-works-heading", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(SectionHeading, { id: "home-how-it-works-heading", eyebrow: "A simple experience", title: "From trip idea to itinerary, one clear step at a time.", description: "A straightforward process designed to make flight planning feel calmer and easier." }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "mt-12 grid gap-5 lg:grid-cols-4", children: STEPS.map(([number, title, description], index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { "data-ocid": `home.step.${index2 + 1}`, className: "relative rounded-[1.75rem] border border-border bg-card p-7 shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-11 items-center justify-center rounded-full bg-accent text-accent-foreground font-display text-sm font-bold", children: number }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "size-5 text-emerald-500" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mt-6 text-lg font-semibold", children: title }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2.5 text-sm leading-6 text-muted-foreground", children: description })
+    ] }, number)) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative mt-12 overflow-hidden rounded-[2rem] bg-white p-7 shadow-premium ring-1 ring-black/5 sm:p-9", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Ready when you are" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 font-display text-2xl font-semibold", children: "Get help from a real travel specialist." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-muted-foreground", children: "Prefer not to call? Send your trip details online and request a callback." })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2 sm:flex-row", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "home.how_it_works_call_button" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: "/contact", "data-ocid": "home.how_it_works_trip_request_link", className: "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/20 px-5 text-sm font-semibold text-primary hover:bg-muted", children: [
+          "Request a callback ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" })
         ] })
-      ]
-    }
-  );
+      ] })
+    ] }) })
+  ] });
 }
 const CHECKLIST$4 = [
   {
@@ -45392,241 +45116,130 @@ function PreCallChecklist() {
   );
 }
 const SERVICES$2 = [
-  {
-    icon: Plane,
-    title: "Flight booking assistance",
-    description: "We search live availability across carriers and fare classes, then book the itinerary that fits your dates, budget, and baggage needs."
-  },
-  {
-    icon: Earth,
-    title: "International travel",
-    description: "Long-haul routing, connections, entry timing, and layover planning handled by specialists who book international trips every day."
-  },
-  {
-    icon: Route$1,
-    title: "Multi-city itineraries",
-    description: "Three cities, two continents, one trip. We sequence segments so connections are realistic and the whole itinerary prices correctly."
-  },
-  {
-    icon: Briefcase,
-    title: "Business & first class",
-    description: "Premium cabin searches with clear fare rules, seat selection guidance, and honest comparisons between cabin options."
-  },
-  {
-    icon: Users,
-    title: "Group travel",
-    description: "Family reunions, sports teams, church groups, and corporate travel. We coordinate seats and names so everyone travels together."
-  },
-  {
-    icon: CalendarClock,
-    title: "Changes & rebooking",
-    description: "Plans change. We review your fare conditions, explain the real options, and rebook or restructure your trip when it is possible."
-  }
-];
-const AIRLINE_LINKS = [
-  {
-    label: "Delta Airlines flight booking help",
-    to: "/delta-airlines",
-    ocid: "home.services_delta_link"
-  },
-  {
-    label: "United Airlines flight booking help",
-    to: "/united-airlines",
-    ocid: "home.services_united_link"
-  },
-  {
-    label: "American Airlines flight booking help",
-    to: "/american-airlines",
-    ocid: "home.services_american_link"
-  }
+  { icon: Plane, title: "Flight booking assistance", description: "Compare routes, schedules, cabins, baggage needs, and fare details with a travel specialist." },
+  { icon: Earth, title: "International travel", description: "Think through long-haul routes, connections, layovers, and practical booking details." },
+  { icon: Route$1, title: "Multi-city itineraries", description: "Coordinate multiple destinations into one organized itinerary with realistic connections." },
+  { icon: BriefcaseBusiness, title: "Business & first class", description: "Explore premium-cabin options with clear information about seats, baggage, and fare conditions." },
+  { icon: Users, title: "Group travel", description: "Organize family, friends, teams, or colleagues around one coordinated trip plan." },
+  { icon: CalendarClock, title: "Changes & rebooking", description: "Understand available options and fare conditions when your plans change." }
 ];
 function ServiceGrid() {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    Section,
-    {
-      tone: "muted",
-      ocid: "home.services_section",
-      "aria-labelledby": "home-services-heading",
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          SectionHeading,
-          {
-            id: "home-services-heading",
-            eyebrow: "What we handle",
-            title: "Flight services built around real trips",
-            description: "Every request is handled by a specialist, not a search box. Here is what travelers call us for most."
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3", children: SERVICES$2.map((service, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "li",
-          {
-            "data-ocid": `home.service_card.${index2 + 1}`,
-            className: "group flex flex-col rounded-2xl border border-border bg-card p-6 shadow-subtle transition-smooth hover:-translate-y-0.5 hover:shadow-elevated",
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-smooth group-hover:bg-accent group-hover:text-accent-foreground", children: /* @__PURE__ */ jsxRuntimeExports.jsx(service.icon, { "aria-hidden": "true", className: "size-5" }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mt-5 text-lg font-semibold leading-snug", children: service.title }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2.5 text-sm leading-relaxed text-muted-foreground", children: service.description })
-            ]
-          },
-          service.title
-        )) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-10 rounded-2xl border border-border bg-card p-6 shadow-subtle sm:p-8", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-semibold leading-snug", children: "Looking for a specific airline?" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground", children: [
-            "Read how we help with each carrier, or start with our",
-            " ",
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Link,
-              {
-                to: "/flight-booking",
-                "data-ocid": "home.services_flight_booking_link",
-                className: "font-medium text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                children: "flight booking service overview"
-              }
-            ),
-            "."
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap", children: AIRLINE_LINKS.map((link) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            Link,
-            {
-              to: link.to,
-              "data-ocid": link.ocid,
-              className: "inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/25 bg-background px-5 text-sm font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              children: [
-                link.label,
-                /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { "aria-hidden": "true", className: "size-4" })
-              ]
-            }
-          ) }, link.to)) })
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: "home.services_section", "aria-labelledby": "home-services-heading", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(SectionHeading, { id: "home-services-heading", eyebrow: "Travel support", title: "Everything feels easier with a specialist beside you.", description: "From a straightforward one-way trip to a complex itinerary, get clear human guidance without having to figure everything out alone." }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3", children: SERVICES$2.map((service, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { "data-ocid": `home.service_card.${index2 + 1}`, className: "group relative overflow-hidden rounded-[1.75rem] border border-border/80 bg-card p-7 shadow-subtle transition-smooth hover:-translate-y-1.5 hover:border-primary/20 hover:shadow-premium", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -right-8 -top-8 size-28 rounded-full bg-accent/10 blur-2xl transition-smooth group-hover:bg-accent/20" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-subtle transition-smooth group-hover:bg-accent group-hover:text-accent-foreground", children: /* @__PURE__ */ jsxRuntimeExports.jsx(service.icon, { className: "size-5", "aria-hidden": "true" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mt-6 text-xl font-semibold leading-snug", children: service.title }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-6 text-muted-foreground", children: service.description }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: "/flight-booking", className: "mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary group-hover:text-accent", children: [
+          "Explore assistance ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { className: "size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" })
         ] })
-      ]
-    }
-  );
+      ] })
+    ] }, service.title)) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative mt-12 overflow-hidden rounded-[2rem] bg-[#071a35] p-7 text-white shadow-premium sm:p-10", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -right-24 -top-24 size-72 rounded-full bg-sky-400/10 blur-3xl" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Airline guides" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mt-2 text-2xl font-semibold", children: "Planning around a specific airline?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 max-w-2xl text-sm leading-6 text-white/60", children: "Explore practical booking guidance for major carriers or start with the flight booking overview." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2.5", children: AIRLINE_ITEMS.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: item.to, className: "inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 text-sm font-semibold text-white hover:bg-white hover:text-primary", children: [
+          item.label,
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { className: "size-4" })
+        ] }, item.to)) })
+      ] })
+    ] })
+  ] });
 }
-const HOME_TITLE = "TicketDepart | Flight Booking Help from Travel Specialists 24/7";
-const HOME_DESCRIPTION = "Independent U.S. travel agency for international and domestic flight booking, multi-city itineraries, business and first class, and group travel. Speak with a travel specialist 24/7 at +1 855-544-9001.";
-const HOME_IMAGE = absoluteUrl(
-  "/assets/generated/hero-flight.dim_1600x1100.jpg"
-);
+const HOME_TITLE = "TicketDepart | Premium Flight Reservation Assistance";
+const HOME_DESCRIPTION = "Book flights by phone with TicketDepart. Get 24/7 flight booking assistance for domestic and international travel, changes, and cancellations.";
+const HOME_IMAGE = absoluteUrl("/assets/generated/hero-flight.dim_1600x1100.jpg");
 function HomePage() {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      Seo,
-      {
-        title: HOME_TITLE,
-        description: HOME_DESCRIPTION,
-        path: "/",
-        image: HOME_IMAGE,
-        structuredData: [
-          organizationSchema(),
-          websiteSchema(),
-          breadcrumbSchema([{ name: "Home", path: "/" }]),
-          homeFaqSchema()
-        ]
-      }
-    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Seo, { title: HOME_TITLE, description: HOME_DESCRIPTION, path: "/", image: HOME_IMAGE, structuredData: [organizationSchema(), websiteSchema(), breadcrumbSchema([{ name: "Home", path: "/" }]), homeFaqSchema()] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(HeroSection, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "section",
-      {
-        className: "border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-12",
-        "aria-labelledby": "book-flight-phone-heading",
-        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto flex max-w-6xl flex-col gap-5 lg:flex-row lg:items-center lg:justify-between", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Ready to book?" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "h2",
-              {
-                id: "book-flight-phone-heading",
-                className: "mt-2 text-balance text-2xl font-semibold leading-tight sm:text-3xl",
-                children: "Book a flight by phone with a travel specialist"
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base", children: "Discuss your route, dates, cabin, baggage, and fare rules before you decide. Phone assistance is available 24/7." })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            Link,
-            {
-              to: "/book-a-flight-by-phone",
-              className: "inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90",
-              children: [
-                "Book by phone ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", children: "→" })
-              ]
-            }
-          )
-        ] })
-      }
-    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "relative overflow-hidden border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-14", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_auto] lg:items-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Start with a conversation" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-2 max-w-3xl text-balance text-2xl font-semibold sm:text-3xl", children: "Tell us what you need. We’ll help you make sense of the options." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base", children: "Discuss your route, dates, cabin, baggage, and fare rules before you decide." })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: "/book-a-flight-by-phone", className: "inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-subtle hover:bg-primary/90", children: [
+        "Explore phone booking ",
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", className: "ml-2", children: "→" })
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "border-b border-border bg-background px-5 py-12 sm:px-8 sm:py-16", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-6xl", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Where we serve" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl", children: "Flight assistance for travelers across the USA, Canada, Mexico & UK." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-3xl text-base leading-7 text-muted-foreground", children: "English-speaking travelers can get help with domestic, international, last-minute, multi-city, family, group, and premium-cabin itineraries. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-7 flex flex-wrap gap-2", children: ["USA", "Canada", "Mexico", "UK"].map((m2) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold shadow-subtle", children: m2 }, m2)) })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-12", "aria-labelledby": "call-reasons-heading", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto max-w-6xl", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Why travelers call" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { id: "call-reasons-heading", className: "mt-2 max-w-3xl text-balance text-2xl font-semibold sm:text-3xl", children: "Get a person involved when the itinerary needs more than a search box." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-4 grid gap-3 sm:grid-cols-3", children: [
+          ["Compare routes", "Talk through nonstop, connecting, and alternate-airport options."],
+          ["Ask before booking", "Clarify baggage, cabin, fare rules, and change questions."],
+          ["Handle complex trips", "Get help with multi-city, group, international, or urgent travel."]
+        ].map(([title, description]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-border bg-background p-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold text-foreground", children: title }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-xs leading-5 text-muted-foreground", children: description })
+        ] }, title)) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "lg:pl-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "home.call_reasons_button", className: "w-full sm:w-auto" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-center text-xs text-muted-foreground lg:text-right", children: SITE.hours })
+      ] })
+    ] }) }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceGrid, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "border-b border-border bg-background px-5 py-14 sm:px-8 sm:py-20", "aria-labelledby": "regional-flights-heading", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-6xl", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Popular international routes" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { id: "regional-flights-heading", className: "mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl", children: "Planning travel between the USA and another country?" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-3xl text-base leading-7 text-muted-foreground", children: "Start with a focused guide for common international travel markets. Compare routing, airports, dates, cabins, baggage, and fare conditions before you book." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4", children: [
+        ["USA to Canada flights", "/flights-usa-to-canada"],
+        ["USA to UK flights", "/flights-usa-to-uk"],
+        ["USA to Europe flights", "/flights-usa-to-europe"],
+        ["USA to Mexico flights", "/flights-usa-to-mexico"]
+      ].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to, className: "group rounded-[1.5rem] border border-border bg-card px-5 py-6 text-sm font-semibold text-primary shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated", children: [
+        label,
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ml-2 transition-transform group-hover:translate-x-1", children: "→" })
+      ] }, to)) })
+    ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(HowItWorks, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(PreCallChecklist, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "section",
-      {
-        className: "border-y border-border bg-muted/40 px-5 py-12 sm:px-8 sm:py-16",
-        "aria-labelledby": "phone-booking-guide-heading",
-        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-6xl", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Need a little more detail?" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "h2",
-            {
-              id: "phone-booking-guide-heading",
-              className: "mt-3 max-w-3xl text-balance text-2xl font-semibold leading-tight sm:text-3xl",
-              children: "Learn how booking a flight by phone works"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground", children: "See what to prepare before calling, which questions to ask about fares and changes, and how a phone booking typically moves from trip details to a confirmed ticket." }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            Link,
-            {
-              to: "/how-to-book-a-flight-by-phone",
-              className: "mt-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-card px-5 py-3 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground",
-              children: [
-                "Read the phone booking guide",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", children: "→" })
-              ]
-            }
-          )
-        ] })
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "section",
-      {
-        className: "border-b border-border bg-muted/40 px-5 py-12 sm:px-8 sm:py-16",
-        "aria-labelledby": "airline-guides-heading",
-        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-6xl", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Airline booking assistance" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "h2",
-            {
-              id: "airline-guides-heading",
-              className: "mt-3 max-w-3xl text-balance text-2xl font-semibold leading-tight sm:text-3xl",
-              children: "Planning around a specific airline?"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground", children: "Explore our practical booking guides for Delta Airlines, United Airlines, and American Airlines, or call a specialist if your trip uses more than one carrier." }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-7 grid gap-3 sm:grid-cols-3", children: [
-            ["Delta Airlines booking assistance", "/delta-airlines"],
-            ["United Airlines booking assistance", "/united-airlines"],
-            ["American Airlines booking assistance", "/american-airlines"]
-          ].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            Link,
-            {
-              to,
-              className: "rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold text-primary transition-smooth hover:border-primary/30 hover:shadow-subtle",
-              children: [
-                label,
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", children: "→" })
-              ]
-            },
-            to
-          )) })
-        ] })
-      }
-    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "border-y border-border bg-[#f3f6f9] px-5 py-14 sm:px-8 sm:py-20", "aria-labelledby": "phone-booking-guide-heading", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-6xl", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Helpful guide" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { id: "phone-booking-guide-heading", className: "mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl", children: "Know what to expect when booking by phone." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-3xl text-base leading-7 text-muted-foreground", children: "See what to prepare, which questions to ask about fares and changes, and how a phone booking typically moves from trip details to a confirmed ticket." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: "/how-to-book-a-flight-by-phone", className: "mt-7 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-card px-5 py-3 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground", children: [
+        "Read the booking guide ",
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" })
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "border-b border-border bg-card px-5 py-14 sm:px-8 sm:py-20", "aria-labelledby": "airline-guides-heading", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-6xl", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Airline booking assistance" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { id: "airline-guides-heading", className: "mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl", children: "Planning around a specific airline?" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-3xl text-base leading-7 text-muted-foreground", children: "Explore practical booking guides for major airlines, including Delta, United, American, Southwest, JetBlue, Alaska, British Airways, Lufthansa, and Air Canada." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8 grid gap-3 sm:grid-cols-3", children: [["Delta Airlines booking assistance", "/delta-airlines"], ["United Airlines booking assistance", "/united-airlines"], ["American Airlines booking assistance", "/american-airlines"], ["Southwest Airlines booking assistance", "/southwest-airlines"], ["JetBlue Airways booking assistance", "/jetblue-airways"], ["Alaska Airlines booking assistance", "/alaska-airlines"], ["British Airways booking assistance", "/british-airways"], ["Lufthansa booking assistance", "/lufthansa"], ["Air Canada booking assistance", "/air-canada"], ["SWISS booking assistance", "/swiss-air"], ["Qatar Airways booking assistance", "/qatar-airways"], ["Emirates booking assistance", "/emirates"], ["LOT Polish Airlines booking assistance", "/lot-polish-airlines"], ["Norse Atlantic Airways booking assistance", "/norse-atlantic-airways"]].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to, className: "group rounded-[1.25rem] border border-border bg-background px-5 py-5 text-sm font-semibold text-primary transition-smooth hover:-translate-y-0.5 hover:border-primary/25 hover:bg-card hover:shadow-subtle", children: [
+        label,
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ml-1 transition-transform group-hover:translate-x-0.5", children: "→" })
+      ] }, to)) })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "border-b border-border bg-background px-5 py-14 sm:px-8 sm:py-20", "aria-labelledby": "popular-booking-help-heading", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-6xl", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Popular booking help" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { id: "popular-booking-help-heading", className: "mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl", children: "Support for the trips people plan most often." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 max-w-3xl text-base leading-7 text-muted-foreground", children: "Explore focused guides for urgent travel, premium cabins, family trips, affordable fare planning, and changes or cancellations." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3", children: [["Cheap flight booking by phone", "/cheap-flight-booking-by-phone"], ["Business class flight booking", "/business-class-flight-booking"], ["Same-day flight booking", "/same-day-flight-booking"], ["Family flight booking", "/family-flight-booking"], ["Flight change assistance", "/flight-change-assistance"], ["Flight cancellation assistance", "/flight-cancellation-assistance"]].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to, className: "group rounded-[1.5rem] border border-border bg-card px-6 py-5 text-sm font-semibold text-primary shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated", children: [
+        label,
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ml-2 transition-transform group-hover:translate-x-1", children: "→" })
+      ] }, to)) })
+    ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(HomeFaq, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(DisclosureBlock, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(ContactInfoBlock, {}),
@@ -45911,6 +45524,745 @@ function HowToBookFlightByPhonePage() {
     ] })
   ] });
 }
+const PAGES$1 = [
+  {
+    path: "/cheap-flight-booking-by-phone",
+    title: "Cheap Flight Booking by Phone | TicketDepart",
+    description: "Discuss affordable domestic and international flight options by phone. Compare dates, nearby airports, cabins, and fare conditions with a TicketDepart travel specialist.",
+    heading: "Cheap flight booking help by phone",
+    intro: "A small change in travel date, airport, cabin, or routing can affect the fare. Tell us what you are trying to balance and a specialist can review available options with you.",
+    service: "Affordable flight booking assistance",
+    items: [
+      [
+        "Flexible travel dates",
+        "Discuss date flexibility that may open different schedules or fares."
+      ],
+      [
+        "Nearby airports",
+        "Compare practical alternative airports when the trip allows it."
+      ],
+      [
+        "Domestic and international",
+        "Review options for U.S. trips and international itineraries."
+      ],
+      [
+        "Cabin choices",
+        "Compare economy and premium cabin options with the fare conditions."
+      ],
+      [
+        "Baggage details",
+        "Ask what baggage is included and what additional charges may apply."
+      ],
+      [
+        "Fare conditions",
+        "Review changes, cancellations, and other restrictions before booking."
+      ]
+    ],
+    faqs: [
+      {
+        question: "Can you help me find a cheaper flight?",
+        answer: "A specialist can discuss available fares, dates, airports, routing, and cabin options. Final prices depend on live availability and fare rules."
+      },
+      {
+        question: "Can changing my departure airport lower the fare?",
+        answer: "It can in some cases. Nearby airports may have different schedules and prices, but you should compare the total trip cost and ground transportation."
+      },
+      {
+        question: "Can I ask for the total price before paying?",
+        answer: "Yes. Ask for the full airfare, taxes and charges, baggage terms, and any applicable agency service fee before authorizing payment."
+      }
+    ]
+  },
+  {
+    path: "/business-class-flight-booking",
+    title: "Business Class Flight Booking Assistance | TicketDepart",
+    description: "Plan business class and premium cabin flights by phone. Discuss schedules, connections, cabin features, baggage, and fare conditions with a TicketDepart specialist.",
+    heading: "Business class flight booking assistance",
+    intro: "Business class travel can differ significantly by aircraft, route, connection, and fare family. A phone conversation lets you explain the experience and schedule you need before booking.",
+    service: "Business class flight booking",
+    items: [
+      [
+        "Business class options",
+        "Compare available business class schedules and routing for your dates."
+      ],
+      [
+        "Aircraft and seats",
+        "Discuss seat layouts, lie-flat availability, and cabin differences where known."
+      ],
+      [
+        "Connection planning",
+        "Review layovers and connection airports for long-haul itineraries."
+      ],
+      [
+        "International travel",
+        "Discuss premium-cabin options for Europe, Asia, Latin America, and other markets."
+      ],
+      [
+        "Fare flexibility",
+        "Review change and cancellation conditions before you choose a fare."
+      ],
+      [
+        "Baggage and services",
+        "Ask what the selected fare includes and which services are available."
+      ]
+    ],
+    faqs: [
+      {
+        question: "Can I book business class by phone?",
+        answer: "Yes. TicketDepart can discuss business class itineraries, cabin preferences, dates, and available booking options by phone."
+      },
+      {
+        question: "Can you help compare business class seats?",
+        answer: "We can discuss available aircraft and cabin information when it is available for the itinerary. Exact seat maps and availability depend on the airline and fare."
+      },
+      {
+        question: "Is business class always refundable?",
+        answer: "No. Refund and change conditions depend on the fare purchased and the airline's rules."
+      }
+    ]
+  },
+  {
+    path: "/same-day-flight-booking",
+    title: "Same-Day Flight Booking Assistance | TicketDepart",
+    description: "Need to travel today? Call TicketDepart to discuss same-day flight availability, nearby airports, connections, and ticketing deadlines with a travel specialist.",
+    heading: "Same-day flight booking help",
+    intro: "Same-day travel can change quickly as seats sell and departure deadlines approach. Call with your route and timing so the specialist can work through the available possibilities.",
+    service: "Same-day flight booking assistance",
+    items: [
+      [
+        "Travel today",
+        "Discuss currently available options when you need to depart the same day."
+      ],
+      [
+        "Nearby airports",
+        "Consider additional airports if they are practical for your departure."
+      ],
+      [
+        "Nonstop or connecting",
+        "Compare the fastest practical routing with other available choices."
+      ],
+      [
+        "Urgent timing",
+        "Discuss check-in, airport, and ticketing timing that may affect the trip."
+      ],
+      [
+        "Flexible destination airports",
+        "Consider alternate arrival airports when they make the itinerary workable."
+      ],
+      [
+        "Fare terms",
+        "Review the applicable price, baggage, and change rules before payment."
+      ]
+    ],
+    faqs: [
+      {
+        question: "Can you help me book a flight for today?",
+        answer: "We can discuss same-day options by phone. Availability depends on live inventory, the route, departure time, and ticketing deadlines."
+      },
+      {
+        question: "Can you check nearby airports?",
+        answer: "Yes. Additional airports can be considered when they are practical for your trip."
+      },
+      {
+        question: "Will the price be guaranteed while I decide?",
+        answer: "No. Same-day fares and seat availability can change until a ticket is issued."
+      }
+    ]
+  },
+  {
+    path: "/family-flight-booking",
+    title: "Family Flight Booking Assistance | TicketDepart",
+    description: "Plan family flights by phone with help coordinating travelers, dates, seats, baggage, connections, and practical itinerary options.",
+    heading: "Family flight booking assistance",
+    intro: "Family travel can involve different ages, baggage needs, seats, schedules, and connection preferences. A specialist can work through those details with you before you confirm the trip.",
+    service: "Family flight booking assistance",
+    items: [
+      [
+        "Traveling together",
+        "Discuss itineraries that keep family members on the same flight where availability allows."
+      ],
+      [
+        "Seat planning",
+        "Ask about seat availability and seating options for the family."
+      ],
+      [
+        "Child and infant travel",
+        "Discuss the booking details you should prepare for younger travelers."
+      ],
+      [
+        "Baggage planning",
+        "Review baggage allowances and applicable fees for your selected fare."
+      ],
+      [
+        "Connections",
+        "Compare connection times that may be more practical for family travel."
+      ],
+      [
+        "Flexible scheduling",
+        "Explore date and airport alternatives when your plans allow flexibility."
+      ]
+    ],
+    faqs: [
+      {
+        question: "Can you help book flights for a family?",
+        answer: "Yes. A specialist can discuss traveler count, ages, routing, dates, cabin preference, and seating considerations."
+      },
+      {
+        question: "Can you keep the family on the same flight?",
+        answer: "We can discuss coordinated itineraries, but keeping everyone together depends on inventory and the airline's booking and seat availability."
+      },
+      {
+        question: "What family travel details should I have ready?",
+        answer: "Have traveler count, approximate ages, origin, destination, dates, cabin preference, and any accessibility or seating needs ready if known."
+      }
+    ]
+  },
+  {
+    path: "/flight-change-assistance",
+    title: "Flight Change Assistance by Phone | TicketDepart",
+    description: "Need to change a flight? Discuss date, time, route, fare difference, and airline change rules with a TicketDepart travel specialist.",
+    heading: "Flight change assistance by phone",
+    intro: "Before changing an existing ticket, review the current fare rules and the practical alternatives. A specialist can help you understand the options available for your itinerary.",
+    service: "Flight change assistance",
+    items: [
+      [
+        "Date or time changes",
+        "Discuss moving the departure or return date and the resulting fare conditions."
+      ],
+      [
+        "Route changes",
+        "Ask whether a different departure, arrival, or connecting airport can work."
+      ],
+      [
+        "Fare difference",
+        "Review any fare difference and applicable change charges before authorizing the change."
+      ],
+      [
+        "Schedule changes",
+        "Discuss options when the airline changes the original schedule."
+      ],
+      [
+        "Connection alternatives",
+        "Compare replacement itineraries when the original routing no longer fits."
+      ],
+      [
+        "Ticket details",
+        "Have the confirmation code, passenger name, and existing itinerary ready."
+      ]
+    ],
+    faqs: [
+      {
+        question: "Can you help change my flight by phone?",
+        answer: "Yes. TicketDepart can discuss possible date, time, route, and itinerary changes. Final changes depend on the ticket's fare rules and the airline's inventory."
+      },
+      {
+        question: "Will I have to pay a change fee?",
+        answer: "It depends on the fare, airline, route, and timing. You should review any applicable charges and fare difference before authorizing the change."
+      },
+      {
+        question: "What should I have ready?",
+        answer: "Have the passenger name, confirmation code or ticket number, current itinerary, and preferred new dates or route ready."
+      }
+    ]
+  },
+  {
+    path: "/flight-cancellation-assistance",
+    title: "Flight Cancellation Assistance by Phone | TicketDepart",
+    description: "Need to cancel a flight? Discuss cancellation rules, refunds, credits, deadlines, and replacement travel options with a TicketDepart specialist.",
+    heading: "Flight cancellation assistance by phone",
+    intro: "Cancellation outcomes depend on the ticket, fare rules, airline policy, and timing. A specialist can help you review the applicable options before you request a cancellation.",
+    service: "Flight cancellation assistance",
+    items: [
+      [
+        "Cancellation review",
+        "Discuss whether the ticket may qualify for a refund, credit, or other option."
+      ],
+      [
+        "Timing and deadlines",
+        "Review the timing requirements that can affect the outcome."
+      ],
+      [
+        "Refund questions",
+        "Ask what refund rules appear to apply to the specific ticket."
+      ],
+      [
+        "Travel credits",
+        "Discuss whether the airline may issue a credit and what restrictions apply."
+      ],
+      [
+        "Partial itinerary changes",
+        "Review whether canceling one segment affects the rest of the itinerary."
+      ],
+      [
+        "Replacement travel",
+        "Discuss rebooking alternatives when canceling the original itinerary is not the best fit."
+      ]
+    ],
+    faqs: [
+      {
+        question: "Can you help me cancel a flight?",
+        answer: "Yes. We can review the ticket details and discuss the cancellation options and applicable terms before anything is processed."
+      },
+      {
+        question: "Will I get a refund?",
+        answer: "Not necessarily. Refund eligibility depends on the ticket, fare conditions, airline rules, applicable law, and timing."
+      },
+      {
+        question: "Could I receive a travel credit instead?",
+        answer: "Depending on the ticket and airline policy, a credit may be available. The exact restrictions should be confirmed before cancellation."
+      }
+    ]
+  },
+  {
+    path: "/airline-reservation-assistance",
+    title: "Airline Reservation Assistance by Phone | TicketDepart",
+    description: "Need help with an airline reservation? Discuss booking, changes, cancellations, connections, baggage, and fare conditions with a TicketDepart travel specialist.",
+    heading: "Airline reservation assistance by phone",
+    intro: "If you are comparing a new trip or need help with an existing airline reservation, a specialist can walk through the itinerary, ticket details, and applicable terms with you.",
+    service: "Airline reservation assistance",
+    items: [
+      ["New reservations", "Discuss route, dates, travelers, cabin, and airline preferences before booking."],
+      ["Existing reservations", "Review your current itinerary and the information you should have ready before requesting help."],
+      ["Changes and rebooking", "Discuss date, time, route, connection, and fare-difference questions."],
+      ["Cancellation questions", "Review possible refund, credit, deadline, and ticket-condition questions before cancellation."],
+      ["Baggage and fare terms", "Ask what the selected fare includes and what restrictions may apply."],
+      ["Complex itineraries", "Discuss international, multi-city, family, group, and premium-cabin travel needs."]
+    ],
+    faqs: [
+      { question: "Can I get airline reservation help by phone?", answer: "Yes. TicketDepart can discuss new and existing reservation questions by phone. Exact actions and availability depend on the ticket, airline, and applicable rules." },
+      { question: "Can you help change an existing reservation?", answer: "We can discuss possible changes and the information needed. Final changes depend on the ticket's fare rules, airline inventory, and applicable terms." },
+      { question: "What should I have ready when I call?", answer: "Have the passenger name, confirmation code or ticket number, current itinerary, desired change or new trip details, and traveler count ready if available." }
+    ]
+  },
+  {
+    path: "/flight-booking-assistance",
+    title: "Flight Booking Assistance by Phone | TicketDepart",
+    description: "Get flight booking assistance by phone for domestic, international, multi-city, family, group, and premium-cabin travel with an independent travel specialist.",
+    heading: "Flight booking assistance by phone",
+    intro: "Tell us where you are going, when you want to travel, and what matters most. A specialist can help you compare practical itinerary options and review booking terms before you decide.",
+    service: "Flight booking assistance",
+    items: [
+      ["Domestic flights", "Discuss one-way and round-trip travel between major and regional U.S. airports."],
+      ["International flights", "Review international routes, connections, cabins, dates, and fare conditions."],
+      ["Flexible itinerary planning", "Compare nearby airports, flexible dates, and routing alternatives when practical."],
+      ["Premium cabins", "Discuss economy, premium economy, business, and first-class options."],
+      ["Family and group travel", "Work through traveler counts, coordinated schedules, baggage, and seating questions."],
+      ["Before you pay", "Review the itinerary, fare conditions, baggage terms, and any applicable service fee before authorizing payment."]
+    ],
+    faqs: [
+      { question: "Can I book a flight by phone?", answer: "Yes. TicketDepart provides independent travel assistance for domestic and international flight booking by phone." },
+      { question: "Can you compare different flight options?", answer: "A specialist can discuss available routing, schedules, connections, cabins, airports, and fare conditions for your trip." },
+      { question: "Will the price stay the same while I decide?", answer: "Not necessarily. Airfare and seat availability can change until a ticket is issued." }
+    ]
+  },
+  {
+    path: "/flights-usa-to-canada",
+    title: "USA to Canada Flights | Booking Assistance | TicketDepart",
+    description: "Get help comparing flights from the USA to Canada by phone. Discuss cities, airports, dates, connections, baggage, cabins, and fare conditions with a travel specialist.",
+    heading: "USA to Canada flight booking assistance",
+    intro: "Planning a trip between the United States and Canada? Discuss departure and arrival cities, nearby airports, dates, connections, cabin choices, baggage, and fare conditions with a travel specialist.",
+    service: "USA to Canada flight assistance",
+    items: [
+      ["Popular cross-border trips", "Discuss practical options for major U.S. and Canadian city pairs."],
+      ["Flexible airports", "Consider nearby departure or arrival airports when practical."],
+      ["Nonstop and connections", "Compare routing and connection options for your dates."],
+      ["Dates and schedules", "Review schedule choices when your dates are flexible."],
+      ["Baggage and cabin", "Ask about baggage terms and cabin options before booking."],
+      ["Fare conditions", "Review applicable change, cancellation, and payment terms."]
+    ],
+    faqs: [
+      { question: "Can you help with USA to Canada flights?", answer: "Yes. A specialist can discuss available itineraries between U.S. and Canadian cities. Final availability and pricing depend on live airline inventory." },
+      { question: "Can nearby airports be compared?", answer: "Yes. Nearby airports can be considered when they make sense for your trip and ground transportation." },
+      { question: "Are international travel documents included?", answer: "Travel-document requirements depend on your citizenship and itinerary. Confirm current requirements with the appropriate government and airline sources." }
+    ]
+  },
+  {
+    path: "/flights-usa-to-uk",
+    title: "USA to UK Flights | Booking Assistance | TicketDepart",
+    description: "Plan USA to UK flights by phone. Discuss London and other UK destinations, dates, connections, cabins, baggage, and fare conditions with a travel specialist.",
+    heading: "USA to UK flight booking assistance",
+    intro: "Planning travel from the United States to the United Kingdom? Explain your preferred cities, dates, cabin, connection tolerance, and baggage needs and review available options by phone.",
+    service: "USA to UK flight assistance",
+    items: [
+      ["UK destination options", "Discuss London and other UK arrival cities that fit your plans."],
+      ["East Coast and West Coast", "Compare routing choices from different U.S. departure regions."],
+      ["Nonstop and connections", "Review nonstop and connecting itineraries where available."],
+      ["Premium cabins", "Discuss economy, premium economy, business, and other available cabins."],
+      ["Baggage and fare rules", "Review what the selected fare includes before payment."],
+      ["Schedule flexibility", "Consider nearby dates when your plans allow flexibility."]
+    ],
+    faqs: [
+      { question: "Can you help book a flight from the USA to the UK?", answer: "Yes. TicketDepart can discuss USA-to-UK itineraries by phone. Live inventory, fares, and airline rules determine the final options." },
+      { question: "Can I compare different UK airports?", answer: "Yes. When practical, you can discuss different arrival airports and the onward ground-travel implications." },
+      { question: "Can you guarantee a fare while I decide?", answer: "Airline fares and availability can change until a ticket is issued, so a quote should not be treated as a guarantee unless the applicable terms say otherwise." }
+    ]
+  },
+  {
+    path: "/flights-usa-to-europe",
+    title: "USA to Europe Flights | Booking Assistance | TicketDepart",
+    description: "Plan USA to Europe flights by phone. Discuss destinations, connections, dates, cabins, baggage, and fare conditions with a travel specialist.",
+    heading: "USA to Europe flight booking assistance",
+    intro: "European trips can involve many routing and airport choices. Tell a specialist where you want to go, your dates, preferred cabin, and connection preferences and discuss practical itinerary options.",
+    service: "USA to Europe flight assistance",
+    items: [
+      ["Europe destination planning", "Discuss major European destinations and practical arrival airports."],
+      ["One-stop routing", "Compare connection options when nonstop service is unavailable or unsuitable."],
+      ["Flexible dates", "Review nearby dates when flexibility may open different schedules."],
+      ["Cabin choices", "Compare available cabin options and fare conditions."],
+      ["Multi-city trips", "Discuss open-jaw and multi-city European itineraries."],
+      ["Baggage and changes", "Review baggage terms and applicable change or cancellation conditions."]
+    ],
+    faqs: [
+      { question: "Can you help plan flights to Europe?", answer: "Yes. A specialist can discuss European routes, dates, connections, cabins, and itinerary structure by phone." },
+      { question: "Can I plan a multi-city Europe trip?", answer: "Yes. Multi-city and open-jaw itineraries can be discussed when supported by available airline inventory and fare rules." },
+      { question: "Do European fares include every charge?", answer: "The total depends on the selected fare and applicable taxes, fees, baggage, and agency charges. Ask for the complete price before authorizing payment." }
+    ]
+  },
+  {
+    path: "/flights-usa-to-mexico",
+    title: "USA to Mexico Flights | Booking Assistance | TicketDepart",
+    description: "Plan USA to Mexico flights by phone. Discuss destinations, airports, dates, connections, cabins, baggage, and fare conditions with a travel specialist.",
+    heading: "USA to Mexico flight booking assistance",
+    intro: "Whether you are planning a vacation, family visit, or business trip, discuss U.S.-Mexico flight options by phone and compare practical dates, airports, routing, and fare conditions.",
+    service: "USA to Mexico flight assistance",
+    items: [
+      ["Popular Mexico destinations", "Discuss major destinations and arrival-airport choices for your trip."],
+      ["Flexible departure airports", "Consider nearby U.S. airports when they are practical."],
+      ["Nonstop and connections", "Review available routing and connection choices."],
+      ["Family travel", "Discuss traveler count, seating, baggage, and schedule preferences."],
+      ["Cabin and baggage", "Compare cabin options and understand baggage terms before booking."],
+      ["Fare and change rules", "Review applicable fare conditions, changes, and cancellations."]
+    ],
+    faqs: [
+      { question: "Can you help book flights from the USA to Mexico?", answer: "Yes. TicketDepart can discuss USA-to-Mexico flight options by phone, subject to live airline availability." },
+      { question: "Can you help with family trips to Mexico?", answer: "Yes. Discuss traveler count, ages, seating needs, baggage, and schedule preferences with a specialist." },
+      { question: "What should I verify before international travel?", answer: "Verify current passport, entry, visa, and other travel requirements for your nationality and itinerary with official government and airline sources." }
+    ]
+  }
+];
+function AdditionalBookingPage({ page }) {
+  const id = page.path.slice(1).replaceAll("-", "_");
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Seo,
+      {
+        title: page.title,
+        description: page.description,
+        path: page.path,
+        structuredData: [
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: page.heading, path: page.path }
+          ]),
+          webPageSchema({
+            title: page.title,
+            description: page.description,
+            path: page.path
+          }),
+          serviceSchema({
+            name: page.service,
+            description: page.description,
+            path: page.path
+          }),
+          faqSchema(page.faqs)
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: `${id}.hero`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { "aria-label": "Breadcrumb", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ol", { className: "flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "font-medium hover:text-foreground", children: "Home" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-current": "page", className: "font-semibold text-foreground", children: page.heading }) })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto mt-10 max-w-4xl", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: page.service }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl", children: page.heading }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: page.intro }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: `${id}.hero_call` }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Link,
+            {
+              to: "/contact",
+              className: "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground",
+              children: [
+                "Send trip details ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" })
+              ]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-5 flex items-center gap-2 text-sm text-muted-foreground", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { className: "size-4 text-accent" }),
+          SITE.hours,
+          " · ",
+          SITE.phoneDisplay
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: `${id}.services`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "What we can discuss",
+          title: "Practical help for your trip",
+          description: "Start with your route, dates, traveler details, or existing booking. The specialist can work through the options that apply."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3", children: page.items.map(([title, text]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "article",
+        {
+          className: "rounded-2xl border border-border bg-card p-6 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "size-5 text-accent" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 font-display text-lg font-semibold", children: title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: text })
+          ]
+        },
+        title
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "paper", ocid: `${id}.cta`, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-3xl text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Available 24/7" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 text-balance text-3xl font-semibold sm:text-4xl", children: "Talk with a flight specialist" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-5 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: [
+        "Call ",
+        SITE.phoneDisplay,
+        ". Review the applicable itinerary or ticket details and any relevant terms before you decide."
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", showNumber: true, ocid: `${id}.final_call` }) })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: `${id}.related`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "Related booking help",
+          title: "Explore more high-intent flight guides",
+          description: "Continue to another flight-planning or support topic."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3", children: [
+        ["Flight booking", "/flight-booking"],
+        ["Book a flight by phone", "/book-a-flight-by-phone"],
+        ["International flights", "/international-flight-booking"],
+        ["Last-minute flights", "/last-minute-flight-booking"],
+        ["Multi-city flights", "/multi-city-flight-booking"],
+        ["Group flights", "/group-flight-booking"]
+      ].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        Link,
+        {
+          to,
+          className: "rounded-2xl border border-border bg-card p-5 shadow-subtle hover:shadow-elevated",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-base font-semibold", children: label }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary", children: [
+              "Open guide ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" })
+            ] })
+          ]
+        },
+        to
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: `${id}.faq`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SectionHeading,
+        {
+          eyebrow: "FAQ",
+          title: `${page.service} questions`,
+          description: "Practical information before you call."
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto mt-10 max-w-3xl space-y-4", children: page.faqs.map((faq) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "details",
+        {
+          className: "rounded-2xl border border-border bg-card p-5 shadow-subtle",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("summary", { className: "cursor-pointer font-semibold", children: faq.question }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: faq.answer })
+          ]
+        },
+        faq.question
+      )) })
+    ] })
+  ] });
+}
+function CheapFlightBookingByPhonePage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[0] });
+}
+function BusinessClassFlightBookingPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[1] });
+}
+function SameDayFlightBookingPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[2] });
+}
+function FamilyFlightBookingPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[3] });
+}
+function FlightChangeAssistancePage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[4] });
+}
+function FlightCancellationAssistancePage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[5] });
+}
+function AirlineReservationAssistancePage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[6] });
+}
+function FlightBookingAssistancePage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[7] });
+}
+function UsaToCanadaFlightsPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[8] });
+}
+function UsaToUkFlightsPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[9] });
+}
+function UsaToEuropeFlightsPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[10] });
+}
+function UsaToMexicoFlightsPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AdditionalBookingPage, { page: PAGES$1[11] });
+}
+const PAGES = [
+  { path: "/international-flight-booking", title: "International Flight Booking Assistance | TicketDepart", description: "Get help planning and booking international flights by phone. Discuss routes, connections, cabins, dates, and fare conditions with an independent travel specialist.", heading: "International flight booking assistance by phone", intro: "International itineraries can involve connections, passport requirements, multiple fare rules, and tight schedules. Tell us your route and dates and a specialist can work through the options with you.", service: "International flight booking assistance", items: [
+    ["International routes", "Discuss transatlantic, transpacific, Latin America, Canada, Mexico, and other international itineraries."],
+    ["Connections", "Review connection times, airports, terminals, and routing trade-offs."],
+    ["Cabin options", "Compare economy, premium economy, business, and first-class options."],
+    ["Flexible planning", "Ask about nearby airports, flexible dates, open-jaw routing, and multi-city combinations."],
+    ["Travel documents", "Ask what passport, visa, and entry-document questions you should verify."],
+    ["Fare conditions", "Review baggage, changes, cancellation terms, and other fare conditions before booking."]
+  ], faqs: [
+    { question: "Can I book an international flight by phone?", answer: "Yes. TicketDepart is an independent travel agency. A specialist can discuss routes, dates, travelers, cabin preferences, and available booking options." },
+    { question: "Can you help with international connections?", answer: "Yes. We can discuss connection times, airports, routing, and schedule trade-offs. Final availability and ticketing depend on the itinerary." },
+    { question: "Can you help with multi-country trips?", answer: "Yes. Multi-city and open-jaw itineraries can be discussed by phone." },
+    { question: "Can you confirm visa requirements?", answer: "Travelers should confirm current visa and entry rules with the relevant government or consulate before travel." }
+  ] },
+  { path: "/last-minute-flight-booking", title: "Last-Minute Flight Booking Assistance | TicketDepart", description: "Need a last-minute flight? Call TicketDepart to discuss available routes, nearby airports, flexible dates, connections, and fare conditions with a travel specialist.", heading: "Last-minute flight booking help when time matters", intro: "When departure is close, available seats and fares can change quickly. Call with your route, date, and traveler details and a specialist can help you work through available options.", service: "Last-minute flight booking assistance", items: [
+    ["Urgent departures", "Discuss flights for travel soon, including options that may not fit a simple online search."],
+    ["Nearby airports", "Additional departure points can expand the options if you can realistically use them."],
+    ["Flexible dates", "A day or two of flexibility may change schedules and fares."],
+    ["Connections", "Compare nonstop and connecting itineraries when the fastest practical route matters."],
+    ["Same-day questions", "Ask about the latest available options and ticketing deadlines."],
+    ["Clear terms", "Review fare, baggage, change, and cancellation conditions before payment."]
+  ], faqs: [
+    { question: "Can you help me book a flight at the last minute?", answer: "We can discuss last-minute options by phone. Seats and fares depend on live availability, departure time, route, and fare rules." },
+    { question: "Can you help with same-day travel?", answer: "Yes, you can call to discuss same-day options. Earlier contact may provide more time to compare itineraries and complete ticketing." },
+    { question: "Should I be flexible about airports?", answer: "If practical, yes. Nearby airports can provide additional schedules." },
+    { question: "Is a last-minute fare guaranteed?", answer: "No. Airfare and availability can change until the ticket is issued." }
+  ] },
+  { path: "/multi-city-flight-booking", title: "Multi-City Flight Booking Assistance | TicketDepart", description: "Plan a multi-city or open-jaw flight itinerary by phone. Discuss multiple stops, connections, flexible dates, cabins, and fare rules with TicketDepart.", heading: "Multi-city flight booking for complex itineraries", intro: "Flying into one city and home from another, or visiting several cities on one trip, can require more planning than a simple round trip. A specialist can work through each segment with you.", service: "Multi-city flight booking assistance", items: [
+    ["Multiple city pairs", "Discuss itineraries with three or more flight segments and different departure or arrival cities."],
+    ["Open-jaw trips", "Plan trips where you fly into one city and return from another, when the routing supports it."],
+    ["Connection planning", "Review connection airports, layovers, and trip order before ticketing."],
+    ["Mixed carriers", "Ask about combinations of airlines and how the proposed itinerary is ticketed."],
+    ["Flexible dates", "Date flexibility can open additional routing combinations."],
+    ["Fare rules", "Review baggage, changes, cancellation terms, and other conditions."]
+  ], faqs: [
+    { question: "Can I book a multi-city flight by phone?", answer: "Yes. A specialist can discuss each city pair, date, traveler count, cabin, and routing preference." },
+    { question: "What is an open-jaw itinerary?", answer: "An open-jaw trip generally has different arrival and return departure cities or airports. Exact ticketing rules depend on the itinerary." },
+    { question: "Can a multi-city trip use different airlines?", answer: "It may be possible depending on routing and ticketing arrangements." },
+    { question: "Should I call with all my cities ready?", answer: "Yes. Have each city or airport, date, travelers, and preferred cabin ready." }
+  ] },
+  { path: "/group-flight-booking", title: "Group Flight Booking Assistance | TicketDepart", description: "Get help planning group and family flight travel by phone. Discuss traveler counts, routes, dates, coordinated itineraries, and booking requirements.", heading: "Group flight booking assistance for families and groups", intro: "Coordinating several travelers can mean balancing dates, airports, connections, seating, and fare conditions. Tell us how many people are traveling and what you need to coordinate.", service: "Group flight booking assistance", items: [
+    ["Family travel", "Coordinate flight planning for families traveling together or on compatible itineraries."],
+    ["Larger groups", "Discuss sports, school, organization, event, or extended-family travel requirements."],
+    ["Shared routing", "Review options for keeping travelers on the same flights or compatible schedules."],
+    ["Traveler details", "Prepare passenger counts, age categories, names, and special requirements."],
+    ["Dates and airports", "Compare practical departure airports and dates when the group has flexibility."],
+    ["Booking terms", "Ask about deposits, name deadlines, baggage, changes, and other conditions."]
+  ], faqs: [
+    { question: "Can you help with group flight bookings?", answer: "Yes. TicketDepart can discuss group and family flight requirements by phone. Group thresholds, inventory, deposits, and ticketing terms depend on the itinerary and provider." },
+    { question: "How many travelers count as a group?", answer: "Group policies vary by airline and supplier, so there is no single threshold for every booking." },
+    { question: "Can everyone be on the same flight?", answer: "We can discuss coordinated itineraries and available inventory. Keeping a group together depends on seat availability and booking terms." },
+    { question: "What should I have ready?", answer: "Have traveler count, approximate ages, origin, destination, dates, cabin preference, and special requirements ready if known." }
+  ] }
+];
+function IntentPage({ p: p2 }) {
+  const id = p2.path.slice(1).replaceAll("-", "_");
+  const breadcrumbs = [{ name: "Home", path: "/" }, { name: p2.heading, path: p2.path }];
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Seo, { title: p2.title, description: p2.description, path: p2.path, structuredData: [breadcrumbSchema(breadcrumbs), webPageSchema({ title: p2.title, description: p2.description, path: p2.path }), serviceSchema({ name: p2.service, description: p2.description, path: p2.path }), faqSchema(p2.faqs)] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: `${id}.hero`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { "aria-label": "Breadcrumb", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ol", { className: "flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "font-medium hover:text-foreground", children: "Home" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-current": "page", className: "font-semibold text-foreground", children: p2.heading }) })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto mt-10 max-w-4xl", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: p2.service }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl", children: p2.heading }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: p2.intro }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: `${id}.hero_call` }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: "/contact", className: "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground", children: [
+            "Send trip details ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-5 flex items-center gap-2 text-sm text-muted-foreground", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { className: "size-4 text-accent" }),
+          SITE.hours,
+          " · ",
+          SITE.phoneDisplay
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: `${id}.services`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SectionHeading, { eyebrow: "What we can discuss", title: "Practical help for your itinerary", description: "Start with your route, dates, and traveler details. The specialist can work through the booking questions that matter." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3", children: p2.items.map(([title, text]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "rounded-2xl border border-border bg-card p-6 shadow-subtle", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "size-5 text-accent" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 font-display text-lg font-semibold", children: title }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: text })
+      ] }, title)) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: `${id}.planning`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SectionHeading, { eyebrow: "Before you call", title: "Have the key trip details ready", description: "Complete starting information makes it easier to discuss the right itinerary." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2", children: ["Departure city or airport", "Destination city or airports", "Travel dates and flexibility", "Number of travelers", "Preferred cabin", "Airline preference or nearby airports"].map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-start gap-3 rounded-xl border border-border bg-card p-5 text-sm leading-relaxed", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "mt-0.5 size-5 shrink-0 text-accent" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: item })
+      ] }, item)) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "navy", ocid: `${id}.cta`, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-3xl text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Available 24/7" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 text-balance text-3xl font-semibold sm:text-4xl", children: "Talk through your trip with a specialist" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-5 text-pretty text-base leading-relaxed text-primary-foreground/80 sm:text-lg", children: [
+        "Call ",
+        SITE.phoneDisplay,
+        " with your route, dates, and traveler details. Review available options and applicable terms before you decide."
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", showNumber: true, ocid: `${id}.final_call` }) })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: `${id}.related`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SectionHeading, { eyebrow: "More flight booking help", title: "Explore related booking guides", description: "Continue to another high-intent booking topic." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4", children: [["Flight booking", "/flight-booking"], ["Book a flight by phone", "/book-a-flight-by-phone"], ["Delta Airlines", "/delta-airlines"], ["United Airlines", "/united-airlines"]].map(([label, to]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to, className: "rounded-2xl border border-border bg-card p-5 shadow-subtle hover:shadow-elevated", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-base font-semibold", children: label }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary", children: [
+          "Open guide ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" })
+        ] })
+      ] }, to)) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: `${id}.faq`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SectionHeading, { eyebrow: "FAQ", title: `${p2.service} questions`, description: "Straight answers before you call." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto mt-10 max-w-3xl space-y-4", children: p2.faqs.map((f2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("details", { className: "rounded-2xl border border-border bg-card p-5 shadow-subtle", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("summary", { className: "cursor-pointer font-semibold", children: f2.question }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: f2.answer })
+      ] }, f2.question)) })
+    ] })
+  ] });
+}
+function InternationalFlightBookingPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(IntentPage, { p: PAGES[0] });
+}
+function LastMinuteFlightBookingPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(IntentPage, { p: PAGES[1] });
+}
+function MultiCityFlightBookingPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(IntentPage, { p: PAGES[2] });
+}
+function GroupFlightBookingPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(IntentPage, { p: PAGES[3] });
+}
 const RECOVERY_LINKS = [
   {
     to: "/",
@@ -46078,7 +46430,7 @@ const POLICY_BLOCKS = [
     heading: "Your choices and rights",
     paragraphs: [
       "You can ask us what personal information we hold about you, request a correction, or ask us to delete information we are not required to keep. You can also ask us to stop contacting you about anything other than an active request or reservation.",
-      `To make a request, email ${SITE.email} or call ${SITE.phoneDisplay}. We may ask a few questions to confirm your identity before we act on a request.`
+      `To make a request, email ${SITE.email}. We may ask a few questions to confirm your identity before we act on a request.`
     ]
   },
   {
@@ -46231,11 +46583,7 @@ function PrivacyPage() {
             children: "Questions about your booking or your data?"
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-3 text-pretty text-base leading-relaxed text-primary-foreground/80", children: [
-          "Call ",
-          SITE.phoneDisplay,
-          " and a specialist will help you directly."
-        ] })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-pretty text-base leading-relaxed text-primary-foreground/80", children: "A travel specialist can help you directly by phone." })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         CallCta,
@@ -46561,9 +46909,10 @@ const FAQS$2 = [
     answer: "Yes. We book Flagship Business and Flagship First on eligible long-haul routes and domestic First Class where offered. Availability and pricing depend on your route and dates, so we check your specific window."
   }
 ];
-const RELATED$2 = [
+const RELATED$3 = [
   { label: "Delta Airlines flight assistance", to: "/delta-airlines" },
   { label: "United Airlines flight assistance", to: "/united-airlines" },
+  { label: "International flight booking assistance", to: "/international-flight-booking" },
   { label: "General flight booking", to: "/flight-booking" }
 ];
 function AmericanAirlinesPage() {
@@ -46572,7 +46921,7 @@ function AmericanAirlinesPage() {
       Seo,
       {
         title: "American Airlines Flight Booking Assistance | TicketDepart",
-        description: "Independent travel agency for American Airlines bookings — domestic, international, multi-city, cabin options, and rebooking help. Call +1 855-544-9001.",
+        description: "Independent travel agency providing American Airlines reservation support and flight booking assistance for domestic, international, multi-city, cabin options, and rebooking help. Call +1 855-544-9001.",
         path: PATH$2,
         image: IMAGE_URL,
         structuredData: [
@@ -46600,8 +46949,8 @@ function AmericanAirlinesPage() {
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-center", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "American Airlines flight assistance" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl", children: "American Airlines trips, booked with a specialist on the line" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "American Airlines reservation support" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl", children: "American Airlines reservation support from a real travel specialist" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "From a single domestic round trip to a multi-city international routing, a TicketDepart specialist can search, compare, and book American Airlines flights for you — and stay reachable when your plans change." }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "american.call_button" }),
@@ -46628,18 +46977,7 @@ function AmericanAirlinesPage() {
             SITE.hours,
             ". Call and a specialist will pick up, search fares, and book your itinerary while you are on the line."
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "a",
-            {
-              href: SITE.phoneHref,
-              "data-ocid": "american.phone_link",
-              className: "mt-4 inline-flex items-center gap-2 rounded-sm font-display text-xl font-bold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-5" }),
-                SITE.phoneDisplay
-              ]
-            }
-          )
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-sm font-semibold text-primary", children: "Call for flight assistance when you are ready." })
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("figure", { className: "mt-12 overflow-hidden rounded-2xl border border-border bg-card shadow-subtle", children: [
@@ -46733,7 +47071,6 @@ function AmericanAirlinesPage() {
         {
           size: "lg",
           variant: "solid",
-          showNumber: true,
           ocid: "american.cta.call_button",
           className: "shrink-0"
         }
@@ -46811,7 +47148,7 @@ function AmericanAirlinesPage() {
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-xl font-semibold", children: "Flying another airline too?" })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "flex flex-wrap gap-3", children: RELATED$2.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "flex flex-wrap gap-3", children: RELATED$3.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
         Link,
         {
           to: item.to,
@@ -46825,6 +47162,396 @@ function AmericanAirlinesPage() {
       ) }, item.to)) })
     ] }) })
   ] });
+}
+const AIRLINES = [
+  {
+    slug: "southwest-airlines",
+    name: "Southwest Airlines",
+    title: "Southwest Airlines Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency providing Southwest Airlines reservation support for booking, family travel, same-day trips, changes, cancellations, and multi-city itineraries.",
+    heading: "Southwest Airlines reservation support from a travel specialist",
+    intro: "Planning a Southwest Airlines trip? Tell us your route, dates, travelers, and priorities. A TicketDepart specialist can walk through available itinerary options and applicable terms before you decide to book.",
+    services: [
+      ["Flight booking", "Discuss routes, dates, travelers, schedules, and available fare options before you authorize a booking."],
+      ["Family travel", "Work through traveler details, baggage needs, schedule priorities, and practical itinerary choices for family trips."],
+      ["Same-day and urgent travel", "Discuss current availability, nearby airports, departure timing, and ticketing deadlines for urgent trips."],
+      ["Changes and rebooking", "Review the existing reservation and discuss eligible dates, routing, availability, and any applicable price difference."],
+      ["Cancellation questions", "Review the ticket terms and discuss whether a refund, credit, or another outcome may apply."],
+      ["Multi-city planning", "Explain each segment of a complex trip and discuss practical itinerary structures before booking."]
+    ],
+    faqs: [
+      { question: "Is TicketDepart part of Southwest Airlines?", answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Southwest Airlines and are not its official customer service." },
+      { question: "Can I book a Southwest Airlines flight by phone?", answer: "Yes. A specialist can discuss your origin, destination, dates, travelers, preferences, and available booking options." },
+      { question: "Can you help with an existing Southwest Airlines reservation?", answer: "We can review the reservation and explain available change, rebooking, or cancellation options. Exact outcomes depend on the ticket terms, availability, and applicable rules." },
+      { question: "Can you help with a last-minute Southwest Airlines trip?", answer: "You can call to discuss current options. Seats, fares, and ticketing deadlines can change quickly, so availability is not guaranteed until ticketing is completed." },
+      { question: "Are service fees disclosed before payment?", answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fare, taxes, and other applicable charges are also reviewed before you decide." }
+    ]
+  },
+  {
+    slug: "jetblue-airways",
+    name: "JetBlue Airways",
+    title: "JetBlue Airways Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency providing JetBlue Airways reservation support for booking, changes, cancellations, family trips, and urgent travel planning.",
+    heading: "JetBlue Airways reservation support from a travel specialist",
+    intro: "Planning a JetBlue Airways trip? A TicketDepart specialist can discuss schedules, routes, travelers, fare conditions, and support needs before you confirm your itinerary.",
+    services: [
+      ["Flight booking", "Compare available schedules and routing for your dates and explain the fare conditions before booking."],
+      ["International trips", "Discuss international routing, connection planning, baggage considerations, and travel-document responsibilities."],
+      ["Family booking", "Work through traveler count, seating preferences, baggage, connection times, and schedule priorities."],
+      ["Flight changes", "Review the existing ticket and discuss date, time, routing, and fare-difference considerations."],
+      ["Cancellation assistance", "Discuss applicable cancellation, refund, or credit rules before any request is processed."],
+      ["Last-minute travel", "For urgent trips, discuss current availability, practical airports, connections, and ticketing timing."]
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with JetBlue Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by JetBlue Airways." },
+      { question: "Can I book a JetBlue Airways flight by phone?", answer: "Yes. Call with your origin, destination, dates, travelers, and preferences and a specialist can discuss available options." },
+      { question: "Can you help with a JetBlue flight change?", answer: "We can review the ticket and discuss possible changes or rebooking. Exact costs and eligibility depend on the fare, availability, and applicable rules." },
+      { question: "Can you help with international JetBlue itineraries?", answer: "Yes. We can discuss routing and connection considerations, while travelers remain responsible for confirming passport, visa, and entry requirements." }
+    ]
+  },
+  {
+    slug: "alaska-airlines",
+    name: "Alaska Airlines",
+    title: "Alaska Airlines Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency providing Alaska Airlines reservation support for booking, changes, cancellations, family travel, and multi-city itineraries.",
+    heading: "Alaska Airlines reservation support from a travel specialist",
+    intro: "Tell TicketDepart where you need to go, when you want to travel, and what matters most. A specialist can discuss Alaska Airlines itinerary options and booking support by phone.",
+    services: [
+      ["Flight booking", "Discuss route, dates, connections, travelers, fare options, and practical departure or arrival airports."],
+      ["West Coast travel", "Review schedules and routing for trips involving Alaska Airlines' network and connection points."],
+      ["International travel", "Discuss eligible international routing, connections, baggage considerations, and itinerary details."],
+      ["Changes and rebooking", "Review the existing reservation and compare available replacement dates or itineraries."],
+      ["Cancellation questions", "Discuss refund or credit possibilities under the applicable ticket and airline terms."],
+      ["Multi-city trips", "Work through multiple destinations, open-jaw ideas, and connection preferences before booking."]
+    ],
+    faqs: [
+      { question: "Is TicketDepart part of Alaska Airlines?", answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Alaska Airlines." },
+      { question: "Can you book Alaska Airlines flights by phone?", answer: "Yes. A specialist can discuss your itinerary and available booking options by phone." },
+      { question: "Can you help change an Alaska Airlines reservation?", answer: "We can review the reservation and discuss available change or rebooking options. Final terms depend on the ticket and current availability." },
+      { question: "Can you help with a multi-city trip?", answer: "Yes. Explain every city and preferred order and a specialist can discuss practical itinerary options." }
+    ]
+  },
+  {
+    slug: "british-airways",
+    name: "British Airways",
+    title: "British Airways Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency providing British Airways reservation support for international itineraries, premium cabins, changes, and cancellations.",
+    heading: "British Airways reservation support from a travel specialist",
+    intro: "For a British Airways trip, the details can matter: dates, connection airports, cabin, baggage, and fare flexibility. TicketDepart can review those choices with you by phone.",
+    services: [
+      ["International booking", "Discuss transatlantic and other international itineraries, connections, and travel dates."],
+      ["Premium cabin planning", "Compare available cabin options and review what the selected fare includes before booking."],
+      ["Connection planning", "Review connection airports and timing across the complete itinerary."],
+      ["Flight changes", "Discuss replacement dates or routing and any applicable fare difference or change terms."],
+      ["Cancellation and refund questions", "Review the ticket terms and discuss what cancellation outcome may apply."],
+      ["Multi-city travel", "Plan multiple destinations or open-jaw routing and discuss how the segments fit together."]
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with British Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by British Airways." },
+      { question: "Can you help book British Airways international flights?", answer: "Yes. We can discuss international routing, cabin preferences, connections, and fare conditions before booking." },
+      { question: "Can you help with British Airways changes?", answer: "We can review the existing itinerary and discuss available changes or rebooking options. Exact terms depend on the ticket and current inventory." },
+      { question: "Can you help compare premium cabins?", answer: "Yes. We can discuss available cabin options and the conditions that apply to the itinerary you are considering." }
+    ]
+  },
+  {
+    slug: "lufthansa",
+    name: "Lufthansa",
+    title: "Lufthansa Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency providing Lufthansa reservation support for Europe and international itineraries, premium cabins, changes, and cancellations.",
+    heading: "Lufthansa reservation support from a travel specialist",
+    intro: "Planning a Lufthansa itinerary? A TicketDepart specialist can discuss dates, connections, cabin preferences, baggage considerations, and change flexibility before you book.",
+    services: [
+      ["International booking", "Discuss Europe, transatlantic, and other international routing options for your travel dates."],
+      ["Connection planning", "Review the full itinerary and practical connection timing rather than looking at each flight in isolation."],
+      ["Premium cabin options", "Discuss available premium-cabin choices and fare conditions for your route."],
+      ["Flight changes", "Review your existing ticket and discuss possible replacement dates, routing, and fare differences."],
+      ["Cancellation questions", "Discuss refund or credit possibilities based on the specific ticket and applicable rules."],
+      ["Multi-city itineraries", "Work through several destinations and open-jaw routing before booking."]
+    ],
+    faqs: [
+      { question: "Is TicketDepart part of Lufthansa?", answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Lufthansa." },
+      { question: "Can you help book Lufthansa flights by phone?", answer: "Yes. Call with your route and dates and a specialist can discuss available itinerary options." },
+      { question: "Can you help with Lufthansa international connections?", answer: "Yes. We can discuss the complete routing and connection considerations, while travelers remain responsible for confirming entry and transit requirements." },
+      { question: "Can you help change a Lufthansa booking?", answer: "We can review the ticket and explain available change or rebooking options. Eligibility and cost depend on the fare and availability." }
+    ]
+  },
+  {
+    slug: "air-canada",
+    name: "Air Canada",
+    title: "Air Canada Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency providing Air Canada reservation support for international travel, family itineraries, changes, cancellations, and multi-city trips.",
+    heading: "Air Canada reservation support from a travel specialist",
+    intro: "Planning an Air Canada itinerary? Tell TicketDepart your route, dates, travelers, and priorities and a specialist can discuss available options by phone.",
+    services: [
+      ["Flight booking", "Discuss schedules, routing, travelers, fare conditions, and practical airport options."],
+      ["Canada and international travel", "Review itineraries between the U.S., Canada, and international destinations."],
+      ["Family travel", "Discuss coordinated itineraries, seating needs, baggage, and connection preferences."],
+      ["Flight changes", "Review the existing ticket and discuss possible date, time, or routing changes."],
+      ["Cancellation questions", "Discuss refund or credit possibilities before you authorize a cancellation."],
+      ["Multi-city trips", "Plan multiple stops and discuss the most practical way to structure the itinerary."]
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with Air Canada?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Air Canada." },
+      { question: "Can you book Air Canada flights by phone?", answer: "Yes. A specialist can discuss your itinerary and available booking options by phone." },
+      { question: "Can you help change an Air Canada flight?", answer: "We can review the reservation and discuss available changes or rebooking options. Exact terms depend on the ticket, availability, and applicable rules." },
+      { question: "Can you help with U.S.-Canada and international itineraries?", answer: "Yes. We can discuss routing and connection considerations, while travelers remain responsible for confirming current entry and transit requirements." }
+    ]
+  },
+  {
+    slug: "swiss-air",
+    name: "SWISS",
+    title: "SWISS Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency providing SWISS reservation support for Europe and international itineraries, premium cabins, changes, and multi-city travel.",
+    heading: "SWISS reservation support from a travel specialist",
+    intro: "Planning a SWISS itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can walk through available itinerary options and applicable fare terms before you decide to book.",
+    services: [
+      ["International booking", "Discuss Europe, North America, and other international routing, connections, cabins, and fare conditions."],
+      ["Premium cabin planning", "Review available Business or First cabin options and the fare conditions that apply to your itinerary."],
+      ["Connection planning", "Work through the complete itinerary and practical connection timing before booking."],
+      ["Changes and rebooking", "Review an existing reservation and discuss eligible dates, routing, availability, and applicable fare differences."],
+      ["Cancellation questions", "Review the ticket terms and discuss whether a refund, credit, or another outcome may apply."],
+      ["Multi-city travel", "Plan several destinations or open-jaw routing and discuss practical itinerary structures."]
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with SWISS?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by SWISS." },
+      { question: "Can I book a SWISS flight by phone?", answer: "Yes. A specialist can discuss your origin, destination, dates, travelers, cabin, and available booking options." },
+      { question: "Can you help with an existing SWISS reservation?", answer: "We can review the reservation and discuss possible changes, rebooking, or cancellation options. Exact outcomes depend on the ticket terms and availability." },
+      { question: "Are service fees disclosed before payment?", answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fare, taxes, and other applicable charges are reviewed before you decide." }
+    ]
+  },
+  {
+    slug: "qatar-airways",
+    name: "Qatar Airways",
+    title: "Qatar Airways Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency providing Qatar Airways reservation support for international itineraries, premium cabins, connections, changes, and multi-city trips.",
+    heading: "Qatar Airways reservation support from a travel specialist",
+    intro: "Planning a Qatar Airways trip? Tell us your route, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options and applicable booking terms before you authorize a booking.",
+    services: [
+      ["International booking", "Discuss long-haul routing, connections, travel dates, and available fare options."],
+      ["Premium cabin planning", "Review Business and other cabin options, baggage considerations, and applicable fare conditions."],
+      ["Connection planning", "Look at the complete itinerary, connection airports, and practical timing."],
+      ["Family travel", "Coordinate traveler details, schedules, baggage needs, and connection preferences for family trips."],
+      ["Changes and rebooking", "Review an existing ticket and discuss available replacement dates, routing, and fare differences."],
+      ["Multi-city itineraries", "Build a practical multi-stop plan and discuss how the segments fit together before booking."]
+    ],
+    faqs: [
+      { question: "Is TicketDepart part of Qatar Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Qatar Airways." },
+      { question: "Can I book Qatar Airways by phone?", answer: "Yes. A specialist can discuss your route, dates, travelers, cabin preferences, and available booking options." },
+      { question: "Can you help with a Qatar Airways change?", answer: "We can review the existing reservation and discuss possible changes or rebooking. Exact eligibility and cost depend on the ticket and availability." },
+      { question: "Can you help with international connections?", answer: "Yes. We can discuss the complete routing and connection considerations, while travelers remain responsible for confirming current entry and transit requirements." }
+    ]
+  },
+  {
+    slug: "emirates",
+    name: "Emirates",
+    title: "Emirates Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency providing Emirates reservation support for international itineraries, premium cabins, connections, changes, and multi-city trips.",
+    heading: "Emirates reservation support from a travel specialist",
+    intro: "Planning an Emirates itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can help you understand available itinerary options and applicable terms before booking.",
+    services: [
+      ["International booking", "Discuss long-haul routing, schedules, connections, and fare conditions for your trip."],
+      ["Premium cabin planning", "Review available premium-cabin options and the inclusions and conditions associated with the itinerary."],
+      ["Connection planning", "Work through the complete itinerary and practical connection timing."],
+      ["Family travel", "Discuss coordinated travel, baggage needs, traveler details, and connection preferences."],
+      ["Changes and rebooking", "Review an existing reservation and discuss eligible replacement dates, routing, and fare differences."],
+      ["Multi-city travel", "Plan several destinations and discuss practical itinerary structures before you authorize a booking."]
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with Emirates?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Emirates." },
+      { question: "Can I book an Emirates flight by phone?", answer: "Yes. A specialist can discuss your origin, destination, dates, travelers, cabin, and available booking options." },
+      { question: "Can you help with an existing Emirates reservation?", answer: "We can review the reservation and discuss possible changes, rebooking, or cancellation options. Exact outcomes depend on ticket terms and availability." },
+      { question: "Can you help with a multi-city Emirates itinerary?", answer: "Yes. We can discuss multiple destinations, connection timing, and practical itinerary structures before booking." }
+    ]
+  },
+  {
+    slug: "norse-atlantic-airways",
+    name: "Norse Atlantic Airways",
+    title: "Norse Atlantic Airways Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency providing Norse Atlantic Airways reservation support for transatlantic itineraries, connections, changes, and multi-city travel.",
+    heading: "Norse Atlantic Airways reservation support from a travel specialist",
+    intro: "Planning a Norse Atlantic Airways trip? Share your origin, destination, dates, travelers, and preferences. A TicketDepart specialist can discuss transatlantic itinerary options, connections, and applicable booking terms before you decide to book.",
+    services: [
+      ["Transatlantic booking", "Discuss available transatlantic routing, travel dates, airports, and fare conditions."],
+      ["Europe travel", "Work through U.S.-Europe and Europe-U.S. itinerary options and practical airport choices."],
+      ["Connection planning", "Review the complete itinerary and discuss connection timing and airport considerations."],
+      ["Changes and rebooking", "Review an existing reservation and discuss possible replacement dates, routing, availability, and applicable fare differences."],
+      ["Cancellation questions", "Review the applicable ticket terms and discuss possible cancellation, refund, or credit outcomes."],
+      ["Multi-city travel", "Discuss multiple destinations and practical itinerary structures before booking."]
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with Norse Atlantic Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Norse Atlantic Airways." },
+      { question: "Can I book a Norse Atlantic Airways flight by phone?", answer: "Yes. A specialist can discuss your route, dates, travelers, preferences, and available booking options." },
+      { question: "Can you help with a Norse Atlantic Airways connection?", answer: "Yes. We can discuss the complete itinerary and practical connection considerations. Travelers remain responsible for confirming current passport, visa, transit, and entry requirements." },
+      { question: "Can you help change an existing Norse Atlantic Airways reservation?", answer: "We can review the reservation and discuss possible changes or rebooking. Exact eligibility and costs depend on the ticket terms and availability." },
+      { question: "Are service fees disclosed before payment?", answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fare, taxes, and other applicable charges are reviewed before you decide." }
+    ]
+  },
+  {
+    slug: "lot-polish-airlines",
+    name: "LOT Polish Airlines",
+    title: "LOT Polish Airlines Flight Booking Assistance | TicketDepart",
+    description: "Independent travel agency providing LOT Polish Airlines reservation support for European and international itineraries, premium cabins, connections, changes, and multi-city trips.",
+    heading: "LOT Polish Airlines reservation support from a travel specialist",
+    intro: "Planning a LOT Polish Airlines trip? Share your origin, destination, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options, connections, and applicable booking terms before you decide to book.",
+    services: [
+      ["International booking", "Discuss European, transatlantic, and other international routing, schedules, connections, and fare conditions."],
+      ["Poland and Europe travel", "Work through routes involving Poland and European destinations, including connection timing and practical airport choices."],
+      ["Premium cabin planning", "Review available premium-cabin options and the fare conditions and inclusions that apply to your itinerary."],
+      ["Connection planning", "Look at the complete itinerary and discuss practical connection timing rather than evaluating each segment alone."],
+      ["Changes and rebooking", "Review an existing reservation and discuss eligible replacement dates, routing, availability, and applicable fare differences."],
+      ["Multi-city travel", "Plan multiple destinations or open-jaw routing and discuss practical itinerary structures before booking."]
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with LOT Polish Airlines?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by LOT Polish Airlines." },
+      { question: "Can I book a LOT Polish Airlines flight by phone?", answer: "Yes. A specialist can discuss your route, dates, travelers, cabin preferences, and available booking options." },
+      { question: "Can you help with LOT Polish Airlines connections?", answer: "Yes. We can discuss the complete itinerary and practical connection considerations. Travelers remain responsible for confirming current passport, visa, transit, and entry requirements." },
+      { question: "Can you help change an existing LOT reservation?", answer: "We can review the reservation and discuss possible changes or rebooking. Exact eligibility and costs depend on the ticket terms and availability." },
+      { question: "Are service fees disclosed before payment?", answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fare, taxes, and other applicable charges are reviewed before you decide." }
+    ]
+  }
+];
+const RELATED$2 = [
+  ["/delta-airlines", "Delta Airlines"],
+  ["/united-airlines", "United Airlines"],
+  ["/american-airlines", "American Airlines"],
+  ["/southwest-airlines", "Southwest Airlines"],
+  ["/jetblue-airways", "JetBlue Airways"],
+  ["/alaska-airlines", "Alaska Airlines"],
+  ["/british-airways", "British Airways"],
+  ["/lufthansa", "Lufthansa"],
+  ["/air-canada", "Air Canada"],
+  ["/swiss-air", "SWISS"],
+  ["/qatar-airways", "Qatar Airways"],
+  ["/emirates", "Emirates"]
+];
+function AirlineAssistancePage({ page }) {
+  const id = page.slug.replaceAll("-", "_");
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Seo,
+      {
+        title: page.title,
+        description: page.description,
+        path: `/${page.slug}`,
+        structuredData: [
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: page.name, path: `/${page.slug}` }
+          ]),
+          faqSchema(page.faqs)
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: `${id}.hero`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { "aria-label": "Breadcrumb", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ol", { className: "flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "font-medium hover:text-foreground", children: "Home" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-current": "page", className: "font-semibold text-foreground", children: page.name }) })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto mt-10 max-w-4xl", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "label-board text-accent", children: [
+          page.name,
+          " reservation support"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl", children: page.heading }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: page.intro }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: `${id}.hero_call` }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: "/book-a-flight-by-phone", className: "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground", children: [
+            "Book by phone ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 text-sm text-muted-foreground", children: SITE.hours })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto mt-10 max-w-4xl rounded-[1.75rem] border border-border/80 bg-card p-6 shadow-subtle sm:p-7", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent/10", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldCheck, { className: "size-5 text-accent" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm leading-relaxed text-muted-foreground", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold text-foreground", children: "Independent agency disclosure:" }),
+          " ",
+          "TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by ",
+          page.name,
+          ", and we are not that airline's official customer service. Airline names and marks belong to their respective owners and are used for identification only."
+        ] })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto mt-6 grid max-w-4xl gap-3 sm:grid-cols-3", children: [
+        ["24/7", "Travel specialist availability"],
+        ["Phone-first", "Human itinerary guidance"],
+        ["Clear terms", "Applicable fees disclosed before payment"]
+      ].map(([value, label]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-border/70 bg-muted/60 p-5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-display text-lg font-bold text-foreground", children: value }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-xs leading-5 text-muted-foreground", children: label })
+      ] }, value)) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: `${id}.services`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SectionHeading, { eyebrow: "What we can discuss", title: `${page.name} reservation support and booking services`, description: "Start with your route, dates, traveler details, or existing reservation. A specialist can work through the options that apply." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3", children: page.services.map(([title, body]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "group rounded-2xl border border-border/80 bg-card p-6 shadow-subtle transition-smooth hover:-translate-y-1 hover:border-primary/20 hover:shadow-elevated", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "size-5 text-accent" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 font-display text-lg font-semibold", children: title }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: body })
+      ] }, title)) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { tone: "paper", ocid: `${id}.cta`, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto max-w-3xl text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Available 24/7" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "mt-4 text-balance text-3xl font-semibold sm:text-4xl", children: [
+        "Talk with a ",
+        page.name,
+        " travel specialist"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-5 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "Call for flight assistance when you are ready. Have your route, dates, traveler details, or existing confirmation ready if available." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: `${id}.final_call` }) })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: `${id}.faq`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SectionHeading, { eyebrow: "FAQ", title: `${page.name} reservation support questions`, description: "Practical information before you call." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto mt-10 grid max-w-5xl gap-4 lg:grid-cols-2", children: page.faqs.map((faq) => /* @__PURE__ */ jsxRuntimeExports.jsxs("details", { className: "rounded-2xl border border-border bg-card p-5 shadow-subtle", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("summary", { className: "cursor-pointer font-semibold", children: faq.question }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: faq.answer })
+      ] }, faq.question)) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "paper", ocid: `${id}.related`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SectionHeading, { eyebrow: "Airline booking help", title: "Explore another airline", description: "Choose another airline-specific guide or return to general flight booking help." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3", children: RELATED$2.filter(([, name]) => name !== page.name).map(([to, name]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to, className: "group rounded-2xl border border-border/80 bg-card p-5 shadow-subtle transition-smooth hover:-translate-y-1 hover:border-primary/20 hover:shadow-elevated", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-base font-semibold", children: name }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary", children: [
+          "Open guide ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { className: "size-4" })
+        ] })
+      ] }, to)) })
+    ] })
+  ] });
+}
+function SouthwestAirlinesPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AirlineAssistancePage, { page: AIRLINES[0] });
+}
+function JetBlueAirwaysPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AirlineAssistancePage, { page: AIRLINES[1] });
+}
+function AlaskaAirlinesPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AirlineAssistancePage, { page: AIRLINES[2] });
+}
+function BritishAirwaysPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AirlineAssistancePage, { page: AIRLINES[3] });
+}
+function LufthansaPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AirlineAssistancePage, { page: AIRLINES[4] });
+}
+function AirCanadaPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AirlineAssistancePage, { page: AIRLINES[5] });
+}
+function SwissAirPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AirlineAssistancePage, { page: AIRLINES[6] });
+}
+function QatarAirwaysPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AirlineAssistancePage, { page: AIRLINES[7] });
+}
+function EmiratesPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AirlineAssistancePage, { page: AIRLINES[8] });
+}
+function LotPolishAirlinesPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AirlineAssistancePage, { page: AIRLINES[9] });
+}
+function NorseAtlanticAirwaysPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AirlineAssistancePage, { page: AIRLINES[10] });
 }
 const PATH$1 = "/delta-airlines";
 const TERMINAL_IMAGE = {
@@ -46936,6 +47663,7 @@ const FAQS$1 = [
 const RELATED$1 = [
   { label: "United Airlines assistance", to: "/united-airlines" },
   { label: "American Airlines assistance", to: "/american-airlines" },
+  { label: "International flight booking assistance", to: "/international-flight-booking" },
   { label: "General flight booking", to: "/flight-booking" }
 ];
 function DeltaPage() {
@@ -46944,7 +47672,7 @@ function DeltaPage() {
       Seo,
       {
         title: "Delta Airlines Flight Booking Assistance | TicketDepart",
-        description: "Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Call +1 855-544-9001.",
+        description: "Independent travel agency providing Delta Airlines reservation support and flight booking assistance for domestic, international, multi-city, and premium-cabin travel. Call +1 855-544-9001.",
         path: PATH$1,
         image: TERMINAL_IMAGE_URL,
         structuredData: [
@@ -46972,8 +47700,8 @@ function DeltaPage() {
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Delta Airlines flight assistance" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl", children: "Delta Airlines bookings handled by a real travel specialist" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "Delta Airlines reservation support" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl", children: "Delta Airlines reservation support from a real travel specialist" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "Whether you are flying a simple domestic round trip or piecing together a multi-city international itinerary, a TicketDepart specialist can search, price, and book Delta Airlines flights with you on the phone — and stay reachable when your plans change." }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "delta.call_button" }),
@@ -46990,19 +47718,9 @@ function DeltaPage() {
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-6 flex flex-wrap items-center gap-2 text-sm text-muted-foreground", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: SITE.hours }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", children: "·" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "a",
-              {
-                href: SITE.phoneHref,
-                "data-ocid": "delta.phone_link",
-                className: "rounded-sm font-semibold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                children: SITE.phoneDisplay
-              }
-            )
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-6 text-sm text-muted-foreground", children: [
+            SITE.hours,
+            ". Call for flight assistance when you are ready."
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -47043,8 +47761,8 @@ function DeltaPage() {
         SectionHeading,
         {
           eyebrow: "What we handle",
-          title: "Five ways we help with Delta Airlines travel",
-          description: "Each service below is handled by a specialist who can explain the trade-offs before you decide, not after."
+          title: "Delta Airlines reservation support and booking services",
+          description: "From new reservations and international itineraries to changes and premium cabins, each service is handled by a specialist who explains the options before you decide."
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3", children: SERVICES.map((service, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -47144,7 +47862,6 @@ function DeltaPage() {
         {
           size: "lg",
           variant: "solid",
-          showNumber: true,
           ocid: "delta.cta.call_button",
           className: "shrink-0"
         }
@@ -47156,7 +47873,7 @@ function DeltaPage() {
         {
           eyebrow: "Delta Airlines questions",
           title: "Frequently asked questions",
-          description: "Straight answers about how agency booking works and what we can do for your Delta Airlines itinerary."
+          description: "Straight answers about Delta Airlines reservation support, agency booking, changes, rebooking, and premium-cabin travel."
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("dl", { className: "mt-10 grid gap-4 lg:grid-cols-2", children: FAQS$1.map((faq, index2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -47329,6 +48046,7 @@ const FAQS = [
 const RELATED = [
   { label: "Delta Airlines flight assistance", to: "/delta-airlines" },
   { label: "American Airlines assistance", to: "/american-airlines" },
+  { label: "International flight booking assistance", to: "/international-flight-booking" },
   { label: "General flight booking", to: "/flight-booking" }
 ];
 function UnitedPage() {
@@ -47337,7 +48055,7 @@ function UnitedPage() {
       Seo,
       {
         title: "United Airlines Flight Booking Assistance | TicketDepart",
-        description: "Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 855-544-9001.",
+        description: "Independent travel agency providing United Airlines reservation support and flight booking assistance for domestic, international, multi-city, premium-cabin travel, and rebooking help. Call +1 855-544-9001.",
         path: PATH,
         image: HERO_IMAGE_URL,
         structuredData: [
@@ -47365,8 +48083,8 @@ function UnitedPage() {
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "United Airlines flight assistance" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl", children: "United Airlines itineraries, planned and booked by phone" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "label-board text-accent", children: "United Airlines reservation support" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl", children: "United Airlines reservation support from a real travel specialist" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg", children: "TicketDepart specialists help travelers book United Airlines flights every day — from a straightforward domestic round trip to a multi-city international routing with partner segments. You describe the trip; we handle the search, the fare comparison, and the booking." }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(CallCta, { size: "lg", ocid: "united.call_button" }),
@@ -47383,19 +48101,9 @@ function UnitedPage() {
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-6 flex flex-wrap items-center gap-2 text-sm text-muted-foreground", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-6 flex items-center gap-2 text-sm text-muted-foreground", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { "aria-hidden": "true", className: "size-4" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: SITE.hours }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { "aria-hidden": "true", children: "·" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "a",
-              {
-                href: SITE.phoneHref,
-                "data-ocid": "united.phone_link",
-                className: "rounded-sm font-semibold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                children: SITE.phoneDisplay
-              }
-            )
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: SITE.hours })
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -47549,21 +48257,7 @@ function UnitedPage() {
           /* @__PURE__ */ jsxRuntimeExports.jsx(Clock3, { "aria-hidden": "true", className: "size-5 text-accent" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-display text-base font-semibold", children: SITE.hours })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: [
-          "Call",
-          " ",
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "a",
-            {
-              href: SITE.phoneHref,
-              "data-ocid": "united.multicity.phone_link",
-              className: "rounded-sm font-semibold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              children: SITE.phoneDisplay
-            }
-          ),
-          " ",
-          "and a specialist will pick up."
-        ] })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm leading-relaxed text-muted-foreground", children: "Call for flight assistance and a specialist will pick up." })
       ] })
     ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { tone: "muted", ocid: "united.changes", children: [
@@ -47620,7 +48314,6 @@ function UnitedPage() {
         {
           size: "lg",
           variant: "solid",
-          showNumber: true,
           ocid: "united.cta.call_button"
         }
       ) })
@@ -47686,6 +48379,86 @@ const bookAFlightByPhoneRoute = createRoute({
   path: "/book-a-flight-by-phone",
   component: BookAFlightByPhonePage
 });
+const internationalFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/international-flight-booking",
+  component: InternationalFlightBookingPage
+});
+const lastMinuteFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/last-minute-flight-booking",
+  component: LastMinuteFlightBookingPage
+});
+const multiCityFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/multi-city-flight-booking",
+  component: MultiCityFlightBookingPage
+});
+const groupFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/group-flight-booking",
+  component: GroupFlightBookingPage
+});
+const cheapFlightBookingByPhoneRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/cheap-flight-booking-by-phone",
+  component: CheapFlightBookingByPhonePage
+});
+const businessClassFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/business-class-flight-booking",
+  component: BusinessClassFlightBookingPage
+});
+const sameDayFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/same-day-flight-booking",
+  component: SameDayFlightBookingPage
+});
+const familyFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/family-flight-booking",
+  component: FamilyFlightBookingPage
+});
+const flightChangeAssistanceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flight-change-assistance",
+  component: FlightChangeAssistancePage
+});
+const flightCancellationAssistanceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flight-cancellation-assistance",
+  component: FlightCancellationAssistancePage
+});
+const airlineReservationAssistanceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/airline-reservation-assistance",
+  component: AirlineReservationAssistancePage
+});
+const flightBookingAssistanceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flight-booking-assistance",
+  component: FlightBookingAssistancePage
+});
+const usaToCanadaFlightsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-usa-to-canada",
+  component: UsaToCanadaFlightsPage
+});
+const usaToUkFlightsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-usa-to-uk",
+  component: UsaToUkFlightsPage
+});
+const usaToEuropeFlightsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-usa-to-europe",
+  component: UsaToEuropeFlightsPage
+});
+const usaToMexicoFlightsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-usa-to-mexico",
+  component: UsaToMexicoFlightsPage
+});
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
@@ -47705,6 +48478,61 @@ const americanRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/american-airlines",
   component: AmericanAirlinesPage
+});
+const southwestAirlinesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/southwest-airlines",
+  component: SouthwestAirlinesPage
+});
+const jetBlueAirwaysRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/jetblue-airways",
+  component: JetBlueAirwaysPage
+});
+const alaskaAirlinesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/alaska-airlines",
+  component: AlaskaAirlinesPage
+});
+const britishAirwaysRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/british-airways",
+  component: BritishAirwaysPage
+});
+const lufthansaRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/lufthansa",
+  component: LufthansaPage
+});
+const airCanadaRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/air-canada",
+  component: AirCanadaPage
+});
+const swissAirRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/swiss-air",
+  component: SwissAirPage
+});
+const qatarAirwaysRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/qatar-airways",
+  component: QatarAirwaysPage
+});
+const emiratesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/emirates",
+  component: EmiratesPage
+});
+const lotPolishAirlinesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/lot-polish-airlines",
+  component: LotPolishAirlinesPage
+});
+const norseAtlanticAirwaysRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/norse-atlantic-airways",
+  component: NorseAtlanticAirwaysPage
 });
 const contactRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -47729,11 +48557,38 @@ const adminLeadsRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   flightBookingRoute,
+  internationalFlightBookingRoute,
+  lastMinuteFlightBookingRoute,
+  multiCityFlightBookingRoute,
+  groupFlightBookingRoute,
+  cheapFlightBookingByPhoneRoute,
+  businessClassFlightBookingRoute,
+  sameDayFlightBookingRoute,
+  familyFlightBookingRoute,
+  flightChangeAssistanceRoute,
+  flightCancellationAssistanceRoute,
+  airlineReservationAssistanceRoute,
+  flightBookingAssistanceRoute,
+  usaToCanadaFlightsRoute,
+  usaToUkFlightsRoute,
+  usaToEuropeFlightsRoute,
+  usaToMexicoFlightsRoute,
   bookAFlightByPhoneRoute,
   howToBookFlightByPhoneRoute,
   deltaRoute,
   unitedRoute,
   americanRoute,
+  southwestAirlinesRoute,
+  jetBlueAirwaysRoute,
+  alaskaAirlinesRoute,
+  britishAirwaysRoute,
+  lufthansaRoute,
+  airCanadaRoute,
+  swissAirRoute,
+  qatarAirwaysRoute,
+  emiratesRoute,
+  lotPolishAirlinesRoute,
+  norseAtlanticAirwaysRoute,
   contactRoute,
   privacyRoute,
   termsRoute,
@@ -47746,39 +48601,6 @@ const router = createRouter({
 });
 function App() {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(RouterProvider, { router });
-}
-const DEDUPE_WINDOW_MS = 250;
-const handledClicks = /* @__PURE__ */ new WeakSet();
-const recentEmits = /* @__PURE__ */ new Map();
-function emitPhoneClick(location2) {
-  if (typeof window === "undefined") return;
-  recentEmits.set(location2, Date.now());
-  const eventParams = {
-    cta_location: location2,
-    page_path: window.location.pathname,
-    page_title: document.title
-  };
-  const win = window;
-  if (win.gtag) {
-    win.gtag("event", "phone_click", eventParams);
-    return;
-  }
-  win.dataLayer = win.dataLayer || [];
-  win.dataLayer.push(["event", "phone_click", eventParams]);
-}
-if (typeof document !== "undefined") {
-  document.addEventListener("click", (event) => {
-    var _a2;
-    if (handledClicks.has(event)) return;
-    const target = event.target;
-    const link = (_a2 = target == null ? void 0 : target.closest) == null ? void 0 : _a2.call(target, 'a[href^="tel:"]');
-    if (!link) return;
-    handledClicks.add(event);
-    const location2 = link.getAttribute("data-ocid") || link.getAttribute("aria-label") || "tel_link";
-    const last2 = recentEmits.get(location2);
-    if (last2 !== void 0 && Date.now() - last2 < DEDUPE_WINDOW_MS) return;
-    emitPhoneClick(location2);
-  });
 }
 BigInt.prototype.toJSON = function() {
   return this.toString();
