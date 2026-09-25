@@ -33,7 +33,7 @@ type FlightSchedule = {
 const PAGE_PATH = "/flight-search";
 const PAGE_TITLE = "Flight Schedule Search | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Search flight schedules by city or airport, select travel dates and cabin, and call TicketDepart to confirm booking details.";
+  "Search free Air-Routes scheduled route information by city or airport and travel date, then call TicketDepart to confirm booking details.";
 
 function parseDat(text: string): string[][] {
   const rows: string[][] = [];
@@ -157,11 +157,6 @@ async function fetchSchedules(
   cabin: string,
   travelers: string,
 ): Promise<FlightSchedule[]> {
-  if (!SCHEDULE_API_URL) {
-    throw new Error(
-      "Live schedule service is not connected yet. Add VITE_FLIGHT_SCHEDULE_API_URL to connect the schedule provider.",
-    );
-  }
   const params = new URLSearchParams({
     origin: fromChoice.iata ?? fromChoice.city,
     destination: toChoice.iata ?? toChoice.city,
@@ -425,7 +420,7 @@ export function FlightSearchPage() {
           id="flight_search_results_heading"
           eyebrow="Flight schedules"
           title={results.length ? results.length + " scheduled flight" + (results.length === 1 ? "" : "s") : "Scheduled flight times"}
-          description="Schedules show airline, flight number, departure and arrival times, stops, cabin, and baggage information when supplied by the schedule provider."
+          description="Schedules show airline, scheduled departure time, flying time, and nonstop/connection information from Air-Routes. Air-Routes does not supply unique flight numbers or fare data."
         />
 
         {results.length > 0 ? (
@@ -456,7 +451,7 @@ export function FlightSearchPage() {
                         {result.stops === 0 ? "Nonstop" : result.stops + " stop" + (result.stops === 1 ? "" : "s")}
                       </div>
                       <div className="sm:text-right">
-                        <p className="text-2xl font-bold">{result.arrival.time}</p>
+                        <p className="text-lg font-bold">{result.arrival.time || "Time not supplied"}</p>
                         <p className="font-semibold">{result.arrival.iata}</p>
                         <p className="text-sm text-muted-foreground">{result.arrival.city}</p>
                         {result.arrival.date && <p className="text-xs text-muted-foreground">{result.arrival.date}</p>}
