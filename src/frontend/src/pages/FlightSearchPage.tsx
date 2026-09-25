@@ -2,6 +2,7 @@ import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
+import { findVerifiedFlight } from "@/data/flight-number-db";
 import { ArrowRight, Clock3, Luggage, Phone, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -113,7 +114,7 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
   return [...cities, ...airportChoices];
 }
 
-function normalizeSchedule(payload: unknown): FlightSchedule[] {
+function normalizeSchedule(payload: unknown, requestedDate: string, requestedCabin: string): FlightSchedule[] {
   const route = payload as {
     route_id?: string;
     from?: string;
@@ -130,15 +131,29 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
   if (!route || !Array.isArray(route.airlines)) return [];
 
   const [origin, destination] = String(route.route_id ?? "").split("-");
-  const requestedDay = currentRequestedDay;
+  const requestedDay = dateToAirRoutesDay(requestedDate);
   const duration = Number.isFinite(route.flying_min) ? formatDuration(Number(route.flying_min)) : undefined;
   const results: FlightSchedule[] = [];
 
   route.airlines.forEach((airline, airlineIndex) => {
     (airline.schedule ?? []).forEach((entry, dayIndex) => {
       if (entry.day !== requestedDay) return;
-      const times = Array.isArray(entry.times) && entry.times.length ? entry.times : [""];
+      const times = Array.isArray(entry.times) ? entry.times : [];
       times.forEach((time, timeIndex) => {
+        const verified = airline.airline_code
+          ? findVerifiedFlight({
+              airlineCode: String(airline.airline_code),
+              origin: String(origin ?? ""),
+              destination: String(destination ?? ""),
+              departureTime: String(time),
+              date: requestedDate,
+            })
+          : null;
+        if (!verified) return;
+
+        const arrivalDate = new Date(requestedDate + "T00:00:00Z");
+        arrivalDate.setUTCDate(arrivalDate.getUTCDate() + verified.arrivalDateOffset);
+
         results.push({
           id: [route.route_id, airline.airline_code, requestedDay, time, airlineIndex, dayIndex, timeIndex].join("-"),
           airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
@@ -146,22 +161,22 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
           logoUrl: airline.airline_code
             ? "https://images.kiwi.com/airlines/64/" + encodeURIComponent(String(airline.airline_code).toUpperCase()) + ".png"
             : undefined,
-          flightNumber: "",
+          flightNumber: verified.flightNumber,
           departure: {
             iata: String(origin ?? ""),
             city: "",
-            date: currentRequestedDate,
+            date: requestedDate,
             time: String(time || "Time not supplied"),
           },
           arrival: {
             iata: String(destination ?? ""),
             city: "",
-            date: currentRequestedDate,
-            time: "",
+            date: arrivalDate.toISOString().slice(0, 10),
+            time: verified.arrivalTime,
           },
           duration,
           stops: 0,
-          cabin: currentRequestedCabin,
+          cabin: requestedCabin,
           baggage: "Allowance varies by fare",
           status: String(route.status ?? "Scheduled"),
         });
@@ -170,10 +185,6 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
   });
   return results;
 }
-
-let currentRequestedDay = "";
-let currentRequestedDate = "";
-let currentRequestedCabin = "Economy";
 
 function formatDuration(minutes: number): string {
   const hours = Math.floor(minutes / 60);
@@ -188,14 +199,11 @@ function dateToAirRoutesDay(date: string): string {
 }
 
 async function fetchAirRoutesRoute(origin: string, destination: string, date: string, cabin: string) {
-  currentRequestedDay = dateToAirRoutesDay(date);
-  currentRequestedDate = date;
-  currentRequestedCabin = cabin;
   const response = await fetch(AIR_ROUTES_API + "/" + encodeURIComponent(origin) + "-" + encodeURIComponent(destination));
   if (!response.ok) {
     throw new Error("Air-Routes could not return route information for " + origin + " to " + destination + ".");
   }
-  return normalizeSchedule(await response.json());
+  return normalizeSchedule(await response.json(), date, cabin);
 }
 
 async function fetchSchedules(
@@ -461,7 +469,7 @@ export function FlightSearchPage() {
           id="flight_search_results_heading"
           eyebrow="Flight schedules"
           title={results.length ? results.length + " scheduled flight" + (results.length === 1 ? "" : "s") : "Scheduled flight times"}
-          description="Each result shows the operating airline logo and name. Flight numbers are displayed when supplied by the schedule provider; Air-Routes does not currently supply unique flight numbers or fare data."
+          description="Each result is a compact flight card with the airline logo, verified flight number, exact departure and arrival details, and a phone CTA."
         />
 
         {results.length > 0 ? (
@@ -489,7 +497,7 @@ export function FlightSearchPage() {
                         )}
                         <span className="mt-2 text-xs font-bold text-foreground">{result.airlineName}</span>
                         <span className="mt-0.5 text-[11px] text-muted-foreground">
-                          {result.flightNumber ? "Flight " + result.flightNumber : "Flight number not supplied"}
+                          {"Flight " + result.flightNumber}
                         </span>
                       </div>
                       {result.status && <span className="rounded-full border border-border px-3 py-1">{result.status}</span>}
@@ -531,10 +539,10 @@ export function FlightSearchPage() {
                       href={SITE.phoneHref}
                       className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 font-semibold text-primary-foreground"
                     >
-                      <Phone aria-hidden="true" className="size-4" /> Call to confirm
+                      <Phone aria-hidden="true" className="size-4" /> Call for Prices / Confirm / Book
                     </a>
                     <p className="mt-2 text-center text-[11px] leading-4 text-muted-foreground">
-                      *Complimentary extra add-ons may be available with select fares. Availability and eligibility vary.
+                      Prices, availability, baggage, and booking conditions are confirmed by phone.
                     </p>
                   </div>
                 </div>
@@ -552,7 +560,7 @@ export function FlightSearchPage() {
         <div className="grid gap-8 rounded-3xl border border-border bg-card p-7 shadow-elevated sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <p className="label-board text-accent">Ready to book?</p>
-            <h2 className="mt-3 text-3xl font-bold">Call to confirm the schedule</h2>
+            <h2 className="mt-3 text-3xl font-bold">Call for Prices / Confirm / Book the schedule</h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
               A specialist can confirm the current schedule, flight number, fare, taxes, baggage allowance, and booking conditions for your selected trip.
             </p>
