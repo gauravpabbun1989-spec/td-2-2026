@@ -25,6 +25,16 @@ import {
   LastMinuteFlightBookingPage,
   MultiCityFlightBookingPage,
 } from "@/pages/BookingIntentPages";
+import {
+  FlightsFromNewYorkPage,
+  FlightsFromLosAngelesPage,
+  FlightsFromChicagoPage,
+  FlightsFromMiamiPage,
+  FlightsFromAtlantaPage,
+  FlightsFromDallasPage,
+  FlightsFromOrlandoPage,
+  FlightsFromSanFranciscoPage,
+} from "@/pages/UsGatewayFlightPages";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PrivacyPage } from "@/pages/PrivacyPage";
 import { TermsPage } from "@/pages/TermsPage";
@@ -176,6 +186,54 @@ const usaToMexicoFlightsRoute = createRoute({
   component: UsaToMexicoFlightsPage,
 });
 
+const flightsFromNewYorkRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-from-new-york",
+  component: FlightsFromNewYorkPage,
+});
+
+const flightsFromLosAngelesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-from-los-angeles",
+  component: FlightsFromLosAngelesPage,
+});
+
+const flightsFromChicagoRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-from-chicago",
+  component: FlightsFromChicagoPage,
+});
+
+const flightsFromMiamiRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-from-miami",
+  component: FlightsFromMiamiPage,
+});
+
+const flightsFromAtlantaRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-from-atlanta",
+  component: FlightsFromAtlantaPage,
+});
+
+const flightsFromDallasRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-from-dallas",
+  component: FlightsFromDallasPage,
+});
+
+const flightsFromOrlandoRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-from-orlando",
+  component: FlightsFromOrlandoPage,
+});
+
+const flightsFromSanFranciscoRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-from-san-francisco",
+  component: FlightsFromSanFranciscoPage,
+});
+
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
@@ -292,6 +350,14 @@ const adminLeadsRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
+  flightsFromNewYorkRoute,
+  flightsFromLosAngelesRoute,
+  flightsFromChicagoRoute,
+  flightsFromMiamiRoute,
+  flightsFromAtlantaRoute,
+  flightsFromDallasRoute,
+  flightsFromOrlandoRoute,
+  flightsFromSanFranciscoRoute,
   flightBookingRoute,
   internationalFlightBookingRoute,
   lastMinuteFlightBookingRoute,
