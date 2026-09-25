@@ -28,7 +28,7 @@ export function findVerifiedFlight(input: {
   destination: string;
   departureTime: string;
   date: string;
-}): string | null {
+}): FlightNumberRecord | null {
   const normalizedAirline = input.airlineCode.toUpperCase();
   const normalizedOrigin = input.origin.toUpperCase();
   const normalizedDestination = input.destination.toUpperCase();
