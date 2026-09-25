@@ -49,6 +49,8 @@ export function SiteFooter() {
           <div>
             <h2 className="label-board text-white/45">Explore</h2>
             <ul className="mt-4 space-y-2.5 text-sm">
+              <li><Link to="/delta-airlines" data-ocid="footer.link.delta_airlines" className="text-white/70 transition-smooth hover:text-accent">Delta Airlines</Link></li>
+              <li><Link to="/united-airlines" data-ocid="footer.link.united_airlines" className="text-white/70 transition-smooth hover:text-accent">United Airlines</Link></li>
               {NAV_ITEMS.map((item) => (
                 <li key={item.to}><Link to={item.to} data-ocid={`footer.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`} className="text-white/70 transition-smooth hover:text-accent">{item.label}</Link></li>
               ))}
