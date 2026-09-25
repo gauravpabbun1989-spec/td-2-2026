@@ -171,30 +171,8 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
           arrival: {
             iata: String(destination ?? ""),
             city: "",
-            date: (() => {
-              const verified = airline.airline_code
-                ? findVerifiedFlight({
-                    airlineCode: String(airline.airline_code),
-                    origin: String(origin ?? ""),
-                    destination: String(destination ?? ""),
-                    departureTime: String(time),
-                    date: requestedDate,
-                  })
-                : null;
-              if (!verified) return requestedDate;
-              const arrivalDate = new Date(requestedDate + "T00:00:00Z");
-              arrivalDate.setUTCDate(arrivalDate.getUTCDate() + verified.arrivalDateOffset);
-              return arrivalDate.toISOString().slice(0, 10);
-            })(),
-            time: airline.airline_code
-              ? findVerifiedFlight({
-                  airlineCode: String(airline.airline_code),
-                  origin: String(origin ?? ""),
-                  destination: String(destination ?? ""),
-                  departureTime: String(time),
-                  date: requestedDate,
-                })?.arrivalTime ?? ""
-              : "",
+            date: arrivalDate.toISOString().slice(0, 10),
+            time: verified.arrivalTime,
           },
           duration,
           stops: 0,
