@@ -4,6 +4,8 @@ export type FlightNumberRecord = {
   origin: string;
   destination: string;
   departureTime: string;
+  arrivalTime: string;
+  arrivalDateOffset: number;
   operatingDays: string[];
   validFrom?: string;
   validTo?: string;
@@ -20,7 +22,7 @@ export const VERIFIED_FLIGHT_NUMBER_DB: FlightNumberRecord[] = [];
  *
  * No flight number is generated or guessed when there is no exact database match.
  */
-export function findVerifiedFlightNumber(input: {
+export function findVerifiedFlight(input: {
   airlineCode: string;
   origin: string;
   destination: string;
@@ -46,5 +48,5 @@ export function findVerifiedFlightNumber(input: {
     return record.operatingDays.includes(day);
   });
 
-  return match?.flightNumber ?? null;
+  return match ?? null;
 }
