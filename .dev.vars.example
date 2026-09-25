@@ -1,3 +1,2 @@
-# Cloudflare Worker secret required for date-specific flight schedules.
-# Get an Aviation Edge API key from your Aviation Edge subscription/dashboard.
-AVIATION_EDGE_API_KEY=
+# Air-Routes is free and requires no API key.
+# No schedule-provider secret is required.
