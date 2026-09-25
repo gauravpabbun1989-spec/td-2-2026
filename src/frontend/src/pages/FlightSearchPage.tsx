@@ -147,7 +147,15 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
           logoUrl: airline.airline_code
             ? "https://images.kiwi.com/airlines/64/" + encodeURIComponent(String(airline.airline_code).toUpperCase()) + ".png"
             : undefined,
-          flightNumber: "",
+          flightNumber: airline.airline_code
+            ? findVerifiedFlightNumber({
+                airlineCode: String(airline.airline_code),
+                origin: String(origin ?? ""),
+                destination: String(destination ?? ""),
+                departureTime: String(time),
+                date: requestedDate,
+              }) ?? ""
+            : "",
           departure: {
             iata: String(origin ?? ""),
             city: "",
@@ -196,7 +204,7 @@ async function fetchAirRoutesRoute(origin: string, destination: string, date: st
   if (!response.ok) {
     throw new Error("Air-Routes could not return route information for " + origin + " to " + destination + ".");
   }
-  return normalizeSchedule(await response.json(), date, cabin);
+  return normalizeSchedule(await response.json(), date, cabin).filter((result) => result.flightNumber);
 }
 
 async function fetchSchedules(
@@ -462,7 +470,7 @@ export function FlightSearchPage() {
           id="flight_search_results_heading"
           eyebrow="Flight schedules"
           title={results.length ? results.length + " scheduled flight" + (results.length === 1 ? "" : "s") : "Scheduled flight times"}
-          description="Each result shows the operating airline logo and name. Flight numbers are displayed when supplied by the schedule provider; Air-Routes does not currently supply unique flight numbers or fare data."
+          description="Each result shows the operating airline logo, name, and a verified flight number matched to the airline, route, operating day, and scheduled departure time."
         />
 
         {results.length > 0 ? (
@@ -490,7 +498,7 @@ export function FlightSearchPage() {
                         )}
                         <span className="mt-2 text-xs font-bold text-foreground">{result.airlineName}</span>
                         <span className="mt-0.5 text-[11px] text-muted-foreground">
-                          {result.flightNumber ? "Flight " + result.flightNumber : "Flight number not supplied"}
+                          {"Flight " + result.flightNumber}
                         </span>
                       </div>
                       {result.status && <span className="rounded-full border border-border px-3 py-1">{result.status}</span>}
