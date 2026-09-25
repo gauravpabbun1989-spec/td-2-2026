@@ -548,22 +548,26 @@ export function FlightBookingPage() {
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            ["New York", "JFK, LGA, EWR"],
-            ["Los Angeles", "LAX"],
-            ["Chicago", "ORD, MDW"],
-            ["Miami", "MIA"],
-            ["Dallas–Fort Worth", "DFW"],
-            ["Atlanta", "ATL"],
-            ["San Francisco", "SFO"],
-            ["Seattle", "SEA"],
-          ].map(([city, airports]) => (
-            <div
+            ["New York", "JFK, LGA, EWR", "/flights-from-new-york"],
+            ["Los Angeles", "LAX", "/flights-from-los-angeles"],
+            ["Chicago", "ORD, MDW", "/flights-from-chicago"],
+            ["Miami", "MIA", "/flights-from-miami"],
+            ["Dallas–Fort Worth", "DFW, DAL", "/flights-from-dallas"],
+            ["Atlanta", "ATL", "/flights-from-atlanta"],
+            ["San Francisco", "SFO", "/flights-from-san-francisco"],
+            ["Orlando", "MCO", "/flights-from-orlando"],
+          ].map(([city, airports, to]) => (
+            <Link
               key={city}
-              className="rounded-xl border border-border bg-card p-5 shadow-subtle"
+              to={to}
+              className="rounded-xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:shadow-elevated"
             >
               <h3 className="font-display text-base font-semibold">{city}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{airports}</p>
-            </div>
+              <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                View flight options <ArrowRight aria-hidden="true" className="size-4" />
+              </span>
+            </Link>
           ))}
         </div>
 
