@@ -35,6 +35,16 @@ import {
   FlightsFromOrlandoPage,
   FlightsFromSanFranciscoPage,
 } from "@/pages/UsGatewayFlightPages";
+import {
+  FlightsNewYorkToLondonPage,
+  FlightsNewYorkToParisPage,
+  FlightsNewYorkToDubaiPage,
+  FlightsLosAngelesToTokyoPage,
+  FlightsLosAngelesToLondonPage,
+  FlightsMiamiToCancunPage,
+  FlightsChicagoToLondonPage,
+  FlightsSanFranciscoToTokyoPage,
+} from "@/pages/RouteFlightPages";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PrivacyPage } from "@/pages/PrivacyPage";
 import { TermsPage } from "@/pages/TermsPage";
@@ -234,6 +244,54 @@ const flightsFromSanFranciscoRoute = createRoute({
   component: FlightsFromSanFranciscoPage,
 });
 
+const flightsNewYorkToLondonRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-new-york-to-london",
+  component: FlightsNewYorkToLondonPage,
+});
+
+const flightsNewYorkToParisRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-new-york-to-paris",
+  component: FlightsNewYorkToParisPage,
+});
+
+const flightsNewYorkToDubaiRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-new-york-to-dubai",
+  component: FlightsNewYorkToDubaiPage,
+});
+
+const flightsLosAngelesToTokyoRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-los-angeles-to-tokyo",
+  component: FlightsLosAngelesToTokyoPage,
+});
+
+const flightsLosAngelesToLondonRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-los-angeles-to-london",
+  component: FlightsLosAngelesToLondonPage,
+});
+
+const flightsMiamiToCancunRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-miami-to-cancun",
+  component: FlightsMiamiToCancunPage,
+});
+
+const flightsChicagoToLondonRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-chicago-to-london",
+  component: FlightsChicagoToLondonPage,
+});
+
+const flightsSanFranciscoToTokyoRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flights-san-francisco-to-tokyo",
+  component: FlightsSanFranciscoToTokyoPage,
+});
+
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
@@ -358,6 +416,14 @@ const routeTree = rootRoute.addChildren([
   flightsFromDallasRoute,
   flightsFromOrlandoRoute,
   flightsFromSanFranciscoRoute,
+  flightsNewYorkToLondonRoute,
+  flightsNewYorkToParisRoute,
+  flightsNewYorkToDubaiRoute,
+  flightsLosAngelesToTokyoRoute,
+  flightsLosAngelesToLondonRoute,
+  flightsMiamiToCancunRoute,
+  flightsChicagoToLondonRoute,
+  flightsSanFranciscoToTokyoRoute,
   flightBookingRoute,
   internationalFlightBookingRoute,
   lastMinuteFlightBookingRoute,
