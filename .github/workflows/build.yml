@@ -20,5 +20,5 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm --dir src/frontend typecheck
-      - run: pnpm --dir src/frontend check
+      - run: pnpm --dir src/frontend test
       - run: pnpm --dir src/frontend build
