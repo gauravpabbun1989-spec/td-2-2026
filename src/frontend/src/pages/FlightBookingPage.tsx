@@ -512,17 +512,30 @@ export function FlightBookingPage() {
           </Link>
         </div>
 
-        <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
-          Booking a trip that does not fit one carrier?{" "}
-          <Link
-            to="/contact"
-            data-ocid="flight_booking.contact_inline_link"
-            className="rounded-sm font-semibold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          >
-            Contact our travel specialists
-          </Link>{" "}
-          and we will compare the options with you.
-        </p>
+        <div className="mt-8 space-y-3 text-sm leading-relaxed text-muted-foreground">
+          <p>
+            Planning an international itinerary?{" "}
+            <Link
+              to="/international-flight-booking"
+              data-ocid="flight_booking.international_inline_link"
+              className="rounded-sm font-semibold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              Explore international flight booking assistance
+            </Link>{" "}
+            for route, connection, cabin, and fare-planning help.
+          </p>
+          <p>
+            Booking a trip that does not fit one carrier?{" "}
+            <Link
+              to="/contact"
+              data-ocid="flight_booking.contact_inline_link"
+              className="rounded-sm font-semibold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              Contact our travel specialists
+            </Link>{" "}
+            and we will compare the options with you.
+          </p>
+        </div>
       </Section>
 
       <Section
