@@ -240,7 +240,7 @@ export function FlightBookingPage() {
               Flight booking help for trips a search box cannot finish
             </h1>
             <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              TicketDepart is an independent travel agency for flight booking by phone. Our specialists help you book domestic and international flights, multi-city itineraries, premium cabins, and group travel — comparing schedules, connections, and fare conditions before anything is confirmed.
+              TicketDepart is an independent travel agency for flight booking by phone. If you are looking to book a flight by phone, need a flight booking phone number, or want to speak with a travel specialist, we can help with domestic and international flights, multi-city itineraries, premium cabins, and group travel — comparing schedules, connections, and fare conditions before anything is confirmed.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -359,6 +359,34 @@ export function FlightBookingPage() {
               </article>
             );
           })}
+        </div>
+      </Section>
+
+      <Section
+        tone="paper"
+        ocid="flight_booking.intent"
+        aria-labelledby="flight_booking_intent_heading"
+      >
+        <SectionHeading
+          id="flight_booking_intent_heading"
+          eyebrow="Phone booking help"
+          title="Book a flight by phone with a travel specialist"
+          description="Whether you need a new reservation, an international itinerary, a last-minute trip, or help comparing routes, start with the details you know and call for assistance."
+        />
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            ["Book a flight by phone", "Discuss your route, dates, travelers, and cabin preference with a specialist before confirming a reservation."],
+            ["Flight booking phone number", "Call when you want help comparing available itineraries instead of completing a complicated search alone."],
+            ["International flight booking", "Talk through international routes, connections, nearby airports, and fare conditions."],
+            ["Last-minute flight booking", "For urgent travel, discuss same-day or near-term options and practical alternatives."],
+            ["Multi-city flight booking", "Work through several city pairs, open-jaw plans, and complex routing requirements."],
+            ["Business and first class flight booking", "Compare premium cabin schedules and fare conditions based on your trip requirements."],
+          ].map(([title, description]) => (
+            <article key={title} className="rounded-2xl border border-border bg-card p-6 shadow-subtle">
+              <h3 className="font-display text-lg font-semibold">{title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{description}</p>
+            </article>
+          ))}
         </div>
       </Section>
 

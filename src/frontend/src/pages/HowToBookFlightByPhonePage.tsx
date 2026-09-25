@@ -102,6 +102,8 @@ export function HowToBookFlightByPhonePage() {
             How to book a flight by phone
           </h1>
           <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+            If you are searching for a flight booking phone number or want to book a
+            flight by phone, this guide explains what to prepare and what to ask.
             Booking by phone can be useful when your trip is more complicated
             than a simple search. A travel specialist can talk through dates,
             airports, connections, cabin options, baggage, and fare rules with
