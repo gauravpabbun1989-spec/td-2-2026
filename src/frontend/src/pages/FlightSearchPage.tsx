@@ -2,6 +2,7 @@ import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
+import { findVerifiedFlightNumber } from "@/data/flight-number-db";
 import { ArrowRight, Clock3, Luggage, Phone, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
