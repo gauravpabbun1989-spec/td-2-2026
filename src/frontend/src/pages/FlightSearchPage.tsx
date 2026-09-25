@@ -479,9 +479,6 @@ export function FlightSearchPage() {
                           </div>
                         )}
                         <span className="mt-2 text-xs font-bold text-foreground">{result.airlineName}</span>
-                        <span className="mt-0.5 text-[11px] text-muted-foreground">
-                          {"Flight " + result.flightNumber}
-                        </span>
                       </div>
                       {result.status && <span className="rounded-full border border-border px-3 py-1">{result.status}</span>}
                     </div>
