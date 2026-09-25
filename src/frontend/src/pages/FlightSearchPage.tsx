@@ -255,8 +255,7 @@ export function FlightSearchPage() {
               Search airports, airlines, and routes — then call for the fare
             </h1>
             <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/90 sm:text-lg">
-              Explore free airport, airline, and route reference data. No fare is shown here.
-              Call TicketDepart for current pricing, schedules, and availability.
+              Explore airports and routes, then call TicketDepart for current pricing, schedules, and availability.
             </p>
           </div>
 
@@ -320,7 +319,7 @@ export function FlightSearchPage() {
       <Section tone="muted" ocid="flight_search.results" aria-labelledby="flight_search_results_heading">
         <SectionHeading id="flight_search_results_heading" eyebrow="Route results"
           title={results.length ? results.length + " route option" + (results.length === 1 ? "" : "s") + " found" : "Route information"}
-          description="Reference routes only — not live inventory. Fare, schedule, and availability must be confirmed by phone." />
+          description="This first release uses route-reference data. Live date-specific schedules, flight numbers, and baggage rules will be supplied by the flight-data provider before these are presented as live results." />
         {results.length > 0 ? (
           <div className="mt-10 grid gap-4">
             {results.map((result, index) => (
@@ -338,12 +337,20 @@ export function FlightSearchPage() {
                       <ArrowRight aria-hidden="true" className="size-5 text-accent" />
                       <div><p className="text-xl font-bold">{result.destinationAirport.iata}</p><p className="text-sm text-muted-foreground">{result.destinationAirport.city}</p></div>
                     </div>
-                    {result.equipment && <p className="mt-3 text-xs text-muted-foreground">Reference equipment: {result.equipment}</p>}
+                    <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                      <span>Baggage: allowance varies by fare</span>
+                      {result.equipment && <span>Reference equipment: {result.equipment}</span>}
+                    </div>
                   </div>
-                  <a href={SITE.phoneHref}
-                    className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-5 font-semibold text-primary-foreground lg:w-64">
-                    <Phone aria-hidden="true" className="size-4" /> Call for Best Fare
-                  </a>
+                  <div className="flex w-full shrink-0 flex-col items-center lg:w-64">
+                    <a href={SITE.phoneHref}
+                      className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 font-semibold text-primary-foreground">
+                      <Phone aria-hidden="true" className="size-4" /> Call for Best Fare
+                    </a>
+                    <p className="mt-2 text-center text-[11px] leading-4 text-muted-foreground">
+                      *Complimentary extra add-ons may be available with select fares. Availability and eligibility vary.
+                    </p>
+                  </div>
                 </div>
               </article>
             ))}
@@ -370,8 +377,8 @@ export function FlightSearchPage() {
 
       <Section tone="muted" ocid="flight_search.disclosure">
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Data-source note: this tool uses free OpenFlights airport, airline, and route reference datasets.
-          OpenFlights warns that its route data is historical, so these results are for route planning only.
+          Data-source note: this first release uses free OpenFlights airport, airline, and route reference datasets.
+          OpenFlights route data is historical, so it is not used to represent live schedules or availability.
           {" "}{SITE.disclosure}
         </p>
       </Section>
