@@ -29,6 +29,11 @@ export function HeroSection() {
             Tell us where you want to go and what matters most. A real travel specialist can help you understand routes, cabins, baggage, and booking details before you decide.
           </p>
           <div className="mt-8 rounded-3xl border border-white/15 bg-white/[0.08] p-4 backdrop-blur-xl sm:p-5">
+            <div className="mb-2 flex justify-end">
+              <span className="inline-flex animate-pulse items-center rounded-full border border-amber-200/60 bg-amber-300 px-3 py-1.5 text-[11px] font-extrabold tracking-wide text-slate-950 shadow-[0_0_24px_rgba(252,211,77,0.55)]">
+                Get Discounted Deals Up to 40%*
+              </span>
+            </div>
             <div className="flex items-center gap-2 text-sm font-semibold text-white">
               <Search className="size-4 text-sky-200" />
               Search airports & routes
@@ -41,6 +46,7 @@ export function HeroSection() {
             <Link to="/flight-search" className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-primary hover:bg-white/90">
               Search flights <ArrowRight className="size-4" />
             </Link>
+            <p className="mt-2 text-right text-[10px] leading-4 text-white/55">*Available on eligible fares. Terms and availability apply.</p>
           </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <CallCta size="lg" ocid="home.hero_call_button" className="shadow-[0_18px_40px_-18px_rgba(0,0,0,0.75)]" />
