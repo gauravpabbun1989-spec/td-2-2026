@@ -17,7 +17,6 @@ type LocationChoice = {
   iata?: string;
   timezone?: string;
   label: string;
-  timezone?: string;
 };
 type FlightSchedule = {
   id: string;
@@ -82,7 +81,6 @@ async function loadAirports(): Promise<Airport[]> {
       city: r[2] ?? "",
       country: r[3] ?? "",
       iata: r[4] === "\\N" ? "" : r[4] ?? "",
-      timezone: r[11] === "\\N" ? "" : r[11] ?? "",
       timezone: r[11] === "\\N" ? undefined : r[11] || undefined,
     }))
     .filter((a) => a.iata);
@@ -106,7 +104,6 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     iata: a.iata,
     timezone: a.timezone,
     label: a.city + ", " + a.country + " — Primary airport (" + a.iata + ")",
-    timezone: a.timezone,
   }));
   const airportChoices = matched.slice(0, 7).map((a) => ({
     type: "airport" as const,
@@ -115,7 +112,6 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     iata: a.iata,
     timezone: a.timezone,
     label: a.city + " — " + a.name + " (" + a.iata + ")",
-    timezone: a.timezone,
   }));
   return [...cities, ...airportChoices];
 }
