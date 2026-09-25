@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 
 const AIRPORTS_URL =
   "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat";
-const SCHEDULE_API_URL = "/api/flight-schedules";
+const AIR_ROUTES_API = "https://air-routes.com/api/route";
 
 type Airport = { id: string; name: string; city: string; country: string; iata: string };
 type LocationChoice = {
@@ -112,41 +112,84 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
 }
 
 function normalizeSchedule(payload: unknown): FlightSchedule[] {
-  const source = Array.isArray(payload)
-    ? payload
-    : payload && typeof payload === "object" && Array.isArray((payload as { flights?: unknown[] }).flights)
-      ? (payload as { flights: unknown[] }).flights
-      : [];
+  const route = payload as {
+    route_id?: string;
+    from?: string;
+    to?: string;
+    status?: string;
+    flying_min?: number;
+    airlines?: Array<{
+      airline_code?: string;
+      airline?: string;
+      schedule?: Array<{ day?: string; times?: string[] }>;
+      seasonal_note?: string | null;
+    }>;
+  };
+  if (!route || !Array.isArray(route.airlines)) return [];
 
-  return source
-    .map((item, index) => {
-      const f = item as Record<string, unknown>;
-      const dep = (f.departure ?? {}) as Record<string, unknown>;
-      const arr = (f.arrival ?? {}) as Record<string, unknown>;
-      return {
-        id: String(f.id ?? f.flightNumber ?? index),
-        airlineName: String(f.airlineName ?? f.airline ?? "Airline"),
-        flightNumber: String(f.flightNumber ?? f.flight ?? ""),
-        departure: {
-          iata: String(dep.iata ?? f.departureIata ?? ""),
-          city: String(dep.city ?? f.departureCity ?? ""),
-          date: dep.date ? String(dep.date) : undefined,
-          time: String(dep.time ?? f.departureTime ?? ""),
-        },
-        arrival: {
-          iata: String(arr.iata ?? f.arrivalIata ?? ""),
-          city: String(arr.city ?? f.arrivalCity ?? ""),
-          date: arr.date ? String(arr.date) : undefined,
-          time: String(arr.time ?? f.arrivalTime ?? ""),
-        },
-        duration: f.duration ? String(f.duration) : undefined,
-        stops: Number(f.stops ?? 0),
-        cabin: f.cabin ? String(f.cabin) : undefined,
-        baggage: f.baggage ? String(f.baggage) : undefined,
-        status: f.status ? String(f.status) : undefined,
-      };
-    })
-    .filter((f) => f.departure.iata && f.arrival.iata && f.departure.time);
+  const [origin, destination] = String(route.route_id ?? "").split("-");
+  const requestedDay = currentRequestedDay;
+  const duration = Number.isFinite(route.flying_min) ? formatDuration(Number(route.flying_min)) : undefined;
+  const results: FlightSchedule[] = [];
+
+  route.airlines.forEach((airline, airlineIndex) => {
+    (airline.schedule ?? []).forEach((entry, dayIndex) => {
+      if (entry.day !== requestedDay) return;
+      const times = Array.isArray(entry.times) && entry.times.length ? entry.times : [""];
+      times.forEach((time, timeIndex) => {
+        results.push({
+          id: [route.route_id, airline.airline_code, requestedDay, time, airlineIndex, dayIndex, timeIndex].join("-"),
+          airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
+          flightNumber: "",
+          departure: {
+            iata: String(origin ?? ""),
+            city: "",
+            date: currentRequestedDate,
+            time: String(time || "Time not supplied"),
+          },
+          arrival: {
+            iata: String(destination ?? ""),
+            city: "",
+            date: currentRequestedDate,
+            time: "",
+          },
+          duration,
+          stops: 0,
+          cabin: currentRequestedCabin,
+          baggage: "Allowance varies by fare",
+          status: String(route.status ?? "Scheduled"),
+        });
+      });
+    });
+  });
+  return results;
+}
+
+let currentRequestedDay = "";
+let currentRequestedDate = "";
+let currentRequestedCabin = "Economy";
+
+function formatDuration(minutes: number): string {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  return mins ? hours + "h " + mins + "m" : hours + "h";
+}
+
+function dateToAirRoutesDay(date: string): string {
+  const [year, month, day] = date.split("-").map(Number);
+  const weekday = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
+  return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][weekday] ?? "";
+}
+
+async function fetchAirRoutesRoute(origin: string, destination: string, date: string, cabin: string) {
+  currentRequestedDay = dateToAirRoutesDay(date);
+  currentRequestedDate = date;
+  currentRequestedCabin = cabin;
+  const response = await fetch(AIR_ROUTES_API + "/" + encodeURIComponent(origin) + "-" + encodeURIComponent(destination));
+  if (!response.ok) {
+    throw new Error("Air-Routes could not return route information for " + origin + " to " + destination + ".");
+  }
+  return normalizeSchedule(await response.json());
 }
 
 async function fetchSchedules(
@@ -158,24 +201,15 @@ async function fetchSchedules(
   cabin: string,
   travelers: string,
 ): Promise<FlightSchedule[]> {
-  const params = new URLSearchParams({
-    origin: fromChoice.iata ?? fromChoice.city,
-    destination: toChoice.iata ?? toChoice.city,
-    departureDate: date,
-    tripType,
-    cabin,
-    travelers,
-  });
-  if (returnDate) params.set("returnDate", returnDate);
-  const response = await fetch(
-    SCHEDULE_API_URL + (SCHEDULE_API_URL.includes("?") ? "&" : "?") + params.toString(),
-  );
-  if (!response.ok) {
-    throw new Error("The flight schedule service could not return schedules for this search.");
-  }
-  const schedules = normalizeSchedule(await response.json());
-  const requestedDates = new Set([date, ...(returnDate ? [returnDate] : [])]);
-  return schedules.filter((flight) => flight.departure.date && requestedDates.has(flight.departure.date));
+  void tripType;
+  void travelers;
+  const origin = fromChoice.iata ?? "";
+  const destination = toChoice.iata ?? "";
+  if (!origin || !destination) throw new Error("Select airports with valid IATA codes.");
+  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin);
+  if (!returnDate) return outbound;
+  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin);
+  return [...outbound, ...inbound];
 }
 
 export function FlightSearchPage() {
