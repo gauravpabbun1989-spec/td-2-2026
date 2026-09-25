@@ -114,7 +114,7 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
   return [...cities, ...airportChoices];
 }
 
-function normalizeSchedule(payload: unknown): FlightSchedule[] {
+function normalizeSchedule(payload: unknown, requestedDate: string, requestedCabin: string): FlightSchedule[] {
   const route = payload as {
     route_id?: string;
     from?: string;
@@ -131,7 +131,7 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
   if (!route || !Array.isArray(route.airlines)) return [];
 
   const [origin, destination] = String(route.route_id ?? "").split("-");
-  const requestedDay = currentRequestedDay;
+  const requestedDay = dateToAirRoutesDay(requestedDate);
   const duration = Number.isFinite(route.flying_min) ? formatDuration(Number(route.flying_min)) : undefined;
   const results: FlightSchedule[] = [];
 
@@ -151,7 +151,7 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
           departure: {
             iata: String(origin ?? ""),
             city: "",
-            date: currentRequestedDate,
+            date: requestedDate,
             time: String(time || "Time not supplied"),
           },
           arrival: {
@@ -162,7 +162,7 @@ function normalizeSchedule(payload: unknown): FlightSchedule[] {
           },
           duration,
           stops: 0,
-          cabin: currentRequestedCabin,
+          cabin: requestedCabin,
           baggage: "Allowance varies by fare",
           status: String(route.status ?? "Scheduled"),
         });
@@ -196,7 +196,7 @@ async function fetchAirRoutesRoute(origin: string, destination: string, date: st
   if (!response.ok) {
     throw new Error("Air-Routes could not return route information for " + origin + " to " + destination + ".");
   }
-  return normalizeSchedule(await response.json());
+  return normalizeSchedule(await response.json(), date, cabin);
 }
 
 async function fetchSchedules(
