@@ -1,0 +1,6 @@
+# Local Cloudflare Worker secrets for the date-specific flight schedule API.
+# Do not commit real credentials.
+AMADEUS_CLIENT_ID=
+AMADEUS_CLIENT_SECRET=
+# Use the production Amadeus API for real current flight offers/schedules.
+AMADEUS_API_BASE_URL=https://api.amadeus.com
