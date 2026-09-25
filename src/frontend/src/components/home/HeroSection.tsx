@@ -1,6 +1,5 @@
 import { CallCta } from "@/components/CallCta";
 import { SITE } from "@/lib/site";
-import { Link } from "@tanstack/react-router";
 import { ArrowRight, Check, ChevronRight, Globe2, Headset, Route, Search } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
