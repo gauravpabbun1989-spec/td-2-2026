@@ -36,7 +36,7 @@ const POPULAR_AIRPORTS: Airport[] = [
   ["MEX","Mexico City International Airport","Mexico City","Mexico",19.4361,-99.0719],
 ].map(([iata,name,city,country,lat,lon], index) => ({ id: `fallback-${iata}-${index}`, name: String(name), city: String(city), country: String(country), iata: String(iata), lat: Number(lat), lon: Number(lon) }));
 
-type LocationChoice = {
+export type LocationChoice = {
   type: "city" | "airport";
   city: string;
   country: string;
@@ -58,7 +58,7 @@ type FlightLeg = {
   duration?: string;
   layoverMinutes?: number;
 };
-type FlightSchedule = {
+export type FlightSchedule = {
   id: string;
   airlineName: string;
   airlineCode?: string;
@@ -76,7 +76,7 @@ const PAGE_TITLE = "Flight Schedule Search | TicketDepart";
 const PAGE_DESCRIPTION =
   "Search flight options by city or airport and travel date, then call TicketDepart to confirm booking details.";
 
-async function loadAirports(query: string): Promise<Airport[]> {
+export async function loadAirports(query: string): Promise<Airport[]> {
   const q = query.trim();
   if (!q) return POPULAR_AIRPORTS;
   if (q.length < 2) return POPULAR_AIRPORTS.filter((airport) => [airport.iata, airport.city].join(" ").toLowerCase().startsWith(q.toLowerCase())).slice(0, 10);
@@ -237,7 +237,7 @@ function normalizeSchedule(
   return results;
 }
 
-function formatDisplayTime(time: string): string {
+export function formatDisplayTime(time: string): string {
   const match = time.match(/^(\d{1,2}):(\d{2})/);
   if (!match) return time;
   const hours = Number(match[1]);
@@ -248,7 +248,7 @@ function formatDisplayTime(time: string): string {
   return `${displayHour}:${String(minutes).padStart(2, "0")} ${suffix}`;
 }
 
-function formatDuration(minutes: number): string {
+export function formatDuration(minutes: number): string {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
   return mins ? `${hours}h ${mins}m` : `${hours}h`;
@@ -489,7 +489,7 @@ async function fetchAirRoutesRoute(
   return results;
 }
 
-async function fetchSchedules(
+export async function fetchSchedules(
   fromChoice: LocationChoice,
   toChoice: LocationChoice,
   date: string,
@@ -570,6 +570,18 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
       if (!date) throw new Error("Select a departure date.");
       if (tripType === "Round trip" && !returnDate) throw new Error("Select a return date for a round trip.");
       if (tripType === "Round trip" && returnDate < date) throw new Error("Return date cannot be before departure date.");
+
+      const resultsParams = new URLSearchParams({
+        from: fromChoice.iata ?? "",
+        to: toChoice.iata ?? "",
+        departure: date,
+        trip: tripType,
+        travelers,
+        cabin,
+      });
+      if (tripType === "Round trip" && returnDate) resultsParams.set("return", returnDate);
+      window.location.assign(`/flight-search-results?${resultsParams.toString()}`);
+      return;
 
       if (!actor || isActorFetching) throw new Error("Flight schedule service is still connecting. Please try again in a moment.");
       const schedules = await fetchSchedules(fromChoice, toChoice, date, returnDate, tripType, cabin, travelers, actor);
