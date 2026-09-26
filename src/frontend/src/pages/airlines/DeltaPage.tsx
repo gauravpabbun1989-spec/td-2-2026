@@ -132,8 +132,7 @@ const FAQS = [
     answer:
       "Call us and we will review your itinerary and the applicable fare rules, then walk you through the rebooking options that are available. We can handle the rebooking for you where the ticket allows it.",
   },
-  {
-    question: "Can I book business or first class through TicketDepart?",
+  {\n    question: "Can I get Delta Airlines flight booking assistance 24/7?",\n    answer:\n      "Yes. TicketDepart travel specialists are available 24/7 for independent Delta Airlines booking assistance. We are not Delta Airlines official customer service, and airline-specific support hours can vary by channel.",\n  },\n  {\n    question: "Can I book business or first class through TicketDepart?",
     answer:
       "Yes. We book premium cabins including Delta One on long-haul routes and First Class on domestic routes where it is offered. Availability and pricing vary by route and date, so we check your specific travel window.",
   },
