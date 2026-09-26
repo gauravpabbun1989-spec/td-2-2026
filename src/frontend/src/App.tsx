@@ -1,4 +1,5 @@
 import { Layout } from "@/components/Layout";
+import { HomePage } from "@/pages/HomePage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import {
   Outlet,
@@ -17,7 +18,6 @@ const ContactPage = lazyPage(() => import("@/pages/ContactPage").then(({ Contact
 const FlightBookingPage = lazyPage(() => import("@/pages/FlightBookingPage").then(({ FlightBookingPage }) => ({ default: FlightBookingPage })));
 const FlightSearchPage = lazyPage(() => import("@/pages/FlightSearchPage").then(({ FlightSearchPage }) => ({ default: FlightSearchPage })));
 const FlightSearchResultsPage = lazyPage(() => import("@/pages/FlightSearchResultsPage").then(({ FlightSearchResultsPage }) => ({ default: FlightSearchResultsPage })));
-const HomePage = lazyPage(() => import("@/pages/HomePage").then(({ HomePage }) => ({ default: HomePage })));
 const HowToBookFlightByPhonePage = lazyPage(() => import("@/pages/HowToBookFlightByPhonePage").then(({ HowToBookFlightByPhonePage }) => ({ default: HowToBookFlightByPhonePage })));
 
 const CheapFlightBookingByPhonePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ CheapFlightBookingByPhonePage }) => ({ default: CheapFlightBookingByPhonePage })));
