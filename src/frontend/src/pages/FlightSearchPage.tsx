@@ -803,3 +803,8 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
         <p className="text-sm leading-relaxed text-muted-foreground">
           Flight options are shown for the route and travel date selected. A reservation specialist will confirm the itinerary and booking details by phone before payment.{" "}
           {SITE.disclosure}
+        </p>
+      </Section>}
+    </>
+  );
+}
