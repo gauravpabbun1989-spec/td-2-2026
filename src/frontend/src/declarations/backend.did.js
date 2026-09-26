@@ -128,6 +128,8 @@ export const idlService = IDL.Service({
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'listLeads' : IDL.Func([], [IDL.Vec(TripRequest)], ['query']),
   'schema' : IDL.Func([], [IDL.Text], ['query']),
+  'searchFlightRoute' : IDL.Func([IDL.Text, IDL.Text], [IDL.Record({ 'status' : IDL.Nat, 'body' : IDL.Text })], ['query']),
+  'searchFlightConnections' : IDL.Func([IDL.Text, IDL.Text], [IDL.Record({ 'status' : IDL.Nat, 'body' : IDL.Text })], ['query']),
   'submitTripRequest' : IDL.Func([TripRequestInput], [SubmitResult], []),
 });
 
@@ -251,6 +253,8 @@ export const idlFactory = ({ IDL }) => {
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'listLeads' : IDL.Func([], [IDL.Vec(TripRequest)], ['query']),
     'schema' : IDL.Func([], [IDL.Text], ['query']),
+    'searchFlightRoute' : IDL.Func([IDL.Text, IDL.Text], [IDL.Record({ 'status' : IDL.Nat, 'body' : IDL.Text })], ['query']),
+    'searchFlightConnections' : IDL.Func([IDL.Text, IDL.Text], [IDL.Record({ 'status' : IDL.Nat, 'body' : IDL.Text })], ['query']),
     'submitTripRequest' : IDL.Func([TripRequestInput], [SubmitResult], []),
   });
 };
