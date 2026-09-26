@@ -44,7 +44,7 @@ const server = http.createServer(async (req, res) => {
     return json(res, 200, {
       ok: true,
       service: "ticketdepart-flight-search-server",
-      version: "0.1.0",
+      version: "0.2.0",
       faresDisplayed: false,
     });
   }
