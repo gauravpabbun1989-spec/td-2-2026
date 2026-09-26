@@ -95,6 +95,7 @@ function normalizeCtaLocation(location: string) {
     .replace(/\.(phone_button|phone_link)$/i, "");
 
   if (normalized === "contact.success") return "callback_success";
+  if (normalized === "mobile_call") return "sticky_mobile";
   return normalized;
 }
 
