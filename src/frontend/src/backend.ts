@@ -232,6 +232,8 @@ export interface backendInterface {
      * / Returns `#ok` only after the lead is durably written to stable storage.
      * / The success payload reports whether the notification email was sent.
      */
+    searchFlightRoute(origin: string, destination: string): Promise<{ status: bigint | number; body: string }>;
+    searchFlightConnections(origin: string, destination: string): Promise<{ status: bigint | number; body: string }>;
     submitTripRequest(input: TripRequestInput): Promise<SubmitResult>;
 }
 import type { Cabin as _Cabin, Cell as _Cell, EmailStatus as _EmailStatus, Error as _Error, LeadId as _LeadId, Result as _Result, Result__1 as _Result__1, SubmitError as _SubmitError, SubmitResult as _SubmitResult, SubmitSuccess as _SubmitSuccess, Timestamp as _Timestamp, TripRequest as _TripRequest, TripRequestInput as _TripRequestInput, TripType as _TripType, UserRole as _UserRole, Value as _Value } from "./declarations/backend.did.d.ts";
@@ -376,6 +378,12 @@ export class Backend implements backendInterface {
             const result = await this.actor.schema();
             return result;
         }
+    }
+    async searchFlightRoute(arg0: string, arg1: string): Promise<{ status: bigint | number; body: string }> {
+        return await this.actor.searchFlightRoute(arg0, arg1);
+    }
+    async searchFlightConnections(arg0: string, arg1: string): Promise<{ status: bigint | number; body: string }> {
+        return await this.actor.searchFlightConnections(arg0, arg1);
     }
     async submitTripRequest(arg0: TripRequestInput): Promise<SubmitResult> {
         if (this.processError) {

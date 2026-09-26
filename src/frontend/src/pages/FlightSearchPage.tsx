@@ -1,3 +1,5 @@
+import { createActor } from "@/backend";
+import { useActor } from "@caffeineai/core-infrastructure";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
@@ -345,32 +347,30 @@ async function fetchAirRoutesRoute(
   destination: string,
   date: string,
   cabin: string,
+  actor: { searchFlightRoute: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }>; searchFlightConnections: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }> },
   originTimezone?: string,
   destinationTimezone?: string,
 ) {
-  const routeId = `${encodeURIComponent(origin)}-${encodeURIComponent(destination)}`;
+  if (!actor) throw new Error("Flight schedule service is still connecting. Please try again in a moment.");
   try {
-    const directResponse = await fetch(`${AIR_ROUTES_API}/${routeId}`);
-
-    if (directResponse.ok) {
-      const directResults = normalizeSchedule(await directResponse.json(), date, cabin, originTimezone, destinationTimezone);
+    const directResponse = await actor.searchFlightRoute(origin, destination);
+    if (Number(directResponse.status) === 200) {
+      const directResults = normalizeSchedule(JSON.parse(directResponse.body), date, cabin, originTimezone, destinationTimezone);
       if (directResults.length) return directResults;
     }
   } catch {
     // Continue to the connection search if the direct-route request is unavailable.
   }
 
-  let connectionsResponse: Response;
+  let connectionsResponse: { status: bigint | number; body: string };
   try {
-    connectionsResponse = await fetch(
-      `${AIR_ROUTES_API.replace("/route", "/connections")}?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&max_stops=2`,
-    );
+    connectionsResponse = await actor.searchFlightConnections(origin, destination);
   } catch {
     throw new Error("Flight schedule service is temporarily unavailable. Please try again in a moment or call us for itinerary assistance.");
   }
-  if (!connectionsResponse.ok) throw new Error("No scheduled options could be returned for this route.");
+  if (Number(connectionsResponse.status) !== 200) throw new Error("No scheduled options could be returned for this route.");
 
-  const payload = (await connectionsResponse.json()) as {
+  const payload = JSON.parse(connectionsResponse.body) as {
     options?: Array<{
       total_flying_min?: number;
       stops?: number;
@@ -498,20 +498,23 @@ async function fetchSchedules(
   tripType: string,
   cabin: string,
   travelers: string,
+  actor: { searchFlightRoute: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }>; searchFlightConnections: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }> },
 ): Promise<{ outbound: FlightSchedule[]; inbound: FlightSchedule[] }> {
   void travelers;
   const origin = fromChoice.iata ?? "";
   const destination = toChoice.iata ?? "";
   if (!origin || !destination) throw new Error("Select airports with valid IATA codes.");
   const [originTimezone, destinationTimezone] = await Promise.all([resolveAirportTimezone(fromChoice), resolveAirportTimezone(toChoice)]);
-  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, originTimezone, destinationTimezone);
+  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, actor, originTimezone, destinationTimezone);
   if (tripType === "One way" || !returnDate) return { outbound, inbound: [] };
-  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, destinationTimezone, originTimezone);
+  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, actor, destinationTimezone, originTimezone);
   return { outbound, inbound };
 }
 export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const { actor, isFetching: isActorFetching } = useActor(createActor);
+
   const [fromChoice, setFromChoice] = useState<LocationChoice | null>(null);
   const [toChoice, setToChoice] = useState<LocationChoice | null>(null);
   const [tripType, setTripType] = useState("Round trip");
@@ -569,7 +572,8 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
       if (tripType === "Round trip" && !returnDate) throw new Error("Select a return date for a round trip.");
       if (tripType === "Round trip" && returnDate < date) throw new Error("Return date cannot be before departure date.");
 
-      const schedules = await fetchSchedules(fromChoice, toChoice, date, returnDate, tripType, cabin, travelers);
+      if (!actor || isActorFetching) throw new Error("Flight schedule service is still connecting. Please try again in a moment.");
+      const schedules = await fetchSchedules(fromChoice, toChoice, date, returnDate, tripType, cabin, travelers, actor);
       setResults(schedules.outbound);
       setReturnResults(schedules.inbound);
       if (!schedules.outbound.length) setError("No scheduled options were returned for this route and date. Try another date or call us for itinerary assistance.");
@@ -629,15 +633,15 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
             </div>
           )}
 
-          <div className={`overflow-visible rounded-2xl border border-border bg-card p-2.5 shadow-elevated sm:p-3 ${embedded ? "lg:ml-auto lg:max-w-2xl" : ""}`}>
-            <div className="flex flex-wrap items-center gap-1.5 border-b border-border pb-2">
+          <div className={`overflow-visible rounded-2xl border border-border bg-card p-2 shadow-elevated sm:p-2.5 ${embedded ? "lg:ml-auto lg:max-w-2xl" : ""}`}>
+            <div className="flex flex-wrap items-center gap-1 border-b border-border pb-1.5">
               {["Round trip", "One way"].map((type) => (
-                <button key={type} type="button" onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${tripType === type ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}>{type}</button>
+                <button key={type} type="button" onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }} className={`rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${tripType === type ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}>{type}</button>
               ))}
               <span className="ml-auto hidden text-xs text-muted-foreground sm:block">Flights · {travelers} traveler{travelers === "1" ? "" : "s"} · {cabin}</span>
             </div>
 
-            <div className="mt-2 grid gap-1.5 lg:grid-cols-[1.2fr_1.2fr_0.85fr_0.85fr_0.65fr]">
+            <div className="mt-1.5 grid gap-1 lg:grid-cols-[1.2fr_1.2fr_0.85fr_0.85fr_0.65fr]">
               <label className="relative rounded-xl border border-border bg-background p-2.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">From</span>
                 <input value={from} onFocus={() => void ensureAirports(from, "from")} onChange={(e) => { setFrom(e.target.value); setFromChoice(null); setAirportSearch("from"); void ensureAirports(e.target.value, "from"); }} placeholder={loadingAirports ? "Loading airports…" : "City or airport"} className="mt-1 h-7 w-full bg-transparent text-sm font-semibold outline-none" autoComplete="off" />
@@ -647,7 +651,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
 
               <label className="relative rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">To</span>
-                <input value={to} onFocus={() => void ensureAirports(to, "to")} onChange={(e) => { setTo(e.target.value); setToChoice(null); setAirportSearch("to"); void ensureAirports(e.target.value, "to"); }} placeholder="City or airport" className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none" autoComplete="off" />
+                <input value={to} onFocus={() => void ensureAirports(to, "to")} onChange={(e) => { setTo(e.target.value); setToChoice(null); setAirportSearch("to"); void ensureAirports(e.target.value, "to"); }} placeholder="City or airport" className="mt-1 h-7 w-full bg-transparent text-sm font-semibold outline-none" autoComplete="off" />
                 {toChoice?.iata && <span className="text-xs font-bold text-primary">{toChoice.iata}</span>}
                 {airportSearch === "to" && suggestionList(toMatches, setTo, setToChoice)}
               </label>
@@ -659,30 +663,30 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
 
               <label className="rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Return</span>
-                <input type="date" value={returnDate} min={date || undefined} disabled={tripType === "One way"} onChange={(e) => setReturnDate(e.target.value)} className="mt-2 h-9 w-full bg-transparent text-sm font-semibold outline-none disabled:opacity-40" />
+                <input type="date" value={returnDate} min={date || undefined} disabled={tripType === "One way"} onChange={(e) => setReturnDate(e.target.value)} className="mt-1 h-7 w-full bg-transparent text-xs font-semibold outline-none disabled:opacity-40" />
               </label>
 
               <label className="rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Travelers</span>
-                <select value={travelers} onChange={(e) => setTravelers(e.target.value)} className="mt-2 h-9 w-full bg-transparent text-sm font-semibold outline-none">
+                <select value={travelers} onChange={(e) => setTravelers(e.target.value)} className="mt-1 h-7 w-full bg-transparent text-xs font-semibold outline-none">
                   {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((count) => <option key={count} value={count}>{count}</option>)}
                 </select>
               </label>
             </div>
 
-            <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-1.5 flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between">
               <label className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span className="font-semibold text-foreground">Cabin</span>
                 <select value={cabin} onChange={(e) => setCabin(e.target.value)} className="rounded-lg border border-border bg-background px-2 py-1 text-xs font-semibold text-foreground">
                   <option>Economy</option><option>Premium Economy</option><option>Business</option><option>First</option>
                 </select>
               </label>
-              <button type="button" onClick={search} disabled={loading} className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-subtle disabled:opacity-60 sm:w-auto">
+              <button type="button" onClick={search} disabled={loading} className="inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-full bg-primary px-4 text-xs font-semibold text-primary-foreground shadow-subtle disabled:opacity-60 sm:w-auto">
                 <Search aria-hidden="true" className="size-4" />{loading ? "Searching…" : "Search flights"}
               </button>
             </div>
 
-            {error && <p role="alert" className="mt-4 rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">{error}</p>}
+            {error && <p role="alert" className="mt-2 rounded-lg border border-destructive/30 bg-destructive/5 p-2 text-xs text-destructive">{error}</p>}
           </div>
         </div>
       </section>

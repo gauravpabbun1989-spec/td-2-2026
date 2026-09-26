@@ -1,4 +1,9 @@
+import Blob "mo:core/Blob";
 import List "mo:core/List";
+import Nat64 "mo:core/Nat64";
+import Text "mo:core/Text";
+import Call "mo:ic/Call";
+import IC "mo:ic/Types";
 import AccessControl "mo:caffeineai-authorization/access-control";
 import MixinAuthorization "mo:caffeineai-authorization/MixinAuthorization";
 import Expose "mo:caffeineai-oql/Expose";
@@ -45,6 +50,58 @@ actor {
         .build(),
     ];
   });
+
+
+
+  public query func transformFlightApi({
+    context : Blob;
+    response : IC.HttpRequestResult;
+  }) : async IC.HttpRequestResult {
+    { response with headers = [] };
+  };
+
+  private func flightApiUrl(path : Text) : Text {
+    "https://air-routes.com" # path;
+  };
+
+  private func fetchFlightApi(path : Text) : async { status : Nat; body : Text } {
+    let request : IC.HttpRequestArgs = {
+      url = flightApiUrl(path);
+      max_response_bytes = ?(100_000 : Nat64);
+      headers = [
+        { name = "User-Agent"; value = "TicketDepart-flight-search" },
+      ];
+      body = null;
+      method = #get;
+      transform = ?{
+        function = transformFlightApi;
+        context = Blob.fromArray([]);
+      };
+      is_replicated = null;
+    };
+
+    try {
+      let response = await Call.httpRequest(request);
+      let body = switch (Text.decodeUtf8(response.body)) {
+        case (?text) { text };
+        case (null) { "" };
+      };
+      { status = response.status; body };
+    } catch (_error) {
+      { status = 599; body = "" };
+    };
+  };
+
+  public func searchFlightRoute(origin : Text, destination : Text) : async { status : Nat; body : Text } {
+    await fetchFlightApi("/api/route/" # Text.toUpper(origin) # "-" # Text.toUpper(destination));
+  };
+
+  public func searchFlightConnections(origin : Text, destination : Text) : async { status : Nat; body : Text } {
+    await fetchFlightApi(
+      "/api/connections?from=" # Text.toUpper(origin) #
+      "&to=" # Text.toUpper(destination) # "&max_stops=2"
+    );
+  };
 
   include ApiDocMixin();
 };
