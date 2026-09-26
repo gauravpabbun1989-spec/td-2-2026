@@ -1,15 +1,16 @@
 import { Seo } from "@/components/Seo";
-import { ContactInfoBlock } from "@/components/home/ContactInfoBlock";
-import { DisclosureBlock } from "@/components/home/DisclosureBlock";
 import { CallCta } from "@/components/CallCta";
 import { HeroSection } from "@/components/home/HeroSection";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
 const FlightSearchPage = lazy(() => import("@/pages/FlightSearchPage").then((module) => ({ default: module.FlightSearchPage })));
-import { HomeFaq, homeFaqSchema } from "@/components/home/HomeFaq";
-import { HowItWorks } from "@/components/home/HowItWorks";
-import { PreCallChecklist } from "@/components/home/PreCallChecklist";
-import { ServiceGrid } from "@/components/home/ServiceGrid";
+const HomeFaq = lazy(() => import("@/components/home/HomeFaq").then((module) => ({ default: module.HomeFaq })));
+const HowItWorks = lazy(() => import("@/components/home/HowItWorks").then((module) => ({ default: module.HowItWorks })));
+const PreCallChecklist = lazy(() => import("@/components/home/PreCallChecklist").then((module) => ({ default: module.PreCallChecklist })));
+const ServiceGrid = lazy(() => import("@/components/home/ServiceGrid").then((module) => ({ default: module.ServiceGrid })));
+const DisclosureBlock = lazy(() => import("@/components/home/DisclosureBlock").then((module) => ({ default: module.DisclosureBlock })));
+const ContactInfoBlock = lazy(() => import("@/components/home/ContactInfoBlock").then((module) => ({ default: module.ContactInfoBlock })));
+import { homeFaqSchema } from "@/components/home/HomeFaq";
 import { breadcrumbSchema, organizationSchema, serviceSchema, websiteSchema } from "@/lib/seo";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
@@ -105,7 +106,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <ServiceGrid />
+      <Suspense fallback={<div className="min-h-24" aria-hidden="true" />}><ServiceGrid /></Suspense>
 
       <section className="border-b border-border bg-background px-5 py-14 sm:px-8 sm:py-20" aria-labelledby="regional-flights-heading">
         <div className="mx-auto max-w-6xl">
@@ -126,8 +127,7 @@ export function HomePage() {
           </div>
         </div>
       </section>
-      <HowItWorks />
-      <PreCallChecklist />
+      <Suspense fallback={<div className="min-h-24" aria-hidden="true" />}><HowItWorks /><PreCallChecklist /></Suspense>
 
       <section className="border-y border-border bg-[#f3f6f9] px-5 py-14 sm:px-8 sm:py-20" aria-labelledby="phone-booking-guide-heading">
         <div className="mx-auto max-w-6xl"><p className="label-board text-accent">Helpful guide</p><h2 id="phone-booking-guide-heading" className="mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl">Know what to expect when booking by phone.</h2><p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">See what to prepare, which questions to ask about fares and changes, and how a phone booking typically moves from trip details to a confirmed ticket.</p><Link to="/how-to-book-a-flight-by-phone" className="mt-7 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-card px-5 py-3 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground">Read the booking guide <ArrowRight className="size-4" /></Link></div>
@@ -141,9 +141,7 @@ export function HomePage() {
         <div className="mx-auto max-w-6xl"><p className="label-board text-accent">Popular booking help</p><h2 id="popular-booking-help-heading" className="mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl">Support for the trips people plan most often.</h2><p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">Explore focused guides for urgent travel, premium cabins, family trips, affordable fare planning, and changes or cancellations.</p><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[["Cheap flight booking by phone","/cheap-flight-booking-by-phone"],["Business class flight booking","/business-class-flight-booking"],["Same-day flight booking","/same-day-flight-booking"],["Family flight booking","/family-flight-booking"],["Flight change assistance","/flight-change-assistance"],["Flight cancellation assistance","/flight-cancellation-assistance"]].map(([label,to])=><Link key={to} to={to} className="group rounded-[1.5rem] border border-border bg-card px-6 py-5 text-sm font-semibold text-primary shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated">{label}<span className="ml-2 transition-transform group-hover:translate-x-1">→</span></Link>)}</div></div>
       </section>
 
-      <HomeFaq />
-      <DisclosureBlock />
-      <ContactInfoBlock />
+      <Suspense fallback={<div className="min-h-24" aria-hidden="true" />}><HomeFaq /><DisclosureBlock /><ContactInfoBlock /></Suspense>
       <p className="sr-only">{SITE.name} — {SITE.tagline}. {SITE.hours}.</p>
     </>
   );
