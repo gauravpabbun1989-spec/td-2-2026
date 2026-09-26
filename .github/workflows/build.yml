@@ -24,6 +24,7 @@ jobs:
       - run: pnpm --dir src/frontend check
       - run: pnpm --dir src/frontend test
       - run: pnpm --dir src/frontend build
+      - run: npm install -g ic-mops
       - run: mops check
       - run: mops build
       - run: pnpm bindgen
