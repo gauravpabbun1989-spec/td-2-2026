@@ -1,4 +1,3 @@
-import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
@@ -109,7 +108,6 @@ function normalizeSchedule(
 ): FlightSchedule[] {
   const route = payload as {
     route_id?: string;
-    status?: string;
     flying_min?: number;
     airlines?: Array<{
       airline_code?: string;
