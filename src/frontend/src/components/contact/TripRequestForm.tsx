@@ -5,13 +5,18 @@ import {
   TripType,
   createActor,
 } from "@/backend";
-import { trackLeadSubmit } from "@/lib/analytics";
+import {
+  trackCallbackFormError,
+  trackCallbackFormStart,
+  trackCallbackFormSubmit,
+  trackLeadSubmit,
+} from "@/lib/analytics";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useMutation } from "@tanstack/react-query";
 import { CheckCircle2, Loader2, Phone, Send } from "lucide-react";
-import { type ChangeEvent, type FormEvent, useState } from "react";
+import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
 
 type FieldName =
   | "name"
@@ -200,6 +205,7 @@ export function TripRequestForm() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
   const [emailStatus, setEmailStatus] = useState<EmailStatus | null>(null);
+  const callbackStartedRef = useRef(false);
 
   const fallbackEmail = (() => {
     const subject = encodeURIComponent(
@@ -245,7 +251,16 @@ export function TripRequestForm() {
         ...(details ? { details } : {}),
       });
     },
+    onError: () => {
+      trackCallbackFormError("contact_form", "submission");
+    },
   });
+
+  function handleFormFocus() {
+    if (callbackStartedRef.current) return;
+    callbackStartedRef.current = true;
+    trackCallbackFormStart("contact_form");
+  }
 
   function handleChange(
     event: ChangeEvent<
@@ -268,9 +283,11 @@ export function TripRequestForm() {
     const nextErrors = validate(values);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
+      trackCallbackFormError("contact_form", "validation");
       return;
     }
 
+    trackCallbackFormSubmit("contact_form");
     mutation.mutate(values, {
       onSuccess: (result) => {
         if (result.__kind__ === "ok") {
@@ -362,6 +379,7 @@ export function TripRequestForm() {
   return (
     <form
       noValidate
+      onFocusCapture={handleFormFocus}
       onSubmit={handleSubmit}
       data-ocid="contact.form"
       className="rounded-2xl border border-border bg-card p-6 shadow-elevated sm:p-8"
