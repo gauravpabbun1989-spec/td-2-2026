@@ -115,6 +115,8 @@ export interface _SERVICE {
    * / Returns `#ok` only after the lead is durably written to stable storage.
    * / The success payload reports whether the notification email was sent.
    */
+  'searchFlightRoute' : ActorMethod<[string, string], { 'status' : bigint, 'body' : string }>,
+  'searchFlightConnections' : ActorMethod<[string, string], { 'status' : bigint, 'body' : string }>,
   'submitTripRequest' : ActorMethod<[TripRequestInput], SubmitResult>,
 }
 export declare const idlService: IDL.ServiceClass;
