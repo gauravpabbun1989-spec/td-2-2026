@@ -354,12 +354,12 @@ export function TripRequestForm() {
           <p className="text-base font-semibold text-foreground">
             Need help faster? Call a Travel Specialist:{" "}
             <a
-              href="tel:+18555449001"
+              href={SITE.phoneHref}
               data-ocid="contact.success.call_link"
               className="inline-flex min-h-11 items-center gap-2 align-middle text-xl font-semibold text-primary underline-offset-4 hover:text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <Phone aria-hidden="true" className="size-5" />
-              +1 855-544-9001
+              {SITE.phoneDisplay}
             </a>
           </p>
         </div>
@@ -646,11 +646,11 @@ export function TripRequestForm() {
             Email my trip details instead
           </a>
           <a
-            href="tel:+18555449001"
+            href={SITE.phoneHref}
             data-ocid="contact.error_call_link"
             className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-medium text-primary transition-smooth hover:bg-muted"
           >
-            Call +1 855-544-9001
+            Call {SITE.phoneDisplay}
           </a>
         </div>
       ) : null}
@@ -672,10 +672,10 @@ export function TripRequestForm() {
         <p className="text-sm text-muted-foreground">
           Prefer to talk it through? Call{" "}
           <a
-            href="tel:+18555449001"
+            href={SITE.phoneHref}
             className="font-medium text-primary underline-offset-4 hover:underline"
           >
-            +1 855-544-9001
+            {SITE.phoneDisplay}
           </a>
           .
         </p>
