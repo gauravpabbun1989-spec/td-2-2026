@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node server.mjs",
     "test": "node orchestrator.test.mjs",
-    "import:airports": "node scripts/import-ourairports.mjs"
+    "import:airports": "node scripts/import-ourairports.mjs",
+    "validate:data": "node scripts/validate-database.mjs"
   }
 }
