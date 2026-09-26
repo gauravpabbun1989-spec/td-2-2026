@@ -352,7 +352,6 @@ async function fetchAirRoutesRoute(
   actor: { searchFlightRoute: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }>; searchFlightConnections: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }> },
 ) {
   if (!actor) throw new Error("Flight schedule service is still connecting. Please try again in a moment.");
-  const routeId = `${encodeURIComponent(origin)}-${encodeURIComponent(destination)}`;
   try {
     const directResponse = await actor.searchFlightRoute(origin, destination);
     if (Number(directResponse.status) === 200) {
