@@ -24,16 +24,17 @@ export function SiteHeader() {
           </span>
           <span className="flex flex-col leading-none">
             <span className="font-display text-lg font-bold tracking-[-0.03em] text-foreground sm:text-xl">TicketDepart</span>
-            <span className="mt-1 hidden text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground sm:block">Flight assistance</span>
+            <span className="mt-1 hidden text-[0.62rem] font-medium tracking-wide text-muted-foreground sm:block">Fly More. Worry Less.</span>
           </span>
         </Link>
 
         <nav aria-label="Primary" className="hidden min-w-0 items-center gap-0.5 lg:flex xl:gap-1">
-          <Link to="/flight-booking" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">Flight Booking</Link>
-          <Link to="/delta-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">Delta Airlines</Link>
-          <Link to="/united-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">United Airlines</Link>
-          <Link to="/american-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">American Airlines</Link>
-          <Link to="/southwest-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">Southwest Airlines</Link>
+          <Link to="/" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">Home</Link>
+          <Link to="/delta-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">Delta</Link>
+          <Link to="/united-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">United</Link>
+          <Link to="/american-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">American</Link>
+          <Link to="/southwest-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">Southwest</Link>
+          <Link to="/flight-booking" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">Flight Booking</Link>
           <div className="relative">
             <details className="group">
               <summary className="cursor-pointer list-none rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">More Airlines</summary>
