@@ -443,7 +443,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
     <>
       {!embedded && <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />}
       <section
-        className={embedded ? "relative overflow-visible bg-background py-8 sm:py-10" : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"}
+        className={embedded ? "relative z-10 -mt-10 overflow-visible bg-transparent py-0 sm:-mt-16" : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"}
         style={embedded ? undefined : { backgroundImage: "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)" }}
       >
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -459,10 +459,10 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
             </p>
             </div>
           )}
-          <div className="mt-10 rounded-2xl border border-white/30 bg-white/95 p-5 shadow-elevated backdrop-blur-sm sm:p-7">
+          <div className="mt-0 rounded-[1.75rem] border border-border bg-card p-5 shadow-elevated sm:p-7">
             <div className="grid gap-5 md:grid-cols-2">
-              <label className="relative">
-                <span className="text-sm font-semibold">From city or airport</span>
+              <label className="relative rounded-2xl border border-border bg-background p-4">
+                <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">From</span>
                 <input
                   value={from}
                   onFocus={() => void ensureAirports()}
@@ -471,13 +471,13 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                     setFromChoice(null);
                   }}
                   placeholder={loadingAirports ? "Loading airports…" : "Enter city, airport, or IATA code"}
-                  className="mt-2 h-12 w-full rounded-xl border border-border bg-background px-4 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="mt-2 h-10 w-full rounded-xl bg-transparent px-1 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 />
                 {suggestionList(fromMatches, setFrom, setFromChoice)}
               </label>
 
-              <label className="relative">
-                <span className="text-sm font-semibold">To city or airport</span>
+              <label className="relative rounded-2xl border border-border bg-background p-4">
+                <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">To</span>
                 <input
                   value={to}
                   onFocus={() => void ensureAirports()}
@@ -491,20 +491,16 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                 {suggestionList(toMatches, setTo, setToChoice)}
               </label>
 
-              <label>
-                <span className="text-sm font-semibold">Trip type</span>
-                <select
-                  value={tripType}
-                  onChange={(e) => {
-                    setTripType(e.target.value);
-                    if (e.target.value === "One way") setReturnDate("");
-                  }}
-                  className="mt-2 h-12 w-full rounded-xl border border-border bg-background px-4 outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <option>Round trip</option>
-                  <option>One way</option>
-                </select>
-              </label>
+              <div className="sm:col-span-2 lg:col-span-1">
+                <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Trip</span>
+                <div className="mt-2 flex h-10 rounded-xl border border-border bg-background p-1">
+                  {["Round trip", "One way"].map((type) => (
+                    <button key={type} type="button" onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }} className={`flex-1 rounded-lg px-3 text-sm font-semibold ${tripType === type ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}>
+                      {type}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               <label>
                 <span className="text-sm font-semibold">Departure date</span>
@@ -566,7 +562,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground disabled:opacity-60"
               >
                 <Search aria-hidden="true" className="size-4" />
-                {loading ? "Finding schedules…" : "Search schedules"}
+                {loading ? "Searching…" : "Search flights"}
               </button>
               <span className="text-sm text-muted-foreground">
                 {tripType} · {date ? `Depart: ${date} · ` : ""}{returnDate ? `Return: ${returnDate} · ` : ""}
@@ -586,7 +582,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
         <SectionHeading
           id="flight_search_results_heading"
           eyebrow="Flight schedules"
-          title={results.length ? `${results.length} scheduled flight${results.length === 1 ? "" : "s"}` : "Scheduled flight times"}
+          title={results.length ? `${results.length} flight option${results.length === 1 ? "" : "s"}` : "Flight options"}
           description="Each result is a compact flight card with the airline logo, airline name, scheduled departure, estimated arrival time, and a phone CTA."
         />
 
