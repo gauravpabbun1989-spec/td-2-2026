@@ -13,7 +13,7 @@ import {
   Phone,
   Search,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   fetchSchedules,
   formatDisplayTime,
@@ -189,7 +189,7 @@ export function FlightSearchResultsPage() {
   const [modifyTravelers, setModifyTravelers] = useState(initialSearch?.travelers ?? "1");
   const [modifyCabin, setModifyCabin] = useState(initialSearch?.cabin ?? "Economy");
 
-  const runSearch = async (nextSearch: SearchState) => {
+  const runSearch = useCallback(async (nextSearch: SearchState) => {
     if (!actor || isActorFetching) return;
     setLoading(true);
     setError("");
@@ -240,7 +240,7 @@ export function FlightSearchResultsPage() {
       return;
     }
     if (actor && !isActorFetching) void runSearch(initialSearch);
-  }, [actor, isActorFetching, initialSearch]);
+  }, [actor, isActorFetching, initialSearch, runSearch]);
 
   const updateSearch = () => {
     const next: SearchState = {
