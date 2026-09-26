@@ -505,9 +505,9 @@ async function fetchSchedules(
   const destination = toChoice.iata ?? "";
   if (!origin || !destination) throw new Error("Select airports with valid IATA codes.");
   const [originTimezone, destinationTimezone] = await Promise.all([resolveAirportTimezone(fromChoice), resolveAirportTimezone(toChoice)]);
-  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, originTimezone, destinationTimezone, actor);
+  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, actor, originTimezone, destinationTimezone);
   if (tripType === "One way" || !returnDate) return { outbound, inbound: [] };
-  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, destinationTimezone, originTimezone, actor);
+  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, actor, destinationTimezone, originTimezone);
   return { outbound, inbound };
 }
 export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
