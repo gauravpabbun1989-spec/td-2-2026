@@ -1,5 +1,3 @@
-import { createActor } from "@/backend";
-import { useActor } from "@caffeineai/core-infrastructure";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
@@ -512,8 +510,6 @@ export async function fetchSchedules(
 export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const { actor, isFetching: isActorFetching } = useActor(createActor);
-
   const [fromChoice, setFromChoice] = useState<LocationChoice | null>(null);
   const [toChoice, setToChoice] = useState<LocationChoice | null>(null);
   const [tripType, setTripType] = useState("Round trip");
@@ -583,11 +579,6 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
       window.location.assign(`/flight-search-results?${resultsParams.toString()}`);
       return;
 
-      if (!actor || isActorFetching) throw new Error("Flight schedule service is still connecting. Please try again in a moment.");
-      const schedules = await fetchSchedules(fromChoice, toChoice, date, returnDate, tripType, cabin, travelers, actor);
-      setResults(schedules.outbound);
-      setReturnResults(schedules.inbound);
-      if (!schedules.outbound.length) setError("No scheduled options were returned for this route and date. Try another date or call us for itinerary assistance.");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Flight search failed.");
     } finally {
