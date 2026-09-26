@@ -1,7 +1,7 @@
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
-import { ArrowRight, Phone, Search } from "lucide-react";
+import { ArrowLeftRight, ArrowRight, Phone, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
 const AIR_ROUTES_AIRPORTS_API = "https://air-routes.com/api/airports";
@@ -551,6 +551,15 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
 
   const fromMatches = useMemo(() => choices(fromAirports, from), [fromAirports, from]);
   const toMatches = useMemo(() => choices(toAirports, to), [toAirports, to]);
+  const swapLocations = () => {
+    setFrom(to);
+    setTo(from);
+    setFromChoice(toChoice);
+    setToChoice(fromChoice);
+    setAirportSearch("");
+    setError("");
+  };
+
   const search = async () => {
     setLoading(true);
     setError("");
@@ -625,7 +634,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   return (
     <>
       {!embedded && <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />}
-      <section className={embedded ? "relative z-20 overflow-visible bg-gradient-to-b from-[#eef8ff] to-white py-6 sm:py-8" : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"} style={embedded ? undefined : { backgroundImage: "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)" }}>
+      <section className={embedded ? "relative z-20 -mt-6 overflow-visible bg-gradient-to-b from-transparent via-[#eef8ff] to-white pb-6 pt-0 sm:-mt-10 sm:pb-10" : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"} style={embedded ? undefined : { backgroundImage: "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)" }}>
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           {!embedded && (
             <div className="mx-auto max-w-5xl text-center text-white">
@@ -635,7 +644,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
             </div>
           )}
 
-          <div className={`overflow-visible rounded-2xl border border-sky-100 bg-white p-3 shadow-[0_16px_48px_-24px_rgba(20,74,120,0.25)] sm:p-4 ${embedded ? "mx-auto max-w-6xl" : ""}`}>
+          <div className={`overflow-visible rounded-[1.5rem] border border-sky-100 bg-white/95 p-3 shadow-[0_24px_70px_-28px_rgba(20,74,120,0.42)] backdrop-blur-md sm:p-4 ${embedded ? "mx-auto max-w-6xl" : ""}`}>
             <div className="flex flex-wrap items-center gap-1 border-b border-border pb-1.5">
               {["Round trip", "One way"].map((type) => (
                 <button key={type} type="button" onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }} className={`rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${tripType === type ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}>{type}</button>
@@ -643,8 +652,8 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
               <span className="ml-auto hidden text-xs text-muted-foreground sm:block">Flights · {travelers} traveler{travelers === "1" ? "" : "s"} · {cabin}</span>
             </div>
 
-            <div className="mt-1.5 grid gap-1 lg:grid-cols-[1.2fr_1.2fr_0.85fr_0.85fr_0.65fr]">
-              <label className="relative rounded-xl border border-border bg-background p-2.5">
+            <div className="relative mt-1.5 grid gap-1 lg:grid-cols-[1.2fr_1.2fr_0.85fr_0.85fr_0.65fr]">
+              <label className="relative rounded-xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">From</span>
                 <input value={from} onFocus={() => void ensureAirports(from, "from")} onChange={(e) => { setFrom(e.target.value); setFromChoice(null); setAirportSearch("from"); void ensureAirports(e.target.value, "from"); }} placeholder={loadingAirports ? "Loading airports…" : "City or airport"} className="mt-1 h-7 w-full bg-transparent text-sm font-semibold outline-none" autoComplete="off" />
                 {fromChoice?.iata && <span className="text-xs font-bold text-primary">{fromChoice.iata}</span>}
@@ -658,9 +667,13 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                 {airportSearch === "to" && suggestionList(toMatches, setTo, setToChoice)}
               </label>
 
+              <button type="button" onClick={swapLocations} aria-label="Swap departure and destination" title="Swap departure and destination" className="absolute left-[24%] top-1/2 z-10 hidden size-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-sky-200 bg-white text-primary shadow-sm transition hover:bg-sky-50 lg:flex">
+                <ArrowLeftRight aria-hidden="true" className="size-4" />
+              </button>
+
               <label className="rounded-xl border border-sky-100 bg-sky-50/50 p-2.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Depart</span>
-                <input type="date" min={new Date().toISOString().slice(0, 10)} value={date} onChange={(e) => { const nextDate = e.target.value; setDate(nextDate); if (returnDate && returnDate < nextDate) setReturnDate(nextDate); }} className="mt-1 h-7 w-full bg-transparent text-xs font-semibold outline-none" />
+                <input type="date" min={new Date().toISOString().slice(0, 10)} value={date} onChange={(e) => { const nextDate = e.target.value; setDate(nextDate); if (returnDate && returnDate < nextDate) setReturnDate(nextDate); }} className="mt-1 h-8 w-full bg-transparent text-xs font-semibold outline-none" />
               </label>
 
               <label className="rounded-xl border border-sky-100 bg-sky-50/50 p-2.5">
@@ -683,7 +696,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                   <option>Economy</option><option>Premium Economy</option><option>Business</option><option>First</option>
                 </select>
               </label>
-              <button type="button" onClick={search} disabled={loading} className="inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-full bg-primary px-4 text-xs font-semibold text-primary-foreground shadow-subtle disabled:opacity-60 sm:w-auto">
+              <button type="button" onClick={search} disabled={loading} className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-[0_10px_24px_-10px_rgba(0,89,150,0.65)] transition hover:bg-primary/90 disabled:opacity-60 sm:w-auto">
                 <Search aria-hidden="true" className="size-4" />{loading ? "Searching…" : "Search flights"}
               </button>
             </div>

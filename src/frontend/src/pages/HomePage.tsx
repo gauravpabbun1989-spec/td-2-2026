@@ -38,7 +38,7 @@ function DeferredFlightSearch() {
           observer.disconnect();
         }
       },
-      { rootMargin: "900px 0px" },
+      { rootMargin: "300px 0px" },
     );
     observer.observe(element);
     return () => observer.disconnect();
