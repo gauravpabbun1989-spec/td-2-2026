@@ -269,7 +269,15 @@ function routeHtml(route, meta) {
     `<script type="application/ld+json">${JSON.stringify(schema)}</script>\n  </head>`,
   );
 
-  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18555449001">Call +1 888-958-0280</a> — available 24/7.</p><p>TicketDepart is an independent U.S. travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
+  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>
+  <nav aria-label="Related flight booking guides"><strong>Related flight booking guides</strong><ul>
+    <li><a href="/flight-booking">Flight booking assistance</a></li>
+    <li><a href="/book-a-flight-by-phone">Book a flight by phone</a></li>
+    <li><a href="/international-flight-booking">International flight booking</a></li>
+    <li><a href="/business-class-flight-booking">Business class flight booking</a></li>
+    <li><a href="/contact">Contact a travel specialist</a></li>
+  </ul></nav>
+  <p>TicketDepart is an independent U.S. travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
 
   return html.replace('<div id="root"></div>', `<div id="root">${fallback}</div>`);
 }
