@@ -347,9 +347,9 @@ async function fetchAirRoutesRoute(
   destination: string,
   date: string,
   cabin: string,
+  actor: { searchFlightRoute: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }>; searchFlightConnections: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }> },
   originTimezone?: string,
   destinationTimezone?: string,
-  actor: { searchFlightRoute: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }>; searchFlightConnections: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }> },
 ) {
   if (!actor) throw new Error("Flight schedule service is still connecting. Please try again in a moment.");
   try {
