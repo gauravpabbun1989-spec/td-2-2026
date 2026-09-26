@@ -97,7 +97,7 @@ const routes = {
   },
   "/delta-airlines": {
     title: "Delta Airlines Flight Booking Assistance | 24/7 | TicketDepart",
-    description: "Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Discuss Delta reservation assistance by phone 24/7.",
+    description: "Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Discuss Delta Airlines reservation assistance by phone 24/7.",
     heading: "Delta Airlines flight bookings handled by a real travel specialist",
     text: "Get independent travel assistance for Delta Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, premium cabins, and 24/7 reservation assistance.",
   },
