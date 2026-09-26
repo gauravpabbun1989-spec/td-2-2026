@@ -41,6 +41,16 @@ function normalize(route: Awaited<ReturnType<typeof fetchRoute>>, requestedDate:
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+
+    // Keep one canonical URL form for static pages. Cloudflare Assets can
+    // serve both /path and /path/; redirect the trailing-slash variant so
+    // search engines see a single URL instead of duplicate page variants.
+    if (url.pathname.length > 1 && url.pathname.endsWith("/") && !url.pathname.startsWith("/api/")) {
+      const canonicalUrl = new URL(url);
+      canonicalUrl.pathname = canonicalUrl.pathname.replace(/\\/+$/, "");
+      return Response.redirect(canonicalUrl.toString(), 301);
+    }
+
     if (url.pathname !== "/api/flight-schedules") return env.ASSETS.fetch(request);
     if (request.method !== "GET") return json({ error: "Method not allowed" }, 405);
     const origin = (url.searchParams.get("origin") ?? "").toUpperCase();
