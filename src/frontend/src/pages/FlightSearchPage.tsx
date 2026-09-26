@@ -2,7 +2,7 @@ import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
-import { ArrowRight, Clock3, Luggage, Phone, Search } from "lucide-react";
+import { ArrowRight, Phone, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
 const AIR_ROUTES_API = "https://air-routes.com/api/route";
@@ -17,6 +17,18 @@ type LocationChoice = {
   timezone?: string;
   label: string;
 };
+type FlightLeg = {
+  airlineName: string;
+  airlineCode?: string;
+  logoUrl?: string;
+  from: string;
+  to: string;
+  departureTime: string;
+  arrivalTime: string;
+  arrivalDate?: string;
+  duration?: string;
+};
+
 type FlightSchedule = {
   id: string;
   airlineName: string;
@@ -29,46 +41,13 @@ type FlightSchedule = {
   cabin?: string;
   baggage?: string;
   status?: string;
+  legs?: FlightLeg[];
 };
 
 const PAGE_PATH = "/flight-search";
 const PAGE_TITLE = "Flight Schedule Search | TicketDepart";
 const PAGE_DESCRIPTION =
   "Search free Air-Routes scheduled route information by city or airport and travel date, then call TicketDepart to confirm booking details.";
-
-function parseDat(text: string): string[][] {
-  const rows: string[][] = [];
-  let row: string[] = [];
-  let field = "";
-  let quoted = false;
-  for (let i = 0; i < text.length; i += 1) {
-    const char = text[i];
-    if (char === '"') {
-      if (quoted && text[i + 1] === '"') {
-        field += '"';
-        i += 1;
-      } else {
-        quoted = !quoted;
-      }
-    } else if (char === "," && !quoted) {
-      row.push(field);
-      field = "";
-    } else if ((char === "\n" || char === "\r") && !quoted) {
-      if (char === "\r" && text[i + 1] === "\n") i += 1;
-      row.push(field);
-      if (row.some((value) => value.trim())) rows.push(row);
-      row = [];
-      field = "";
-    } else {
-      field += char;
-    }
-  }
-  if (field || row.length) {
-    row.push(field);
-    if (row.some((value) => value.trim())) rows.push(row);
-  }
-  return rows;
-}
 
 async function loadAirports(query: string): Promise<Airport[]> {
   const q = query.trim();
@@ -178,6 +157,19 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
           cabin: requestedCabin,
           baggage: "Allowance varies by fare",
           status: String(route.status ?? "Scheduled"),
+          legs: [{
+            airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
+            airlineCode: airline.airline_code ? String(airline.airline_code).toUpperCase() : undefined,
+            logoUrl: airline.airline_code
+              ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(String(airline.airline_code).toUpperCase())}.png`
+              : undefined,
+            from: String(origin ?? ""),
+            to: String(destination ?? ""),
+            departureTime: String(time || "Time not supplied"),
+            arrivalTime: arrival?.time ?? "Arrival time unavailable",
+            arrivalDate: arrival?.date ?? requestedDate,
+            duration,
+          }],
         });
       });
     });
@@ -185,10 +177,32 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
   return results;
 }
 
+function formatDisplayTime(time: string): string {
+  const match = time.match(/^(\\d{1,2}):(\\d{2})/);
+  if (!match) return time;
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  if (hours > 23 || minutes > 59) return time;
+  const suffix = hours >= 12 ? "PM" : "AM";
+  const displayHour = hours % 12 || 12;
+  return `${displayHour}:${String(minutes).padStart(2, "0")} ${suffix}`;
+}
+
 function formatDuration(minutes: number): string {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
   return mins ? `${hours}h ${mins}m` : `${hours}h`;
+}
+
+function addMinutesToTime(time: string, minutes: number): { time: string; dateOffset: number } {
+  const match = time.match(/^(\\d{1,2}):(\\d{2})/);
+  if (!match) return { time: "Arrival time unavailable", dateOffset: 0 };
+  const total = Number(match[1]) * 60 + Number(match[2]) + minutes;
+  const normalized = ((total % 1440) + 1440) % 1440;
+  return {
+    time: `${String(Math.floor(normalized / 60)).padStart(2, "0")}:${String(normalized % 60).padStart(2, "0")}`,
+    dateOffset: Math.floor(total / 1440),
+  };
 }
 
 function calculateArrival(
@@ -304,32 +318,52 @@ async function fetchAirRoutesRoute(origin: string, destination: string, date: st
       destinationTimezone,
     );
 
+    const displayLegs: FlightLeg[] = legs.map((leg) => {
+      const legAirline = leg.airlines?.[0];
+      const legSchedule = legAirline?.schedule?.find((entry) => entry.day === requestedDay);
+      const legDeparture = legSchedule?.times?.[0] ?? "Time not supplied";
+      const legDuration = Number.isFinite(leg.flying_min) ? Number(leg.flying_min) : undefined;
+      const legArrival = legDuration !== undefined
+        ? addMinutesToTime(legDeparture, legDuration)
+        : { time: "Arrival time unavailable", date };
+      return {
+        airlineName: String(legAirline?.airline ?? legAirline?.airline_code ?? "Airline"),
+        airlineCode: legAirline?.airline_code ? String(legAirline.airline_code).toUpperCase() : undefined,
+        logoUrl: legAirline?.airline_code
+          ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(String(legAirline.airline_code).toUpperCase())}.png`
+          : undefined,
+        from: String(leg.from ?? origin),
+        to: String(leg.to ?? destination),
+        departureTime: String(legDeparture),
+        arrivalTime: legArrival.time,
+        arrivalDate: legArrival.date,
+        duration: legDuration !== undefined ? formatDuration(legDuration) : undefined,
+      };
+    });
+
     results.push({
       id: `${origin}-${destination}-${requestedDay}-${optionIndex}`,
-      airlineName: String(firstAirline?.airline ?? firstAirline?.airline_code ?? "Airline"),
-      airlineCode: firstAirline?.airline_code
-        ? String(firstAirline.airline_code).toUpperCase()
-        : undefined,
-      logoUrl: firstAirline?.airline_code
-        ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(String(firstAirline.airline_code).toUpperCase())}.png`
-        : undefined,
+      airlineName: displayLegs[0]?.airlineName ?? "Airline",
+      airlineCode: displayLegs[0]?.airlineCode,
+      logoUrl: displayLegs[0]?.logoUrl,
       departure: {
         iata: String(firstLeg.from ?? origin),
         city: "",
         date,
-        time: String(departureTime),
+        time: displayLegs[0]?.departureTime ?? String(departureTime),
       },
       arrival: {
         iata: String(lastLeg.to ?? destination),
         city: "",
-        date: arrival?.date ?? date,
-        time: arrival?.time ?? "Arrival time unavailable",
+        date: displayLegs.at(-1)?.arrivalDate ?? date,
+        time: displayLegs.at(-1)?.arrivalTime ?? "Arrival time unavailable",
       },
       duration: durationMinutes !== undefined ? formatDuration(durationMinutes) : undefined,
       stops: Math.max(0, Number(option.stops ?? legs.length - 1)),
       cabin,
       baggage: "Allowance varies by fare",
       status: "Scheduled",
+      legs: displayLegs,
     });
   });
 
@@ -576,14 +610,68 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
           <div className="mt-8 grid gap-4">
             {results.map((result) => {
               const selected = selectedResult?.id === result.id;
+              const legs = result.legs?.length ? result.legs : [{
+                airlineName: result.airlineName,
+                airlineCode: result.airlineCode,
+                logoUrl: result.logoUrl,
+                from: result.departure.iata,
+                to: result.arrival.iata,
+                departureTime: result.departure.time,
+                arrivalTime: result.arrival.time,
+                arrivalDate: result.arrival.date,
+                duration: result.duration,
+              }];
+
               return (
                 <article key={result.id} className={`rounded-2xl border bg-card p-5 shadow-subtle transition ${selected ? "border-primary ring-2 ring-primary/10" : "border-border"}`}>
-                  <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center">
-                    <div>
-                      <div className="flex flex-wrap items-center gap-3">
-                        <div className="flex h-14 w-24 items-center justify-center rounded-xl border border-border bg-background p-2">
-                          {result.logoUrl ? <img src={result.logoUrl} alt="" className="max-h-10 max-w-20 object-contain" loading="lazy" onError={(event) => { event.currentTarget.style.display = "none"; }} /> : <span className="text-sm font-bold text-muted-foreground">{result.airlineCode ?? "AIR"}</span>}
+                  <div className="flex flex-col gap-5">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-12 w-20 items-center justify-center rounded-xl border border-border bg-background p-2">
+                        {result.logoUrl ? <img src={result.logoUrl} alt="" className="max-h-8 max-w-16 object-contain" loading="lazy" onError={(event) => { event.currentTarget.style.display = "none"; }} /> : <span className="text-xs font-bold text-muted-foreground">{result.airlineCode ?? "AIR"}</span>}
+                      </div>
+                      <div>
+                        <p className="font-bold">{legs.map((leg) => leg.airlineName).filter((name, index, names) => names.indexOf(name) === index).join(" + ")}</p>
+                        <p className="text-xs text-muted-foreground">{result.stops === 0 ? "Nonstop" : `${result.stops} stop${result.stops === 1 ? "" : "s"}`} · {result.duration ?? "Schedule"} · {result.cabin}</p>
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-border bg-background/60 p-4">
+                      {legs.map((leg, index) => (
+                        <div key={`${result.id}-leg-${index}`} className={index > 0 ? "mt-5 border-t border-border pt-5" : ""}>
+                          {legs.length > 1 && <p className="mb-3 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Leg {index + 1}</p>}
+                          <div className="grid items-center gap-3 sm:grid-cols-[1fr_auto_1fr]">
+                            <div>
+                              <p className="text-xl font-bold">{formatDisplayTime(leg.departureTime)}</p>
+                              <p className="font-semibold">{leg.from}</p>
+                            </div>
+                            <div className="text-center text-xs text-muted-foreground">
+                              <ArrowRight className="mx-auto size-5 text-accent" />
+                              {leg.duration ?? "Schedule"}
+                            </div>
+                            <div className="sm:text-right">
+                              <p className="text-xl font-bold">{formatDisplayTime(leg.arrivalTime)}{leg.arrivalDate && leg.arrivalDate !== date ? " (+1 day)" : ""}</p>
+                              <p className="font-semibold">{leg.to}</p>
+                            </div>
+                          </div>
+                          <p className="mt-2 text-xs font-medium text-muted-foreground">{leg.airlineName}</p>
                         </div>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+                      <button
+                        type="button"
+                        onClick={() => { setSelectedResult(result); setPassengerOpen(true); }}
+                        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground sm:w-auto"
+                      >
+                        <Phone className="size-4" /> Call to Confirm / Book
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
                         <div>
                           <p className="font-bold">{result.airlineName}</p>
                           <p className="text-xs text-muted-foreground">{result.airlineCode ?? "Airline"} · {result.stops === 0 ? "Nonstop" : `${result.stops} stop${result.stops === 1 ? "" : "s"}`} · {result.duration ?? "Schedule"}</p>
