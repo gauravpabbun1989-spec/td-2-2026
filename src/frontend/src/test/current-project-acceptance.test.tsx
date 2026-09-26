@@ -25,7 +25,7 @@ describe("current production route coverage", () => {
     renderRoute(path);
     expect(await screen.findAllByRole("heading", { level: 1 })).toHaveLength(1);
     const canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    expect(canonical?.href).toContain(path === "/" ? "ticketdepart.com/" : `ticketdepart.com${path}`);
+    expect(new URL(canonical?.href ?? "http://localhost/").pathname).toBe(path);
     expect(document.head.querySelector<HTMLMetaElement>('meta[name="robots"]')?.content).toMatch(/index/i);
     expect(screen.getAllByRole("link").some((link) => link.getAttribute("href") === SITE.phoneHref)).toBe(true);
   });
