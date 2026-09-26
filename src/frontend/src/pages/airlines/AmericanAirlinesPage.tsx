@@ -90,6 +90,11 @@ const CHECKLIST = [
 
 const FAQS = [
   {
+    question: "How do I book an American Airlines flight by phone?",
+    answer:
+      "Call TicketDepart with your departure and destination, travel dates, traveler count, and cabin preference if known. A specialist can discuss available American Airlines itinerary options and the applicable booking terms. TicketDepart is an independent travel agency, not American Airlines official customer service.",
+  },
+  {
     question: "Is TicketDepart affiliated with American Airlines?",
     answer:
       "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by American Airlines, and we are not American's official customer service. American Airlines and all related names and marks belong to their respective owners and are used for identification only.",
@@ -138,8 +143,8 @@ export function AmericanAirlinesPage() {
   return (
     <>
       <Seo
-        title="American Airlines Flight Booking Assistance | TicketDepart"
-        description="Independent travel agency providing American Airlines reservation support and flight booking assistance for domestic, international, multi-city, cabin options, and rebooking help. Call +1 855-544-9001."
+        title="American Airlines Flight Booking & Reservation Assistance | TicketDepart"
+        description="Book an American Airlines flight by phone with independent reservation assistance. Discuss domestic, international, multi-city, cabin, baggage, and rebooking options with TicketDepart."
         path={PATH}
         image={IMAGE_URL}
         structuredData={[
@@ -174,13 +179,10 @@ export function AmericanAirlinesPage() {
               American Airlines reservation support
             </p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">
-              American Airlines reservation support from a real travel specialist
+              American Airlines flight booking and reservation assistance
             </h1>
             <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              From American Airlines flight booking for a simple domestic trip to a multi-city international
-              routing, a TicketDepart specialist can search, compare, and book
-              American Airlines flights for you — and stay reachable when your
-              plans change.
+              Need to book an American Airlines flight by phone? A TicketDepart specialist can discuss your dates, airports, travelers, cabin, baggage, connections, and applicable booking terms, then assist with an American Airlines itinerary as an independent travel agency.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <CallCta size="lg" ocid="american.call_button" />
