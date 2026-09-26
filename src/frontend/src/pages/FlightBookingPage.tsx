@@ -25,7 +25,7 @@ import {
 const PAGE_PATH = "/flight-booking";
 const PAGE_TITLE = "Flight Booking by Phone | Domestic & International | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.";
+  "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 888-958-0280, 24/7.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
@@ -36,7 +36,7 @@ const FAQS = [
   {
     question: "Can I book a flight by phone with TicketDepart?",
     answer:
-      "Yes. TicketDepart is an independent travel agency, and a travel specialist can discuss your itinerary, compare options, and assist with booking by phone at +1 855-544-9001.",
+      "Yes. TicketDepart is an independent travel agency, and a travel specialist can discuss your itinerary, compare options, and assist with booking by phone at +1 888-958-0280.",
   },
   {
     question: "Can you help with international and multi-city flights?",
