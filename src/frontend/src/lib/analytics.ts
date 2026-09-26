@@ -109,6 +109,7 @@ function buildCommonParams() {
 
   return {
     page_path: getCleanPagePath(),
+    page_title: document.title,
     landing_page: getLandingPage(),
     device_category: getDeviceCategory(),
     source: traffic.source,
