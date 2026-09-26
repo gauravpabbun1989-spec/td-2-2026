@@ -28,6 +28,7 @@ type FlightLeg = {
   arrivalTime: string;
   arrivalDate?: string;
   duration?: string;
+  layoverMinutes?: number;
 };
 type FlightSchedule = {
   id: string;
@@ -224,6 +225,17 @@ function addMinutesToTime(time: string, minutes: number, date: string): { time: 
   };
 }
 
+function localDateTimeToUtc(date: string, time: string, timezone: string): number | null {
+  const match = time.match(/^(\\d{1,2}):(\\d{2})/);
+  if (!match) return null;
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  if (hours > 23 || minutes > 59) return null;
+  const [year, month, day] = date.split("-").map(Number);
+  const localAsUtc = Date.UTC(year, month - 1, day, hours, minutes);
+  const offset = getTimezoneOffsetMinutes(new Date(localAsUtc), timezone);
+  return localAsUtc - offset * 60_000;
+}
 function calculateArrival(
   departureTime: string,
   departureDate: string,
@@ -265,6 +277,21 @@ function getTimezoneOffsetMinutes(date: Date, timezone: string): number {
   return Math.round((asUtc - date.getTime()) / 60_000);
 }
 
+function addDays(date: string, days: number): string {
+  const [year, month, day] = date.split("-").map(Number);
+  const next = new Date(Date.UTC(year, month - 1, day + days));
+  return `${next.getUTCFullYear()}-${String(next.getUTCMonth() + 1).padStart(2, "0")}-${String(next.getUTCDate()).padStart(2, "0")}`;
+}
+
+function utcToLocalDateTime(timestamp: number, timezone: string): { date: string; time: string } | null {
+  try {
+    const parts = new Intl.DateTimeFormat("en-US", { timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date(timestamp));
+    const values = Object.fromEntries(parts.filter((part) => part.type !== "literal").map((part) => [part.type, part.value]));
+    return { date: `${values.year}-${values.month}-${values.day}`, time: `${values.hour}:${values.minute}` };
+  } catch {
+    return null;
+  }
+}
 function dateToAirRoutesDay(date: string): string {
   const [year, month, day] = date.split("-").map(Number);
   const weekday = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
@@ -312,56 +339,102 @@ async function fetchAirRoutesRoute(
   const requestedDay = dateToAirRoutesDay(date);
   const results: FlightSchedule[] = [];
 
-  (payload.options ?? []).forEach((option, optionIndex) => {
-    const legs = option.legs ?? [];
-    if (!legs.length) return;
+  for (let optionIndex = 0; optionIndex < (payload.options ?? []).length; optionIndex += 1) {
+    const option = payload.options?.[optionIndex];
+    const legs = option?.legs ?? [];
+    if (!legs.length) continue;
 
-    const firstLeg = legs[0];
-    const lastLeg = legs[legs.length - 1];
-    const firstAirline = firstLeg.airlines?.[0];
-    const matchingSchedule = firstAirline?.schedule?.find((entry) => entry.day === requestedDay);
-    const departureTime = matchingSchedule?.times?.[0];
-    if (!departureTime) return;
-
-    const durationMinutes = Number.isFinite(option.total_flying_min) ? Number(option.total_flying_min) : undefined;
-    const displayLegs: FlightLeg[] = [];
-    let currentDate = date;
-
-    for (const leg of legs) {
-      const legAirline = leg.airlines?.[0];
-      const legSchedule = legAirline?.schedule?.find((entry) => entry.day === requestedDay);
-      const legDeparture = legSchedule?.times?.[0] ?? "Time not supplied";
-      const legDuration = Number.isFinite(leg.flying_min) ? Number(leg.flying_min) : undefined;
-      const legArrival = legDuration !== undefined ? addMinutesToTime(legDeparture, legDuration, currentDate) : { time: "Arrival time unavailable", date: currentDate };
-      currentDate = legArrival.date;
-      const airlineCode = legAirline?.airline_code ? String(legAirline.airline_code).toUpperCase() : undefined;
-      displayLegs.push({
-        airlineName: String(legAirline?.airline ?? legAirline?.airline_code ?? "Airline"),
-        airlineCode,
-        logoUrl: airlineCode ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(airlineCode)}.png` : undefined,
-        from: String(leg.from ?? origin),
-        to: String(leg.to ?? destination),
-        departureTime: String(legDeparture),
-        arrivalTime: legArrival.time,
-        arrivalDate: legArrival.date,
-        duration: legDuration !== undefined ? formatDuration(legDuration) : undefined,
-      });
+    const airportsByIata = new Map<string, LocationChoice>();
+    const allIatas = Array.from(new Set(legs.flatMap((leg) => [String(leg.from ?? ""), String(leg.to ?? "")]).filter(Boolean)));
+    for (const iata of allIatas) {
+      const matches = await loadAirports(iata);
+      const airport = matches.find((item) => item.iata === iata) ?? matches[0];
+      if (airport) airportsByIata.set(iata, { type: "airport", city: airport.city, country: airport.country, iata: airport.iata, lat: airport.lat, lon: airport.lon, label: airport.name });
     }
 
+    const displayLegs: FlightLeg[] = [];
+    let previousArrivalUtc: number | null = null;
+    let previousArrivalDate = date;
+    let firstDepartureUtc: number | null = null;
+    let finalArrivalUtc: number | null = null;
+    let valid = true;
+
+    for (let legIndex = 0; legIndex < legs.length; legIndex += 1) {
+      const leg = legs[legIndex];
+      const fromIata = String(leg.from ?? origin);
+      const toIata = String(leg.to ?? destination);
+      const fromChoice = airportsByIata.get(fromIata);
+      const toChoice = airportsByIata.get(toIata);
+      const fromTimezone = await resolveAirportTimezone(fromChoice ?? { type: "airport", city: "", country: "", iata: fromIata, label: fromIata });
+      const toTimezone = await resolveAirportTimezone(toChoice ?? { type: "airport", city: "", country: "", iata: toIata, label: toIata });
+      if (!fromTimezone || !toTimezone) { valid = false; break; }
+
+      const airline = leg.airlines?.[0];
+      const schedule = airline?.schedule?.find((entry) => entry.day === requestedDay);
+      const candidateTimes = schedule?.times ?? [];
+      if (!candidateTimes.length) { valid = false; break; }
+
+      let chosenDepartureUtc: number | null = null;
+      let chosenDepartureLocal = "";
+      let chosenDepartureDate = previousArrivalDate;
+      for (const candidateTime of candidateTimes) {
+        const candidateDates = legIndex === 0 ? [date] : [previousArrivalDate, addDays(previousArrivalDate, 1)];
+        for (const candidateDate of candidateDates) {
+          const candidateUtc = localDateTimeToUtc(candidateDate, candidateTime, fromTimezone);
+          if (candidateUtc === null) continue;
+          if (previousArrivalUtc !== null && candidateUtc < previousArrivalUtc + 45 * 60_000) continue;
+          if (chosenDepartureUtc === null || candidateUtc < chosenDepartureUtc) {
+            chosenDepartureUtc = candidateUtc;
+            chosenDepartureLocal = candidateTime;
+            chosenDepartureDate = candidateDate;
+          }
+        }
+      }
+      if (chosenDepartureUtc === null) { valid = false; break; }
+
+      const legDuration = Number.isFinite(leg.flying_min) ? Number(leg.flying_min) : undefined;
+      if (legDuration === undefined) { valid = false; break; }
+      const arrivalUtc = chosenDepartureUtc + legDuration * 60_000;
+      const arrivalLocal = utcToLocalDateTime(arrivalUtc, toTimezone);
+      if (!arrivalLocal) { valid = false; break; }
+
+      const layoverMinutes = previousArrivalUtc === null ? undefined : Math.round((chosenDepartureUtc - previousArrivalUtc) / 60_000);
+      const airlineCode = airline?.airline_code ? String(airline.airline_code).toUpperCase() : undefined;
+      displayLegs.push({
+        airlineName: String(airline?.airline ?? airline?.airline_code ?? "Airline"),
+        airlineCode,
+        logoUrl: airlineCode ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(airlineCode)}.png` : undefined,
+        from: fromIata,
+        to: toIata,
+        departureTime: chosenDepartureLocal,
+        arrivalTime: arrivalLocal.time,
+        arrivalDate: arrivalLocal.date,
+        duration: formatDuration(legDuration),
+        layoverMinutes,
+      });
+      if (firstDepartureUtc === null) firstDepartureUtc = chosenDepartureUtc;
+      previousArrivalUtc = arrivalUtc;
+      previousArrivalDate = arrivalLocal.date;
+      finalArrivalUtc = arrivalUtc;
+    }
+
+    if (!valid || !displayLegs.length || firstDepartureUtc === null || finalArrivalUtc === null) continue;
+    const elapsedMinutes = Math.round((finalArrivalUtc - firstDepartureUtc) / 60_000);
+    const firstLeg = legs[0];
+    const lastLeg = legs[legs.length - 1];
     results.push({
       id: `${origin}-${destination}-${requestedDay}-${optionIndex}`,
-      airlineName: displayLegs[0]?.airlineName ?? "Airline",
+      airlineName: displayLegs.map((leg) => leg.airlineName).filter((name, index, names) => names.indexOf(name) === index).join(" + "),
       airlineCode: displayLegs[0]?.airlineCode,
       logoUrl: displayLegs[0]?.logoUrl,
-      departure: { iata: String(firstLeg.from ?? origin), city: "", date, time: displayLegs[0]?.departureTime ?? String(departureTime) },
-      arrival: { iata: String(lastLeg.to ?? destination), city: "", date: displayLegs.at(-1)?.arrivalDate ?? date, time: displayLegs.at(-1)?.arrivalTime ?? "Arrival time unavailable" },
-      duration: durationMinutes !== undefined ? formatDuration(durationMinutes) : undefined,
-      stops: Math.max(0, Number(option.stops ?? legs.length - 1)),
+      departure: { iata: String(firstLeg.from ?? origin), city: "", date, time: displayLegs[0]?.departureTime ?? "" },
+      arrival: { iata: String(lastLeg.to ?? destination), city: "", date: displayLegs.at(-1)?.arrivalDate ?? date, time: displayLegs.at(-1)?.arrivalTime ?? "" },
+      duration: formatDuration(elapsedMinutes),
+      stops: Math.max(0, Number(option?.stops ?? legs.length - 1)),
       cabin,
       legs: displayLegs,
     });
-  });
-
+  }
   return results;
 }
 
@@ -373,19 +446,17 @@ async function fetchSchedules(
   tripType: string,
   cabin: string,
   travelers: string,
-): Promise<FlightSchedule[]> {
-  void tripType;
+): Promise<{ outbound: FlightSchedule[]; inbound: FlightSchedule[] }> {
   void travelers;
   const origin = fromChoice.iata ?? "";
   const destination = toChoice.iata ?? "";
   if (!origin || !destination) throw new Error("Select airports with valid IATA codes.");
   const [originTimezone, destinationTimezone] = await Promise.all([resolveAirportTimezone(fromChoice), resolveAirportTimezone(toChoice)]);
   const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, originTimezone, destinationTimezone);
-  if (!returnDate) return outbound;
+  if (tripType === "One way" || !returnDate) return { outbound, inbound: [] };
   const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, destinationTimezone, originTimezone);
-  return [...outbound, ...inbound];
+  return { outbound, inbound };
 }
-
 export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -400,6 +471,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [toAirports, setToAirports] = useState<Airport[]>([]);
   const [airportSearch, setAirportSearch] = useState<"from" | "to" | "">("");
   const [results, setResults] = useState<FlightSchedule[]>([]);
+  const [returnResults, setReturnResults] = useState<FlightSchedule[]>([]);
   const [selectedResult, setSelectedResult] = useState<FlightSchedule | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingAirports, setLoadingAirports] = useState(false);
@@ -431,6 +503,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
     setLoading(true);
     setError("");
     setResults([]);
+    setReturnResults([]);
     setSelectedResult(null);
     try {
       if (!fromChoice || !toChoice) throw new Error("Select a departure and destination from the airport suggestions.");
@@ -440,8 +513,9 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
       if (tripType === "Round trip" && returnDate < date) throw new Error("Return date cannot be before departure date.");
 
       const schedules = await fetchSchedules(fromChoice, toChoice, date, returnDate, tripType, cabin, travelers);
-      setResults(schedules);
-      if (!schedules.length) setError("No scheduled options were returned for this route and date. Try another date or call us for itinerary assistance.");
+      setResults(schedules.outbound);
+      setReturnResults(schedules.inbound);
+      if (!schedules.outbound.length) setError("No scheduled options were returned for this route and date. Try another date or call us for itinerary assistance.");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Flight search failed.");
     } finally {
@@ -555,7 +629,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
       </section>
 
       <Section tone="muted" ocid="flight_search.results" aria-labelledby="flight_search_results_heading">
-        <SectionHeading id="flight_search_results_heading" eyebrow={results.length ? "Flight options" : "Flight booking"} title={results.length ? `${results.length} option${results.length === 1 ? "" : "s"} found` : "Search results"} description={results.length ? "Choose an itinerary below, then continue by phone to confirm and book." : "Enter your route and dates above to search flight options."} />
+        <SectionHeading id="flight_search_results_heading" eyebrow={results.length ? "Flight options" : "Flight booking"} title={results.length ? `${results.length} outbound option${results.length === 1 ? "" : "s"}${tripType === "Round trip" && returnResults.length ? ` · ${returnResults.length} return` : ""}` : "Search results"} description={results.length ? "Choose an itinerary below, then continue by phone to confirm and book." : "Enter your route and dates above to search flight options."} />
 
         {results.length > 0 ? (
           <div className="mt-8 grid gap-4">
@@ -614,6 +688,27 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
           </div>
         ) : (
           <div className="mt-8 rounded-2xl border border-border bg-card p-7 text-sm text-muted-foreground">Your search results will appear here.</div>
+        )}
+
+        {tripType === "Round trip" && returnResults.length > 0 && (
+          <div className="mt-8">
+            <h3 className="mb-4 text-lg font-bold">Return flight options</h3>
+            <div className="grid gap-4">
+              {returnResults.map((result) => {
+                const legs = result.legs?.length ? result.legs : [{ airlineName: result.airlineName, airlineCode: result.airlineCode, logoUrl: result.logoUrl, from: result.departure.iata, to: result.arrival.iata, departureTime: result.departure.time, arrivalTime: result.arrival.time, arrivalDate: result.arrival.date, duration: result.duration }];
+                return (
+                  <article key={result.id} className="rounded-2xl border border-border bg-card p-5 shadow-subtle">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-12 w-20 items-center justify-center rounded-xl border border-border bg-background p-2">{result.logoUrl ? <img src={result.logoUrl} alt="" className="max-h-8 max-w-16 object-contain" loading="lazy" /> : <span className="text-xs font-bold text-muted-foreground">{result.airlineCode ?? "AIR"}</span>}</div>
+                      <div><p className="font-bold">{legs.map((leg) => leg.airlineName).filter((name, index, names) => names.indexOf(name) === index).join(" + ")}</p><p className="text-xs text-muted-foreground">{result.stops === 0 ? "Nonstop" : result.stops + " stop" + (result.stops === 1 ? "" : "s")} · {result.duration ?? "Schedule"} · {result.cabin}</p></div>
+                    </div>
+                    <div className="mt-5 rounded-2xl border border-border bg-background/60 p-4">{legs.map((leg, index) => <div key={result.id + "-return-" + index} className={index > 0 ? "mt-5 border-t border-border pt-5" : ""}><div className="grid items-center gap-3 sm:grid-cols-[1fr_auto_1fr]"><div><p className="text-xl font-bold">{formatDisplayTime(leg.departureTime)}</p><p className="font-semibold">{leg.from}</p></div><div className="text-center text-xs text-muted-foreground"><ArrowRight className="mx-auto size-5 text-accent" />{leg.duration ?? "Schedule"}</div><div className="sm:text-right"><p className="text-xl font-bold">{formatDisplayTime(leg.arrivalTime)}{leg.arrivalDate && leg.arrivalDate !== returnDate ? " (+1 day)" : ""}</p><p className="font-semibold">{leg.to}</p></div></div><p className="mt-2 text-xs font-medium text-muted-foreground">{leg.airlineName}</p>{leg.layoverMinutes !== undefined && <p className="mt-3 rounded-lg bg-muted px-3 py-2 text-xs font-semibold text-muted-foreground">{formatDuration(leg.layoverMinutes)} layover</p>}</div>)}</div>
+                    <div className="mt-4 flex justify-end"><button type="button" onClick={() => { setSelectedResult(result); setPassengerOpen(true); }} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground"><Phone className="size-4" /> Call to Confirm / Book</button></div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
         )}
 
         {selectedResult && passengerOpen && (
