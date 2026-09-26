@@ -102,7 +102,7 @@ describe("GA4 phone_click payload contract", () => {
     const events = phoneClickCalls(calls);
     expect(events).toHaveLength(1);
     expect(events[0][2]).toMatchObject({
-      cta_location: "header.call_button",
+      cta_location: "header",
       page_path: window.location.pathname,
       page_title: document.title,
     });
@@ -123,7 +123,7 @@ describe("GA4 phone_click payload contract", () => {
     const events = phoneClickCalls(calls);
     expect(events).toHaveLength(1);
     expect(events[0][2]).toMatchObject({
-      cta_location: "Speak with a Travel Specialist",
+      cta_location: "content",
     });
 
     link.remove();
@@ -140,7 +140,7 @@ describe("GA4 phone_click payload contract", () => {
 
     const events = phoneClickCalls(calls);
     expect(events).toHaveLength(1);
-    expect(events[0][2]).toMatchObject({ cta_location: "tel_link" });
+    expect(events[0][2]).toMatchObject({ cta_location: "content" });
 
     link.remove();
   });
@@ -172,7 +172,7 @@ describe("GA4 phone_click payload contract", () => {
     const events = phoneClickCalls(calls);
     expect(events).toHaveLength(1);
     expect(events[0][2]).toMatchObject({
-      cta_location: "contact.success.call_link",
+      cta_location: "callback_success",
       page_path: window.location.pathname,
       page_title: document.title,
     });
