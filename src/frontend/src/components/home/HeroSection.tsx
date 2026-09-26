@@ -4,7 +4,6 @@ import { ArrowRight, Check, Globe2, Headset, Route } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 const HERO_IMAGE = "/assets/generated/hero-flight.dim_1600x1100.jpg";
-const HERO_IMAGE_AVIF = "/assets/generated/hero-flight.dim_1600x1100.avif";
 
 const HERO_POINTS = [
   { icon: Globe2, label: "Domestic & international", detail: "Simple or complex itineraries" },
@@ -15,10 +14,7 @@ const HERO_POINTS = [
 export function HeroSection() {
   return (
     <section data-ocid="home.hero_section" aria-labelledby="home-hero-heading" className="relative min-h-[620px] overflow-hidden bg-[#061a34] text-white">
-      <picture className="absolute inset-0 block h-full w-full">
-        <source srcSet={HERO_IMAGE_AVIF} type="image/avif" />
-        <img src={HERO_IMAGE} alt="" aria-hidden="true" width={1600} height={1100} className="absolute inset-0 h-full w-full object-cover" loading="eager" fetchPriority="high" decoding="async" />
-      </picture>
+      <img src={HERO_IMAGE} alt="" aria-hidden="true" width={1600} height={1100} className="absolute inset-0 h-full w-full object-cover" loading="eager" fetchPriority="high" decoding="async" />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,18,38,0.94)_0%,rgba(3,18,38,0.78)_42%,rgba(3,18,38,0.38)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,rgba(61,157,207,0.2),transparent_32%),radial-gradient(circle_at_10%_85%,rgba(234,166,76,0.12),transparent_28%)]" />
       <div className="relative mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
