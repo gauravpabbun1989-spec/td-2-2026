@@ -86,7 +86,11 @@ function auditOnce(pass) {
   assert(flightSearch.includes("selectedReturn"), "round-trip return state missing");
   assert(flightSearch.includes("max_stops=2"), "connecting-flight search missing");
 
-  const textFiles = walk(ROOT).filter((file) => ["ts","tsx","js","mjs","mo","toml","json","jsonc","md","html","txt","css"].some((ext) => file.endsWith(`.${ext}`)));
+  const auditScript = relative(ROOT, new URL(import.meta.url).pathname);
+  const textFiles = walk(ROOT).filter((file) =>
+    file !== join(ROOT, auditScript) &&
+    ["ts","tsx","js","mjs","mo","toml","json","jsonc","md","html","txt","css"].some((ext) => file.endsWith(`.${ext}`)),
+  );
   const mergeStartMarker = "<".repeat(7) + " HEAD";
   const mergeEndMarker = ">".repeat(7) + " ";
   for (const file of textFiles) {
