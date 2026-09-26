@@ -231,8 +231,7 @@ export function FlightSearchResultsPage() {
     } finally {
       setLoading(false);
     }
-  };
-
+  }, [actor, isActorFetching]);
   useEffect(() => {
     if (!initialSearch) {
       setLoading(false);
