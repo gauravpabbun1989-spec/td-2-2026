@@ -51,7 +51,25 @@ export default {
       return Response.redirect(canonicalUrl.toString(), 301);
     }
 
-    if (url.pathname !== "/api/flight-schedules") return env.ASSETS.fetch(request);
+    if (url.pathname !== "/api/flight-schedules") {
+      const response = await env.ASSETS.fetch(request);
+      const isImmutableAsset =
+        url.pathname.startsWith("/assets/") ||
+        url.pathname === "/favicon.ico";
+
+      if (!isImmutableAsset) return response;
+
+      const headers = new Headers(response.headers);
+      headers.set(
+        "cache-control",
+        "public, max-age=31536000, immutable",
+      );
+      return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers,
+      });
+    }
     if (request.method !== "GET") return json({ error: "Method not allowed" }, 405);
     const origin = (url.searchParams.get("origin") ?? "").toUpperCase();
     const destination = (url.searchParams.get("destination") ?? "").toUpperCase();
