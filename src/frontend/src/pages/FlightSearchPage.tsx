@@ -629,15 +629,15 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
             </div>
           )}
 
-          <div className={`overflow-visible rounded-2xl border border-border bg-card p-2.5 shadow-elevated sm:p-3 ${embedded ? "lg:ml-auto lg:max-w-2xl" : ""}`}>
-            <div className="flex flex-wrap items-center gap-1.5 border-b border-border pb-2">
+          <div className={`overflow-visible rounded-2xl border border-border bg-card p-2 shadow-elevated sm:p-2.5 ${embedded ? "lg:ml-auto lg:max-w-2xl" : ""}`}>
+            <div className="flex flex-wrap items-center gap-1 border-b border-border pb-1.5">
               {["Round trip", "One way"].map((type) => (
-                <button key={type} type="button" onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${tripType === type ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}>{type}</button>
+                <button key={type} type="button" onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }} className={`rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${tripType === type ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}>{type}</button>
               ))}
               <span className="ml-auto hidden text-xs text-muted-foreground sm:block">Flights · {travelers} traveler{travelers === "1" ? "" : "s"} · {cabin}</span>
             </div>
 
-            <div className="mt-2 grid gap-1.5 lg:grid-cols-[1.2fr_1.2fr_0.85fr_0.85fr_0.65fr]">
+            <div className="mt-1.5 grid gap-1 lg:grid-cols-[1.2fr_1.2fr_0.85fr_0.85fr_0.65fr]">
               <label className="relative rounded-xl border border-border bg-background p-2.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">From</span>
                 <input value={from} onFocus={() => void ensureAirports(from, "from")} onChange={(e) => { setFrom(e.target.value); setFromChoice(null); setAirportSearch("from"); void ensureAirports(e.target.value, "from"); }} placeholder={loadingAirports ? "Loading airports…" : "City or airport"} className="mt-1 h-7 w-full bg-transparent text-sm font-semibold outline-none" autoComplete="off" />
@@ -647,7 +647,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
 
               <label className="relative rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">To</span>
-                <input value={to} onFocus={() => void ensureAirports(to, "to")} onChange={(e) => { setTo(e.target.value); setToChoice(null); setAirportSearch("to"); void ensureAirports(e.target.value, "to"); }} placeholder="City or airport" className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none" autoComplete="off" />
+                <input value={to} onFocus={() => void ensureAirports(to, "to")} onChange={(e) => { setTo(e.target.value); setToChoice(null); setAirportSearch("to"); void ensureAirports(e.target.value, "to"); }} placeholder="City or airport" className="mt-1 h-7 w-full bg-transparent text-sm font-semibold outline-none" autoComplete="off" />
                 {toChoice?.iata && <span className="text-xs font-bold text-primary">{toChoice.iata}</span>}
                 {airportSearch === "to" && suggestionList(toMatches, setTo, setToChoice)}
               </label>
@@ -659,30 +659,30 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
 
               <label className="rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Return</span>
-                <input type="date" value={returnDate} min={date || undefined} disabled={tripType === "One way"} onChange={(e) => setReturnDate(e.target.value)} className="mt-2 h-9 w-full bg-transparent text-sm font-semibold outline-none disabled:opacity-40" />
+                <input type="date" value={returnDate} min={date || undefined} disabled={tripType === "One way"} onChange={(e) => setReturnDate(e.target.value)} className="mt-1 h-7 w-full bg-transparent text-xs font-semibold outline-none disabled:opacity-40" />
               </label>
 
               <label className="rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Travelers</span>
-                <select value={travelers} onChange={(e) => setTravelers(e.target.value)} className="mt-2 h-9 w-full bg-transparent text-sm font-semibold outline-none">
+                <select value={travelers} onChange={(e) => setTravelers(e.target.value)} className="mt-1 h-7 w-full bg-transparent text-xs font-semibold outline-none">
                   {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((count) => <option key={count} value={count}>{count}</option>)}
                 </select>
               </label>
             </div>
 
-            <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-1.5 flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between">
               <label className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span className="font-semibold text-foreground">Cabin</span>
                 <select value={cabin} onChange={(e) => setCabin(e.target.value)} className="rounded-lg border border-border bg-background px-2 py-1 text-xs font-semibold text-foreground">
                   <option>Economy</option><option>Premium Economy</option><option>Business</option><option>First</option>
                 </select>
               </label>
-              <button type="button" onClick={search} disabled={loading} className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-subtle disabled:opacity-60 sm:w-auto">
+              <button type="button" onClick={search} disabled={loading} className="inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-full bg-primary px-4 text-xs font-semibold text-primary-foreground shadow-subtle disabled:opacity-60 sm:w-auto">
                 <Search aria-hidden="true" className="size-4" />{loading ? "Searching…" : "Search flights"}
               </button>
             </div>
 
-            {error && <p role="alert" className="mt-4 rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">{error}</p>}
+            {error && <p role="alert" className="mt-2 rounded-lg border border-destructive/30 bg-destructive/5 p-2 text-xs text-destructive">{error}</p>}
           </div>
         </div>
       </section>
@@ -798,8 +798,3 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
         <p className="text-sm leading-relaxed text-muted-foreground">
           Flight options are shown for the route and travel date selected. A reservation specialist will confirm the itinerary and booking details by phone before payment.{" "}
           {SITE.disclosure}
-        </p>
-      </Section>}
-    </>
-  );
-}
