@@ -406,5 +406,5 @@ export function AirCanadaPage() { return <AirlineAssistancePage page={AIRLINES[5
 export function SwissAirPage() { return <AirlineAssistancePage page={AIRLINES[6]} />; }
 export function QatarAirwaysPage() { return <AirlineAssistancePage page={AIRLINES[7]} />; }
 export function EmiratesPage() { return <AirlineAssistancePage page={AIRLINES[8]} />; }
-export function LotPolishAirlinesPage() { return <AirlineAssistancePage page={AIRLINES[9]} />; }
-export function NorseAtlanticAirwaysPage() { return <AirlineAssistancePage page={AIRLINES[10]} />; }
+export function LotPolishAirlinesPage() { return <AirlineAssistancePage page={AIRLINES[10]} />; }
+export function NorseAtlanticAirwaysPage() { return <AirlineAssistancePage page={AIRLINES[9]} />; }
