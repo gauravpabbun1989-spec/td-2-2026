@@ -8,20 +8,20 @@ import { HomeFaq, homeFaqSchema } from "@/components/home/HomeFaq";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { PreCallChecklist } from "@/components/home/PreCallChecklist";
 import { ServiceGrid } from "@/components/home/ServiceGrid";
-import { breadcrumbSchema, organizationSchema, websiteSchema } from "@/lib/seo";
+import { breadcrumbSchema, organizationSchema, serviceSchema, websiteSchema } from "@/lib/seo";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
-const HOME_TITLE = "TicketDepart | Premium Flight Reservation Assistance";
-const HOME_DESCRIPTION = "Book flights by phone with TicketDepart. Get 24/7 flight booking assistance for domestic and international travel, changes, and cancellations.";
+const HOME_TITLE = "Book Flights by Phone | 24/7 Flight Reservation Assistance | TicketDepart";
+const HOME_DESCRIPTION = "Book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
 
 const HOME_IMAGE = absoluteUrl("/assets/generated/hero-flight.dim_1600x1100.jpg");
 
 export function HomePage() {
   return (
     <>
-      <Seo title={HOME_TITLE} description={HOME_DESCRIPTION} path="/" image={HOME_IMAGE} structuredData={[organizationSchema(), websiteSchema(), breadcrumbSchema([{ name: "Home", path: "/" }]), homeFaqSchema()]} />
+      <Seo title={HOME_TITLE} description={HOME_DESCRIPTION} path="/" image={HOME_IMAGE} structuredData={[organizationSchema(), websiteSchema(), breadcrumbSchema([{ name: "Home", path: "/" }]), homeFaqSchema(), serviceSchema({ name: "Flight reservation assistance by phone", description: HOME_DESCRIPTION, path: "/" })]} />
       <HeroSection />
       <FlightSearchPage embedded />
 
