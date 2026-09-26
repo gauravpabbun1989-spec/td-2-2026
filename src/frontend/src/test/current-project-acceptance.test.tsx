@@ -6,7 +6,7 @@ import { SITE } from "@/lib/site";
 import { renderRoute } from "@/test/render-route";
 
 const PUBLIC_ROUTES = [
-  "/", "/flight-booking", "/book-a-flight-by-phone", "/how-to-book-a-flight-by-phone",
+  "/", "/flight-booking", "/flight-search", "/book-a-flight-by-phone", "/how-to-book-a-flight-by-phone",
   "/delta-airlines", "/united-airlines", "/american-airlines", "/southwest-airlines",
   "/jetblue-airways", "/alaska-airlines", "/british-airways", "/lufthansa", "/air-canada",
   "/swiss-air", "/qatar-airways", "/emirates", "/norse-atlantic-airways", "/lot-polish-airlines",
