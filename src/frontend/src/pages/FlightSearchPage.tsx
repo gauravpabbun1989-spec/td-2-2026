@@ -54,8 +54,10 @@ function parseDat(text: string): string[][] {
     } else if (char === "," && !quoted) {
       row.push(field);
       field = "";
-    } else if ((char === "\n" || char === "\r") && !quoted) {
-      if (char === "\r" && text[i + 1] === "\n") i += 1;
+    } else if ((char === "
+" || char === "\r") && !quoted) {
+      if (char === "\r" && text[i + 1] === "
+") i += 1;
       row.push(field);
       if (row.some((value) => value.trim())) rows.push(row);
       row = [];
@@ -447,7 +449,8 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
         style={embedded ? undefined : { backgroundImage: "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)" }}
       >
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          {!embedded && (\n            <div className="mx-auto max-w-5xl text-center text-white">
+          {!embedded && (
+            <div className="mx-auto max-w-5xl text-center text-white">
             <p className="label-board text-white/90">Flight Schedule Search</p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
               Find scheduled flights by city or airport
@@ -456,7 +459,9 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
               Choose your route, dates, travelers, and cabin. Review departure and arrival times, then call
               TicketDepart to confirm the current schedule and booking conditions.
             </p>
-                    )}\n\n</div>
+                    )}
+
+</div>
 
           <div className="mt-10 rounded-2xl border border-white/30 bg-white/95 p-5 shadow-elevated backdrop-blur-sm sm:p-7">
             <div className="grid gap-5 md:grid-cols-2">
