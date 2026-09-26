@@ -15,7 +15,8 @@ export default defineConfig({
   build: {
     emptyOutDir: true,
     sourcemap: false,
-    minify: false,
+    // Minify production bundles to reduce transfer, parse, and execution costs on mobile.
+    minify: "esbuild",
   },
   optimizeDeps: {
     esbuildOptions: {
