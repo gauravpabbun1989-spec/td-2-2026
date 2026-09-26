@@ -444,10 +444,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
       {!embedded && <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />}
       <section
         className={embedded ? "relative overflow-visible bg-background py-8 sm:py-10" : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"}
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)",
-        }}
+        style={embedded ? undefined : { backgroundImage: "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)" }}
       >
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           {!embedded && (\n            <div className="mx-auto max-w-5xl text-center text-white">
