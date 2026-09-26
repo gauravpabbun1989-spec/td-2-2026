@@ -68,7 +68,7 @@ function auditOnce(pass) {
   assert(robots.includes("Allow: /"), "robots allow directive missing");
   assert(robots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "robots sitemap mismatch");
 
-  const locs = [...sitemap.matchAll(/<loc>([^<]+)<\\/loc>/g)].map((m) => m[1]);
+  const locs = [...sitemap.matchAll(new RegExp("<loc>([^<]+)</loc>", "g"))].map((m) => m[1]);
   const expectedLocs = PUBLIC_ROUTES.map((path) => `https://ticketdepart.com${path === "/" ? "/" : path}`);
   assert(JSON.stringify(locs) === JSON.stringify(expectedLocs), "sitemap does not exactly match current public route set");
 
@@ -86,7 +86,7 @@ function auditOnce(pass) {
   assert(flightSearch.includes("selectedReturn"), "round-trip return state missing");
   assert(flightSearch.includes("max_stops=2"), "connecting-flight search missing");
 
-  const textFiles = walk(ROOT).filter((file) => /\\.(ts|tsx|js|mjs|mo|toml|json|jsonc|md|html|txt|css)$/.test(file));
+  const textFiles = walk(ROOT).filter((file) => ["ts","tsx","js","mjs","mo","toml","json","jsonc","md","html","txt","css"].some((ext) => file.endsWith(`.${ext}`)));
   const mergeStartMarker = "<".repeat(7) + " HEAD";
   const mergeEndMarker = ">".repeat(7) + " ";
   for (const file of textFiles) {
