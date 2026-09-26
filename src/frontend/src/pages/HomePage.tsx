@@ -3,7 +3,9 @@ import { ContactInfoBlock } from "@/components/home/ContactInfoBlock";
 import { DisclosureBlock } from "@/components/home/DisclosureBlock";
 import { CallCta } from "@/components/CallCta";
 import { HeroSection } from "@/components/home/HeroSection";
-import { FlightSearchPage } from "@/pages/FlightSearchPage";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+
+const FlightSearchPage = lazy(() => import("@/pages/FlightSearchPage").then((module) => ({ default: module.FlightSearchPage })));
 import { HomeFaq, homeFaqSchema } from "@/components/home/HomeFaq";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { PreCallChecklist } from "@/components/home/PreCallChecklist";
@@ -17,6 +19,41 @@ const HOME_TITLE = "Book Flights by Phone | 24/7 Flight Reservation Assistance |
 const HOME_DESCRIPTION = "Book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
 
 const HOME_IMAGE = absoluteUrl("/assets/generated/hero-flight.dim_1600x1100.jpg");
+
+function DeferredFlightSearch() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return;
+    if (!("IntersectionObserver" in window)) {
+      setShouldLoad(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "900px 0px" },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} className="min-h-[420px]" aria-label="Flight search">
+      {shouldLoad ? (
+        <Suspense fallback={<div className="mx-auto max-w-6xl px-5 py-12 text-sm text-muted-foreground">Loading flight search…</div>}>
+          <DeferredFlightSearch />
+        </Suspense>
+      ) : null}
+    </div>
+  );
+}
 
 export function HomePage() {
   return (
