@@ -18,7 +18,16 @@ const PUBLIC_ROUTES = [
   "/flights-usa-to-europe", "/flights-usa-to-mexico",
 ] as const;
 
-const ALL_APP_PATHS = new Set([...PUBLIC_ROUTES, "/flight-search", "/admin/leads"]);
+const ALL_APP_PATHS = new Set([
+  ...PUBLIC_ROUTES,
+  "/flight-search", "/admin/leads",
+  "/flights-from-new-york", "/flights-from-los-angeles", "/flights-from-chicago",
+  "/flights-from-miami", "/flights-from-atlanta", "/flights-from-dallas",
+  "/flights-from-orlando", "/flights-from-san-francisco",
+  "/flights-new-york-to-london", "/flights-new-york-to-paris", "/flights-new-york-to-dubai",
+  "/flights-los-angeles-to-tokyo", "/flights-los-angeles-to-london", "/flights-miami-to-cancun",
+  "/flights-chicago-to-london", "/flights-san-francisco-to-tokyo",
+]);
 
 describe("current production route coverage", () => {
   it.each(PUBLIC_ROUTES)("renders %s with one H1, canonical metadata, and a working call target", async (path) => {
