@@ -3,6 +3,7 @@ import { ContactInfoBlock } from "@/components/home/ContactInfoBlock";
 import { DisclosureBlock } from "@/components/home/DisclosureBlock";
 import { CallCta } from "@/components/CallCta";
 import { HeroSection } from "@/components/home/HeroSection";
+import { FlightSearchPage } from "@/pages/FlightSearchPage";
 import { HomeFaq, homeFaqSchema } from "@/components/home/HomeFaq";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { PreCallChecklist } from "@/components/home/PreCallChecklist";
@@ -22,6 +23,7 @@ export function HomePage() {
     <>
       <Seo title={HOME_TITLE} description={HOME_DESCRIPTION} path="/" image={HOME_IMAGE} structuredData={[organizationSchema(), websiteSchema(), breadcrumbSchema([{ name: "Home", path: "/" }]), homeFaqSchema()]} />
       <HeroSection />
+      <FlightSearchPage embedded />
 
       <section className="relative overflow-hidden border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-14">
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
