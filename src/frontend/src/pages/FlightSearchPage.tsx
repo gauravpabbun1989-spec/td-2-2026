@@ -5,9 +5,8 @@ import { SITE } from "@/lib/site";
 import { ArrowRight, Clock3, Luggage, Phone, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
-const AIRPORTS_URL =
-  "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat";
 const AIR_ROUTES_API = "https://air-routes.com/api/route";
+const AIR_ROUTES_AIRPORTS_API = "https://air-routes.com/api/airports";
 
 type Airport = { id: string; name: string; city: string; country: string; iata: string; timezone?: string };
 type LocationChoice = {
@@ -71,19 +70,30 @@ function parseDat(text: string): string[][] {
   return rows;
 }
 
-async function loadAirports(): Promise<Airport[]> {
-  const response = await fetch(AIRPORTS_URL);
-  if (!response.ok) throw new Error("Airport search data could not be loaded.");
-  return parseDat(await response.text())
-    .map((r) => ({
-      id: r[0] ?? "",
-      name: r[1] ?? "",
-      city: r[2] ?? "",
-      country: r[3] ?? "",
-      iata: r[4] === "\\N" ? "" : r[4] ?? "",
-      timezone: r[11] === "\\N" ? undefined : r[11] || undefined,
+async function loadAirports(query: string): Promise<Airport[]> {
+  const q = query.trim();
+  if (q.length < 2) return [];
+  const response = await fetch(`${AIR_ROUTES_AIRPORTS_API}?q=${encodeURIComponent(q)}`);
+  if (!response.ok) throw new Error("Live airport data could not be loaded.");
+  const payload = (await response.json()) as {
+    airports?: Array<{
+      airport_code?: string;
+      name?: string;
+      city?: string;
+      country?: string;
+      lat?: number | null;
+      lon?: number | null;
+    }>;
+  };
+  return (payload.airports ?? [])
+    .map((airport, index) => ({
+      id: `${airport.airport_code ?? "airport"}-${index}`,
+      name: String(airport.name ?? ""),
+      city: String(airport.city ?? ""),
+      country: String(airport.country ?? ""),
+      iata: String(airport.airport_code ?? "").toUpperCase(),
     }))
-    .filter((a) => a.iata);
+    .filter((airport) => airport.iata);
 }
 
 function choices(airports: Airport[], query: string): LocationChoice[] {
@@ -357,6 +367,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [travelers, setTravelers] = useState("1");
   const [cabin, setCabin] = useState("Economy");
   const [airports, setAirports] = useState<Airport[]>([]);
+  const [airportSearch, setAirportSearch] = useState<"from" | "to" | "">("");
   const [results, setResults] = useState<FlightSchedule[]>([]);
   const [selectedResult, setSelectedResult] = useState<FlightSchedule | null>(null);
   const [loading, setLoading] = useState(false);
@@ -364,13 +375,19 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [error, setError] = useState("");
   const [passengerOpen, setPassengerOpen] = useState(false);
 
-  const ensureAirports = async () => {
-    if (airports.length) return airports;
+  const ensureAirports = async (query: string) => {
+    if (query.trim().length < 2) {
+      setAirports([]);
+      return [];
+    }
     setLoadingAirports(true);
     try {
-      const loaded = await loadAirports();
+      const loaded = await loadAirports(query);
       setAirports(loaded);
       return loaded;
+    } catch {
+      setAirports([]);
+      return [];
     } finally {
       setLoadingAirports(false);
     }
@@ -488,28 +505,28 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">From</span>
                 <input
                   value={from}
-                  onFocus={() => void ensureAirports()}
-                  onChange={(e) => { setFrom(e.target.value); setFromChoice(null); }}
+                  onFocus={() => void ensureAirports(from)}
+                  onChange={(e) => { setFrom(e.target.value); setFromChoice(null); setAirportSearch("from"); void ensureAirports(e.target.value); }}
                   placeholder={loadingAirports ? "Loading airports…" : "City or airport"}
                   className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none"
                   autoComplete="off"
                 />
                 {fromChoice?.iata && <span className="text-xs font-bold text-primary">{fromChoice.iata}</span>}
-                {suggestionList(fromMatches, setFrom, setFromChoice)}
+                {airportSearch === "from" && suggestionList(fromMatches, setFrom, setFromChoice)}
               </label>
 
               <label className="relative rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">To</span>
                 <input
                   value={to}
-                  onFocus={() => void ensureAirports()}
-                  onChange={(e) => { setTo(e.target.value); setToChoice(null); }}
+                  onFocus={() => void ensureAirports(to)}
+                  onChange={(e) => { setTo(e.target.value); setToChoice(null); setAirportSearch("to"); void ensureAirports(e.target.value); }}
                   placeholder="City or airport"
                   className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none"
                   autoComplete="off"
                 />
                 {toChoice?.iata && <span className="text-xs font-bold text-primary">{toChoice.iata}</span>}
-                {suggestionList(toMatches, setTo, setToChoice)}
+                {airportSearch === "to" && suggestionList(toMatches, setTo, setToChoice)}
               </label>
 
               <label className="rounded-2xl border border-border bg-background p-4">
