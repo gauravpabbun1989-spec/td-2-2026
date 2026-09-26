@@ -413,7 +413,7 @@ const adminLeadsRoute = createRoute({
   component: AdminLeadsPage,
 });
 
-const routeTree = rootRoute.addChildren([
+export const routeTree = rootRoute.addChildren([
   indexRoute,
   flightsFromNewYorkRoute,
   flightsFromLosAngelesRoute,
