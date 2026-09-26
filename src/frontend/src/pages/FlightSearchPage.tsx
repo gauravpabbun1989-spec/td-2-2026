@@ -1,3 +1,5 @@
+import { createActor } from "@/backend";
+import { useActor } from "@caffeineai/core-infrastructure";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
@@ -347,30 +349,29 @@ async function fetchAirRoutesRoute(
   cabin: string,
   originTimezone?: string,
   destinationTimezone?: string,
+  actor: { searchFlightRoute: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }>; searchFlightConnections: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }> },
 ) {
+  if (!actor) throw new Error("Flight schedule service is still connecting. Please try again in a moment.");
   const routeId = `${encodeURIComponent(origin)}-${encodeURIComponent(destination)}`;
   try {
-    const directResponse = await fetch(`${AIR_ROUTES_API}/${routeId}`);
-
-    if (directResponse.ok) {
-      const directResults = normalizeSchedule(await directResponse.json(), date, cabin, originTimezone, destinationTimezone);
+    const directResponse = await actor.searchFlightRoute(origin, destination);
+    if (Number(directResponse.status) === 200) {
+      const directResults = normalizeSchedule(JSON.parse(directResponse.body), date, cabin, originTimezone, destinationTimezone);
       if (directResults.length) return directResults;
     }
   } catch {
     // Continue to the connection search if the direct-route request is unavailable.
   }
 
-  let connectionsResponse: Response;
+  let connectionsResponse: { status: bigint | number; body: string };
   try {
-    connectionsResponse = await fetch(
-      `${AIR_ROUTES_API.replace("/route", "/connections")}?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&max_stops=2`,
-    );
+    connectionsResponse = await actor.searchFlightConnections(origin, destination);
   } catch {
     throw new Error("Flight schedule service is temporarily unavailable. Please try again in a moment or call us for itinerary assistance.");
   }
-  if (!connectionsResponse.ok) throw new Error("No scheduled options could be returned for this route.");
+  if (Number(connectionsResponse.status) !== 200) throw new Error("No scheduled options could be returned for this route.");
 
-  const payload = (await connectionsResponse.json()) as {
+  const payload = JSON.parse(connectionsResponse.body) as {
     options?: Array<{
       total_flying_min?: number;
       stops?: number;
@@ -512,6 +513,8 @@ async function fetchSchedules(
 export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const { actor, isFetching: isActorFetching } = useActor(createActor);
+
   const [fromChoice, setFromChoice] = useState<LocationChoice | null>(null);
   const [toChoice, setToChoice] = useState<LocationChoice | null>(null);
   const [tripType, setTripType] = useState("Round trip");
