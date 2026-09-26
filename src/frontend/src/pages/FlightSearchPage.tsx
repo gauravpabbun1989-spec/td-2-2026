@@ -226,7 +226,7 @@ function addMinutesToTime(time: string, minutes: number, date: string): { time: 
 }
 
 function localDateTimeToUtc(date: string, time: string, timezone: string): number | null {
-  const match = time.match(/^(\\d{1,2}):(\\d{2})/);
+  const match = time.match(/^(\d{1,2}):(\d{2})/);
   if (!match) return null;
   const hours = Number(match[1]);
   const minutes = Number(match[2]);
