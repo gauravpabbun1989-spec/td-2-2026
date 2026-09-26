@@ -61,7 +61,7 @@ describe("static route HTML uses the full airline names", () => {
   it("writes the Delta route with the full name in title, description, and heading", () => {
     const html = readGenerated("/delta-airlines");
     expect(html).toContain(
-      "<title>Delta Airlines Flight Booking Assistance | TicketDepart</title>",
+      "<title>Delta Airlines Flight Booking Assistance | 24/7 | TicketDepart</title>",
     );
     expect(html).toContain("Delta Airlines flights");
     expect(html).toContain(
