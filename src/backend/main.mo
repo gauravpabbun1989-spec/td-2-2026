@@ -93,13 +93,13 @@ actor {
   };
 
   public func searchFlightRoute(origin : Text, destination : Text) : async { status : Nat; body : Text } {
-    fetchFlightApi("/api/route/" # Text.toUppercase(origin) # "-" # Text.toUppercase(destination));
+    fetchFlightApi("/api/route/" # Text.toUpper(origin) # "-" # Text.toUpper(destination));
   };
 
   public func searchFlightConnections(origin : Text, destination : Text) : async { status : Nat; body : Text } {
     fetchFlightApi(
-      "/api/connections?from=" # Text.toUppercase(origin) #
-      "&to=" # Text.toUppercase(destination) # "&max_stops=2"
+      "/api/connections?from=" # Text.toUpper(origin) #
+      "&to=" # Text.toUpper(destination) # "&max_stops=2"
     );
   };
 
