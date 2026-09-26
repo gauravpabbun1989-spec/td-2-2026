@@ -589,7 +589,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
 
               <label className="relative rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">To</span>
-                <input value={to} onFocus={() => void ensureAirports(to, "to")} onChange={(e) => { setTo(e.target.value); setToChoice(null); setAirportSearch("to"); void ensureAirports(e.target.value); }} placeholder="City or airport" className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none" autoComplete="off" />
+                <input value={to} onFocus={() => void ensureAirports(to, "to")} onChange={(e) => { setTo(e.target.value); setToChoice(null); setAirportSearch("to"); void ensureAirports(e.target.value, "to"); }} placeholder="City or airport" className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none" autoComplete="off" />
                 {toChoice?.iata && <span className="text-xs font-bold text-primary">{toChoice.iata}</span>}
                 {airportSearch === "to" && suggestionList(toMatches, setTo, setToChoice)}
               </label>
