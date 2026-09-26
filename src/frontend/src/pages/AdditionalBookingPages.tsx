@@ -91,6 +91,10 @@ const PAGES: readonly PageConfig[] = [
         "Discuss available business class schedules, routing, cabin preferences, and fare options with a travel specialist.",
       ],
       [
+        "Corporate and executive travel",
+        "Discuss business travel schedules, flexible routing, premium-cabin preferences, and itinerary details for work trips.",
+      ],
+      [
         "Aircraft and seats",
         "Discuss seat layouts, lie-flat availability, and cabin differences where known.",
       ],
@@ -126,6 +130,16 @@ const PAGES: readonly PageConfig[] = [
         question: "Is business class always refundable?",
         answer:
           "No. Refund and change conditions depend on the fare purchased and the airline's rules.",
+      },
+      {
+        question: "Can a business class travel agent help with corporate flights?",
+        answer:
+          "Yes. You can discuss corporate or executive travel requirements, business-class cabin preferences, routing, schedules, baggage, and applicable fare conditions by phone.",
+      },
+      {
+        question: "Can you help compare business-class flight options?",
+        answer:
+          "A specialist can discuss available schedules, connections, cabin information, airports, and fare conditions. Live inventory and final pricing depend on the itinerary and airline.",
       },
     ],
   },
@@ -588,6 +602,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
           {[
             ["Flight booking", "/flight-booking"],
             ["Business class booking", "/business-class-flight-booking"],
+            ["Corporate flight booking", "/business-class-flight-booking"],
             ["Book a flight by phone", "/book-a-flight-by-phone"],
             ["International flights", "/international-flight-booking"],
             ["Last-minute flights", "/last-minute-flight-booking"],
