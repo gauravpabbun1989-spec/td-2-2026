@@ -5,13 +5,13 @@ import {
   TripType,
   createActor,
 } from "@/backend";
-import { trackLeadSubmit } from "@/lib/analytics";
+import {\n  trackCallbackFormError,\n  trackCallbackFormStart,\n  trackCallbackFormSubmit,\n  trackLeadSubmit,\n} from "@/lib/analytics";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { useActor } from "@caffeineai/core-infrastructure";
 import { useMutation } from "@tanstack/react-query";
 import { CheckCircle2, Loader2, Phone, Send } from "lucide-react";
-import { type ChangeEvent, type FormEvent, useState } from "react";
+import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
 
 type FieldName =
   | "name"
@@ -199,7 +199,7 @@ export function TripRequestForm() {
   const [values, setValues] = useState<FormValues>(EMPTY_FORM);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
-  const [emailStatus, setEmailStatus] = useState<EmailStatus | null>(null);
+  const [emailStatus, setEmailStatus] = useState<EmailStatus | null>(null);\n  const callbackStartedRef = useRef(false);
 
   const fallbackEmail = (() => {
     const subject = encodeURIComponent(
