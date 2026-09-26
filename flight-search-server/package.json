@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node server.mjs",
-    "test": "node orchestrator.test.mjs"
+    "test": "node orchestrator.test.mjs",
+    "import:airports": "node scripts/import-ourairports.mjs"
   }
 }
