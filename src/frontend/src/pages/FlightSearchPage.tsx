@@ -370,24 +370,25 @@ async function fetchAirRoutesRoute(
       if (!fromTimezone || !toTimezone) { valid = false; break; }
 
       const airline = leg.airlines?.[0];
-      const schedule = airline?.schedule?.find((entry) => entry.day === requestedDay);
-      const candidateTimes = schedule?.times ?? [];
+      const candidateDates = legIndex === 0 ? [date] : [previousArrivalDate, addDays(previousArrivalDate, 1)];
+      const candidateTimes = candidateDates.flatMap((candidateDate) => {
+        const day = dateToAirRoutesDay(candidateDate);
+        const entry = airline?.schedule?.find((item) => item.day === day);
+        return (entry?.times ?? []).map((time) => ({ time, date: candidateDate }));
+      });
       if (!candidateTimes.length) { valid = false; break; }
 
       let chosenDepartureUtc: number | null = null;
       let chosenDepartureLocal = "";
-      let chosenDepartureDate = previousArrivalDate;
-      for (const candidateTime of candidateTimes) {
-        const candidateDates = legIndex === 0 ? [date] : [previousArrivalDate, addDays(previousArrivalDate, 1)];
-        for (const candidateDate of candidateDates) {
-          const candidateUtc = localDateTimeToUtc(candidateDate, candidateTime, fromTimezone);
-          if (candidateUtc === null) continue;
-          if (previousArrivalUtc !== null && candidateUtc < previousArrivalUtc + 45 * 60_000) continue;
-          if (chosenDepartureUtc === null || candidateUtc < chosenDepartureUtc) {
-            chosenDepartureUtc = candidateUtc;
-            chosenDepartureLocal = candidateTime;
-            chosenDepartureDate = candidateDate;
-          }
+        for (const candidate of candidateTimes) {
+        const candidateDate = candidate.date;
+        const candidateTime = candidate.time;
+        const candidateUtc = localDateTimeToUtc(candidateDate, candidateTime, fromTimezone);
+        if (candidateUtc === null) continue;
+        if (previousArrivalUtc !== null && candidateUtc < previousArrivalUtc + 45 * 60_000) continue;
+        if (chosenDepartureUtc === null || candidateUtc < chosenDepartureUtc) {
+          chosenDepartureUtc = candidateUtc;
+          chosenDepartureLocal = candidateTime;
         }
       }
       if (chosenDepartureUtc === null) { valid = false; break; }
