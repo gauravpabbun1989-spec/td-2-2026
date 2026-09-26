@@ -459,7 +459,8 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
               Choose your route, dates, travelers, and cabin. Review departure and arrival times, then call
               TicketDepart to confirm the current schedule and booking conditions.
             </p>
-                    )}
+            </div>
+          )}
           <div className="mt-10 rounded-2xl border border-white/30 bg-white/95 p-5 shadow-elevated backdrop-blur-sm sm:p-7">
             <div className="grid gap-5 md:grid-cols-2">
               <label className="relative">
