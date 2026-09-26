@@ -11,6 +11,7 @@ jobs:
   submit:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Submit sitemap URLs to IndexNow
         shell: bash
         env:
@@ -24,13 +25,14 @@ jobs:
           import urllib.request
           import xml.etree.ElementTree as ET
 
+          sitemap_path = "src/frontend/public/sitemap.xml"
           sitemap_url = "https://ticketdepart.com/sitemap.xml"
           key = os.environ["INDEXNOW_KEY"]
           key_location = os.environ["KEY_LOCATION"]
           host = os.environ["HOST"]
 
-          with urllib.request.urlopen(sitemap_url, timeout=30) as response:
-              root = ET.fromstring(response.read())
+          with open(sitemap_path, "rb") as sitemap_file:
+              root = ET.fromstring(sitemap_file.read())
 
           urls = [
               node.text.strip()
