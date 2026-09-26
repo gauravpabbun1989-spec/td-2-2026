@@ -54,10 +54,8 @@ function parseDat(text: string): string[][] {
     } else if (char === "," && !quoted) {
       row.push(field);
       field = "";
-    } else if ((char === "
-" || char === "\r") && !quoted) {
-      if (char === "\r" && text[i + 1] === "
-") i += 1;
+    } else if ((char === "\n" || char === "\r") && !quoted) {
+      if (char === "\r" && text[i + 1] === "\n") i += 1;
       row.push(field);
       if (row.some((value) => value.trim())) rows.push(row);
       row = [];
