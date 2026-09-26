@@ -625,7 +625,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   return (
     <>
       {!embedded && <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />}
-      <section className={embedded ? "relative z-20 -mt-40 overflow-visible bg-transparent py-0 sm:-mt-48 lg:-mt-56" : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"} style={embedded ? undefined : { backgroundImage: "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)" }}>
+      <section className={embedded ? "relative z-20 overflow-visible bg-gradient-to-b from-[#eef8ff] to-white py-6 sm:py-8" : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"} style={embedded ? undefined : { backgroundImage: "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)" }}>
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           {!embedded && (
             <div className="mx-auto max-w-5xl text-center text-white">
@@ -635,7 +635,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
             </div>
           )}
 
-          <div className={`overflow-visible rounded-2xl border border-border bg-card p-2 shadow-elevated sm:p-2.5 ${embedded ? "lg:ml-auto lg:max-w-2xl" : ""}`}>
+          <div className={`overflow-visible rounded-2xl border border-sky-100 bg-white p-3 shadow-[0_16px_48px_-24px_rgba(20,74,120,0.25)] sm:p-4 ${embedded ? "mx-auto max-w-6xl" : ""}`}>
             <div className="flex flex-wrap items-center gap-1 border-b border-border pb-1.5">
               {["Round trip", "One way"].map((type) => (
                 <button key={type} type="button" onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }} className={`rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${tripType === type ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}>{type}</button>
@@ -658,12 +658,12 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                 {airportSearch === "to" && suggestionList(toMatches, setTo, setToChoice)}
               </label>
 
-              <label className="rounded-xl border border-border bg-background p-2.5">
+              <label className="rounded-xl border border-sky-100 bg-sky-50/50 p-2.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Depart</span>
                 <input type="date" min={new Date().toISOString().slice(0, 10)} value={date} onChange={(e) => { const nextDate = e.target.value; setDate(nextDate); if (returnDate && returnDate < nextDate) setReturnDate(nextDate); }} className="mt-1 h-7 w-full bg-transparent text-xs font-semibold outline-none" />
               </label>
 
-              <label className="rounded-2xl border border-border bg-background p-4">
+              <label className="rounded-xl border border-sky-100 bg-sky-50/50 p-2.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Return</span>
                 <input type="date" value={returnDate} min={date || undefined} disabled={tripType === "One way"} onChange={(e) => setReturnDate(e.target.value)} className="mt-1 h-7 w-full bg-transparent text-xs font-semibold outline-none disabled:opacity-40" />
               </label>
