@@ -80,15 +80,15 @@ const PAGES: readonly PageConfig[] = [
     path: "/business-class-flight-booking",
     title: "Business Class Flight Booking Assistance | TicketDepart",
     description:
-      "Plan business class and premium cabin flights by phone. Discuss schedules, connections, cabin features, baggage, and fare conditions with a TicketDepart specialist.",
+      "Plan business class and premium cabin flights by phone. Compare schedules, connections, cabin features, baggage, and fare conditions with a TicketDepart travel specialist or business class travel agent.",
     heading: "Business class flight booking assistance",
     intro:
-      "Business class travel can differ significantly by aircraft, route, connection, and fare family. A phone conversation lets you explain the experience and schedule you need before booking.",
+      "Business class travel can differ significantly by aircraft, route, connection, and fare family. A phone conversation with a business class travel agent lets you explain the experience, schedule, and cabin preferences you need before booking.",
     service: "Business class flight booking",
     items: [
       [
-        "Business class options",
-        "Compare available business class schedules and routing for your dates.",
+        "Business class travel agent assistance",
+        "Discuss available business class schedules, routing, cabin preferences, and fare options with a travel specialist.",
       ],
       [
         "Aircraft and seats",
@@ -587,6 +587,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
             ["Flight booking", "/flight-booking"],
+            ["Business class booking", "/business-class-flight-booking"],
             ["Book a flight by phone", "/book-a-flight-by-phone"],
             ["International flights", "/international-flight-booking"],
             ["Last-minute flights", "/last-minute-flight-booking"],
