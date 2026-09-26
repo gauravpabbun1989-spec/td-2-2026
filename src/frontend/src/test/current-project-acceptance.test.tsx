@@ -16,6 +16,12 @@ const PUBLIC_ROUTES = [
   "/flight-change-assistance", "/flight-cancellation-assistance", "/airline-reservation-assistance",
   "/flight-booking-assistance", "/flights-usa-to-canada", "/flights-usa-to-uk",
   "/flights-usa-to-europe", "/flights-usa-to-mexico",
+  "/flights-from-new-york", "/flights-from-los-angeles", "/flights-from-chicago",
+  "/flights-from-miami", "/flights-from-atlanta", "/flights-from-dallas",
+  "/flights-from-orlando", "/flights-from-san-francisco",
+  "/flights-new-york-to-london", "/flights-new-york-to-paris", "/flights-new-york-to-dubai",
+  "/flights-los-angeles-to-tokyo", "/flights-los-angeles-to-london", "/flights-miami-to-cancun",
+  "/flights-chicago-to-london", "/flights-san-francisco-to-tokyo",
 ] as const;
 
 const ALL_APP_PATHS = new Set([
