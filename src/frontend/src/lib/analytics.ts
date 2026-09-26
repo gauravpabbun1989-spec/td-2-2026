@@ -90,9 +90,12 @@ function getTrafficContext() {
 }
 
 function normalizeCtaLocation(location: string) {
-  return location
+  const normalized = location
     .replace(/\.(call_button|button|call_link)$/i, "")
     .replace(/\.(phone_button|phone_link)$/i, "");
+
+  if (normalized === "contact.success") return "callback_success";
+  return normalized;
 }
 
 function inferCtaLocation(link: Element | null, explicit?: string) {
