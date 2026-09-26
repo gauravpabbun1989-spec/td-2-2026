@@ -131,6 +131,8 @@ const RELATED = [
   { label: "United Airlines flight assistance", to: "/united-airlines" },
   { label: "International flight booking assistance", to: "/international-flight-booking" },
   { label: "General flight booking", to: "/flight-booking" },
+  { label: "Business class booking assistance", to: "/business-class-flight-booking" },
+  { label: "Book a flight by phone", to: "/book-a-flight-by-phone" },
 ] as const;
 
 /**
