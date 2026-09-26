@@ -228,11 +228,102 @@ function dateToAirRoutesDay(date: string): string {
 }
 
 async function fetchAirRoutesRoute(origin: string, destination: string, date: string, cabin: string, originTimezone?: string, destinationTimezone?: string) {
-  const response = await fetch(`${AIR_ROUTES_API}/${encodeURIComponent(origin)}-${encodeURIComponent(destination)}`);
-  if (!response.ok) {
-    throw new Error(`Air-Routes could not return route information for ${origin} to ${destination}.`);
+  const routeId = `${encodeURIComponent(origin)}-${encodeURIComponent(destination)}`;
+  const directResponse = await fetch(`${AIR_ROUTES_API}/${routeId}`);
+
+  if (directResponse.ok) {
+    const directResults = normalizeSchedule(
+      await directResponse.json(),
+      date,
+      cabin,
+      originTimezone,
+      destinationTimezone,
+    );
+    if (directResults.length) return directResults;
   }
-  return normalizeSchedule(await response.json(), date, cabin, originTimezone, destinationTimezone);
+
+  const connectionsResponse = await fetch(
+    `${AIR_ROUTES_API.replace("/route", "/connections")}?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&max_stops=2`,
+  );
+  if (!connectionsResponse.ok) {
+    throw new Error(`No route data could be returned for ${origin} to ${destination}.`);
+  }
+
+  const payload = (await connectionsResponse.json()) as {
+    options?: Array<{
+      total_flying_min?: number;
+      stops?: number;
+      legs?: Array<{
+        route_id?: string;
+        from?: string;
+        to?: string;
+        flying_min?: number;
+        airlines?: Array<{
+          airline_code?: string;
+          airline?: string;
+          schedule?: Array<{ day?: string; times?: string[] }>;
+        }>;
+      }>;
+    }>;
+  };
+
+  const requestedDay = dateToAirRoutesDay(date);
+  const results: FlightSchedule[] = [];
+
+  (payload.options ?? []).forEach((option, optionIndex) => {
+    const legs = option.legs ?? [];
+    if (!legs.length) return;
+
+    const firstLeg = legs[0];
+    const lastLeg = legs[legs.length - 1];
+    const firstAirline = firstLeg.airlines?.[0];
+    const matchingSchedule = firstAirline?.schedule?.find((entry) => entry.day === requestedDay);
+    const departureTime = matchingSchedule?.times?.[0];
+
+    if (!departureTime) return;
+
+    const durationMinutes = Number.isFinite(option.total_flying_min)
+      ? Number(option.total_flying_min)
+      : undefined;
+
+    const arrival = calculateArrival(
+      departureTime,
+      date,
+      durationMinutes,
+      originTimezone,
+      destinationTimezone,
+    );
+
+    results.push({
+      id: `${origin}-${destination}-${requestedDay}-${optionIndex}`,
+      airlineName: String(firstAirline?.airline ?? firstAirline?.airline_code ?? "Airline"),
+      airlineCode: firstAirline?.airline_code
+        ? String(firstAirline.airline_code).toUpperCase()
+        : undefined,
+      logoUrl: firstAirline?.airline_code
+        ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(String(firstAirline.airline_code).toUpperCase())}.png`
+        : undefined,
+      departure: {
+        iata: String(firstLeg.from ?? origin),
+        city: "",
+        date,
+        time: String(departureTime),
+      },
+      arrival: {
+        iata: String(lastLeg.to ?? destination),
+        city: "",
+        date: arrival?.date ?? date,
+        time: arrival?.time ?? "Arrival time unavailable",
+      },
+      duration: durationMinutes !== undefined ? formatDuration(durationMinutes) : undefined,
+      stops: Math.max(0, Number(option.stops ?? legs.length - 1)),
+      cabin,
+      baggage: "Allowance varies by fare",
+      status: "Scheduled",
+    });
+  });
+
+  return results;
 }
 
 async function fetchSchedules(
@@ -255,7 +346,7 @@ async function fetchSchedules(
   return [...outbound, ...inbound];
 }
 
-export function FlightSearchPage() {
+export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [fromChoice, setFromChoice] = useState<LocationChoice | null>(null);
@@ -350,16 +441,16 @@ export function FlightSearchPage() {
 
   return (
     <>
-      <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />
+      {!embedded && <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />}
       <section
-        className="relative overflow-visible bg-cover bg-center py-16 sm:py-24"
+        className={embedded ? "relative overflow-visible bg-background py-8 sm:py-10" : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"}
         style={{
           backgroundImage:
             "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)",
         }}
       >
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-5xl text-center text-white">
+          {!embedded && (\n          <div className="mx-auto max-w-5xl text-center text-white">
             <p className="label-board text-white/90">Flight Schedule Search</p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
               Find scheduled flights by city or airport
@@ -368,7 +459,7 @@ export function FlightSearchPage() {
               Choose your route, dates, travelers, and cabin. Review departure and arrival times, then call
               TicketDepart to confirm the current schedule and booking conditions.
             </p>
-          </div>
+                    )}\n\n</div>
 
           <div className="mt-10 rounded-2xl border border-white/30 bg-white/95 p-5 shadow-elevated backdrop-blur-sm sm:p-7">
             <div className="grid gap-5 md:grid-cols-2">
@@ -582,7 +673,7 @@ export function FlightSearchPage() {
         )}
       </Section>
 
-      <Section tone="paper" ocid="flight_search.cta">
+      {!embedded && <Section tone="paper" ocid="flight_search.cta">
         <div className="grid gap-8 rounded-3xl border border-border bg-card p-7 shadow-elevated sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <p className="label-board text-accent">Ready to book?</p>
@@ -593,14 +684,14 @@ export function FlightSearchPage() {
           </div>
           <CallCta size="lg" ocid="flight_search.call_button" />
         </div>
-      </Section>
+      </Section>}
 
-      <Section tone="muted" ocid="flight_search.disclosure">
+      {!embedded && <Section tone="muted" ocid="flight_search.disclosure">
         <p className="text-sm leading-relaxed text-muted-foreground">
           Schedule information is displayed from Air-Routes and filtered to the selected travel date(s). Departure times are provider-supplied schedules; arrival time is calculated from the published flying time and airport time zones, so it is an estimate rather than live flight status. Current fare, availability, baggage, and booking conditions are confirmed by phone before booking.{" "}
           {SITE.disclosure}
         </p>
-      </Section>
+      </Section>}
     </>
   );
 }
