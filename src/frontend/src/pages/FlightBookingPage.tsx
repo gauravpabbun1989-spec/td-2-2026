@@ -177,6 +177,18 @@ const AIRLINE_LINKS = [
     description:
       "Domestic and international planning for American Airlines itineraries.",
   },
+  {
+    to: "/business-class-flight-booking",
+    label: "Business class booking assistance",
+    description:
+      "Compare premium-cabin routing, schedules, connections, and fare conditions.",
+  },
+  {
+    to: "/international-flight-booking",
+    label: "International flight booking assistance",
+    description:
+      "Review international routes, connections, cabins, and fare conditions.",
+  },
 ] as const;
 
 /**
