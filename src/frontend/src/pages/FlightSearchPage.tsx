@@ -349,16 +349,25 @@ async function fetchAirRoutesRoute(
   destinationTimezone?: string,
 ) {
   const routeId = `${encodeURIComponent(origin)}-${encodeURIComponent(destination)}`;
-  const directResponse = await fetch(`${AIR_ROUTES_API}/${routeId}`);
+  try {
+    const directResponse = await fetch(`${AIR_ROUTES_API}/${routeId}`);
 
-  if (directResponse.ok) {
-    const directResults = normalizeSchedule(await directResponse.json(), date, cabin, originTimezone, destinationTimezone);
-    if (directResults.length) return directResults;
+    if (directResponse.ok) {
+      const directResults = normalizeSchedule(await directResponse.json(), date, cabin, originTimezone, destinationTimezone);
+      if (directResults.length) return directResults;
+    }
+  } catch {
+    // Continue to the connection search if the direct-route request is unavailable.
   }
 
-  const connectionsResponse = await fetch(
-    `${AIR_ROUTES_API.replace("/route", "/connections")}?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&max_stops=2`,
-  );
+  let connectionsResponse: Response;
+  try {
+    connectionsResponse = await fetch(
+      `${AIR_ROUTES_API.replace("/route", "/connections")}?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&max_stops=2`,
+    );
+  } catch {
+    throw new Error("Flight schedule service is temporarily unavailable. Please try again in a moment or call us for itinerary assistance.");
+  }
   if (!connectionsResponse.ok) throw new Error("No scheduled options could be returned for this route.");
 
   const payload = (await connectionsResponse.json()) as {
@@ -620,18 +629,18 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
             </div>
           )}
 
-          <div className={`overflow-visible rounded-[1.75rem] border border-border bg-card p-4 shadow-elevated sm:p-6 ${embedded ? "lg:ml-auto lg:max-w-5xl" : ""}`}>
-            <div className="flex flex-wrap items-center gap-2 border-b border-border pb-4">
+          <div className={`overflow-visible rounded-2xl border border-border bg-card p-2.5 shadow-elevated sm:p-3 ${embedded ? "lg:ml-auto lg:max-w-2xl" : ""}`}>
+            <div className="flex flex-wrap items-center gap-1.5 border-b border-border pb-2">
               {["Round trip", "One way"].map((type) => (
-                <button key={type} type="button" onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }} className={`rounded-full px-4 py-2 text-sm font-semibold transition ${tripType === type ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}>{type}</button>
+                <button key={type} type="button" onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${tripType === type ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}>{type}</button>
               ))}
               <span className="ml-auto hidden text-xs text-muted-foreground sm:block">Flights · {travelers} traveler{travelers === "1" ? "" : "s"} · {cabin}</span>
             </div>
 
-            <div className="mt-5 grid gap-3 lg:grid-cols-[1.25fr_1.25fr_0.8fr_0.8fr_0.7fr]">
-              <label className="relative rounded-2xl border border-border bg-background p-4">
+            <div className="mt-2 grid gap-1.5 lg:grid-cols-[1.2fr_1.2fr_0.85fr_0.85fr_0.65fr]">
+              <label className="relative rounded-xl border border-border bg-background p-2.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">From</span>
-                <input value={from} onFocus={() => void ensureAirports(from, "from")} onChange={(e) => { setFrom(e.target.value); setFromChoice(null); setAirportSearch("from"); void ensureAirports(e.target.value, "from"); }} placeholder={loadingAirports ? "Loading airports…" : "City or airport"} className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none" autoComplete="off" />
+                <input value={from} onFocus={() => void ensureAirports(from, "from")} onChange={(e) => { setFrom(e.target.value); setFromChoice(null); setAirportSearch("from"); void ensureAirports(e.target.value, "from"); }} placeholder={loadingAirports ? "Loading airports…" : "City or airport"} className="mt-1 h-7 w-full bg-transparent text-sm font-semibold outline-none" autoComplete="off" />
                 {fromChoice?.iata && <span className="text-xs font-bold text-primary">{fromChoice.iata}</span>}
                 {airportSearch === "from" && suggestionList(fromMatches, setFrom, setFromChoice)}
               </label>
@@ -643,9 +652,9 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                 {airportSearch === "to" && suggestionList(toMatches, setTo, setToChoice)}
               </label>
 
-              <label className="rounded-2xl border border-border bg-background p-4">
+              <label className="rounded-xl border border-border bg-background p-2.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Depart</span>
-                <input type="date" min={new Date().toISOString().slice(0, 10)} value={date} onChange={(e) => { const nextDate = e.target.value; setDate(nextDate); if (returnDate && returnDate < nextDate) setReturnDate(nextDate); }} className="mt-2 h-9 w-full bg-transparent text-sm font-semibold outline-none" />
+                <input type="date" min={new Date().toISOString().slice(0, 10)} value={date} onChange={(e) => { const nextDate = e.target.value; setDate(nextDate); if (returnDate && returnDate < nextDate) setReturnDate(nextDate); }} className="mt-1 h-7 w-full bg-transparent text-xs font-semibold outline-none" />
               </label>
 
               <label className="rounded-2xl border border-border bg-background p-4">
@@ -661,14 +670,14 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
               </label>
             </div>
 
-            <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <label className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span className="font-semibold text-foreground">Cabin</span>
-                <select value={cabin} onChange={(e) => setCabin(e.target.value)} className="rounded-lg border border-border bg-background px-3 py-2 font-semibold text-foreground">
+                <select value={cabin} onChange={(e) => setCabin(e.target.value)} className="rounded-lg border border-border bg-background px-2 py-1 text-xs font-semibold text-foreground">
                   <option>Economy</option><option>Premium Economy</option><option>Business</option><option>First</option>
                 </select>
               </label>
-              <button type="button" onClick={search} disabled={loading} className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-8 font-semibold text-primary-foreground shadow-subtle disabled:opacity-60 sm:w-auto">
+              <button type="button" onClick={search} disabled={loading} className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-subtle disabled:opacity-60 sm:w-auto">
                 <Search aria-hidden="true" className="size-4" />{loading ? "Searching…" : "Search flights"}
               </button>
             </div>
