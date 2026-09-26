@@ -13,7 +13,50 @@ const HERO_POINTS = [
 
 export function HeroSection() {
   return (
-    <section data-ocid="home.hero_section" aria-labelledby="home-hero-heading" className="relative overflow-hidden bg-[#061a34] text-white">
+    <section data-ocid="home.hero_section" aria-labelledby="home-hero-heading" className="relative min-h-[620px] overflow-hidden bg-[#061a34] text-white">\n      <img src={HERO_IMAGE} alt="" aria-hidden="true" width={1600} height={1100} className="absolute inset-0 h-full w-full object-cover" loading="eager" decoding="async" />\n      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,18,38,0.94)_0%,rgba(3,18,38,0.78)_42%,rgba(3,18,38,0.38)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,rgba(61,157,207,0.25),transparent_32%),radial-gradient(circle_at_10%_85%,rgba(234,166,76,0.12),transparent_28%)]" />
+      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-10 px-5 py-10 sm:px-8 sm:py-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:px-10 lg:py-16">
+        <div className="max-w-2xl">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.07] px-4 py-2 text-xs font-semibold tracking-wide text-white/85 backdrop-blur">
+            <span className="size-2 rounded-full bg-emerald-300" />
+            Independent flight reservation assistance
+          </div>
+          <h1 id="home-hero-heading" className="mt-6 max-w-2xl text-balance text-[2.75rem] font-bold leading-[0.98] tracking-[-0.045em] sm:text-5xl lg:text-[4.65rem]">Flight Reservation Assistance — <span className="text-sky-200">Human Help 24/7</span>
+            Travel plans deserve{" "}
+            <span className="text-sky-200">human attention.</span>
+          </h1>
+          <p className="mt-6 max-w-xl text-pretty text-base leading-8 text-white/72 sm:text-lg">
+            Tell us where you want to go and what matters most. A real travel specialist can help you understand routes, cabins, baggage, and booking details before you decide.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <CallCta size="lg" ocid="home.hero_call_button" className="shadow-[0_18px_40px_-18px_rgba(0,0,0,0.75)]" />
+            <Link to="/contact" data-ocid="home.hero_trip_request_link" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-6 text-base font-semibold text-white backdrop-blur transition-smooth hover:bg-white hover:text-primary">
+              Request a callback <ArrowRight className="size-4" />
+            </Link>
+          </div>
+          <div className="mt-7 flex flex-wrap gap-x-5 gap-y-3 text-sm text-white/65">
+            {["24/7 availability", "Passenger-first guidance", "Clear booking details"].map((item) => (
+              <span key={item} className="inline-flex items-center gap-2"><Check className="size-4 text-emerald-300" />{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="hidden lg:block" aria-hidden="true" />} from "@/components/CallCta";
+import { SITE } from "@/lib/site";
+import { ArrowRight, Check, ChevronRight, Globe2, Headset, Route } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+
+const HERO_IMAGE = "/assets/generated/hero-flight.dim_1600x1100.jpg";
+
+const HERO_POINTS = [
+  { icon: Globe2, label: "Domestic & international", detail: "Simple or complex itineraries" },
+  { icon: Route, label: "Multi-city & group trips", detail: "Built around your plans" },
+  { icon: Headset, label: "Real specialists 24/7", detail: "Human help when you need it" },
+] as const;
+
+export function HeroSection() {
+  return (
+    <section data-ocid="home.hero_section" aria-labelledby="home-hero-heading" className="relative min-h-[620px] overflow-hidden bg-[#061a34] text-white">\n      <img src={HERO_IMAGE} alt="" aria-hidden="true" width={1600} height={1100} className="absolute inset-0 h-full w-full object-cover" loading="eager" decoding="async" />\n      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,18,38,0.94)_0%,rgba(3,18,38,0.78)_42%,rgba(3,18,38,0.38)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,rgba(61,157,207,0.25),transparent_32%),radial-gradient(circle_at_10%_85%,rgba(234,166,76,0.12),transparent_28%)]" />
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-10 px-5 py-10 sm:px-8 sm:py-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:px-10 lg:py-16">
         <div className="max-w-2xl">
