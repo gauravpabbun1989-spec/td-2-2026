@@ -8,6 +8,33 @@ const AIR_ROUTES_API = "https://air-routes.com/api/route";
 const AIR_ROUTES_AIRPORTS_API = "https://air-routes.com/api/airports";
 
 type Airport = { id: string; name: string; city: string; country: string; iata: string; lat?: number; lon?: number; timezone?: string };
+const POPULAR_AIRPORTS: Airport[] = [
+  ["JFK","John F. Kennedy International Airport","New York","United States",40.6413,-73.7781],
+  ["LGA","LaGuardia Airport","New York","United States",40.7769,-73.8740],
+  ["EWR","Newark Liberty International Airport","Newark","United States",40.6895,-74.1745],
+  ["LAX","Los Angeles International Airport","Los Angeles","United States",33.9416,-118.4085],
+  ["ORD","O'Hare International Airport","Chicago","United States",41.9742,-87.9073],
+  ["DFW","Dallas/Fort Worth International Airport","Dallas","United States",32.8998,-97.0403],
+  ["ATL","Hartsfield-Jackson Atlanta International Airport","Atlanta","United States",33.6407,-84.4277],
+  ["MIA","Miami International Airport","Miami","United States",25.7959,-80.2870],
+  ["SFO","San Francisco International Airport","San Francisco","United States",37.6213,-122.3790],
+  ["SEA","Seattle-Tacoma International Airport","Seattle","United States",47.4502,-122.3088],
+  ["BOS","Boston Logan International Airport","Boston","United States",42.3656,-71.0096],
+  ["DEN","Denver International Airport","Denver","United States",39.8561,-104.6737],
+  ["LAS","Harry Reid International Airport","Las Vegas","United States",36.0840,-115.1537],
+  ["PHX","Phoenix Sky Harbor International Airport","Phoenix","United States",33.4352,-112.0101],
+  ["IAH","George Bush Intercontinental Airport","Houston","United States",29.9902,-95.3368],
+  ["LHR","London Heathrow Airport","London","United Kingdom",51.4700,-0.4543],
+  ["CDG","Charles de Gaulle Airport","Paris","France",49.0097,2.5479],
+  ["FRA","Frankfurt Airport","Frankfurt","Germany",50.0379,8.5622],
+  ["AMS","Amsterdam Airport Schiphol","Amsterdam","Netherlands",52.3105,4.7683],
+  ["DXB","Dubai International Airport","Dubai","United Arab Emirates",25.2532,55.3657],
+  ["DOH","Hamad International Airport","Doha","Qatar",25.2731,51.6081],
+  ["YYZ","Toronto Pearson International Airport","Toronto","Canada",43.6777,-79.6248],
+  ["YVR","Vancouver International Airport","Vancouver","Canada",49.1967,-123.1815],
+  ["MEX","Mexico City International Airport","Mexico City","Mexico",19.4361,-99.0719],
+].map(([iata,name,city,country,lat,lon], index) => ({ id: `fallback-${iata}-${index}`, name, city, country, iata, lat, lon }));
+
 type LocationChoice = {
   type: "city" | "airport";
   city: string;
@@ -50,9 +77,11 @@ const PAGE_DESCRIPTION =
 
 async function loadAirports(query: string): Promise<Airport[]> {
   const q = query.trim();
-  if (q.length < 2) return [];
-  const response = await fetch(`${AIR_ROUTES_AIRPORTS_API}?q=${encodeURIComponent(q)}`);
-  if (!response.ok) throw new Error("Airport search could not be loaded.");
+  if (!q) return POPULAR_AIRPORTS;
+  if (q.length < 2) return POPULAR_AIRPORTS.filter((airport) => [airport.iata, airport.city].join(" ").toLowerCase().startsWith(q.toLowerCase())).slice(0, 10);
+  try {
+    const response = await fetch(`${AIR_ROUTES_AIRPORTS_API}?q=${encodeURIComponent(q)}`);
+    if (!response.ok) throw new Error("Airport search could not be loaded.");
   const payload = (await response.json()) as {
     airports?: Array<{
       airport_code?: string;
@@ -63,7 +92,7 @@ async function loadAirports(query: string): Promise<Airport[]> {
       lon?: number | null;
     }>;
   };
-  return (payload.airports ?? [])
+  const remote = (payload.airports ?? [])
     .map((airport, index) => ({
       id: `${airport.airport_code ?? "airport"}-${index}`,
       name: String(airport.name ?? ""),
@@ -74,6 +103,10 @@ async function loadAirports(query: string): Promise<Airport[]> {
       lon: typeof airport.lon === "number" ? airport.lon : undefined,
     }))
     .filter((airport) => airport.iata);
+    return remote.length ? remote : POPULAR_AIRPORTS.filter((airport) => [airport.iata, airport.name, airport.city, airport.country].join(" ").toLowerCase().includes(q.toLowerCase())).slice(0, 10);
+  } catch {
+    return POPULAR_AIRPORTS.filter((airport) => [airport.iata, airport.name, airport.city, airport.country].join(" ").toLowerCase().includes(q.toLowerCase())).slice(0, 10);
+  }
 }
 
 const timezoneCache = new Map<string, string>();
@@ -97,7 +130,7 @@ async function resolveAirportTimezone(choice: LocationChoice): Promise<string | 
 }
 function choices(airports: Airport[], query: string): LocationChoice[] {
   const q = query.trim().toLowerCase();
-  if (!q) return [];
+  if (!q) return airports.slice(0, 8).map((a) => ({ type: "airport" as const, city: a.city, country: a.country, iata: a.iata, lat: a.lat, lon: a.lon, label: `${a.city} — ${a.name} (${a.iata})` }));
   const matched = airports
     .filter((a) => [a.iata, a.name, a.city, a.country].join(" ").toLowerCase().includes(q))
     .slice(0, 10);
@@ -568,7 +601,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   return (
     <>
       {!embedded && <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />}
-      <section className={embedded ? "relative z-10 -mt-12 overflow-visible bg-transparent py-0 sm:-mt-20" : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"} style={embedded ? undefined : { backgroundImage: "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)" }}>
+      <section className={embedded ? "relative z-20 -mt-40 overflow-visible bg-transparent py-0 sm:-mt-48 lg:-mt-56" : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"} style={embedded ? undefined : { backgroundImage: "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)" }}>
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           {!embedded && (
             <div className="mx-auto max-w-5xl text-center text-white">
@@ -578,7 +611,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
             </div>
           )}
 
-          <div className="overflow-visible rounded-[1.75rem] border border-border bg-card p-4 shadow-elevated sm:p-6">
+          <div className={`overflow-visible rounded-[1.75rem] border border-border bg-card p-4 shadow-elevated sm:p-6 ${embedded ? "lg:ml-auto lg:max-w-5xl" : ""}`}>
             <div className="flex flex-wrap items-center gap-2 border-b border-border pb-4">
               {["Round trip", "One way"].map((type) => (
                 <button key={type} type="button" onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }} className={`rounded-full px-4 py-2 text-sm font-semibold transition ${tripType === type ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}>{type}</button>
