@@ -33,7 +33,7 @@ const POPULAR_AIRPORTS: Airport[] = [
   ["YYZ","Toronto Pearson International Airport","Toronto","Canada",43.6777,-79.6248],
   ["YVR","Vancouver International Airport","Vancouver","Canada",49.1967,-123.1815],
   ["MEX","Mexico City International Airport","Mexico City","Mexico",19.4361,-99.0719],
-].map(([iata,name,city,country,lat,lon], index) => ({ id: `fallback-${iata}-${index}`, name, city, country, iata, lat, lon }));
+].map(([iata,name,city,country,lat,lon], index) => ({ id: `fallback-${iata}-${index}`, name: String(name), city: String(city), country: String(country), iata: String(iata), lat: Number(lat), lon: Number(lon) }));
 
 type LocationChoice = {
   type: "city" | "airport";
