@@ -89,8 +89,14 @@ function getTrafficContext() {
   }
 }
 
+function normalizeCtaLocation(location: string) {
+  return location
+    .replace(/\.(call_button|button|call_link)$/i, "")
+    .replace(/\.(phone_button|phone_link)$/i, "");
+}
+
 function inferCtaLocation(link: Element | null, explicit?: string) {
-  if (explicit) return explicit;
+  if (explicit) return normalizeCtaLocation(explicit);
 
   const marker =
     link?.getAttribute("data-ocid") ||
@@ -156,7 +162,12 @@ function emitPhoneClick(
 export function trackPhoneClick(location: string, event?: Event) {
   if (event && handledClicks.has(event)) return;
   if (event) handledClicks.add(event);
-  emitPhoneClick(location);
+
+  const normalizedLocation = normalizeCtaLocation(location);
+  const last = recentEmits.get(normalizedLocation);
+  if (last !== undefined && Date.now() - last < DEDUPE_WINDOW_MS) return;
+
+  emitPhoneClick(normalizedLocation);
 }
 
 export function trackCallbackFormStart(location = "contact_form") {
