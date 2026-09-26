@@ -37,7 +37,7 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-function auditOnce(pass) {
+function auditOnce() {
   const app = read("src/frontend/src/App.tsx");
   const site = read("src/frontend/src/lib/site.ts");
   const flightSearch = read("src/frontend/src/pages/FlightSearchPage.tsx");
@@ -103,9 +103,7 @@ function auditOnce(pass) {
     assert(!text.includes("from Air-Routes") && !text.includes("free route reference data") && !text.includes("no fares are shown"), `customer-facing provider disclosure found in ${relative(ROOT, file)}`);
     assert(!text.includes("Amadeus"), `unapproved Amadeus integration reference found in ${relative(ROOT, file)}`);
   }
-
-  if (pass % 10 === 0) console.log(`audit pass ${pass}/50 passed`);
 }
 
-for (let pass = 1; pass <= 50; pass += 1) auditOnce(pass);
-console.log("50/50 whole-project audit passes completed successfully.");
+auditOnce();
+console.log("Whole-project audit passed successfully.");
