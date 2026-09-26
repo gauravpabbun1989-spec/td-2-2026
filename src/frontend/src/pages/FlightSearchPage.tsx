@@ -130,7 +130,16 @@ async function resolveAirportTimezone(choice: LocationChoice): Promise<string | 
 }
 function choices(airports: Airport[], query: string): LocationChoice[] {
   const q = query.trim().toLowerCase();
-  if (!q) return airports.slice(0, 8).map((a) => ({ type: "airport" as const, city: a.city, country: a.country, iata: a.iata, lat: a.lat, lon: a.lon, label: `${a.city} — ${a.name} (${a.iata})` }));
+  if (!q)
+    return airports.slice(0, 8).map((a) => ({
+      type: "airport" as const,
+      city: a.city,
+      country: a.country,
+      iata: a.iata,
+      lat: a.lat,
+      lon: a.lon,
+      label: `${a.city} — ${a.name} (${a.iata})`,
+    }));
   const matched = airports
     .filter((a) => [a.iata, a.name, a.city, a.country].join(" ").toLowerCase().includes(q))
     .slice(0, 10);
