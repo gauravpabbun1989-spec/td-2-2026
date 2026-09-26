@@ -349,16 +349,25 @@ async function fetchAirRoutesRoute(
   destinationTimezone?: string,
 ) {
   const routeId = `${encodeURIComponent(origin)}-${encodeURIComponent(destination)}`;
-  const directResponse = await fetch(`${AIR_ROUTES_API}/${routeId}`);
+  try {
+    const directResponse = await fetch(`${AIR_ROUTES_API}/${routeId}`);
 
-  if (directResponse.ok) {
-    const directResults = normalizeSchedule(await directResponse.json(), date, cabin, originTimezone, destinationTimezone);
-    if (directResults.length) return directResults;
+    if (directResponse.ok) {
+      const directResults = normalizeSchedule(await directResponse.json(), date, cabin, originTimezone, destinationTimezone);
+      if (directResults.length) return directResults;
+    }
+  } catch {
+    // Continue to the connection search if the direct-route request is unavailable.
   }
 
-  const connectionsResponse = await fetch(
-    `${AIR_ROUTES_API.replace("/route", "/connections")}?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&max_stops=2`,
-  );
+  let connectionsResponse: Response;
+  try {
+    connectionsResponse = await fetch(
+      `${AIR_ROUTES_API.replace("/route", "/connections")}?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&max_stops=2`,
+    );
+  } catch {
+    throw new Error("Flight schedule service is temporarily unavailable. Please try again in a moment or call us for itinerary assistance.");
+  }
   if (!connectionsResponse.ok) throw new Error("No scheduled options could be returned for this route.");
 
   const payload = (await connectionsResponse.json()) as {
