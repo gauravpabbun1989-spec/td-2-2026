@@ -91,25 +91,25 @@ const routes = {
   },
   "/flight-booking": {
     title: "Flight Booking Assistance | TicketDepart",
-    description: "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 855-544-9001, 24/7.",
+    description: "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 888-958-0280, 24/7.",
     heading: "Flight booking help from a real travel specialist",
     text: "Get practical help comparing flight options, complicated itineraries, premium cabins, group travel, and booking details by phone.",
   },
   "/delta-airlines": {
     title: "Delta Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Call +1 855-544-9001.",
+    description: "Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Call +1 888-958-0280.",
     heading: "Delta Airlines flight bookings handled by a real travel specialist",
     text: "Get independent travel assistance for Delta Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and premium cabins.",
   },
   "/united-airlines": {
     title: "United Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 855-544-9001.",
+    description: "Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 888-958-0280.",
     heading: "United Airlines flight itineraries planned and booked by phone",
     text: "Get independent travel assistance for United Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and premium cabins.",
   },
   "/american-airlines": {
     title: "American Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency for American Airlines bookings — domestic, international, multi-city, cabin options, and rebooking help. Call +1 855-544-9001.",
+    description: "Independent travel agency for American Airlines bookings — domestic, international, multi-city, cabin options, and rebooking help. Call +1 888-958-0280.",
     heading: "American Airlines trips booked with a travel specialist",
     text: "Get independent travel assistance for American Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and cabin options.",
   },
@@ -205,9 +205,9 @@ const routes = {
   },
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
-    description: "Contact TicketDepart to plan your next flight. Call +1 855-544-9001 any time, or send your trip details and a travel specialist will follow up with options.",
+    description: "Contact TicketDepart to plan your next flight. Call +1 888-958-0280 any time, or send your trip details and a travel specialist will follow up with options.",
     heading: "Talk to a real travel specialist",
-    text: "Call +1 855-544-9001 24/7 or send your trip details. TicketDepart is an independent U.S. travel agency.",
+    text: "Call +1 888-958-0280 24/7 or send your trip details. TicketDepart is an independent U.S. travel agency.",
   },
   "/privacy": {
     title: "Privacy Policy | TicketDepart",
@@ -269,7 +269,7 @@ function routeHtml(route, meta) {
     `<script type="application/ld+json">${JSON.stringify(schema)}</script>\n  </head>`,
   );
 
-  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18555449001">Call +1 855-544-9001</a> — available 24/7.</p><p>TicketDepart is an independent U.S. travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
+  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18555449001">Call +1 888-958-0280</a> — available 24/7.</p><p>TicketDepart is an independent U.S. travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
 
   return html.replace('<div id="root"></div>', `<div id="root">${fallback}</div>`);
 }
