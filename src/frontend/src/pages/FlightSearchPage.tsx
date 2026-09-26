@@ -499,15 +499,16 @@ async function fetchSchedules(
   tripType: string,
   cabin: string,
   travelers: string,
+  actor: { searchFlightRoute: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }>; searchFlightConnections: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }> },
 ): Promise<{ outbound: FlightSchedule[]; inbound: FlightSchedule[] }> {
   void travelers;
   const origin = fromChoice.iata ?? "";
   const destination = toChoice.iata ?? "";
   if (!origin || !destination) throw new Error("Select airports with valid IATA codes.");
   const [originTimezone, destinationTimezone] = await Promise.all([resolveAirportTimezone(fromChoice), resolveAirportTimezone(toChoice)]);
-  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, originTimezone, destinationTimezone);
+  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, originTimezone, destinationTimezone, actor);
   if (tripType === "One way" || !returnDate) return { outbound, inbound: [] };
-  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, destinationTimezone, originTimezone);
+  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, destinationTimezone, originTimezone, actor);
   return { outbound, inbound };
 }
 export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
@@ -572,7 +573,8 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
       if (tripType === "Round trip" && !returnDate) throw new Error("Select a return date for a round trip.");
       if (tripType === "Round trip" && returnDate < date) throw new Error("Return date cannot be before departure date.");
 
-      const schedules = await fetchSchedules(fromChoice, toChoice, date, returnDate, tripType, cabin, travelers);
+      if (!actor || isActorFetching) throw new Error("Flight schedule service is still connecting. Please try again in a moment.");
+      const schedules = await fetchSchedules(fromChoice, toChoice, date, returnDate, tripType, cabin, travelers, actor);
       setResults(schedules.outbound);
       setReturnResults(schedules.inbound);
       if (!schedules.outbound.length) setError("No scheduled options were returned for this route and date. Try another date or call us for itinerary assistance.");
