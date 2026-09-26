@@ -4,12 +4,12 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, BriefcaseBusiness, CalendarClock, Globe2, Plane, Route, Users } from "lucide-react";
 
 const SERVICES = [
-  { icon: Plane, title: "Flight booking assistance", description: "Compare routes, schedules, cabins, baggage needs, and fare details with a travel specialist." },
-  { icon: Globe2, title: "International travel", description: "Think through long-haul routes, connections, layovers, and practical booking details." },
-  { icon: Route, title: "Multi-city itineraries", description: "Coordinate multiple destinations into one organized itinerary with realistic connections." },
-  { icon: BriefcaseBusiness, title: "Business & first class", description: "Explore premium-cabin options with clear information about seats, baggage, and fare conditions." },
-  { icon: Users, title: "Group travel", description: "Organize family, friends, teams, or colleagues around one coordinated trip plan." },
-  { icon: CalendarClock, title: "Changes & rebooking", description: "Understand available options and fare conditions when your plans change." },
+  { icon: Plane, title: "Flight booking assistance", href: "/flight-booking", description: "Compare routes, schedules, cabins, baggage needs, and fare details with a travel specialist." },
+  { icon: Globe2, title: "International travel", href: "/international-flight-booking", description: "Think through long-haul routes, connections, layovers, and practical booking details." },
+  { icon: Route, title: "Multi-city itineraries", href: "/multi-city-flight-booking", description: "Coordinate multiple destinations into one organized itinerary with realistic connections." },
+  { icon: BriefcaseBusiness, title: "Business & first class", href: "/business-class-flight-booking", description: "Explore premium-cabin options with clear information about seats, baggage, and fare conditions." },
+  { icon: Users, title: "Group travel", href: "/group-flight-booking", description: "Organize family, friends, teams, or colleagues around one coordinated trip plan." },
+  { icon: CalendarClock, title: "Changes & rebooking", href: "/flight-change-assistance", description: "Understand available options and fare conditions when your plans change." },
 ] as const;
 
 export function ServiceGrid() {
@@ -26,7 +26,7 @@ export function ServiceGrid() {
               </span>
               <h3 className="mt-6 text-xl font-semibold leading-snug">{service.title}</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">{service.description}</p>
-              <Link to="/flight-booking" className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary group-hover:text-accent">
+              <Link to={service.href} className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary group-hover:text-accent">
                 Explore assistance <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
             </div>
