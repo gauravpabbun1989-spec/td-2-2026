@@ -16,6 +16,12 @@ const PUBLIC_ROUTES = [
   "/flight-change-assistance", "/flight-cancellation-assistance", "/airline-reservation-assistance",
   "/flight-booking-assistance", "/flights-usa-to-canada", "/flights-usa-to-uk",
   "/flights-usa-to-europe", "/flights-usa-to-mexico",
+  "/flights-from-new-york", "/flights-from-los-angeles", "/flights-from-chicago",
+  "/flights-from-miami", "/flights-from-atlanta", "/flights-from-dallas",
+  "/flights-from-orlando", "/flights-from-san-francisco",
+  "/flights-new-york-to-london", "/flights-new-york-to-paris", "/flights-new-york-to-dubai",
+  "/flights-los-angeles-to-tokyo", "/flights-los-angeles-to-london", "/flights-miami-to-cancun",
+  "/flights-chicago-to-london", "/flights-san-francisco-to-tokyo",
 ];
 
 function read(path) {
@@ -60,8 +66,8 @@ function auditOnce() {
   assert(buildWorkflow.includes("pnpm --dir src/frontend build"), "frontend build missing from CI");
   assert(buildWorkflow.includes("pnpm test:backend"), "backend integration tests missing from CI");
 
-  assert(site.includes('phoneDisplay: "+1 855-544-9001"'), "canonical phone display changed");
-  assert(site.includes('phoneHref: "tel:+18555449001"'), "canonical phone href changed");
+  assert(site.includes('phoneDisplay: "+1 888-958-0280"'), "canonical phone display changed");
+  assert(site.includes('phoneHref: "tel:+18889580280"'), "canonical phone href changed");
   assert(seo.includes("index, follow") && seo.includes("noindex, nofollow"), "SEO indexability control missing");
 
   assert(robots.includes("User-agent: *"), "robots user-agent missing");
