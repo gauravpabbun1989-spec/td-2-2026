@@ -25,12 +25,24 @@
     <link rel="canonical" href="https://ticketdepart.com/" />
     <link rel="preload" as="image" href="/assets/generated/hero-flight.dim_1600x1100.jpg" fetchpriority="high" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag("js", new Date());
-      gtag("config", "G-4WC5K9Q31E");
+      window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+      function loadAnalytics() {
+        if (window.__ticketdepartAnalyticsLoaded) return;
+        window.__ticketdepartAnalyticsLoaded = true;
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
+        document.head.appendChild(script);
+        window.gtag("js", new Date());
+        window.gtag("config", "G-4WC5K9Q31E");
+      }
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
+      } else {
+        window.addEventListener("load", () => setTimeout(loadAnalytics, 1500), { once: true });
+      }
     </script>
     <script type="application/ld+json">
       {
