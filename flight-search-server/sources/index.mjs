@@ -1,4 +1,11 @@
-const sourceAdapters = [];
+import { searchLocalScheduleDatabase } from "./local-schedule-database.mjs";
+
+const sourceAdapters = [
+  {
+    name: "ticketdepart-local-schedule-database",
+    search: searchLocalScheduleDatabase,
+  },
+];
 
 export function registerSource(adapter) {
   if (!adapter || typeof adapter.search !== "function") {
@@ -15,7 +22,7 @@ export async function searchSources(query) {
       sourceStatus: [{
         source: "none",
         status: "not_configured",
-        message: "No permitted live flight-information sources are configured yet."
+        message: "No permitted flight-information sources are configured yet.",
       }],
     };
   }
