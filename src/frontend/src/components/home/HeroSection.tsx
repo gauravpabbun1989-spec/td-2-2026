@@ -38,14 +38,6 @@ export function HeroSection() {
               <Search className="size-4 text-sky-200" />
               Search airports & routes
             </div>
-            <p className="mt-1 text-xs leading-5 text-white/60">Free route reference data. No fares are shown.</p>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white/55">From — city or airport</div>
-              <div className="rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white/55">To — city or airport</div>
-            </div>
-            <Link to="/flight-search" className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-primary hover:bg-white/90">
-              Search flights <ArrowRight className="size-4" />
-            </Link>
             <p className="mt-2 text-right text-[4px] leading-[6px] text-white/65">*Available on eligible fares. Terms and availability apply.</p>
           </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
