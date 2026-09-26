@@ -107,7 +107,7 @@ describe("GA4 phone_click tracking", () => {
 
     expect(phoneClickCalls(calls)).toHaveLength(1);
     expect(phoneClickCalls(calls)[0][2]).toMatchObject({
-      cta_location: "header.call_button",
+      cta_location: "header",
     });
 
     link.remove();
@@ -158,7 +158,7 @@ describe("GA4 phone_click tracking", () => {
 
     expect(phoneClickCalls(calls)).toHaveLength(1);
     expect(phoneClickCalls(calls)[0][2]).toMatchObject({
-      cta_location: "contact.success.call_link",
+      cta_location: "callback_success",
     });
   });
 
