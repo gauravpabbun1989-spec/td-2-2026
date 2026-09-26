@@ -1,77 +1,11 @@
 import { Layout } from "@/components/Layout";
-import { AdminLeadsPage } from "@/pages/AdminLeadsPage";
-import { BookAFlightByPhonePage } from "@/pages/BookAFlightByPhonePage";
-import { ContactPage } from "@/pages/ContactPage";
-import { FlightBookingPage } from "@/pages/FlightBookingPage";
-import { FlightSearchPage } from "@/pages/FlightSearchPage";
-import { FlightSearchResultsPage } from "@/pages/FlightSearchResultsPage";
-import { HomePage } from "@/pages/HomePage";
-import { HowToBookFlightByPhonePage } from "@/pages/HowToBookFlightByPhonePage";
-import {
-  AirlineReservationAssistancePage,
-  BusinessClassFlightBookingPage,
-  CheapFlightBookingByPhonePage,
-  FamilyFlightBookingPage,
-  FlightBookingAssistancePage,
-  FlightCancellationAssistancePage,
-  UsaToCanadaFlightsPage,
-  UsaToUkFlightsPage,
-  UsaToEuropeFlightsPage,
-  UsaToMexicoFlightsPage,
-  FlightChangeAssistancePage,
-  SameDayFlightBookingPage,
-} from "@/pages/AdditionalBookingPages";
-import {
-  GroupFlightBookingPage,
-  InternationalFlightBookingPage,
-  LastMinuteFlightBookingPage,
-  MultiCityFlightBookingPage,
-} from "@/pages/BookingIntentPages";
-import {
-  FlightsFromNewYorkPage,
-  FlightsFromLosAngelesPage,
-  FlightsFromChicagoPage,
-  FlightsFromMiamiPage,
-  FlightsFromAtlantaPage,
-  FlightsFromDallasPage,
-  FlightsFromOrlandoPage,
-  FlightsFromSanFranciscoPage,
-} from "@/pages/UsGatewayFlightPages";
-import {
-  FlightsNewYorkToLondonPage,
-  FlightsNewYorkToParisPage,
-  FlightsNewYorkToDubaiPage,
-  FlightsLosAngelesToTokyoPage,
-  FlightsLosAngelesToLondonPage,
-  FlightsMiamiToCancunPage,
-  FlightsChicagoToLondonPage,
-  FlightsSanFranciscoToTokyoPage,
-} from "@/pages/RouteFlightPages";
-import { NotFoundPage } from "@/pages/NotFoundPage";
-import { PrivacyPage } from "@/pages/PrivacyPage";
-import { TermsPage } from "@/pages/TermsPage";
-import { AmericanAirlinesPage } from "@/pages/airlines/AmericanAirlinesPage";
-import {
-  AirCanadaPage,
-  AlaskaAirlinesPage,
-  BritishAirwaysPage,
-  JetBlueAirwaysPage,
-  LufthansaPage,
-  SouthwestAirlinesPage,
-  SwissAirPage,
-  QatarAirwaysPage,
-  EmiratesPage,
-  LotPolishAirlinesPage,
-  NorseAtlanticAirwaysPage,
-} from "@/pages/airlines/AdditionalAirlinePages";
-import { DeltaPage } from "@/pages/airlines/DeltaPage";
-import { UnitedPage } from "@/pages/airlines/UnitedPage";
 import {
   Outlet,
   RouterProvider,
   createRootRoute,
   createRoute,
   createRouter,
+  lazyRouteComponent,
 } from "@tanstack/react-router";
 
 const rootRoute = createRootRoute({
@@ -80,344 +14,344 @@ const rootRoute = createRootRoute({
       <Outlet />
     </Layout>
   ),
-  notFoundComponent: NotFoundPage,
+  notFoundComponent: lazyRouteComponent(() => import("./pages/NotFoundPage"), "NotFoundPage"),
 });
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: HomePage,
+  component: lazyRouteComponent(() => import("./pages/HomePage"), "HomePage"),
 });
 
 const howToBookFlightByPhoneRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/how-to-book-a-flight-by-phone",
-  component: HowToBookFlightByPhonePage,
+  component: lazyRouteComponent(() => import("./pages/HowToBookFlightByPhonePage"), "HowToBookFlightByPhonePage"),
 });
 
 const bookAFlightByPhoneRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/book-a-flight-by-phone",
-  component: BookAFlightByPhonePage,
+  component: lazyRouteComponent(() => import("./pages/BookAFlightByPhonePage"), "BookAFlightByPhonePage"),
 });
 
 const internationalFlightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/international-flight-booking",
-  component: InternationalFlightBookingPage,
+  component: lazyRouteComponent(() => import("./pages/BookingIntentPages"), "InternationalFlightBookingPage"),
 });
 
 const lastMinuteFlightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/last-minute-flight-booking",
-  component: LastMinuteFlightBookingPage,
+  component: lazyRouteComponent(() => import("./pages/BookingIntentPages"), "LastMinuteFlightBookingPage"),
 });
 
 const multiCityFlightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/multi-city-flight-booking",
-  component: MultiCityFlightBookingPage,
+  component: lazyRouteComponent(() => import("./pages/BookingIntentPages"), "MultiCityFlightBookingPage"),
 });
 
 const groupFlightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/group-flight-booking",
-  component: GroupFlightBookingPage,
+  component: lazyRouteComponent(() => import("./pages/BookingIntentPages"), "GroupFlightBookingPage"),
 });
 
 const cheapFlightBookingByPhoneRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/cheap-flight-booking-by-phone",
-  component: CheapFlightBookingByPhonePage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "CheapFlightBookingByPhonePage"),
 });
 
 const businessClassFlightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/business-class-flight-booking",
-  component: BusinessClassFlightBookingPage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "BusinessClassFlightBookingPage"),
 });
 
 const sameDayFlightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/same-day-flight-booking",
-  component: SameDayFlightBookingPage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "SameDayFlightBookingPage"),
 });
 
 const familyFlightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/family-flight-booking",
-  component: FamilyFlightBookingPage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "FamilyFlightBookingPage"),
 });
 
 const flightChangeAssistanceRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-change-assistance",
-  component: FlightChangeAssistancePage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "FlightChangeAssistancePage"),
 });
 
 const flightCancellationAssistanceRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-cancellation-assistance",
-  component: FlightCancellationAssistancePage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "FlightCancellationAssistancePage"),
 });
 
 const airlineReservationAssistanceRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/airline-reservation-assistance",
-  component: AirlineReservationAssistancePage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "AirlineReservationAssistancePage"),
 });
 
 const flightBookingAssistanceRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking-assistance",
-  component: FlightBookingAssistancePage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "FlightBookingAssistancePage"),
 });
 
 
 const usaToCanadaFlightsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-usa-to-canada",
-  component: UsaToCanadaFlightsPage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "UsaToCanadaFlightsPage"),
 });
 
 const usaToUkFlightsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-usa-to-uk",
-  component: UsaToUkFlightsPage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "UsaToUkFlightsPage"),
 });
 
 const usaToEuropeFlightsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-usa-to-europe",
-  component: UsaToEuropeFlightsPage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "UsaToEuropeFlightsPage"),
 });
 
 const usaToMexicoFlightsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-usa-to-mexico",
-  component: UsaToMexicoFlightsPage,
+  component: lazyRouteComponent(() => import("./pages/AdditionalBookingPages"), "UsaToMexicoFlightsPage"),
 });
 
 const flightsFromNewYorkRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-from-new-york",
-  component: FlightsFromNewYorkPage,
+  component: lazyRouteComponent(() => import("./pages/UsGatewayFlightPages"), "FlightsFromNewYorkPage"),
 });
 
 const flightsFromLosAngelesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-from-los-angeles",
-  component: FlightsFromLosAngelesPage,
+  component: lazyRouteComponent(() => import("./pages/UsGatewayFlightPages"), "FlightsFromLosAngelesPage"),
 });
 
 const flightsFromChicagoRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-from-chicago",
-  component: FlightsFromChicagoPage,
+  component: lazyRouteComponent(() => import("./pages/UsGatewayFlightPages"), "FlightsFromChicagoPage"),
 });
 
 const flightsFromMiamiRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-from-miami",
-  component: FlightsFromMiamiPage,
+  component: lazyRouteComponent(() => import("./pages/UsGatewayFlightPages"), "FlightsFromMiamiPage"),
 });
 
 const flightsFromAtlantaRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-from-atlanta",
-  component: FlightsFromAtlantaPage,
+  component: lazyRouteComponent(() => import("./pages/UsGatewayFlightPages"), "FlightsFromAtlantaPage"),
 });
 
 const flightsFromDallasRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-from-dallas",
-  component: FlightsFromDallasPage,
+  component: lazyRouteComponent(() => import("./pages/UsGatewayFlightPages"), "FlightsFromDallasPage"),
 });
 
 const flightsFromOrlandoRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-from-orlando",
-  component: FlightsFromOrlandoPage,
+  component: lazyRouteComponent(() => import("./pages/UsGatewayFlightPages"), "FlightsFromOrlandoPage"),
 });
 
 const flightsFromSanFranciscoRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-from-san-francisco",
-  component: FlightsFromSanFranciscoPage,
+  component: lazyRouteComponent(() => import("./pages/UsGatewayFlightPages"), "FlightsFromSanFranciscoPage"),
 });
 
 const flightsNewYorkToLondonRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-new-york-to-london",
-  component: FlightsNewYorkToLondonPage,
+  component: lazyRouteComponent(() => import("./pages/RouteFlightPages"), "FlightsNewYorkToLondonPage"),
 });
 
 const flightsNewYorkToParisRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-new-york-to-paris",
-  component: FlightsNewYorkToParisPage,
+  component: lazyRouteComponent(() => import("./pages/RouteFlightPages"), "FlightsNewYorkToParisPage"),
 });
 
 const flightsNewYorkToDubaiRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-new-york-to-dubai",
-  component: FlightsNewYorkToDubaiPage,
+  component: lazyRouteComponent(() => import("./pages/RouteFlightPages"), "FlightsNewYorkToDubaiPage"),
 });
 
 const flightsLosAngelesToTokyoRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-los-angeles-to-tokyo",
-  component: FlightsLosAngelesToTokyoPage,
+  component: lazyRouteComponent(() => import("./pages/RouteFlightPages"), "FlightsLosAngelesToTokyoPage"),
 });
 
 const flightsLosAngelesToLondonRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-los-angeles-to-london",
-  component: FlightsLosAngelesToLondonPage,
+  component: lazyRouteComponent(() => import("./pages/RouteFlightPages"), "FlightsLosAngelesToLondonPage"),
 });
 
 const flightsMiamiToCancunRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-miami-to-cancun",
-  component: FlightsMiamiToCancunPage,
+  component: lazyRouteComponent(() => import("./pages/RouteFlightPages"), "FlightsMiamiToCancunPage"),
 });
 
 const flightsChicagoToLondonRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-chicago-to-london",
-  component: FlightsChicagoToLondonPage,
+  component: lazyRouteComponent(() => import("./pages/RouteFlightPages"), "FlightsChicagoToLondonPage"),
 });
 
 const flightsSanFranciscoToTokyoRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-san-francisco-to-tokyo",
-  component: FlightsSanFranciscoToTokyoPage,
+  component: lazyRouteComponent(() => import("./pages/RouteFlightPages"), "FlightsSanFranciscoToTokyoPage"),
 });
 
 const flightSearchRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-search",
-  component: FlightSearchPage,
+  component: lazyRouteComponent(() => import("./pages/FlightSearchPage"), "FlightSearchPage"),
 });
 
 const flightSearchResultsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-search-results",
-  component: FlightSearchResultsPage,
+  component: lazyRouteComponent(() => import("./pages/FlightSearchResultsPage"), "FlightSearchResultsPage"),
 });
 
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
-  component: FlightBookingPage,
+  component: lazyRouteComponent(() => import("./pages/FlightBookingPage"), "FlightBookingPage"),
 });
 
 const deltaRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/delta-airlines",
-  component: DeltaPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/DeltaPage"), "DeltaPage"),
 });
 
 const unitedRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/united-airlines",
-  component: UnitedPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/UnitedPage"), "UnitedPage"),
 });
 
 const americanRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/american-airlines",
-  component: AmericanAirlinesPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AmericanAirlinesPage"), "AmericanAirlinesPage"),
 });
 
 const southwestAirlinesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/southwest-airlines",
-  component: SouthwestAirlinesPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AdditionalAirlinePages"), "SouthwestAirlinesPage"),
 });
 
 const jetBlueAirwaysRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/jetblue-airways",
-  component: JetBlueAirwaysPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AdditionalAirlinePages"), "JetBlueAirwaysPage"),
 });
 
 const alaskaAirlinesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/alaska-airlines",
-  component: AlaskaAirlinesPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AdditionalAirlinePages"), "AlaskaAirlinesPage"),
 });
 
 const britishAirwaysRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/british-airways",
-  component: BritishAirwaysPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AdditionalAirlinePages"), "BritishAirwaysPage"),
 });
 
 const lufthansaRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/lufthansa",
-  component: LufthansaPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AdditionalAirlinePages"), "LufthansaPage"),
 });
 
 const airCanadaRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/air-canada",
-  component: AirCanadaPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AdditionalAirlinePages"), "AirCanadaPage"),
 });
 
 const swissAirRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/swiss-air",
-  component: SwissAirPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AdditionalAirlinePages"), "SwissAirPage"),
 });
 
 const qatarAirwaysRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/qatar-airways",
-  component: QatarAirwaysPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AdditionalAirlinePages"), "QatarAirwaysPage"),
 });
 
 const emiratesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/emirates",
-  component: EmiratesPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AdditionalAirlinePages"), "EmiratesPage"),
 });
 
 const lotPolishAirlinesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/lot-polish-airlines",
-  component: LotPolishAirlinesPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AdditionalAirlinePages"), "LotPolishAirlinesPage"),
 });
 
 const norseAtlanticAirwaysRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/norse-atlantic-airways",
-  component: NorseAtlanticAirwaysPage,
+  component: lazyRouteComponent(() => import("./pages/airlines/AdditionalAirlinePages"), "NorseAtlanticAirwaysPage"),
 });
 
 const contactRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/contact",
-  component: ContactPage,
+  component: lazyRouteComponent(() => import("./pages/ContactPage"), "ContactPage"),
 });
 
 const privacyRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/privacy",
-  component: PrivacyPage,
+  component: lazyRouteComponent(() => import("./pages/PrivacyPage"), "PrivacyPage"),
 });
 
 const termsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/terms",
-  component: TermsPage,
+  component: lazyRouteComponent(() => import("./pages/TermsPage"), "TermsPage"),
 });
 
 const adminLeadsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/admin/leads",
-  component: AdminLeadsPage,
+  component: lazyRouteComponent(() => import("./pages/AdminLeadsPage"), "AdminLeadsPage"),
 });
 
 export const routeTree = rootRoute.addChildren([
