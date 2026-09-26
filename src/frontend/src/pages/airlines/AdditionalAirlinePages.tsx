@@ -66,9 +66,9 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "alaska-airlines",
     name: "Alaska Airlines",
-    title: "Alaska Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency providing Alaska Airlines reservation support for booking, changes, cancellations, family travel, and multi-city itineraries.",
-    heading: "Alaska Airlines reservation support from a travel specialist",
+    title: "Alaska Airlines Flight Booking & Reservation Assistance | TicketDepart",
+    description: "Book an Alaska Airlines flight by phone with independent reservation assistance. Discuss routes, dates, connections, baggage, changes, and multi-city travel with TicketDepart.",
+    heading: "Alaska Airlines flight booking and reservation assistance",
     intro: "Tell TicketDepart where you need to go, when you want to travel, and what matters most. A specialist can discuss Alaska Airlines itinerary options and booking support by phone.",
     services: [
       ["Flight booking", "Discuss route, dates, connections, travelers, fare options, and practical departure or arrival airports."],
@@ -80,7 +80,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart part of Alaska Airlines?", answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Alaska Airlines." },
-      { question: "Can you book Alaska Airlines flights by phone?", answer: "Yes. A specialist can discuss your itinerary and available booking options by phone." },
+      { question: "Can you book Alaska Airlines flights by phone?", answer: "Yes. Call with your origin, destination, dates, traveler count, and cabin preference if known. A specialist can discuss available Alaska Airlines itinerary and booking options." },
       { question: "Can you help change an Alaska Airlines reservation?", answer: "We can review the reservation and discuss available change or rebooking options. Final terms depend on the ticket and current availability." },
       { question: "Can you help with a multi-city trip?", answer: "Yes. Explain every city and preferred order and a specialist can discuss practical itinerary options." },
     ],
@@ -176,9 +176,9 @@ const AIRLINES: readonly AirlinePage[] = [
   {
     slug: "qatar-airways",
     name: "Qatar Airways",
-    title: "Qatar Airways Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency providing Qatar Airways reservation support for international itineraries, premium cabins, connections, changes, and multi-city trips.",
-    heading: "Qatar Airways reservation support from a travel specialist",
+    title: "Qatar Airways Flight Booking & Reservation Assistance | TicketDepart",
+    description: "Speak with an independent travel specialist about Qatar Airways flight booking and reservation assistance. Discuss international routes, connections, premium cabins, changes, and multi-city trips.",
+    heading: "Qatar Airways flight booking and reservation assistance",
     intro: "Planning a Qatar Airways trip? Tell us your route, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options and applicable booking terms before you authorize a booking.",
     services: [
       ["International booking", "Discuss long-haul routing, connections, travel dates, and available fare options."],
@@ -190,7 +190,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart part of Qatar Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Qatar Airways." },
-      { question: "Can I book Qatar Airways by phone?", answer: "Yes. A specialist can discuss your route, dates, travelers, cabin preferences, and available booking options." },
+      { question: "How can I speak with a Qatar Airways reservation specialist by phone?", answer: "You can call TicketDepart for independent travel assistance. A specialist can discuss your Qatar Airways route, dates, travelers, cabin preferences, and available booking options. TicketDepart is not Qatar Airways official customer service." },
       { question: "Can you help with a Qatar Airways change?", answer: "We can review the existing reservation and discuss possible changes or rebooking. Exact eligibility and cost depend on the ticket and availability." },
       { question: "Can you help with international connections?", answer: "Yes. We can discuss the complete routing and connection considerations, while travelers remain responsible for confirming current entry and transit requirements." },
     ],
