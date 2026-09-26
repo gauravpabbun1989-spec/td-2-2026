@@ -1,71 +1,5 @@
 import { Layout } from "@/components/Layout";
-import { AdminLeadsPage } from "@/pages/AdminLeadsPage";
-import { BookAFlightByPhonePage } from "@/pages/BookAFlightByPhonePage";
-import { ContactPage } from "@/pages/ContactPage";
-import { FlightBookingPage } from "@/pages/FlightBookingPage";
-import { FlightSearchPage } from "@/pages/FlightSearchPage";
-import { FlightSearchResultsPage } from "@/pages/FlightSearchResultsPage";
-import { HomePage } from "@/pages/HomePage";
-import { HowToBookFlightByPhonePage } from "@/pages/HowToBookFlightByPhonePage";
-import {
-  AirlineReservationAssistancePage,
-  BusinessClassFlightBookingPage,
-  CheapFlightBookingByPhonePage,
-  FamilyFlightBookingPage,
-  FlightBookingAssistancePage,
-  FlightCancellationAssistancePage,
-  UsaToCanadaFlightsPage,
-  UsaToUkFlightsPage,
-  UsaToEuropeFlightsPage,
-  UsaToMexicoFlightsPage,
-  FlightChangeAssistancePage,
-  SameDayFlightBookingPage,
-} from "@/pages/AdditionalBookingPages";
-import {
-  GroupFlightBookingPage,
-  InternationalFlightBookingPage,
-  LastMinuteFlightBookingPage,
-  MultiCityFlightBookingPage,
-} from "@/pages/BookingIntentPages";
-import {
-  FlightsFromNewYorkPage,
-  FlightsFromLosAngelesPage,
-  FlightsFromChicagoPage,
-  FlightsFromMiamiPage,
-  FlightsFromAtlantaPage,
-  FlightsFromDallasPage,
-  FlightsFromOrlandoPage,
-  FlightsFromSanFranciscoPage,
-} from "@/pages/UsGatewayFlightPages";
-import {
-  FlightsNewYorkToLondonPage,
-  FlightsNewYorkToParisPage,
-  FlightsNewYorkToDubaiPage,
-  FlightsLosAngelesToTokyoPage,
-  FlightsLosAngelesToLondonPage,
-  FlightsMiamiToCancunPage,
-  FlightsChicagoToLondonPage,
-  FlightsSanFranciscoToTokyoPage,
-} from "@/pages/RouteFlightPages";
 import { NotFoundPage } from "@/pages/NotFoundPage";
-import { PrivacyPage } from "@/pages/PrivacyPage";
-import { TermsPage } from "@/pages/TermsPage";
-import { AmericanAirlinesPage } from "@/pages/airlines/AmericanAirlinesPage";
-import {
-  AirCanadaPage,
-  AlaskaAirlinesPage,
-  BritishAirwaysPage,
-  JetBlueAirwaysPage,
-  LufthansaPage,
-  SouthwestAirlinesPage,
-  SwissAirPage,
-  QatarAirwaysPage,
-  EmiratesPage,
-  LotPolishAirlinesPage,
-  NorseAtlanticAirwaysPage,
-} from "@/pages/airlines/AdditionalAirlinePages";
-import { DeltaPage } from "@/pages/airlines/DeltaPage";
-import { UnitedPage } from "@/pages/airlines/UnitedPage";
 import {
   Outlet,
   RouterProvider,
@@ -73,11 +7,85 @@ import {
   createRoute,
   createRouter,
 } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
+
+const lazyPage = (loader: () => Promise<{ default: React.ComponentType }>) => lazy(loader);
+
+const AdminLeadsPage = lazyPage(() => import("@/pages/AdminLeadsPage").then(({ AdminLeadsPage }) => ({ default: AdminLeadsPage })));
+const BookAFlightByPhonePage = lazyPage(() => import("@/pages/BookAFlightByPhonePage").then(({ BookAFlightByPhonePage }) => ({ default: BookAFlightByPhonePage })));
+const ContactPage = lazyPage(() => import("@/pages/ContactPage").then(({ ContactPage }) => ({ default: ContactPage })));
+const FlightBookingPage = lazyPage(() => import("@/pages/FlightBookingPage").then(({ FlightBookingPage }) => ({ default: FlightBookingPage })));
+const FlightSearchPage = lazyPage(() => import("@/pages/FlightSearchPage").then(({ FlightSearchPage }) => ({ default: FlightSearchPage })));
+const FlightSearchResultsPage = lazyPage(() => import("@/pages/FlightSearchResultsPage").then(({ FlightSearchResultsPage }) => ({ default: FlightSearchResultsPage })));
+const HomePage = lazyPage(() => import("@/pages/HomePage").then(({ HomePage }) => ({ default: HomePage })));
+const HowToBookFlightByPhonePage = lazyPage(() => import("@/pages/HowToBookFlightByPhonePage").then(({ HowToBookFlightByPhonePage }) => ({ default: HowToBookFlightByPhonePage })));
+
+const AdditionalBookingPages = import("@/pages/AdditionalBookingPages");
+const CheapFlightBookingByPhonePage = lazyPage(() => AdditionalBookingPages.then(({ CheapFlightBookingByPhonePage }) => ({ default: CheapFlightBookingByPhonePage })));
+const BusinessClassFlightBookingPage = lazyPage(() => AdditionalBookingPages.then(({ BusinessClassFlightBookingPage }) => ({ default: BusinessClassFlightBookingPage })));
+const FamilyFlightBookingPage = lazyPage(() => AdditionalBookingPages.then(({ FamilyFlightBookingPage }) => ({ default: FamilyFlightBookingPage })));
+const FlightBookingAssistancePage = lazyPage(() => AdditionalBookingPages.then(({ FlightBookingAssistancePage }) => ({ default: FlightBookingAssistancePage })));
+const FlightCancellationAssistancePage = lazyPage(() => AdditionalBookingPages.then(({ FlightCancellationAssistancePage }) => ({ default: FlightCancellationAssistancePage })));
+const UsaToCanadaFlightsPage = lazyPage(() => AdditionalBookingPages.then(({ UsaToCanadaFlightsPage }) => ({ default: UsaToCanadaFlightsPage })));
+const UsaToUkFlightsPage = lazyPage(() => AdditionalBookingPages.then(({ UsaToUkFlightsPage }) => ({ default: UsaToUkFlightsPage })));
+const UsaToEuropeFlightsPage = lazyPage(() => AdditionalBookingPages.then(({ UsaToEuropeFlightsPage }) => ({ default: UsaToEuropeFlightsPage })));
+const UsaToMexicoFlightsPage = lazyPage(() => AdditionalBookingPages.then(({ UsaToMexicoFlightsPage }) => ({ default: UsaToMexicoFlightsPage })));
+const FlightChangeAssistancePage = lazyPage(() => AdditionalBookingPages.then(({ FlightChangeAssistancePage }) => ({ default: FlightChangeAssistancePage })));
+const SameDayFlightBookingPage = lazyPage(() => AdditionalBookingPages.then(({ SameDayFlightBookingPage }) => ({ default: SameDayFlightBookingPage })));
+const AirlineReservationAssistancePage = lazyPage(() => AdditionalBookingPages.then(({ AirlineReservationAssistancePage }) => ({ default: AirlineReservationAssistancePage })));
+
+const BookingIntentPages = import("@/pages/BookingIntentPages");
+const GroupFlightBookingPage = lazyPage(() => BookingIntentPages.then(({ GroupFlightBookingPage }) => ({ default: GroupFlightBookingPage })));
+const InternationalFlightBookingPage = lazyPage(() => BookingIntentPages.then(({ InternationalFlightBookingPage }) => ({ default: InternationalFlightBookingPage })));
+const LastMinuteFlightBookingPage = lazyPage(() => BookingIntentPages.then(({ LastMinuteFlightBookingPage }) => ({ default: LastMinuteFlightBookingPage })));
+const MultiCityFlightBookingPage = lazyPage(() => BookingIntentPages.then(({ MultiCityFlightBookingPage }) => ({ default: MultiCityFlightBookingPage })));
+
+const UsGatewayFlightPages = import("@/pages/UsGatewayFlightPages");
+const FlightsFromNewYorkPage = lazyPage(() => UsGatewayFlightPages.then(({ FlightsFromNewYorkPage }) => ({ default: FlightsFromNewYorkPage })));
+const FlightsFromLosAngelesPage = lazyPage(() => UsGatewayFlightPages.then(({ FlightsFromLosAngelesPage }) => ({ default: FlightsFromLosAngelesPage })));
+const FlightsFromChicagoPage = lazyPage(() => UsGatewayFlightPages.then(({ FlightsFromChicagoPage }) => ({ default: FlightsFromChicagoPage })));
+const FlightsFromMiamiPage = lazyPage(() => UsGatewayFlightPages.then(({ FlightsFromMiamiPage }) => ({ default: FlightsFromMiamiPage })));
+const FlightsFromAtlantaPage = lazyPage(() => UsGatewayFlightPages.then(({ FlightsFromAtlantaPage }) => ({ default: FlightsFromAtlantaPage })));
+const FlightsFromDallasPage = lazyPage(() => UsGatewayFlightPages.then(({ FlightsFromDallasPage }) => ({ default: FlightsFromDallasPage })));
+const FlightsFromOrlandoPage = lazyPage(() => UsGatewayFlightPages.then(({ FlightsFromOrlandoPage }) => ({ default: FlightsFromOrlandoPage })));
+const FlightsFromSanFranciscoPage = lazyPage(() => UsGatewayFlightPages.then(({ FlightsFromSanFranciscoPage }) => ({ default: FlightsFromSanFranciscoPage })));
+
+const RouteFlightPages = import("@/pages/RouteFlightPages");
+const FlightsNewYorkToLondonPage = lazyPage(() => RouteFlightPages.then(({ FlightsNewYorkToLondonPage }) => ({ default: FlightsNewYorkToLondonPage })));
+const FlightsNewYorkToParisPage = lazyPage(() => RouteFlightPages.then(({ FlightsNewYorkToParisPage }) => ({ default: FlightsNewYorkToParisPage })));
+const FlightsNewYorkToDubaiPage = lazyPage(() => RouteFlightPages.then(({ FlightsNewYorkToDubaiPage }) => ({ default: FlightsNewYorkToDubaiPage })));
+const FlightsLosAngelesToTokyoPage = lazyPage(() => RouteFlightPages.then(({ FlightsLosAngelesToTokyoPage }) => ({ default: FlightsLosAngelesToTokyoPage })));
+const FlightsLosAngelesToLondonPage = lazyPage(() => RouteFlightPages.then(({ FlightsLosAngelesToLondonPage }) => ({ default: FlightsLosAngelesToLondonPage })));
+const FlightsMiamiToCancunPage = lazyPage(() => RouteFlightPages.then(({ FlightsMiamiToCancunPage }) => ({ default: FlightsMiamiToCancunPage })));
+const FlightsChicagoToLondonPage = lazyPage(() => RouteFlightPages.then(({ FlightsChicagoToLondonPage }) => ({ default: FlightsChicagoToLondonPage })));
+const FlightsSanFranciscoToTokyoPage = lazyPage(() => RouteFlightPages.then(({ FlightsSanFranciscoToTokyoPage }) => ({ default: FlightsSanFranciscoToTokyoPage })));
+
+const AmericanAirlinesPage = lazyPage(() => import("@/pages/airlines/AmericanAirlinesPage").then(({ AmericanAirlinesPage }) => ({ default: AmericanAirlinesPage })));
+const AdditionalAirlinePages = import("@/pages/airlines/AdditionalAirlinePages");
+const AirCanadaPage = lazyPage(() => AdditionalAirlinePages.then(({ AirCanadaPage }) => ({ default: AirCanadaPage })));
+const AlaskaAirlinesPage = lazyPage(() => AdditionalAirlinePages.then(({ AlaskaAirlinesPage }) => ({ default: AlaskaAirlinesPage })));
+const BritishAirwaysPage = lazyPage(() => AdditionalAirlinePages.then(({ BritishAirwaysPage }) => ({ default: BritishAirwaysPage })));
+const JetBlueAirwaysPage = lazyPage(() => AdditionalAirlinePages.then(({ JetBlueAirwaysPage }) => ({ default: JetBlueAirwaysPage })));
+const LufthansaPage = lazyPage(() => AdditionalAirlinePages.then(({ LufthansaPage }) => ({ default: LufthansaPage })));
+const SouthwestAirlinesPage = lazyPage(() => AdditionalAirlinePages.then(({ SouthwestAirlinesPage }) => ({ default: SouthwestAirlinesPage })));
+const SwissAirPage = lazyPage(() => AdditionalAirlinePages.then(({ SwissAirPage }) => ({ default: SwissAirPage })));
+const QatarAirwaysPage = lazyPage(() => AdditionalAirlinePages.then(({ QatarAirwaysPage }) => ({ default: QatarAirwaysPage })));
+const EmiratesPage = lazyPage(() => AdditionalAirlinePages.then(({ EmiratesPage }) => ({ default: EmiratesPage })));
+const LotPolishAirlinesPage = lazyPage(() => AdditionalAirlinePages.then(({ LotPolishAirlinesPage }) => ({ default: LotPolishAirlinesPage })));
+const NorseAtlanticAirwaysPage = lazyPage(() => AdditionalAirlinePages.then(({ NorseAtlanticAirwaysPage }) => ({ default: NorseAtlanticAirwaysPage })));
+
+const DeltaPage = lazyPage(() => import("@/pages/airlines/DeltaPage").then(({ DeltaPage }) => ({ default: DeltaPage })));
+const UnitedPage = lazyPage(() => import("@/pages/airlines/UnitedPage").then(({ UnitedPage }) => ({ default: UnitedPage })));
+const PrivacyPage = lazyPage(() => import("@/pages/PrivacyPage").then(({ PrivacyPage }) => ({ default: PrivacyPage })));
+const TermsPage = lazyPage(() => import("@/pages/TermsPage").then(({ TermsPage }) => ({ default: TermsPage })));
+
 
 const rootRoute = createRootRoute({
   component: () => (
     <Layout>
-      <Outlet />
+      <Suspense fallback={<div className="min-h-[60vh] grid place-items-center text-sm text-muted-foreground">Loading…</div>}>
+        <Outlet />
+      </Suspense>
     </Layout>
   ),
   notFoundComponent: NotFoundPage,
