@@ -450,7 +450,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
         }}
       >
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          {!embedded && (\n          <div className="mx-auto max-w-5xl text-center text-white">
+          {!embedded && (\n            <div className="mx-auto max-w-5xl text-center text-white">
             <p className="label-board text-white/90">Flight Schedule Search</p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
               Find scheduled flights by city or airport
