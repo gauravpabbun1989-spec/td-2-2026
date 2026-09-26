@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "description": "TicketDepart scheduled-flight database. Populate only from flight-information datasets whose license permits commercial redistribution.",
+  "source": {
+    "name": "empty-initial-database",
+    "license": "N/A",
+    "updatedAt": null
+  },
+  "flights": []
+}
