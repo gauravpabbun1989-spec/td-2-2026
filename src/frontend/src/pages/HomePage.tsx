@@ -48,7 +48,7 @@ function DeferredFlightSearch() {
     <div ref={containerRef} className="min-h-[420px]" aria-label="Flight search">
       {shouldLoad ? (
         <Suspense fallback={<div className="mx-auto max-w-6xl px-5 py-12 text-sm text-muted-foreground">Loading flight search…</div>}>
-          <DeferredFlightSearch />
+          <FlightSearchPage embedded />
         </Suspense>
       ) : null}
     </div>
