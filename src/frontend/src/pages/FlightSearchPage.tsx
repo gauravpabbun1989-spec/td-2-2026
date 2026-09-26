@@ -47,7 +47,7 @@ type FlightSchedule = {
 const PAGE_PATH = "/flight-search";
 const PAGE_TITLE = "Flight Schedule Search | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Search free Air-Routes scheduled route information by city or airport and travel date, then call TicketDepart to confirm booking details.";
+  "Search flight options by city or airport and travel date, then call TicketDepart to confirm booking details.";
 
 async function loadAirports(query: string): Promise<Airport[]> {
   const q = query.trim();
@@ -601,9 +601,9 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
       <Section tone="muted" ocid="flight_search.results" aria-labelledby="flight_search_results_heading">
         <SectionHeading
           id="flight_search_results_heading"
-          eyebrow={results.length ? "Available schedule options" : "Flight booking"}
+          eyebrow={results.length ? "Flight options" : "Flight booking"}
           title={results.length ? `${results.length} option${results.length === 1 ? "" : "s"} found` : "Search results"}
-          description={results.length ? "Choose a schedule below. Fare, seat inventory, baggage, taxes, and final booking availability are confirmed before payment." : "Enter your route and dates above to search scheduled flight options."}
+          description={results.length ? "Choose an itinerary below, then continue by phone to confirm and book." : "Enter your route and dates above to search flight options."}
         />
 
         {results.length > 0 ? (
@@ -672,56 +672,9 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
               );
             })}
           </div>
-                        <div>
-                          <p className="font-bold">{result.airlineName}</p>
-                          <p className="text-xs text-muted-foreground">{result.airlineCode ?? "Airline"} · {result.stops === 0 ? "Nonstop" : `${result.stops} stop${result.stops === 1 ? "" : "s"}`} · {result.duration ?? "Schedule"}</p>
-                        </div>
-                        {result.status && <span className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">{result.status}</span>}
-                      </div>
-
-                      <div className="mt-5 grid items-center gap-4 sm:grid-cols-[1fr_auto_1fr]">
-                        <div>
-                          <p className="text-2xl font-bold">{result.departure.time}</p>
-                          <p className="font-semibold">{result.departure.iata}</p>
-                          {result.departure.date && <p className="text-xs text-muted-foreground">{result.departure.date}</p>}
-                        </div>
-                        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-                          <Clock3 className="size-4" /> {result.duration ?? "Schedule"} <ArrowRight className="size-5 text-accent" />
-                        </div>
-                        <div className="sm:text-right">
-                          <p className="text-2xl font-bold">{result.arrival.time}</p>
-                          <p className="font-semibold">{result.arrival.iata}</p>
-                          {result.arrival.date && <p className="text-xs text-muted-foreground">{result.arrival.date}</p>}
-                        </div>
-                      </div>
-
-                      <div className="mt-4 flex flex-wrap gap-3 text-xs text-muted-foreground">
-                        <span className="inline-flex items-center gap-1"><Luggage className="size-3.5" /> {result.baggage ?? "Baggage varies by fare"}</span>
-                        <span>Cabin: {result.cabin}</span>
-                        <span>Scheduled information</span>
-                      </div>
-                    </div>
-
-                    <div className="flex w-full flex-col gap-2 lg:w-56">
-                      <button
-                        type="button"
-                        onClick={() => { setSelectedResult(result); setPassengerOpen(true); }}
-                        className="inline-flex h-12 items-center justify-center rounded-full bg-primary px-5 font-semibold text-primary-foreground"
-                      >
-                        Select flight
-                      </button>
-                      <a href={SITE.phoneHref} className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-primary/20 bg-background px-5 text-sm font-semibold text-primary">
-                        <Phone className="size-4" /> Call to book
-                      </a>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
         ) : (
           <div className="mt-8 rounded-2xl border border-border bg-card p-7 text-sm text-muted-foreground">
-            Your search results will appear here. This engine does not invent fares or availability.
+            Your search results will appear here.
           </div>
         )}
 
@@ -753,7 +706,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
 
       {!embedded && <Section tone="muted" ocid="flight_search.disclosure">
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Schedule information is displayed from Air-Routes and filtered to the selected travel date(s). Departure times are provider-supplied schedules; arrival time is calculated from published flying time and airport time zones when available. This is not live fare inventory or live flight status. Current fare, availability, baggage, taxes, and booking conditions are confirmed by phone before booking.{" "}
+          Flight options are shown for the route and travel date selected. A reservation specialist will confirm the itinerary and booking details by phone before payment.{" "}
           {SITE.disclosure}
         </p>
       </Section>}
