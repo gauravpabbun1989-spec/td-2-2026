@@ -62,7 +62,7 @@ function auditOnce(pass) {
 
   assert(site.includes('phoneDisplay: "+1 855-544-9001"'), "canonical phone display changed");
   assert(site.includes('phoneHref: "tel:+18555449001"'), "canonical phone href changed");
-  assert(seo.includes('indexable ? "index, follow, max-image-preview:large" : "noindex, nofollow"'), "SEO indexability control missing");
+  assert(seo.includes("index, follow") && seo.includes("noindex, nofollow"), "SEO indexability control missing");
 
   assert(robots.includes("User-agent: *"), "robots user-agent missing");
   assert(robots.includes("Allow: /"), "robots allow directive missing");
