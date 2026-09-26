@@ -7,12 +7,14 @@ import { useMemo, useState } from "react";
 const AIR_ROUTES_API = "https://air-routes.com/api/route";
 const AIR_ROUTES_AIRPORTS_API = "https://air-routes.com/api/airports";
 
-type Airport = { id: string; name: string; city: string; country: string; iata: string; timezone?: string };
+type Airport = { id: string; name: string; city: string; country: string; iata: string; lat?: number; lon?: number; timezone?: string };
 type LocationChoice = {
   type: "city" | "airport";
   city: string;
   country: string;
   iata?: string;
+  lat?: number;
+  lon?: number;
   timezone?: string;
   label: string;
 };
@@ -56,6 +58,8 @@ async function loadAirports(query: string): Promise<Airport[]> {
       name?: string;
       city?: string;
       country?: string;
+      lat?: number | null;
+      lon?: number | null;
     }>;
   };
   return (payload.airports ?? [])
@@ -65,10 +69,31 @@ async function loadAirports(query: string): Promise<Airport[]> {
       city: String(airport.city ?? ""),
       country: String(airport.country ?? ""),
       iata: String(airport.airport_code ?? "").toUpperCase(),
+      lat: typeof airport.lat === "number" ? airport.lat : undefined,
+      lon: typeof airport.lon === "number" ? airport.lon : undefined,
     }))
     .filter((airport) => airport.iata);
 }
 
+const timezoneCache = new Map<string, string>();
+
+async function resolveAirportTimezone(choice: LocationChoice): Promise<string | undefined> {
+  if (choice.timezone) return choice.timezone;
+  if (typeof choice.lat !== "number" || typeof choice.lon !== "number") return undefined;
+  const key = choice.iata ?? `${choice.lat.toFixed(4)},${choice.lon.toFixed(4)}`;
+  const cached = timezoneCache.get(key);
+  if (cached) return cached;
+  try {
+    const response = await fetch(`https://api.geotimezone.com/public/timezone?latitude=${encodeURIComponent(String(choice.lat))}&longitude=${encodeURIComponent(String(choice.lon))}`);
+    if (!response.ok) return undefined;
+    const payload = (await response.json()) as { iana_timezone?: string };
+    if (!payload.iana_timezone) return undefined;
+    timezoneCache.set(key, payload.iana_timezone);
+    return payload.iana_timezone;
+  } catch {
+    return undefined;
+  }
+}
 function choices(airports: Airport[], query: string): LocationChoice[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
@@ -85,6 +110,8 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
     city: a.city,
     country: a.country,
     iata: a.iata,
+    lat: a.lat,
+    lon: a.lon,
     timezone: a.timezone,
     label: `${a.city}, ${a.country} — Primary airport (${a.iata})`,
   }));
@@ -204,7 +231,8 @@ function calculateArrival(
   originTimezone?: string,
   destinationTimezone?: string,
 ): { date: string; time: string } | null {
-  if (durationMinutes === undefined || !originTimezone || !destinationTimezone) return null;
+  if (durationMinutes === undefined) return null;
+  if (!originTimezone || !destinationTimezone) return addMinutesToTime(departureTime, durationMinutes, departureDate);
   const match = departureTime.match(/^(\d{1,2}):(\d{2})/);
   if (!match) return null;
   const hours = Number(match[1]);
@@ -351,9 +379,10 @@ async function fetchSchedules(
   const origin = fromChoice.iata ?? "";
   const destination = toChoice.iata ?? "";
   if (!origin || !destination) throw new Error("Select airports with valid IATA codes.");
-  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, fromChoice.timezone, toChoice.timezone);
+  const [originTimezone, destinationTimezone] = await Promise.all([resolveAirportTimezone(fromChoice), resolveAirportTimezone(toChoice)]);
+  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, originTimezone, destinationTimezone);
   if (!returnDate) return outbound;
-  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, toChoice.timezone, fromChoice.timezone);
+  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, destinationTimezone, originTimezone);
   return [...outbound, ...inbound];
 }
 
@@ -367,7 +396,8 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [returnDate, setReturnDate] = useState("");
   const [travelers, setTravelers] = useState("1");
   const [cabin, setCabin] = useState("Economy");
-  const [airports, setAirports] = useState<Airport[]>([]);
+  const [fromAirports, setFromAirports] = useState<Airport[]>([]);
+  const [toAirports, setToAirports] = useState<Airport[]>([]);
   const [airportSearch, setAirportSearch] = useState<"from" | "to" | "">("");
   const [results, setResults] = useState<FlightSchedule[]>([]);
   const [selectedResult, setSelectedResult] = useState<FlightSchedule | null>(null);
@@ -376,27 +406,27 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [error, setError] = useState("");
   const [passengerOpen, setPassengerOpen] = useState(false);
 
-  const ensureAirports = async (query: string) => {
+  const ensureAirports = async (query: string, side: "from" | "to") => {
     if (query.trim().length < 2) {
-      setAirports([]);
-      return [];
+      if (side === "from") setFromAirports([]);
+      else setToAirports([]);
+      return;
     }
     setLoadingAirports(true);
     try {
       const loaded = await loadAirports(query);
-      setAirports(loaded);
-      return loaded;
+      if (side === "from") setFromAirports(loaded);
+      else setToAirports(loaded);
     } catch {
-      setAirports([]);
-      return [];
+      if (side === "from") setFromAirports([]);
+      else setToAirports([]);
     } finally {
       setLoadingAirports(false);
     }
   };
 
-  const fromMatches = useMemo(() => choices(airports, from), [airports, from]);
-  const toMatches = useMemo(() => choices(airports, to), [airports, to]);
-
+  const fromMatches = useMemo(() => choices(fromAirports, from), [fromAirports, from]);
+  const toMatches = useMemo(() => choices(toAirports, to), [toAirports, to]);
   const search = async () => {
     setLoading(true);
     setError("");
@@ -477,21 +507,21 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
             <div className="mt-5 grid gap-3 lg:grid-cols-[1.25fr_1.25fr_0.8fr_0.8fr_0.7fr]">
               <label className="relative rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">From</span>
-                <input value={from} onFocus={() => void ensureAirports(from)} onChange={(e) => { setFrom(e.target.value); setFromChoice(null); setAirportSearch("from"); void ensureAirports(e.target.value); }} placeholder={loadingAirports ? "Loading airports…" : "City or airport"} className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none" autoComplete="off" />
+                <input value={from} onFocus={() => void ensureAirports(from, "from")} onChange={(e) => { setFrom(e.target.value); setFromChoice(null); setAirportSearch("from"); void ensureAirports(e.target.value, "from"); }} placeholder={loadingAirports ? "Loading airports…" : "City or airport"} className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none" autoComplete="off" />
                 {fromChoice?.iata && <span className="text-xs font-bold text-primary">{fromChoice.iata}</span>}
                 {airportSearch === "from" && suggestionList(fromMatches, setFrom, setFromChoice)}
               </label>
 
               <label className="relative rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">To</span>
-                <input value={to} onFocus={() => void ensureAirports(to)} onChange={(e) => { setTo(e.target.value); setToChoice(null); setAirportSearch("to"); void ensureAirports(e.target.value); }} placeholder="City or airport" className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none" autoComplete="off" />
+                <input value={to} onFocus={() => void ensureAirports(to, "to")} onChange={(e) => { setTo(e.target.value); setToChoice(null); setAirportSearch("to"); void ensureAirports(e.target.value); }} placeholder="City or airport" className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none" autoComplete="off" />
                 {toChoice?.iata && <span className="text-xs font-bold text-primary">{toChoice.iata}</span>}
                 {airportSearch === "to" && suggestionList(toMatches, setTo, setToChoice)}
               </label>
 
               <label className="rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Depart</span>
-                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="mt-2 h-9 w-full bg-transparent text-sm font-semibold outline-none" />
+                <input type="date" min={new Date().toISOString().slice(0, 10)} value={date} onChange={(e) => { const nextDate = e.target.value; setDate(nextDate); if (returnDate && returnDate < nextDate) setReturnDate(nextDate); }} className="mt-2 h-9 w-full bg-transparent text-sm font-semibold outline-none" />
               </label>
 
               <label className="rounded-2xl border border-border bg-background p-4">
