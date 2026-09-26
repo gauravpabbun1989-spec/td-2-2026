@@ -204,7 +204,8 @@ export function TripRequestForm() {
   const [values, setValues] = useState<FormValues>(EMPTY_FORM);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
-  const [emailStatus, setEmailStatus] = useState<EmailStatus | null>(null);\n  const callbackStartedRef = useRef(false);
+  const [emailStatus, setEmailStatus] = useState<EmailStatus | null>(null);
+  const callbackStartedRef = useRef(false);
 
   const fallbackEmail = (() => {
     const subject = encodeURIComponent(
