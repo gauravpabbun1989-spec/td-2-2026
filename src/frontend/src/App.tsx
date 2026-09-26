@@ -4,6 +4,7 @@ import { BookAFlightByPhonePage } from "@/pages/BookAFlightByPhonePage";
 import { ContactPage } from "@/pages/ContactPage";
 import { FlightBookingPage } from "@/pages/FlightBookingPage";
 import { FlightSearchPage } from "@/pages/FlightSearchPage";
+import { FlightSearchResultsPage } from "@/pages/FlightSearchResultsPage";
 import { HomePage } from "@/pages/HomePage";
 import { HowToBookFlightByPhonePage } from "@/pages/HowToBookFlightByPhonePage";
 import {
@@ -299,6 +300,12 @@ const flightSearchRoute = createRoute({
   component: FlightSearchPage,
 });
 
+const flightSearchResultsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flight-search-results",
+  component: FlightSearchResultsPage,
+});
+
 const flightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flight-booking",
@@ -433,6 +440,7 @@ export const routeTree = rootRoute.addChildren([
   flightsSanFranciscoToTokyoRoute,
   flightBookingRoute,
   flightSearchRoute,
+  flightSearchResultsRoute,
   internationalFlightBookingRoute,
   lastMinuteFlightBookingRoute,
   multiCityFlightBookingRoute,
