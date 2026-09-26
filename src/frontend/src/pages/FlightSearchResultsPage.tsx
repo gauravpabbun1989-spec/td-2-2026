@@ -172,7 +172,7 @@ function ResultCard({
 export function FlightSearchResultsPage() {
   const initialSearch = useMemo(() => readSearch(), []);
   const { actor, isFetching: isActorFetching } = useActor(createActor);
-  const [search, setSearch] = useState<SearchState | null>(initialSearch);
+  const search = initialSearch;
   const [outbound, setOutbound] = useState<FlightSchedule[]>([]);
   const [inbound, setInbound] = useState<FlightSchedule[]>([]);
   const [selectedOutbound, setSelectedOutbound] = useState<FlightSchedule | null>(null);
