@@ -78,12 +78,12 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking",
-    title: "Business Class Flight Booking Assistance | TicketDepart",
+    title: "Business Class Flight Booking by Phone | Travel Agent Assistance | TicketDepart",
     description:
-      "Plan business class and premium cabin flights by phone. Compare schedules, connections, cabin features, baggage, and fare conditions with a TicketDepart travel specialist or business class travel agent.",
-    heading: "Business class flight booking assistance",
+      "Plan business class and premium cabin flights by phone with an independent travel agency. Compare schedules, connections, cabin features, baggage, and fare conditions with a TicketDepart travel specialist or business class travel agent.",
+    heading: "Business class flight booking by phone with a travel specialist",
     intro:
-      "Business class travel can differ significantly by aircraft, route, connection, and fare family. A phone conversation with a business class travel agent lets you explain the experience, schedule, and cabin preferences you need before booking.",
+      "Business class travel can differ significantly by aircraft, route, connection, and fare family. A phone conversation with an independent business class travel agent lets you explain the experience, schedule, and cabin preferences you need before booking.",
     service: "Business class flight booking",
     items: [
       [
