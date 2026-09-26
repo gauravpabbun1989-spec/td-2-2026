@@ -64,11 +64,6 @@ function buildResultsUrl(search: SearchState): string {
   return `/flight-search-results?${params.toString()}`;
 }
 
-function displayLocation(iata: string, airports: Awaited<ReturnType<typeof loadAirports>>): string {
-  const match = airports.find((airport) => airport.iata === iata);
-  return match ? `${match.city} (${match.iata})` : iata;
-}
-
 function makeChoice(
   iata: string,
   airports: Awaited<ReturnType<typeof loadAirports>>,
