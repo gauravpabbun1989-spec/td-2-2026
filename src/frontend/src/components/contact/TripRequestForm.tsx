@@ -245,7 +245,16 @@ export function TripRequestForm() {
         ...(details ? { details } : {}),
       });
     },
+    onError: () => {
+      trackCallbackFormError("contact_form", "submission");
+    },
   });
+
+  function handleFormFocus() {
+    if (callbackStartedRef.current) return;
+    callbackStartedRef.current = true;
+    trackCallbackFormStart("contact_form");
+  }
 
   function handleChange(
     event: ChangeEvent<
@@ -268,9 +277,11 @@ export function TripRequestForm() {
     const nextErrors = validate(values);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
+      trackCallbackFormError("contact_form", "validation");
       return;
     }
 
+    trackCallbackFormSubmit("contact_form");
     mutation.mutate(values, {
       onSuccess: (result) => {
         if (result.__kind__ === "ok") {
@@ -362,6 +373,7 @@ export function TripRequestForm() {
   return (
     <form
       noValidate
+      onFocusCapture={handleFormFocus}
       onSubmit={handleSubmit}
       data-ocid="contact.form"
       className="rounded-2xl border border-border bg-card p-6 shadow-elevated sm:p-8"
