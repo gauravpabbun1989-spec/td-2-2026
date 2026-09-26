@@ -254,7 +254,7 @@ export const idlFactory = ({ IDL }) => {
     'listLeads' : IDL.Func([], [IDL.Vec(TripRequest)], ['query']),
     'schema' : IDL.Func([], [IDL.Text], ['query']),
     'searchFlightRoute' : IDL.Func([IDL.Text, IDL.Text], [IDL.Record({ 'status' : IDL.Nat, 'body' : IDL.Text })], []),
-    'searchFlightConnections' : IDL.Func([IDL.Text, IDL.Text], [IDL.Record({ 'status' : IDL.Nat, 'body' : IDL.Text })], ['query']),
+    'searchFlightConnections' : IDL.Func([IDL.Text, IDL.Text], [IDL.Record({ 'status' : IDL.Nat, 'body' : IDL.Text })], []),
     'submitTripRequest' : IDL.Func([TripRequestInput], [SubmitResult], []),
   });
 };
