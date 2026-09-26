@@ -474,6 +474,8 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [results, setResults] = useState<FlightSchedule[]>([]);
   const [returnResults, setReturnResults] = useState<FlightSchedule[]>([]);
   const [selectedResult, setSelectedResult] = useState<FlightSchedule | null>(null);
+  const [selectedOutbound, setSelectedOutbound] = useState<FlightSchedule | null>(null);
+  const [selectedReturn, setSelectedReturn] = useState<FlightSchedule | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingAirports, setLoadingAirports] = useState(false);
   const [error, setError] = useState("");
@@ -506,6 +508,9 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
     setResults([]);
     setReturnResults([]);
     setSelectedResult(null);
+    setSelectedOutbound(null);
+    setSelectedReturn(null);
+    setPassengerOpen(false);
     try {
       if (!fromChoice || !toChoice) throw new Error("Select a departure and destination from the airport suggestions.");
       if (fromChoice.iata === toChoice.iata) throw new Error("Departure and destination cannot be the same airport.");
@@ -554,8 +559,10 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
       </div>
     ) : null;
 
-  const summary = selectedResult
-    ? `${selectedResult.departure.iata} → ${selectedResult.arrival.iata} · ${selectedResult.departure.date ?? date} · ${selectedResult.departure.time}`
+  const summary = selectedOutbound
+    ? selectedReturn
+      ? `${selectedOutbound.departure.iata} → ${selectedOutbound.arrival.iata} · ${selectedOutbound.departure.date ?? date} · ${selectedOutbound.departure.time} | ${selectedReturn.departure.iata} → ${selectedReturn.arrival.iata} · ${selectedReturn.departure.date ?? returnDate} · ${selectedReturn.departure.time}`
+      : `${selectedOutbound.departure.iata} → ${selectedOutbound.arrival.iata} · ${selectedOutbound.departure.date ?? date} · ${selectedOutbound.departure.time}`
     : "";
 
   return (
@@ -635,7 +642,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
         {results.length > 0 ? (
           <div className="mt-8 grid gap-4">
             {results.map((result) => {
-              const selected = selectedResult?.id === result.id;
+              const selected = selectedOutbound?.id === result.id;
               const legs = result.legs?.length ? result.legs : [{
                 airlineName: result.airlineName, airlineCode: result.airlineCode, logoUrl: result.logoUrl,
                 from: result.departure.iata, to: result.arrival.iata, departureTime: result.departure.time,
@@ -678,7 +685,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                     </div>
 
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
-                      <button type="button" onClick={() => { setSelectedResult(result); setPassengerOpen(true); }} className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground sm:w-auto">
+                      <button type="button" onClick={() => { if (tripType === "Round trip") { setSelectedOutbound(result); setSelectedResult(null); setPassengerOpen(false); } else { setSelectedResult(result); setSelectedOutbound(result); setPassengerOpen(true); } }} className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground sm:w-auto">
                         <Phone className="size-4" /> Call to Confirm / Book
                       </button>
                     </div>
@@ -704,7 +711,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                       <div><p className="font-bold">{legs.map((leg) => leg.airlineName).filter((name, index, names) => names.indexOf(name) === index).join(" + ")}</p><p className="text-xs text-muted-foreground">{result.stops === 0 ? "Nonstop" : result.stops + " stop" + (result.stops === 1 ? "" : "s")} · {result.duration ?? "Schedule"} · {result.cabin}</p></div>
                     </div>
                     <div className="mt-5 rounded-2xl border border-border bg-background/60 p-4">{legs.map((leg, index) => <div key={result.id + "-return-" + index} className={index > 0 ? "mt-5 border-t border-border pt-5" : ""}><div className="grid items-center gap-3 sm:grid-cols-[1fr_auto_1fr]"><div><p className="text-xl font-bold">{formatDisplayTime(leg.departureTime)}</p><p className="font-semibold">{leg.from}</p></div><div className="text-center text-xs text-muted-foreground"><ArrowRight className="mx-auto size-5 text-accent" />{leg.duration ?? "Schedule"}</div><div className="sm:text-right"><p className="text-xl font-bold">{formatDisplayTime(leg.arrivalTime)}{leg.arrivalDate && leg.arrivalDate !== returnDate ? " (+1 day)" : ""}</p><p className="font-semibold">{leg.to}</p></div></div><p className="mt-2 text-xs font-medium text-muted-foreground">{leg.airlineName}</p>{leg.layoverMinutes !== undefined && <p className="mt-3 rounded-lg bg-muted px-3 py-2 text-xs font-semibold text-muted-foreground">{formatDuration(leg.layoverMinutes)} layover</p>}</div>)}</div>
-                    <div className="mt-4 flex justify-end"><button type="button" onClick={() => { setSelectedResult(result); setPassengerOpen(true); }} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground"><Phone className="size-4" /> Call to Confirm / Book</button></div>
+                    <div className="mt-4 flex justify-end"><button type="button" onClick={() => { setSelectedReturn(result); if (selectedOutbound) { setSelectedResult(result); setPassengerOpen(true); } }} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground"><Phone className="size-4" /> Call to Confirm / Book</button></div>
                   </article>
                 );
               })}
