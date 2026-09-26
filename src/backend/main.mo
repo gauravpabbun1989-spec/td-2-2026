@@ -93,7 +93,7 @@ actor {
   };
 
   public func searchFlightRoute(origin : Text, destination : Text) : async { status : Nat; body : Text } {
-    await fetchFlightApi("/api/route/ # Text.toUpper(origin) # "-" # Text.toUpper(destination));
+    await fetchFlightApi("/api/route/" # Text.toUpper(origin) # "-" # Text.toUpper(destination));
   };
 
   public func searchFlightConnections(origin : Text, destination : Text) : async { status : Nat; body : Text } {
