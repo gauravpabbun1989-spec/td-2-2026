@@ -96,10 +96,10 @@ const routes = {
     text: "Get practical help comparing flight options, complicated itineraries, premium cabins, group travel, and booking details by phone.",
   },
   "/delta-airlines": {
-    title: "Delta Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Call +1 888-958-0280.",
+    title: "Delta Airlines Flight Booking Assistance | 24/7 | TicketDepart",
+    description: "Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Discuss Delta reservation assistance by phone 24/7.",
     heading: "Delta Airlines flight bookings handled by a real travel specialist",
-    text: "Get independent travel assistance for Delta Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and premium cabins.",
+    text: "Get independent travel assistance for Delta Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, premium cabins, and 24/7 reservation assistance.",
   },
   "/united-airlines": {
     title: "United Airlines Flight Booking Assistance | TicketDepart",
@@ -108,10 +108,10 @@ const routes = {
     text: "Get independent travel assistance for United Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and premium cabins.",
   },
   "/american-airlines": {
-    title: "American Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency for American Airlines bookings — domestic, international, multi-city, cabin options, and rebooking help. Call +1 888-958-0280.",
+    title: "American Airlines Flight Booking Assistance | Book by Phone | TicketDepart",
+    description: "Independent travel agency for American Airlines bookings — domestic, international, multi-city, cabin options, and rebooking help. Discuss booking an American Airlines flight by phone.",
     heading: "American Airlines trips booked with a travel specialist",
-    text: "Get independent travel assistance for American Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and cabin options.",
+    text: "Get independent travel assistance for American Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and cabin options by phone.",
   },
   "/southwest-airlines": {
     title: "Southwest Airlines Flight Booking Assistance | TicketDepart",
@@ -126,10 +126,10 @@ const routes = {
     text: "Get independent travel assistance for JetBlue Airways itineraries, including booking, changes, family travel, international trips, and last-minute planning.",
   },
   "/alaska-airlines": {
-    title: "Alaska Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for Alaska Airlines flight booking, changes, cancellations, family travel, and multi-city itineraries.",
-    heading: "Alaska Airlines flight booking assistance",
-    text: "Get independent travel assistance for Alaska Airlines itineraries, including booking, changes, family travel, international trips, and multi-city planning.",
+    title: "Alaska Airlines Flight Booking & Reservation Assistance | TicketDepart",
+    description: "Independent travel agency assistance for Alaska Airlines flight booking and reservation questions, changes, cancellations, family travel, and multi-city itineraries.",
+    heading: "Alaska Airlines flight booking and reservation assistance",
+    text: "Get independent travel assistance for Alaska Airlines itineraries, including booking, reservation questions, changes, family travel, international trips, and multi-city planning.",
   },
   "/british-airways": {
     title: "British Airways Flight Booking Assistance | TicketDepart",
