@@ -106,7 +106,7 @@ describe("GA4 phone_click exactly-once contract", () => {
 
     expect(phoneClickCalls(calls)).toHaveLength(1);
     expect(phoneClickCalls(calls)[0][2]).toMatchObject({
-      cta_location: "header.call_button",
+      cta_location: "header",
     });
 
     link.remove();
@@ -154,7 +154,7 @@ describe("GA4 phone_click exactly-once contract", () => {
 
     expect(phoneClickCalls(calls)).toHaveLength(1);
     expect(phoneClickCalls(calls)[0][2]).toMatchObject({
-      cta_location: "mobile_call.button",
+      cta_location: "sticky_mobile",
     });
 
     link.remove();
