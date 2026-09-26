@@ -1,7 +1,7 @@
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
-import { ArrowRight, Phone, Search } from "lucide-react";
+import { ArrowLeftRight, ArrowRight, Phone, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
 const AIR_ROUTES_AIRPORTS_API = "https://air-routes.com/api/airports";
@@ -551,6 +551,15 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
 
   const fromMatches = useMemo(() => choices(fromAirports, from), [fromAirports, from]);
   const toMatches = useMemo(() => choices(toAirports, to), [toAirports, to]);
+  const swapLocations = () => {
+    setFrom(to);
+    setTo(from);
+    setFromChoice(toChoice);
+    setToChoice(fromChoice);
+    setAirportSearch("");
+    setError("");
+  };
+
   const search = async () => {
     setLoading(true);
     setError("");
@@ -643,8 +652,8 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
               <span className="ml-auto hidden text-xs text-muted-foreground sm:block">Flights · {travelers} traveler{travelers === "1" ? "" : "s"} · {cabin}</span>
             </div>
 
-            <div className="mt-1.5 grid gap-1 lg:grid-cols-[1.2fr_1.2fr_0.85fr_0.85fr_0.65fr]">
-              <label className="relative rounded-xl border border-border bg-background p-2.5">
+            <div className="relative mt-1.5 grid gap-1 lg:grid-cols-[1.2fr_1.2fr_0.85fr_0.85fr_0.65fr]">
+              <label className="relative rounded-xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">From</span>
                 <input value={from} onFocus={() => void ensureAirports(from, "from")} onChange={(e) => { setFrom(e.target.value); setFromChoice(null); setAirportSearch("from"); void ensureAirports(e.target.value, "from"); }} placeholder={loadingAirports ? "Loading airports…" : "City or airport"} className="mt-1 h-7 w-full bg-transparent text-sm font-semibold outline-none" autoComplete="off" />
                 {fromChoice?.iata && <span className="text-xs font-bold text-primary">{fromChoice.iata}</span>}
@@ -657,6 +666,10 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                 {toChoice?.iata && <span className="text-xs font-bold text-primary">{toChoice.iata}</span>}
                 {airportSearch === "to" && suggestionList(toMatches, setTo, setToChoice)}
               </label>
+
+              <button type="button" onClick={swapLocations} aria-label="Swap departure and destination" title="Swap departure and destination" className="absolute left-[24%] top-1/2 z-10 hidden size-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-sky-200 bg-white text-primary shadow-sm transition hover:bg-sky-50 lg:flex">
+                <ArrowLeftRight aria-hidden="true" className="size-4" />
+              </button>
 
               <label className="rounded-xl border border-sky-100 bg-sky-50/50 p-2.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Depart</span>
