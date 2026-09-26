@@ -28,7 +28,6 @@ type FlightLeg = {
   arrivalDate?: string;
   duration?: string;
 };
-
 type FlightSchedule = {
   id: string;
   airlineName: string;
@@ -39,8 +38,6 @@ type FlightSchedule = {
   duration?: string;
   stops: number;
   cabin?: string;
-  baggage?: string;
-  status?: string;
   legs?: FlightLeg[];
 };
 
@@ -53,15 +50,13 @@ async function loadAirports(query: string): Promise<Airport[]> {
   const q = query.trim();
   if (q.length < 2) return [];
   const response = await fetch(`${AIR_ROUTES_AIRPORTS_API}?q=${encodeURIComponent(q)}`);
-  if (!response.ok) throw new Error("Live airport data could not be loaded.");
+  if (!response.ok) throw new Error("Airport search could not be loaded.");
   const payload = (await response.json()) as {
     airports?: Array<{
       airport_code?: string;
       name?: string;
       city?: string;
       country?: string;
-      lat?: number | null;
-      lon?: number | null;
     }>;
   };
   return (payload.airports ?? [])
@@ -105,18 +100,21 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
   return [...cities, ...airportChoices];
 }
 
-function normalizeSchedule(payload: unknown, requestedDate: string, requestedCabin: string, originTimezone?: string, destinationTimezone?: string): FlightSchedule[] {
+function normalizeSchedule(
+  payload: unknown,
+  requestedDate: string,
+  requestedCabin: string,
+  originTimezone?: string,
+  destinationTimezone?: string,
+): FlightSchedule[] {
   const route = payload as {
     route_id?: string;
-    from?: string;
-    to?: string;
     status?: string;
     flying_min?: number;
     airlines?: Array<{
       airline_code?: string;
       airline?: string;
       schedule?: Array<{ day?: string; times?: string[] }>;
-      seasonal_note?: string | null;
     }>;
   };
   if (!route || !Array.isArray(route.airlines)) return [];
@@ -130,22 +128,19 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
   route.airlines.forEach((airline, airlineIndex) => {
     (airline.schedule ?? []).forEach((entry, dayIndex) => {
       if (entry.day !== requestedDay) return;
-      const times = Array.isArray(entry.times) ? entry.times : [];
-      times.forEach((time, timeIndex) => {
+      (entry.times ?? []).forEach((time, timeIndex) => {
         const arrival = calculateArrival(String(time), requestedDate, durationMinutes, originTimezone, destinationTimezone);
+        const airlineName = String(airline.airline ?? airline.airline_code ?? "Airline");
+        const airlineCode = airline.airline_code ? String(airline.airline_code).toUpperCase() : undefined;
+        const logoUrl = airlineCode
+          ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(airlineCode)}.png`
+          : undefined;
         results.push({
           id: `${route.route_id}-${airline.airline_code}-${requestedDay}-${time}-${airlineIndex}-${dayIndex}-${timeIndex}`,
-          airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
-          airlineCode: airline.airline_code ? String(airline.airline_code).toUpperCase() : undefined,
-          logoUrl: airline.airline_code
-            ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(String(airline.airline_code).toUpperCase())}.png`
-            : undefined,
-          departure: {
-            iata: String(origin ?? ""),
-            city: "",
-            date: requestedDate,
-            time: String(time || "Time not supplied"),
-          },
+          airlineName,
+          airlineCode,
+          logoUrl,
+          departure: { iata: String(origin ?? ""), city: "", date: requestedDate, time: String(time || "Time not supplied") },
           arrival: {
             iata: String(destination ?? ""),
             city: "",
@@ -155,14 +150,10 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
           duration,
           stops: 0,
           cabin: requestedCabin,
-          baggage: "Allowance varies by fare",
-          status: String(route.status ?? "Scheduled"),
           legs: [{
-            airlineName: String(airline.airline ?? airline.airline_code ?? "Airline"),
-            airlineCode: airline.airline_code ? String(airline.airline_code).toUpperCase() : undefined,
-            logoUrl: airline.airline_code
-              ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(String(airline.airline_code).toUpperCase())}.png`
-              : undefined,
+            airlineName,
+            airlineCode,
+            logoUrl,
             from: String(origin ?? ""),
             to: String(destination ?? ""),
             departureTime: String(time || "Time not supplied"),
@@ -178,7 +169,7 @@ function normalizeSchedule(payload: unknown, requestedDate: string, requestedCab
 }
 
 function formatDisplayTime(time: string): string {
-  const match = time.match(/^(\\d{1,2}):(\\d{2})/);
+  const match = time.match(/^(\d{1,2}):(\d{2})/);
   if (!match) return time;
   const hours = Number(match[1]);
   const minutes = Number(match[2]);
@@ -194,14 +185,17 @@ function formatDuration(minutes: number): string {
   return mins ? `${hours}h ${mins}m` : `${hours}h`;
 }
 
-function addMinutesToTime(time: string, minutes: number): { time: string; dateOffset: number } {
-  const match = time.match(/^(\\d{1,2}):(\\d{2})/);
-  if (!match) return { time: "Arrival time unavailable", dateOffset: 0 };
+function addMinutesToTime(time: string, minutes: number, date: string): { time: string; date: string } {
+  const match = time.match(/^(\d{1,2}):(\d{2})/);
+  if (!match) return { time: "Arrival time unavailable", date };
   const total = Number(match[1]) * 60 + Number(match[2]) + minutes;
   const normalized = ((total % 1440) + 1440) % 1440;
+  const dateOffset = Math.floor(total / 1440);
+  const [year, month, day] = date.split("-").map(Number);
+  const arrivalDate = new Date(Date.UTC(year, month - 1, day + dateOffset));
   return {
     time: `${String(Math.floor(normalized / 60)).padStart(2, "0")}:${String(normalized % 60).padStart(2, "0")}`,
-    dateOffset: Math.floor(total / 1440),
+    date: `${arrivalDate.getUTCFullYear()}-${String(arrivalDate.getUTCMonth() + 1).padStart(2, "0")}-${String(arrivalDate.getUTCDate()).padStart(2, "0")}`,
   };
 }
 
@@ -213,7 +207,7 @@ function calculateArrival(
   destinationTimezone?: string,
 ): { date: string; time: string } | null {
   if (durationMinutes === undefined || !originTimezone || !destinationTimezone) return null;
-  const match = departureTime.match(/^(\\d{1,2}):(\\d{2})/);
+  const match = departureTime.match(/^(\d{1,2}):(\d{2})/);
   if (!match) return null;
   const hours = Number(match[1]);
   const minutes = Number(match[2]);
@@ -251,34 +245,32 @@ function dateToAirRoutesDay(date: string): string {
   return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][weekday] ?? "";
 }
 
-async function fetchAirRoutesRoute(origin: string, destination: string, date: string, cabin: string, originTimezone?: string, destinationTimezone?: string) {
+async function fetchAirRoutesRoute(
+  origin: string,
+  destination: string,
+  date: string,
+  cabin: string,
+  originTimezone?: string,
+  destinationTimezone?: string,
+) {
   const routeId = `${encodeURIComponent(origin)}-${encodeURIComponent(destination)}`;
   const directResponse = await fetch(`${AIR_ROUTES_API}/${routeId}`);
 
   if (directResponse.ok) {
-    const directResults = normalizeSchedule(
-      await directResponse.json(),
-      date,
-      cabin,
-      originTimezone,
-      destinationTimezone,
-    );
+    const directResults = normalizeSchedule(await directResponse.json(), date, cabin, originTimezone, destinationTimezone);
     if (directResults.length) return directResults;
   }
 
   const connectionsResponse = await fetch(
     `${AIR_ROUTES_API.replace("/route", "/connections")}?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&max_stops=2`,
   );
-  if (!connectionsResponse.ok) {
-    throw new Error(`No route data could be returned for ${origin} to ${destination}.`);
-  }
+  if (!connectionsResponse.ok) throw new Error("No scheduled options could be returned for this route.");
 
   const payload = (await connectionsResponse.json()) as {
     options?: Array<{
       total_flying_min?: number;
       stops?: number;
       legs?: Array<{
-        route_id?: string;
         from?: string;
         to?: string;
         flying_min?: number;
@@ -303,66 +295,43 @@ async function fetchAirRoutesRoute(origin: string, destination: string, date: st
     const firstAirline = firstLeg.airlines?.[0];
     const matchingSchedule = firstAirline?.schedule?.find((entry) => entry.day === requestedDay);
     const departureTime = matchingSchedule?.times?.[0];
-
     if (!departureTime) return;
 
-    const durationMinutes = Number.isFinite(option.total_flying_min)
-      ? Number(option.total_flying_min)
-      : undefined;
+    const durationMinutes = Number.isFinite(option.total_flying_min) ? Number(option.total_flying_min) : undefined;
+    const displayLegs: FlightLeg[] = [];
+    let currentDate = date;
 
-    const arrival = calculateArrival(
-      departureTime,
-      date,
-      durationMinutes,
-      originTimezone,
-      destinationTimezone,
-    );
-
-    const displayLegs: FlightLeg[] = legs.map((leg) => {
+    for (const leg of legs) {
       const legAirline = leg.airlines?.[0];
       const legSchedule = legAirline?.schedule?.find((entry) => entry.day === requestedDay);
       const legDeparture = legSchedule?.times?.[0] ?? "Time not supplied";
       const legDuration = Number.isFinite(leg.flying_min) ? Number(leg.flying_min) : undefined;
-      const legArrival = legDuration !== undefined
-        ? addMinutesToTime(legDeparture, legDuration)
-        : { time: "Arrival time unavailable", date };
-      return {
+      const legArrival = legDuration !== undefined ? addMinutesToTime(legDeparture, legDuration, currentDate) : { time: "Arrival time unavailable", date: currentDate };
+      currentDate = legArrival.date;
+      const airlineCode = legAirline?.airline_code ? String(legAirline.airline_code).toUpperCase() : undefined;
+      displayLegs.push({
         airlineName: String(legAirline?.airline ?? legAirline?.airline_code ?? "Airline"),
-        airlineCode: legAirline?.airline_code ? String(legAirline.airline_code).toUpperCase() : undefined,
-        logoUrl: legAirline?.airline_code
-          ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(String(legAirline.airline_code).toUpperCase())}.png`
-          : undefined,
+        airlineCode,
+        logoUrl: airlineCode ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(airlineCode)}.png` : undefined,
         from: String(leg.from ?? origin),
         to: String(leg.to ?? destination),
         departureTime: String(legDeparture),
         arrivalTime: legArrival.time,
         arrivalDate: legArrival.date,
         duration: legDuration !== undefined ? formatDuration(legDuration) : undefined,
-      };
-    });
+      });
+    }
 
     results.push({
       id: `${origin}-${destination}-${requestedDay}-${optionIndex}`,
       airlineName: displayLegs[0]?.airlineName ?? "Airline",
       airlineCode: displayLegs[0]?.airlineCode,
       logoUrl: displayLegs[0]?.logoUrl,
-      departure: {
-        iata: String(firstLeg.from ?? origin),
-        city: "",
-        date,
-        time: displayLegs[0]?.departureTime ?? String(departureTime),
-      },
-      arrival: {
-        iata: String(lastLeg.to ?? destination),
-        city: "",
-        date: displayLegs.at(-1)?.arrivalDate ?? date,
-        time: displayLegs.at(-1)?.arrivalTime ?? "Arrival time unavailable",
-      },
+      departure: { iata: String(firstLeg.from ?? origin), city: "", date, time: displayLegs[0]?.departureTime ?? String(departureTime) },
+      arrival: { iata: String(lastLeg.to ?? destination), city: "", date: displayLegs.at(-1)?.arrivalDate ?? date, time: displayLegs.at(-1)?.arrivalTime ?? "Arrival time unavailable" },
       duration: durationMinutes !== undefined ? formatDuration(durationMinutes) : undefined,
       stops: Math.max(0, Number(option.stops ?? legs.length - 1)),
       cabin,
-      baggage: "Allowance varies by fare",
-      status: "Scheduled",
       legs: displayLegs,
     });
   });
@@ -436,9 +405,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
     setResults([]);
     setSelectedResult(null);
     try {
-      if (!fromChoice || !toChoice) {
-        throw new Error("Select a departure and destination from the airport suggestions.");
-      }
+      if (!fromChoice || !toChoice) throw new Error("Select a departure and destination from the airport suggestions.");
       if (fromChoice.iata === toChoice.iata) throw new Error("Departure and destination cannot be the same airport.");
       if (!date) throw new Error("Select a departure date.");
       if (tripType === "Round trip" && !returnDate) throw new Error("Select a return date for a round trip.");
@@ -446,9 +413,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
 
       const schedules = await fetchSchedules(fromChoice, toChoice, date, returnDate, tripType, cabin, travelers);
       setResults(schedules);
-      if (!schedules.length) {
-        setError("No scheduled options were returned for this route and date. Try another date or call us for itinerary assistance.");
-      }
+      if (!schedules.length) setError("No scheduled options were returned for this route and date. Try another date or call us for itinerary assistance.");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Flight search failed.");
     } finally {
@@ -463,6 +428,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   ) => {
     setChoice(choice);
     setValue(choice.type === "city" ? `${choice.city}, ${choice.country} (${choice.iata})` : `${choice.city} (${choice.iata})`);
+    setAirportSearch("");
   };
 
   const suggestionList = (
@@ -473,16 +439,9 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
     values.length > 0 ? (
       <div className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-2xl border border-border bg-card p-1 shadow-elevated">
         {values.map((choice, index) => (
-          <button
-            type="button"
-            key={`${choice.type}-${choice.city}-${choice.iata ?? index}`}
-            onClick={() => selectChoice(choice, setValue, setChoice)}
-            className="block w-full rounded-xl px-4 py-3 text-left hover:bg-muted"
-          >
+          <button type="button" key={`${choice.type}-${choice.city}-${choice.iata ?? index}`} onClick={() => selectChoice(choice, setValue, setChoice)} className="block w-full rounded-xl px-4 py-3 text-left hover:bg-muted">
             <div className="flex items-center gap-2">
-              <span className="rounded-full border border-border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">
-                {choice.type}
-              </span>
+              <span className="rounded-full border border-border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{choice.type}</span>
               <strong className="text-sm">{choice.city}</strong>
               {choice.iata && <span className="text-xs font-bold text-primary">{choice.iata}</span>}
             </div>
@@ -499,37 +458,20 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   return (
     <>
       {!embedded && <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />}
-
-      <section
-        className={embedded
-          ? "relative z-10 -mt-12 overflow-visible bg-transparent py-0 sm:-mt-20"
-          : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"}
-        style={embedded
-          ? undefined
-          : { backgroundImage: "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)" }}
-      >
+      <section className={embedded ? "relative z-10 -mt-12 overflow-visible bg-transparent py-0 sm:-mt-20" : "relative overflow-visible bg-cover bg-center py-16 sm:py-24"} style={embedded ? undefined : { backgroundImage: "linear-gradient(rgba(0, 28, 45, 0.42), rgba(0, 28, 45, 0.58)), url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85)" }}>
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           {!embedded && (
             <div className="mx-auto max-w-5xl text-center text-white">
               <p className="label-board text-white/90">Flight booking engine</p>
               <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl">Search flight options</h1>
-              <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-white/90">
-                Search scheduled route options, choose an itinerary, then continue by phone for current fare and booking confirmation.
-              </p>
+              <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-white/90">Search flight options, choose an itinerary, then continue by phone for current fare and booking confirmation.</p>
             </div>
           )}
 
           <div className="overflow-visible rounded-[1.75rem] border border-border bg-card p-4 shadow-elevated sm:p-6">
             <div className="flex flex-wrap items-center gap-2 border-b border-border pb-4">
               {["Round trip", "One way"].map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }}
-                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${tripType === type ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}
-                >
-                  {type}
-                </button>
+                <button key={type} type="button" onClick={() => { setTripType(type); if (type === "One way") setReturnDate(""); }} className={`rounded-full px-4 py-2 text-sm font-semibold transition ${tripType === type ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}>{type}</button>
               ))}
               <span className="ml-auto hidden text-xs text-muted-foreground sm:block">Flights · {travelers} traveler{travelers === "1" ? "" : "s"} · {cabin}</span>
             </div>
@@ -537,28 +479,14 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
             <div className="mt-5 grid gap-3 lg:grid-cols-[1.25fr_1.25fr_0.8fr_0.8fr_0.7fr]">
               <label className="relative rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">From</span>
-                <input
-                  value={from}
-                  onFocus={() => void ensureAirports(from)}
-                  onChange={(e) => { setFrom(e.target.value); setFromChoice(null); setAirportSearch("from"); void ensureAirports(e.target.value); }}
-                  placeholder={loadingAirports ? "Loading airports…" : "City or airport"}
-                  className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none"
-                  autoComplete="off"
-                />
+                <input value={from} onFocus={() => void ensureAirports(from)} onChange={(e) => { setFrom(e.target.value); setFromChoice(null); setAirportSearch("from"); void ensureAirports(e.target.value); }} placeholder={loadingAirports ? "Loading airports…" : "City or airport"} className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none" autoComplete="off" />
                 {fromChoice?.iata && <span className="text-xs font-bold text-primary">{fromChoice.iata}</span>}
                 {airportSearch === "from" && suggestionList(fromMatches, setFrom, setFromChoice)}
               </label>
 
               <label className="relative rounded-2xl border border-border bg-background p-4">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">To</span>
-                <input
-                  value={to}
-                  onFocus={() => void ensureAirports(to)}
-                  onChange={(e) => { setTo(e.target.value); setToChoice(null); setAirportSearch("to"); void ensureAirports(e.target.value); }}
-                  placeholder="City or airport"
-                  className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none"
-                  autoComplete="off"
-                />
+                <input value={to} onFocus={() => void ensureAirports(to)} onChange={(e) => { setTo(e.target.value); setToChoice(null); setAirportSearch("to"); void ensureAirports(e.target.value); }} placeholder="City or airport" className="mt-2 h-9 w-full bg-transparent text-base font-semibold outline-none" autoComplete="off" />
                 {toChoice?.iata && <span className="text-xs font-bold text-primary">{toChoice.iata}</span>}
                 {airportSearch === "to" && suggestionList(toMatches, setTo, setToChoice)}
               </label>
@@ -599,29 +527,17 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
       </section>
 
       <Section tone="muted" ocid="flight_search.results" aria-labelledby="flight_search_results_heading">
-        <SectionHeading
-          id="flight_search_results_heading"
-          eyebrow={results.length ? "Flight options" : "Flight booking"}
-          title={results.length ? `${results.length} option${results.length === 1 ? "" : "s"} found` : "Search results"}
-          description={results.length ? "Choose an itinerary below, then continue by phone to confirm and book." : "Enter your route and dates above to search flight options."}
-        />
+        <SectionHeading id="flight_search_results_heading" eyebrow={results.length ? "Flight options" : "Flight booking"} title={results.length ? `${results.length} option${results.length === 1 ? "" : "s"} found` : "Search results"} description={results.length ? "Choose an itinerary below, then continue by phone to confirm and book." : "Enter your route and dates above to search flight options."} />
 
         {results.length > 0 ? (
           <div className="mt-8 grid gap-4">
             {results.map((result) => {
               const selected = selectedResult?.id === result.id;
               const legs = result.legs?.length ? result.legs : [{
-                airlineName: result.airlineName,
-                airlineCode: result.airlineCode,
-                logoUrl: result.logoUrl,
-                from: result.departure.iata,
-                to: result.arrival.iata,
-                departureTime: result.departure.time,
-                arrivalTime: result.arrival.time,
-                arrivalDate: result.arrival.date,
-                duration: result.duration,
+                airlineName: result.airlineName, airlineCode: result.airlineCode, logoUrl: result.logoUrl,
+                from: result.departure.iata, to: result.arrival.iata, departureTime: result.departure.time,
+                arrivalTime: result.arrival.time, arrivalDate: result.arrival.date, duration: result.duration,
               }];
-
               return (
                 <article key={result.id} className={`rounded-2xl border bg-card p-5 shadow-subtle transition ${selected ? "border-primary ring-2 ring-primary/10" : "border-border"}`}>
                   <div className="flex flex-col gap-5">
@@ -659,11 +575,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
                     </div>
 
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
-                      <button
-                        type="button"
-                        onClick={() => { setSelectedResult(result); setPassengerOpen(true); }}
-                        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground sm:w-auto"
-                      >
+                      <button type="button" onClick={() => { setSelectedResult(result); setPassengerOpen(true); }} className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground sm:w-auto">
                         <Phone className="size-4" /> Call to Confirm / Book
                       </button>
                     </div>
@@ -673,9 +585,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
             })}
           </div>
         ) : (
-          <div className="mt-8 rounded-2xl border border-border bg-card p-7 text-sm text-muted-foreground">
-            Your search results will appear here.
-          </div>
+          <div className="mt-8 rounded-2xl border border-border bg-card p-7 text-sm text-muted-foreground">Your search results will appear here.</div>
         )}
 
         {selectedResult && passengerOpen && (
@@ -684,9 +594,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
               <div>
                 <p className="label-board text-accent">Continue booking</p>
                 <h3 className="mt-2 text-2xl font-bold">{summary}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {selectedResult.airlineName} · {cabin} · {travelers} traveler{travelers === "1" ? "" : "s"}
-                </p>
+                <p className="mt-2 text-sm text-muted-foreground">{selectedResult.airlineName} · {cabin} · {travelers} traveler{travelers === "1" ? "" : "s"}</p>
               </div>
               <button type="button" onClick={() => setPassengerOpen(false)} className="text-sm font-semibold text-muted-foreground hover:text-foreground">Close</button>
             </div>
@@ -697,7 +605,7 @@ export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
               <label><span className="text-sm font-semibold">Phone</span><input type="tel" className="mt-2 h-12 w-full rounded-xl border border-border bg-background px-4" placeholder="Phone number" /></label>
             </div>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-xs leading-5 text-muted-foreground">No payment is taken here. A specialist confirms live fare, inventory, taxes, baggage and booking conditions before any payment authorization.</p>
+              <p className="text-xs leading-5 text-muted-foreground">A reservation specialist will confirm the itinerary and booking details by phone before payment.</p>
               <a href={SITE.phoneHref} className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground"><Phone className="size-4" /> Continue by phone</a>
             </div>
           </div>
