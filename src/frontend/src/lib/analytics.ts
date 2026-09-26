@@ -55,6 +55,7 @@ function getLandingPage() {
 
 function getDeviceCategory() {
   if (typeof window === "undefined") return "unknown";
+  if (typeof window.matchMedia !== "function") return "unknown";
   return window.matchMedia("(max-width: 767px)").matches ? "mobile" : "desktop";
 }
 
