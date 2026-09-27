@@ -112,6 +112,32 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
+    // Drop common automated secret/file-discovery probes before Cloudflare
+    // Assets serves the SPA shell. This keeps scanner traffic out of GA4 and
+    // prevents the public app from rendering a 404 page for sensitive paths.
+    const sensitiveProbe =
+      url.pathname === "/.env" ||
+      url.pathname.startsWith("/.env.") ||
+      url.pathname.startsWith("/.git/") ||
+      url.pathname.startsWith("/@fs/") ||
+      url.pathname.startsWith("/wp-admin") ||
+      url.pathname.startsWith("/proc/") ||
+      url.pathname.startsWith("/api/uploads/") ||
+      url.pathname.startsWith("/api/attachments/") ||
+      url.pathname.includes("/.aws/") ||
+      url.pathname === "/.dockerenv" ||
+      url.pathname === "/server-status";
+
+    if (sensitiveProbe) {
+      return new Response("Not Found", {
+        status: 404,
+        headers: {
+          "content-type": "text/plain; charset=utf-8",
+          "cache-control": "public, max-age=300",
+        },
+      });
+    }
+
     // Keep one canonical URL form for static pages. Cloudflare Assets can
     // serve both /path and /path/; redirect the trailing-slash variant so
     // search engines see a single URL instead of duplicate page variants.
