@@ -81,42 +81,49 @@ const PAGE_DESCRIPTION =
 export async function loadAirports(query: string): Promise<Airport[]> {
   const q = query.trim();
   if (!q) return POPULAR_AIRPORTS;
-  if (q.length < 2) return POPULAR_AIRPORTS.filter((airport) => [airport.iata, airport.city].join(" ").toLowerCase().startsWith(q.toLowerCase())).slice(0, 10);
+  if (q.length < 2) {
+    return POPULAR_AIRPORTS.filter((airport) =>
+      [airport.iata, airport.city, airport.name].join(" ").toLowerCase().startsWith(q.toLowerCase()),
+    ).slice(0, 10);
+  }
+
   try {
-    const response = await fetch(`${AIR_ROUTES_AIRPORTS_API}?q=${encodeURIComponent(q)}`);
+    const response = await fetch(`/api/flight-autocomplete?q=${encodeURIComponent(q)}`, {
+      headers: { accept: "application/json" },
+    });
     if (!response.ok) throw new Error("Airport search could not be loaded.");
-  const payload = (await response.json()) as {
-    airports?: Array<{
-      airport_code?: string;
-      name?: string;
-      city?: string;
-      country?: string;
-      lat?: number | null;
-      lon?: number | null;
-    }>;
-  };
-  const remote = (payload.airports ?? [])
-    .map((airport, index) => ({
-      id: `${airport.airport_code ?? "airport"}-${index}`,
-      name: String(airport.name ?? ""),
-      city: String(airport.city ?? ""),
-      country: String(airport.country ?? ""),
-      iata: String(airport.airport_code ?? "").toUpperCase(),
-      lat: typeof airport.lat === "number" ? airport.lat : undefined,
-      lon: typeof airport.lon === "number" ? airport.lon : undefined,
-    }))
-    .filter((airport) => airport.iata);
-    const fallback = POPULAR_AIRPORTS.filter((airport) => [airport.iata, airport.name, airport.city, airport.country].join(" ").toLowerCase().includes(q.toLowerCase()));
+    const payload = (await response.json()) as {
+      suggestions?: Array<{
+        iata?: string;
+        name?: string;
+        city?: string;
+        country?: string;
+      }>;
+    };
+    const remote = (payload.suggestions ?? [])
+      .map((airport, index) => ({
+        id: `serpapi-${airport.iata ?? "airport"}-${index}`,
+        name: String(airport.name ?? ""),
+        city: String(airport.city ?? ""),
+        country: String(airport.country ?? ""),
+        iata: String(airport.iata ?? "").toUpperCase(),
+      }))
+      .filter((airport) => /^[A-Z0-9]{3}$/.test(airport.iata));
+
+    const fallback = POPULAR_AIRPORTS.filter((airport) =>
+      [airport.iata, airport.name, airport.city, airport.country].join(" ").toLowerCase().includes(q.toLowerCase()),
+    );
     const merged = [...remote, ...fallback];
     const seen = new Set<string>();
     return merged.filter((airport) => {
-      const key = airport.iata || airport.city.toLowerCase() + "|" + airport.country.toLowerCase();
-      if (seen.has(key)) return false;
-      seen.add(key);
+      if (seen.has(airport.iata)) return false;
+      seen.add(airport.iata);
       return true;
     }).slice(0, 20);
   } catch {
-    return POPULAR_AIRPORTS.filter((airport) => [airport.iata, airport.name, airport.city, airport.country].join(" ").toLowerCase().includes(q.toLowerCase())).slice(0, 10);
+    return POPULAR_AIRPORTS.filter((airport) =>
+      [airport.iata, airport.name, airport.city, airport.country].join(" ").toLowerCase().includes(q.toLowerCase()),
+    ).slice(0, 10);
   }
 }
 
