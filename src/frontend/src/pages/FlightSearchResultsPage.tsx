@@ -190,7 +190,6 @@ export function FlightSearchResultsPage() {
   const [modifyCabin, setModifyCabin] = useState(initialSearch?.cabin ?? "Economy");
 
   const runSearch = useCallback(async (nextSearch: SearchState) => {
-    if (!actor || isActorFetching) return;
     setLoading(true);
     setError("");
     setOutbound([]);
@@ -203,35 +202,30 @@ export function FlightSearchResultsPage() {
         throw new Error("Select a valid return date.");
       }
 
-      const [fromAirports, toAirports] = await Promise.all([
-        loadAirports(nextSearch.from),
-        loadAirports(nextSearch.to),
-      ]);
-      const fromChoice = makeChoice(nextSearch.from, fromAirports);
-      const toChoice = makeChoice(nextSearch.to, toAirports);
-      if (!fromChoice.iata || !toChoice.iata) throw new Error("We could not resolve the selected airports.");
+      const params = new URLSearchParams({
+        origin: nextSearch.from,
+        destination: nextSearch.to,
+        departureDate: nextSearch.departure,
+        tripType: nextSearch.tripType,
+        travelers: nextSearch.travelers,
+        cabin: nextSearch.cabin,
+      });
+      if (nextSearch.returnDate && nextSearch.tripType === "Round trip") params.set("returnDate", nextSearch.returnDate);
 
-      const schedules = await fetchSchedules(
-        fromChoice,
-        toChoice,
-        nextSearch.departure,
-        nextSearch.returnDate,
-        nextSearch.tripType,
-        nextSearch.cabin,
-        nextSearch.travelers,
-        actor,
-      );
-      setOutbound(schedules.outbound);
-      setInbound(schedules.inbound);
-      if (!schedules.outbound.length) {
-        setError("No scheduled options were returned for this route and date. Try another date or modify your itinerary.");
+      const response = await fetch("/api/flight-search?" + params.toString(), { headers: { accept: "application/json" } });
+      const payload = await response.json() as { outbound?: FlightSchedule[]; inbound?: FlightSchedule[]; error?: string };
+      if (!response.ok) throw new Error(payload.error ?? "Flight search failed.");
+      setOutbound(payload.outbound ?? []);
+      setInbound(payload.inbound ?? []);
+      if (!(payload.outbound ?? []).length) {
+        setError("No live flight options were returned for this route and date. Try another date or modify your itinerary.");
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Flight search failed.");
     } finally {
       setLoading(false);
     }
-  }, [actor, isActorFetching]);
+  }, []);
   useEffect(() => {
     if (!initialSearch) {
       setLoading(false);
@@ -354,14 +348,44 @@ export function FlightSearchResultsPage() {
                   key={result.id}
                   result={result}
                   selected={selectedOutbound?.id === result.id}
-                  onSelect={() => setSelectedOutbound(result)}
+                  onSelect={async () => {
+                    setSelectedOutbound(result);
+                    setSelectedReturn(null);
+                    if (search.tripType !== "Round trip") return;
+                    if (!result.departureToken) {
+                      setError("This flight does not have a return-selection token. Please choose another outbound option.");
+                      return;
+                    }
+                    setReturnLoading(true);
+                    setError("");
+                    try {
+                      const response = await fetch("/api/flight-search?" + new URLSearchParams({
+                        origin: search.from,
+                        destination: search.to,
+                        departureDate: search.departure,
+                        returnDate: search.returnDate,
+                        tripType: search.tripType,
+                        travelers: search.travelers,
+                        cabin: search.cabin,
+                        departureToken: result.departureToken,
+                      }).toString(), { headers: { accept: "application/json" } });
+                      const payload = await response.json() as { inbound?: FlightSchedule[]; error?: string };
+                      if (!response.ok) throw new Error(payload.error ?? "Return-flight search failed.");
+                      setInbound(payload.inbound ?? []);
+                      if (!(payload.inbound ?? []).length) setError("No return options were returned for this outbound flight. Try another outbound option.");
+                    } catch (e) {
+                      setError(e instanceof Error ? e.message : "Return-flight search failed.");
+                    } finally {
+                      setReturnLoading(false);
+                    }
+                  }}
                 />
               ))}
             </div>
 
             {search.tripType === "Round trip" && inbound.length > 0 && (
               <div className="mt-10">
-                <h2 className="mb-4 text-xl font-bold">Choose your return flight</h2>
+                <h2 className="mb-4 text-xl font-bold">{returnLoading ? "Finding return flights…" : "Choose your return flight"}</h2>
                 <div className="grid gap-4">
                   {inbound.map((result) => (
                     <ResultCard
