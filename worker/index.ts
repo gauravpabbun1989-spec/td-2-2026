@@ -143,7 +143,7 @@ export default {
     // search engines see a single URL instead of duplicate page variants.
     if (url.pathname.length > 1 && url.pathname.endsWith("/") && !url.pathname.startsWith("/api/")) {
       const canonicalUrl = new URL(url);
-      canonicalUrl.pathname = canonicalUrl.pathname.replace(/\\/+$/, "");
+      canonicalUrl.pathname = canonicalUrl.pathname.replace(/\/+$/, "");
       return Response.redirect(canonicalUrl.toString(), 301);
     }
 
