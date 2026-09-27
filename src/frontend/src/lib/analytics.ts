@@ -38,7 +38,7 @@ function getCleanPagePath() {
     return raw.slice(0, cutAt).replace(/\/+$/, "") || "/";
   }
 
-  return raw.replace(/\/+$//, "") || "/";
+  return raw.replace(/\/+$/, "") || "/";
 }
 
 /** Ignore obvious scanner/probe paths in custom funnel events. */
