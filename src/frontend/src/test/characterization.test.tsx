@@ -18,20 +18,20 @@ import { renderRoute } from "@/test/render-route";
 const AIRLINE_PAGES = [
   {
     path: "/delta-airlines",
-    heading: /delta airlines bookings handled/i,
+    heading: /delta airlines reservation support from a real travel specialist/i,
     faqOcid: "delta.faq",
     // A question unique to the Delta page, so a copy-paste across pages fails.
     uniqueQuestion: /can ticketdepart book delta airlines flights for me\?/i,
   },
   {
     path: "/united-airlines",
-    heading: /united airlines itineraries/i,
+    heading: /united airlines reservation support from a real travel specialist/i,
     faqOcid: "united.faq",
     uniqueQuestion: /is ticketdepart part of united airlines\?/i,
   },
   {
     path: "/american-airlines",
-    heading: /american airlines trips/i,
+    heading: /american airlines flight booking and reservation assistance/i,
     faqOcid: "american.faq",
     uniqueQuestion: /is ticketdepart affiliated with american airlines\?/i,
   },
