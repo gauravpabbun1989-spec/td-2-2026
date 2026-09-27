@@ -67,6 +67,9 @@ export type FlightSchedule = {
   stops: number;
   cabin?: string;
   legs?: FlightLeg[];
+  price?: number;
+  departureToken?: string;
+  bookingToken?: string;
 };
 
 const PAGE_PATH = "/flight-search";
