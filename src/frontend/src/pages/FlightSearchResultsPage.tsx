@@ -197,6 +197,15 @@ export function FlightSearchResultsPage() {
       if (nextSearch.returnDate && nextSearch.tripType === "Round trip") params.set("returnDate", nextSearch.returnDate);
 
       const response = await fetch(`/api/flight-search?${params.toString()}`, { headers: { accept: "application/json" } });
+      const contentType = response.headers.get("content-type") ?? "";
+      if (!contentType.includes("application/json")) {
+        const body = await response.text();
+        throw new Error(
+          body.trim().startsWith("<!DOCTYPE") || body.trim().startsWith("<html")
+            ? "The live flight-search API is not connected to this deployment yet. Please deploy the Worker build before searching for live fares."
+            : `Flight search returned an unexpected response (HTTP ${response.status}).`,
+        );
+      }
       const payload = await response.json() as { outbound?: FlightSchedule[]; inbound?: FlightSchedule[]; error?: string };
       if (!response.ok) throw new Error(payload.error ?? "Flight search failed.");
       setOutbound(payload.outbound ?? []);
@@ -353,6 +362,15 @@ export function FlightSearchResultsPage() {
                         cabin: search.cabin,
                         departureToken: result.departureToken,
                       }).toString()}`, { headers: { accept: "application/json" } });
+                      const contentType = response.headers.get("content-type") ?? "";
+                      if (!contentType.includes("application/json")) {
+                        const body = await response.text();
+                        throw new Error(
+                          body.trim().startsWith("<!DOCTYPE") || body.trim().startsWith("<html")
+                            ? "The live flight-search API is not connected to this deployment yet. Please deploy the Worker build before searching for return flights."
+                            : `Return-flight search returned an unexpected response (HTTP ${response.status}).`,
+                        );
+                      }
                       const payload = await response.json() as { inbound?: FlightSchedule[]; error?: string };
                       if (!response.ok) throw new Error(payload.error ?? "Return-flight search failed.");
                       setInbound(payload.inbound ?? []);
