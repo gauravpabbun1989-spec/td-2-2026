@@ -203,28 +203,6 @@ export function FlightSearchResultsPage() {
       }
       const payload = await response.json() as { outbound?: FlightSchedule[]; inbound?: FlightSchedule[]; error?: string };
       if (!response.ok) {
-        // A missing Worker deployment or upstream outage should not make the
-        // search page unusable when the Caffeine actor schedule service works.
-        if (response.status >= 500 && actor) {
-          const fromChoice: LocationChoice = { type: "airport", city: "", country: "", iata: nextSearch.from, label: nextSearch.from };
-          const toChoice: LocationChoice = { type: "airport", city: "", country: "", iata: nextSearch.to, label: nextSearch.to };
-          const fallback = await fetchSchedules(
-            fromChoice,
-            toChoice,
-            nextSearch.departure,
-            nextSearch.returnDate,
-            nextSearch.tripType,
-            nextSearch.cabin,
-            nextSearch.travelers,
-            actor,
-          );
-          setOutbound(fallback.outbound);
-          setInbound(fallback.inbound);
-          if (!fallback.outbound.length) {
-            setError("No scheduled flight options were returned for this route and date. Try another date or modify your itinerary.");
-          }
-          return;
-        }
         throw new Error(payload.error ?? "Flight search failed.");
       }
       setOutbound(payload.outbound ?? []);
@@ -244,8 +222,8 @@ export function FlightSearchResultsPage() {
       setError("This results page needs a valid flight search. Start a new search to continue.");
       return;
     }
-    if (actor && !isActorFetching) void runSearch(initialSearch);
-  }, [actor, isActorFetching, initialSearch, runSearch]);
+    if (!isActorFetching) void runSearch(initialSearch);
+  }, [isActorFetching, initialSearch, runSearch]);
 
   const updateSearch = () => {
     const next: SearchState = {
