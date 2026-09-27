@@ -35,7 +35,7 @@ function normalizeSerpFlight(option: SerpFlight, index: number, cabin: string) {
   const uniqueAirlines = Array.from(new Set(segments.map((segment) => segment.airline).filter(Boolean)));
   const legs = segments.map((segment, segmentIndex) => ({
     airlineName: segment.airline ?? "Airline",
-    airlineCode: segment.flight_number?.split(/\\s+/)[0],
+    airlineCode: segment.flight_number?.split(/\s+/)[0],
     logoUrl: segment.airline_logo,
     from: segment.departure_airport?.id ?? "",
     to: segment.arrival_airport?.id ?? "",
@@ -145,6 +145,60 @@ export default {
       const canonicalUrl = new URL(url);
       canonicalUrl.pathname = canonicalUrl.pathname.replace(/\\/+$/, "");
       return Response.redirect(canonicalUrl.toString(), 301);
+    }
+
+    if (url.pathname === "/api/flight-autocomplete") {
+      if (request.method !== "GET") return json({ error: "Method not allowed" }, 405);
+      const apiKey = env.Serp_API ?? env.SERPAPI_KEY;
+      if (!apiKey) return json({ error: "Airport search is not configured yet." }, 503);
+      const q = (url.searchParams.get("q") ?? "").trim();
+      if (q.length < 2 || q.length > 100) return json({ suggestions: [] }, 200, true);
+      const params = new URLSearchParams({
+        engine: "google_flights_autocomplete",
+        api_key: apiKey,
+        q,
+        gl: "us",
+        hl: "en",
+        exclude_regions: "true",
+      });
+      try {
+        const response = await fetch("https://serpapi.com/search.json?" + params.toString(), {
+          headers: { accept: "application/json" },
+          signal: AbortSignal.timeout(8000),
+        });
+        const payload = await response.json() as {
+          error?: string;
+          suggestions?: Array<{
+            position?: number;
+            name?: string;
+            type?: string;
+            description?: string;
+            airports?: Array<{ name?: string; id?: string; city?: string; city_id?: string }>;
+          }>;
+        };
+        if (!response.ok || payload.error) return json({ error: payload.error ?? "Airport autocomplete failed." }, 502);
+        const suggestions = (payload.suggestions ?? []).flatMap((suggestion) =>
+          (suggestion.airports ?? []).map((airport) => ({
+            type: "airport" as const,
+            city: airport.city ?? suggestion.name ?? "",
+            country: suggestion.description ?? "",
+            iata: airport.id ?? "",
+            name: airport.name ?? suggestion.name ?? "",
+            label: airport.city && airport.name
+              ? airport.city + " — " + airport.name + " (" + airport.id + ")"
+              : (suggestion.name ?? airport.name ?? airport.id ?? ""),
+          })),
+        ).filter((airport) => /^[A-Z0-9]{3}$/.test(airport.iata));
+        const seen = new Set<string>();
+        const unique = suggestions.filter((airport) => {
+          if (seen.has(airport.iata)) return false;
+          seen.add(airport.iata);
+          return true;
+        }).slice(0, 20);
+        return json({ suggestions: unique, source: "SerpApi Google Flights Autocomplete" }, 200, true);
+      } catch (error) {
+        return json({ error: error instanceof Error ? error.message : "Airport autocomplete failed." }, 502);
+      }
     }
 
     if (url.pathname === "/api/flight-search") {
