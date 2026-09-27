@@ -196,7 +196,7 @@ export function FlightSearchResultsPage() {
       });
       if (nextSearch.returnDate && nextSearch.tripType === "Round trip") params.set("returnDate", nextSearch.returnDate);
 
-      const response = await fetch("/api/flight-search?" + params.toString(), { headers: { accept: "application/json" } });
+      const response = await fetch(`/api/flight-search?${params.toString()}`, { headers: { accept: "application/json" } });
       const payload = await response.json() as { outbound?: FlightSchedule[]; inbound?: FlightSchedule[]; error?: string };
       if (!response.ok) throw new Error(payload.error ?? "Flight search failed.");
       setOutbound(payload.outbound ?? []);
@@ -343,7 +343,7 @@ export function FlightSearchResultsPage() {
                     setReturnLoading(true);
                     setError("");
                     try {
-                      const response = await fetch("/api/flight-search?" + new URLSearchParams({
+                      const response = await fetch(`/api/flight-search?${new URLSearchParams({
                         origin: search.from,
                         destination: search.to,
                         departureDate: search.departure,
@@ -352,7 +352,7 @@ export function FlightSearchResultsPage() {
                         travelers: search.travelers,
                         cabin: search.cabin,
                         departureToken: result.departureToken,
-                      }).toString(), { headers: { accept: "application/json" } });
+                      }).toString()}`, { headers: { accept: "application/json" } });
                       const payload = await response.json() as { inbound?: FlightSchedule[]; error?: string };
                       if (!response.ok) throw new Error(payload.error ?? "Return-flight search failed.");
                       setInbound(payload.inbound ?? []);
