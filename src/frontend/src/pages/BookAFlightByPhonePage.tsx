@@ -145,6 +145,40 @@ export function BookAFlightByPhonePage() {
               <CallCta size="md" showNumber ocid="book_flight_phone.hero_number_button" />
             </div>
           </div>
+
+          <div
+            data-cro-version="267"
+            className="mt-6 grid gap-3 rounded-2xl border border-border bg-card p-4 sm:grid-cols-3"
+            aria-label="Choose how to continue"
+          >
+            <div className="rounded-xl bg-muted/40 p-4">
+              <p className="text-sm font-semibold text-foreground">Ready now?</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">Call and discuss your trip with a specialist.</p>
+              <CallCta size="sm" className="mt-3 w-full" ocid="book_flight_phone.quick_call_button" />
+            </div>
+            <div className="rounded-xl bg-muted/40 p-4">
+              <p className="text-sm font-semibold text-foreground">Not ready to call?</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">Send your trip details and request a callback.</p>
+              <Link
+                to="/contact"
+                data-ocid="book_flight_phone.quick_callback_link"
+                className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-full border border-primary/25 bg-background px-4 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
+              >
+                Request a callback
+              </Link>
+            </div>
+            <div className="rounded-xl bg-muted/40 p-4">
+              <p className="text-sm font-semibold text-foreground">Still comparing?</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">See the booking services and trip types we handle.</p>
+              <Link
+                to="/flight-booking"
+                data-ocid="book_flight_phone.quick_services_link"
+                className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-full border border-border bg-background px-4 text-sm font-semibold text-foreground hover:border-primary/30 hover:text-primary"
+              >
+                See booking help
+              </Link>
+            </div>
+          </div>
         </div>
       </Section>
 
