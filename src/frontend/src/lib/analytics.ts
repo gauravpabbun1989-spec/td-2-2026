@@ -1,5 +1,5 @@
 /**
- * GA4 conversion instrumentation.
+ * GA4 conversion and engagement instrumentation.
  *
  * The site uses a single document-level listener for tel: links so phone
  * clicks are measured consistently across shared and page-specific CTAs.
@@ -8,8 +8,11 @@
 
 const DEDUPE_WINDOW_MS = 250;
 const LANDING_PAGE_KEY = "ticketdepart_landing_page";
+const ENGAGEMENT_EVENT_DELAY_MS = 10_000;
+const SCROLL_THRESHOLDS = [25, 50, 75, 90] as const;
 const handledClicks = new WeakSet<Event>();
 const recentEmits = new Map<string, number>();
+const emittedScrollDepths = new Set<number>();
 
 type AnalyticsWindow = Window & {
   gtag?: (...args: unknown[]) => void;
@@ -32,10 +35,15 @@ function getCleanPagePath() {
     .sort((a, b) => a - b)[0];
 
   if (cutAt !== undefined && cutAt > 0) {
-    return raw.slice(0, cutAt).replace(/\/+$/, "") || "/";
+    return raw.slice(0, cutAt).replace(/\\/+$/, "") || "/";
   }
 
-  return raw.replace(/\/+$/, "") || "/";
+  return raw.replace(/\\/+$/, "") || "/";
+}
+
+/** Ignore obvious scanner/probe paths in custom funnel events. */
+function isSuspiciousPath(path = getCleanPagePath()) {
+  return /(?:^|\\/)(?:wp-admin|proc\\/self|api\\/uploads|api\\/attachments|\.env|rclone\\.conf|var\\/run\\/secrets|document\\.php|dashboard\\/\.env)(?:\\/|$)/i.test(path);
 }
 
 function getLandingPage() {
@@ -91,8 +99,8 @@ function getTrafficContext() {
 
 function normalizeCtaLocation(location: string) {
   const normalized = location
-    .replace(/\.(call_button|button|call_link)$/i, "")
-    .replace(/\.(phone_button|phone_link)$/i, "");
+    .replace(/\\.(call_button|button|call_link)$/i, "")
+    .replace(/\\.(phone_button|phone_link)$/i, "");
 
   if (normalized === "contact.success") return "callback_success";
   if (normalized === "mobile_call") return "sticky_mobile";
@@ -133,7 +141,7 @@ export function trackEvent(
   params: Record<string, string | number | boolean | undefined> = {},
 ) {
   const win = getWindow();
-  if (!win) return;
+  if (!win || isSuspiciousPath()) return;
 
   const eventParams = {
     ...buildCommonParams(),
@@ -149,11 +157,8 @@ export function trackEvent(
   win.dataLayer.push(["event", eventName, eventParams]);
 }
 
-function emitPhoneClick(
-  location: string,
-  link?: Element | null,
-) {
-  const ctaText = link?.textContent?.replace(/\s+/g, " ").trim();
+function emitPhoneClick(location: string, link?: Element | null) {
+  const ctaText = link?.textContent?.replace(/\\s+/g, " ").trim();
 
   recentEmits.set(location, Date.now());
 
@@ -175,15 +180,11 @@ export function trackPhoneClick(location: string, event?: Event) {
 }
 
 export function trackCallbackFormStart(location = "contact_form") {
-  trackEvent("callback_form_start", {
-    callback_location: location,
-  });
+  trackEvent("callback_form_start", { callback_location: location });
 }
 
 export function trackCallbackFormSubmit(location = "contact_form") {
-  trackEvent("callback_form_submit", {
-    callback_location: location,
-  });
+  trackEvent("callback_form_submit", { callback_location: location });
 }
 
 export function trackCallbackFormError(
@@ -197,9 +198,7 @@ export function trackCallbackFormError(
 }
 
 export function trackCallbackFormSuccess(location = "contact_form") {
-  trackEvent("callback_form_success", {
-    callback_location: location,
-  });
+  trackEvent("callback_form_success", { callback_location: location });
 }
 
 /**
@@ -223,6 +222,31 @@ if (typeof document !== "undefined") {
   } catch {
     // Session storage may be unavailable in privacy-restricted browsers.
   }
+
+  // A 10-second qualified-engagement signal gives CRO reporting a cleaner
+  // human-intent metric than raw bounce rate alone.
+  if (!isSuspiciousPath()) {
+    window.setTimeout(() => {
+      trackEvent("qualified_page_engagement", { engagement_seconds: 10 });
+    }, ENGAGEMENT_EVENT_DELAY_MS);
+  }
+
+  const emitScrollDepth = () => {
+    if (isSuspiciousPath()) return;
+
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollable <= 0) return;
+
+    const depth = Math.round((window.scrollY / scrollable) * 100);
+    for (const threshold of SCROLL_THRESHOLDS) {
+      if (depth >= threshold && !emittedScrollDepths.has(threshold)) {
+        emittedScrollDepths.add(threshold);
+        trackEvent("scroll_depth", { percent_scrolled: threshold });
+      }
+    }
+  };
+
+  window.addEventListener("scroll", emitScrollDepth, { passive: true });
 
   document.addEventListener("click", (event) => {
     if (handledClicks.has(event)) return;
