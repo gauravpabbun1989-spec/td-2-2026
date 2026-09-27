@@ -199,15 +199,58 @@ export function FlightSearchResultsPage() {
       const response = await fetch(`/api/flight-search?${params.toString()}`, { headers: { accept: "application/json" } });
       const contentType = response.headers.get("content-type") ?? "";
       if (!contentType.includes("application/json")) {
-        const body = await response.text();
-        throw new Error(
-          body.trim().startsWith("<!DOCTYPE") || body.trim().startsWith("<html")
-            ? "The live flight-search API is not connected to this deployment yet. Please deploy the Worker build before searching for live fares."
-            : `Flight search returned an unexpected response (HTTP ${response.status}).`,
+        // Caffeine serves the SPA shell when the optional Cloudflare Worker
+        // route is not attached. Fall back to the deployed Caffeine actor
+        // schedule service so search still works instead of showing a Worker
+        // deployment error to the customer.
+        if (!actor) {
+          throw new Error("Flight search service is still connecting. Please try again in a moment.");
+        }
+        const fromChoice: LocationChoice = { type: "airport", city: "", country: "", iata: nextSearch.from, label: nextSearch.from };
+        const toChoice: LocationChoice = { type: "airport", city: "", country: "", iata: nextSearch.to, label: nextSearch.to };
+        const fallback = await fetchSchedules(
+          fromChoice,
+          toChoice,
+          nextSearch.departure,
+          nextSearch.returnDate,
+          nextSearch.tripType,
+          nextSearch.cabin,
+          nextSearch.travelers,
+          actor,
         );
+        setOutbound(fallback.outbound);
+        setInbound(fallback.inbound);
+        if (!fallback.outbound.length) {
+          setError("No scheduled flight options were returned for this route and date. Try another date or modify your itinerary.");
+        }
+        return;
       }
       const payload = await response.json() as { outbound?: FlightSchedule[]; inbound?: FlightSchedule[]; error?: string };
-      if (!response.ok) throw new Error(payload.error ?? "Flight search failed.");
+      if (!response.ok) {
+        // A missing Worker deployment or upstream outage should not make the
+        // search page unusable when the Caffeine actor schedule service works.
+        if (response.status >= 500 && actor) {
+          const fromChoice: LocationChoice = { type: "airport", city: "", country: "", iata: nextSearch.from, label: nextSearch.from };
+          const toChoice: LocationChoice = { type: "airport", city: "", country: "", iata: nextSearch.to, label: nextSearch.to };
+          const fallback = await fetchSchedules(
+            fromChoice,
+            toChoice,
+            nextSearch.departure,
+            nextSearch.returnDate,
+            nextSearch.tripType,
+            nextSearch.cabin,
+            nextSearch.travelers,
+            actor,
+          );
+          setOutbound(fallback.outbound);
+          setInbound(fallback.inbound);
+          if (!fallback.outbound.length) {
+            setError("No scheduled flight options were returned for this route and date. Try another date or modify your itinerary.");
+          }
+          return;
+        }
+        throw new Error(payload.error ?? "Flight search failed.");
+      }
       setOutbound(payload.outbound ?? []);
       setInbound(payload.inbound ?? []);
       if (!(payload.outbound ?? []).length) {
