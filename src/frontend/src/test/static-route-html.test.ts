@@ -65,7 +65,7 @@ describe("static route HTML uses the full airline names", () => {
     );
     expect(html).toContain("Delta Airlines flights");
     expect(html).toContain(
-      "<h1>Delta Airlines flight bookings handled by a real travel specialist</h1>",
+      "<h1>Delta Airlines reservation support from a real travel specialist</h1>",
     );
   });
 
@@ -76,7 +76,7 @@ describe("static route HTML uses the full airline names", () => {
     );
     expect(html).toContain("United Airlines bookings");
     expect(html).toContain(
-      "<h1>United Airlines flight itineraries planned and booked by phone</h1>",
+      "<h1>United Airlines reservation support from a real travel specialist</h1>",
     );
   });
 
