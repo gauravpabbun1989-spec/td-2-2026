@@ -346,6 +346,38 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
         </div>
       </Section>
 
+      <Section tone="paper" ocid={`${id}.next_step`}>
+        <div className="mx-auto max-w-5xl">
+          <SectionHeading
+            eyebrow="Choose your next step"
+            title="Go from airline research to flight planning"
+            description="If you already know the airline, continue to the booking path that matches your trip."
+          />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              ["Book a flight by phone", "/book-a-flight-by-phone", "Start with a person and discuss your route, dates, and travelers."],
+              ["General flight booking", "/flight-booking", "Review domestic and international booking options."],
+              ["International flights", "/international-flight-booking", "Plan connections, cabins, flexible dates, and multi-city trips."],
+              ["Last-minute flights", "/last-minute-flight-booking", "Discuss urgent travel, nearby airports, and ticketing timing."],
+              ["Business class", "/business-class-flight-booking", "Explore premium-cabin schedules, routing, and fare conditions."],
+              ["Send trip details", "/contact", "Request a callback if you are not ready to call yet."],
+            ].map(([label, to, description]) => (
+              <Link
+                key={to}
+                to={to}
+                className="group rounded-2xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-elevated"
+              >
+                <span className="font-display text-base font-semibold">{label}</span>
+                <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{description}</span>
+                <span className="mt-3 flex items-center gap-1.5 text-sm font-semibold text-primary">
+                  Continue <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </Section>
+
       <Section tone="muted" ocid={`${id}.services`}>
         <SectionHeading eyebrow="What we can discuss" title={`${page.name} reservation support and booking services`} description="Start with your route, dates, traveler details, or existing reservation. A specialist can work through the options that apply." />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
