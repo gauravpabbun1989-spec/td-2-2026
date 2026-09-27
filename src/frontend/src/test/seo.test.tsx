@@ -223,7 +223,7 @@ describe("structured data", () => {
       (node) => node["@type"] === "ContactPoint",
     );
     expect(contactPoint).toBeDefined();
-    expect(contactPoint?.telephone).toBe("+1 888-958-0280");
+    expect(contactPoint?.telephone).toBe("+1-888-958-0280");
     expect(contactPoint?.areaServed).toContain("United States");
   });
 
