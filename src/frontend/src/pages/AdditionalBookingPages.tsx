@@ -551,6 +551,40 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             <Phone className="size-4 text-accent" />
             {SITE.hours} · {SITE.phoneDisplay}
           </p>
+          {page.path === "/business-class-flight-booking" && (
+            <div
+              data-cro-version="269"
+              className="mt-8 rounded-2xl border border-border bg-card p-5 sm:p-6"
+              aria-labelledby="premium-intent-heading"
+            >
+              <h2 id="premium-intent-heading" className="text-xl font-semibold">
+                What kind of premium-cabin trip are you planning?
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Choose a starting point. A specialist can discuss available cabins, routing, schedules, and fare conditions for your itinerary.
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  ["Business class", "/business-class-flight-booking", "Compare cabin features, schedules, and fare flexibility."],
+                  ["First class", "/contact", "Send your route and dates to discuss first-class availability."],
+                  ["Premium economy", "/flight-booking", "Review cabin choices and the trade-offs for your trip."],
+                  ["Long-haul premium travel", "/international-flight-booking", "Explore international routing and connection options."],
+                ].map(([label, to, description]) => (
+                  <Link
+                    key={label}
+                    to={to}
+                    className="group rounded-xl border border-border bg-background p-4 transition-colors hover:border-primary/40 hover:bg-muted/40"
+                  >
+                    <span className="block font-semibold text-foreground">{label}</span>
+                    <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{description}</span>
+                    <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                      Continue <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
           {page.path === "/flight-booking-assistance" && (
             <div
               data-cro-version="268"
