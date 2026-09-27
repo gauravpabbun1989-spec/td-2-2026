@@ -388,13 +388,27 @@ export function FlightSearchResultsPage() {
                     setSelectedOutbound(result);
                     setSelectedReturn(null);
                     if (search.tripType !== "Round trip") return;
-                    if (!result.departureToken) {
-                      setError("This flight does not have a return-selection token. Please choose another outbound option.");
-                      return;
-                    }
                     setReturnLoading(true);
                     setError("");
                     try {
+                      if (!result.departureToken && actor) {
+                        const fromChoice: LocationChoice = { type: "airport", city: "", country: "", iata: search.to, label: search.to };
+                        const toChoice: LocationChoice = { type: "airport", city: "", country: "", iata: search.from, label: search.from };
+                        const fallback = await fetchSchedules(
+                          fromChoice,
+                          toChoice,
+                          search.returnDate,
+                          "",
+                          "One way",
+                          search.cabin,
+                          search.travelers,
+                          actor,
+                        );
+                        setInbound(fallback.outbound);
+                        if (!fallback.outbound.length) setError("No scheduled return options were returned for this date. Try another date.");
+                        return;
+                      }
+
                       const response = await fetch(`/api/flight-search?${new URLSearchParams({
                         origin: search.from,
                         destination: search.to,
@@ -403,16 +417,26 @@ export function FlightSearchResultsPage() {
                         tripType: search.tripType,
                         travelers: search.travelers,
                         cabin: search.cabin,
-                        departureToken: result.departureToken,
+                        ...(result.departureToken ? { departureToken: result.departureToken } : {}),
                       }).toString()}`, { headers: { accept: "application/json" } });
                       const contentType = response.headers.get("content-type") ?? "";
                       if (!contentType.includes("application/json")) {
-                        const body = await response.text();
-                        throw new Error(
-                          body.trim().startsWith("<!DOCTYPE") || body.trim().startsWith("<html")
-                            ? "The live flight-search API is not connected to this deployment yet. Please deploy the Worker build before searching for return flights."
-                            : `Return-flight search returned an unexpected response (HTTP ${response.status}).`,
+                        if (!actor) throw new Error("Flight search service is still connecting. Please try again in a moment.");
+                        const fromChoice: LocationChoice = { type: "airport", city: "", country: "", iata: search.to, label: search.to };
+                        const toChoice: LocationChoice = { type: "airport", city: "", country: "", iata: search.from, label: search.from };
+                        const fallback = await fetchSchedules(
+                          fromChoice,
+                          toChoice,
+                          search.returnDate,
+                          "",
+                          "One way",
+                          search.cabin,
+                          search.travelers,
+                          actor,
                         );
+                        setInbound(fallback.outbound);
+                        if (!fallback.outbound.length) setError("No scheduled return options were returned for this date. Try another date.");
+                        return;
                       }
                       const payload = await response.json() as { inbound?: FlightSchedule[]; error?: string };
                       if (!response.ok) throw new Error(payload.error ?? "Return-flight search failed.");
