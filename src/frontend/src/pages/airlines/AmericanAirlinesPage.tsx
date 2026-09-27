@@ -333,6 +333,7 @@ export function AmericanAirlinesPage() {
             </p>
           </div>
           <CallCta
+            showNumber
             size="lg"
             variant="solid"
 
