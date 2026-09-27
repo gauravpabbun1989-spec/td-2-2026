@@ -62,7 +62,7 @@ export function HomePage() {
       <Seo title={HOME_TITLE} description={HOME_DESCRIPTION} path="/" image={HOME_IMAGE} structuredData={[organizationSchema(), websiteSchema(), breadcrumbSchema([{ name: "Home", path: "/" }]), homeFaqSchema(), serviceSchema({ name: "Flight reservation assistance by phone", description: HOME_DESCRIPTION, path: "/" })]} />
       <HeroSection />
 
-      <section className="border-b border-border bg-background px-5 py-6 sm:px-8 sm:py-8" aria-labelledby="home-start-heading">
+      <section data-cro-version="265" className="border-b border-border bg-background px-5 py-6 sm:px-8 sm:py-8" aria-labelledby="home-start-heading">
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
