@@ -178,6 +178,7 @@ export function FlightSearchResultsPage() {
   const [selectedOutbound, setSelectedOutbound] = useState<FlightSchedule | null>(null);
   const [selectedReturn, setSelectedReturn] = useState<FlightSchedule | null>(null);
   const [loading, setLoading] = useState(true);
+  const [returnLoading, setReturnLoading] = useState(false);
   const [showModify, setShowModify] = useState(false);
   const [error, setError] = useState("");
 
