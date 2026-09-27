@@ -1,2 +1,3 @@
-# Air-Routes is free and requires no API key.
-# No schedule-provider secret is required.
+# SerpApi private key used only by the Cloudflare Worker.
+# Configure the real value as a Cloudflare Worker secret named SERPAPI_KEY or Serp_API.
+SERPAPI_KEY=replace-with-your-serpapi-key
