@@ -11,25 +11,25 @@ describe("homepage content", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: /flight services built around real trips/i,
+        name: /Need a Flight\? We’re Here to Help\./i,
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /what happens when you call/i }),
+      screen.getByRole("heading", { name: /how it works/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /have these details ready/i }),
+      screen.getByRole("heading", { name: /before you call/i }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: /frequently asked questions/i }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
-        name: /we are an independent travel agency/i,
+        name: /independent agency disclosure/i,
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /talk to a travel specialist/i }),
+      screen.getByRole("heading", { name: /talk to a real travel specialist/i }),
     ).toBeInTheDocument();
   });
 
@@ -38,7 +38,7 @@ describe("homepage content", () => {
     await screen.findByRole("heading", { level: 1 });
 
     const image = screen.getByRole("img", {
-      name: /commercial passenger jet/i,
+      name: /commercial aircraft flying through a bright blue sky/i,
     });
     expect(image).toHaveAttribute(
       "src",
