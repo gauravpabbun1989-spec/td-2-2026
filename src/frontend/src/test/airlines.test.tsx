@@ -7,14 +7,14 @@ const AIRLINE_PAGES = [
   {
     path: "/delta-airlines",
     name: "Delta Airlines",
-    heading: /delta airlines bookings handled/i,
+    heading: /delta airlines reservation support from a real travel specialist/i,
     // Delta's image sits below the fold, so it stays lazy-loaded.
     loading: "lazy",
   },
   {
     path: "/united-airlines",
     name: "United Airlines",
-    heading: /united airlines itineraries/i,
+    heading: /united airlines reservation support from a real travel specialist/i,
     // United's image is the above-the-fold hero, so it is loaded eagerly with
     // high fetch priority to avoid a late LCP.
     loading: "eager",
@@ -22,7 +22,7 @@ const AIRLINE_PAGES = [
   {
     path: "/american-airlines",
     name: "American Airlines",
-    heading: /american airlines trips/i,
+    heading: /american airlines flight booking and reservation assistance/i,
     // American's image sits below the fold, so it stays lazy-loaded.
     loading: "lazy",
   },
@@ -59,10 +59,10 @@ describe("airline pages", () => {
     // Each page's H1 and body must be distinct, not a name substitution.
     expect(new Set(bodies).size).toBe(AIRLINE_PAGES.length);
     expect(bodies[0]).not.toContain(
-      "United Airlines itineraries, planned and booked by phone",
+      "United Airlines reservation support from a real travel specialist",
     );
     expect(bodies[1]).not.toContain(
-      "Delta Airlines bookings handled by a real travel specialist",
+      "Delta Airlines reservation support from a real travel specialist",
     );
   });
 
