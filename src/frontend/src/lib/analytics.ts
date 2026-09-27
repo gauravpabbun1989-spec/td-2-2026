@@ -99,8 +99,8 @@ function getTrafficContext() {
 
 function normalizeCtaLocation(location: string) {
   const normalized = location
-    .replace(/\\.(call_button|button|call_link)$/i, "")
-    .replace(/\\.(phone_button|phone_link)$/i, "");
+    .replace(/\.(call_button|button|call_link)$/i, "")
+    .replace(/\.(phone_button|phone_link)$/i, "");
 
   if (normalized === "contact.success") return "callback_success";
   if (normalized === "mobile_call") return "sticky_mobile";
@@ -158,7 +158,7 @@ export function trackEvent(
 }
 
 function emitPhoneClick(location: string, link?: Element | null) {
-  const ctaText = link?.textContent?.replace(/\\s+/g, " ").trim();
+  const ctaText = link?.textContent?.replace(/\s+/g, " ").trim();
 
   recentEmits.set(location, Date.now());
 
