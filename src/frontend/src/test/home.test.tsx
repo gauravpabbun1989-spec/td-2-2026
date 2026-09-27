@@ -15,21 +15,21 @@ describe("homepage content", () => {
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /how it works/i }),
+      screen.getByRole("heading", { name: /from trip idea to itinerary, one clear step at a time/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /before you call/i }),
+      screen.getByRole("heading", { name: /have these details ready/i }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: /frequently asked questions/i }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
-        name: /independent agency disclosure/i,
+        name: /we are an independent travel agency/i,
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /talk to a real travel specialist/i }),
+      screen.getByRole("heading", { name: /helpful flight guidance, without the pressure/i }),
     ).toBeInTheDocument();
   });
 
