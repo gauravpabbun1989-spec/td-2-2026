@@ -127,7 +127,7 @@ describe("activating the call CTA", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: /flight booking help from a real travel specialist/i,
+        name: Need a Flight? We’re Here to Help./i,
       }),
     ).toBeInTheDocument();
 
