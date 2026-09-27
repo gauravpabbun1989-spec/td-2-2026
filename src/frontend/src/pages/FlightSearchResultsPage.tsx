@@ -199,31 +199,7 @@ export function FlightSearchResultsPage() {
       const response = await fetch(`/api/flight-search?${params.toString()}`, { headers: { accept: "application/json" } });
       const contentType = response.headers.get("content-type") ?? "";
       if (!contentType.includes("application/json")) {
-        // Caffeine serves the SPA shell when the optional Cloudflare Worker
-        // route is not attached. Fall back to the deployed Caffeine actor
-        // schedule service so search still works instead of showing a Worker
-        // deployment error to the customer.
-        if (!actor) {
-          throw new Error("Flight search service is still connecting. Please try again in a moment.");
-        }
-        const fromChoice: LocationChoice = { type: "airport", city: "", country: "", iata: nextSearch.from, label: nextSearch.from };
-        const toChoice: LocationChoice = { type: "airport", city: "", country: "", iata: nextSearch.to, label: nextSearch.to };
-        const fallback = await fetchSchedules(
-          fromChoice,
-          toChoice,
-          nextSearch.departure,
-          nextSearch.returnDate,
-          nextSearch.tripType,
-          nextSearch.cabin,
-          nextSearch.travelers,
-          actor,
-        );
-        setOutbound(fallback.outbound);
-        setInbound(fallback.inbound);
-        if (!fallback.outbound.length) {
-          setError("No scheduled flight options were returned for this route and date. Try another date or modify your itinerary.");
-        }
-        return;
+        throw new Error("Live flight search service is unavailable. Please try again shortly.");
       }
       const payload = await response.json() as { outbound?: FlightSchedule[]; inbound?: FlightSchedule[]; error?: string };
       if (!response.ok) {
@@ -421,22 +397,7 @@ export function FlightSearchResultsPage() {
                       }).toString()}`, { headers: { accept: "application/json" } });
                       const contentType = response.headers.get("content-type") ?? "";
                       if (!contentType.includes("application/json")) {
-                        if (!actor) throw new Error("Flight search service is still connecting. Please try again in a moment.");
-                        const fromChoice: LocationChoice = { type: "airport", city: "", country: "", iata: search.to, label: search.to };
-                        const toChoice: LocationChoice = { type: "airport", city: "", country: "", iata: search.from, label: search.from };
-                        const fallback = await fetchSchedules(
-                          fromChoice,
-                          toChoice,
-                          search.returnDate,
-                          "",
-                          "One way",
-                          search.cabin,
-                          search.travelers,
-                          actor,
-                        );
-                        setInbound(fallback.outbound);
-                        if (!fallback.outbound.length) setError("No scheduled return options were returned for this date. Try another date.");
-                        return;
+                        throw new Error("Live flight search service is unavailable. Please try again shortly.");
                       }
                       const payload = await response.json() as { inbound?: FlightSchedule[]; error?: string };
                       if (!response.ok) throw new Error(payload.error ?? "Return-flight search failed.");
