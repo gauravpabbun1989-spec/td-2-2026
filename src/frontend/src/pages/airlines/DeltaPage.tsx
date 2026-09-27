@@ -388,6 +388,7 @@ export function DeltaPage() {
             </p>
           </div>
           <CallCta
+            showNumber
             size="lg"
             variant="solid"
 
