@@ -5,19 +5,19 @@ import { SITE } from "@/lib/site";
 import { renderRoute } from "@/test/render-route";
 
 const ROUTES = [
-  { path: "/", heading: /flight booking help from a real travel specialist/i },
-  { path: "/flight-booking", heading: /flight booking help for trips/i },
+  { path: "/", heading: /Need a Flight\? We’re Here to Help\./i },
+  { path: "/flight-booking", heading: /flight booking help for trips a search box cannot finish/i },
   {
     path: "/delta-airlines",
-    heading: /delta airlines bookings handled by a real travel specialist/i,
+    heading: /delta airlines reservation support from a real travel specialist/i,
   },
   {
     path: "/united-airlines",
-    heading: /united airlines itineraries, planned and booked by phone/i,
+    heading: /united airlines reservation support from a real travel specialist/i,
   },
   {
     path: "/american-airlines",
-    heading: /american airlines trips, booked with a specialist/i,
+    heading: /american airlines flight booking and reservation assistance/i,
   },
   { path: "/contact", heading: /talk to a real travel specialist/i },
   { path: "/privacy", heading: /^privacy policy$/i },
@@ -145,7 +145,7 @@ describe("site chrome on every route", () => {
 
 describe("phone conversion control", () => {
   it.each(ROUTES)(
-    "links every call CTA to tel:+18555449001 on $path",
+    "links every call CTA to the canonical phone target on $path",
     async ({ path }) => {
       renderRoute(path);
       await screen.findAllByRole("heading", { level: 1 });
@@ -156,7 +156,7 @@ describe("phone conversion control", () => {
 
       expect(callLinks.length).toBeGreaterThan(0);
       for (const link of callLinks) {
-        expect(link).toHaveAttribute("href", "tel:+18555449001");
+        expect(link).toHaveAttribute("href", SITE.phoneHref);
       }
     },
   );
