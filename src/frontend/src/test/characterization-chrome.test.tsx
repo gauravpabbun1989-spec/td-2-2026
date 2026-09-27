@@ -27,13 +27,13 @@ describe("persistent mobile call bar", () => {
       '[data-ocid="mobile_call.button"]',
     );
     expect(callLink).not.toBeNull();
-    expect(callLink).toHaveAttribute("href", "tel:+18555449001");
+    expect(callLink).toHaveAttribute("href", SITE.phoneHref);
     expect(callLink).toHaveTextContent(SITE.phoneDisplay);
     // The bar is the persistent mobile conversion control, so it must be
     // present on every route, not just the homepage.
     expect(callLink).toHaveAccessibleName(
       new RegExp(
-        `${SITE.ctaLabel} at ${SITE.phoneDisplay.replace(/[+]/g, "\\+")}`,
+        `${SITE.ctaLabel}: ${SITE.phoneDisplay.replace(/[+]/g, "\\+")}`,
         "i",
       ),
     );
