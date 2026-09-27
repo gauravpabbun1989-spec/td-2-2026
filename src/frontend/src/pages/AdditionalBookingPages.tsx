@@ -551,6 +551,42 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             <Phone className="size-4 text-accent" />
             {SITE.hours} · {SITE.phoneDisplay}
           </p>
+          {page.path === "/flight-booking-assistance" && (
+            <div
+              data-cro-version="268"
+              className="mt-8 rounded-2xl border border-border bg-card p-5 sm:p-6"
+              aria-labelledby="booking-intent-heading"
+            >
+              <h2 id="booking-intent-heading" className="text-xl font-semibold">
+                What kind of flight help do you need?
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Choose the option closest to your trip, or send your details if you are still deciding.
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {[
+                  ["Domestic or international", "/international-flight-booking", "Plan a trip within the U.S. or abroad."],
+                  ["Last-minute or travel today", "/last-minute-flight-booking", "Explore options for a near-term departure."],
+                  ["Business or premium cabin", "/business-class-flight-booking", "Discuss business class and premium-cabin choices."],
+                  ["Family or group trip", "/family-flight-booking", "Coordinate travelers, schedules, and trip details."],
+                  ["Multi-city itinerary", "/multi-city-flight-booking", "Plan a trip with multiple stops."],
+                  ["I need help choosing", "/contact", "Send your route and dates and request a callback."],
+                ].map(([label, to, description]) => (
+                  <Link
+                    key={label}
+                    to={to}
+                    className="group rounded-xl border border-border bg-background p-4 transition-colors hover:border-primary/40 hover:bg-muted/40"
+                  >
+                    <span className="block font-semibold text-foreground">{label}</span>
+                    <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{description}</span>
+                    <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                      Continue <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </Section>
 
