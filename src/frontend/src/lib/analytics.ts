@@ -35,7 +35,7 @@ function getCleanPagePath() {
     .sort((a, b) => a - b)[0];
 
   if (cutAt !== undefined && cutAt > 0) {
-    return raw.slice(0, cutAt).replace(/\/+$//, "") || "/";
+    return raw.slice(0, cutAt).replace(/\/+$/, "") || "/";
   }
 
   return raw.replace(/\/+$//, "") || "/";
@@ -43,7 +43,7 @@ function getCleanPagePath() {
 
 /** Ignore obvious scanner/probe paths in custom funnel events. */
 function isSuspiciousPath(path = getCleanPagePath()) {
-  return /(?:^|\/)(?:wp-admin|proc\/self|api\/uploads|api\/attachments|\.env|rclone\\.conf|var\/run\/secrets|document\\.php|dashboard\/\.env)(?:\/|$)/i.test(path);
+  return /(?:^|\/)(?:wp-admin|proc\/self|api\/uploads|api\/attachments|\.env|rclone\.conf|var\/run\/secrets|document\.php|dashboard\/\.env)(?:\/|$)/i.test(path);
 }
 
 function getLandingPage() {
