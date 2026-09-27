@@ -7,7 +7,7 @@ type CallCtaProps = {
   size?: "sm" | "md" | "lg";
   className?: string;
   ocid?: string;
-  /** Legacy compatibility: callers may pass this prop, but the number is intentionally never rendered here. */
+  /** When true, show the canonical phone number as part of the visible CTA label. */
   showNumber?: boolean;
 };
 
@@ -28,12 +28,13 @@ export function CallCta({
   size = "md",
   className,
   ocid = "call.primary_button",
+  showNumber = false,
 }: CallCtaProps) {
   return (
     <a
       href={SITE.phoneHref}
       data-ocid={ocid}
-      aria-label={SITE.ctaLabel}
+      aria-label={`${SITE.ctaLabel}: ${SITE.phoneDisplay}`}
       className={cn(
         "inline-flex items-center justify-center rounded-full font-semibold tracking-tight transition-smooth",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -44,6 +45,11 @@ export function CallCta({
     >
       <Phone aria-hidden="true" className="size-4 shrink-0" />
       <span className="whitespace-nowrap">{SITE.ctaLabel}</span>
+      {showNumber ? (
+        <span className="whitespace-nowrap" aria-hidden="true">
+          {SITE.phoneDisplay}
+        </span>
+      ) : null}
     </a>
   );
 }
