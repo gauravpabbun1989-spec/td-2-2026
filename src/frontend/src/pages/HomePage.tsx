@@ -61,6 +61,24 @@ export function HomePage() {
     <>
       <Seo title={HOME_TITLE} description={HOME_DESCRIPTION} path="/" image={HOME_IMAGE} structuredData={[organizationSchema(), websiteSchema(), breadcrumbSchema([{ name: "Home", path: "/" }]), homeFaqSchema(), serviceSchema({ name: "Flight reservation assistance by phone", description: HOME_DESCRIPTION, path: "/" })]} />
       <HeroSection />
+
+      <section className="border-b border-border bg-background px-5 py-6 sm:px-8 sm:py-8" aria-labelledby="home-start-heading">
+        <div className="mx-auto max-w-6xl">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p className="label-board text-accent">Choose your next step</p>
+              <h2 id="home-start-heading" className="mt-1 text-xl font-semibold sm:text-2xl">Ready to plan the trip?</h2>
+              <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">Call for a person, request a callback, or explore flight options first.</p>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3 lg:min-w-[620px]">
+              <CallCta size="md" ocid="home.quick_call_button" className="w-full" />
+              <Link to="/contact" data-ocid="home.quick_callback_link" className="inline-flex h-11 items-center justify-center rounded-full border border-primary/20 bg-card px-5 text-sm font-semibold text-primary transition-smooth hover:bg-primary hover:text-primary-foreground">Request a callback</Link>
+              <Link to="/flight-booking" data-ocid="home.quick_booking_link" className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-semibold text-foreground transition-smooth hover:border-primary/30 hover:text-primary">See booking help</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <DeferredFlightSearch />
 
       <section className="relative overflow-hidden border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-14">
