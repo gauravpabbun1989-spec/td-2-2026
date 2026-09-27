@@ -66,7 +66,7 @@ export function NotFoundPage() {
     <>
       <Seo
         title="Page Not Found | TicketDepart"
-        description="The page you were looking for could not be found. Browse TicketDepart flight booking, airline guides, or call a travel specialist at +1 855-544-9001."
+        description="The page you were looking for could not be found. Browse TicketDepart flight booking, airline guides, or call a travel specialist at +1 888-958-0280."
         path="/404"
       />
 
