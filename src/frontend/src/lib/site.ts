@@ -107,5 +107,8 @@ export function siteOrigin(): string {
 export function absoluteUrl(path: string): string {
   const origin = siteOrigin().replace(/\/$/, "");
   const normalized = path.startsWith("/") ? path : `/${path}`;
-  return `${origin}${normalized}`;
+  // Keep the homepage at "/" but normalize route canonicals to one
+  // non-trailing-slash form so /route and /route/ do not compete.
+  const canonicalPath = normalized === "/" ? "/" : normalized.replace(/\/+$/, "");
+  return `${origin}${canonicalPath}`;
 }
