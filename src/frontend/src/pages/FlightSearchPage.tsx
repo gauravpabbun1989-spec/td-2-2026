@@ -32,6 +32,7 @@ const POPULAR_AIRPORTS: Airport[] = [
   ["YYZ","Toronto Pearson International Airport","Toronto","Canada",43.6777,-79.6248],
   ["YVR","Vancouver International Airport","Vancouver","Canada",49.1967,-123.1815],
   ["MEX","Mexico City International Airport","Mexico City","Mexico",19.4361,-99.0719],
+  ["MCO","Orlando International Airport","Orlando","United States",28.4312,-81.3081],
 ].map(([iata,name,city,country,lat,lon], index) => ({ id: `fallback-${iata}-${index}`, name: String(name), city: String(city), country: String(country), iata: String(iata), lat: Number(lat), lon: Number(lon) }));
 
 export type LocationChoice = {
@@ -105,7 +106,15 @@ export async function loadAirports(query: string): Promise<Airport[]> {
       lon: typeof airport.lon === "number" ? airport.lon : undefined,
     }))
     .filter((airport) => airport.iata);
-    return remote.length ? remote : POPULAR_AIRPORTS.filter((airport) => [airport.iata, airport.name, airport.city, airport.country].join(" ").toLowerCase().includes(q.toLowerCase())).slice(0, 10);
+    const fallback = POPULAR_AIRPORTS.filter((airport) => [airport.iata, airport.name, airport.city, airport.country].join(" ").toLowerCase().includes(q.toLowerCase()));
+    const merged = [...remote, ...fallback];
+    const seen = new Set<string>();
+    return merged.filter((airport) => {
+      const key = airport.iata || airport.city.toLowerCase() + "|" + airport.country.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).slice(0, 20);
   } catch {
     return POPULAR_AIRPORTS.filter((airport) => [airport.iata, airport.name, airport.city, airport.country].join(" ").toLowerCase().includes(q.toLowerCase())).slice(0, 10);
   }
