@@ -4,7 +4,6 @@ import { SITE } from "@/lib/site";
 import { ArrowLeftRight, ArrowRight, Phone, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
-const AIR_ROUTES_AIRPORTS_API = "https://air-routes.com/api/airports";
 
 type Airport = { id: string; name: string; city: string; country: string; iata: string; lat?: number; lon?: number; timezone?: string };
 const POPULAR_AIRPORTS: Airport[] = [
