@@ -153,9 +153,9 @@ function ResultCard({
           <a
             href={SITE.phoneHref}
             className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-sm transition hover:bg-primary/90 sm:w-auto sm:self-end"
-            aria-label="Call to confirm or book this selected flight"
+            aria-label="Call to Book / Prices / Confirm for this selected flight"
           >
-            <Phone className="size-4" /> Call to Confirm / Book
+            <Phone className="size-4" /> Call to Book / Prices / Confirm
           </a>
         )}
       </div>
@@ -437,7 +437,7 @@ export function FlightSearchResultsPage() {
                 <p className="mt-1 text-sm text-muted-foreground">{search.travelers} traveler{search.travelers === "1" ? "" : "s"} · {search.cabin}</p>
               </div>
               <a href={SITE.phoneHref} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground">
-                <Phone className="size-4" /> Call to Confirm / Book
+                <Phone className="size-4" /> Call to Book / Prices / Confirm
               </a>
             </div>
           </div>
