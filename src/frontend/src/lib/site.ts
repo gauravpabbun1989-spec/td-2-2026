@@ -22,7 +22,7 @@ export const SITE = {
     country: "US",
   },
   hours: "Travel specialists available 24/7",
-  ctaLabel: "Speak with a Travel Specialist",
+  ctaLabel: "Call to Book",
   disclosure:
     "TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by any airline. All airline names and trademarks belong to their respective owners and are used for identification purposes only.",
 } as const;
