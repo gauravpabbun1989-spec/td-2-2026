@@ -47,6 +47,12 @@ const routes = {
     heading: "Cheap flight booking assistance by phone",
     text: "Discuss practical fare-comparison factors including flexible dates, nearby airports, itinerary trade-offs, and fare conditions.",
   },
+  "/corporate-flight-booking": {
+    title: "Corporate Flight Booking by Phone | Business Travel | TicketDepart",
+    description: "Get corporate and business travel flight booking assistance by phone. Discuss employee travel, executive trips, international itineraries, business-class options, schedules, and booking terms with an independent travel specialist.",
+    heading: "Corporate flight booking by phone",
+    text: "Discuss employee or executive travel, international business trips, business-class options, multiple travelers, flexible schedules, baggage, and booking terms with a travel specialist.",
+  },
   "/business-class-flight-booking": {
     title: "Business Class Flight Booking Assistance | TicketDepart",
     description: "Discuss business-class flight options, routes, schedules, connections, baggage, and fare conditions with an independent travel specialist.",
