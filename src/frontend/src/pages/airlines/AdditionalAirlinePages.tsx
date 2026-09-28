@@ -289,7 +289,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
     },
     {
       question: `Can you help if I need support with an existing ${page.name} reservation?`,
-      answer: `We can review the information you provide and discuss possible reservation, change, cancellation, or rebooking options. What can be handled depends on how the ticket was issued, its fare rules, airline policies, and current availability.`,
+      answer: "We can review the information you provide and discuss possible reservation, change, cancellation, or rebooking options. What can be handled depends on how the ticket was issued, its fare rules, airline policies, and current availability.",
     },
     {
       question: `Can I call for ${page.name} flight booking help 24/7?`,
