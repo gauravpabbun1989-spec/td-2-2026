@@ -2,17 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Performance: critical hero image is preloaded; non-critical analytics is idle-loaded. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TicketDepart | Premium Flight Reservation Assistance</title>
+    <title>Book Flights by Phone | 24/7 Flight Reservation Assistance | TicketDepart</title>
     <meta
       name="description"
-      content="Book flights by phone with TicketDepart. Get 24/7 flight booking assistance for domestic and international travel, changes, and cancellations."
+      content="Book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7."
     />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta property="og:title" content="TicketDepart | Premium Flight Reservation Assistance" />
+    <meta property="og:title" content="Book Flights by Phone | 24/7 Flight Reservation Assistance | TicketDepart" />
     <meta
       property="og:description"
-      content="TicketDepart is an independent U.S. travel agency. Speak with a travel specialist at +1 855-544-9001 for domestic and international flight booking, 24/7."
+      content="Book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7."
     />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="TicketDepart" />
@@ -23,13 +24,26 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://ticketdepart.com/assets/generated/hero-flight.dim_1600x1100.jpg" />
     <link rel="canonical" href="https://ticketdepart.com/" />
+    <link rel="preload" as="image" href="/assets/generated/hero-flight.dim_1600x1100.jpg" fetchpriority="high" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag("js", new Date());
-      gtag("config", "G-4WC5K9Q31E");
+      window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+      function loadAnalytics() {
+        if (window.__ticketdepartAnalyticsLoaded) return;
+        window.__ticketdepartAnalyticsLoaded = true;
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
+        document.head.appendChild(script);
+        window.gtag("js", new Date());
+        window.gtag("config", "G-4WC5K9Q31E");
+      }
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
+      } else {
+        window.addEventListener("load", () => setTimeout(loadAnalytics, 1500), { once: true });
+      }
     </script>
     <script type="application/ld+json">
       {
@@ -39,7 +53,7 @@
         "legalName": "TicketDepart Travel",
         "url": "https://ticketdepart.com/",
         "description": "TicketDepart is an independent U.S. travel agency helping travelers plan and book domestic and international flights with a real specialist on the phone.",
-        "telephone": "+1 855-544-9001",
+        "telephone": "+1 888-958-0280",
         "email": "support@ticketdestinations.com",
         "address": {
           "@type": "PostalAddress",
@@ -60,14 +74,14 @@
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "customer service",
-          "telephone": "+1 855-544-9001",
+          "telephone": "+1 888-958-0280",
           "email": "support@ticketdestinations.com",
           "availableLanguage": ["English"]
         }
       }
     </script>
-    <script type="module" crossorigin src="/assets/index-BYVCciZc.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BPsO93qn.css">
+    <script type="module" crossorigin src="/assets/index-D5NtseOv.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-zYANcydq.css">
   </head>
   <body>
     <div id="root"></div>

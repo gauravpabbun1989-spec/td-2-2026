@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Performance: critical hero image is preloaded; non-critical analytics is idle-loaded. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Flight Change Assistance by Phone | TicketDepart</title>
     <meta name="description" content="Need to change a flight? Discuss date, time, route, fare difference, and airline change rules with a TicketDepart travel specialist." />
@@ -17,20 +18,41 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://ticketdepart.com/assets/generated/hero-flight.dim_1600x1100.jpg" />
     <link rel="canonical" href="https://ticketdepart.com/flight-change-assistance" />
+    <link rel="preload" as="image" href="/assets/generated/hero-flight.dim_1600x1100.jpg" fetchpriority="high" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag("js", new Date());
-      gtag("config", "G-4WC5K9Q31E");
+      window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+      function loadAnalytics() {
+        if (window.__ticketdepartAnalyticsLoaded) return;
+        window.__ticketdepartAnalyticsLoaded = true;
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
+        document.head.appendChild(script);
+        window.gtag("js", new Date());
+        window.gtag("config", "G-4WC5K9Q31E");
+      }
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
+      } else {
+        window.addEventListener("load", () => setTimeout(loadAnalytics, 1500), { once: true });
+      }
     </script>
     
-    <script type="module" crossorigin src="/assets/index-BYVCciZc.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BPsO93qn.css">
+    <script type="module" crossorigin src="/assets/index-D5NtseOv.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-zYANcydq.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Flight Change Assistance by Phone | TicketDepart","description":"Need to change a flight? Discuss date, time, route, fare difference, and airline change rules with a TicketDepart travel specialist.","url":"https://ticketdepart.com/flight-change-assistance","isPartOf":{"@type":"WebSite","name":"TicketDepart","url":"https://ticketdepart.com/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ticketdepart.com/"},{"@type":"ListItem","position":2,"name":"Flight change assistance by phone","item":"https://ticketdepart.com/flight-change-assistance"}]}}</script>
   </head>
   <body>
-    <div id="root"><main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / Flight change assistance by phone</nav><h1>Flight change assistance by phone</h1><p>Review possible date, time, route, connection, and fare changes for an existing itinerary before authorizing a change.</p><p><a href="tel:+18555449001">Call +1 855-544-9001</a> — available 24/7.</p><p>TicketDepart is an independent U.S. travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main></div>
+    <div id="root"><main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / Flight change assistance by phone</nav><h1>Flight change assistance by phone</h1><p>Review possible date, time, route, connection, and fare changes for an existing itinerary before authorizing a change.</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>
+  <nav aria-label="Related flight booking guides"><strong>Related flight booking guides</strong><ul>
+    <li><a href="/flight-booking">Flight booking assistance</a></li>
+    <li><a href="/book-a-flight-by-phone">Book a flight by phone</a></li>
+    <li><a href="/international-flight-booking">International flight booking</a></li>
+    <li><a href="/business-class-flight-booking">Business class flight booking</a></li>
+    <li><a href="/contact">Contact a travel specialist</a></li>
+  </ul></nav>
+  <p>TicketDepart is an independent U.S. travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main></div>
   </body>
 </html>
