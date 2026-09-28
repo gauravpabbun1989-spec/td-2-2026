@@ -22,6 +22,7 @@ const HowToBookFlightByPhonePage = lazyPage(() => import("@/pages/HowToBookFligh
 
 const CheapFlightBookingByPhonePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ CheapFlightBookingByPhonePage }) => ({ default: CheapFlightBookingByPhonePage })));
 const BusinessClassFlightBookingPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ BusinessClassFlightBookingPage }) => ({ default: BusinessClassFlightBookingPage })));
+const CorporateFlightBookingPage = lazyPage(() => import("@/pages/CorporateFlightBookingPage").then(({ CorporateFlightBookingPage }) => ({ default: CorporateFlightBookingPage })));
 const FamilyFlightBookingPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ FamilyFlightBookingPage }) => ({ default: FamilyFlightBookingPage })));
 const FlightBookingAssistancePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ FlightBookingAssistancePage }) => ({ default: FlightBookingAssistancePage })));
 const FlightCancellationAssistancePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ FlightCancellationAssistancePage }) => ({ default: FlightCancellationAssistancePage })));
@@ -138,6 +139,12 @@ const businessClassFlightBookingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/business-class-flight-booking",
   component: BusinessClassFlightBookingPage,
+});
+
+const corporateFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/corporate-flight-booking",
+  component: CorporateFlightBookingPage,
 });
 
 const sameDayFlightBookingRoute = createRoute({
@@ -450,6 +457,7 @@ export const routeTree = rootRoute.addChildren([
   groupFlightBookingRoute,
   cheapFlightBookingByPhoneRoute,
   businessClassFlightBookingRoute,
+  corporateFlightBookingRoute,
   sameDayFlightBookingRoute,
   familyFlightBookingRoute,
   flightChangeAssistanceRoute,
