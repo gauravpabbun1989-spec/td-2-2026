@@ -68,10 +68,12 @@ function ResultCard({
   result,
   selected,
   onSelect,
+  showCallButton,
 }: {
   result: FlightSchedule;
   selected: boolean;
   onSelect: () => void;
+  showCallButton: boolean;
 }) {
   const legs = result.legs?.length
     ? result.legs
@@ -147,6 +149,15 @@ function ResultCard({
           {selected ? <Check className="size-4" /> : null}
           {selected ? "Selected" : "Select itinerary"}
         </button>
+        {showCallButton && (
+          <a
+            href={SITE.phoneHref}
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-sm transition hover:bg-primary/90 sm:w-auto sm:self-end"
+            aria-label="Call to confirm or book this selected flight"
+          >
+            <Phone className="size-4" /> Call to Confirm / Book
+          </a>
+        )}
       </div>
     </article>
   );
@@ -160,6 +171,7 @@ export function FlightSearchResultsPage() {
   const [inbound, setInbound] = useState<FlightSchedule[]>([]);
   const [selectedOutbound, setSelectedOutbound] = useState<FlightSchedule | null>(null);
   const [selectedReturn, setSelectedReturn] = useState<FlightSchedule | null>(null);
+  const [selectedCallFlightId, setSelectedCallFlightId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [returnLoading, setReturnLoading] = useState(false);
   const [showModify, setShowModify] = useState(false);
@@ -180,6 +192,7 @@ export function FlightSearchResultsPage() {
     setInbound([]);
     setSelectedOutbound(null);
     setSelectedReturn(null);
+    setSelectedCallFlightId(null);
     try {
       if (nextSearch.from === nextSearch.to) throw new Error("Departure and destination cannot be the same airport.");
       if (nextSearch.tripType === "Round trip" && (!nextSearch.returnDate || nextSearch.returnDate < nextSearch.departure)) {
@@ -338,8 +351,10 @@ export function FlightSearchResultsPage() {
                   key={result.id}
                   result={result}
                   selected={selectedOutbound?.id === result.id}
+                  showCallButton={selectedCallFlightId === result.id}
                   onSelect={async () => {
                     setSelectedOutbound(result);
+                    setSelectedCallFlightId(result.id);
                     setSelectedReturn(null);
                     if (search.tripType !== "Round trip") return;
                     setReturnLoading(true);
@@ -400,7 +415,11 @@ export function FlightSearchResultsPage() {
                       key={result.id}
                       result={result}
                       selected={selectedReturn?.id === result.id}
-                      onSelect={() => setSelectedReturn(result)}
+                      showCallButton={selectedCallFlightId === result.id}
+                      onSelect={() => {
+                        setSelectedReturn(result);
+                        setSelectedCallFlightId(result.id);
+                      }}
                     />
                   ))}
                 </div>
