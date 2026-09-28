@@ -494,6 +494,21 @@ const PAGES: readonly PageConfig[] = [
 
 function AdditionalBookingPage({ page }: { page: PageConfig }) {
   const id = page.path.slice(1).replaceAll("-", "_");
+  const supportFaqs = [
+    {
+      question: "Can I call for help with an existing flight reservation?",
+      answer: "Yes. TicketDepart is an independent travel agency and a specialist can discuss your existing itinerary, possible changes, cancellations, rebooking, or other reservation questions. What can be handled depends on how the ticket was issued, its fare rules, airline policies, and current availability.",
+    },
+    {
+      question: "Can I speak with a travel specialist about my flight?",
+      answer: "Yes. Call TicketDepart to discuss " + page.service.toLowerCase() + ", an existing reservation, or another flight-planning question. Have your route, dates, traveler details, and confirmation information ready when applicable.",
+    },
+    {
+      question: "Are applicable service fees disclosed before payment?",
+      answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fares, taxes, baggage charges, and other applicable costs are reviewed before you decide.",
+    },
+  ] as const;
+  const allFaqs = [...page.faqs, ...supportFaqs];
 
   return (
     <>
@@ -516,7 +531,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             description: page.description,
             path: page.path,
           }),
-          faqSchema(page.faqs),
+          faqSchema(allFaqs),
         ]}
       />
 
@@ -671,6 +686,34 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
         </div>
       </Section>
 
+      <Section tone="muted" ocid={`${id}.support_paths`}>
+        <SectionHeading
+          eyebrow="Flight and reservation support"
+          title="Not sure which kind of help you need?"
+          description="You can call directly or continue to the support path that best matches your situation."
+        />
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            ["Airline reservation assistance", "/airline-reservation-assistance", "Questions about an airline reservation, representative, or travel-support issue."],
+            ["Change a flight", "/flight-change-assistance", "Discuss dates, times, routes, fare differences, and eligible changes."],
+            ["Cancel a flight", "/flight-cancellation-assistance", "Review cancellation, refund, credit, and applicable ticket terms."],
+            ["Book a flight by phone", "/book-a-flight-by-phone", "Start a new booking with a travel specialist."],
+            ["Last-minute flight help", "/last-minute-flight-booking", "Discuss urgent travel, nearby airports, and ticketing timing."],
+            ["General flight assistance", "/flight-booking-assistance", "If you are unsure where to start, describe the trip and get pointed to the right path."],
+          ].map(([label, to, description]) => (
+            <Link
+              key={to}
+              to={to}
+              className="group rounded-2xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-elevated"
+            >
+              <span className="font-display text-base font-semibold">{label}</span>
+              <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{description}</span>
+              <span className="mt-3 flex items-center gap-1.5 text-sm font-semibold text-primary">Continue <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" /></span>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
       <Section tone="paper" ocid={`${id}.related`}>
         <SectionHeading
           eyebrow="Related booking help"
@@ -709,7 +752,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
           description="Practical information before you call."
         />
         <div className="mx-auto mt-10 max-w-3xl space-y-4">
-          {page.faqs.map((faq) => (
+          {allFaqs.map((faq) => (
             <details
               key={faq.question}
               className="rounded-2xl border border-border bg-card p-5 shadow-subtle"
