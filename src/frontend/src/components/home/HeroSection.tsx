@@ -48,7 +48,7 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-slate-700 sm:text-lg sm:leading-8">
-            Tell us where you want to go. Our reservation specialists can help you review routes, dates, cabins, baggage, and booking details before you decide.
+            Need help booking your flight? Call our reservation specialists to review routes, dates, cabins, baggage, and booking details with you.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-3">
