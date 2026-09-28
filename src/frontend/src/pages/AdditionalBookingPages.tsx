@@ -501,7 +501,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
     },
     {
       question: "Can I speak with a travel specialist about my flight?",
-      answer: "Yes. Call TicketDepart to discuss " + page.service.toLowerCase() + ", an existing reservation, or another flight-planning question. Have your route, dates, traveler details, and confirmation information ready when applicable.",
+      answer: `Yes. Call TicketDepart to discuss ${page.service.toLowerCase()}, an existing reservation, or another flight-planning question. Have your route, dates, traveler details, and confirmation information ready when applicable.`,
     },
     {
       question: "Are applicable service fees disclosed before payment?",
