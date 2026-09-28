@@ -196,7 +196,7 @@ export function FlightSearchResultsPage() {
       });
       if (nextSearch.returnDate && nextSearch.tripType === "Round trip") params.set("returnDate", nextSearch.returnDate);
 
-      const response = await fetch(`/api/flight-search?${params.toString()}`, { headers: { accept: "application/json" } });
+      const response = await fetch(`https://ticket-depart2.netlify.app/api/flight-search?${params.toString()}`, { headers: { accept: "application/json" } });
       const contentType = response.headers.get("content-type") ?? "";
       if (!contentType.includes("application/json")) {
         throw new Error("Live flight search service is unavailable. Please try again shortly.");
@@ -363,7 +363,7 @@ export function FlightSearchResultsPage() {
                         return;
                       }
 
-                      const response = await fetch(`/api/flight-search?${new URLSearchParams({
+                      const response = await fetch(`https://ticket-depart2.netlify.app/api/flight-search?${new URLSearchParams({
                         origin: search.from,
                         destination: search.to,
                         departureDate: search.departure,
