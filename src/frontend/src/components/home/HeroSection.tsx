@@ -48,7 +48,7 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-slate-700 sm:text-lg sm:leading-8">
-            Need help booking your flight? Call our reservation specialists to review routes, dates, cabins, baggage, and booking details with you.
+            Need to book a flight or get help with an airline reservation? Call our travel specialists to review routes, dates, cabins, baggage, changes, cancellations, and booking details with you.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-3">
@@ -70,7 +70,7 @@ export function HeroSection() {
           </div>
 
           <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold text-slate-700">
-            {["Available 24/7", "Clear booking details", "Help with complex trips"].map((item) => (
+            {["Available 24/7", "Booking or reservation help", "Help with complex trips"].map((item) => (
               <span key={item} className="inline-flex items-center gap-2">
                 <Check className="size-4 text-emerald-600" />
                 {item}
