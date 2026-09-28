@@ -282,6 +282,21 @@ const RELATED = [
 
 function AirlineAssistancePage({ page }: { page: AirlinePage }) {
   const id = page.slug.replaceAll("-", "_");
+  const supportFaqs = [
+    {
+      question: `How do I speak with a ${page.name} reservation specialist by phone?`,
+      answer: `TicketDepart is an independent travel agency, not ${page.name}'s official customer service. You can call TicketDepart to discuss a reservation, new flight, changes, cancellations, connections, baggage questions, or other travel-planning needs with a specialist.`,
+    },
+    {
+      question: `Can you help if I need support with an existing ${page.name} reservation?`,
+      answer: `We can review the information you provide and discuss possible reservation, change, cancellation, or rebooking options. What can be handled depends on how the ticket was issued, its fare rules, airline policies, and current availability.`,
+    },
+    {
+      question: `Can I call for ${page.name} flight booking help 24/7?`,
+      answer: `TicketDepart travel specialists are available 24/7 for independent flight reservation assistance. We are not ${page.name}'s official customer service, and airline-specific support channels may have different hours.`,
+    },
+  ] as const;
+  const allFaqs = [...page.faqs, ...supportFaqs];
 
   return (
     <>
@@ -294,7 +309,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
             { name: "Home", path: "/" },
             { name: page.name, path: `/${page.slug}` },
           ]),
-          faqSchema(page.faqs),
+          faqSchema(allFaqs),
         ]}
       />
 
@@ -405,7 +420,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
       <Section tone="muted" ocid={`${id}.faq`}>
         <SectionHeading eyebrow="FAQ" title={`${page.name} reservation support questions`} description="Practical information before you call." />
         <div className="mx-auto mt-10 grid max-w-5xl gap-4 lg:grid-cols-2">
-          {page.faqs.map((faq) => (
+          {allFaqs.map((faq) => (
             <details key={faq.question} className="rounded-2xl border border-border bg-card p-5 shadow-subtle">
               <summary className="cursor-pointer font-semibold">{faq.question}</summary>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{faq.answer}</p>
