@@ -99,6 +99,26 @@ export function HeroSection() {
             </div>
           ))}
         </div>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ["Book a flight", "/flight-booking"],
+            ["Change a flight", "/flight-change-assistance"],
+            ["Cancel a flight", "/flight-cancellation-assistance"],
+            ["Airline reservation help", "/airline-reservation-assistance"],
+          ].map(([label, to]) => (
+            <Link
+              key={to}
+              to={to}
+              className="group rounded-xl border border-sky-100 bg-white/90 px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition-smooth hover:border-sky-300 hover:bg-white"
+            >
+              <span className="flex items-center justify-between gap-2">
+                {label}
+                <ArrowRight className="size-4 text-sky-600 transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+          ))}
+        </div>
+
         <p className="mt-4 text-xs leading-5 text-slate-600">{SITE.disclosure}</p>
       </div>
     </section>
