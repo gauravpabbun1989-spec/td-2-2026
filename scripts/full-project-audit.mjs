@@ -12,7 +12,7 @@ const PUBLIC_ROUTES = [
   "/swiss-air", "/qatar-airways", "/emirates", "/norse-atlantic-airways", "/lot-polish-airlines",
   "/contact", "/privacy", "/terms", "/international-flight-booking", "/last-minute-flight-booking",
   "/multi-city-flight-booking", "/group-flight-booking", "/cheap-flight-booking-by-phone",
-  "/business-class-flight-booking", "/same-day-flight-booking", "/family-flight-booking",
+  "/business-class-flight-booking", "/corporate-flight-booking", "/same-day-flight-booking", "/family-flight-booking",
   "/flight-change-assistance", "/flight-cancellation-assistance", "/airline-reservation-assistance",
   "/flight-booking-assistance", "/flights-usa-to-canada", "/flights-usa-to-uk",
   "/flights-usa-to-europe", "/flights-usa-to-mexico",
