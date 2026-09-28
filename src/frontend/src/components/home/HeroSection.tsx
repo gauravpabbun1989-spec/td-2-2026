@@ -51,8 +51,15 @@ export function HeroSection() {
             Tell us where you want to go. Our reservation specialists can help you review routes, dates, cabins, baggage, and booking details before you decide.
           </p>
 
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <CallCta size="lg" ocid="home.hero_call_button" className="shadow-xl shadow-sky-900/15" />
+          <div className="mt-7 grid gap-3 sm:grid-cols-3">
+            <CallCta size="lg" ocid="home.hero_call_button" className="w-full shadow-xl shadow-sky-900/15" />
+            <Link
+              to="/flight-booking"
+              data-ocid="home.hero_flight_booking_link"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#087fc1] px-6 text-base font-semibold text-white shadow-md transition-smooth hover:bg-[#066da6]"
+            >
+              Search flights <ArrowRight className="size-4" />
+            </Link>
             <Link
               to="/contact"
               data-ocid="home.hero_trip_request_link"
