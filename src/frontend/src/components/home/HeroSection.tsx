@@ -48,7 +48,7 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-slate-700 sm:text-lg sm:leading-8">
-            Need help booking your flight? Call our reservation specialists to review routes, dates, cabins, baggage, and booking details with you.
+            Need to book a flight or get help with an airline reservation? Call our travel specialists to review routes, dates, cabins, baggage, changes, cancellations, and booking details with you.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-3">
@@ -70,7 +70,7 @@ export function HeroSection() {
           </div>
 
           <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold text-slate-700">
-            {["Available 24/7", "Clear booking details", "Help with complex trips"].map((item) => (
+            {["Available 24/7", "Booking or reservation help", "Help with complex trips"].map((item) => (
               <span key={item} className="inline-flex items-center gap-2">
                 <Check className="size-4 text-emerald-600" />
                 {item}
@@ -99,6 +99,26 @@ export function HeroSection() {
             </div>
           ))}
         </div>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ["Book a flight", "/flight-booking"],
+            ["Change a flight", "/flight-change-assistance"],
+            ["Cancel a flight", "/flight-cancellation-assistance"],
+            ["Airline reservation help", "/airline-reservation-assistance"],
+          ].map(([label, to]) => (
+            <Link
+              key={to}
+              to={to}
+              className="group rounded-xl border border-sky-100 bg-white/90 px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition-smooth hover:border-sky-300 hover:bg-white"
+            >
+              <span className="flex items-center justify-between gap-2">
+                {label}
+                <ArrowRight className="size-4 text-sky-600 transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+          ))}
+        </div>
+
         <p className="mt-4 text-xs leading-5 text-slate-600">{SITE.disclosure}</p>
       </div>
     </section>
