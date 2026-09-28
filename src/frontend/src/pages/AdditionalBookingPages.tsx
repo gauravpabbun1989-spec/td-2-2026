@@ -689,7 +689,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             ["Group flights", "/group-flight-booking"],
           ].map(([label, to]) => (
             <Link
-              key={to}
+              key={`${label}-${to}`}
               to={to}
               className="rounded-2xl border border-border bg-card p-5 shadow-subtle hover:shadow-elevated"
             >
