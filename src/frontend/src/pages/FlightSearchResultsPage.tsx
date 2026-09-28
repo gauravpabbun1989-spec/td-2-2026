@@ -152,10 +152,10 @@ function ResultCard({
         {showCallButton && (
           <a
             href={SITE.phoneHref}
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-sm transition hover:bg-primary/90 sm:w-auto sm:self-end"
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-red-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 animate-pulse sm:w-auto sm:self-end"
             aria-label="Call to Book / Prices / Confirm for this selected flight"
           >
-            <Phone className="size-4" /> Call to Book / Prices / Confirm
+            <Phone className="size-4 animate-bounce text-white" /> Call to Book / Prices / Confirm
           </a>
         )}
       </div>
@@ -436,8 +436,8 @@ export function FlightSearchResultsPage() {
                 <h2 className="mt-1 text-xl font-bold">{itinerarySummary}</h2>
                 <p className="mt-1 text-sm text-muted-foreground">{search.travelers} traveler{search.travelers === "1" ? "" : "s"} · {search.cabin}</p>
               </div>
-              <a href={SITE.phoneHref} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground">
-                <Phone className="size-4" /> Call to Book / Prices / Confirm
+              <a href={SITE.phoneHref} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-red-600 px-6 font-semibold text-white shadow-sm transition hover:bg-red-700 animate-pulse">
+                <Phone className="size-4 animate-bounce text-white" /> Call to Book / Prices / Confirm
               </a>
             </div>
           </div>
