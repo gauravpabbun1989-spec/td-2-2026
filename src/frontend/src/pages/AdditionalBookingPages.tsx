@@ -78,13 +78,13 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking",
-    title: "Business Class Flight Booking by Phone | Travel Agent Assistance | TicketDepart",
+    title: "Business Class & Corporate Flight Booking by Phone | TicketDepart",
     description:
-      "Plan business class and premium cabin flights by phone with an independent travel agency. Compare schedules, connections, cabin features, baggage, and fare conditions with a TicketDepart travel specialist or business class travel agent.",
-    heading: "Business class flight booking by phone with a travel specialist",
+      "Book business class or corporate flights by phone with an independent travel agency. Compare schedules, premium cabins, connections, baggage, and fare conditions with a business class or corporate travel specialist.",
+    heading: "Business class and corporate flight booking by phone",
     intro:
-      "Business class travel can differ significantly by aircraft, route, connection, and fare family. A phone conversation with an independent business class travel agent lets you explain the experience, schedule, and cabin preferences you need before booking.",
-    service: "Business class flight booking",
+      "Business and corporate travel can differ significantly by aircraft, route, connection, fare family, schedule, and traveler requirements. Explain the trip you need and a TicketDepart specialist can discuss premium-cabin and corporate flight options before you decide.",
+    service: "Business class and corporate flight booking",
     items: [
       [
         "Business class travel agent assistance",
@@ -93,6 +93,10 @@ const PAGES: readonly PageConfig[] = [
       [
         "Corporate and executive travel",
         "Discuss business travel schedules, flexible routing, premium-cabin preferences, and itinerary details for work trips.",
+      ],
+      [
+        "Corporate flight booking",
+        "Discuss business travel schedules, traveler requirements, flexible routing, premium-cabin preferences, and itinerary details for work trips.",
       ],
       [
         "Aircraft and seats",
@@ -135,6 +139,11 @@ const PAGES: readonly PageConfig[] = [
         question: "Can a business class travel agent help with corporate flights?",
         answer:
           "Yes. You can discuss corporate or executive travel requirements, business-class cabin preferences, routing, schedules, baggage, and applicable fare conditions by phone.",
+      },
+      {
+        question: "Can you help book corporate flights?",
+        answer:
+          "Yes. You can discuss corporate or executive flight requirements, traveler schedules, premium-cabin preferences, routing, baggage, and applicable fare conditions by phone.",
       },
       {
         question: "Can you help compare business-class flight options?",
