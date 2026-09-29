@@ -3,7 +3,6 @@ import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import {
   breadcrumbSchema,
-  faqSchema,
   serviceSchema,
   webPageSchema,
 } from "@/lib/seo";
@@ -81,7 +80,7 @@ export function BookAFlightByPhonePage() {
             description: PAGE_DESCRIPTION,
             path: PAGE_PATH,
           }),
-          faqSchema(FAQS),
+          ,
         ]}
       />
 
