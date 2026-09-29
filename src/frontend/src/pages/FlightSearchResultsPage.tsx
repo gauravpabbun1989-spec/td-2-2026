@@ -272,10 +272,51 @@ export function FlightSearchResultsPage() {
       <>
         <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />
         <Section tone="muted">
-          <SectionHeading eyebrow="Flight search" title="Start a new flight search" description="Choose your route and travel dates to see itinerary options." />
-          <a href="/flight-search" className="mt-6 inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground">
-            <Search className="size-4" /> New search
-          </a>
+          <div className="mx-auto max-w-4xl">
+            <p className="label-board text-accent">Flight search</p>
+            <h1 className="mt-3 text-balance text-3xl font-bold sm:text-4xl">
+              Flight search results and itinerary planning
+            </h1>
+            <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg">
+              Start a new flight search to review available schedule options for your
+              route and travel date. Enter your departure airport or city, destination,
+              travel dates, trip type, number of travelers, and preferred cabin. You can
+              then review the itinerary details and contact TicketDepart for reservation
+              assistance.
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                ["Search your route", "Choose departure and destination airports or cities and enter your travel dates."],
+                ["Review itinerary details", "Compare departure and arrival times, nonstop or connecting service, duration, and cabin information."],
+                ["Get booking assistance", "When you have an itinerary in mind, call TicketDepart to discuss booking details and applicable terms."],
+              ].map(([title, description]) => (
+                <article key={title} className="rounded-2xl border border-border bg-card p-5 shadow-subtle">
+                  <h2 className="font-display text-base font-semibold">{title}</h2>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{description}</p>
+                </article>
+              ))}
+            </div>
+            <div className="mt-8 rounded-2xl border border-border bg-card p-6 shadow-subtle">
+              <h2 className="font-display text-xl font-semibold">What to have ready</h2>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                If you already know your airports, have the IATA codes or city names
+                ready. For a round trip, have both departure and return dates available.
+                If your plans are flexible, nearby airports or alternate dates may provide
+                additional itinerary choices.
+              </p>
+              <ul className="mt-4 grid gap-2 text-sm text-foreground sm:grid-cols-2">
+                <li>• Departure city or airport</li>
+                <li>• Destination city or airport</li>
+                <li>• Departure and return dates</li>
+                <li>• Number of travelers</li>
+                <li>• Preferred cabin</li>
+                <li>• One-way or round-trip preference</li>
+              </ul>
+            </div>
+            <a href="/flight-search" className="mt-8 inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground">
+              <Search className="size-4" /> Start a new flight search
+            </a>
+          </div>
         </Section>
       </>
     );
