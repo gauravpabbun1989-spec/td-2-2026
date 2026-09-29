@@ -416,7 +416,7 @@ function routeHtml(route, meta) {
   </ul></section>
   <p>TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
 
-  return html.replace('<div id="root" style="visibility:hidden"></div>', `<div id="root" style="visibility:hidden">${fallback}</div>`);
+  return html.replace(/<div id="root"(?:\s+style="visibility:hidden")?><\/div>/i, `<div id="root" style="visibility:hidden">${fallback}</div>`);
 }
 
 for (const [route, meta] of Object.entries(routes)) {
