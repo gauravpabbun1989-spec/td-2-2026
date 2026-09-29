@@ -69,7 +69,7 @@ const SERVICES: readonly BookingService[] = [
     details: [
       "Three or more city pairs on one trip",
       "Open-jaw and circle itineraries",
-      "Mixed-carrier routings priced together",
+      "Mixed-carrier routing options where ticketing permits",
     ],
   },
   {
@@ -87,7 +87,7 @@ const SERVICES: readonly BookingService[] = [
     icon: Users,
     title: "Group flight booking",
     description:
-      "Coordinated travel for families, teams, and organizations that need everyone on the same routing and the same record.",
+      "Coordinated travel for families, teams, and organizations that want compatible routing and schedules.",
     details: [
       "Family and extended-family trips",
       "Sports, school, and church groups",
@@ -118,13 +118,13 @@ const PROCESS = [
     step: "02",
     title: "We compare the options",
     description:
-      "A specialist reviews schedules, connections, and fare conditions across carriers and presents the routings that actually fit your trip.",
+      "A specialist reviews schedules, connections, and applicable fare conditions and discusses the routings that fit the trip details you provide.",
   },
   {
     step: "03",
     title: "You choose and confirm",
     description:
-      "You decide what works, ask questions about bags and changes, and confirm the itinerary with a person on the phone — not a checkout timer.",
+      "You decide what works, ask questions about baggage and changes, and confirm the itinerary after reviewing the applicable terms.",
   },
 ] as const;
 
