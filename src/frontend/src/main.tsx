@@ -30,7 +30,6 @@ if (!rootElement) {
 }
 
 rootElement.classList.add("pre-react-render");
-rootElement.style.visibility = "visible";
 
 const root = ReactDOM.createRoot(rootElement);
 
@@ -45,3 +44,4 @@ flushSync(() => {
 });
 
 rootElement.classList.remove("pre-react-render");
+rootElement.style.visibility = "visible";
