@@ -1,7 +1,7 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
-import { breadcrumbSchema, faqSchema } from "@/lib/seo";
+import { breadcrumbSchema } from "@/lib/seo";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import {
@@ -172,7 +172,6 @@ export function DeltaPage() {
             { name: "Home", path: "/" },
             { name: "Delta Airlines", path: PATH },
           ]),
-          faqSchema(FAQS),
         ]}
       />
 
