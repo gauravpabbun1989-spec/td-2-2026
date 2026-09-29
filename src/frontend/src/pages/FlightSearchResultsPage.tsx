@@ -307,6 +307,18 @@ export function FlightSearchResultsPage() {
             </div>
           </div>
 
+          <div className="rounded-2xl border border-accent/25 bg-accent/5 p-4 sm:p-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-bold text-foreground">Need help choosing or confirming a flight?</p>
+                <p className="mt-1 text-sm text-muted-foreground">Call TicketDepart for reservation assistance with this itinerary.</p>
+              </div>
+              <a href={SITE.phoneHref} data-cta-location="results_top" className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-bold text-accent-foreground shadow-subtle transition hover:bg-accent/90" aria-label="Call for flight reservation assistance">
+                <Phone className="size-4" /> Call for Reservation Assistance
+              </a>
+            </div>
+          </div>
+
           {showModify && (
             <div className="rounded-2xl border border-border bg-background p-4">
               <div className="mb-3 flex items-center justify-between">
