@@ -10,7 +10,6 @@ const PreCallChecklist = lazy(() => import("@/components/home/PreCallChecklist")
 const ServiceGrid = lazy(() => import("@/components/home/ServiceGrid").then((module) => ({ default: module.ServiceGrid })));
 const DisclosureBlock = lazy(() => import("@/components/home/DisclosureBlock").then((module) => ({ default: module.DisclosureBlock })));
 const ContactInfoBlock = lazy(() => import("@/components/home/ContactInfoBlock").then((module) => ({ default: module.ContactInfoBlock })));
-import { homeFaqSchema } from "@/components/home/HomeFaq.data";
 import { breadcrumbSchema, organizationSchema, serviceSchema, websiteSchema } from "@/lib/seo";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
@@ -59,7 +58,7 @@ function DeferredFlightSearch() {
 export function HomePage() {
   return (
     <>
-      <Seo title={HOME_TITLE} description={HOME_DESCRIPTION} path="/" image={HOME_IMAGE} structuredData={[organizationSchema(), websiteSchema(), breadcrumbSchema([{ name: "Home", path: "/" }]), homeFaqSchema(), serviceSchema({ name: "Flight reservation assistance by phone", description: HOME_DESCRIPTION, path: "/" })]} />
+      <Seo title={HOME_TITLE} description={HOME_DESCRIPTION} path="/" image={HOME_IMAGE} structuredData={[organizationSchema(), websiteSchema(), breadcrumbSchema([{ name: "Home", path: "/" }]), serviceSchema({ name: "Flight reservation assistance by phone", description: HOME_DESCRIPTION, path: "/" })]} />
       <HeroSection />
 
       <section data-cro-version="265" className="border-b border-border bg-background px-5 py-6 sm:px-8 sm:py-8" aria-labelledby="home-start-heading">
