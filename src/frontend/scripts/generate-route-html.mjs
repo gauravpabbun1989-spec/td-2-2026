@@ -363,12 +363,35 @@ function routeHtml(route, meta) {
   const safeText = escapeHtml(meta.text);
 
   let html = source
-    .replace(/<title>[\\s\\S]*?<\\/title>/i, `<title>${safeTitle}</title>`)
-    .replace(/<meta\\s+name="description"\\s+content="[^"]*"\\s*\\/>/i, `<meta name="description" content="${safeDescription}" />`)
-    .replace(/<meta\\s+property="og:title"\\s+content="[^"]*"\\s*\\/>/i, `<meta property="og:title" content="${safeTitle}" />`)
-    .replace(/<meta\\s+property="og:description"\\s+content="[^"]*"\\s*\\/>/i, `<meta property="og:description" content="${safeDescription}" />`)
-    .replace(/<meta\\s+property="og:url"\\s+content="[^"]*"\\s*\\/>/i, `<meta property="og:url" content="${url}" />`)
-    .replace(/<link\\s+rel="canonical"\\s+href="[^"]*"\\s*\\/>/i, `<link rel="canonical" href="${url}" />`)  );
+    .replace(/<title>[\s\S]*?<\/title>/i, \`<title>\${safeTitle}</title>\`)
+    .replace(/<meta\s+name="description"\s+content="[^"]*"[\s\S]*?\/>/i, \`<meta name="description" content="\${safeDescription}" />\`)
+    .replace(/<meta\s+property="og:title"\s+content="[^"]*"[\s\S]*?\/>/i, \`<meta property="og:title" content="\${safeTitle}" />\`)
+    .replace(/<meta\s+property="og:description"\s+content="[^"]*"[\s\S]*?\/>/i, \`<meta property="og:description" content="\${safeDescription}" />\`)
+    .replace(/<meta\s+property="og:url"\s+content="[^"]*"[\s\S]*?\/>/i, \`<meta property="og:url" content="\${url}" />\`)
+    .replace(/<link\s+rel="canonical"\s+href="[^"]*"[\s\S]*?\/>/i, \`<link rel="canonical" href="\${url}" />\`)
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, "");
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: meta.title,
+    description: meta.description,
+    url,
+    isPartOf: { "@type": "WebSite", name: "TicketDepart", url: "https://ticketdepart.com/" },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://ticketdepart.com/" },
+        { "@type": "ListItem", position: 2, name: meta.heading, item: url },
+      ],
+    },
+  };
+
+  html = html.replace(
+    "</head>",
+    \`<script type="application/ld+json">\${JSON.stringify(schema)}</script>
+  </head>\`,
+  );
 
   const staticContent = STATIC_SEO_CONTENT[route] ?? {
     eyebrow: meta.heading,
