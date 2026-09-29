@@ -363,12 +363,12 @@ function routeHtml(route, meta) {
   const safeText = escapeHtml(meta.text);
 
   let html = source
-    .replace(/<title>[\s\S]*?<\/title>/i, \`<title>\${safeTitle}</title>\`)
-    .replace(/<meta\s+name="description"\s+content="[^"]*"[\s\S]*?\/>/i, \`<meta name="description" content="\${safeDescription}" />\`)
-    .replace(/<meta\s+property="og:title"\s+content="[^"]*"[\s\S]*?\/>/i, \`<meta property="og:title" content="\${safeTitle}" />\`)
-    .replace(/<meta\s+property="og:description"\s+content="[^"]*"[\s\S]*?\/>/i, \`<meta property="og:description" content="\${safeDescription}" />\`)
-    .replace(/<meta\s+property="og:url"\s+content="[^"]*"[\s\S]*?\/>/i, \`<meta property="og:url" content="\${url}" />\`)
-    .replace(/<link\s+rel="canonical"\s+href="[^"]*"[\s\S]*?\/>/i, \`<link rel="canonical" href="\${url}" />\`)
+    .replace(/<title>[\s\S]*?<\/title>/i, `<title>${safeTitle}</title>`)
+    .replace(/<meta\s+name="description"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta name="description" content="${safeDescription}" />`)
+    .replace(/<meta\s+property="og:title"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta property="og:title" content="${safeTitle}" />`)
+    .replace(/<meta\s+property="og:description"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta property="og:description" content="${safeDescription}" />`)
+    .replace(/<meta\s+property="og:url"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta property="og:url" content="${url}" />`)
+    .replace(/<link\s+rel="canonical"\s+href="[^"]*"[\s\S]*?\/>/i, `<link rel="canonical" href="${url}" />`)
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, "");
 
   const schema = {
@@ -389,8 +389,8 @@ function routeHtml(route, meta) {
 
   html = html.replace(
     "</head>",
-    \`<script type="application/ld+json">\${JSON.stringify(schema)}</script>
-  </head>\`,
+    `<script type="application/ld+json">${JSON.stringify(schema)}</script>
+  </head>`,
   );
 
   const staticContent = STATIC_SEO_CONTENT[route] ?? {
