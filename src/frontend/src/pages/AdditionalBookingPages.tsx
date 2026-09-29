@@ -724,7 +724,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
           {[
             ["Flight booking", "/flight-booking"],
             ["Business class booking", "/business-class-flight-booking"],
-            ["Corporate flight booking", "/business-class-flight-booking"],
+            ["Corporate flight booking", "/corporate-flight-booking"],
             ["Book a flight by phone", "/book-a-flight-by-phone"],
             ["International flights", "/international-flight-booking"],
             ["Last-minute flights", "/last-minute-flight-booking"],
