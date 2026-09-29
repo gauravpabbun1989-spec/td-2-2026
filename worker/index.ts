@@ -115,18 +115,31 @@ export default {
     // Drop common automated secret/file-discovery probes before Cloudflare
     // Assets serves the SPA shell. This keeps scanner traffic out of GA4 and
     // prevents the public app from rendering a 404 page for sensitive paths.
+    const normalizedPath = decodeURIComponent(url.pathname).replace(/\\/+$/, "") || "/";
     const sensitiveProbe =
-      url.pathname === "/.env" ||
-      url.pathname.startsWith("/.env.") ||
-      url.pathname.startsWith("/.git/") ||
-      url.pathname.startsWith("/@fs/") ||
-      url.pathname.startsWith("/wp-admin") ||
-      url.pathname.startsWith("/proc/") ||
-      url.pathname.startsWith("/api/uploads/") ||
-      url.pathname.startsWith("/api/attachments/") ||
-      url.pathname.includes("/.aws/") ||
-      url.pathname === "/.dockerenv" ||
-      url.pathname === "/server-status";
+      normalizedPath === "/.env" ||
+      normalizedPath.startsWith("/.env.") ||
+      normalizedPath.startsWith("/.git/") ||
+      normalizedPath.startsWith("/@fs/") ||
+      normalizedPath.startsWith("/wp-admin") ||
+      normalizedPath.startsWith("/proc/") ||
+      normalizedPath.startsWith("/api/uploads/") ||
+      normalizedPath.startsWith("/api/attachments/") ||
+      normalizedPath.includes("/.aws/") ||
+      normalizedPath === "/.dockerenv" ||
+      normalizedPath === "/server-status" ||
+      normalizedPath === "/rclone.conf" ||
+      normalizedPath.includes("/.config/") ||
+      normalizedPath.includes("/.ssh/") ||
+      normalizedPath.includes("/var/run/secrets/") ||
+      normalizedPath.includes("/proc/self/") ||
+      normalizedPath.includes("../") ||
+      normalizedPath.includes("..%2f") ||
+      normalizedPath.includes("%2e%2e%2f") ||
+      normalizedPath.endsWith("/document.php") ||
+      normalizedPath.endsWith("/SITEMAP.XML") ||
+      /(^|\/)settings\/\.env(?:\/|$)/i.test(normalizedPath) ||
+      /(^|\/)admin\/\.env(?:\/|$)/i.test(normalizedPath);
 
     if (sensitiveProbe) {
       return new Response("Not Found", {
