@@ -77,81 +77,86 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking",
-    title: "Business Class Flight Booking by Phone | TicketDepart",
+    title: "Business Class Flight Booking Assistance by Phone | TicketDepart",
     description:
-      "Book business class flights by phone with an independent travel agency. Compare premium-cabin schedules, connections, baggage, and fare conditions with a travel specialist.",
-    heading: "Business class flight booking by phone",
+      "Plan business class and corporate flight travel by phone with an independent travel specialist. Discuss schedules, aircraft, connections, cabins, baggage, flexibility, and fare conditions.",
+    heading: "Business class flight booking assistance by phone",
     intro:
-      "Business-class travel can differ significantly by aircraft, route, connection, fare family, schedule, and traveler requirements. Explain the trip you need and a TicketDepart specialist can discuss premium-cabin options before you decide.",
-    service: "Business class flight booking",
+      "Business travel is rarely just about choosing a cabin. Your schedule, connection time, aircraft, airport, baggage needs, and flexibility can all matter. Tell us what the trip needs to accomplish and a specialist can work through the practical options with you.",
+    service: "Business class flight booking assistance",
     items: [
       [
-        "Business class travel agent assistance",
-        "Discuss available business class schedules, routing, cabin preferences, and fare options with a travel specialist.",
+        "Business travel planning",
+        "Discuss business and corporate trips around your meeting dates, preferred airports, traveler count, and schedule priorities.",
       ],
       [
-        "Aircraft and seats",
-        "Discuss seat layouts, lie-flat availability, and cabin differences where known.",
+        "Business class cabin options",
+        "Compare available business-class itineraries and the fare conditions that apply to the specific trip.",
+      ],
+      [
+        "Aircraft and seat differences",
+        "When information is available, discuss aircraft type, seat configuration, lie-flat availability, and other cabin differences.",
       ],
       [
         "Connection planning",
-        "Review layovers and connection airports for long-haul itineraries.",
+        "Review connection airports, layover length, departure times, and practical routing for international and long-haul travel.",
       ],
       [
-        "International travel",
-        "Discuss premium-cabin options for Europe, Asia, Latin America, and other markets.",
+        "Corporate and multi-traveler trips",
+        "Discuss coordinated itineraries for colleagues, executives, or small business groups when travelers have shared timing requirements.",
       ],
       [
-        "Fare flexibility",
-        "Review change and cancellation conditions before you choose a fare.",
+        "International business travel",
+        "Plan transatlantic, transpacific, Middle East, Latin America, and other international itineraries around the traveler's schedule.",
       ],
       [
-        "Baggage and services",
-        "Ask what the selected fare includes, including baggage allowances and other services shown for the itinerary.",
+        "Baggage and fare rules",
+        "Review baggage allowances, change conditions, cancellation terms, and other rules attached to the selected fare.",
       ],
       [
         "Business class vs. premium economy",
-        "Compare cabin differences, schedule, routing, and fare conditions when both cabins are available for the trip.",
+        "Compare cabin, schedule, routing, and fare differences when both options are available for the itinerary.",
       ],
       [
-        "Long-haul itinerary planning",
-        "Discuss departure times, connection length, airports, and practical routing for longer international trips.",
-      ],
-      [
-        "Round-trip and one-way options",
-        "Compare the itinerary structures that fit your dates and travel plans; pricing and rules depend on the fare.",
+        "Flexible business travel",
+        "Consider nearby airports, alternate dates, one-way or round-trip structures, and other practical adjustments when the schedule allows.",
       ],
     ],
     faqs: [
       {
         question: "Can I book business class by phone?",
         answer:
-          "Yes. TicketDepart can discuss business class itineraries, cabin preferences, dates, and available booking options by phone.",
+          "Yes. You can discuss the route, dates, travelers, cabin preference, schedule priorities, and available booking options with a TicketDepart specialist.",
       },
       {
-        question: "Can you help compare business class seats?",
+        question: "Can you help with corporate flight bookings?",
         answer:
-          "We can discuss available aircraft and cabin information when it is available for the itinerary. Exact seat maps and availability depend on the airline and fare.",
+          "Yes. We can discuss business and corporate travel requirements such as traveler count, meeting dates, departure airports, connections, cabin preferences, and itinerary coordination.",
       },
       {
-        question: "Is business class always refundable?",
+        question: "Can you compare business class and premium economy?",
         answer:
-          "No. Refund and change conditions depend on the fare purchased and the airline's rules.",
-      },
-      {
-        question: "Can you help compare business-class flight options?",
-        answer:
-          "A specialist can discuss available schedules, connections, cabin information, airports, and fare conditions. Live inventory and final pricing depend on the itinerary and airline.",
+          "A specialist can discuss the available cabin options, schedules, routing, baggage terms, and fare conditions for the specific itinerary.",
       },
       {
         question: "Does business class always include a lie-flat seat?",
         answer:
-          "No. Seat design varies by airline, aircraft, route, and cabin configuration. Ask which aircraft and seat type applies to the itinerary before booking.",
+          "No. Seat design varies by airline, aircraft, route, and cabin configuration. The aircraft and applicable cabin should be checked for the specific itinerary before booking.",
       },
       {
-        question: "Can you help compare business-class baggage rules?",
+        question: "Can you help compare business-class flight options?",
         answer:
-          "Yes. Baggage allowances vary by airline, route, and fare, so the applicable allowance should be checked for the specific itinerary.",
+          "Yes. We can discuss schedules, connection times, airports, aircraft information when available, cabin options, and the fare conditions that apply.",
+      },
+      {
+        question: "What should I have ready for a business flight booking?",
+        answer:
+          "Have the departure city, destination, dates, traveler count, preferred cabin, airline preference, and any meeting or arrival-time requirements you know. You can start with just the basics.",
+      },
+      {
+        question: "Are business-class tickets always refundable?",
+        answer:
+          "No. Refund and change conditions depend on the airline, fare, route, and ticket rules. Review the applicable terms before payment.",
       },
     ],
   },
