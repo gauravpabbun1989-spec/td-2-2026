@@ -30,6 +30,7 @@ if (!rootElement) {
 }
 
 rootElement.classList.add("pre-react-render");
+rootElement.style.visibility = "visible";
 
 const root = ReactDOM.createRoot(rootElement);
 
