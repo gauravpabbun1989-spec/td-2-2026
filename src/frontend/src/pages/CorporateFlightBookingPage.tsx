@@ -1,7 +1,7 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
-import { breadcrumbSchema, faqSchema, serviceSchema, webPageSchema } from "@/lib/seo";
+import { breadcrumbSchema, serviceSchema, webPageSchema } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -34,7 +34,7 @@ export function CorporateFlightBookingPage() {
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Corporate flight booking", path }]),
         webPageSchema({ title, description, path }),
         serviceSchema({ name: "Corporate flight booking assistance", description, path }),
-        faqSchema(faqs),
+        ,
       ]} />
       <Section tone="paper">
         <nav aria-label="Breadcrumb"><ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground"><li><Link to="/" className="font-medium hover:text-foreground">Home</Link></li><li aria-hidden="true"><ArrowRight className="size-4" /></li><li><span aria-current="page" className="font-semibold text-foreground">Corporate flight booking</span></li></ol></nav>

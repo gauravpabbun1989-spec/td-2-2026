@@ -3,7 +3,6 @@ import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import {
   breadcrumbSchema,
-  faqSchema,
   serviceSchema,
   webPageSchema,
 } from "@/lib/seo";
@@ -60,7 +59,7 @@ export function HowToBookFlightByPhonePage() {
             { name: "Home", path: "/" },
             { name: "How to Book a Flight by Phone", path: PAGE_PATH },
           ]),
-          faqSchema(FAQS),
+          ,
           webPageSchema({
             title: PAGE_TITLE,
             description: PAGE_DESCRIPTION,
