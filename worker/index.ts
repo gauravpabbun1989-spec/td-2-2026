@@ -1,5 +1,14 @@
 type Env = { ASSETS: Fetcher; Serp_API?: string; SERPAPI_KEY?: string; };
 
+function htmlResponse(response: Response) {
+  if (!response.ok) return response;
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.toLowerCase().startsWith("text/html")) return response;
+  const headers = new Headers(response.headers);
+  headers.set("content-type", "text/html; charset=utf-8");
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+}
+
 function json(body: unknown, status = 200, cacheable = false) {
   return new Response(JSON.stringify(body), {
     status,
@@ -152,6 +161,13 @@ export default {
       });
     }
 
+    // Keep the public hostname canonical so www and non-www do not expose duplicate pages.
+    if (url.hostname === "www.ticketdepart.com") {
+      const canonicalUrl = new URL(url);
+      canonicalUrl.hostname = "ticketdepart.com";
+      return Response.redirect(canonicalUrl.toString(), 301);
+    }
+
     // Keep one canonical URL form for static pages. Cloudflare Assets can
     // serve both /path and /path/; redirect the trailing-slash variant so
     // search engines see a single URL instead of duplicate page variants.
@@ -182,7 +198,7 @@ export default {
       const routeAssetUrl = new URL(url.toString());
       routeAssetUrl.pathname = url.pathname.replace(/\/+$/, "") + "/index.html";
       const routeResponse = await env.ASSETS.fetch(new Request(routeAssetUrl, request));
-      if (routeResponse.ok) return routeResponse;
+      if (routeResponse.ok) return htmlResponse(routeResponse);
     }
 
     if (url.pathname === "/api/flight-autocomplete") {
@@ -316,7 +332,7 @@ export default {
       }
     }
 
-    if (url.pathname !== "/api/flight-schedules") return env.ASSETS.fetch(request);
+    if (url.pathname !== "/api/flight-schedules") return htmlResponse(await env.ASSETS.fetch(request));
     if (request.method !== "GET") return json({ error: "Method not allowed" }, 405);
     const origin = (url.searchParams.get("origin") ?? "").toUpperCase();
     const destination = (url.searchParams.get("destination") ?? "").toUpperCase();
