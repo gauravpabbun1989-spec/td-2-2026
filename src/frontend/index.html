@@ -39,10 +39,15 @@
         window.gtag("js", new Date());
         window.gtag("config", "G-4WC5K9Q31E");
       }
-      if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
-      } else {
-        window.addEventListener("load", () => setTimeout(loadAnalytics, 1500), { once: true });
+      function isKnownProbePath() {
+        return /(?:^|\/)(?:\.env(?:\.|$)|\.git(?:\/|$)|@fs(?:\/|$)|wp-admin(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|server-status(?:$|\/)|\.aws(?:\/|$)|\.dockerenv(?:$|\/))/i.test(window.location.pathname || "/");
+      }
+      if (!isKnownProbePath()) {
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
+        } else {
+          window.addEventListener("load", () => setTimeout(loadAnalytics, 1500), { once: true });
+        }
       }
     </script>
     <script type="application/ld+json">
