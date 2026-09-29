@@ -161,6 +161,30 @@ export default {
       return Response.redirect(canonicalUrl.toString(), 301);
     }
 
+    // Serve crawler-facing static assets explicitly before SPA/asset fallback.
+    // This avoids relying on extensionless/SPA fallback behavior for XML/TXT resources.
+    if (url.pathname === "/sitemap.xml" || url.pathname === "/robots.txt") {
+      const assetResponse = await env.ASSETS.fetch(new Request(new URL(url.pathname, url.origin), request));
+      if (assetResponse.ok) {
+        const headers = new Headers(assetResponse.headers);
+        headers.set("cache-control", "public, max-age=3600, s-maxage=86400");
+        if (url.pathname === "/sitemap.xml") headers.set("content-type", "application/xml; charset=utf-8");
+        if (url.pathname === "/robots.txt") headers.set("content-type", "text/plain; charset=utf-8");
+        return new Response(assetResponse.body, { status: assetResponse.status, headers });
+      }
+      return new Response("Not Found", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
+    }
+
+    // Resolve generated route entry points explicitly. The build creates
+    // /route/index.html for crawlable pages; requesting that file directly
+    // makes extensionless URLs deterministic for external crawlers.
+    if (url.pathname !== "/" && !url.pathname.startsWith("/api/") && !url.pathname.includes(".")) {
+      const routeAssetUrl = new URL(url.toString());
+      routeAssetUrl.pathname = url.pathname.replace(/\/+$/, "") + "/index.html";
+      const routeResponse = await env.ASSETS.fetch(new Request(routeAssetUrl, request));
+      if (routeResponse.ok) return routeResponse;
+    }
+
     if (url.pathname === "/api/flight-autocomplete") {
       if (request.method !== "GET") return json({ error: "Method not allowed" }, 405);
       const apiKey = env.Serp_API ?? env.SERPAPI_KEY;
