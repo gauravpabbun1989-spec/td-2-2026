@@ -78,25 +78,17 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking",
-    title: "Business Class & Corporate Flight Booking by Phone | TicketDepart",
+    title: "Business Class Flight Booking by Phone | TicketDepart",
     description:
-      "Book business class or corporate flights by phone with an independent travel agency. Compare schedules, premium cabins, connections, baggage, and fare conditions with a business class or corporate travel specialist.",
-    heading: "Business class and corporate flight booking by phone",
+      "Book business class flights by phone with an independent travel agency. Compare premium-cabin schedules, connections, baggage, and fare conditions with a travel specialist.",
+    heading: "Business class flight booking by phone",
     intro:
-      "Business and corporate travel can differ significantly by aircraft, route, connection, fare family, schedule, and traveler requirements. Explain the trip you need and a TicketDepart specialist can discuss premium-cabin and corporate flight options before you decide.",
-    service: "Business class and corporate flight booking",
+      "Business-class travel can differ significantly by aircraft, route, connection, fare family, schedule, and traveler requirements. Explain the trip you need and a TicketDepart specialist can discuss premium-cabin options before you decide.",
+    service: "Business class flight booking",
     items: [
       [
         "Business class travel agent assistance",
         "Discuss available business class schedules, routing, cabin preferences, and fare options with a travel specialist.",
-      ],
-      [
-        "Corporate and executive travel",
-        "Discuss business travel schedules, flexible routing, premium-cabin preferences, and itinerary details for work trips.",
-      ],
-      [
-        "Corporate flight booking",
-        "Discuss business travel schedules, traveler requirements, flexible routing, premium-cabin preferences, and itinerary details for work trips.",
       ],
       [
         "Aircraft and seats",
@@ -134,16 +126,6 @@ const PAGES: readonly PageConfig[] = [
         question: "Is business class always refundable?",
         answer:
           "No. Refund and change conditions depend on the fare purchased and the airline's rules.",
-      },
-      {
-        question: "Can a business class travel agent help with corporate flights?",
-        answer:
-          "Yes. You can discuss corporate or executive travel requirements, business-class cabin preferences, routing, schedules, baggage, and applicable fare conditions by phone.",
-      },
-      {
-        question: "Can you help book corporate flights?",
-        answer:
-          "Yes. You can discuss corporate or executive flight requirements, traveler schedules, premium-cabin preferences, routing, baggage, and applicable fare conditions by phone.",
       },
       {
         question: "Can you help compare business-class flight options?",
