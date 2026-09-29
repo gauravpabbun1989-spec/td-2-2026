@@ -3,7 +3,6 @@ import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import {
   breadcrumbSchema,
-  faqSchema,
   serviceSchema,
   webPageSchema,
 } from "@/lib/seo";
@@ -250,7 +249,6 @@ function GatewayFlightPage({ page }: { page: GatewayPage }) {
             description: page.description,
             path: page.path,
           }),
-          faqSchema(page.faqs),
         ]}
       />
 

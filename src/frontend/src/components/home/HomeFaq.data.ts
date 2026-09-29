@@ -1,5 +1,3 @@
-import { faqSchema } from "@/lib/seo";
-
 export const HOME_FAQS = [
   {
     question: "Is TicketDepart an airline?",
@@ -42,8 +40,3 @@ export const HOME_FAQS = [
       "Once your booking is confirmed, we send your confirmation and itinerary to the email address you provide. Your ticket number and flight details will be included so you can check in directly with the airline.",
   },
 ] as const;
-
-/** Structured data for the visible homepage FAQ. */
-export function homeFaqSchema(): Record<string, unknown> {
-  return faqSchema(HOME_FAQS);
-}

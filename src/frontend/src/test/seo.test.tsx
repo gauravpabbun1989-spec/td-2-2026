@@ -192,14 +192,8 @@ describe("structured data", () => {
     expect(types).toContain("BreadcrumbList");
   });
 
-  it("emits FAQPage schema where the FAQ is visible", async () => {
+  it("omits retired FAQPage schema even when an FAQ is visible", async () => {
     renderRoute("/delta-airlines");
-    await screen.findAllByRole("heading", { level: 1 });
-    expect(jsonLdNodes().map((node) => node["@type"])).toContain("FAQPage");
-  });
-
-  it("omits FAQPage schema where no FAQ is visible", async () => {
-    renderRoute("/privacy");
     await screen.findAllByRole("heading", { level: 1 });
     expect(jsonLdNodes().map((node) => node["@type"])).not.toContain("FAQPage");
   });
