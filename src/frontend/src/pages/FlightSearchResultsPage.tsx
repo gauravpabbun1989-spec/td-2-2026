@@ -152,6 +152,7 @@ function ResultCard({
         {showCallButton && (
           <a
             href={SITE.phoneHref}
+            data-cta-location="results"
             className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-red-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 animate-pulse sm:w-auto sm:self-end"
             aria-label="Call to Book / Prices / Confirm for this selected flight"
           >
@@ -306,6 +307,18 @@ export function FlightSearchResultsPage() {
             </div>
           </div>
 
+          <div className="rounded-2xl border border-accent/25 bg-accent/5 p-4 sm:p-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-bold text-foreground">Need help choosing or confirming a flight?</p>
+                <p className="mt-1 text-sm text-muted-foreground">Call TicketDepart for reservation assistance with this itinerary.</p>
+              </div>
+              <a href={SITE.phoneHref} data-cta-location="results_top" className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-bold text-accent-foreground shadow-subtle transition hover:bg-accent/90" aria-label="Call for flight reservation assistance">
+                <Phone className="size-4" /> Call for Reservation Assistance
+              </a>
+            </div>
+          </div>
+
           {showModify && (
             <div className="rounded-2xl border border-border bg-background p-4">
               <div className="mb-3 flex items-center justify-between">
@@ -436,7 +449,7 @@ export function FlightSearchResultsPage() {
                 <h2 className="mt-1 text-xl font-bold">{itinerarySummary}</h2>
                 <p className="mt-1 text-sm text-muted-foreground">{search.travelers} traveler{search.travelers === "1" ? "" : "s"} · {search.cabin}</p>
               </div>
-              <a href={SITE.phoneHref} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-red-600 px-6 font-semibold text-white shadow-sm transition hover:bg-red-700 animate-pulse">
+              <a href={SITE.phoneHref} data-cta-location="results_summary" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-red-600 px-6 font-semibold text-white shadow-sm transition hover:bg-red-700 animate-pulse">
                 <Phone className="size-4 animate-bounce text-white" /> Call to Book / Prices / Confirm
               </a>
             </div>

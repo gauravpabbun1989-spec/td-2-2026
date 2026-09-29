@@ -71,7 +71,7 @@ export function HomePage() {
               <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">Call for a person, request a callback, or explore flight options first.</p>
             </div>
             <div className="grid gap-2 sm:grid-cols-3 lg:min-w-[620px]">
-              <CallCta size="md" ocid="home.quick_call_button" className="w-full" />
+              <CallCta size="md" ocid="home.quick_call_button" ctaLocation="home_quick" className="w-full" />
               <Link to="/contact" data-ocid="home.quick_callback_link" className="inline-flex h-11 items-center justify-center rounded-full border border-primary/20 bg-card px-5 text-sm font-semibold text-primary transition-smooth hover:bg-primary hover:text-primary-foreground">Request a callback</Link>
               <Link to="/flight-booking" data-ocid="home.quick_booking_link" className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-semibold text-foreground transition-smooth hover:border-primary/30 hover:text-primary">See booking help</Link>
             </div>
@@ -117,7 +117,7 @@ export function HomePage() {
               </div>
             </div>
             <div className="lg:pl-4">
-              <CallCta size="lg" ocid="home.call_reasons_button" className="w-full sm:w-auto" />
+              <CallCta size="lg" ocid="home.call_reasons_button" ctaLocation="home_call_reasons" className="w-full sm:w-auto" />
               <p className="mt-2 text-center text-xs text-muted-foreground lg:text-right">{SITE.hours}</p>
             </div>
           </div>
