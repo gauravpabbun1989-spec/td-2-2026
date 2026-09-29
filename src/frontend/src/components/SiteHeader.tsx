@@ -48,7 +48,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <CallCta size="sm" className="hidden xl:inline-flex shadow-subtle" ocid="header.call_button" />
+          <CallCta size="sm" className="hidden xl:inline-flex shadow-subtle" ocid="header.call_button" ctaLocation="header" />
           <a href={SITE.phoneHref} aria-label={SITE.ctaLabel} data-ocid="header.call_icon_button" className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-subtle transition-smooth hover:scale-105 sm:hidden">
             <Phone aria-hidden="true" className="size-4" />
           </a>
@@ -73,7 +73,7 @@ export function SiteHeader() {
               ))}
             </div>
             <div className="mt-3 flex flex-col gap-2 border-t border-border pt-4">
-              <CallCta size="lg" className="w-full" ocid="mobile_nav.call_button" />
+              <CallCta size="lg" className="w-full" ocid="mobile_nav.call_button" ctaLocation="mobile_nav" />
               <p className="text-center text-sm text-muted-foreground">{SITE.hours}</p>
             </div>
           </nav>
