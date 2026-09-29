@@ -44,3 +44,4 @@ flushSync(() => {
 });
 
 rootElement.classList.remove("pre-react-render");
+rootElement.style.visibility = "visible";
