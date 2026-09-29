@@ -107,7 +107,19 @@ const PAGES: readonly PageConfig[] = [
       ],
       [
         "Baggage and services",
-        "Ask what the selected fare includes and which services are available.",
+        "Ask what the selected fare includes, including baggage allowances and other services shown for the itinerary.",
+      ],
+      [
+        "Business class vs. premium economy",
+        "Compare cabin differences, schedule, routing, and fare conditions when both cabins are available for the trip.",
+      ],
+      [
+        "Long-haul itinerary planning",
+        "Discuss departure times, connection length, airports, and practical routing for longer international trips.",
+      ],
+      [
+        "Round-trip and one-way options",
+        "Compare the itinerary structures that fit your dates and travel plans; pricing and rules depend on the fare.",
       ],
     ],
     faqs: [
@@ -130,6 +142,16 @@ const PAGES: readonly PageConfig[] = [
         question: "Can you help compare business-class flight options?",
         answer:
           "A specialist can discuss available schedules, connections, cabin information, airports, and fare conditions. Live inventory and final pricing depend on the itinerary and airline.",
+      },
+      {
+        question: "Does business class always include a lie-flat seat?",
+        answer:
+          "No. Seat design varies by airline, aircraft, route, and cabin configuration. Ask which aircraft and seat type applies to the itinerary before booking.",
+      },
+      {
+        question: "Can you help compare business-class baggage rules?",
+        answer:
+          "Yes. Baggage allowances vary by airline, route, and fare, so the applicable allowance should be checked for the specific itinerary.",
       },
     ],
   },
