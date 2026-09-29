@@ -185,6 +185,7 @@ export function trackCallbackFormStart(location = "contact_form") {
 
 export function trackCallbackFormSubmit(location = "contact_form") {
   trackEvent("callback_form_submit", { callback_location: location });
+  trackEvent("callback_request", { callback_location: location });
 }
 
 export function trackCallbackFormError(
