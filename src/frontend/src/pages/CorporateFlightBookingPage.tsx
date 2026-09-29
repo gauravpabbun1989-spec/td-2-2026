@@ -34,7 +34,6 @@ export function CorporateFlightBookingPage() {
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Corporate flight booking", path }]),
         webPageSchema({ title, description, path }),
         serviceSchema({ name: "Corporate flight booking assistance", description, path }),
-        ,
       ]} />
       <Section tone="paper">
         <nav aria-label="Breadcrumb"><ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground"><li><Link to="/" className="font-medium hover:text-foreground">Home</Link></li><li aria-hidden="true"><ArrowRight className="size-4" /></li><li><span aria-current="page" className="font-semibold text-foreground">Corporate flight booking</span></li></ol></nav>
