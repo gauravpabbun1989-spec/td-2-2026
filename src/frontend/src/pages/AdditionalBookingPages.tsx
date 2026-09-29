@@ -3,7 +3,6 @@ import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import {
   breadcrumbSchema,
-  faqSchema,
   serviceSchema,
   webPageSchema,
 } from "@/lib/seo";
@@ -513,7 +512,6 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             description: page.description,
             path: page.path,
           }),
-          faqSchema(allFaqs),
         ]}
       />
 
