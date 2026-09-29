@@ -67,7 +67,7 @@ export function HomePage() {
             <div>
               <p className="label-board text-accent">Choose your next step</p>
               <h2 id="home-start-heading" className="mt-1 text-xl font-semibold sm:text-2xl">Ready to plan the trip?</h2>
-              <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">Call for a person, request a callback, or explore flight options first.</p>
+              <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">If you already know what you need, call us. If you are still figuring it out, you can explore the options first.</p>
             </div>
             <div className="grid gap-2 sm:grid-cols-3 lg:min-w-[620px]">
               <CallCta size="md" ocid="home.quick_call_button" ctaLocation="home_quick" className="w-full" />
@@ -101,7 +101,7 @@ export function HomePage() {
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <p className="label-board text-accent">Why travelers call</p>
-              <h2 id="call-reasons-heading" className="mt-2 max-w-3xl text-balance text-2xl font-semibold sm:text-3xl">Get a person involved when the itinerary needs more than a search box.</h2>
+              <h2 id="call-reasons-heading" className="mt-2 max-w-3xl text-balance text-2xl font-semibold sm:text-3xl">Some trips are easy to book online. Others are easier when you can ask a person a question.</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 {[
                   ["Compare routes", "Talk through nonstop, connecting, and alternate-airport options."],
@@ -155,7 +155,7 @@ export function HomePage() {
       </section>
 
       <section className="border-b border-border bg-background px-5 py-14 sm:px-8 sm:py-20" aria-labelledby="popular-booking-help-heading">
-        <div className="mx-auto max-w-6xl"><p className="label-board text-accent">Popular booking help</p><h2 id="popular-booking-help-heading" className="mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl">Support for the trips people plan most often.</h2><p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">Explore focused guides for urgent travel, premium cabins, family trips, affordable fare planning, and changes or cancellations.</p><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[["Cheap flight booking by phone","/cheap-flight-booking-by-phone"],["Business class flight booking","/business-class-flight-booking"],["Corporate flight booking","/corporate-flight-booking"],["Same-day flight booking","/same-day-flight-booking"],["Family flight booking","/family-flight-booking"],["Flight change assistance","/flight-change-assistance"],["Flight cancellation assistance","/flight-cancellation-assistance"]].map(([label,to])=><Link key={to} to={to} className="group rounded-[1.5rem] border border-border bg-card px-6 py-5 text-sm font-semibold text-primary shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated">{label}<span className="ml-2 transition-transform group-hover:translate-x-1">→</span></Link>)}</div></div>
+        <div className="mx-auto max-w-6xl"><p className="label-board text-accent">Popular booking help</p><h2 id="popular-booking-help-heading" className="mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl">A few common reasons travelers reach out.</h2><p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">Explore focused guides for urgent travel, premium cabins, family trips, affordable fare planning, and changes or cancellations.</p><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[["Cheap flight booking by phone","/cheap-flight-booking-by-phone"],["Business class flight booking","/business-class-flight-booking"],["Corporate flight booking","/corporate-flight-booking"],["Same-day flight booking","/same-day-flight-booking"],["Family flight booking","/family-flight-booking"],["Flight change assistance","/flight-change-assistance"],["Flight cancellation assistance","/flight-cancellation-assistance"]].map(([label,to])=><Link key={to} to={to} className="group rounded-[1.5rem] border border-border bg-card px-6 py-5 text-sm font-semibold text-primary shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated">{label}<span className="ml-2 transition-transform group-hover:translate-x-1">→</span></Link>)}</div></div>
       </section>
 
       <Suspense fallback={<div className="min-h-24" aria-hidden="true" />}><HomeFaq /><DisclosureBlock /><ContactInfoBlock /></Suspense>
