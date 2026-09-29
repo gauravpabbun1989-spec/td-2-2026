@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+User-agent: SemrushBot
+Disallow: /
+
 Sitemap: https://ticketdepart.com/sitemap.xml
