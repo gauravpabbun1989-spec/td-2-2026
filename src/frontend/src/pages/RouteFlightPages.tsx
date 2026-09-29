@@ -1,7 +1,7 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
-import { breadcrumbSchema, faqSchema, serviceSchema, webPageSchema } from "@/lib/seo";
+import { breadcrumbSchema, serviceSchema, webPageSchema } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
@@ -142,7 +142,6 @@ function RoutePage({ page }: { page: RoutePage }) {
         breadcrumbSchema(breadcrumbs),
         webPageSchema({ title: page.title, description: page.description, path: page.path }),
         serviceSchema({ name: `${page.origin} to ${page.destination} flight booking assistance`, description: page.description, path: page.path }),
-        faqSchema(page.faqs),
       ]} />
       <Section tone="paper" ocid={`${id}.hero`}>
         <nav aria-label="Breadcrumb">
