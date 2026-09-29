@@ -7,6 +7,7 @@ type CallCtaProps = {
   size?: "sm" | "md" | "lg";
   className?: string;
   ocid?: string;
+  ctaLocation?: string;
   /** When true, show the canonical phone number as part of the visible CTA label. */
   showNumber?: boolean;
 };
@@ -28,12 +29,14 @@ export function CallCta({
   size = "md",
   className,
   ocid = "call.primary_button",
+  ctaLocation,
   showNumber = false,
 }: CallCtaProps) {
   return (
     <a
       href={SITE.phoneHref}
       data-ocid={ocid}
+      data-cta-location={ctaLocation}
       aria-label={`${SITE.ctaLabel}: ${SITE.phoneDisplay}`}
       className={cn(
         "inline-flex items-center justify-center rounded-full font-semibold tracking-tight transition-smooth",
