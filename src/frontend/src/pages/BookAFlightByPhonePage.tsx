@@ -80,7 +80,6 @@ export function BookAFlightByPhonePage() {
             description: PAGE_DESCRIPTION,
             path: PAGE_PATH,
           }),
-          ,
         ]}
       />
 
