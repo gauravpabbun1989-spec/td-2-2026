@@ -336,6 +336,19 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+const STATIC_SEO_CONTENT = {
+  "/flight-booking": { eyebrow: "Flight booking assistance", sections: [["Domestic and international booking", "Discuss routes, dates, travelers, cabin preferences, nearby airports, connections, baggage, and the fare conditions that apply to the itinerary."],["Booking by phone", "Call when you want to talk through a trip with a real specialist rather than work through every detail alone."],["Complex itineraries", "Ask about multi-city trips, flexible dates, international connections, family travel, or other itineraries that need more planning."]] },
+  "/book-a-flight-by-phone": { eyebrow: "Phone-first flight booking", sections: [["Start with the basics", "Have your departure city, destination, dates, traveler count, and preferred cabin ready if you know them. You can start with less and work through the rest."],["Talk through practical options", "Discuss nearby airports, connections, schedules, cabin choices, baggage, and fare conditions before deciding."],["Review the terms", "Make sure the applicable price, baggage rules, change conditions, cancellation terms, and any disclosed service charges are understood before payment."]] },
+  "/international-flight-booking": { eyebrow: "International flight planning", sections: [["Plan the whole itinerary", "Discuss departure airports, destination cities, connections, flexible dates, cabins, baggage, and multi-city or open-jaw routing."],["Long-haul connections", "Review connection airports, layovers, and routing trade-offs that can matter on international trips."],["Travel documents", "Ask questions about the itinerary, but verify current passport, visa, and entry requirements with the relevant government or consulate."]] },
+  "/last-minute-flight-booking": { eyebrow: "Urgent flight planning", sections: [["Travel soon", "Discuss currently available itineraries when your departure is close and seats or fares may change quickly."],["Consider practical alternatives", "Nearby airports, flexible dates, or connecting routes can sometimes create additional options."],["Check ticketing timing", "Same-day and last-minute travel can have tighter ticketing and airport deadlines, so review the applicable timing before payment."]] },
+  "/business-class-flight-booking": { eyebrow: "Business class and corporate travel", sections: [["Business travel planning", "Discuss meeting dates, preferred airports, traveler count, schedule priorities, and business-class cabin options."],["Aircraft and connections", "When information is available, compare aircraft, seat configuration, connection airports, layovers, and practical routing."],["Fare and baggage rules", "Review the baggage allowance, change and cancellation conditions, and other rules attached to the selected fare."]] },
+  "/group-flight-booking": { eyebrow: "Group, family, and event travel", sections: [["Families and larger groups", "Discuss coordinated itineraries for families, sports teams, schools, organizations, events, and other groups."],["Corporate groups", "Work through traveler count, cities, dates, meeting timing, cabin preferences, and itinerary coordination for business travel."],["Seats and booking terms", "Discuss seating, baggage, deposits, name deadlines, ticketing schedules, changes, and other conditions that apply to the specific booking."]] },
+  "/airline-reservation-assistance": { eyebrow: "Independent airline reservation assistance", sections: [["Airline-specific planning", "Discuss booking, changes, cancellations, connections, cabins, baggage, and itinerary questions for the airline you are considering."],["Independent service", "TicketDepart is an independent travel agency and is not the official customer service department of any airline named on the site."],["Verify airline requirements", "Airline policies, schedules, availability, and ticket rules can change. Review the applicable terms for your specific itinerary before payment."]] },
+  "/flight-change-assistance": { eyebrow: "Flight change assistance", sections: [["Existing reservations", "Have your confirmation or ticket details available when possible so the applicable booking and fare rules can be reviewed."],["Change options", "Discuss date, routing, passenger, or other changes that may be possible under the ticket's rules and current availability."],["Check costs and restrictions", "Change fees, fare differences, deadlines, and eligibility depend on the ticket and provider."]] },
+  "/flight-cancellation-assistance": { eyebrow: "Flight cancellation assistance", sections: [["Review the ticket first", "Cancellation options depend on how the ticket was issued, its fare rules, and the applicable provider policies."],["Understand the outcome", "Ask about refund eligibility, credits, deadlines, and any applicable charges before confirming a cancellation."],["Keep the records", "Have your confirmation and traveler details available so the correct reservation can be discussed."]] },
+  "/flights-from-new-york": { eyebrow: "New York flight planning", sections: [["Compare departure airports", "Discuss practical options from the New York area and the airport that best fits your itinerary."],["Domestic and international routes", "Plan dates, connections, cabin preferences, baggage, and destination airports with the trip's timing in mind."],["Nearby alternatives", "When practical, consider alternate airports or flexible dates if they improve the available itinerary choices."]] }
+};
+
 function routeHtml(route, meta) {
   const url = `https://ticketdepart.com${route}`;
   const safeTitle = escapeHtml(meta.title);
@@ -373,15 +386,28 @@ function routeHtml(route, meta) {
     `<script type="application/ld+json">${JSON.stringify(schema)}</script>\n  </head>`,
   );
 
-  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>
-  <nav aria-label="Related flight booking guides"><strong>Related flight booking guides</strong><ul>
+  const staticContent = STATIC_SEO_CONTENT[route] ?? {
+    eyebrow: meta.heading,
+    sections: [
+      ["Plan your trip", "Discuss your route, dates, travelers, cabin preferences, nearby airports, connections, baggage, and the booking terms that apply."],
+      ["Talk with a specialist", "Call when you want help working through an itinerary or when the trip has details that are easier to explain by phone."],
+      ["Review the details", "Availability, pricing, ticketing deadlines, baggage, changes, and cancellations depend on the specific itinerary and provider."]
+    ]
+  };
+  const sectionHtml = staticContent.sections
+    .map(([heading, text]) => `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(text)}</p></section>`)
+    .join("");
+  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>
+  ${sectionHtml}
+  <section><h2>Related flight booking help</h2><ul>
     <li><a href="/flight-booking">Flight booking assistance</a></li>
     <li><a href="/book-a-flight-by-phone">Book a flight by phone</a></li>
     <li><a href="/international-flight-booking">International flight booking</a></li>
     <li><a href="/business-class-flight-booking">Business class flight booking</a></li>
+    <li><a href="/group-flight-booking">Group flight booking</a></li>
     <li><a href="/contact">Contact a travel specialist</a></li>
-  </ul></nav>
-  <p>TicketDepart is an independent U.S. travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
+  </ul></section>
+  <p>TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
 
   return html.replace('<div id="root"></div>', `<div id="root">${fallback}</div>`);
 }
