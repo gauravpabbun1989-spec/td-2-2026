@@ -59,7 +59,6 @@ export function HowToBookFlightByPhonePage() {
             { name: "Home", path: "/" },
             { name: "How to Book a Flight by Phone", path: PAGE_PATH },
           ]),
-          ,
           webPageSchema({
             title: PAGE_TITLE,
             description: PAGE_DESCRIPTION,
