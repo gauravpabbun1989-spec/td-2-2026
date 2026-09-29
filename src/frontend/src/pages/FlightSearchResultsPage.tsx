@@ -432,7 +432,7 @@ export function FlightSearchResultsPage() {
                         return;
                       }
 
-                      const response = await fetch(`/api/flight-search?${new URLSearchParams({
+                      const response = await fetch(`https://ticket-depart2.netlify.app/api/flight-search?${new URLSearchParams({
                         origin: search.from,
                         destination: search.to,
                         departureDate: search.departure,
