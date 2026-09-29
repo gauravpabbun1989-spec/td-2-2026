@@ -23,3 +23,8 @@
 from = "/api/flight-search"
 to = "/.netlify/functions/flight-search"
 status = 200
+
+[[redirects]]
+  from = "/api/flight-autocomplete"
+  to = "/.netlify/functions/flight-autocomplete"
+  status = 200
