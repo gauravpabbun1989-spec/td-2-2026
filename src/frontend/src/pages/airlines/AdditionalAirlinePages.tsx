@@ -1,7 +1,7 @@
 import { CallCta } from "@/components/CallCta";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
-import { breadcrumbSchema, faqSchema } from "@/lib/seo";
+import { breadcrumbSchema } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
@@ -309,7 +309,6 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
             { name: "Home", path: "/" },
             { name: page.name, path: `/${page.slug}` },
           ]),
-          faqSchema(allFaqs),
         ]}
       />
 
