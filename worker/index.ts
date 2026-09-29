@@ -115,7 +115,7 @@ export default {
     // Drop common automated secret/file-discovery probes before Cloudflare
     // Assets serves the SPA shell. This keeps scanner traffic out of GA4 and
     // prevents the public app from rendering a 404 page for sensitive paths.
-    const normalizedPath = decodeURIComponent(url.pathname).replace(/\\/+$/, "") || "/";
+    const normalizedPath = decodeURIComponent(url.pathname);
     const sensitiveProbe =
       normalizedPath === "/.env" ||
       normalizedPath.startsWith("/.env.") ||
@@ -138,8 +138,8 @@ export default {
       normalizedPath.includes("%2e%2e%2f") ||
       normalizedPath.endsWith("/document.php") ||
       normalizedPath.endsWith("/SITEMAP.XML") ||
-      /(^|\/)settings\/\.env(?:\/|$)/i.test(normalizedPath) ||
-      /(^|\/)admin\/\.env(?:\/|$)/i.test(normalizedPath);
+      /settings\/\.env(?:\/|$)/i.test(normalizedPath) ||
+      /admin\/\.env(?:\/|$)/i.test(normalizedPath);
 
     if (sensitiveProbe) {
       return new Response("Not Found", {
