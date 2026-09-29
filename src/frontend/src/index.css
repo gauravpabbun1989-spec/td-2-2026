@@ -6,6 +6,9 @@
 @font-face { font-family: "DM Sans"; src: url("/assets/fonts/DMSans.woff2") format("woff2"); font-weight: 100 1000; font-display: swap; }
 @font-face { font-family: "JetBrains Mono"; src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2"); font-weight: 100 800; font-display: swap; }
 
+/* Hide crawler-only route HTML until React has synchronously mounted the application. */
+#root.pre-react-render { visibility: hidden; }
+
 @layer base {
   :root {
     --font-display: "Space Grotesk";
