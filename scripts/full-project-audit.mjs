@@ -53,13 +53,13 @@ function auditOnce() {
   const sitemap = read("src/frontend/public/sitemap.xml");
   const caffeine = read("src/frontend/caffeine.toml");
   const backendCaffeine = read("src/backend/caffeine.toml");
-  const wrangler = read("wrangler.jsonc");
+  const netlify = read("netlify.toml");
   const buildWorkflow = read(".github/workflows/build.yml");
 
   assert(caffeine.includes('type = "assets"'), "frontend is not configured as an assets project");
   assert(caffeine.includes('out = "dist"'), "frontend output is not dist");
   assert(backendCaffeine.includes('type = "motoko"'), "backend is not configured as Motoko");
-  assert(wrangler.includes('"directory": "./src/frontend/dist"'), "Cloudflare assets directory mismatch");
+  assert(netlify.includes('publish = "src/frontend/dist"'), "Netlify publish directory mismatch");assert(netlify.includes('functions = "netlify/functions"'), "Netlify functions directory mismatch");assert(netlify.includes('from = "/api/flight-search"') && netlify.includes('to = "/.netlify/functions/flight-search"'), "Netlify flight-search redirect missing");assert(netlify.includes('from = "/api/flight-autocomplete"') && netlify.includes('to = "/.netlify/functions/flight-autocomplete"'), "Netlify autocomplete redirect missing");
   assert(buildWorkflow.includes("pnpm --dir src/frontend typecheck"), "typecheck missing from CI");
   assert(buildWorkflow.includes("pnpm --dir src/frontend check"), "frontend check missing from CI");
   assert(buildWorkflow.includes("pnpm --dir src/frontend test"), "frontend tests missing from CI");

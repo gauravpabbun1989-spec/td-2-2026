@@ -1,3 +1,0 @@
-# SerpApi private key used only by the Cloudflare Worker.
-# Configure the real value as a Cloudflare Worker secret named SERPAPI_KEY or Serp_API.
-SERPAPI_KEY=replace-with-your-serpapi-key
