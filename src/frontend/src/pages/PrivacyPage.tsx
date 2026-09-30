@@ -90,7 +90,7 @@ const POLICY_BLOCKS: readonly PolicyBlock[] = [
     id: "changes",
     heading: "Changes to this policy",
     paragraphs: [
-      "We may update this policy as our services or legal obligations change. When we do, we will revise the date shown at the top of this page. Continued use of the site after an update means you accept the revised policy.",
+      "We may update this policy as our services or legal obligations change. When we do, we will revise the date shown at the top of this page. The revised policy becomes effective when it is posted on this page, unless we state a different effective date.",
     ],
   },
 ];
