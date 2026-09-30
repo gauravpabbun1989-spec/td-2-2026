@@ -393,7 +393,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
       </Section>
 
       <Section tone="muted" ocid={`${id}.services`}>
-        <SectionHeading eyebrow="What we can discuss" title={`${page.name} reservation support and booking services`} description={`New \${page.name} flight booking, \${page.name} flight changes, \${page.name} cancellation assistance, \${page.name} rebooking, and other itinerary support are covered below. Start with your route, dates, traveler details, or existing reservation.`} />
+        <SectionHeading eyebrow="What we can discuss" title={`${page.name} reservation support and booking services`} description={`New ${page.name} flight booking, ${page.name} flight changes, ${page.name} cancellation assistance, ${page.name} rebooking, and other itinerary support are covered below. Start with your route, dates, traveler details, or existing reservation.`} />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {page.services.map(([title, body]) => (
             <article key={title} className="group rounded-2xl border border-border/80 bg-card p-6 shadow-subtle transition-smooth hover:-translate-y-1 hover:border-primary/20 hover:shadow-elevated">
