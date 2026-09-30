@@ -55,7 +55,7 @@ actor {
 
 
   public query func transformFlightApi({
-    _context : Blob;
+    context : Blob;
     response : IC.HttpRequestResult;
   }) : async IC.HttpRequestResult {
     { response with headers = [] };
@@ -76,7 +76,7 @@ actor {
       method = #get;
       transform = ?{
         function = transformFlightApi;
-        _context = Array.toBlob([]);
+        context = Array.toBlob([]);
       };
       is_replicated = null;
     };
@@ -99,8 +99,7 @@ actor {
 
   public func searchFlightConnections(origin : Text, destination : Text) : async { status : Nat; body : Text } {
     await fetchFlightApi(
-      "/api/connections?from=" # Text.toUpper(origin) #
-      "&to=" # Text.toUpper(destination) # "&max_stops=2"
+      "/api/connections?from=" # Text.toUpper(origin) # "&to=" # Text.toUpper(destination) # "&max_stops=2"
     );
   };
 
