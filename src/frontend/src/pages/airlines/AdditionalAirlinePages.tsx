@@ -58,7 +58,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with JetBlue Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by JetBlue Airways." },
-      { question: "Can I book a JetBlue Airways flight with a specialist?", answer: "Yes. Connect with a specialist with your origin, destination, dates, travelers, and preferences and a specialist can discuss available options." },
+      { question: "Can I book a JetBlue Airways flight with a specialist?", answer: "Yes. Share your origin, destination, dates, travelers, and preferences with a specialist, who can discuss available options." },
       { question: "Can you help with a JetBlue flight change?", answer: "We can review the ticket and discuss possible changes or rebooking. Exact costs and eligibility depend on the fare, availability, and applicable rules." },
       { question: "Can you help with international JetBlue itineraries?", answer: "Yes. We can discuss routing and connection considerations, while travelers remain responsible for confirming passport, visa, and entry requirements." },
     ],
