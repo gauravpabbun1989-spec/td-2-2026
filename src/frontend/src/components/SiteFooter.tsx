@@ -3,10 +3,6 @@ import { ADDRESS_LINE, LEGAL_ITEMS, NAV_ITEMS, SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { Clock, Mail, MapPin, Plane } from "lucide-react";
 
-const CAFFEINE_URL = `https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(
-  typeof window !== "undefined" ? window.location.hostname : "ticketdepart",
-)}`;
-
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
@@ -66,7 +62,6 @@ export function SiteFooter() {
           <p className="max-w-5xl text-xs leading-5 text-white/45">{SITE.disclosure}</p>
           <div className="mt-6 flex flex-col gap-2 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
             <p>© {year} {SITE.legalName}. All rights reserved.</p>
-            <p>Built with love using <a href={CAFFEINE_URL} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-accent">caffeine.ai</a></p>
           </div>
         </div>
       </div>
