@@ -50,11 +50,10 @@
   :focus-visible { @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background; }
 }
 @layer components {
-  /* Keep text-based actions inside their clickable surface at every viewport width. */
+  /* Keep CTA links and text buttons usable on narrow screens without affecting icon-only controls. */
   a[data-cta-location],
-  a[class*="inline-flex"][class*="items-center"][class*="rounded-"],
-  button[class*="inline-flex"][class*="rounded-"],
-  [data-slot="button"] {
+  a[class*="h-"][class*="rounded-full"],
+  button[class*="rounded-"]:not([aria-label]) {
     box-sizing: border-box;
     min-width: 0;
     max-width: 100%;
@@ -68,17 +67,15 @@
   }
 
   a[data-cta-location] > span,
-  a[class*="inline-flex"][class*="items-center"][class*="rounded-"] > span,
-  button[class*="inline-flex"][class*="rounded-"] > span,
-  [data-slot="button"] > span {
+  a[class*="h-"][class*="rounded-full"] > span,
+  button[class*="rounded-"]:not([aria-label]) > span {
     min-width: 0;
     overflow-wrap: anywhere;
   }
 
   a[data-cta-location] > svg,
-  a[class*="inline-flex"][class*="items-center"][class*="rounded-"] > svg,
-  button[class*="inline-flex"][class*="rounded-"] > svg,
-  [data-slot="button"] > svg {
+  a[class*="h-"][class*="rounded-full"] > svg,
+  button[class*="rounded-"]:not([aria-label]) > svg {
     flex-shrink: 0;
   }
 }
