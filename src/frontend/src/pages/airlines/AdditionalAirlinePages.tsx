@@ -26,7 +26,7 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Southwest Airlines reservation support from a travel specialist",
     intro: "Planning a Southwest Airlines trip? Tell us your route, dates, travelers, and priorities. A TicketDepart specialist can walk through available itinerary options and applicable terms before you decide to book.",
     services: [
-      ["New Flight Booking", "Discuss routes, dates, travelers, schedules, and available fare options before you authorize a booking."],
+      ["New Flight Booking", "Discuss routes, dates, travelers, schedules, and available fares and best deals before you authorize a booking."],
       ["Family Flight Booking Assistance", "Work through traveler details, baggage needs, schedule priorities, and practical itinerary choices for family trips."],
       ["Same-Day & Urgent Flight Booking", "Discuss current availability, nearby airports, departure timing, and ticketing deadlines for urgent trips."],
       ["Flight Changes & Rebooking", "Review the existing reservation and discuss eligible dates, routing, availability, and any applicable price difference."],
@@ -35,9 +35,9 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart part of Southwest Airlines?", answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Southwest Airlines and are not its official customer service." },
-      { question: "Can I book a Southwest Airlines flight by phone?", answer: "Yes. A specialist can discuss your origin, destination, dates, travelers, preferences, and available booking options." },
+      { question: "Can I book a Southwest Airlines flight with a specialist?", answer: "Yes. A specialist can discuss your origin, destination, dates, travelers, preferences, and available booking options." },
       { question: "Can you help with an existing Southwest Airlines reservation?", answer: "We can review the reservation and explain available change, rebooking, or cancellation options. Exact outcomes depend on the ticket terms, availability, and applicable rules." },
-      { question: "Can you help with a last-minute Southwest Airlines trip?", answer: "You can call to discuss current options. Seats, fares, and ticketing deadlines can change quickly, so availability is not guaranteed until ticketing is completed." },
+      { question: "Can you help with a last-minute Southwest Airlines trip?", answer: "Connect with a specialist to discuss current options. Seats, fares, and ticketing deadlines can change quickly, so availability is not guaranteed until ticketing is completed." },
       { question: "Are service fees disclosed before payment?", answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fare, taxes, and other applicable charges are also reviewed before you decide." },
     ],
   },
@@ -49,7 +49,7 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "JetBlue Airways reservation support from a travel specialist",
     intro: "Planning a JetBlue Airways trip? A TicketDepart specialist can discuss schedules, routes, travelers, fare conditions, and support needs before you confirm your itinerary.",
     services: [
-      ["New Flight Booking", "Compare available schedules and routing for your dates and explain the fare conditions before booking."],
+      ["New Flight Booking", "Compare available schedules, fares, and best deals for your dates and explain the fare conditions before booking."],
       ["International Flight Booking Assistance", "Discuss international routing, connection planning, baggage considerations, and travel-document responsibilities."],
       ["Family Flight Booking Assistance", "Work through traveler count, seating preferences, baggage, connection times, and schedule priorities."],
       ["Flight Changes & Rebooking", "Review the existing ticket and discuss date, time, routing, and fare-difference considerations."],
@@ -58,7 +58,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with JetBlue Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by JetBlue Airways." },
-      { question: "Can I book a JetBlue Airways flight by phone?", answer: "Yes. Call with your origin, destination, dates, travelers, and preferences and a specialist can discuss available options." },
+      { question: "Can I book a JetBlue Airways flight with a specialist?", answer: "Yes. Connect with a specialist with your origin, destination, dates, travelers, and preferences and a specialist can discuss available options." },
       { question: "Can you help with a JetBlue flight change?", answer: "We can review the ticket and discuss possible changes or rebooking. Exact costs and eligibility depend on the fare, availability, and applicable rules." },
       { question: "Can you help with international JetBlue itineraries?", answer: "Yes. We can discuss routing and connection considerations, while travelers remain responsible for confirming passport, visa, and entry requirements." },
     ],
@@ -71,7 +71,7 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Alaska Airlines flight booking and reservation assistance",
     intro: "Tell TicketDepart where you need to go, when you want to travel, and what matters most. A specialist can discuss Alaska Airlines itinerary options and booking support by phone.",
     services: [
-      ["New Flight Booking", "Discuss route, dates, connections, travelers, fare options, and practical departure or arrival airports."],
+      ["New Flight Booking", "Discuss route, dates, connections, travelers, available fares, and practical departure or arrival airports while exploring available deals."],
       ["West Coast travel", "Review schedules and routing for trips involving Alaska Airlines' network and connection points."],
       ["International Flight Booking Assistance", "Discuss eligible international routing, connections, baggage considerations, and itinerary details."],
       ["Flight Changes & Rebooking", "Review the existing reservation and compare available replacement dates or itineraries."],
@@ -80,7 +80,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart part of Alaska Airlines?", answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Alaska Airlines." },
-      { question: "Can you book Alaska Airlines flights by phone?", answer: "Yes. Call with your origin, destination, dates, traveler count, and cabin preference if known. A specialist can discuss available Alaska Airlines itinerary and booking options." },
+      { question: "Can you book Alaska Airlines flights with a specialist?", answer: "Yes. Call with your origin, destination, dates, traveler count, and cabin preference if known. A specialist can discuss available Alaska Airlines itinerary and booking options." },
       { question: "Can you help change an Alaska Airlines reservation?", answer: "We can review the reservation and discuss available change or rebooking options. Final terms depend on the ticket and current availability." },
       { question: "Can you help with a multi-city trip?", answer: "Yes. Explain every city and preferred order and a specialist can discuss practical itinerary options." },
     ],
@@ -93,7 +93,7 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "British Airways reservation support from a travel specialist",
     intro: "For a British Airways trip, the details can matter: dates, connection airports, cabin, baggage, and fare flexibility. TicketDepart can review those choices with you by phone.",
     services: [
-      ["International Flight Booking", "Discuss transatlantic and other international itineraries, connections, and travel dates."],
+      ["International Flight Booking", "Discuss transatlantic and other international itineraries, connections, travel dates, and available deals."],
       ["Premium Cabin Booking Assistance", "Compare available cabin options and review what the selected fare includes before booking."],
       ["Flight Connection Planning", "Review connection airports and timing across the complete itinerary."],
       ["Flight Changes & Rebooking", "Discuss replacement dates or routing and any applicable fare difference or change terms."],
@@ -102,7 +102,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with British Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by British Airways." },
-      { question: "Can you help book British Airways international flights?", answer: "Yes. We can discuss international routing, cabin preferences, connections, and fare conditions before booking." },
+      { question: "Can you help arrange British Airways international flights with a specialist?", answer: "Yes. We can discuss international routing, cabin preferences, connections, and fare conditions before booking." },
       { question: "Can you help with British Airways changes?", answer: "We can review the existing itinerary and discuss available changes or rebooking options. Exact terms depend on the ticket and current inventory." },
       { question: "Can you help compare premium cabins?", answer: "Yes. We can discuss available cabin options and the conditions that apply to the itinerary you are considering." },
     ],
@@ -115,7 +115,7 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Lufthansa reservation support from a travel specialist",
     intro: "Planning a Lufthansa itinerary? A TicketDepart specialist can discuss dates, connections, cabin preferences, baggage considerations, and change flexibility before you book.",
     services: [
-      ["International Flight Booking", "Discuss Europe, transatlantic, and other international routing options for your travel dates."],
+      ["International Flight Booking", "Discuss Europe, transatlantic, and other international routing options, available fares, and deals for your travel dates."],
       ["Flight Connection Planning", "Review the full itinerary and practical connection timing rather than looking at each flight in isolation."],
       ["Premium Cabin Booking Assistance", "Discuss available premium-cabin choices and fare conditions for your route."],
       ["Flight Changes & Rebooking", "Review your existing ticket and discuss possible replacement dates, routing, and fare differences."],
@@ -124,7 +124,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart part of Lufthansa?", answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Lufthansa." },
-      { question: "Can you help book Lufthansa flights by phone?", answer: "Yes. Call with your route and dates and a specialist can discuss available itinerary options." },
+      { question: "Can you help arrange Lufthansa flights with a specialist?", answer: "Yes. Connect with a specialist with your route and dates and a specialist can discuss available itinerary options." },
       { question: "Can you help with Lufthansa international connections?", answer: "Yes. We can discuss the complete routing and connection considerations, while travelers remain responsible for confirming entry and transit requirements." },
       { question: "Can you help change a Lufthansa booking?", answer: "We can review the ticket and explain available change or rebooking options. Eligibility and cost depend on the fare and availability." },
     ],
@@ -137,7 +137,7 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Air Canada reservation support from a travel specialist",
     intro: "Planning an Air Canada itinerary? Tell TicketDepart your route, dates, travelers, and priorities and a specialist can discuss available options by phone.",
     services: [
-      ["New Flight Booking", "Discuss schedules, routing, travelers, fare conditions, and practical airport options."],
+      ["New Flight Booking", "Discuss schedules, routing, travelers, available fares, and practical airport options while exploring available deals."],
       ["Canada and international travel", "Review itineraries between the U.S., Canada, and international destinations."],
       ["Family Flight Booking Assistance", "Discuss coordinated itineraries, seating needs, baggage, and connection preferences."],
       ["Flight Changes & Rebooking", "Review the existing ticket and discuss possible date, time, or routing changes."],
@@ -146,7 +146,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with Air Canada?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Air Canada." },
-      { question: "Can you book Air Canada flights by phone?", answer: "Yes. A specialist can discuss your itinerary and available booking options by phone." },
+      { question: "Can you book Air Canada flights with a specialist?", answer: "Yes. A specialist can discuss your itinerary and available booking options by phone." },
       { question: "Can you help change an Air Canada flight?", answer: "We can review the reservation and discuss available changes or rebooking options. Exact terms depend on the ticket, availability, and applicable rules." },
       { question: "Can you help with U.S.-Canada and international itineraries?", answer: "Yes. We can discuss routing and connection considerations, while travelers remain responsible for confirming current entry and transit requirements." },
     ],
@@ -159,7 +159,7 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "SWISS reservation support from a travel specialist",
     intro: "Planning a SWISS itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can walk through available itinerary options and applicable fare terms before you decide to book.",
     services: [
-      ["International Flight Booking", "Discuss Europe, North America, and other international routing, connections, cabins, and fare conditions."],
+      ["International Flight Booking", "Discuss Europe, North America, and other international routing, connections, cabins, available fares, and deals."],
       ["Premium Cabin Booking Assistance", "Review available Business or First cabin options and the fare conditions that apply to your itinerary."],
       ["Flight Connection Planning", "Work through the complete itinerary and practical connection timing before booking."],
       ["Flight Changes & Rebooking", "Review an existing reservation and discuss eligible dates, routing, availability, and applicable fare differences."],
@@ -168,7 +168,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with SWISS?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by SWISS." },
-      { question: "Can I book a SWISS flight by phone?", answer: "Yes. A specialist can discuss your origin, destination, dates, travelers, cabin, and available booking options." },
+      { question: "Can I book a SWISS flight with a specialist?", answer: "Yes. A specialist can discuss your origin, destination, dates, travelers, cabin, and available booking options." },
       { question: "Can you help with an existing SWISS reservation?", answer: "We can review the reservation and discuss possible changes, rebooking, or cancellation options. Exact outcomes depend on the ticket terms and availability." },
       { question: "Are service fees disclosed before payment?", answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fare, taxes, and other applicable charges are reviewed before you decide." },
     ],
@@ -181,7 +181,7 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Qatar Airways flight booking and reservation assistance",
     intro: "Planning a Qatar Airways trip? Tell us your route, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options and applicable booking terms before you authorize a booking.",
     services: [
-      ["International Flight Booking", "Discuss long-haul routing, connections, travel dates, and available fare options."],
+      ["International Flight Booking", "Discuss long-haul routing, connections, travel dates, and available fares and best deals."],
       ["Premium Cabin Booking Assistance", "Review Business and other cabin options, baggage considerations, and applicable fare conditions."],
       ["Flight Connection Planning", "Look at the complete itinerary, connection airports, and practical timing."],
       ["Family Flight Booking Assistance", "Coordinate traveler details, schedules, baggage needs, and connection preferences for family trips."],
@@ -190,7 +190,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart part of Qatar Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Qatar Airways." },
-      { question: "How can I speak with a Qatar Airways reservation specialist by phone?", answer: "You can call TicketDepart for independent travel assistance. A specialist can discuss your Qatar Airways route, dates, travelers, cabin preferences, and available booking options. TicketDepart is not Qatar Airways official customer service." },
+      { question: "How can I speak with a Qatar Airways reservation specialist by phone?", answer: "You can connect with TicketDepart for independent travel assistance. A specialist can discuss your Qatar Airways route, dates, travelers, cabin preferences, and available booking options. TicketDepart is not Qatar Airways official customer service." },
       { question: "Can you help with a Qatar Airways change?", answer: "We can review the existing reservation and discuss possible changes or rebooking. Exact eligibility and cost depend on the ticket and availability." },
       { question: "Can you help with international connections?", answer: "Yes. We can discuss the complete routing and connection considerations, while travelers remain responsible for confirming current entry and transit requirements." },
     ],
@@ -203,7 +203,7 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Emirates reservation support from a travel specialist",
     intro: "Planning an Emirates itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can help you understand available itinerary options and applicable terms before booking.",
     services: [
-      ["International Flight Booking", "Discuss long-haul routing, schedules, connections, and fare conditions for your trip."],
+      ["International Flight Booking", "Discuss long-haul routing, schedules, connections, available fares, and best deals for your trip."],
       ["Premium Cabin Booking Assistance", "Review available premium-cabin options and the inclusions and conditions associated with the itinerary."],
       ["Flight Connection Planning", "Work through the complete itinerary and practical connection timing."],
       ["Family Flight Booking Assistance", "Discuss coordinated travel, baggage needs, traveler details, and connection preferences."],
@@ -212,7 +212,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with Emirates?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Emirates." },
-      { question: "Can I book an Emirates flight by phone?", answer: "Yes. A specialist can discuss your origin, destination, dates, travelers, cabin, and available booking options." },
+      { question: "Can I book an Emirates flight with a specialist?", answer: "Yes. A specialist can discuss your origin, destination, dates, travelers, cabin, and available booking options." },
       { question: "Can you help with an existing Emirates reservation?", answer: "We can review the reservation and discuss possible changes, rebooking, or cancellation options. Exact outcomes depend on ticket terms and availability." },
       { question: "Can you help with a multi-city Emirates itinerary?", answer: "Yes. We can discuss multiple destinations, connection timing, and practical itinerary structures before booking." },
     ],
@@ -225,7 +225,7 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Norse Atlantic Airways reservation support from a travel specialist",
     intro: "Planning a Norse Atlantic Airways trip? Share your origin, destination, dates, travelers, and preferences. A TicketDepart specialist can discuss transatlantic itinerary options, connections, and applicable booking terms before you decide to book.",
     services: [
-      ["Transatlantic Flight Booking", "Discuss available transatlantic routing, travel dates, airports, and fare conditions."],
+      ["Transatlantic Flight Booking", "Discuss available transatlantic routing, travel dates, airports, fares, and available deals."],
       ["Europe Flight Booking Assistance", "Work through U.S.-Europe and Europe-U.S. itinerary options and practical airport choices."],
       ["Flight Connection Planning", "Review the complete itinerary and discuss connection timing and airport considerations."],
       ["Flight Changes & Rebooking", "Review an existing reservation and discuss possible replacement dates, routing, availability, and applicable fare differences."],
@@ -234,7 +234,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with Norse Atlantic Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Norse Atlantic Airways." },
-      { question: "Can I book a Norse Atlantic Airways flight by phone?", answer: "Yes. A specialist can discuss your route, dates, travelers, preferences, and available booking options." },
+      { question: "Can I book a Norse Atlantic Airways flight with a specialist?", answer: "Yes. A specialist can discuss your route, dates, travelers, preferences, and available booking options." },
       { question: "Can you help with a Norse Atlantic Airways connection?", answer: "Yes. We can discuss the complete itinerary and practical connection considerations. Travelers remain responsible for confirming current passport, visa, transit, and entry requirements." },
       { question: "Can you help change an existing Norse Atlantic Airways reservation?", answer: "We can review the reservation and discuss possible changes or rebooking. Exact eligibility and costs depend on the ticket terms and availability." },
       { question: "Are service fees disclosed before payment?", answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fare, taxes, and other applicable charges are reviewed before you decide." },
@@ -248,7 +248,7 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "LOT Polish Airlines reservation support from a travel specialist",
     intro: "Planning a LOT Polish Airlines trip? Share your origin, destination, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options, connections, and applicable booking terms before you decide to book.",
     services: [
-      ["International Flight Booking", "Discuss European, transatlantic, and other international routing, schedules, connections, and fare conditions."],
+      ["International Flight Booking", "Discuss European, transatlantic, and other international routing, schedules, connections, available fares, and deals."],
       ["Poland & Europe Flight Booking Assistance", "Work through routes involving Poland and European destinations, including connection timing and practical airport choices."],
       ["Premium Cabin Booking Assistance", "Review available premium-cabin options and the fare conditions and inclusions that apply to your itinerary."],
       ["Flight Connection Planning", "Look at the complete itinerary and discuss practical connection timing rather than evaluating each segment alone."],
