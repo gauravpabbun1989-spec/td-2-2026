@@ -1,5 +1,5 @@
 import { CallCta } from "@/components/CallCta";
-import { AIRLINE_ITEMS, SITE } from "@/lib/site";
+import { AIRLINE_ITEMS, NAV_ITEMS, SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 import { Menu, Phone, Plane, X } from "lucide-react";
