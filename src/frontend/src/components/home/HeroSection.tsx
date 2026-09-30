@@ -59,7 +59,7 @@ export function HeroSection() {
             />
             <Link
               to="/flight-search"
-              data-ocid="home.hero_flight_booking_link"
+              data-ocid="home.hero_flight_search_link"
               className="inline-flex min-w-0 h-12 items-center justify-center gap-2 rounded-full bg-[#087fc1] px-6 text-base font-semibold text-white shadow-md transition-smooth hover:bg-[#066da6]"
             >
               Search flights <ArrowRight className="size-4 shrink-0" />
