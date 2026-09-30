@@ -38,3 +38,5 @@ flushSync(() => {
   );
 });
 
+// Restore visibility after React mounts, even if a cached/generated shell hides the root.
+rootElement.style.visibility = "visible";
