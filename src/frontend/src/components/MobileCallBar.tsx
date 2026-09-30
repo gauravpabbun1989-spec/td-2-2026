@@ -5,7 +5,7 @@ export function MobileCallBar() {
   return (
     <div
       data-ocid="mobile_call.bar"
-      className="fixed inset-x-0 bottom-0 z-[70] border-t border-white/10 bg-[#071a35]/95 px-4 py-3 text-white shadow-[0_-12px_40px_-20px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+      className="fixed inset-x-0 bottom-0 z-[70] border-t border-white/10 bg-[#071a35]/95 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] text-white shadow-[0_-12px_40px_-20px_rgba(0,0,0,0.5)] backdrop-blur-xl"
     >
       <div className="mx-auto flex w-full max-w-7xl items-center justify-center gap-3">
         <div className="hidden min-w-0 sm:block">
@@ -17,11 +17,11 @@ export function MobileCallBar() {
           data-ocid="mobile_call.button"
           data-cta-location="sticky_mobile"
           aria-label={`${SITE.ctaLabel}: ${SITE.phoneDisplay}`}
-          className="flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-accent px-3 text-xs sm:gap-2.5 sm:px-5 sm:text-sm font-bold text-accent-foreground shadow-[0_10px_24px_-12px_rgba(0,0,0,0.65)] transition-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:w-auto sm:min-w-[20rem]"
+          className="flex min-h-12 w-full flex-wrap items-center justify-center gap-x-2 gap-y-0.5 rounded-full bg-accent px-3 py-2 text-xs font-bold text-accent-foreground shadow-[0_10px_24px_-12px_rgba(0,0,0,0.65)] transition-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:flex-nowrap sm:gap-2.5 sm:px-5 sm:text-sm sm:w-auto sm:min-w-[20rem]"
         >
           <Phone aria-hidden="true" className="size-4 shrink-0" />
-          <span>Call for Reservation Assistance</span>
-          <span className="whitespace-nowrap">{SITE.phoneDisplay}</span>
+          <span className="min-w-0 text-center">Call for Reservation Assistance</span>
+          <span className="basis-full text-center text-[11px] leading-tight sm:basis-auto sm:whitespace-nowrap sm:text-sm">{SITE.phoneDisplay}</span>
         </a>
       </div>
     </div>

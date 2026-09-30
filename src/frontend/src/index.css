@@ -49,6 +49,47 @@
   h1,h2,h3,h4 { @apply font-display tracking-tight; }
   :focus-visible { @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background; }
 }
+@layer components {
+  /* Keep CTA links and text buttons usable on narrow screens without affecting icon-only controls. */
+  a[data-cta-location],
+  a[class*="h-"][class*="inline-flex"],
+  button[class*="h-"]:not([aria-label]) {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+    height: auto !important;
+    min-height: 2.5rem;
+    padding-block: 0.625rem !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  a[data-cta-location] > span,
+  a[class*="h-"][class*="inline-flex"] > span,
+  button[class*="h-"]:not([aria-label]) > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  a[data-cta-location] > svg,
+  a[class*="h-"][class*="inline-flex"] > svg,
+  button[class*="h-"]:not([aria-label]) > svg {
+    flex-shrink: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @layer utilities {
   .transition-smooth { transition: var(--transition-smooth); }
   .label-board { @apply font-mono text-xs font-medium uppercase tracking-[0.18em]; }
