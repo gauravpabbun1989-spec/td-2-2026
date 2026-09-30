@@ -26,12 +26,12 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Southwest Airlines reservation support from a travel specialist",
     intro: "Planning a Southwest Airlines trip? Tell us your route, dates, travelers, and priorities. A TicketDepart specialist can walk through available itinerary options and applicable terms before you decide to book.",
     services: [
-      ["Flight booking", "Discuss routes, dates, travelers, schedules, and available fare options before you authorize a booking."],
-      ["Family travel", "Work through traveler details, baggage needs, schedule priorities, and practical itinerary choices for family trips."],
-      ["Same-day and urgent travel", "Discuss current availability, nearby airports, departure timing, and ticketing deadlines for urgent trips."],
-      ["Changes and rebooking", "Review the existing reservation and discuss eligible dates, routing, availability, and any applicable price difference."],
-      ["Cancellation questions", "Review the ticket terms and discuss whether a refund, credit, or another outcome may apply."],
-      ["Multi-city planning", "Explain each segment of a complex trip and discuss practical itinerary structures before booking."],
+      ["New Flight Booking", "Discuss routes, dates, travelers, schedules, and available fare options before you authorize a booking."],
+      ["Family Flight Booking Assistance", "Work through traveler details, baggage needs, schedule priorities, and practical itinerary choices for family trips."],
+      ["Same-Day & Urgent Flight Booking", "Discuss current availability, nearby airports, departure timing, and ticketing deadlines for urgent trips."],
+      ["Flight Changes & Rebooking", "Review the existing reservation and discuss eligible dates, routing, availability, and any applicable price difference."],
+      ["Cancellation Assistance", "Review the ticket terms and discuss whether a refund, credit, or another outcome may apply."],
+      ["Multi-City Flight Booking", "Explain each segment of a complex trip and discuss practical itinerary structures before booking."],
     ],
     faqs: [
       { question: "Is TicketDepart part of Southwest Airlines?", answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Southwest Airlines and are not its official customer service." },
@@ -49,12 +49,12 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "JetBlue Airways reservation support from a travel specialist",
     intro: "Planning a JetBlue Airways trip? A TicketDepart specialist can discuss schedules, routes, travelers, fare conditions, and support needs before you confirm your itinerary.",
     services: [
-      ["Flight booking", "Compare available schedules and routing for your dates and explain the fare conditions before booking."],
-      ["International trips", "Discuss international routing, connection planning, baggage considerations, and travel-document responsibilities."],
-      ["Family booking", "Work through traveler count, seating preferences, baggage, connection times, and schedule priorities."],
-      ["Flight changes", "Review the existing ticket and discuss date, time, routing, and fare-difference considerations."],
-      ["Cancellation assistance", "Discuss applicable cancellation, refund, or credit rules before any request is processed."],
-      ["Last-minute travel", "For urgent trips, discuss current availability, practical airports, connections, and ticketing timing."],
+      ["New Flight Booking", "Compare available schedules and routing for your dates and explain the fare conditions before booking."],
+      ["International Flight Booking Assistance", "Discuss international routing, connection planning, baggage considerations, and travel-document responsibilities."],
+      ["Family Flight Booking Assistance", "Work through traveler count, seating preferences, baggage, connection times, and schedule priorities."],
+      ["Flight Changes & Rebooking", "Review the existing ticket and discuss date, time, routing, and fare-difference considerations."],
+      ["Cancellation Assistance", "Discuss applicable cancellation, refund, or credit rules before any request is processed."],
+      ["Last-Minute Flight Booking Assistance", "For urgent trips, discuss current availability, practical airports, connections, and ticketing timing."],
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with JetBlue Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by JetBlue Airways." },
@@ -71,12 +71,12 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Alaska Airlines flight booking and reservation assistance",
     intro: "Tell TicketDepart where you need to go, when you want to travel, and what matters most. A specialist can discuss Alaska Airlines itinerary options and booking support by phone.",
     services: [
-      ["Flight booking", "Discuss route, dates, connections, travelers, fare options, and practical departure or arrival airports."],
+      ["New Flight Booking", "Discuss route, dates, connections, travelers, fare options, and practical departure or arrival airports."],
       ["West Coast travel", "Review schedules and routing for trips involving Alaska Airlines' network and connection points."],
-      ["International travel", "Discuss eligible international routing, connections, baggage considerations, and itinerary details."],
-      ["Changes and rebooking", "Review the existing reservation and compare available replacement dates or itineraries."],
-      ["Cancellation questions", "Discuss refund or credit possibilities under the applicable ticket and airline terms."],
-      ["Multi-city trips", "Work through multiple destinations, open-jaw ideas, and connection preferences before booking."],
+      ["International Flight Booking Assistance", "Discuss eligible international routing, connections, baggage considerations, and itinerary details."],
+      ["Flight Changes & Rebooking", "Review the existing reservation and compare available replacement dates or itineraries."],
+      ["Cancellation Assistance", "Discuss refund or credit possibilities under the applicable ticket and airline terms."],
+      ["Multi-City Flight Booking", "Work through multiple destinations, open-jaw ideas, and connection preferences before booking."],
     ],
     faqs: [
       { question: "Is TicketDepart part of Alaska Airlines?", answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Alaska Airlines." },
@@ -93,12 +93,12 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "British Airways reservation support from a travel specialist",
     intro: "For a British Airways trip, the details can matter: dates, connection airports, cabin, baggage, and fare flexibility. TicketDepart can review those choices with you by phone.",
     services: [
-      ["International booking", "Discuss transatlantic and other international itineraries, connections, and travel dates."],
-      ["Premium cabin planning", "Compare available cabin options and review what the selected fare includes before booking."],
-      ["Connection planning", "Review connection airports and timing across the complete itinerary."],
-      ["Flight changes", "Discuss replacement dates or routing and any applicable fare difference or change terms."],
-      ["Cancellation and refund questions", "Review the ticket terms and discuss what cancellation outcome may apply."],
-      ["Multi-city travel", "Plan multiple destinations or open-jaw routing and discuss how the segments fit together."],
+      ["International Flight Booking", "Discuss transatlantic and other international itineraries, connections, and travel dates."],
+      ["Premium Cabin Booking Assistance", "Compare available cabin options and review what the selected fare includes before booking."],
+      ["Flight Connection Planning", "Review connection airports and timing across the complete itinerary."],
+      ["Flight Changes & Rebooking", "Discuss replacement dates or routing and any applicable fare difference or change terms."],
+      ["Cancellation & Refund Assistance", "Review the ticket terms and discuss what cancellation outcome may apply."],
+      ["Multi-City Flight Booking", "Plan multiple destinations or open-jaw routing and discuss how the segments fit together."],
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with British Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by British Airways." },
@@ -115,12 +115,12 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Lufthansa reservation support from a travel specialist",
     intro: "Planning a Lufthansa itinerary? A TicketDepart specialist can discuss dates, connections, cabin preferences, baggage considerations, and change flexibility before you book.",
     services: [
-      ["International booking", "Discuss Europe, transatlantic, and other international routing options for your travel dates."],
-      ["Connection planning", "Review the full itinerary and practical connection timing rather than looking at each flight in isolation."],
-      ["Premium cabin options", "Discuss available premium-cabin choices and fare conditions for your route."],
-      ["Flight changes", "Review your existing ticket and discuss possible replacement dates, routing, and fare differences."],
-      ["Cancellation questions", "Discuss refund or credit possibilities based on the specific ticket and applicable rules."],
-      ["Multi-city itineraries", "Work through several destinations and open-jaw routing before booking."],
+      ["International Flight Booking", "Discuss Europe, transatlantic, and other international routing options for your travel dates."],
+      ["Flight Connection Planning", "Review the full itinerary and practical connection timing rather than looking at each flight in isolation."],
+      ["Premium Cabin Booking Assistance", "Discuss available premium-cabin choices and fare conditions for your route."],
+      ["Flight Changes & Rebooking", "Review your existing ticket and discuss possible replacement dates, routing, and fare differences."],
+      ["Cancellation Assistance", "Discuss refund or credit possibilities based on the specific ticket and applicable rules."],
+      ["Multi-City Flight Booking", "Work through several destinations and open-jaw routing before booking."],
     ],
     faqs: [
       { question: "Is TicketDepart part of Lufthansa?", answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Lufthansa." },
@@ -137,12 +137,12 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Air Canada reservation support from a travel specialist",
     intro: "Planning an Air Canada itinerary? Tell TicketDepart your route, dates, travelers, and priorities and a specialist can discuss available options by phone.",
     services: [
-      ["Flight booking", "Discuss schedules, routing, travelers, fare conditions, and practical airport options."],
+      ["New Flight Booking", "Discuss schedules, routing, travelers, fare conditions, and practical airport options."],
       ["Canada and international travel", "Review itineraries between the U.S., Canada, and international destinations."],
-      ["Family travel", "Discuss coordinated itineraries, seating needs, baggage, and connection preferences."],
-      ["Flight changes", "Review the existing ticket and discuss possible date, time, or routing changes."],
-      ["Cancellation questions", "Discuss refund or credit possibilities before you authorize a cancellation."],
-      ["Multi-city trips", "Plan multiple stops and discuss the most practical way to structure the itinerary."],
+      ["Family Flight Booking Assistance", "Discuss coordinated itineraries, seating needs, baggage, and connection preferences."],
+      ["Flight Changes & Rebooking", "Review the existing ticket and discuss possible date, time, or routing changes."],
+      ["Cancellation Assistance", "Discuss refund or credit possibilities before you authorize a cancellation."],
+      ["Multi-City Flight Booking", "Plan multiple stops and discuss the most practical way to structure the itinerary."],
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with Air Canada?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Air Canada." },
@@ -159,12 +159,12 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "SWISS reservation support from a travel specialist",
     intro: "Planning a SWISS itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can walk through available itinerary options and applicable fare terms before you decide to book.",
     services: [
-      ["International booking", "Discuss Europe, North America, and other international routing, connections, cabins, and fare conditions."],
-      ["Premium cabin planning", "Review available Business or First cabin options and the fare conditions that apply to your itinerary."],
-      ["Connection planning", "Work through the complete itinerary and practical connection timing before booking."],
-      ["Changes and rebooking", "Review an existing reservation and discuss eligible dates, routing, availability, and applicable fare differences."],
-      ["Cancellation questions", "Review the ticket terms and discuss whether a refund, credit, or another outcome may apply."],
-      ["Multi-city travel", "Plan several destinations or open-jaw routing and discuss practical itinerary structures."],
+      ["International Flight Booking", "Discuss Europe, North America, and other international routing, connections, cabins, and fare conditions."],
+      ["Premium Cabin Booking Assistance", "Review available Business or First cabin options and the fare conditions that apply to your itinerary."],
+      ["Flight Connection Planning", "Work through the complete itinerary and practical connection timing before booking."],
+      ["Flight Changes & Rebooking", "Review an existing reservation and discuss eligible dates, routing, availability, and applicable fare differences."],
+      ["Cancellation Assistance", "Review the ticket terms and discuss whether a refund, credit, or another outcome may apply."],
+      ["Multi-City Flight Booking", "Plan several destinations or open-jaw routing and discuss practical itinerary structures."],
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with SWISS?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by SWISS." },
@@ -181,12 +181,12 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Qatar Airways flight booking and reservation assistance",
     intro: "Planning a Qatar Airways trip? Tell us your route, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options and applicable booking terms before you authorize a booking.",
     services: [
-      ["International booking", "Discuss long-haul routing, connections, travel dates, and available fare options."],
-      ["Premium cabin planning", "Review Business and other cabin options, baggage considerations, and applicable fare conditions."],
-      ["Connection planning", "Look at the complete itinerary, connection airports, and practical timing."],
-      ["Family travel", "Coordinate traveler details, schedules, baggage needs, and connection preferences for family trips."],
-      ["Changes and rebooking", "Review an existing ticket and discuss available replacement dates, routing, and fare differences."],
-      ["Multi-city itineraries", "Build a practical multi-stop plan and discuss how the segments fit together before booking."],
+      ["International Flight Booking", "Discuss long-haul routing, connections, travel dates, and available fare options."],
+      ["Premium Cabin Booking Assistance", "Review Business and other cabin options, baggage considerations, and applicable fare conditions."],
+      ["Flight Connection Planning", "Look at the complete itinerary, connection airports, and practical timing."],
+      ["Family Flight Booking Assistance", "Coordinate traveler details, schedules, baggage needs, and connection preferences for family trips."],
+      ["Flight Changes & Rebooking", "Review an existing ticket and discuss available replacement dates, routing, and fare differences."],
+      ["Multi-City Flight Booking", "Build a practical multi-stop plan and discuss how the segments fit together before booking."],
     ],
     faqs: [
       { question: "Is TicketDepart part of Qatar Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Qatar Airways." },
@@ -203,12 +203,12 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Emirates reservation support from a travel specialist",
     intro: "Planning an Emirates itinerary? Share your route, dates, travelers, and cabin preferences. A TicketDepart specialist can help you understand available itinerary options and applicable terms before booking.",
     services: [
-      ["International booking", "Discuss long-haul routing, schedules, connections, and fare conditions for your trip."],
-      ["Premium cabin planning", "Review available premium-cabin options and the inclusions and conditions associated with the itinerary."],
-      ["Connection planning", "Work through the complete itinerary and practical connection timing."],
-      ["Family travel", "Discuss coordinated travel, baggage needs, traveler details, and connection preferences."],
-      ["Changes and rebooking", "Review an existing reservation and discuss eligible replacement dates, routing, and fare differences."],
-      ["Multi-city travel", "Plan several destinations and discuss practical itinerary structures before you authorize a booking."],
+      ["International Flight Booking", "Discuss long-haul routing, schedules, connections, and fare conditions for your trip."],
+      ["Premium Cabin Booking Assistance", "Review available premium-cabin options and the inclusions and conditions associated with the itinerary."],
+      ["Flight Connection Planning", "Work through the complete itinerary and practical connection timing."],
+      ["Family Flight Booking Assistance", "Discuss coordinated travel, baggage needs, traveler details, and connection preferences."],
+      ["Flight Changes & Rebooking", "Review an existing reservation and discuss eligible replacement dates, routing, and fare differences."],
+      ["Multi-City Flight Booking", "Plan several destinations and discuss practical itinerary structures before you authorize a booking."],
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with Emirates?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Emirates." },
@@ -225,12 +225,12 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "Norse Atlantic Airways reservation support from a travel specialist",
     intro: "Planning a Norse Atlantic Airways trip? Share your origin, destination, dates, travelers, and preferences. A TicketDepart specialist can discuss transatlantic itinerary options, connections, and applicable booking terms before you decide to book.",
     services: [
-      ["Transatlantic booking", "Discuss available transatlantic routing, travel dates, airports, and fare conditions."],
-      ["Europe travel", "Work through U.S.-Europe and Europe-U.S. itinerary options and practical airport choices."],
-      ["Connection planning", "Review the complete itinerary and discuss connection timing and airport considerations."],
-      ["Changes and rebooking", "Review an existing reservation and discuss possible replacement dates, routing, availability, and applicable fare differences."],
-      ["Cancellation questions", "Review the applicable ticket terms and discuss possible cancellation, refund, or credit outcomes."],
-      ["Multi-city travel", "Discuss multiple destinations and practical itinerary structures before booking."],
+      ["Transatlantic Flight Booking", "Discuss available transatlantic routing, travel dates, airports, and fare conditions."],
+      ["Europe Flight Booking Assistance", "Work through U.S.-Europe and Europe-U.S. itinerary options and practical airport choices."],
+      ["Flight Connection Planning", "Review the complete itinerary and discuss connection timing and airport considerations."],
+      ["Flight Changes & Rebooking", "Review an existing reservation and discuss possible replacement dates, routing, availability, and applicable fare differences."],
+      ["Cancellation Assistance", "Review the applicable ticket terms and discuss possible cancellation, refund, or credit outcomes."],
+      ["Multi-City Flight Booking", "Discuss multiple destinations and practical itinerary structures before booking."],
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with Norse Atlantic Airways?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by Norse Atlantic Airways." },
@@ -248,12 +248,12 @@ const AIRLINES: readonly AirlinePage[] = [
     heading: "LOT Polish Airlines reservation support from a travel specialist",
     intro: "Planning a LOT Polish Airlines trip? Share your origin, destination, dates, travelers, and cabin preferences. A TicketDepart specialist can discuss itinerary options, connections, and applicable booking terms before you decide to book.",
     services: [
-      ["International booking", "Discuss European, transatlantic, and other international routing, schedules, connections, and fare conditions."],
-      ["Poland and Europe travel", "Work through routes involving Poland and European destinations, including connection timing and practical airport choices."],
-      ["Premium cabin planning", "Review available premium-cabin options and the fare conditions and inclusions that apply to your itinerary."],
-      ["Connection planning", "Look at the complete itinerary and discuss practical connection timing rather than evaluating each segment alone."],
-      ["Changes and rebooking", "Review an existing reservation and discuss eligible replacement dates, routing, availability, and applicable fare differences."],
-      ["Multi-city travel", "Plan multiple destinations or open-jaw routing and discuss practical itinerary structures before booking."],
+      ["International Flight Booking", "Discuss European, transatlantic, and other international routing, schedules, connections, and fare conditions."],
+      ["Poland & Europe Flight Booking Assistance", "Work through routes involving Poland and European destinations, including connection timing and practical airport choices."],
+      ["Premium Cabin Booking Assistance", "Review available premium-cabin options and the fare conditions and inclusions that apply to your itinerary."],
+      ["Flight Connection Planning", "Look at the complete itinerary and discuss practical connection timing rather than evaluating each segment alone."],
+      ["Flight Changes & Rebooking", "Review an existing reservation and discuss eligible replacement dates, routing, availability, and applicable fare differences."],
+      ["Multi-City Flight Booking", "Plan multiple destinations or open-jaw routing and discuss practical itinerary structures before booking."],
     ],
     faqs: [
       { question: "Is TicketDepart affiliated with LOT Polish Airlines?", answer: "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by LOT Polish Airlines." },
@@ -393,12 +393,12 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
       </Section>
 
       <Section tone="muted" ocid={`${id}.services`}>
-        <SectionHeading eyebrow="What we can discuss" title={`${page.name} reservation support and booking services`} description="Start with your route, dates, traveler details, or existing reservation. A specialist can work through the options that apply." />
+        <SectionHeading eyebrow="What we can discuss" title={`${page.name} reservation support and booking services`} description={`New \${page.name} flight booking, \${page.name} flight changes, \${page.name} cancellation assistance, \${page.name} rebooking, and other itinerary support are covered below. Start with your route, dates, traveler details, or existing reservation.`} />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {page.services.map(([title, body]) => (
             <article key={title} className="group rounded-2xl border border-border/80 bg-card p-6 shadow-subtle transition-smooth hover:-translate-y-1 hover:border-primary/20 hover:shadow-elevated">
               <CheckCircle2 className="size-5 text-accent" />
-              <h2 className="mt-4 font-display text-lg font-semibold">{title}</h2>
+              <h2 className="mt-4 font-display text-lg font-semibold">{page.name} {title}</h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
             </article>
           ))}
