@@ -34,11 +34,6 @@ export function HeroSection() {
 
       <div className="mx-auto grid w-full max-w-7xl items-center gap-8 px-5 pb-10 pt-12 sm:px-8 sm:pb-14 sm:pt-16 lg:min-h-[560px] lg:grid-cols-[1fr_0.9fr] lg:gap-10 lg:px-10 lg:py-16">
         <div className="max-w-2xl min-w-0">
-          <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-white/90 px-4 py-2 text-xs font-bold tracking-wide text-sky-900 shadow-sm backdrop-blur-sm">
-            <span className="size-2 rounded-full bg-emerald-500" />
-            Independent flight reservation assistance
-          </div>
-
           <h1
             id="home-hero-heading"
             className="mt-5 max-w-2xl text-balance text-[2.75rem] font-bold leading-[1.02] tracking-[-0.05em] text-[#0b3155] sm:text-5xl lg:text-[4rem]"
