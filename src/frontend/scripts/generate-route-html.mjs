@@ -8,7 +8,7 @@ const routes = {
   "/": {
     title: "Book Flights by Phone | 24/7 Flight Help | TicketDepart",
     description: "Book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.",
-    heading: "Flight booking assistance by phone",
+    heading: "Book flights by phone with a travel specialist",
     text: "TicketDepart helps travelers work through flight booking questions by phone. You can discuss domestic or international trips, departure and arrival airports, travel dates, cabin preferences, connections, baggage questions, and applicable fare conditions before deciding how to proceed. If your itinerary is straightforward, you can start with the flight options on the site. If the trip involves multiple cities, tight schedules, family or group travel, or a premium cabin, a conversation can help you work through the details in one place. Before calling, it helps to have your preferred travel dates, departure city or airport, destination, number of travelers, and any important timing or cabin requirements ready. For international travel, you may also want to ask about connection points, baggage rules, and the booking conditions that apply to the itinerary you are considering. TicketDepart provides independent flight reservation assistance and is not an airline or an airline’s official customer-service department. Airline schedules, availability, baggage policies, and fare conditions can vary by route and ticket, so specific details should be reviewed before a booking is confirmed. The site also includes focused guides for international flights, business-class travel, group bookings, flight changes, cancellations, and airline-specific reservation assistance. If you are not sure which booking option fits your trip, you can review the booking guides first or contact a travel specialist. The goal is to make the practical details easier to understand before you confirm your travel plans.",
   },
   "/book-a-flight-by-phone": {
@@ -356,7 +356,8 @@ const STATIC_SEO_CONTENT = {
 };
 
 function routeHtml(route, meta) {
-  const url = `https://ticketdepart.com${route}`;
+  const publicPath = route === "/" ? "/" : `${route.replace(/\/+$/, "")}/`;
+  const url = `https://ticketdepart.com${publicPath}`;
   const safeTitle = escapeHtml(meta.title);
   const safeDescription = escapeHtml(meta.description);
   const safeHeading = escapeHtml(meta.heading);
@@ -407,12 +408,12 @@ function routeHtml(route, meta) {
   const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>
   ${sectionHtml}
   <section><h2>Related flight booking help</h2><ul>
-    <li><a href="/flight-booking">Flight booking assistance</a></li>
-    <li><a href="/book-a-flight-by-phone">Book a flight by phone</a></li>
-    <li><a href="/international-flight-booking">International flight booking</a></li>
-    <li><a href="/business-class-flight-booking">Business class flight booking</a></li>
-    <li><a href="/group-flight-booking">Group flight booking</a></li>
-    <li><a href="/contact">Contact a travel specialist</a></li>
+    <li><a href="/flight-booking/">Flight booking assistance</a></li>
+    <li><a href="/book-a-flight-by-phone/">Book a flight by phone</a></li>
+    <li><a href="/international-flight-booking/">International flight booking</a></li>
+    <li><a href="/business-class-flight-booking/">Business class flight booking</a></li>
+    <li><a href="/group-flight-booking/">Group flight booking</a></li>
+    <li><a href="/contact/">Contact a travel specialist</a></li>
   </ul></section>
   <p>TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
 
