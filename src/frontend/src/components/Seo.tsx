@@ -52,7 +52,7 @@ export function Seo({
   const canonical = absoluteUrl(path);
   const listingDescription = description.includes(SITE.phoneDisplay)
     ? description
-    : `${description.replace(/\\.$/, "")} Call ${SITE.phoneDisplay}.`;
+    : `${description.replace(/\.$/, "")} Call ${SITE.phoneDisplay}.`;
   const serialized = JSON.stringify(structuredData);
 
   useEffect(() => {
