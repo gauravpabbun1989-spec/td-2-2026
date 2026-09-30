@@ -52,8 +52,8 @@
 @layer components {
   /* Keep CTA links and text buttons usable on narrow screens without affecting icon-only controls. */
   a[data-cta-location],
-  a[class*="h-"][class*="rounded-full"],
-  button[class*="h-"][class*="rounded-full"]:not([aria-label]) {
+  a[class*="h-"][class*="inline-flex"],
+  button[class*="h-"]:not([aria-label]) {
     box-sizing: border-box;
     min-width: 0;
     max-width: 100%;
@@ -67,15 +67,15 @@
   }
 
   a[data-cta-location] > span,
-  a[class*="h-"][class*="rounded-full"] > span,
-  button[class*="h-"][class*="rounded-full"]:not([aria-label]) > span {
+  a[class*="h-"][class*="inline-flex"] > span,
+  button[class*="h-"]:not([aria-label]) > span {
     min-width: 0;
     overflow-wrap: anywhere;
   }
 
   a[data-cta-location] > svg,
-  a[class*="h-"][class*="rounded-full"] > svg,
-  button[class*="h-"][class*="rounded-full"]:not([aria-label]) > svg {
+  a[class*="h-"][class*="inline-flex"] > svg,
+  button[class*="h-"]:not([aria-label]) > svg {
     flex-shrink: 0;
   }
 }
