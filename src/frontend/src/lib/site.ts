@@ -98,9 +98,6 @@ export const LEGAL_ITEMS: readonly NavItem[] = [
 
 /** Absolute site origin used for canonical URLs and structured data. */
 export function siteOrigin(): string {
-  if (typeof window !== "undefined" && window.location.origin) {
-    return window.location.origin;
-  }
   return "https://ticketdepart.com";
 }
 
@@ -109,6 +106,6 @@ export function absoluteUrl(path: string): string {
   const normalized = path.startsWith("/") ? path : `/${path}`;
   // Keep the homepage at "/" but normalize route canonicals to one
   // non-trailing-slash form so /route and /route/ do not compete.
-  const canonicalPath = normalized === "/" ? "/" : normalized.replace(/\/+$/, "");
+  const canonicalPath = normalized === "/" ? "/" : `${normalized.replace(/\/+$/, "")}/`;
   return `${origin}${canonicalPath}`;
 }
