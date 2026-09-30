@@ -5,7 +5,7 @@ export function MobileCallBar() {
   return (
     <div
       data-ocid="mobile_call.bar"
-      className="fixed inset-x-0 bottom-0 z-[70] border-t border-white/10 bg-[#071a35]/95 px-4 py-3 text-white shadow-[0_-12px_40px_-20px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+      className="fixed inset-x-0 bottom-0 z-[70] border-t border-white/10 bg-[#071a35]/95 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] text-white shadow-[0_-12px_40px_-20px_rgba(0,0,0,0.5)] backdrop-blur-xl"
     >
       <div className="mx-auto flex w-full max-w-7xl items-center justify-center gap-3">
         <div className="hidden min-w-0 sm:block">
