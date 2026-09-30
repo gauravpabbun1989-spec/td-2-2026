@@ -33,27 +33,27 @@ const HERO_IMAGE_URL = absoluteUrl(HERO_IMAGE.src);
 const CAPABILITIES = [
   {
     icon: Ticket,
-    title: "Booking assistance",
-    body: "We search United Airlines-operated and United Airlines-marketed flights across your travel window, compare Economy, Economy Plus, and premium cabin pricing, and complete the reservation with you on the phone.",
+    title: "United Airlines New Flight Booking",
+    body: "We search United Airlines-operated and United Airlines-marketed flights across your travel window, compare Economy, Economy Plus, and premium cabin pricing, and complete the reservation with a specialist by phone.",
   },
   {
     icon: Globe2,
-    title: "International booking",
+    title: "United Airlines International Flight Booking",
     body: "Long-haul United Airlines routes often connect through a hub and may include partner-operated segments. We check that every connection is legal and comfortable, and that baggage rules are consistent across the whole journey.",
   },
   {
     icon: MapPin,
-    title: "Multi-city booking",
+    title: "United Airlines Multi-City Flight Booking",
     body: "Three or more stops, or a route that does not return to where it started, needs a human to sequence it well. We order the segments, price the itinerary as a whole, and confirm each stop works with your schedule.",
   },
   {
     icon: Briefcase,
-    title: "Business and first-class booking",
+    title: "United Airlines Business & First Class Booking",
     body: "United Airlines Polaris and domestic First Class are priced differently by route and date. We review the premium options in your window, explain what the fare includes, and book the cabin that fits the trip.",
   },
   {
     icon: Repeat2,
-    title: "Flight changes and rebooking",
+    title: "United Airlines Flight Changes & Rebooking",
     body: "When your plans move, we read the fare rules on your ticket, compare the cost of changing against rebooking, and handle the reissue so you are not stuck in a queue.",
   },
 ] as const;
