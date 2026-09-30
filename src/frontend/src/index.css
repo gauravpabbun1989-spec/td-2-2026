@@ -49,6 +49,40 @@
   h1,h2,h3,h4 { @apply font-display tracking-tight; }
   :focus-visible { @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background; }
 }
+@layer components {
+  /* Keep text-based actions inside their clickable surface at every viewport width. */
+  a[data-cta-location],
+  a[class*="inline-flex"][class*="rounded-full"],
+  button:not([aria-label]),
+  [data-slot="button"] {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+    height: auto !important;
+    min-height: 2.5rem;
+    padding-block: 0.625rem !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  a[data-cta-location] > span,
+  a[class*="inline-flex"][class*="rounded-full"] > span,
+  button:not([aria-label]) > span,
+  [data-slot="button"] > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  a[data-cta-location] > svg,
+  a[class*="inline-flex"][class*="rounded-full"] > svg,
+  button:not([aria-label]) > svg,
+  [data-slot="button"] > svg {
+    flex-shrink: 0;
+  }
+}
+
 @layer utilities {
   .transition-smooth { transition: var(--transition-smooth); }
   .label-board { @apply font-mono text-xs font-medium uppercase tracking-[0.18em]; }
