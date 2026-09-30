@@ -51,19 +51,19 @@ export function HeroSection() {
             Need to book a flight or get help with an airline reservation? Call our travel specialists to review routes, dates, cabins, baggage, changes, cancellations, and booking details with you.
           </p>
 
-          <div className="mt-7 grid gap-3 sm:grid-cols-3">
-            <CallCta size="lg" ocid="home.hero_call_button" className="w-full shadow-xl shadow-sky-900/15" />
+          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+            <CallCta size="lg" ocid="home.hero_call_button" className="w-full min-w-0 shadow-xl shadow-sky-900/15 sm:col-span-2" />
             <Link
               to="/flight-booking"
               data-ocid="home.hero_flight_booking_link"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#087fc1] px-6 text-base font-semibold text-white shadow-md transition-smooth hover:bg-[#066da6]"
+              className="inline-flex min-w-0" h-12 items-center justify-center gap-2 rounded-full bg-[#087fc1] px-6 text-base font-semibold text-white shadow-md transition-smooth hover:bg-[#066da6]"
             >
               Search flights <ArrowRight className="size-4" />
             </Link>
             <Link
               to="/contact"
               data-ocid="home.hero_trip_request_link"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-sky-200 bg-white/90 px-6 text-base font-semibold text-[#17436b] shadow-sm backdrop-blur-sm transition-smooth hover:border-sky-300 hover:bg-white"
+              className="inline-flex min-w-0" h-12 items-center justify-center gap-2 rounded-full border border-sky-200 bg-white/90 px-6 text-base font-semibold text-[#17436b] shadow-sm backdrop-blur-sm transition-smooth hover:border-sky-300 hover:bg-white"
             >
               Request a callback <ArrowRight className="size-4" />
             </Link>
