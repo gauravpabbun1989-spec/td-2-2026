@@ -52,8 +52,9 @@ const POLICY_BLOCKS: readonly PolicyBlock[] = [
     id: "cookies",
     heading: "Cookies and analytics",
     paragraphs: [
-      "This website currently uses only the cookies and local storage required for the site to function correctly. We do not run advertising or behavioral tracking on this site today.",
-      "If we add analytics or measurement tools in the future, we will update this policy to describe what is collected and how it is used before those tools go live.",
+      "This website uses Google Analytics 4 (GA4) to understand how visitors use the site and how people interact with booking and contact actions. GA4 may use cookies, local storage, or similar technologies and may collect information such as page views, device/browser information, approximate geographic information, referral/source information, and interactions with site features.",
+      "We use this measurement information to understand site performance, improve the booking experience, identify technical problems, and measure aggregate conversion activity. We do not intentionally send names, email addresses, phone numbers, or other directly identifying form fields to GA4.",
+      "Google may process analytics data on our behalf under its applicable terms and policies. You can use your browser or device controls to limit cookies and similar technologies. If our analytics practices change materially, we will update this policy.",
     ],
   },
   {
@@ -89,7 +90,7 @@ const POLICY_BLOCKS: readonly PolicyBlock[] = [
     id: "changes",
     heading: "Changes to this policy",
     paragraphs: [
-      "We may update this policy as our services or legal obligations change. When we do, we will revise the date shown at the top of this page. Continued use of the site after an update means you accept the revised policy.",
+      "We may update this policy as our services or legal obligations change. When we do, we will revise the date shown at the top of this page. The revised policy becomes effective when it is posted on this page, unless we state a different effective date.",
     ],
   },
 ];

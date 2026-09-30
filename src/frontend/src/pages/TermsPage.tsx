@@ -36,7 +36,7 @@ const TERMS_BLOCKS: readonly TermsBlock[] = [
     id: "booking-services",
     heading: "Booking services and pricing",
     paragraphs: [
-      "We help travelers research, hold, and book flights. Fares, schedules, seat availability, and baggage rules are set by the airline and can change at any time before a ticket is issued.",
+      "We help travelers research and book flights and, where available, arrange other reservation services. Fares, schedules, seat availability, and baggage rules are set by the airline and can change at any time before a ticket is issued.",
       "A fare is not confirmed until it is ticketed and you receive a confirmation from us. Prices shown or quoted before ticketing are subject to change and may include service fees charged by our agency in addition to the airline's fare.",
       "Any service fee we charge is disclosed to you before you authorize a purchase.",
     ],
