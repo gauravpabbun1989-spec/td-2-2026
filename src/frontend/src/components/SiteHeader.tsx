@@ -85,10 +85,11 @@ export function SiteHeader() {
             aria-label={`Call TicketDepart at ${SITE.phoneDisplay}`}
             data-ocid="header.call_button"
             data-cta-location="header"
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-accent px-2.5 text-[0.72rem] font-semibold tracking-tight text-accent-foreground shadow-subtle transition-smooth hover:scale-[1.02] hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:gap-2 sm:px-4 sm:text-sm"
+            className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-accent px-3 text-xs font-bold tracking-tight text-accent-foreground shadow-subtle transition-smooth hover:scale-[1.02] hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:gap-2 sm:px-4 sm:text-sm"
           >
             <Phone aria-hidden="true" className="size-3.5 shrink-0 sm:size-4" />
-            <span className="whitespace-nowrap">{SITE.phoneDisplay}</span>
+            <span>Call</span>
+            <span className="hidden whitespace-nowrap sm:inline">{SITE.phoneDisplay}</span>
           </a>
           <button
             type="button"
