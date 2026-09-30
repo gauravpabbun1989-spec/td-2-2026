@@ -34,7 +34,7 @@ const CAPABILITIES = [
   {
     icon: Ticket,
     title: "United Airlines New Flight Booking",
-    body: "We search United Airlines-operated and United Airlines-marketed flights across your travel window, compare Economy, Economy Plus, and premium cabin pricing, and complete the reservation with you on the phone.",
+    body: "We search United Airlines-operated and United Airlines-marketed flights across your travel window, compare Economy, Economy Plus, and premium cabin pricing, and complete the reservation with a specialist by phone.",
   },
   {
     icon: Globe2,
