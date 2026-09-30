@@ -1,5 +1,5 @@
 import { DEFAULT_SHARE_IMAGE, type SeoInput } from "@/lib/seo";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, SITE } from "@/lib/site";
 import { useEffect } from "react";
 
 const MANAGED_ATTR = "data-seo-managed";
@@ -50,6 +50,9 @@ export function Seo({
   indexable = true,
 }: SeoInput) {
   const canonical = absoluteUrl(path);
+  const listingDescription = description.includes(SITE.phoneDisplay)
+    ? description
+    : `${description.replace(/\\.$/, "")} Call ${SITE.phoneDisplay}.`;
   const serialized = JSON.stringify(structuredData);
 
   useEffect(() => {
@@ -62,7 +65,7 @@ export function Seo({
         meta.setAttribute("name", "description");
         return meta;
       },
-      description,
+      listingDescription,
     );
 
     upsertMeta(
@@ -152,7 +155,7 @@ export function Seo({
         meta.setAttribute("property", "og:image:alt");
         return meta;
       },
-      `${title} — ${description}`,
+      `${title} — ${listingDescription}`,
     );
 
     upsertMeta(
@@ -218,7 +221,7 @@ export function Seo({
     return () => {
       script.remove();
     };
-  }, [title, description, canonical, image, serialized, indexable]);
+  }, [title, description, listingDescription, canonical, image, serialized, indexable]);
 
   return null;
 }
