@@ -30,16 +30,21 @@ export function SiteHeader() {
 
         <nav aria-label="Primary" className="hidden min-w-0 items-center gap-0.5 lg:flex xl:gap-1">
           <Link to="/" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">Home</Link>
-          <Link to="/delta-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">Delta</Link>
-          <Link to="/united-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">United</Link>
-          <Link to="/american-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">American</Link>
-          <Link to="/southwest-airlines" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">Southwest</Link>
-          <Link to="/flight-booking" className="rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground xl:px-2.5 xl:text-sm">Flight Booking</Link>
           <div className="relative">
             <details className="group">
-              <summary className="cursor-pointer list-none rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">More Airlines</summary>
-              <div className="absolute right-0 top-full z-50 mt-2 max-h-[min(70vh,32rem)] min-w-56 max-w-[calc(100vw-1rem)] overflow-y-auto overscroll-contain rounded-2xl border border-border bg-white p-2 shadow-elevated">
-                {AIRLINE_ITEMS.filter((item) => !["/delta-airlines", "/united-airlines", "/american-airlines", "/southwest-airlines"].includes(item.to)).map((item) => (
+              <summary className="cursor-pointer list-none rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">Services</summary>
+              <div className="absolute left-0 top-full z-50 mt-2 max-h-[min(70vh,32rem)] min-w-64 max-w-[calc(100vw-1rem)] overflow-y-auto overscroll-contain rounded-2xl border border-border bg-white p-2 shadow-elevated">
+                {NAV_ITEMS.filter((item) => !["/", "/contact"].includes(item.to)).map((item) => (
+                  <Link key={item.to} to={item.to} className="block rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">{item.label}</Link>
+                ))}
+              </div>
+            </details>
+          </div>
+          <div className="relative">
+            <details className="group">
+              <summary className="cursor-pointer list-none rounded-full px-2 py-2.5 text-xs font-semibold text-muted-foreground transition-smooth hover:bg-muted hover:text-foreground sm:px-2.5 lg:text-[0.78rem] xl:px-3 xl:text-sm">Menu</summary>
+              <div className="absolute right-0 top-full z-50 mt-2 max-h-[min(70vh,32rem)] min-w-64 max-w-[calc(100vw-1rem)] overflow-y-auto overscroll-contain rounded-2xl border border-border bg-white p-2 shadow-elevated">
+                {AIRLINE_ITEMS.map((item) => (
                   <Link key={item.to} to={item.to} className="block rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">{item.label}</Link>
                 ))}
               </div>
@@ -61,17 +66,23 @@ export function SiteHeader() {
       {open ? (
         <div id="mobile-nav-drawer" data-ocid="header.mobile_drawer" className="max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain border-t border-border bg-white/95 backdrop-blur-xl lg:hidden">
           <nav aria-label="Mobile" className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-4 py-4 sm:px-8">
-            <Link to="/flight-booking" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Flight Booking</Link>
-            <Link to="/delta-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Delta Airlines</Link>
-            <Link to="/united-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">United Airlines</Link>
-            <Link to="/american-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">American Airlines</Link>
-            <Link to="/southwest-airlines" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Southwest Airlines</Link>
-            <div className="border-t border-border pt-3 mt-2">
-              <p className="px-4 pb-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">More Airlines</p>
-              {AIRLINE_ITEMS.filter((item) => !["/delta-airlines", "/united-airlines", "/american-airlines", "/southwest-airlines"].includes(item.to)).map((item) => (
-                <Link key={item.to} to={item.to} onClick={() => setOpen(false)} className="block rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground">{item.label}</Link>
-              ))}
-            </div>
+            <Link to="/" onClick={() => setOpen(false)} className="rounded-xl px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">Home</Link>
+            <details className="rounded-xl border border-border">
+              <summary className="cursor-pointer list-none px-4 py-3 text-base font-semibold text-muted-foreground">Services</summary>
+              <div className="border-t border-border px-2 py-2">
+                {NAV_ITEMS.filter((item) => !["/", "/contact"].includes(item.to)).map((item) => (
+                  <Link key={item.to} to={item.to} onClick={() => setOpen(false)} className="block rounded-xl px-3 py-3 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">{item.label}</Link>
+                ))}
+              </div>
+            </details>
+            <details className="rounded-xl border border-border">
+              <summary className="cursor-pointer list-none px-4 py-3 text-base font-semibold text-muted-foreground">Menu</summary>
+              <div className="border-t border-border px-2 py-2">
+                {AIRLINE_ITEMS.map((item) => (
+                  <Link key={item.to} to={item.to} onClick={() => setOpen(false)} className="block rounded-xl px-3 py-3 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">{item.label}</Link>
+                ))}
+              </div>
+            </details>
             <div className="mt-3 flex flex-col gap-2 border-t border-border pt-4">
               <CallCta size="lg" className="w-full" ocid="mobile_nav.call_button" ctaLocation="mobile_nav" />
               <p className="text-center text-sm text-muted-foreground">{SITE.hours}</p>
