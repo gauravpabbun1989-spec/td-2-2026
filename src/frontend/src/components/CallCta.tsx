@@ -39,7 +39,7 @@ export function CallCta({
       data-cta-location={ctaLocation}
       aria-label={`${SITE.ctaLabel}: ${SITE.phoneDisplay}`}
       className={cn(
-        "inline-flex items-center justify-center rounded-full font-semibold tracking-tight transition-smooth",
+        "inline-flex min-w-0 items-center justify-center rounded-full font-semibold leading-tight tracking-tight text-center transition-smooth",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         sizeClasses[size],
         variantClasses[variant],
@@ -47,9 +47,9 @@ export function CallCta({
       )}
     >
       <Phone aria-hidden="true" className="size-4 shrink-0" />
-      <span className="whitespace-nowrap">{SITE.ctaLabel}</span>
+      <span className="min-w-0 whitespace-normal text-center">{SITE.ctaLabel}</span>
       {showNumber ? (
-        <span className="whitespace-nowrap" aria-hidden="true">
+        <span className="min-w-0 whitespace-normal text-center" aria-hidden="true">
           {SITE.phoneDisplay}
         </span>
       ) : null}

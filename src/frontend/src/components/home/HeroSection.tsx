@@ -33,7 +33,7 @@ export function HeroSection() {
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,rgba(116,201,255,0.12)_100%)]" />
 
       <div className="mx-auto grid w-full max-w-7xl items-center gap-8 px-5 pb-10 pt-12 sm:px-8 sm:pb-14 sm:pt-16 lg:min-h-[560px] lg:grid-cols-[1fr_0.9fr] lg:gap-10 lg:px-10 lg:py-16">
-        <div className="max-w-2xl">
+        <div className="max-w-2xl min-w-0">
           <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-white/90 px-4 py-2 text-xs font-bold tracking-wide text-sky-900 shadow-sm backdrop-blur-sm">
             <span className="size-2 rounded-full bg-emerald-500" />
             Independent flight reservation assistance
@@ -51,21 +51,25 @@ export function HeroSection() {
             Need to book a flight or get help with an airline reservation? Call our travel specialists to review routes, dates, cabins, baggage, changes, cancellations, and booking details with you.
           </p>
 
-          <div className="mt-7 grid gap-3 sm:grid-cols-3">
-            <CallCta size="lg" ocid="home.hero_call_button" className="w-full shadow-xl shadow-sky-900/15" />
+          <div className="mt-7 grid gap-3 sm:grid-cols-2">
+            <CallCta
+              size="lg"
+              ocid="home.hero_call_button"
+              className="w-full min-w-0 shadow-xl shadow-sky-900/15 sm:col-span-2"
+            />
             <Link
               to="/flight-booking"
               data-ocid="home.hero_flight_booking_link"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#087fc1] px-6 text-base font-semibold text-white shadow-md transition-smooth hover:bg-[#066da6]"
+              className="inline-flex min-w-0 h-12 items-center justify-center gap-2 rounded-full bg-[#087fc1] px-6 text-base font-semibold text-white shadow-md transition-smooth hover:bg-[#066da6]"
             >
-              Search flights <ArrowRight className="size-4" />
+              Search flights <ArrowRight className="size-4 shrink-0" />
             </Link>
             <Link
               to="/contact"
               data-ocid="home.hero_trip_request_link"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-sky-200 bg-white/90 px-6 text-base font-semibold text-[#17436b] shadow-sm backdrop-blur-sm transition-smooth hover:border-sky-300 hover:bg-white"
+              className="inline-flex min-w-0 h-12 items-center justify-center gap-2 rounded-full border border-sky-200 bg-white/90 px-6 text-base font-semibold text-[#17436b] shadow-sm backdrop-blur-sm transition-smooth hover:border-sky-300 hover:bg-white"
             >
-              Request a callback <ArrowRight className="size-4" />
+              Request a callback <ArrowRight className="size-4 shrink-0" />
             </Link>
           </div>
 
