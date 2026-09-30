@@ -53,7 +53,7 @@
   /* Keep text-based actions inside their clickable surface at every viewport width. */
   a[data-cta-location],
   a[class*="inline-flex"][class*="items-center"][class*="rounded-"],
-  button:not([aria-label]),
+  button[class*="inline-flex"][class*="rounded-"],
   [data-slot="button"] {
     box-sizing: border-box;
     min-width: 0;
@@ -69,7 +69,7 @@
 
   a[data-cta-location] > span,
   a[class*="inline-flex"][class*="items-center"][class*="rounded-"] > span,
-  button:not([aria-label]) > span,
+  button[class*="inline-flex"][class*="rounded-"] > span,
   [data-slot="button"] > span {
     min-width: 0;
     overflow-wrap: anywhere;
@@ -77,7 +77,7 @@
 
   a[data-cta-location] > svg,
   a[class*="inline-flex"][class*="items-center"][class*="rounded-"] > svg,
-  button:not([aria-label]) > svg,
+  button[class*="inline-flex"][class*="rounded-"] > svg,
   [data-slot="button"] > svg {
     flex-shrink: 0;
   }
