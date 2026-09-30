@@ -30,27 +30,27 @@ const TERMINAL_IMAGE_URL = absoluteUrl(TERMINAL_IMAGE.src);
 const SERVICES = [
   {
     icon: Ticket,
-    title: "New Delta Airlines flight bookings",
+    title: "Delta Airlines New Flight Booking",
     body: "Tell us your dates, airports, and how many travelers are flying. A specialist searches available Delta Airlines-operated and Delta Airlines-marketed itineraries, compares fare families, and books the option that fits your trip — including Main Cabin, Comfort+, and Delta One where available.",
   },
   {
     icon: Globe2,
-    title: "International Delta Airlines itineraries",
+    title: "Delta Airlines International Flight Booking",
     body: "Transatlantic and transpacific routings involve partner segments, visa and transit rules, and baggage that differs by fare. We map the full journey end to end, confirm connection times are realistic, and explain what each leg includes before you commit.",
   },
   {
     icon: Layers,
-    title: "Multi-city and open-jaw trips",
+    title: "Delta Airlines Multi-City Flight Booking",
     body: "Flying into one city and home from another, or stopping in three places along the way, is where online search tools struggle. We build the segment order deliberately, price it as a single itinerary, and check that each stopover is long enough to be useful.",
   },
   {
     icon: BadgeCheck,
-    title: "Business and first-class cabins",
+    title: "Delta Airlines Business & First Class Booking",
     body: "Premium cabin inventory moves quickly and pricing varies by departure day and routing. We look at the cabin options across your travel window, explain the difference between Delta One and domestic First Class, and book the seat that matches how you actually want to fly.",
   },
   {
     icon: RefreshCw,
-    title: "Changes and rebooking",
+    title: "Delta Airlines Flight Changes & Rebooking",
     body: "Plans shift. If your schedule moves, we review the fare rules on your existing ticket, walk through what a change costs versus what a new booking would cost, and handle the rebooking so you are not left navigating hold queues on your own.",
   },
 ] as const;
