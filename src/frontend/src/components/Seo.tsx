@@ -1,5 +1,5 @@
 import { DEFAULT_SHARE_IMAGE, type SeoInput } from "@/lib/seo";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, SITE } from "@/lib/site";
 import { useEffect } from "react";
 
 const MANAGED_ATTR = "data-seo-managed";
@@ -65,7 +65,7 @@ export function Seo({
         meta.setAttribute("name", "description");
         return meta;
       },
-      description,
+      listingDescription,
     );
 
     upsertMeta(
