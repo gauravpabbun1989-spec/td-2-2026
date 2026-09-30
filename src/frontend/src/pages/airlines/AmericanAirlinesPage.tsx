@@ -29,27 +29,27 @@ const IMAGE_URL = absoluteUrl(IMAGE_SRC);
 const SERVICES = [
   {
     icon: Ticket,
-    title: "Booking assistance for American itineraries",
+    title: "American Airlines New Flight Booking",
     body: "Tell us your dates, airports, and travelers. A specialist searches American-operated and American-marketed flights, compares the fare options available in your window, and completes the reservation with you on the line — including Main Cabin, Main Cabin Extra, and premium cabins where they are offered.",
   },
   {
     icon: Globe2,
-    title: "International and multi-city travel",
+    title: "American Airlines International & Multi-City Flight Booking",
     body: "Long-haul American itineraries often combine American-operated legs with partner-operated segments, and each country has its own entry and transit rules. We build the full routing, check that connection times are realistic, and explain what each segment includes before you commit.",
   },
   {
     icon: Armchair,
-    title: "Cabin options explained",
+    title: "American Airlines Cabin Selection Assistance",
     body: "Main Cabin is the standard economy experience, Main Cabin Extra adds extra legroom and earlier boarding on eligible flights, domestic First Class is the premium cabin on many U.S. routes, and Flagship Business and Flagship First are the long-haul premium cabins. We describe what each one includes on your specific route so you can choose deliberately.",
   },
   {
     icon: RefreshCw,
-    title: "Changes and rebooking guidance",
+    title: "American Airlines Flight Changes & Rebooking",
     body: "If your plans move, we read the fare rules attached to your ticket, explain what a change would cost versus what a new booking would cost, and handle the reissue where the fare allows it. If your fare does not permit the change you want, we will say so plainly rather than leave you guessing.",
   },
   {
     icon: Layers,
-    title: "Multi-city and open-jaw sequencing",
+    title: "American Airlines Multi-City & Open-Jaw Flight Booking",
     body: "Flying into one city and home from another, or stopping in three places along the way, is where self-service search tools tend to struggle. We sequence the segments by hand, price the trip as a single itinerary, and confirm every stop fits your schedule.",
   },
 ] as const;
