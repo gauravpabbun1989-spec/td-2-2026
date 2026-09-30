@@ -114,7 +114,7 @@ const FAQS = [
     question:
       "How is booking through an agency different from booking on Delta Airlines' website?",
     answer:
-      "You get a person on the phone who can compare fare families, explain what each fare includes, and handle the booking from start to finish. If something changes later, you call the same agency back rather than working through a self-service portal.",
+      "You get a person by phone who can compare fare families, explain what each fare includes, and handle the booking from start to finish. If something changes later, you call the same agency back rather than working through a self-service portal.",
   },
   {
     question: "Do you charge a service fee?",
