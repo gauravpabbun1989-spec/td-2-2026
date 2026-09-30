@@ -1,6 +1,5 @@
 import { InternetIdentityProvider } from "@caffeineai/core-infrastructure";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { flushSync } from "react-dom";
 import ReactDOM from "react-dom/client";
 
 import App from "./App";
@@ -28,15 +27,13 @@ if (!rootElement) {
 
 const root = ReactDOM.createRoot(rootElement);
 
-flushSync(() => {
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      <InternetIdentityProvider>
-        <App />
-      </InternetIdentityProvider>
-    </QueryClientProvider>,
-  );
-});
+root.render(
+  <QueryClientProvider client={queryClient}>
+    <InternetIdentityProvider>
+      <App />
+    </InternetIdentityProvider>
+  </QueryClientProvider>,
+);
 
 // Restore visibility after React mounts, even if a cached/generated shell hides the root.
 rootElement.style.visibility = "visible";
