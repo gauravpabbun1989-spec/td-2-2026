@@ -15,7 +15,7 @@ import { SITE, absoluteUrl } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
-const HOME_TITLE = "Book Flights by Phone | 24/7 Flight Reservation Assistance | TicketDepart";
+const HOME_TITLE = "Make Flight Easy | 24/7 Booking Assistance";
 const HOME_DESCRIPTION = "Book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
 
 const HOME_IMAGE = absoluteUrl("/assets/generated/hero-flight.dim_1600x1100.jpg");
