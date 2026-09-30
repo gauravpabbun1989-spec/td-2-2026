@@ -3,7 +3,7 @@ import { SITE } from "@/lib/site";
 import { ArrowRight, Check, Globe2, Headset, Route } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
-const HERO_IMAGE = "/assets/generated/hero-flight.dim_1600x1100.jpg";
+const HERO_IMAGE = "/assets/generated/hero-flight-lcp.svg";
 
 const HERO_POINTS = [
   { icon: Globe2, label: "Domestic & international", detail: "Simple or complex itineraries" },
@@ -23,7 +23,7 @@ export function HeroSection() {
         src={HERO_IMAGE}
         alt="Commercial aircraft flying through a bright blue sky"
         width={1600}
-        height={1100}
+        height={900}
         fetchPriority="high"
         loading="eager"
         decoding="async"
