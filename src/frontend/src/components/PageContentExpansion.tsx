@@ -3,7 +3,7 @@ import { Section, SectionHeading } from "@/components/Section";
 type PageContentExpansionProps = {
   subject: string;
   intro: string;
-  points: readonly [string, string][];
+  points: readonly string[][];
   context?: string;
 };
 
