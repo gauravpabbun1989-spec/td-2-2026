@@ -55,22 +55,22 @@ export function ContactPage() {
       <Section tone="paper" ocid="contact.hero.section">
         <p className="label-board text-accent">Contact</p>
         <h1 className="mt-3 max-w-3xl text-balance text-4xl font-semibold leading-[1.08] sm:text-5xl lg:text-6xl">
-          Talk to a real travel specialist
+          Talk to a real travel specialist about your flight
         </h1>
         <p className="mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground">
           Tell us where you are going and when. A specialist from our travel desk can review your trip and help you understand the next steps.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <CallCta size="lg" ocid="contact.hero.call_button" />
+          <CallCta size="lg" ocid="contact.hero.call_button" ctaLocation="contact_hero" />
           <a href="#trip-request" data-ocid="contact.hero.form_link" className="inline-flex h-12 items-center justify-center rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground">
-            Send trip details instead
+            Request a callback instead
           </a>
         </div>
         <p className="mt-4 text-sm text-muted-foreground">{SITE.hours}</p>
       </Section>
 
       <Section tone="muted" ocid="contact.details.section">
-        <SectionHeading eyebrow="Reach us" title="Simple ways to get in touch" description="Call for the fastest answer, or use the details below if you would rather write to us first." />
+        <SectionHeading eyebrow="Reach us" title="Simple ways to get in touch" description="Call for the fastest answer, or request a callback if you would rather send your trip details first." />
         <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {CONTACT_DETAILS.map((detail) => (
             <div key={detail.label} data-ocid={`contact.detail.${detail.label.toLowerCase()}`} className="flex flex-col rounded-[1.5rem] border border-border bg-card p-6 shadow-subtle">
