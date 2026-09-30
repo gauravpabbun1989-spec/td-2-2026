@@ -63,16 +63,16 @@ export function HomePage() {
 
       <section data-cro-version="265" className="border-b border-border bg-background px-5 py-6 sm:px-8 sm:py-8" aria-labelledby="home-start-heading">
         <div className="mx-auto max-w-6xl">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
+          <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,620px)] lg:items-center">
+            <div className="min-w-0">
               <p className="label-board text-accent">Choose your next step</p>
               <h2 id="home-start-heading" className="mt-1 text-xl font-semibold sm:text-2xl">Ready to plan the trip?</h2>
               <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">If you already know what you need, call us. If you are still figuring it out, you can explore the options first.</p>
             </div>
-            <div className="grid gap-2 sm:grid-cols-3 lg:min-w-[620px]">
-              <CallCta size="md" ocid="home.quick_call_button" ctaLocation="home_quick" className="w-full" />
-              <Link to="/contact" data-ocid="home.quick_callback_link" className="inline-flex h-11 items-center justify-center rounded-full border border-primary/20 bg-card px-5 text-sm font-semibold text-primary transition-smooth hover:bg-primary hover:text-primary-foreground">Request a callback</Link>
-              <Link to="/flight-booking" data-ocid="home.quick_booking_link" className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-semibold text-foreground transition-smooth hover:border-primary/30 hover:text-primary">See booking help</Link>
+            <div className="grid min-w-0 gap-2 sm:grid-cols-3">
+              <CallCta size="md" ocid="home.quick_call_button" ctaLocation="home_quick" className="w-full min-w-0 px-3 sm:px-3" />
+              <Link to="/contact" data-ocid="home.quick_callback_link" className="inline-flex min-w-0 min-h-11 items-center justify-center rounded-full border border-primary/20 bg-card px-3 py-2 text-center text-sm font-semibold leading-tight text-primary transition-smooth hover:bg-primary hover:text-primary-foreground sm:px-3">Request a callback</Link>
+              <Link to="/flight-booking" data-ocid="home.quick_booking_link" className="inline-flex min-w-0 min-h-11 items-center justify-center rounded-full border border-border bg-card px-3 py-2 text-center text-sm font-semibold leading-tight text-foreground transition-smooth hover:border-primary/30 hover:text-primary sm:px-3">See booking help</Link>
             </div>
           </div>
         </div>
