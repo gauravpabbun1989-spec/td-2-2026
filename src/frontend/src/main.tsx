@@ -3,9 +3,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { flushSync } from "react-dom";
 import ReactDOM from "react-dom/client";
 
-// The route HTML generator intentionally includes crawlable SEO content inside #root.
-// React replaces that static content on startup. Keep the pre-React document hidden
-// so visitors never see a one-frame flash of the crawler fallback on any route.
 import App from "./App";
 import "./index.css";
 // Registers the document-level tel: click listener exactly once at startup so
@@ -29,8 +26,6 @@ if (!rootElement) {
   throw new Error("TicketDepart root element was not found.");
 }
 
-rootElement.classList.add("pre-react-render");
-
 const root = ReactDOM.createRoot(rootElement);
 
 flushSync(() => {
@@ -43,5 +38,3 @@ flushSync(() => {
   );
 });
 
-rootElement.classList.remove("pre-react-render");
-rootElement.style.visibility = "visible";
