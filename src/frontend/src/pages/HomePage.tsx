@@ -80,6 +80,7 @@ export function HomePage() {
 
       <DeferredFlightSearch />
 
+      <div className="home-deferred-content">
       <section className="relative overflow-hidden border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-14">
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
           <div><p className="label-board text-accent">Start with a conversation</p><h2 className="mt-2 max-w-3xl text-balance text-2xl font-semibold sm:text-3xl">Tell us what you need. We’ll help you make sense of the options.</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">Discuss your route, dates, cabin, baggage, and fare rules before you decide.</p></div>
@@ -159,6 +160,7 @@ export function HomePage() {
       </section>
 
       <Suspense fallback={<div className="min-h-24" aria-hidden="true" />}><HomeFaq /><DisclosureBlock /><ContactInfoBlock /></Suspense>
+      </div>
       <p className="sr-only">{SITE.name} — {SITE.tagline}. {SITE.hours}.</p>
     </>
   );
