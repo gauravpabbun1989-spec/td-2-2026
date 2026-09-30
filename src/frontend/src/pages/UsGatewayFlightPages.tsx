@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { PageContentExpansion } from "@/components/PageContentExpansion";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import {
@@ -330,6 +331,8 @@ function GatewayFlightPage({ page }: { page: GatewayPage }) {
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{page.routes}</p>
         </div>
       </Section>
+
+      <PageContentExpansion subject={`flights from ${page.city}`} intro={page.intro} points={[["Airport choices", `Departure airports: ${page.airports}`],["Route options", page.routes],["Dates and flexibility", "Discuss the dates and schedule priorities that matter to your trip."],["Connections", "Compare nonstop and connecting options when both are available."]]} />
 
       <Section tone="paper" ocid={`${id}.cta`}>
         <div className="mx-auto max-w-3xl text-center">
