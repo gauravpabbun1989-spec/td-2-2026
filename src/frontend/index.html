@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <!-- Performance: critical hero image is preloaded; non-critical analytics is idle-loaded. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Book Flights by Phone | 24/7 Flight Help | TicketDepart</title>
+    <title>Make Flight Booking Easy | 24/7 Booking Assistance</title>
     <meta
       name="description"
       content="Book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7. Call +1-888-958-0280."
     />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta property="og:title" content="Book Flights by Phone | 24/7 Flight Help | TicketDepart" />
+    <meta property="og:title" content="Make Flight Booking Easy | 24/7 Booking Assistance" />
     <meta
       property="og:description"
       content="Book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7. Call +1-888-958-0280."
@@ -44,9 +44,9 @@
       }
       if (!isKnownProbePath()) {
         if ("requestIdleCallback" in window) {
-          window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
+          window.requestIdleCallback(loadAnalytics, { timeout: 6000 });
         } else {
-          window.addEventListener("load", () => setTimeout(loadAnalytics, 1500), { once: true });
+          window.addEventListener("load", () => setTimeout(loadAnalytics, 6000), { once: true });
         }
       }
     </script>

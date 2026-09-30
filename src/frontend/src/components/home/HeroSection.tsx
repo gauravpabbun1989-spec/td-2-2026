@@ -23,10 +23,9 @@ export function HeroSection() {
         src={HERO_IMAGE}
         alt="Commercial aircraft flying through a bright blue sky"
         width={1600}
-        height={1100}
+        height={900}
         fetchPriority="high"
         loading="eager"
-        decoding="async"
         className="absolute inset-0 -z-20 h-full w-full object-cover object-[64%_center] sm:object-[60%_center]"
       />
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.91)_32%,rgba(255,255,255,0.48)_56%,rgba(255,255,255,0.04)_82%)]" />
