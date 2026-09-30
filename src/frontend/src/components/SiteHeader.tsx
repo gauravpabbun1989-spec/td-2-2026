@@ -53,9 +53,15 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <CallCta size="sm" className="hidden xl:inline-flex shadow-subtle" ocid="header.call_button" ctaLocation="header" />
-          <a href={SITE.phoneHref} aria-label={SITE.ctaLabel} data-ocid="header.call_icon_button" data-cta-location="header_mobile_icon" className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-subtle transition-smooth hover:scale-105 sm:hidden">
-            <Phone aria-hidden="true" className="size-4" />
+          <a
+            href={SITE.phoneHref}
+            aria-label={"Call TicketDepart at " + SITE.phoneDisplay}
+            data-ocid="header.call_button"
+            data-cta-location="header"
+            className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-accent px-2.5 text-[0.72rem] font-semibold tracking-tight text-accent-foreground shadow-subtle transition-smooth hover:scale-[1.02] hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:gap-2 sm:px-4 sm:text-sm"
+          >
+            <Phone aria-hidden="true" className="size-3.5 shrink-0 sm:size-4" />
+            <span className="whitespace-nowrap">{SITE.phoneDisplay}</span>
           </a>
           <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls="mobile-nav-drawer" aria-label={open ? "Close navigation menu" : "Open navigation menu"} data-ocid="header.menu_toggle" className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-white text-foreground transition-smooth hover:bg-muted lg:hidden">
             {open ? <X aria-hidden="true" className="size-5" /> : <Menu aria-hidden="true" className="size-5" />}
