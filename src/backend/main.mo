@@ -1,4 +1,5 @@
 import Blob "mo:core/Blob";
+import Array "mo:core/Array";
 import List "mo:core/List";
 import Nat64 "mo:core/Nat64";
 import Text "mo:core/Text";
@@ -75,7 +76,7 @@ actor {
       method = #get;
       transform = ?{
         function = transformFlightApi;
-        context = Blob.fromArray([]);
+        _context = Array.toBlob([]);
       };
       is_replicated = null;
     };
