@@ -52,7 +52,7 @@
 @layer components {
   /* Keep text-based actions inside their clickable surface at every viewport width. */
   a[data-cta-location],
-  a[class*="inline-flex"][class*="rounded-full"],
+  a[class*="inline-flex"][class*="items-center"][class*="rounded-"],
   button:not([aria-label]),
   [data-slot="button"] {
     box-sizing: border-box;
@@ -68,7 +68,7 @@
   }
 
   a[data-cta-location] > span,
-  a[class*="inline-flex"][class*="rounded-full"] > span,
+  a[class*="inline-flex"][class*="items-center"][class*="rounded-"] > span,
   button:not([aria-label]) > span,
   [data-slot="button"] > span {
     min-width: 0;
@@ -76,7 +76,7 @@
   }
 
   a[data-cta-location] > svg,
-  a[class*="inline-flex"][class*="rounded-full"] > svg,
+  a[class*="inline-flex"][class*="items-center"][class*="rounded-"] > svg,
   button:not([aria-label]) > svg,
   [data-slot="button"] > svg {
     flex-shrink: 0;
