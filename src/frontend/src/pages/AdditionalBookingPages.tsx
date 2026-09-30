@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { PageContentExpansion } from "@/components/PageContentExpansion";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import {
@@ -676,6 +677,8 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
           ))}
         </div>
       </Section>
+
+      <PageContentExpansion subject={page.service} intro={page.intro} points={page.items} />
 
       <Section tone="paper" ocid={`${id}.cta`}>
         <div className="mx-auto max-w-3xl text-center">
