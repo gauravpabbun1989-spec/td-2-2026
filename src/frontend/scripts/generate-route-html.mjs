@@ -356,9 +356,16 @@ const STATIC_SEO_CONTENT = {
 };
 
 function routeHtml(route, meta) {
-  const url = `https://ticketdepart.com${route}`;
+  const url = "https://ticketdepart.com" + route;
+  const normalizedDescription = meta.description.replace(
+    /(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g,
+    "+1-888-958-0280",
+  );
+  const listingDescription = normalizedDescription.includes("+1-888-958-0280")
+    ? normalizedDescription
+    : normalizedDescription.replace(/\.$/, "") + " Call +1-888-958-0280.";
   const safeTitle = escapeHtml(meta.title);
-  const safeDescription = escapeHtml(meta.description);
+  const safeDescription = escapeHtml(listingDescription);
   const safeHeading = escapeHtml(meta.heading);
   const safeText = escapeHtml(meta.text);
 
@@ -367,6 +374,7 @@ function routeHtml(route, meta) {
     .replace(/<meta\s+name="description"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta name="description" content="${safeDescription}" />`)
     .replace(/<meta\s+property="og:title"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta property="og:title" content="${safeTitle}" />`)
     .replace(/<meta\s+property="og:description"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta property="og:description" content="${safeDescription}" />`)
+    .replace(/<meta\s+name="twitter:description"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta name="twitter:description" content="${safeDescription}" />`)
     .replace(/<meta\s+property="og:url"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta property="og:url" content="${url}" />`)
     .replace(/<link\s+rel="canonical"\s+href="[^"]*"[\s\S]*?\/>/i, `<link rel="canonical" href="${url}" />`)
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, "");
@@ -375,7 +383,7 @@ function routeHtml(route, meta) {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: meta.title,
-    description: meta.description,
+    description: listingDescription,
     url,
     isPartOf: { "@type": "WebSite", name: "TicketDepart", url: "https://ticketdepart.com/" },
     breadcrumb: {

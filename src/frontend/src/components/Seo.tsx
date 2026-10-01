@@ -50,9 +50,13 @@ export function Seo({
   indexable = true,
 }: SeoInput) {
   const canonical = absoluteUrl(path);
-  const listingDescription = description.includes(SITE.phoneDisplay)
-    ? description
-    : `${description.replace(/\.$/, "")} Call ${SITE.phoneDisplay}.`;
+  const normalizedDescription = description.replace(
+    /(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g,
+    SITE.phoneDisplay,
+  );
+  const listingDescription = normalizedDescription.includes(SITE.phoneDisplay)
+    ? normalizedDescription
+    : normalizedDescription.replace(/\.$/, "") + " Call " + SITE.phoneDisplay + ".";
   const serialized = JSON.stringify(structuredData);
 
   useEffect(() => {
@@ -95,7 +99,7 @@ export function Seo({
         meta.setAttribute("property", "og:description");
         return meta;
       },
-      description,
+      listingDescription,
     );
 
     upsertMeta(
@@ -195,7 +199,7 @@ export function Seo({
         meta.setAttribute("name", "twitter:description");
         return meta;
       },
-      description,
+      listingDescription,
     );
 
     upsertMeta(
@@ -221,7 +225,7 @@ export function Seo({
     return () => {
       script.remove();
     };
-  }, [title, description, listingDescription, canonical, image, serialized, indexable]);
+  }, [title, listingDescription, canonical, image, serialized, indexable]);
 
   return null;
 }
