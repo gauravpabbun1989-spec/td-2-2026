@@ -86,8 +86,8 @@ const PAGES: readonly PageConfig[] = [
     service: "Business class flight booking assistance",
     items: [
       [
-        "Business travel planning",
-        "Discuss business and corporate trips around your meeting dates, preferred airports, traveler count, and schedule priorities.",
+        "Business travel agency assistance",
+        "Discuss business and corporate flight booking around your meeting dates, preferred airports, traveler count, and schedule priorities.",
       ],
       [
         "Business class cabin options",
@@ -147,6 +147,11 @@ const PAGES: readonly PageConfig[] = [
         question: "Can you help compare business-class flight options?",
         answer:
           "Yes. We can discuss schedules, connection times, airports, aircraft information when available, cabin options, and the fare conditions that apply.",
+      },
+      {
+        question: "Can you help with business class travel agency services?",
+        answer:
+          "Yes. TicketDepart is an independent travel agency. A specialist can discuss business-class and corporate flight booking requirements, routing, schedules, cabin options, and applicable ticket terms.",
       },
       {
         question: "What should I have ready for a business flight booking?",
