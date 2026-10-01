@@ -225,7 +225,7 @@ export function Seo({
     return () => {
       script.remove();
     };
-  }, [title, description, listingDescription, canonical, image, serialized, indexable]);
+  }, [title, listingDescription, canonical, image, serialized, indexable]);
 
   return null;
 }
