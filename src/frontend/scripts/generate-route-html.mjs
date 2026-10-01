@@ -356,14 +356,14 @@ const STATIC_SEO_CONTENT = {
 };
 
 function routeHtml(route, meta) {
-  const url = \`https://ticketdepart.com\${route}\`;
+  const url = "https://ticketdepart.com" + route;
   const normalizedDescription = meta.description.replace(
     /(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g,
     "+1-888-958-0280",
   );
   const listingDescription = normalizedDescription.includes("+1-888-958-0280")
     ? normalizedDescription
-    : \`\${normalizedDescription.replace(/\.$/, "")} Call +1-888-958-0280.\`;
+    : normalizedDescription.replace(/\.$/, "") + " Call +1-888-958-0280.";
   const safeTitle = escapeHtml(meta.title);
   const safeDescription = escapeHtml(listingDescription);
   const safeHeading = escapeHtml(meta.heading);
