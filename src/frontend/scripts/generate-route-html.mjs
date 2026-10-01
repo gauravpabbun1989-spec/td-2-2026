@@ -370,6 +370,7 @@ function routeHtml(route, meta) {
     .replace(/<meta\s+name="description"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta name="description" content="${safeDescription}" />`)
     .replace(/<meta\s+property="og:title"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta property="og:title" content="${safeTitle}" />`)
     .replace(/<meta\s+property="og:description"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta property="og:description" content="${safeDescription}" />`)
+    .replace(/<meta\s+name="twitter:description"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta name="twitter:description" content="${safeDescription}" />`)
     .replace(/<meta\s+property="og:url"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta property="og:url" content="${url}" />`)
     .replace(/<link\s+rel="canonical"\s+href="[^"]*"[\s\S]*?\/>/i, `<link rel="canonical" href="${url}" />`)
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, "");
