@@ -77,7 +77,7 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking",
-    title: "Business Class Travel Agency & Flight Booking Assistance | TicketDepart",
+    title: "Business Class & Corporate Flight Booking | TicketDepart",
     description:
       "Looking for business class travel agency assistance? Discuss business and corporate flight booking, schedules, aircraft, connections, cabins, baggage, flexibility, and fare conditions with an independent travel specialist by phone.",
     heading: "Business class flight booking assistance by phone",
