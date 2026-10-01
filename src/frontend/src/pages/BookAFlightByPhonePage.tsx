@@ -14,13 +14,13 @@ const PAGE_PATH = "/book-a-flight-by-phone";
 const PAGE_TITLE =
   "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Book a domestic or international flight by phone with an independent U.S. travel agency serving travelers in the USA, Canada, Mexico, and UK. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
+  "Book a domestic or international flight by phone with an independent travel agency. Discuss routes, dates, cabins, baggage, connections, and fare rules with a travel specialist 24/7.";
 
 const FAQS = [
   {
     question: "Can I book a flight by phone with TicketDepart?",
     answer:
-      "Yes. TicketDepart is an independent U.S. travel agency. A travel specialist can discuss your itinerary, available booking options, and applicable terms with you before you decide whether to book.",
+      "Yes. TicketDepart is an independent travel agency. A travel specialist can discuss your itinerary, available booking options, and applicable terms with you before you decide whether to book.",
   },
   {
     question: "What flights can I book by phone?",
