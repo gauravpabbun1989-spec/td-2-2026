@@ -95,7 +95,7 @@ export function Seo({
         meta.setAttribute("property", "og:description");
         return meta;
       },
-      description,
+      listingDescription,
     );
 
     upsertMeta(
@@ -195,7 +195,7 @@ export function Seo({
         meta.setAttribute("name", "twitter:description");
         return meta;
       },
-      description,
+      listingDescription,
     );
 
     upsertMeta(
