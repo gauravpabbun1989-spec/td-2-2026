@@ -56,7 +56,7 @@ export function Seo({
   );
   const listingDescription = normalizedDescription.includes(SITE.phoneDisplay)
     ? normalizedDescription
-    : \`\${normalizedDescription.replace(/\.$/, "")} Call \${SITE.phoneDisplay}.\`;
+    : normalizedDescription.replace(/\.$/, "") + " Call " + SITE.phoneDisplay + ".";
   const serialized = JSON.stringify(structuredData);
 
   useEffect(() => {
