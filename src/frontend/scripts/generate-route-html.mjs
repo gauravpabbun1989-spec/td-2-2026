@@ -357,8 +357,11 @@ const STATIC_SEO_CONTENT = {
 
 function routeHtml(route, meta) {
   const url = `https://ticketdepart.com${route}`;
+  const listingDescription = meta.description.includes("+1-888-958-0280")
+    ? meta.description
+    : `${meta.description.replace(/\\.$/, "")} Call +1-888-958-0280.`;
   const safeTitle = escapeHtml(meta.title);
-  const safeDescription = escapeHtml(meta.description);
+  const safeDescription = escapeHtml(listingDescription);
   const safeHeading = escapeHtml(meta.heading);
   const safeText = escapeHtml(meta.text);
 
@@ -375,7 +378,7 @@ function routeHtml(route, meta) {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: meta.title,
-    description: meta.description,
+    description: listingDescription,
     url,
     isPartOf: { "@type": "WebSite", name: "TicketDepart", url: "https://ticketdepart.com/" },
     breadcrumb: {
