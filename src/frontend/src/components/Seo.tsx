@@ -51,12 +51,12 @@ export function Seo({
 }: SeoInput) {
   const canonical = absoluteUrl(path);
   const normalizedDescription = description.replace(
-    /(?:\\+?1[\\s().-]*)?855[\\s().-]*544[\\s().-]*9001/g,
+    /(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g,
     SITE.phoneDisplay,
   );
   const listingDescription = normalizedDescription.includes(SITE.phoneDisplay)
     ? normalizedDescription
-    : `${normalizedDescription.replace(/\\.$/, "")} Call ${SITE.phoneDisplay}.`;
+    : \`\${normalizedDescription.replace(/\.$/, "")} Call \${SITE.phoneDisplay}.\`;
   const serialized = JSON.stringify(structuredData);
 
   useEffect(() => {
