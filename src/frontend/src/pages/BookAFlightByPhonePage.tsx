@@ -281,11 +281,18 @@ export function BookAFlightByPhonePage() {
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {[
+            ["Flight booking", "/flight-booking"],
+            ["International flight booking", "/international-flight-booking"],
+            ["Group flight booking", "/group-flight-booking"],
+            ["Business class & corporate booking", "/business-class-flight-booking"],
+            ["Last-minute flight booking", "/last-minute-flight-booking"],
             ["How to book a flight by phone", "/how-to-book-a-flight-by-phone"],
+            ["American Airlines", "/american-airlines"],
             ["Delta Airlines", "/delta-airlines"],
             ["United Airlines", "/united-airlines"],
-            ["American Airlines", "/american-airlines"],
-          ].map(([label, to]) => (
+            ["New York to London", "/flights-new-york-to-london"],
+            ["Los Angeles to Tokyo", "/flights-los-angeles-to-tokyo"],
+            ["Miami to Cancun", "/flights-miami-to-cancun"],          ].map(([label, to]) => (
             <Link
               key={to}
               to={to}
