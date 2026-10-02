@@ -77,6 +77,24 @@ const routes = {
     heading: "Family flight booking assistance",
     text: "Discuss family traveler details, routing, cabin preferences, baggage, dates, and applicable booking conditions.",
   },
+  "/pet-flight-booking": {
+    title: "Pet Flight Booking Assistance | TicketDepart",
+    description: "Plan flights with a pet by phone. Discuss cabin or checked-pet questions, carrier requirements, pet documentation, airports, connections, and booking details with a travel specialist.",
+    heading: "Pet flight booking assistance by phone",
+    text: "Discuss pet travel requirements, cabin or checked-pet questions, documentation, connections, and baggage considerations before booking.",
+  },
+  "/infant-flight-booking": {
+    title: "Infant Flight Booking Assistance | TicketDepart",
+    description: "Book flights with an infant by phone. Discuss infant traveler details, seating questions, bassinet requests, baggage, connections, and airline requirements with a travel specialist.",
+    heading: "Infant flight booking assistance by phone",
+    text: "Discuss infant traveler details, seating, bassinets, stroller and baggage questions, connections, and airline requirements before booking.",
+  },
+  "/baggage-assistance": {
+    title: "Flight Baggage Assistance by Phone | TicketDepart",
+    description: "Get flight baggage assistance by phone. Discuss baggage allowances, checked bags, carry-on questions, excess baggage, special items, and airline baggage rules with a travel specialist.",
+    heading: "Flight baggage assistance by phone",
+    text: "Discuss carry-on, checked, excess, special-item, pet, infant, and multi-airline baggage questions for your itinerary.",
+  },
   "/flight-change-assistance": {
     title: "Flight Change Assistance by Phone | TicketDepart",
     description: "Need to change a flight? Discuss date, time, route, fare difference, and airline change rules with a TicketDepart travel specialist.",
