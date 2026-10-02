@@ -311,7 +311,7 @@ if (typeof document !== "undefined") {
   const landingSignal = getCleanPagePath();
   if (!emittedLandingSignals.has(landingSignal)) {
     emittedLandingSignals.add(landingSignal);
-    trackEvent("organic_conversion_funnel_entry", {
+    trackEvent("conversion_funnel_entry", {
       conversion_stage: "landing",
       intent_family: getIntentFamily(),
     });
