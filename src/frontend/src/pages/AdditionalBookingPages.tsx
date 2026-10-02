@@ -872,7 +872,17 @@ export function FamilyFlightBookingPage() {
   return <AdditionalBookingPage page={PAGES[3]!} />;
 }
 
-export function PetFlightBookingPage() { return <AdditionalBookingPage page={PAGES[4]!} />; }\n\nexport function InfantFlightBookingPage() { return <AdditionalBookingPage page={PAGES[5]!} />; }\n\nexport function BaggageAssistancePage() { return <AdditionalBookingPage page={PAGES[6]!} />; }\n\nexport function FlightChangeAssistancePage() {
+export function PetFlightBookingPage() {
+  return <AdditionalBookingPage page={PAGES[4]!} />;
+}
+
+export function InfantFlightBookingPage() {
+  return <AdditionalBookingPage page={PAGES[5]!} />;
+}
+
+export function BaggageAssistancePage() {
+  return <AdditionalBookingPage page={PAGES[6]!} />;
+}\n\nexport function FlightChangeAssistancePage() {
   return <AdditionalBookingPage page={PAGES[7]!} />;
 }
 
