@@ -78,17 +78,17 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking",
-    title: "Business Class Flight Booking for U.S. Travelers | TicketDepart",
+    title: "Business Class & Corporate Flight Booking | TicketDepart",
     description:
-      "Plan business class and corporate flight travel by phone for U.S. travelers and international business trips. Discuss U.S. departure airports, schedules, aircraft, connections, cabins, baggage, flexibility, and fare conditions.",
+      "Looking for business class travel agency assistance? Discuss business and corporate flight booking from U.S. airports, schedules, aircraft, connections, cabins, baggage, flexibility, and fare conditions with an independent travel specialist by phone.",
     heading: "Business class flight booking assistance by phone",
     intro:
       "Business travel is rarely just about choosing a cabin. Your schedule, connection time, aircraft, airport, baggage needs, and flexibility can all matter. Tell us what the trip needs to accomplish and a specialist can work through the practical options with you.",
     service: "Business class flight booking assistance",
     items: [
       [
-        "Business travel planning",
-        "Discuss business and corporate trips around your meeting dates, preferred airports, traveler count, and schedule priorities.",
+        "Business travel agency assistance",
+        "Discuss business and corporate flight booking around your meeting dates, preferred airports, traveler count, and schedule priorities.",
       ],
       [
         "Business class cabin options",
