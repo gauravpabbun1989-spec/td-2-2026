@@ -277,17 +277,44 @@ const PAGES: readonly PageConfig[] = [
       "Traveling with a dog, cat, or another permitted pet can add extra booking details. A specialist can help you organize the questions to ask and review the itinerary, while airline and government requirements should always be confirmed for the specific trip.",
     service: "Pet flight booking assistance",
     items: [
-      ["Pet travel planning", "Discuss your origin, destination, travel dates, pet type, and itinerary before booking."],
-      ["Cabin pet questions", "Discuss whether the itinerary may support an in-cabin pet and what carrier or cabin requirements may apply."],
-      ["Checked-pet questions", "Ask about airline rules for pets that are not traveling in the passenger cabin, including route and aircraft restrictions."],
-      ["Pet documentation", "Review the documents and health requirements you should verify with the airline and relevant authorities for your itinerary."],
-      ["Connections and airports", "Discuss connection timing and airport choices when traveling with a pet."],
-      ["Baggage and pet fees", "Ask how pet charges interact with baggage allowances and other ticket conditions before payment."],
+      [
+        "Pet travel planning",
+        "Discuss your origin, destination, travel dates, pet type, and itinerary before booking.",
+      ],
+      [
+        "Cabin pet questions",
+        "Discuss whether the itinerary may support an in-cabin pet and what carrier or cabin requirements may apply.",
+      ],
+      [
+        "Checked-pet questions",
+        "Ask about airline rules for pets that are not traveling in the passenger cabin, including route and aircraft restrictions.",
+      ],
+      [
+        "Pet documentation",
+        "Review the documents and health requirements you should verify with the airline and relevant authorities for your itinerary.",
+      ],
+      [
+        "Connections and airports",
+        "Discuss connection timing and airport choices when traveling with a pet.",
+      ],
+      [
+        "Baggage and pet fees",
+        "Ask how pet charges interact with baggage allowances and other ticket conditions before payment.",
+      ],
     ],
     faqs: [
-      { question: "Can you help me book a flight with my pet?", answer: "Yes. A specialist can discuss the itinerary and pet-travel questions to prepare for booking. Pet acceptance, capacity, fees, and documentation depend on the airline, route, aircraft, and applicable rules." },
-      { question: "Can my pet travel in the cabin?", answer: "It depends on the airline, route, aircraft, pet type, carrier dimensions, and available pet capacity. Confirm the current requirements before booking." },
-      { question: "What pet documents do I need?", answer: "Requirements vary by destination, origin, transit point, pet type, and applicable law. Verify current requirements with the airline and relevant government authorities." },
+      {
+        question: "Can you help me book a flight with my pet?",
+        answer: "Yes. A specialist can discuss the itinerary and pet-travel questions to prepare for booking. Pet acceptance, capacity, fees, and documentation depend on the airline, route, aircraft, and applicable rules.",
+      },
+      {
+        question: "Can my pet travel in the cabin?",
+        answer: "It depends on the airline, route, aircraft, pet type, carrier dimensions, and available pet capacity. Confirm the current requirements before booking.",
+      },
+      {
+        question: "What pet documents do I need?",
+        answer: "Requirements vary by destination, origin, transit point, pet type, and applicable law. Verify current requirements with the airline and relevant government authorities.",
+      },
     ],
   },
   {
@@ -300,17 +327,44 @@ const PAGES: readonly PageConfig[] = [
       "Flying with an infant can require details beyond a standard adult booking. Discuss the infant's age, itinerary, seating needs, baggage questions, and any airline-specific requirements before you confirm travel.",
     service: "Infant flight booking assistance",
     items: [
-      ["Infant traveler details", "Have the infant's age, travel dates, route, and accompanying adult information ready."],
-      ["Lap infant or seat", "Discuss whether the infant will travel as a lap infant or require a separate seat, subject to the airline's rules."],
-      ["Bassinet questions", "Ask whether a bassinet may be available on the aircraft and how requests are handled for the specific itinerary."],
-      ["Stroller and baggage", "Review applicable stroller, diaper-bag, carry-on, and checked-baggage rules before travel."],
-      ["Connections", "Discuss connection times and airport changes that may be more practical when traveling with an infant."],
-      ["Documents and requirements", "Verify current identification, passport, entry, and other requirements for the infant and accompanying travelers."],
+      [
+        "Infant traveler details",
+        "Have the infant's age, travel dates, route, and accompanying adult information ready.",
+      ],
+      [
+        "Lap infant or seat",
+        "Discuss whether the infant will travel as a lap infant or require a separate seat, subject to the airline's rules.",
+      ],
+      [
+        "Bassinet questions",
+        "Ask whether a bassinet may be available on the aircraft and how requests are handled for the specific itinerary.",
+      ],
+      [
+        "Stroller and baggage",
+        "Review applicable stroller, diaper-bag, carry-on, and checked-baggage rules before travel.",
+      ],
+      [
+        "Connections",
+        "Discuss connection times and airport changes that may be more practical when traveling with an infant.",
+      ],
+      [
+        "Documents and requirements",
+        "Verify current identification, passport, entry, and other requirements for the infant and accompanying travelers.",
+      ],
     ],
     faqs: [
-      { question: "Can you help book a flight with an infant?", answer: "Yes. A specialist can discuss infant traveler details, itinerary options, seating, baggage, and applicable airline booking requirements." },
-      { question: "Can I request a bassinet?", answer: "Some airlines and aircraft offer bassinets subject to eligibility and availability. Ask the airline or booking provider to confirm the current requirements for your itinerary." },
-      { question: "Does an infant get baggage?", answer: "Baggage and stroller allowances vary by airline, fare, route, and traveler status. Confirm the applicable allowance before travel." },
+      {
+        question: "Can you help book a flight with an infant?",
+        answer: "Yes. A specialist can discuss infant traveler details, itinerary options, seating, baggage, and applicable airline booking requirements.",
+      },
+      {
+        question: "Can I request a bassinet?",
+        answer: "Some airlines and aircraft offer bassinets subject to eligibility and availability. Ask the airline or booking provider to confirm the current requirements for your itinerary.",
+      },
+      {
+        question: "Does an infant get baggage?",
+        answer: "Baggage and stroller allowances vary by airline, fare, route, and traveler status. Confirm the applicable allowance before travel.",
+      },
     ],
   },
   {
@@ -323,17 +377,44 @@ const PAGES: readonly PageConfig[] = [
       "Baggage rules can vary by airline, route, cabin, fare, and traveler. A specialist can help you identify the baggage questions to check for your itinerary before you book or travel.",
     service: "Flight baggage assistance",
     items: [
-      ["Carry-on questions", "Discuss carry-on allowances and size or weight restrictions that may apply to the selected itinerary."],
-      ["Checked baggage", "Review the number of checked bags, weight limits, and applicable charges for the fare being considered."],
-      ["Excess baggage", "Ask about additional-bag or overweight-bag rules and charges before travel."],
-      ["Special items", "Discuss questions about sports equipment, mobility equipment, musical instruments, or other special baggage."],
-      ["Pet and infant baggage", "Review how pet carriers, strollers, infant items, and other special items may be treated under the applicable rules."],
-      ["Connection and airline changes", "Ask which baggage rules may apply when an itinerary involves multiple airlines or connections."],
+      [
+        "Carry-on questions",
+        "Discuss carry-on allowances and size or weight restrictions that may apply to the selected itinerary.",
+      ],
+      [
+        "Checked baggage",
+        "Review the number of checked bags, weight limits, and applicable charges for the fare being considered.",
+      ],
+      [
+        "Excess baggage",
+        "Ask about additional-bag or overweight-bag rules and charges before travel.",
+      ],
+      [
+        "Special items",
+        "Discuss questions about sports equipment, mobility equipment, musical instruments, or other special baggage.",
+      ],
+      [
+        "Pet and infant baggage",
+        "Review how pet carriers, strollers, infant items, and other special items may be treated under the applicable rules.",
+      ],
+      [
+        "Connection and airline changes",
+        "Ask which baggage rules may apply when an itinerary involves multiple airlines or connections.",
+      ],
     ],
     faqs: [
-      { question: "Can you help me understand baggage rules before booking?", answer: "Yes. A specialist can discuss the baggage terms shown for the itinerary. Exact allowances and charges depend on the airline, fare, route, cabin, and traveler." },
-      { question: "Is baggage included with every flight?", answer: "No. Allowances vary by airline, fare, route, cabin, and traveler status. Confirm the applicable baggage terms before payment." },
-      { question: "Can you help with excess or special baggage?", answer: "You can discuss additional-bag, overweight, sports-equipment, mobility-equipment, and other special-item questions. Airline acceptance and charges must be confirmed for the specific trip." },
+      {
+        question: "Can you help me understand baggage rules before booking?",
+        answer: "Yes. A specialist can discuss the baggage terms shown for the itinerary. Exact allowances and charges depend on the airline, fare, route, cabin, and traveler.",
+      },
+      {
+        question: "Is baggage included with every flight?",
+        answer: "No. Allowances vary by airline, fare, route, cabin, and traveler status. Confirm the applicable baggage terms before payment.",
+      },
+      {
+        question: "Can you help with excess or special baggage?",
+        answer: "You can discuss additional-bag, overweight, sports-equipment, mobility-equipment, and other special-item questions. Airline acceptance and charges must be confirmed for the specific trip.",
+      },
     ],
   },
   {
@@ -450,16 +531,37 @@ const PAGES: readonly PageConfig[] = [
     intro: "If you are comparing a new trip or need help with an existing airline reservation, a specialist can walk through the itinerary, ticket details, and applicable terms with you.",
     service: "Airline reservation assistance",
     items: [
-      ["New reservations", "Discuss route, dates, travelers, cabin, and airline preferences before booking."],
-      ["Existing reservations", "Review your current itinerary and the information you should have ready before requesting help."],
-      ["Changes and rebooking", "Discuss date, time, route, connection, and fare-difference questions."],
-      ["Cancellation questions", "Review possible refund, credit, deadline, and ticket-condition questions before cancellation."],
-      ["Baggage and fare terms", "Ask what the selected fare includes and what restrictions may apply."],
+      [
+        "New reservations",
+        "Discuss route, dates, travelers, cabin, and airline preferences before booking.",
+      ],
+      [
+        "Existing reservations",
+        "Review your current itinerary and the information you should have ready before requesting help.",
+      ],
+      [
+        "Changes and rebooking",
+        "Discuss date, time, route, connection, and fare-difference questions.",
+      ],
+      [
+        "Cancellation questions",
+        "Review possible refund, credit, deadline, and ticket-condition questions before cancellation.",
+      ],
+      [
+        "Baggage and fare terms",
+        "Ask what the selected fare includes and what restrictions may apply.",
+      ],
       ["Complex itineraries", "Discuss international, multi-city, family, group, and premium-cabin travel needs."]
     ],
     faqs: [
-      { question: "Can I get airline reservation help by phone?", answer: "Yes. TicketDepart can discuss new and existing reservation questions by phone. Exact actions and availability depend on the ticket, airline, and applicable rules." },
-      { question: "Can you help change an existing reservation?", answer: "We can discuss possible changes and the information needed. Final changes depend on the ticket's fare rules, airline inventory, and applicable terms." },
+      {
+        question: "Can I get airline reservation help by phone?",
+        answer: "Yes. TicketDepart can discuss new and existing reservation questions by phone. Exact actions and availability depend on the ticket, airline, and applicable rules.",
+      },
+      {
+        question: "Can you help change an existing reservation?",
+        answer: "We can discuss possible changes and the information needed. Final changes depend on the ticket's fare rules, airline inventory, and applicable terms.",
+      },
       { question: "What should I have ready when I call?", answer: "Have the passenger name, confirmation code or ticket number, current itinerary, desired change or new trip details, and traveler count ready if available." }
     ]
   },
@@ -471,16 +573,37 @@ const PAGES: readonly PageConfig[] = [
     intro: "Tell us where you are going, when you want to travel, and what matters most. A specialist can help you compare practical itinerary options and review booking terms before you decide.",
     service: "Flight booking assistance",
     items: [
-      ["Domestic flights", "Discuss one-way and round-trip travel between major and regional U.S. airports."],
-      ["International flights", "Review international routes, connections, cabins, dates, and fare conditions."],
-      ["Flexible itinerary planning", "Compare nearby airports, flexible dates, and routing alternatives when practical."],
-      ["Premium cabins", "Discuss economy, premium economy, business, and first-class options."],
-      ["Family and group travel", "Work through traveler counts, coordinated schedules, baggage, and seating questions."],
+      [
+        "Domestic flights",
+        "Discuss one-way and round-trip travel between major and regional U.S. airports.",
+      ],
+      [
+        "International flights",
+        "Review international routes, connections, cabins, dates, and fare conditions.",
+      ],
+      [
+        "Flexible itinerary planning",
+        "Compare nearby airports, flexible dates, and routing alternatives when practical.",
+      ],
+      [
+        "Premium cabins",
+        "Discuss economy, premium economy, business, and first-class options.",
+      ],
+      [
+        "Family and group travel",
+        "Work through traveler counts, coordinated schedules, baggage, and seating questions.",
+      ],
       ["Before you pay", "Review the itinerary, fare conditions, baggage terms, and any applicable service fee before authorizing payment."]
     ],
     faqs: [
-      { question: "Can I book a flight by phone?", answer: "Yes. TicketDepart provides independent travel assistance for domestic and international flight booking by phone." },
-      { question: "Can you compare different flight options?", answer: "A specialist can discuss available routing, schedules, connections, cabins, airports, and fare conditions for your trip." },
+      {
+        question: "Can I book a flight by phone?",
+        answer: "Yes. TicketDepart provides independent travel assistance for domestic and international flight booking by phone.",
+      },
+      {
+        question: "Can you compare different flight options?",
+        answer: "A specialist can discuss available routing, schedules, connections, cabins, airports, and fare conditions for your trip.",
+      },
       { question: "Will the price stay the same while I decide?", answer: "Not necessarily. Airfare and seat availability can change until a ticket is issued." }
     ]
   },
@@ -492,17 +615,44 @@ const PAGES: readonly PageConfig[] = [
     intro: "Planning a trip between the United States and Canada? Discuss departure and arrival cities, nearby airports, dates, connections, cabin choices, baggage, and fare conditions with a travel specialist.",
     service: "USA to Canada flight assistance",
     items: [
-      ["Popular cross-border trips", "Discuss practical options for major U.S. and Canadian city pairs."],
-      ["Flexible airports", "Consider nearby departure or arrival airports when practical."],
-      ["Nonstop and connections", "Compare routing and connection options for your dates."],
-      ["Dates and schedules", "Review schedule choices when your dates are flexible."],
-      ["Baggage and cabin", "Ask about baggage terms and cabin options before booking."],
-      ["Fare conditions", "Review applicable change, cancellation, and payment terms."],
+      [
+        "Popular cross-border trips",
+        "Discuss practical options for major U.S. and Canadian city pairs.",
+      ],
+      [
+        "Flexible airports",
+        "Consider nearby departure or arrival airports when practical.",
+      ],
+      [
+        "Nonstop and connections",
+        "Compare routing and connection options for your dates.",
+      ],
+      [
+        "Dates and schedules",
+        "Review schedule choices when your dates are flexible.",
+      ],
+      [
+        "Baggage and cabin",
+        "Ask about baggage terms and cabin options before booking.",
+      ],
+      [
+        "Fare conditions",
+        "Review applicable change, cancellation, and payment terms.",
+      ],
     ],
     faqs: [
-      { question: "Can you help with USA to Canada flights?", answer: "Yes. A specialist can discuss available itineraries between U.S. and Canadian cities. Final availability and pricing depend on live airline inventory." },
-      { question: "Can nearby airports be compared?", answer: "Yes. Nearby airports can be considered when they make sense for your trip and ground transportation." },
-      { question: "Are international travel documents included?", answer: "Travel-document requirements depend on your citizenship and itinerary. Confirm current requirements with the appropriate government and airline sources." },
+      {
+        question: "Can you help with USA to Canada flights?",
+        answer: "Yes. A specialist can discuss available itineraries between U.S. and Canadian cities. Final availability and pricing depend on live airline inventory.",
+      },
+      {
+        question: "Can nearby airports be compared?",
+        answer: "Yes. Nearby airports can be considered when they make sense for your trip and ground transportation.",
+      },
+      {
+        question: "Are international travel documents included?",
+        answer: "Travel-document requirements depend on your citizenship and itinerary. Confirm current requirements with the appropriate government and airline sources.",
+      },
     ],
   },
   {
@@ -513,17 +663,44 @@ const PAGES: readonly PageConfig[] = [
     intro: "Planning travel from the United States to the United Kingdom? Explain your preferred cities, dates, cabin, connection tolerance, and baggage needs and review available options by phone.",
     service: "USA to UK flight assistance",
     items: [
-      ["UK destination options", "Discuss London and other UK arrival cities that fit your plans."],
-      ["East Coast and West Coast", "Compare routing choices from different U.S. departure regions."],
-      ["Nonstop and connections", "Review nonstop and connecting itineraries where available."],
-      ["Premium cabins", "Discuss economy, premium economy, business, and other available cabins."],
-      ["Baggage and fare rules", "Review what the selected fare includes before payment."],
-      ["Schedule flexibility", "Consider nearby dates when your plans allow flexibility."],
+      [
+        "UK destination options",
+        "Discuss London and other UK arrival cities that fit your plans.",
+      ],
+      [
+        "East Coast and West Coast",
+        "Compare routing choices from different U.S. departure regions.",
+      ],
+      [
+        "Nonstop and connections",
+        "Review nonstop and connecting itineraries where available.",
+      ],
+      [
+        "Premium cabins",
+        "Discuss economy, premium economy, business, and other available cabins.",
+      ],
+      [
+        "Baggage and fare rules",
+        "Review what the selected fare includes before payment.",
+      ],
+      [
+        "Schedule flexibility",
+        "Consider nearby dates when your plans allow flexibility.",
+      ],
     ],
     faqs: [
-      { question: "Can you help book a flight from the USA to the UK?", answer: "Yes. TicketDepart can discuss USA-to-UK itineraries by phone. Live inventory, fares, and airline rules determine the final options." },
-      { question: "Can I compare different UK airports?", answer: "Yes. When practical, you can discuss different arrival airports and the onward ground-travel implications." },
-      { question: "Can you guarantee a fare while I decide?", answer: "Airline fares and availability can change until a ticket is issued, so a quote should not be treated as a guarantee unless the applicable terms say otherwise." },
+      {
+        question: "Can you help book a flight from the USA to the UK?",
+        answer: "Yes. TicketDepart can discuss USA-to-UK itineraries by phone. Live inventory, fares, and airline rules determine the final options.",
+      },
+      {
+        question: "Can I compare different UK airports?",
+        answer: "Yes. When practical, you can discuss different arrival airports and the onward ground-travel implications.",
+      },
+      {
+        question: "Can you guarantee a fare while I decide?",
+        answer: "Airline fares and availability can change until a ticket is issued, so a quote should not be treated as a guarantee unless the applicable terms say otherwise.",
+      },
     ],
   },
   {
@@ -534,17 +711,44 @@ const PAGES: readonly PageConfig[] = [
     intro: "European trips can involve many routing and airport choices. Tell a specialist where you want to go, your dates, preferred cabin, and connection preferences and discuss practical itinerary options.",
     service: "USA to Europe flight assistance",
     items: [
-      ["Europe destination planning", "Discuss major European destinations and practical arrival airports."],
-      ["One-stop routing", "Compare connection options when nonstop service is unavailable or unsuitable."],
-      ["Flexible dates", "Review nearby dates when flexibility may open different schedules."],
-      ["Cabin choices", "Compare available cabin options and fare conditions."],
-      ["Multi-city trips", "Discuss open-jaw and multi-city European itineraries."],
-      ["Baggage and changes", "Review baggage terms and applicable change or cancellation conditions."],
+      [
+        "Europe destination planning",
+        "Discuss major European destinations and practical arrival airports.",
+      ],
+      [
+        "One-stop routing",
+        "Compare connection options when nonstop service is unavailable or unsuitable.",
+      ],
+      [
+        "Flexible dates",
+        "Review nearby dates when flexibility may open different schedules.",
+      ],
+      [
+        "Cabin choices",
+        "Compare available cabin options and fare conditions.",
+      ],
+      [
+        "Multi-city trips",
+        "Discuss open-jaw and multi-city European itineraries.",
+      ],
+      [
+        "Baggage and changes",
+        "Review baggage terms and applicable change or cancellation conditions.",
+      ],
     ],
     faqs: [
-      { question: "Can you help plan flights to Europe?", answer: "Yes. A specialist can discuss European routes, dates, connections, cabins, and itinerary structure by phone." },
-      { question: "Can I plan a multi-city Europe trip?", answer: "Yes. Multi-city and open-jaw itineraries can be discussed when supported by available airline inventory and fare rules." },
-      { question: "Do European fares include every charge?", answer: "The total depends on the selected fare and applicable taxes, fees, baggage, and agency charges. Ask for the complete price before authorizing payment." },
+      {
+        question: "Can you help plan flights to Europe?",
+        answer: "Yes. A specialist can discuss European routes, dates, connections, cabins, and itinerary structure by phone.",
+      },
+      {
+        question: "Can I plan a multi-city Europe trip?",
+        answer: "Yes. Multi-city and open-jaw itineraries can be discussed when supported by available airline inventory and fare rules.",
+      },
+      {
+        question: "Do European fares include every charge?",
+        answer: "The total depends on the selected fare and applicable taxes, fees, baggage, and agency charges. Ask for the complete price before authorizing payment.",
+      },
     ],
   },
   {
@@ -555,17 +759,44 @@ const PAGES: readonly PageConfig[] = [
     intro: "Whether you are planning a vacation, family visit, or business trip, discuss U.S.-Mexico flight options by phone and compare practical dates, airports, routing, and fare conditions.",
     service: "USA to Mexico flight assistance",
     items: [
-      ["Popular Mexico destinations", "Discuss major destinations and arrival-airport choices for your trip."],
-      ["Flexible departure airports", "Consider nearby U.S. airports when they are practical."],
-      ["Nonstop and connections", "Review available routing and connection choices."],
-      ["Family travel", "Discuss traveler count, seating, baggage, and schedule preferences."],
-      ["Cabin and baggage", "Compare cabin options and understand baggage terms before booking."],
-      ["Fare and change rules", "Review applicable fare conditions, changes, and cancellations."],
+      [
+        "Popular Mexico destinations",
+        "Discuss major destinations and arrival-airport choices for your trip.",
+      ],
+      [
+        "Flexible departure airports",
+        "Consider nearby U.S. airports when they are practical.",
+      ],
+      [
+        "Nonstop and connections",
+        "Review available routing and connection choices.",
+      ],
+      [
+        "Family travel",
+        "Discuss traveler count, seating, baggage, and schedule preferences.",
+      ],
+      [
+        "Cabin and baggage",
+        "Compare cabin options and understand baggage terms before booking.",
+      ],
+      [
+        "Fare and change rules",
+        "Review applicable fare conditions, changes, and cancellations.",
+      ],
     ],
     faqs: [
-      { question: "Can you help book flights from the USA to Mexico?", answer: "Yes. TicketDepart can discuss USA-to-Mexico flight options by phone, subject to live airline availability." },
-      { question: "Can you help with family trips to Mexico?", answer: "Yes. Discuss traveler count, ages, seating needs, baggage, and schedule preferences with a specialist." },
-      { question: "What should I verify before international travel?", answer: "Verify current passport, entry, visa, and other travel requirements for your nationality and itinerary with official government and airline sources." },
+      {
+        question: "Can you help book flights from the USA to Mexico?",
+        answer: "Yes. TicketDepart can discuss USA-to-Mexico flight options by phone, subject to live airline availability.",
+      },
+      {
+        question: "Can you help with family trips to Mexico?",
+        answer: "Yes. Discuss traveler count, ages, seating needs, baggage, and schedule preferences with a specialist.",
+      },
+      {
+        question: "What should I verify before international travel?",
+        answer: "Verify current passport, entry, visa, and other travel requirements for your nationality and itinerary with official government and airline sources.",
+      },
     ],
   },
 ];
