@@ -12,9 +12,9 @@ import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 
 const PAGE_PATH = "/book-a-flight-by-phone";
 const PAGE_TITLE =
-  "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart";
+  "Book a Flight by Phone in the USA | 24/7 Flight Booking Help | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Book a domestic or international flight by phone with an independent U.S. travel agency serving travelers in the USA, Canada, Mexico, and UK. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
+  "Book a domestic or international flight by phone with an independent travel agency serving U.S. travelers and customers across Canada, Mexico, and the UK. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
 
 const FAQS = [
   {
@@ -316,6 +316,40 @@ export function BookAFlightByPhonePage() {
           />
         </div>
       </div>
+
+      <Section tone="muted" ocid="book_flight_phone.us_gateways">
+        <SectionHeading
+          eyebrow="U.S. departure cities"
+          title="Flight booking help from major U.S. gateways"
+          description="If you are departing from a U.S. city, start with your airport or route. These guides cover practical booking questions and connect back to phone assistance."
+        />
+        <div className="mx-auto mt-10 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ["New York", "/flights-from-new-york"],
+            ["Los Angeles", "/flights-from-los-angeles"],
+            ["Chicago", "/flights-from-chicago"],
+            ["Miami", "/flights-from-miami"],
+            ["Atlanta", "/flights-from-atlanta"],
+            ["Dallas", "/flights-from-dallas"],
+            ["Orlando", "/flights-from-orlando"],
+            ["San Francisco", "/flights-from-san-francisco"],
+          ].map(([label, to]) => (
+            <Link
+              key={to}
+              to={to}
+              className="group rounded-2xl border border-border bg-card p-5 shadow-subtle transition-smooth hover:shadow-elevated"
+            >
+              <span className="font-display text-base font-semibold text-foreground">
+                Flights from {label}
+              </span>
+              <span className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-primary">
+                Open city guide
+                <ArrowRight aria-hidden="true" className="size-4 transition-smooth group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </Section>
 
       <Section tone="paper" ocid="book_flight_phone.faq">
         <SectionHeading

@@ -24,9 +24,9 @@ type PageConfig = {
 const PAGES: readonly PageConfig[] = [
   {
     path: "/cheap-flight-booking-by-phone",
-    title: "Cheap Flight Booking by Phone | TicketDepart",
+    title: "Cheap Flight Booking by Phone for U.S. Travelers | TicketDepart",
     description:
-      "Discuss affordable domestic and international flight options by phone. Compare dates, nearby airports, cabins, and fare conditions with a TicketDepart travel specialist.",
+      "Discuss affordable domestic and international flight options from U.S. airports by phone. Compare dates, nearby airports, cabins, and fare conditions with a TicketDepart travel specialist.",
     heading: "Cheap flight booking help by phone",
     intro:
       "A small change in travel date, airport, cabin, or routing can affect the fare. Tell us what you are trying to balance and a specialist can review available options with you.",
@@ -77,9 +77,9 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking",
-    title: "Business Class Flight Booking Assistance by Phone | TicketDepart",
+    title: "Business Class Flight Booking for U.S. Travelers | TicketDepart",
     description:
-      "Plan business class and corporate flight travel by phone with an independent travel specialist. Discuss schedules, aircraft, connections, cabins, baggage, flexibility, and fare conditions.",
+      "Plan business class and corporate flight travel by phone for U.S. travelers and international business trips. Discuss U.S. departure airports, schedules, aircraft, connections, cabins, baggage, flexibility, and fare conditions.",
     heading: "Business class flight booking assistance by phone",
     intro:
       "Business travel is rarely just about choosing a cabin. Your schedule, connection time, aircraft, airport, baggage needs, and flexibility can all matter. Tell us what the trip needs to accomplish and a specialist can work through the practical options with you.",
