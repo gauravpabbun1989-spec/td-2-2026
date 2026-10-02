@@ -6,6 +6,36 @@ const MANAGED_ATTR = "data-seo-managed";
 const OG_LOCALE = "en_US";
 const TWITTER_SITE = "@ticketdepart";
 
+function serviceCta(path: string): string {
+  const normalized = path.toLowerCase();
+  if (normalized.includes("cancellation")) return "Call Now: +1-888-958-0280 | Get Flight Cancelled";
+  if (normalized.includes("change")) return "Call Now: +1-888-958-0280 | Get Flight Changed";
+  if (normalized.includes("last-minute")) return "Call Now: +1-888-958-0280 | Get Last-Minute Flight Booked";
+  if (normalized.includes("multi-city")) return "Call Now: +1-888-958-0280 | Get Multi-City Flight Booked";
+  if (normalized.includes("group")) return "Call Now: +1-888-958-0280 | Get Group Flight Booked";
+  if (normalized.includes("business-class") || normalized.includes("corporate")) return "Call Now: +1-888-958-0280 | Get Business Class Flight Booked";
+  if (normalized.includes("international")) return "Call Now: +1-888-958-0280 | Get International Flight Booked";
+  if (normalized.includes("airline-reservation-assistance")) return "Call Now: +1-888-958-0280 | Get Airline Reservation Help";
+  return "Call Now: +1-888-958-0280 | Get Flight Booked";
+}
+
+function buildListingDescription(description: string, path: string): string {
+  const cta = serviceCta(path);
+  const cleaned = description
+    .split("+1 855-544-9001").join("")
+    .split("+1-855-544-9001").join("")
+    .split("18555449001").join("")
+    .split("+1 888-958-0280").join("")
+    .split("+1-888-958-0280").join("")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/[.]\s*$/, "");
+  const maxLength = 158;
+  const available = Math.max(40, maxLength - cta.length - 3);
+  const summary = cleaned.length > available ? cleaned.slice(0, available - 1).trimEnd() + "…" : cleaned;
+  return cta + " | " + summary;
+}
+
 function upsertMeta(
   selector: string,
   create: () => HTMLMetaElement,
@@ -50,9 +80,7 @@ export function Seo({
   indexable = true,
 }: SeoInput) {
   const canonical = absoluteUrl(path);
-  const listingDescription = description.includes(SITE.phoneDisplay)
-    ? description
-    : `${description.replace(/\.$/, "")} Call ${SITE.phoneDisplay}.`;
+  const listingDescription = buildListingDescription(description, path);
   const serialized = JSON.stringify(structuredData);
 
   useEffect(() => {
@@ -95,7 +123,7 @@ export function Seo({
         meta.setAttribute("property", "og:description");
         return meta;
       },
-      description,
+      listingDescription,
     );
 
     upsertMeta(
@@ -195,7 +223,7 @@ export function Seo({
         meta.setAttribute("name", "twitter:description");
         return meta;
       },
-      description,
+      listingDescription,
     );
 
     upsertMeta(
