@@ -80,14 +80,14 @@ describe("static route HTML uses the full airline names", () => {
     );
   });
 
-  it("keeps the route paths and canonical URLs unchanged", () => {
+  it("emits normalized trailing-slash canonical URLs for the routes", () => {
     for (const route of ["/delta-airlines", "/united-airlines"] as const) {
       const html = readGenerated(route);
       expect(html).toContain(
-        `<link rel="canonical" href="https://ticketdepart.com${route}" />`,
+        `<link rel="canonical" href="https://ticketdepart.com${route}/" />`,
       );
       expect(html).toContain(
-        `<meta property="og:url" content="https://ticketdepart.com${route}" />`,
+        `<meta property="og:url" content="https://ticketdepart.com${route}/" />`,
       );
     }
   });
