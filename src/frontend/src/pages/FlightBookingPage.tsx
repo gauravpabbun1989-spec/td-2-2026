@@ -162,7 +162,7 @@ const AIRLINE_LINKS = [
 ] as const;
 
 /**
- * Flight Booking Assistance page. Covers the booking scenarios a specialist
+ * Flight Booking Assistance for U.S. Travelers page. Covers the booking scenarios a specialist
  * handles, links to the airline guides and contact page, and keeps the
  * click-to-call conversion control present in every band.
  */
