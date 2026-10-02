@@ -778,6 +778,9 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             ["Cancel a flight", "/flight-cancellation-assistance", "Review cancellation, refund, credit, and applicable ticket terms."],
             ["Book a flight by phone", "/book-a-flight-by-phone", "Start a new booking with a travel specialist."],
             ["Last-minute flight help", "/last-minute-flight-booking", "Discuss urgent travel, nearby airports, and ticketing timing."],
+            ["Pet flight assistance", "/pet-flight-booking", "Discuss pet travel requirements, carrier questions, and itinerary details."],
+            ["Infant flight assistance", "/infant-flight-booking", "Discuss infant traveler details, seating, bassinets, and baggage questions."],
+            ["Baggage assistance", "/baggage-assistance", "Review carry-on, checked, excess, and special-baggage questions."],
             ["General flight assistance", "/flight-booking-assistance", "If you are unsure where to start, describe the trip and get pointed to the right path."],
           ].map(([label, to, description]) => (
             <Link
@@ -809,6 +812,9 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             ["Last-minute flights", "/last-minute-flight-booking"],
             ["Multi-city flights", "/multi-city-flight-booking"],
             ["Group flights", "/group-flight-booking"],
+            ["Pet flight help", "/pet-flight-booking"],
+            ["Infant flight help", "/infant-flight-booking"],
+            ["Baggage help", "/baggage-assistance"],
           ].map(([label, to]) => (
             <Link
               key={`${label}-${to}`}
