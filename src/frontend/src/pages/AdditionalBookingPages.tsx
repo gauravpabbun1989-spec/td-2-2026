@@ -882,7 +882,9 @@ export function InfantFlightBookingPage() {
 
 export function BaggageAssistancePage() {
   return <AdditionalBookingPage page={PAGES[6]!} />;
-}\n\nexport function FlightChangeAssistancePage() {
+}
+
+export function FlightChangeAssistancePage() {
   return <AdditionalBookingPage page={PAGES[7]!} />;
 }
 
