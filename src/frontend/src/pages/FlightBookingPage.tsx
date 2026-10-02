@@ -22,9 +22,9 @@ import {
 } from "lucide-react";
 
 const PAGE_PATH = "/flight-booking";
-const PAGE_TITLE = "Flight Booking by Phone | Domestic & International | TicketDepart";
+const PAGE_TITLE = "Flight Booking Help in the USA | Domestic & International | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 888-958-0280, 24/7.";
+  "Get help booking domestic and international flights from U.S. cities and airports, including multi-city, premium-cabin, and group trips. Speak with an independent travel specialist at +1 888-958-0280, 24/7.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
