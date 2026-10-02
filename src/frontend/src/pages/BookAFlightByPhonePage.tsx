@@ -12,7 +12,7 @@ import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 
 const PAGE_PATH = "/book-a-flight-by-phone";
 const PAGE_TITLE =
-  "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart";
+  "Book a Flight by Phone in the USA | 24/7 Flight Booking Help | TicketDepart";
 const PAGE_DESCRIPTION =
   "Book a domestic or international flight by phone with an independent U.S. travel agency serving travelers in the USA, Canada, Mexico, and UK. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
 
