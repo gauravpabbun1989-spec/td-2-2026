@@ -292,7 +292,8 @@ export function BookAFlightByPhonePage() {
             ["United Airlines", "/united-airlines"],
             ["New York to London", "/flights-new-york-to-london"],
             ["Los Angeles to Tokyo", "/flights-los-angeles-to-tokyo"],
-            ["Miami to Cancun", "/flights-miami-to-cancun"],          ].map(([label, to]) => (
+            ["Miami to Cancun", "/flights-miami-to-cancun"],
+          ].map(([label, to]) => (
             <Link
               key={to}
               to={to}
