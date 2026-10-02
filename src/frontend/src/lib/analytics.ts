@@ -13,6 +13,8 @@ const SCROLL_THRESHOLDS = [25, 50, 75, 90] as const;
 const handledClicks = new WeakSet<Event>();
 const recentEmits = new Map<string, number>();
 const emittedScrollDepths = new Set<number>();
+const observedPhoneCtas = new WeakSet<Element>();
+const emittedLandingSignals = new Set<string>();
 
 type AnalyticsWindow = Window & {
   gtag?: (...args: unknown[]) => void;
@@ -58,6 +60,32 @@ function getLandingPage() {
     return current;
   } catch {
     return getCleanPagePath();
+  }
+}
+
+function getIntentFamily(path = getCleanPagePath()) {
+  if (/airlines|airline-reservation/i.test(path)) return "airline";
+  if (/flight-(change|cancellation|booking-assistance|booking)|book-a-flight|international-flight|last-minute-flight|multi-city|group-flight|business-class|same-day|family-flight|pet-flight|infant-flight|baggage/i.test(path)) return "booking_service";
+  if (/flights-from-|flights-[a-z-]+-to-[a-z-]+/i.test(path)) return "us_route";
+  return path === "/" ? "homepage" : "content";
+}
+
+function getBrowserTimeContext() {
+  try {
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "unknown";
+    const hour = new Date().getHours();
+    const usTimezone = /^(America\\/(New_York|Detroit|Chicago|Denver|Phoenix|Los_Angeles|Anchorage|Adak))$/.test(timezone);
+    return {
+      browser_timezone: timezone,
+      browser_local_hour: hour,
+      browser_us_timezone: usTimezone,
+    };
+  } catch {
+    return {
+      browser_timezone: "unknown",
+      browser_local_hour: -1,
+      browser_us_timezone: false,
+    };
   }
 }
 
@@ -133,6 +161,8 @@ function buildCommonParams() {
     device_category: getDeviceCategory(),
     source: traffic.source,
     medium: traffic.medium,
+    intent_family: getIntentFamily(),
+    ...getBrowserTimeContext(),
   };
 }
 
@@ -163,6 +193,9 @@ function emitPhoneClick(location: string, link?: Element | null) {
   recentEmits.set(location, Date.now());
 
   trackEvent("phone_click", {
+    conversion_stage: "phone_click",
+    intent_family: getIntentFamily(),
+    cta_route: getCleanPagePath(),
     cta_location: location,
     ...(ctaText ? { cta_text: ctaText.slice(0, 120) } : {}),
   });
@@ -214,6 +247,31 @@ export function trackLeadSubmit(location = "contact_form") {
   });
 }
 
+function observePhoneCtaImpressions() {
+  if (typeof document === "undefined" || typeof IntersectionObserver === "undefined") return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const link = entry.target as Element;
+        if (observedPhoneCtas.has(link)) continue;
+        observedPhoneCtas.add(link);
+
+        const location = inferCtaLocation(link, link.getAttribute("data-cta-location") || undefined);
+        trackEvent("phone_cta_impression", {
+          conversion_stage: "cta_view",
+          cta_location: location,
+          intent_family: getIntentFamily(),
+        });
+      }
+    },
+    { threshold: 0.5 },
+  );
+
+  document.querySelectorAll('a[href^="tel:"]').forEach((link) => observer.observe(link));
+}
+
 if (typeof document !== "undefined") {
   try {
     const current = getCleanPagePath();
@@ -248,6 +306,18 @@ if (typeof document !== "undefined") {
   };
 
   window.addEventListener("scroll", emitScrollDepth, { passive: true });
+
+  // Record the first meaningful conversion-funnel signal once per page view.
+  const landingSignal = getCleanPagePath();
+  if (!emittedLandingSignals.has(landingSignal)) {
+    emittedLandingSignals.add(landingSignal);
+    trackEvent("organic_conversion_funnel_entry", {
+      conversion_stage: "landing",
+      intent_family: getIntentFamily(),
+    });
+  }
+
+  window.setTimeout(observePhoneCtaImpressions, 0);
 
   document.addEventListener("click", (event) => {
     if (handledClicks.has(event)) return;
