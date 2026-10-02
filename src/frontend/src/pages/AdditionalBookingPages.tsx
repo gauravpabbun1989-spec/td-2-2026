@@ -867,33 +867,33 @@ export function FamilyFlightBookingPage() {
 }
 
 export function PetFlightBookingPage() { return <AdditionalBookingPage page={PAGES[4]!} />; }\n\nexport function InfantFlightBookingPage() { return <AdditionalBookingPage page={PAGES[5]!} />; }\n\nexport function BaggageAssistancePage() { return <AdditionalBookingPage page={PAGES[6]!} />; }\n\nexport function FlightChangeAssistancePage() {
-  return <AdditionalBookingPage page={PAGES[4]!} />;
-}
-
-export function FlightCancellationAssistancePage() {
-  return <AdditionalBookingPage page={PAGES[5]!} />;
-}
-
-export function AirlineReservationAssistancePage() {
-  return <AdditionalBookingPage page={PAGES[6]!} />;
-}
-
-export function FlightBookingAssistancePage() {
   return <AdditionalBookingPage page={PAGES[7]!} />;
 }
 
-export function UsaToCanadaFlightsPage() {
+export function FlightCancellationAssistancePage() {
   return <AdditionalBookingPage page={PAGES[8]!} />;
 }
 
-export function UsaToUkFlightsPage() {
+export function AirlineReservationAssistancePage() {
   return <AdditionalBookingPage page={PAGES[9]!} />;
 }
 
-export function UsaToEuropeFlightsPage() {
+export function FlightBookingAssistancePage() {
   return <AdditionalBookingPage page={PAGES[10]!} />;
 }
 
-export function UsaToMexicoFlightsPage() {
+export function UsaToCanadaFlightsPage() {
   return <AdditionalBookingPage page={PAGES[11]!} />;
+}
+
+export function UsaToUkFlightsPage() {
+  return <AdditionalBookingPage page={PAGES[12]!} />;
+}
+
+export function UsaToEuropeFlightsPage() {
+  return <AdditionalBookingPage page={PAGES[13]!} />;
+}
+
+export function UsaToMexicoFlightsPage() {
+  return <AdditionalBookingPage page={PAGES[14]!} />;
 }
