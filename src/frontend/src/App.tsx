@@ -30,6 +30,9 @@ const UsaToCanadaFlightsPage = lazyPage(() => import("@/pages/AdditionalBookingP
 const UsaToUkFlightsPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ UsaToUkFlightsPage }) => ({ default: UsaToUkFlightsPage })));
 const UsaToEuropeFlightsPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ UsaToEuropeFlightsPage }) => ({ default: UsaToEuropeFlightsPage })));
 const UsaToMexicoFlightsPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ UsaToMexicoFlightsPage }) => ({ default: UsaToMexicoFlightsPage })));
+const PetFlightBookingPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ PetFlightBookingPage }) => ({ default: PetFlightBookingPage })));
+const InfantFlightBookingPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ InfantFlightBookingPage }) => ({ default: InfantFlightBookingPage })));
+const BaggageAssistancePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ BaggageAssistancePage }) => ({ default: BaggageAssistancePage })));
 const FlightChangeAssistancePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ FlightChangeAssistancePage }) => ({ default: FlightChangeAssistancePage })));
 const SameDayFlightBookingPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ SameDayFlightBookingPage }) => ({ default: SameDayFlightBookingPage })));
 const AirlineReservationAssistancePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ AirlineReservationAssistancePage }) => ({ default: AirlineReservationAssistancePage })));
@@ -76,6 +79,9 @@ const PrivacyPage = lazyPage(() => import("@/pages/PrivacyPage").then(({ Privacy
 const TermsPage = lazyPage(() => import("@/pages/TermsPage").then(({ TermsPage }) => ({ default: TermsPage })));
 
 
+const PetFlightBookingPageRoute = createRoute({ getParentRoute: () => rootRoute, path: "/pet-flight-booking", component: PetFlightBookingPage });
+const InfantFlightBookingPageRoute = createRoute({ getParentRoute: () => rootRoute, path: "/infant-flight-booking", component: InfantFlightBookingPage });
+const BaggageAssistancePageRoute = createRoute({ getParentRoute: () => rootRoute, path: "/baggage-assistance", component: BaggageAssistancePage });
 const rootRoute = createRootRoute({
   component: () => (
     <Layout>
