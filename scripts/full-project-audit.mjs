@@ -13,6 +13,7 @@ const PUBLIC_ROUTES = [
   "/contact", "/privacy", "/terms", "/international-flight-booking", "/last-minute-flight-booking",
   "/multi-city-flight-booking", "/group-flight-booking", "/cheap-flight-booking-by-phone",
   "/business-class-flight-booking", "/corporate-flight-booking", "/same-day-flight-booking", "/family-flight-booking",
+  "/pet-flight-booking", "/infant-flight-booking", "/baggage-assistance",
   "/flight-change-assistance", "/flight-cancellation-assistance", "/airline-reservation-assistance",
   "/flight-booking-assistance", "/flights-usa-to-canada", "/flights-usa-to-uk",
   "/flights-usa-to-europe", "/flights-usa-to-mexico",
@@ -75,7 +76,7 @@ function auditOnce() {
   assert(robots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "robots sitemap mismatch");
 
   const locs = [...sitemap.matchAll(new RegExp("<loc>([^<]+)</loc>", "g"))].map((m) => m[1]);
-  const expectedLocs = PUBLIC_ROUTES.map((path) => `https://ticketdepart.com${path === "/" ? "/" : path}`);
+  const expectedLocs = PUBLIC_ROUTES.map((path) => `https://ticketdepart.com${path === "/" ? "/" : `${path}/`}`);
   assert(JSON.stringify(locs) === JSON.stringify(expectedLocs), "sitemap does not exactly match current public route set");
 
   for (const path of PUBLIC_ROUTES) {

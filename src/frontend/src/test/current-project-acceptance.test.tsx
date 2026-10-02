@@ -13,6 +13,7 @@ const PUBLIC_ROUTES = [
   "/contact", "/privacy", "/terms", "/international-flight-booking", "/last-minute-flight-booking",
   "/multi-city-flight-booking", "/group-flight-booking", "/cheap-flight-booking-by-phone",
   "/business-class-flight-booking", "/corporate-flight-booking", "/same-day-flight-booking", "/family-flight-booking",
+  "/pet-flight-booking", "/infant-flight-booking", "/baggage-assistance",
   "/flight-change-assistance", "/flight-cancellation-assistance", "/airline-reservation-assistance",
   "/flight-booking-assistance", "/flights-usa-to-canada", "/flights-usa-to-uk",
   "/flights-usa-to-europe", "/flights-usa-to-mexico",
@@ -102,7 +103,7 @@ describe("static SEO assets", () => {
   it("sitemap contains exactly the current public routes", () => {
     const locs = Array.from(read("sitemap.xml").matchAll(/<loc>([^<]+)<\/loc>/g)).map((m) => m[1]);
     expect(new Set(locs).size).toBe(PUBLIC_ROUTES.length);
-    expect(locs).toEqual(PUBLIC_ROUTES.map((path) => `https://ticketdepart.com${path === "/" ? "/" : path}`));
+    expect(locs).toEqual(PUBLIC_ROUTES.map((path) => `https://ticketdepart.com${path === "/" ? "/" : `${path}/`}`));
   });
 
   it("robots points to the canonical sitemap", () => {
