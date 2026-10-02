@@ -269,7 +269,7 @@ function observePhoneCtaImpressions() {
     { threshold: 0.5 },
   );
 
-  document.querySelectorAll('a[href^="tel:"]').forEach((link) => observer.observe(link));
+  for (const link of document.querySelectorAll('a[href^="tel:"]')) {\n    observer.observe(link);\n  }
 }
 
 if (typeof document !== "undefined") {
