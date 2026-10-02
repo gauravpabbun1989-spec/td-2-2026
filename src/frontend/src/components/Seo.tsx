@@ -22,11 +22,7 @@ function serviceCta(path: string): string {
 function buildListingDescription(description: string, path: string): string {
   const cta = serviceCta(path);
   const cleaned = description
-    .split("+1 855-544-9001").join("")
-    .split("+1-855-544-9001").join("")
-    .split("18555449001").join("")
-    .split("+1 888-958-0280").join("")
-    .split("+1-888-958-0280").join("")
+    .replace(/\+?1[\s-]?\d{3}[\s-]?\d{3}[\s-]?\d{4}/g, "")
     .replace(/\s+/g, " ")
     .trim()
     .replace(/[.]\s*$/, "");
