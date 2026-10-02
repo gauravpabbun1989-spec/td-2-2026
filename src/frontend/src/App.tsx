@@ -79,9 +79,6 @@ const PrivacyPage = lazyPage(() => import("@/pages/PrivacyPage").then(({ Privacy
 const TermsPage = lazyPage(() => import("@/pages/TermsPage").then(({ TermsPage }) => ({ default: TermsPage })));
 
 
-const PetFlightBookingPageRoute = createRoute({ getParentRoute: () => rootRoute, path: "/pet-flight-booking", component: PetFlightBookingPage });
-const InfantFlightBookingPageRoute = createRoute({ getParentRoute: () => rootRoute, path: "/infant-flight-booking", component: InfantFlightBookingPage });
-const BaggageAssistancePageRoute = createRoute({ getParentRoute: () => rootRoute, path: "/baggage-assistance", component: BaggageAssistancePage });
 const rootRoute = createRootRoute({
   component: () => (
     <Layout>
@@ -91,6 +88,24 @@ const rootRoute = createRootRoute({
     </Layout>
   ),
   notFoundComponent: NotFoundPage,
+});
+
+const petFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/pet-flight-booking",
+  component: PetFlightBookingPage,
+});
+
+const infantFlightBookingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/infant-flight-booking",
+  component: InfantFlightBookingPage,
+});
+
+const baggageAssistanceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/baggage-assistance",
+  component: BaggageAssistancePage,
 });
 
 const indexRoute = createRoute({
@@ -437,6 +452,10 @@ const adminLeadsRoute = createRoute({
 });
 
 export const routeTree = rootRoute.addChildren([
+  petFlightBookingRoute,
+  infantFlightBookingRoute,
+  baggageAssistanceRoute,
+
   indexRoute,
   flightsFromNewYorkRoute,
   flightsFromLosAngelesRoute,
