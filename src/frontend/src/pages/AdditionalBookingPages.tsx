@@ -268,6 +268,75 @@ const PAGES: readonly PageConfig[] = [
     ],
   },
   {
+    path: "/pet-flight-booking",
+    title: "Pet Flight Booking Assistance | TicketDepart",
+    description:
+      "Plan flights with a pet by phone. Discuss cabin or checked-pet questions, carrier requirements, pet documentation, airports, connections, and booking details with a travel specialist.",
+    heading: "Pet flight booking assistance by phone",
+    intro:
+      "Traveling with a dog, cat, or another permitted pet can add extra booking details. A specialist can help you organize the questions to ask and review the itinerary, while airline and government requirements should always be confirmed for the specific trip.",
+    service: "Pet flight booking assistance",
+    items: [
+      ["Pet travel planning", "Discuss your origin, destination, travel dates, pet type, and itinerary before booking."],
+      ["Cabin pet questions", "Discuss whether the itinerary may support an in-cabin pet and what carrier or cabin requirements may apply."],
+      ["Checked-pet questions", "Ask about airline rules for pets that are not traveling in the passenger cabin, including route and aircraft restrictions."],
+      ["Pet documentation", "Review the documents and health requirements you should verify with the airline and relevant authorities for your itinerary."],
+      ["Connections and airports", "Discuss connection timing and airport choices when traveling with a pet."],
+      ["Baggage and pet fees", "Ask how pet charges interact with baggage allowances and other ticket conditions before payment."],
+    ],
+    faqs: [
+      { question: "Can you help me book a flight with my pet?", answer: "Yes. A specialist can discuss the itinerary and pet-travel questions to prepare for booking. Pet acceptance, capacity, fees, and documentation depend on the airline, route, aircraft, and applicable rules." },
+      { question: "Can my pet travel in the cabin?", answer: "It depends on the airline, route, aircraft, pet type, carrier dimensions, and available pet capacity. Confirm the current requirements before booking." },
+      { question: "What pet documents do I need?", answer: "Requirements vary by destination, origin, transit point, pet type, and applicable law. Verify current requirements with the airline and relevant government authorities." },
+    ],
+  },
+  {
+    path: "/infant-flight-booking",
+    title: "Infant Flight Booking Assistance | TicketDepart",
+    description:
+      "Book flights with an infant by phone. Discuss infant traveler details, seating questions, bassinet requests, baggage, connections, and airline requirements with a travel specialist.",
+    heading: "Infant flight booking assistance by phone",
+    intro:
+      "Flying with an infant can require details beyond a standard adult booking. Discuss the infant's age, itinerary, seating needs, baggage questions, and any airline-specific requirements before you confirm travel.",
+    service: "Infant flight booking assistance",
+    items: [
+      ["Infant traveler details", "Have the infant's age, travel dates, route, and accompanying adult information ready."],
+      ["Lap infant or seat", "Discuss whether the infant will travel as a lap infant or require a separate seat, subject to the airline's rules."],
+      ["Bassinet questions", "Ask whether a bassinet may be available on the aircraft and how requests are handled for the specific itinerary."],
+      ["Stroller and baggage", "Review applicable stroller, diaper-bag, carry-on, and checked-baggage rules before travel."],
+      ["Connections", "Discuss connection times and airport changes that may be more practical when traveling with an infant."],
+      ["Documents and requirements", "Verify current identification, passport, entry, and other requirements for the infant and accompanying travelers."],
+    ],
+    faqs: [
+      { question: "Can you help book a flight with an infant?", answer: "Yes. A specialist can discuss infant traveler details, itinerary options, seating, baggage, and applicable airline booking requirements." },
+      { question: "Can I request a bassinet?", answer: "Some airlines and aircraft offer bassinets subject to eligibility and availability. Ask the airline or booking provider to confirm the current requirements for your itinerary." },
+      { question: "Does an infant get baggage?", answer: "Baggage and stroller allowances vary by airline, fare, route, and traveler status. Confirm the applicable allowance before travel." },
+    ],
+  },
+  {
+    path: "/baggage-assistance",
+    title: "Flight Baggage Assistance by Phone | TicketDepart",
+    description:
+      "Get flight baggage assistance by phone. Discuss baggage allowances, checked bags, carry-on questions, excess baggage, special items, and airline baggage rules with a travel specialist.",
+    heading: "Flight baggage assistance by phone",
+    intro:
+      "Baggage rules can vary by airline, route, cabin, fare, and traveler. A specialist can help you identify the baggage questions to check for your itinerary before you book or travel.",
+    service: "Flight baggage assistance",
+    items: [
+      ["Carry-on questions", "Discuss carry-on allowances and size or weight restrictions that may apply to the selected itinerary."],
+      ["Checked baggage", "Review the number of checked bags, weight limits, and applicable charges for the fare being considered."],
+      ["Excess baggage", "Ask about additional-bag or overweight-bag rules and charges before travel."],
+      ["Special items", "Discuss questions about sports equipment, mobility equipment, musical instruments, or other special baggage."],
+      ["Pet and infant baggage", "Review how pet carriers, strollers, infant items, and other special items may be treated under the applicable rules."],
+      ["Connection and airline changes", "Ask which baggage rules may apply when an itinerary involves multiple airlines or connections."],
+    ],
+    faqs: [
+      { question: "Can you help me understand baggage rules before booking?", answer: "Yes. A specialist can discuss the baggage terms shown for the itinerary. Exact allowances and charges depend on the airline, fare, route, cabin, and traveler." },
+      { question: "Is baggage included with every flight?", answer: "No. Allowances vary by airline, fare, route, cabin, and traveler status. Confirm the applicable baggage terms before payment." },
+      { question: "Can you help with excess or special baggage?", answer: "You can discuss additional-bag, overweight, sports-equipment, mobility-equipment, and other special-item questions. Airline acceptance and charges must be confirmed for the specific trip." },
+    ],
+  },
+  {
     path: "/flight-change-assistance",
     title: "Flight Change Assistance by Phone | TicketDepart",
     description:
@@ -797,7 +866,7 @@ export function FamilyFlightBookingPage() {
   return <AdditionalBookingPage page={PAGES[3]!} />;
 }
 
-export function FlightChangeAssistancePage() {
+export function PetFlightBookingPage() { return <AdditionalBookingPage page={PAGES[4]!} />; }\n\nexport function InfantFlightBookingPage() { return <AdditionalBookingPage page={PAGES[5]!} />; }\n\nexport function BaggageAssistancePage() { return <AdditionalBookingPage page={PAGES[6]!} />; }\n\nexport function FlightChangeAssistancePage() {
   return <AdditionalBookingPage page={PAGES[4]!} />;
 }
 
