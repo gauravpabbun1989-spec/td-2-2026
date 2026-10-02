@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { PageContentExpansion } from "@/components/PageContentExpansion";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { breadcrumbSchema, serviceSchema, webPageSchema } from "@/lib/seo";
@@ -189,6 +190,8 @@ function RoutePage({ page }: { page: RoutePage }) {
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{page.routeNotes}</p>
         </div>
       </Section>
+
+      <PageContentExpansion subject={`${page.origin} to ${page.destination} flights`} intro={page.intro} points={[["Airport choices", `Typical airport pair: ${page.airports}`],["Route considerations", page.routeNotes],["Dates and flexibility", "Discuss your travel window and any flexibility."],["Cabin and baggage", "Review cabin options and baggage terms before booking."]]} />
 
       <Section tone="paper" ocid={`${id}.cta`}>
         <div className="mx-auto max-w-3xl text-center">

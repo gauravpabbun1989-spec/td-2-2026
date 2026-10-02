@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { PageContentExpansion } from "@/components/PageContentExpansion";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { breadcrumbSchema } from "@/lib/seo";
@@ -404,6 +405,8 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
           ))}
         </div>
       </Section>
+
+      <PageContentExpansion subject={`${page.name} flight booking and reservation assistance`} intro={page.intro} points={page.services} />
 
       <Section tone="paper" ocid={`${id}.cta`}>
         <div className="mx-auto max-w-3xl text-center">

@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { PageContentExpansion } from "@/components/PageContentExpansion";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { TripRequestForm } from "@/components/contact/TripRequestForm";
@@ -101,6 +102,8 @@ export function ContactPage() {
           <TripRequestForm />
         </div>
       </Section>
+
+      <PageContentExpansion subject="contacting TicketDepart about a flight" intro="When you contact TicketDepart, the most useful starting point is a clear description of the trip you are trying to arrange or the reservation you need help understanding." points={[["Trip basics", "Origin, destination, dates, travelers, and cabin preference."],["Existing reservation", "Confirmation code, ticket details, passenger name, and current itinerary."],["Travel priorities", "Schedule, airport, connection, baggage, seating, or flexibility needs."],["Questions before booking", "Fare conditions, changes, cancellations, refunds, credits, and applicable charges."]]} context="You do not need a perfect itinerary before contacting us. The purpose of the conversation is to understand what you need, identify the practical details that matter, and explain the available next steps clearly." />
 
       <Section tone="navy" ocid="contact.disclosure.section">
         <div className="max-w-3xl">

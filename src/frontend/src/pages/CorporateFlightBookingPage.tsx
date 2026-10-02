@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { PageContentExpansion } from "@/components/PageContentExpansion";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { breadcrumbSchema, serviceSchema, webPageSchema } from "@/lib/seo";
@@ -53,6 +54,8 @@ export function CorporateFlightBookingPage() {
         <SectionHeading eyebrow="Before you call" title="Have the trip details ready" description="The more of these details you know, the easier it is to discuss relevant options." />
         <ul className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2">{["Origin and destination","Travel dates and flexibility","Number of travelers","Business or economy preference","Preferred airlines or airports","Schedule and connection requirements"].map(item => <li key={item} className="flex items-start gap-3 rounded-xl border border-border bg-card p-5 text-sm"><CheckCircle2 className="mt-0.5 size-5 shrink-0 text-accent" /><span>{item}</span></li>)}</ul>
       </Section>
+      <PageContentExpansion subject="corporate flight booking" intro="Corporate travel often has a schedule or business requirement behind the flight itself." points={items} context="For business travel, the itinerary may need to work around meetings, employee schedules, client commitments, airport preferences, and cabin requirements. A useful booking conversation should consider the complete trip rather than treating the flight as an isolated purchase." />
+
       <Section tone="paper">
         <SectionHeading eyebrow="FAQ" title="Corporate flight booking questions" description="Straight answers before you call." />
         <div className="mx-auto mt-10 max-w-3xl space-y-4">{faqs.map(f => <details key={f.question} className="rounded-2xl border border-border bg-card p-5 shadow-subtle"><summary className="cursor-pointer font-semibold">{f.question}</summary><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.answer}</p></details>)}</div>
