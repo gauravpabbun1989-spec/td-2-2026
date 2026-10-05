@@ -78,17 +78,21 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking",
-    title: "Business Class Travel Agency & Corporate Flight Booking | TicketDepart",
+    title: "Business Class Flight Booking & Travel Agent Assistance | TicketDepart",
     description:
-      "Looking for business class travel agency assistance? Discuss business and corporate flight booking from U.S. airports, schedules, aircraft, connections, cabins, baggage, flexibility, and fare conditions with an independent travel specialist by phone.",
-    heading: "Business class flight booking assistance by phone",
+      "Looking for business class travel agent assistance? Discuss business and corporate flight booking from U.S. airports, including New York, Los Angeles, Chicago, Miami, Dallas, and San Francisco, with an independent travel specialist by phone.",
+    heading: "Business class flight booking and travel agent assistance by phone",
     intro:
-      "Business travel is rarely just about choosing a cabin. Your schedule, connection time, aircraft, airport, baggage needs, and flexibility can all matter. Tell us what the trip needs to accomplish and a specialist can work through the practical options with you.",
+      "Looking for a business class travel agent? TicketDepart can help you work through U.S. departure airports, international routes, schedules, aircraft, connections, cabins, baggage, flexibility, and fare conditions before you decide. We are an independent travel agency, not an airline.",
     service: "Business class flight booking assistance",
     items: [
       [
-        "Business travel agency assistance",
-        "Discuss business and corporate flight booking around your meeting dates, preferred airports, traveler count, and schedule priorities.",
+        "Business class travel agent assistance",
+        "Discuss business and corporate flight booking with a travel specialist around your meeting dates, preferred airports, traveler count, and schedule priorities.",
+      ],
+      [
+        "U.S. departure airports",
+        "Discuss options from New York, Los Angeles, Chicago, Miami, Dallas, San Francisco, and other U.S. airports when they fit the trip.",
       ],
       [
         "Business class cabin options",
@@ -151,7 +155,12 @@ const PAGES: readonly PageConfig[] = [
       {
         question: "Can you help compare business-class flight options?",
         answer:
-          "Yes. We can discuss schedules, connection times, airports, aircraft information when available, cabin options, and the fare conditions that apply.",
+          "Yes. We can discuss schedules, connection times, U.S. departure airports, aircraft information when available, cabin options, and the fare conditions that apply.",
+      },
+      {
+        question: "Can I speak with a business class travel agent?",
+        answer:
+          "Yes. Call TicketDepart to discuss your departure city, destination, dates, cabin preference, schedule priorities, and available business-class booking options with an independent travel specialist.",
       },
       {
         question: "What should I have ready for a business flight booking?",
