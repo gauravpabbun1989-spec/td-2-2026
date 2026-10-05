@@ -20,7 +20,7 @@ export function MobileCallBar() {
           className="flex min-h-12 w-full flex-wrap items-center justify-center gap-x-2 gap-y-0.5 rounded-full bg-accent px-3 py-2 text-xs font-bold text-accent-foreground shadow-[0_10px_24px_-12px_rgba(0,0,0,0.65)] transition-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:flex-nowrap sm:gap-2.5 sm:px-5 sm:text-sm sm:w-auto sm:min-w-[20rem]"
         >
           <Phone aria-hidden="true" className="size-4 shrink-0" />
-          <span className="min-w-0 text-center">Call for Reservation Assistance</span>
+          <span className="min-w-0 text-center">{SITE.ctaLabel}</span>
           <span className="basis-full text-center text-[11px] leading-tight sm:basis-auto sm:whitespace-nowrap sm:text-sm">{SITE.phoneDisplay}</span>
         </a>
       </div>
