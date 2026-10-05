@@ -78,7 +78,7 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking",
-    title: "Business Class & Corporate Flight Booking | TicketDepart",
+    title: "Business Class Travel Agency & Corporate Flight Booking | TicketDepart",
     description:
       "Looking for business class travel agency assistance? Discuss business and corporate flight booking from U.S. airports, schedules, aircraft, connections, cabins, baggage, flexibility, and fare conditions with an independent travel specialist by phone.",
     heading: "Business class flight booking assistance by phone",
@@ -892,6 +892,41 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             <Phone className="size-4 text-accent" />
             {SITE.hours} · {SITE.phoneDisplay}
           </p>
+          {page.path === "/international-flight-booking" && (
+            <div
+              data-cro-version="271"
+              className="mt-8 rounded-2xl border border-border bg-card p-5 sm:p-6"
+              aria-labelledby="international-us-airlines-heading"
+            >
+              <h2 id="international-us-airlines-heading" className="text-xl font-semibold">
+                Airline-specific U.S. booking help
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                If you already know the airline you want to travel on, use the matching guide. TicketDepart is an independent travel agency and is not the official customer service for any airline.
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                {[
+                  ["American Airlines", "/american-airlines"],
+                  ["Delta Airlines", "/delta-airlines"],
+                  ["United Airlines", "/united-airlines"],
+                  ["Southwest Airlines", "/southwest-airlines"],
+                  ["JetBlue Airways", "/jetblue-airways"],
+                ].map(([label, to]) => (
+                  <Link
+                    key={to}
+                    to={to}
+                    className="group rounded-xl border border-border bg-background p-4 transition-colors hover:border-primary/40 hover:bg-muted/40"
+                  >
+                    <span className="block font-semibold text-foreground">{label}</span>
+                    <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                      Open guide <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
           {page.path === "/business-class-flight-booking" && (
             <div
               data-cro-version="269"
