@@ -105,6 +105,9 @@ export function absoluteUrl(path: string): string {
   const origin = siteOrigin().replace(/\/$/, "");
   const normalized = path.startsWith("/") ? path : `/${path}`;
   // Keep the homepage at "/" and use the trailing-slash form served by the static route directories.
-  const canonicalPath = normalized === "/" ? "/" : `${normalized.replace(/\/+$/, "")}/`;
+  const cleanPath = normalized.replace(/\/+$/, "");
+  const isAsset = /\.[a-z0-9]{2,8}$/i.test(cleanPath);
+  const canonicalPath =
+    cleanPath === "/" ? "/" : isAsset ? cleanPath : `${cleanPath}/`;
   return `${origin}${canonicalPath}`;
 }
