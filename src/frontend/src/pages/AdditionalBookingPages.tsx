@@ -126,6 +126,10 @@ const PAGES: readonly PageConfig[] = [
         "Flexible business travel",
         "Consider nearby airports, alternate dates, one-way or round-trip structures, and other practical adjustments when the schedule allows.",
       ],
+      [
+        "U.S. gateway planning",
+        "Discuss departures from major U.S. gateways such as New York, Chicago, Los Angeles, Miami, Dallas, Atlanta, and San Francisco when they fit the trip.",
+      ],
     ],
     faqs: [
       {
@@ -162,6 +166,11 @@ const PAGES: readonly PageConfig[] = [
         question: "What should I have ready for a business flight booking?",
         answer:
           "Have the departure city, destination, dates, traveler count, preferred cabin, airline preference, and any meeting or arrival-time requirements you know. You can start with just the basics.",
+      },
+      {
+        question: "Can you help with business-class departures from major U.S. airports?",
+        answer:
+          "Yes. You can discuss departures from major U.S. gateways and practical nearby-airport alternatives, subject to the itinerary, schedule, and live availability.",
       },
       {
         question: "Are business-class tickets always refundable?",
@@ -892,6 +901,41 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             <Phone className="size-4 text-accent" />
             {SITE.hours} · {SITE.phoneDisplay}
           </p>
+          {page.path === "/international-flight-booking" && (
+            <div
+              data-cro-version="271"
+              className="mt-8 rounded-2xl border border-border bg-card p-5 sm:p-6"
+              aria-labelledby="international-us-airlines-heading"
+            >
+              <h2 id="international-us-airlines-heading" className="text-xl font-semibold">
+                Airline-specific U.S. booking help
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                If you already know the airline you want to travel on, use the matching guide. TicketDepart is an independent travel agency and is not the official customer service for any airline.
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                {[
+                  ["American Airlines", "/american-airlines"],
+                  ["Delta Airlines", "/delta-airlines"],
+                  ["United Airlines", "/united-airlines"],
+                  ["Southwest Airlines", "/southwest-airlines"],
+                  ["JetBlue Airways", "/jetblue-airways"],
+                ].map(([label, to]) => (
+                  <Link
+                    key={to}
+                    to={to}
+                    className="group rounded-xl border border-border bg-background p-4 transition-colors hover:border-primary/40 hover:bg-muted/40"
+                  >
+                    <span className="block font-semibold text-foreground">{label}</span>
+                    <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                      Open guide <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
           {page.path === "/business-class-flight-booking" && (
             <div
               data-cro-version="269"
@@ -926,6 +970,44 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
               </div>
             </div>
           )}
+          {page.path === "/business-class-flight-booking" && (
+            <div
+              data-cro-version="270"
+              className="mt-8 rounded-2xl border border-border bg-card p-5 sm:p-6"
+              aria-labelledby="business-us-gateways-heading"
+            >
+              <h2 id="business-us-gateways-heading" className="text-xl font-semibold">
+                Start with a U.S. departure city or route
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                If you already know where the trip starts, these existing guides are useful starting points. They connect airport and route intent back to phone booking assistance without creating duplicate city pages.
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  ["New York departures", "/flights-from-new-york"],
+                  ["Chicago departures", "/flights-from-chicago"],
+                  ["Los Angeles departures", "/flights-from-los-angeles"],
+                  ["San Francisco departures", "/flights-from-san-francisco"],
+                  ["USA to Canada", "/flights-usa-to-canada"],
+                  ["USA to UK", "/flights-usa-to-uk"],
+                  ["USA to Europe", "/flights-usa-to-europe"],
+                  ["USA to Mexico", "/flights-usa-to-mexico"],
+                ].map(([label, to]) => (
+                  <Link
+                    key={to}
+                    to={to}
+                    className="group rounded-xl border border-border bg-background p-4 transition-colors hover:border-primary/40 hover:bg-muted/40"
+                  >
+                    <span className="block font-semibold text-foreground">{label}</span>
+                    <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                      Open guide <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
           {page.path === "/flight-booking-assistance" && (
             <div
               data-cro-version="268"
