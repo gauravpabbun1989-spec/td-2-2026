@@ -380,6 +380,19 @@ export function AmericanAirlinesPage() {
         </div>
       </Section>
 
+      <Section tone="muted" ocid="american.faq.keyword_intent">
+        <SectionHeading
+          eyebrow="American Airlines flight assistance"
+          title="American Airlines booking, change, cancellation and rebooking searches"
+          description="High-intent U.S. traveler searches for American Airlines flight booking and reservation assistance."
+        />
+        <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Travelers looking for <span className="font-semibold text-foreground">American Airlines flight booking assistance</span>, American Airlines flight booking by phone, American Airlines reservation support, American Airlines flight change assistance, American Airlines change flight help, American Airlines flight cancellation assistance, American Airlines cancel flight help, American Airlines flight rebooking assistance, American Airlines rebook flight help, American Airlines flight rescheduling assistance, American Airlines multi-city flight booking, American Airlines international flight booking, American Airlines business class or premium cabin booking, and American Airlines baggage assistance can discuss the itinerary with an independent travel specialist. U.S. travelers may also need help with American Airlines flights from New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, San Francisco, or other U.S. gateways, including domestic, international, transatlantic, transpacific, Caribbean, Latin America, Europe, Asia, and Middle East routes. Availability, fare rules, baggage, changes, cancellations, and rebooking options depend on the specific ticket and live inventory.
+          </p>
+        </div>
+      </Section>
+
       <Section tone="muted" ocid="american.faq">
         <SectionHeading
           eyebrow="American Airlines questions"
