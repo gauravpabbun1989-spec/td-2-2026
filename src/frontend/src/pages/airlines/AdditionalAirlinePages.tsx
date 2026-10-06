@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { FlightServiceIntentSection } from "@/components/FlightServiceIntentSection";
 import { PageContentExpansion } from "@/components/PageContentExpansion";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
@@ -431,6 +432,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
         </div>
       </Section>
 
+      <FlightServiceIntentSection airline={page.name} />
       <Section tone="paper" ocid={`${id}.related`}>
         <SectionHeading eyebrow="Airline booking help" title="Explore another airline" description="Choose another airline-specific guide or return to general flight booking help." />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
