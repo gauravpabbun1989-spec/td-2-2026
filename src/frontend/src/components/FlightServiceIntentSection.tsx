@@ -4,11 +4,19 @@ import { Section, SectionHeading } from "@/components/Section";
 type Props = {
   airline?: string;
   routeLabel?: string;
+  country?: string;
+  hub?: string;
+  airportLabel?: string;
 };
 
-export function FlightServiceIntentSection({ airline, routeLabel }: Props) {
+export function FlightServiceIntentSection({ airline, routeLabel, country, hub, airportLabel }: Props) {
   const subject = airline ? `${airline} flight` : routeLabel ? `${routeLabel} flight` : "your flight";
   const brand = airline ? `${airline} ` : "";
+  const destinationContext = country
+    ? ` for travelers in the United States traveling to ${country}`
+    : "";
+  const hubContext = hub ? ` The main connection hub is ${hub}.` : "";
+  const airportContext = airportLabel ? ` Major gateway context: ${airportLabel}.` : "";
 
   const topics = [
     [`${brand}change flight`, `Review a date, time, airport, or routing change on an existing ${subject} and discuss applicable fare differences or restrictions.`],
@@ -17,6 +25,8 @@ export function FlightServiceIntentSection({ airline, routeLabel }: Props) {
     [`${brand}reschedule flight`, `For a date or schedule change, discuss alternative flights and the conditions attached to the existing reservation.`],
     [`${brand}flight change by phone`, `Phone assistance is useful when the itinerary is complex, involves multiple travelers, or needs a careful review of the existing ticket.`],
     [`${brand}flight cancellation assistance`, `A specialist can explain the next steps before you authorize a cancellation or change, with final outcomes determined by the ticket and applicable airline rules.`],
+    [`${brand}flight booking by phone`, `Discuss a new reservation by phone, including dates, routing, travelers, cabin preferences, baggage questions, and fare conditions before you authorize a booking.`],
+    [`${brand}rebook flight by phone`, `Phone assistance can help when you need to compare replacement dates, routing, connection options, or availability on an existing reservation.`],
   ] as const;
 
   return (
@@ -24,7 +34,7 @@ export function FlightServiceIntentSection({ airline, routeLabel }: Props) {
       <SectionHeading
         eyebrow="Flight changes, cancellations & rebooking"
         title={`${subject.charAt(0).toUpperCase() + subject.slice(1)} support when plans change`}
-        description={`Need to change, cancel, rebook, or reschedule ${subject}? Review the common service requests below and call when you want to discuss the details with a travel specialist.`}
+        description={`Need to change, cancel, rebook, reschedule, or book ${subject}${destinationContext}? Review the common service requests below and call when you want to discuss the details with a travel specialist.${hubContext}${airportContext}`}
       />
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {topics.map(([title, body]) => (
