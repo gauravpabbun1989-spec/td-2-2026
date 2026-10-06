@@ -40,6 +40,13 @@ export function PageContentExpansion({
           <p>
             Before a booking is confirmed, review the details that can affect the value of the ticket after purchase. Check the passenger names, dates, airports, flight numbers, cabin, baggage allowance, connection points, and any disclosed fare or service conditions. Ask specifically about changes, cancellations, refunds, credits, fare differences, and ticketing deadlines when those issues matter to your plans. Airline policies and availability can vary by itinerary, fare, route, and provider, so the terms attached to the specific booking should be treated as the final reference.
           </p>
+          <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
+            <h3 className="font-display text-lg font-semibold text-foreground">High-intent flight booking and reservation searches</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Travelers researching {subject.toLowerCase()} may be looking for flight booking assistance, flight booking by phone, reservation support, flight change assistance, flight cancellation assistance, flight rebooking assistance, flight rescheduling help, last-minute flight booking, international flight booking, multi-city flight booking, business class flight booking, family flight booking, group flight booking, baggage assistance, pet flight booking, infant flight booking, and same-day flight booking. U.S. travelers may also search for flights from New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, Orlando, or San Francisco, as well as USA-to-Europe, USA-to-Asia, USA-to-Middle East, USA-to-Latin America, Caribbean, Canada, Mexico, UK, and other international routes. The exact itinerary, airline, airport, fare, baggage allowance, change policy, cancellation terms, and availability should always be confirmed for the specific reservation.
+            </p>
+          </div>
+
           <p>
             Different kinds of trips also call for different questions. A last-minute traveler may care most about ticketing deadlines and realistic departure times. A business traveler may prioritize arrival time, cabin, connectivity, and the ability to change dates. Families may need to discuss seats, baggage, child or infant travel details, and manageable connections. Multi-city travelers should review every segment in order, while premium-cabin travelers may want to confirm the aircraft, seat type, lounge or baggage details that actually apply to the selected itinerary. These details should be checked against the specific ticket rather than assumed from a general airline description.
           </p>

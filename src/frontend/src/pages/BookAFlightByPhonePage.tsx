@@ -356,6 +356,13 @@ export function BookAFlightByPhonePage() {
         </div>
       </Section>
 
+      <Section tone="muted" ocid="book_flight_phone.keyword_intent">
+        <SectionHeading eyebrow="Phone-first flight booking" title="Book flights by phone from the USA with reservation assistance" description="High-intent booking and service terms covered throughout the booking conversation." />
+        <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
+          <p className="text-sm leading-relaxed text-muted-foreground">U.S. travelers searching for book a flight by phone, flight booking assistance, flight reservation assistance, airline reservation assistance, international flight booking by phone, cheap flight booking by phone, last-minute flight booking, same-day flight booking, business class flight booking, family flight booking, group flight booking, multi-city flight booking, flight change assistance, flight cancellation assistance, flight rebooking assistance, and flight rescheduling help can discuss the complete itinerary with a specialist. Tell us your U.S. departure city, destination country or airport, travel dates, travelers, cabin, baggage needs, connection preferences, and existing reservation details when applicable. The goal is to match the conversation to the actual trip rather than rely on a generic airline or route description.</p>
+        </div>
+      </Section>
+
       <Section tone="paper" ocid="book_flight_phone.faq">
         <SectionHeading
           eyebrow="FAQ"

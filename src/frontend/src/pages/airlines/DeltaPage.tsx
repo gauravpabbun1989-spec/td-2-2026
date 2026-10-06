@@ -397,6 +397,19 @@ export function DeltaPage() {
         </div>
       </Section>
 
+      <Section tone="muted" ocid="delta.faq.keyword_intent">
+        <SectionHeading
+          eyebrow="Delta Airlines flight assistance"
+          title="Delta Airlines booking, change, cancellation and rebooking searches"
+          description="High-intent U.S. traveler searches for Delta Airlines flight booking and reservation assistance."
+        />
+        <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Travelers looking for <span className="font-semibold text-foreground">Delta Airlines flight booking assistance</span>, Delta Airlines flight booking by phone, Delta Airlines reservation support, Delta Airlines flight change assistance, Delta Airlines change flight help, Delta Airlines flight cancellation assistance, Delta Airlines cancel flight help, Delta Airlines flight rebooking assistance, Delta Airlines rebook flight help, Delta Airlines flight rescheduling assistance, Delta Airlines multi-city flight booking, Delta Airlines international flight booking, Delta Airlines business class or premium cabin booking, and Delta Airlines baggage assistance can discuss the itinerary with an independent travel specialist. U.S. travelers may also need help with Delta Airlines flights from New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, San Francisco, or other U.S. gateways, including domestic, international, transatlantic, transpacific, Caribbean, Latin America, Europe, Asia, and Middle East routes. Availability, fare rules, baggage, changes, cancellations, and rebooking options depend on the specific ticket and live inventory.
+          </p>
+        </div>
+      </Section>
+
       <Section tone="paper" ocid="delta.faq">
         <SectionHeading
           eyebrow="Delta Airlines questions"

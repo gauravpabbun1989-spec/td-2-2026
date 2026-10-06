@@ -281,6 +281,13 @@ export function HowToBookFlightByPhonePage() {
         </div>
       </Section>
 
+      <Section tone="muted" ocid="phone_booking_guide.keyword_intent">
+        <SectionHeading eyebrow="Flight booking search intent" title="How to book, change, cancel or rebook a flight by phone" description="A phone-first guide for U.S. travelers who need reservation assistance." />
+        <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
+          <p className="text-sm leading-relaxed text-muted-foreground">Travelers searching how to book a flight by phone may also need flight booking assistance, flight reservation assistance, change flight help, cancel flight help, rebook flight assistance, reschedule flight assistance, airline reservation support, international flight booking, multi-city flight booking, last-minute flight booking, same-day flight booking, business class booking, family flight booking, group flight booking, baggage assistance, pet flight booking, or infant flight booking. U.S. travelers can discuss flights from New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, Orlando, San Francisco, and other U.S. airports to destinations worldwide, including Canada, Mexico, the Caribbean, Latin America, Europe, Asia, the Middle East, and Africa.</p>
+        </div>
+      </Section>
+
       <Section tone="navy" ocid="phone_booking_guide.cta">
         <div className="mx-auto max-w-3xl text-center">
           <p className="label-board text-accent">TicketDepart</p>

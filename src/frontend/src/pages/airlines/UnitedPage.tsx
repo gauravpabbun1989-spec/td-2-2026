@@ -494,6 +494,19 @@ export function UnitedPage() {
         </div>
       </Section>
 
+      <Section tone="muted" ocid="united.faq.keyword_intent">
+        <SectionHeading
+          eyebrow="United Airlines flight assistance"
+          title="United Airlines booking, change, cancellation and rebooking searches"
+          description="High-intent U.S. traveler searches for United Airlines flight booking and reservation assistance."
+        />
+        <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Travelers looking for <span className="font-semibold text-foreground">United Airlines flight booking assistance</span>, United Airlines flight booking by phone, United Airlines reservation support, United Airlines flight change assistance, United Airlines change flight help, United Airlines flight cancellation assistance, United Airlines cancel flight help, United Airlines flight rebooking assistance, United Airlines rebook flight help, United Airlines flight rescheduling assistance, United Airlines multi-city flight booking, United Airlines international flight booking, United Airlines business class or premium cabin booking, and United Airlines baggage assistance can discuss the itinerary with an independent travel specialist. U.S. travelers may also need help with United Airlines flights from New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, San Francisco, or other U.S. gateways, including domestic, international, transatlantic, transpacific, Caribbean, Latin America, Europe, Asia, and Middle East routes. Availability, fare rules, baggage, changes, cancellations, and rebooking options depend on the specific ticket and live inventory.
+          </p>
+        </div>
+      </Section>
+
       <Section tone="paper" ocid="united.faq">
         <SectionHeading
           eyebrow="United Airlines questions"
