@@ -636,6 +636,19 @@ export function FlightBookingPage() {
         </div>
       </Section>
 
+      <Section tone="muted" ocid="flight_booking.keyword_intent">
+        <SectionHeading
+          eyebrow="Flight booking assistance"
+          title="High-intent flight booking, change and reservation searches"
+          description="U.S. travelers can discuss domestic and international flight booking needs by phone."
+        />
+        <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            TicketDepart supports U.S. travelers researching flight booking assistance, flight booking by phone, flight reservation assistance, airline reservation assistance, flight change assistance, change flight help, flight cancellation assistance, cancel flight help, flight rebooking assistance, rebook flight help, flight rescheduling assistance, last-minute flight booking, same-day flight booking, international flight booking, multi-city flight booking, group flight booking, family flight booking, business class flight booking, baggage assistance, pet flight booking, and infant flight booking. Travelers may be planning flights from New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, Orlando, San Francisco, or another U.S. airport to destinations across Canada, Mexico, the Caribbean, Latin America, Europe, Asia, the Middle East, Africa, and other parts of the world. The specific airline, airport, route, cabin, baggage allowance, fare conditions, cancellation terms, change rules, and availability should be confirmed for the actual reservation.
+          </p>
+        </div>
+      </Section>
+
       <Section tone="navy" ocid="flight_booking.cta">
         <div className="mx-auto max-w-3xl text-center">
           <p className="label-board text-accent">Available 24/7</p>
