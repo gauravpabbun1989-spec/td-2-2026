@@ -238,10 +238,10 @@ const usaToCanadaFlightsRoute = createRoute({
   component: UsaToCanadaFlightsPage,
 });
 
-const usaToUkFlightsRoute = createRoute({
+const usaToUKFlightsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-usa-to-uk",
-  component: UsaToUkFlightsPage,
+  component: UsaToUKFlightsPage,
 });
 
 const usaToEuropeFlightsRoute = createRoute({
@@ -563,7 +563,6 @@ export const routeTree = rootRoute.addChildren([
   flightCancellationAssistanceRoute,
   airlineReservationAssistanceRoute,
   flightBookingAssistanceRoute,
-  usaToUkFlightsRoute,
   usaToEuropeFlightsRoute,
   usaToItalyFlightsRoute,
   usaToFranceFlightsRoute,
