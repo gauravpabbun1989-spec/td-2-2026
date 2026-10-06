@@ -70,6 +70,7 @@ const SouthwestAirlinesPage = lazyPage(() => import("@/pages/airlines/Additional
 const SwissAirPage = lazyPage(() => import("@/pages/airlines/AdditionalAirlinePages").then(({ SwissAirPage }) => ({ default: SwissAirPage })));
 const QatarAirwaysPage = lazyPage(() => import("@/pages/airlines/AdditionalAirlinePages").then(({ QatarAirwaysPage }) => ({ default: QatarAirwaysPage })));
 const EmiratesPage = lazyPage(() => import("@/pages/airlines/AdditionalAirlinePages").then(({ EmiratesPage }) => ({ default: EmiratesPage })));
+const TurkishAirlinesPage = lazyPage(() => import("@/pages/airlines/AdditionalAirlinePages").then(({ TurkishAirlinesPage }) => ({ default: TurkishAirlinesPage })));
 const LotPolishAirlinesPage = lazyPage(() => import("@/pages/airlines/AdditionalAirlinePages").then(({ LotPolishAirlinesPage }) => ({ default: LotPolishAirlinesPage })));
 const NorseAtlanticAirwaysPage = lazyPage(() => import("@/pages/airlines/AdditionalAirlinePages").then(({ NorseAtlanticAirwaysPage }) => ({ default: NorseAtlanticAirwaysPage })));
 
@@ -415,6 +416,12 @@ const emiratesRoute = createRoute({
   component: EmiratesPage,
 });
 
+const turkishAirlinesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/turkish-airlines",
+  component: TurkishAirlinesPage,
+});
+
 const lotPolishAirlinesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/lot-polish-airlines",
@@ -507,6 +514,7 @@ export const routeTree = rootRoute.addChildren([
   swissAirRoute,
   qatarAirwaysRoute,
   emiratesRoute,
+  turkishAirlinesRoute,
   lotPolishAirlinesRoute,
   norseAtlanticAirwaysRoute,
   contactRoute,
