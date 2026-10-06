@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { FlightServiceIntentSection } from "@/components/FlightServiceIntentSection";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import {
@@ -378,6 +379,7 @@ export function BookAFlightByPhonePage() {
           ))}
         </div>
       </Section>
+      <FlightServiceIntentSection />
     </>
   );
 }
