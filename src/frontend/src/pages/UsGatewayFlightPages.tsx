@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { FlightServiceIntentSection } from "@/components/FlightServiceIntentSection";
 import { PageContentExpansion } from "@/components/PageContentExpansion";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
@@ -349,7 +350,8 @@ function GatewayFlightPage({ page }: { page: GatewayPage }) {
         </div>
       </Section>
 
-      <Section tone="paper" ocid={`${id}.related`}>
+            <FlightServiceIntentSection />
+<Section tone="paper" ocid={`${id}.related`}>
         <SectionHeading
           eyebrow="Related booking help"
           title="Continue planning your flight"
