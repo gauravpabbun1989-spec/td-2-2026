@@ -654,8 +654,9 @@ function CountryPageView({ page }: { page: CountryPage }) {
           ))}
         </div>
         <div className="mt-10 rounded-2xl border border-border/80 bg-muted/60 p-6">
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            Common search language includes <span className="font-semibold text-foreground">{countryKeywords.join(", ")}</span>. The page is intended to help U.S. travelers understand the booking and reservation-assistance path rather than imply an airline affiliation or guaranteed fare.
+          <h2 className="font-display text-lg font-semibold">Popular {page.country} flight assistance searches</h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            U.S. travelers commonly search for <span className="font-semibold text-foreground">{countryKeywords.join(", ")}</span>. Related service intent includes booking a flight to {page.country}, changing a {page.country} flight, canceling a {page.country} flight, rebooking a {page.country} flight, rescheduling travel, and getting {page.country} flight booking help by phone. These terms describe the reservation-assistance topics covered on this page and do not imply airline affiliation or guaranteed fares.
           </p>
         </div>
       </Section>
