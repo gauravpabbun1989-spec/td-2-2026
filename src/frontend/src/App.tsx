@@ -56,10 +56,7 @@ const CorporateFlightBookingPage = lazyPage(() => import("@/pages/CorporateFligh
 const FamilyFlightBookingPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ FamilyFlightBookingPage }) => ({ default: FamilyFlightBookingPage })));
 const FlightBookingAssistancePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ FlightBookingAssistancePage }) => ({ default: FlightBookingAssistancePage })));
 const FlightCancellationAssistancePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ FlightCancellationAssistancePage }) => ({ default: FlightCancellationAssistancePage })));
-const UsaToCanadaFlightsPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ UsaToCanadaFlightsPage }) => ({ default: UsaToCanadaFlightsPage })));
-const UsaToUkFlightsPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ UsaToUkFlightsPage }) => ({ default: UsaToUkFlightsPage })));
 const UsaToEuropeFlightsPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ UsaToEuropeFlightsPage }) => ({ default: UsaToEuropeFlightsPage })));
-const UsaToMexicoFlightsPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ UsaToMexicoFlightsPage }) => ({ default: UsaToMexicoFlightsPage })));
 const PetFlightBookingPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ PetFlightBookingPage }) => ({ default: PetFlightBookingPage })));
 const InfantFlightBookingPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ InfantFlightBookingPage }) => ({ default: InfantFlightBookingPage })));
 const BaggageAssistancePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ BaggageAssistancePage }) => ({ default: BaggageAssistancePage })));
@@ -286,7 +283,6 @@ const usaToVietnamFlightsRoute = createRoute({ getParentRoute: () => rootRoute, 
 const usaToIndonesiaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-indonesia", component: UsaToIndonesiaFlightsPage });
 const usaToTaiwanFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-taiwan", component: UsaToTaiwanFlightsPage });
 const usaToHongKongFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-hong-kong", component: UsaToHongKongFlightsPage });
-const usaToUKFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-uk", component: UsaToUKFlightsPage });
 
 const flightsFromNewYorkRoute = createRoute({
   getParentRoute: () => rootRoute,
