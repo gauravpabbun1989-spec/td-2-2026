@@ -34,7 +34,7 @@ const UsaToNetherlandsFlightsPage = lazyPage(() => import("@/pages/UsaWorldCount
 const UsaToUAEFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToUAEFlightsPage }) => ({ default: UsaToUAEFlightsPage })));
 const UsaToQatarFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToQatarFlightsPage }) => ({ default: UsaToQatarFlightsPage })));
 const UsaToSaudiArabiaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSaudiArabiaFlightsPage }) => ({ default: UsaToSaudiArabiaFlightsPage })));
-const UsaToTürkiyeFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToTürkiyeFlightsPage }) => ({ default: UsaToTürkiyeFlightsPage })));
+const UsaToTrkiyeFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToTrkiyeFlightsPage }) => ({ default: UsaToTrkiyeFlightsPage })));
 const UsaToMoroccoFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToMoroccoFlightsPage }) => ({ default: UsaToMoroccoFlightsPage })));
 const UsaToSouthAfricaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSouthAfricaFlightsPage }) => ({ default: UsaToSouthAfricaFlightsPage })));
 const UsaToSouthKoreaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSouthKoreaFlightsPage }) => ({ default: UsaToSouthKoreaFlightsPage })));
@@ -274,7 +274,7 @@ const usaToNetherlandsFlightsRoute = createRoute({ getParentRoute: () => rootRou
 const usaToUAEFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-uae", component: UsaToUAEFlightsPage });
 const usaToQatarFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-qatar", component: UsaToQatarFlightsPage });
 const usaToSaudiArabiaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-saudi-arabia", component: UsaToSaudiArabiaFlightsPage });
-const usaToTürkiyeFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-turkiye", component: UsaToTürkiyeFlightsPage });
+const usaToTürkiyeFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-turkiye", component: UsaToTrkiyeFlightsPage });
 const usaToMoroccoFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-morocco", component: UsaToMoroccoFlightsPage });
 const usaToSouthAfricaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-south-africa", component: UsaToSouthAfricaFlightsPage });
 const usaToSouthKoreaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-south-korea", component: UsaToSouthKoreaFlightsPage });
@@ -286,8 +286,6 @@ const usaToVietnamFlightsRoute = createRoute({ getParentRoute: () => rootRoute, 
 const usaToIndonesiaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-indonesia", component: UsaToIndonesiaFlightsPage });
 const usaToTaiwanFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-taiwan", component: UsaToTaiwanFlightsPage });
 const usaToHongKongFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-hong-kong", component: UsaToHongKongFlightsPage });
-const usaToMexicoFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-mexico", component: UsaToMexicoFlightsPage });
-const usaToCanadaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-canada", component: UsaToCanadaFlightsPage });
 const usaToUKFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-uk", component: UsaToUKFlightsPage });
 
 const flightsFromNewYorkRoute = createRoute({
@@ -569,10 +567,8 @@ export const routeTree = rootRoute.addChildren([
   flightCancellationAssistanceRoute,
   airlineReservationAssistanceRoute,
   flightBookingAssistanceRoute,
-  usaToCanadaFlightsRoute,
   usaToUkFlightsRoute,
   usaToEuropeFlightsRoute,
-  usaToMexicoFlightsRoute,
   usaToItalyFlightsRoute,
   usaToFranceFlightsRoute,
   usaToGermanyFlightsRoute,
