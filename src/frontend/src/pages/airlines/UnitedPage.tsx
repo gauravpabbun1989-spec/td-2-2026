@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { FlightServiceIntentSection } from "@/components/FlightServiceIntentSection";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { breadcrumbSchema } from "@/lib/seo";
@@ -542,6 +543,7 @@ export function UnitedPage() {
           </ul>
         </div>
       </Section>
+      <FlightServiceIntentSection airline="United Airlines" />
     </>
   );
 }
