@@ -30,6 +30,25 @@ const UsaToBrazilFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPag
 const UsaToColombiaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToColombiaFlightsPage }) => ({ default: UsaToColombiaFlightsPage })));
 const UsaToGreeceFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToGreeceFlightsPage }) => ({ default: UsaToGreeceFlightsPage })));
 const UsaToSwitzerlandFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSwitzerlandFlightsPage }) => ({ default: UsaToSwitzerlandFlightsPage })));
+const UsaToNetherlandsFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToNetherlandsFlightsPage }) => ({ default: UsaToNetherlandsFlightsPage })));
+const UsaToUAEFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToUAEFlightsPage }) => ({ default: UsaToUAEFlightsPage })));
+const UsaToQatarFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToQatarFlightsPage }) => ({ default: UsaToQatarFlightsPage })));
+const UsaToSaudiArabiaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSaudiArabiaFlightsPage }) => ({ default: UsaToSaudiArabiaFlightsPage })));
+const UsaToTürkiyeFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToTürkiyeFlightsPage }) => ({ default: UsaToTürkiyeFlightsPage })));
+const UsaToMoroccoFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToMoroccoFlightsPage }) => ({ default: UsaToMoroccoFlightsPage })));
+const UsaToSouthAfricaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSouthAfricaFlightsPage }) => ({ default: UsaToSouthAfricaFlightsPage })));
+const UsaToSouthKoreaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSouthKoreaFlightsPage }) => ({ default: UsaToSouthKoreaFlightsPage })));
+const UsaToPhilippinesFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToPhilippinesFlightsPage }) => ({ default: UsaToPhilippinesFlightsPage })));
+const UsaToSingaporeFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSingaporeFlightsPage }) => ({ default: UsaToSingaporeFlightsPage })));
+const UsaToMalaysiaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToMalaysiaFlightsPage }) => ({ default: UsaToMalaysiaFlightsPage })));
+const UsaToThailandFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToThailandFlightsPage }) => ({ default: UsaToThailandFlightsPage })));
+const UsaToVietnamFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToVietnamFlightsPage }) => ({ default: UsaToVietnamFlightsPage })));
+const UsaToIndonesiaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToIndonesiaFlightsPage }) => ({ default: UsaToIndonesiaFlightsPage })));
+const UsaToTaiwanFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToTaiwanFlightsPage }) => ({ default: UsaToTaiwanFlightsPage })));
+const UsaToHongKongFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToHongKongFlightsPage }) => ({ default: UsaToHongKongFlightsPage })));
+const UsaToMexicoFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToMexicoFlightsPage }) => ({ default: UsaToMexicoFlightsPage })));
+const UsaToCanadaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToCanadaFlightsPage }) => ({ default: UsaToCanadaFlightsPage })));
+const UsaToUKFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToUKFlightsPage }) => ({ default: UsaToUKFlightsPage })));
 
 const CheapFlightBookingByPhonePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ CheapFlightBookingByPhonePage }) => ({ default: CheapFlightBookingByPhonePage })));
 const BusinessClassFlightBookingPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ BusinessClassFlightBookingPage }) => ({ default: BusinessClassFlightBookingPage })));
@@ -250,6 +269,26 @@ const usaToBrazilFlightsRoute = createRoute({ getParentRoute: () => rootRoute, p
 const usaToColombiaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-colombia", component: UsaToColombiaFlightsPage });
 const usaToGreeceFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-greece", component: UsaToGreeceFlightsPage });
 const usaToSwitzerlandFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-switzerland", component: UsaToSwitzerlandFlightsPage });
+
+const usaToNetherlandsFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-netherlands", component: UsaToNetherlandsFlightsPage });
+const usaToUAEFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-uae", component: UsaToUAEFlightsPage });
+const usaToQatarFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-qatar", component: UsaToQatarFlightsPage });
+const usaToSaudiArabiaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-saudi-arabia", component: UsaToSaudiArabiaFlightsPage });
+const usaToTürkiyeFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-turkiye", component: UsaToTürkiyeFlightsPage });
+const usaToMoroccoFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-morocco", component: UsaToMoroccoFlightsPage });
+const usaToSouthAfricaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-south-africa", component: UsaToSouthAfricaFlightsPage });
+const usaToSouthKoreaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-south-korea", component: UsaToSouthKoreaFlightsPage });
+const usaToPhilippinesFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-philippines", component: UsaToPhilippinesFlightsPage });
+const usaToSingaporeFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-singapore", component: UsaToSingaporeFlightsPage });
+const usaToMalaysiaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-malaysia", component: UsaToMalaysiaFlightsPage });
+const usaToThailandFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-thailand", component: UsaToThailandFlightsPage });
+const usaToVietnamFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-vietnam", component: UsaToVietnamFlightsPage });
+const usaToIndonesiaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-indonesia", component: UsaToIndonesiaFlightsPage });
+const usaToTaiwanFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-taiwan", component: UsaToTaiwanFlightsPage });
+const usaToHongKongFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-hong-kong", component: UsaToHongKongFlightsPage });
+const usaToMexicoFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-mexico", component: UsaToMexicoFlightsPage });
+const usaToCanadaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-canada", component: UsaToCanadaFlightsPage });
+const usaToUKFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-uk", component: UsaToUKFlightsPage });
 
 const flightsFromNewYorkRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -479,6 +518,25 @@ export const routeTree = rootRoute.addChildren([
   baggageAssistanceRoute,
 
   indexRoute,
+  usaToNetherlandsFlightsRoute,
+  usaToUAEFlightsRoute,
+  usaToQatarFlightsRoute,
+  usaToSaudiArabiaFlightsRoute,
+  usaToTürkiyeFlightsRoute,
+  usaToMoroccoFlightsRoute,
+  usaToSouthAfricaFlightsRoute,
+  usaToSouthKoreaFlightsRoute,
+  usaToPhilippinesFlightsRoute,
+  usaToSingaporeFlightsRoute,
+  usaToMalaysiaFlightsRoute,
+  usaToThailandFlightsRoute,
+  usaToVietnamFlightsRoute,
+  usaToIndonesiaFlightsRoute,
+  usaToTaiwanFlightsRoute,
+  usaToHongKongFlightsRoute,
+  usaToMexicoFlightsRoute,
+  usaToCanadaFlightsRoute,
+  usaToUKFlightsRoute,
   flightsFromNewYorkRoute,
   flightsFromLosAngelesRoute,
   flightsFromChicagoRoute,
