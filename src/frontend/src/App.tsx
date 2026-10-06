@@ -20,6 +20,17 @@ const FlightSearchPage = lazyPage(() => import("@/pages/FlightSearchPage").then(
 const FlightSearchResultsPage = lazyPage(() => import("@/pages/FlightSearchResultsPage").then(({ FlightSearchResultsPage }) => ({ default: FlightSearchResultsPage })));
 const HowToBookFlightByPhonePage = lazyPage(() => import("@/pages/HowToBookFlightByPhonePage").then(({ HowToBookFlightByPhonePage }) => ({ default: HowToBookFlightByPhonePage })));
 
+const UsaToItalyFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToItalyFlightsPage }) => ({ default: UsaToItalyFlightsPage })));
+const UsaToFranceFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToFranceFlightsPage }) => ({ default: UsaToFranceFlightsPage })));
+const UsaToGermanyFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToGermanyFlightsPage }) => ({ default: UsaToGermanyFlightsPage })));
+const UsaToSpainFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSpainFlightsPage }) => ({ default: UsaToSpainFlightsPage })));
+const UsaToJapanFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToJapanFlightsPage }) => ({ default: UsaToJapanFlightsPage })));
+const UsaToChinaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToChinaFlightsPage }) => ({ default: UsaToChinaFlightsPage })));
+const UsaToBrazilFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToBrazilFlightsPage }) => ({ default: UsaToBrazilFlightsPage })));
+const UsaToColombiaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToColombiaFlightsPage }) => ({ default: UsaToColombiaFlightsPage })));
+const UsaToGreeceFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToGreeceFlightsPage }) => ({ default: UsaToGreeceFlightsPage })));
+const UsaToSwitzerlandFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSwitzerlandFlightsPage }) => ({ default: UsaToSwitzerlandFlightsPage })));
+
 const CheapFlightBookingByPhonePage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ CheapFlightBookingByPhonePage }) => ({ default: CheapFlightBookingByPhonePage })));
 const BusinessClassFlightBookingPage = lazyPage(() => import("@/pages/AdditionalBookingPages").then(({ BusinessClassFlightBookingPage }) => ({ default: BusinessClassFlightBookingPage })));
 const CorporateFlightBookingPage = lazyPage(() => import("@/pages/CorporateFlightBookingPage").then(({ CorporateFlightBookingPage }) => ({ default: CorporateFlightBookingPage })));
@@ -228,6 +239,17 @@ const usaToMexicoFlightsRoute = createRoute({
   path: "/flights-usa-to-mexico",
   component: UsaToMexicoFlightsPage,
 });
+
+const usaToItalyFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-italy", component: UsaToItalyFlightsPage });
+const usaToFranceFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-france", component: UsaToFranceFlightsPage });
+const usaToGermanyFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-germany", component: UsaToGermanyFlightsPage });
+const usaToSpainFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-spain", component: UsaToSpainFlightsPage });
+const usaToJapanFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-japan", component: UsaToJapanFlightsPage });
+const usaToChinaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-china", component: UsaToChinaFlightsPage });
+const usaToBrazilFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-brazil", component: UsaToBrazilFlightsPage });
+const usaToColombiaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-colombia", component: UsaToColombiaFlightsPage });
+const usaToGreeceFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-greece", component: UsaToGreeceFlightsPage });
+const usaToSwitzerlandFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-switzerland", component: UsaToSwitzerlandFlightsPage });
 
 const flightsFromNewYorkRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -493,6 +515,16 @@ export const routeTree = rootRoute.addChildren([
   usaToUkFlightsRoute,
   usaToEuropeFlightsRoute,
   usaToMexicoFlightsRoute,
+  usaToItalyFlightsRoute,
+  usaToFranceFlightsRoute,
+  usaToGermanyFlightsRoute,
+  usaToSpainFlightsRoute,
+  usaToJapanFlightsRoute,
+  usaToChinaFlightsRoute,
+  usaToBrazilFlightsRoute,
+  usaToColombiaFlightsRoute,
+  usaToGreeceFlightsRoute,
+  usaToSwitzerlandFlightsRoute,
   bookAFlightByPhoneRoute,
   howToBookFlightByPhoneRoute,
   deltaRoute,
