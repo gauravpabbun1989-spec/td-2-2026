@@ -339,7 +339,7 @@ const PAGES: CountryPage[] = [
     faqs: [["Can I book a flight from the USA to Saudi Arabia by phone?","Yes. A specialist can discuss your U.S. departure, Saudi Arabia destination, dates, travelers, cabin, and itinerary preferences."],["Can you help change a Saudi Arabia flight?","We can review the reservation and discuss possible changes or rebooking. Exact eligibility and cost depend on the ticket rules, airline policy, availability, and how it was issued."],["What are the main Saudi Arabia international gateways?","Common gateways include King Khalid (RUH) and King Abdulaziz (JED). The best airport depends on the final destination and available itinerary."],["Is TicketDepart official airline customer service for Saudi Arabia?","No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by any airline mentioned on this page."]],
   },
   {
-    path: "/flights-usa-to-t-rkiye",
+    path: "/flights-usa-to-turkiye",
     country: "Türkiye",
     title: "USA to Türkiye Flights | Booking, Change & Rebooking Assistance | TicketDepart",
     description: "U.S. travelers can discuss Türkiye flight booking, changes, cancellations, rebooking, major gateways, airlines, connections, and baggage by phone with an independent travel specialist.",
@@ -711,7 +711,7 @@ export function UsaToPhilippinesFlightsPage() { return <CountryPageView page={PA
 export function UsaToSouthKoreaFlightsPage() { return <CountryPageView page={PAGES[PAGES.findIndex((p) => p.path === "/flights-usa-to-south-korea")]} />; }
 export function UsaToSouthAfricaFlightsPage() { return <CountryPageView page={PAGES[PAGES.findIndex((p) => p.path === "/flights-usa-to-south-africa")]} />; }
 export function UsaToMoroccoFlightsPage() { return <CountryPageView page={PAGES[PAGES.findIndex((p) => p.path === "/flights-usa-to-morocco")]} />; }
-export function UsaToTrkiyeFlightsPage() { return <CountryPageView page={PAGES[PAGES.findIndex((p) => p.path === "/flights-usa-to-t-rkiye")]} />; }
+export function UsaToTurkiyeFlightsPage() { return <CountryPageView page={PAGES[PAGES.findIndex((p) => p.path === "/flights-usa-to-turkiye")]} />; }
 export function UsaToSaudiArabiaFlightsPage() { return <CountryPageView page={PAGES[PAGES.findIndex((p) => p.path === "/flights-usa-to-saudi-arabia")]} />; }
 export function UsaToQatarFlightsPage() { return <CountryPageView page={PAGES[PAGES.findIndex((p) => p.path === "/flights-usa-to-qatar")]} />; }
 export function UsaToUAEFlightsPage() { return <CountryPageView page={PAGES[PAGES.findIndex((p) => p.path === "/flights-usa-to-uae")]} />; }
