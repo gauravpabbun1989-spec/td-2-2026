@@ -34,7 +34,7 @@ const UsaToNetherlandsFlightsPage = lazyPage(() => import("@/pages/UsaWorldCount
 const UsaToUAEFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToUAEFlightsPage }) => ({ default: UsaToUAEFlightsPage })));
 const UsaToQatarFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToQatarFlightsPage }) => ({ default: UsaToQatarFlightsPage })));
 const UsaToSaudiArabiaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSaudiArabiaFlightsPage }) => ({ default: UsaToSaudiArabiaFlightsPage })));
-const UsaToTrkiyeFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToTrkiyeFlightsPage }) => ({ default: UsaToTrkiyeFlightsPage })));
+const UsaToTurkiyeFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToTurkiyeFlightsPage }) => ({ default: UsaToTurkiyeFlightsPage })));
 const UsaToMoroccoFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToMoroccoFlightsPage }) => ({ default: UsaToMoroccoFlightsPage })));
 const UsaToSouthAfricaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSouthAfricaFlightsPage }) => ({ default: UsaToSouthAfricaFlightsPage })));
 const UsaToSouthKoreaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSouthKoreaFlightsPage }) => ({ default: UsaToSouthKoreaFlightsPage })));
@@ -274,7 +274,7 @@ const usaToNetherlandsFlightsRoute = createRoute({ getParentRoute: () => rootRou
 const usaToUAEFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-uae", component: UsaToUAEFlightsPage });
 const usaToQatarFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-qatar", component: UsaToQatarFlightsPage });
 const usaToSaudiArabiaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-saudi-arabia", component: UsaToSaudiArabiaFlightsPage });
-const usaToTürkiyeFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-turkiye", component: UsaToTrkiyeFlightsPage });
+const usaToTürkiyeFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-turkiye", component: UsaToTurkiyeFlightsPage });
 const usaToMoroccoFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-morocco", component: UsaToMoroccoFlightsPage });
 const usaToSouthAfricaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-south-africa", component: UsaToSouthAfricaFlightsPage });
 const usaToSouthKoreaFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-south-korea", component: UsaToSouthKoreaFlightsPage });
