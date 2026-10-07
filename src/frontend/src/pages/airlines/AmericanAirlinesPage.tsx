@@ -145,8 +145,8 @@ export function AmericanAirlinesPage() {
   return (
     <>
       <Seo
-        title="American Airlines Flight Booking & Reservation Assistance | TicketDepart"
-        description="Book an American Airlines flight by phone with independent reservation assistance. Discuss domestic, international, multi-city, cabin, baggage, and rebooking options with TicketDepart."
+        title="American Airlines Flight Booking Assistance | TicketDepart"
+        description="Independent travel agency assistance for American Airlines flight booking, international and multi-city travel, cabin options, changes, and rebooking."
         path={PATH}
         image={IMAGE_URL}
         structuredData={[
