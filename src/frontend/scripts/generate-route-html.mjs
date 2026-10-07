@@ -648,7 +648,9 @@ function routeHtml(route, meta) {
   const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>
   ${sectionHtml}
   <section><h2>Related flight booking help</h2><ul>
-    (RELATED_ROUTE_RULES[route] ?? [\"/flight-booking\", \"/book-a-flight-by-phone\", \"/international-flight-booking\", \"/contact\"]).filter((relatedRoute, index, all) => relatedRoute !== route && all.indexOf(relatedRoute) === index && routes[relatedRoute]).slice(0, 6)
+    ${(RELATED_ROUTE_RULES[route] ?? ["/flight-booking", "/book-a-flight-by-phone", "/international-flight-booking", "/contact"])
+      .filter((relatedRoute, index, all) => relatedRoute !== route && all.indexOf(relatedRoute) === index && routes[relatedRoute])
+      .slice(0, 6)
       .map((relatedRoute) => `<li><a href="${relatedRoute}/">${escapeHtml(routeLabel(relatedRoute))}</a></li>`)
       .join("")}
     <li><a href="/contact/">Contact a travel specialist</a></li>
