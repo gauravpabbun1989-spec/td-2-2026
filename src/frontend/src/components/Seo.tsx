@@ -1,10 +1,28 @@
-import { DEFAULT_SHARE_IMAGE, type SeoInput } from "@/lib/seo";
+import { DEFAULT_SHARE_IMAGE, type SeoInput, webPageSchema } from "@/lib/seo";
 import { absoluteUrl, SITE } from "@/lib/site";
 import { useEffect } from "react";
 
 const MANAGED_ATTR = "data-seo-managed";
 const OG_LOCALE = "en_US";
 const TWITTER_SITE = "@ticketdepart";
+
+function trimToLimit(value: string, max: number): string {
+  const normalized = value.replace(/\s+/g, " ").trim();
+  if (normalized.length <= max) return normalized;
+  const candidate = normalized.slice(0, max + 1).replace(/\s+\S*$/, "").trim();
+  return candidate.replace(/[|,:;\-]+$/, "").trim();
+}
+
+function normalizeTitle(value: string): string {
+  const title = value.replace(/\s+/g, " ").trim();
+  if (title.length <= 60) return title;
+  const withoutBrand = title.replace(/\s*\|\s*TicketDepart\s*$/i, "").trim();
+  return withoutBrand.length <= 60 ? withoutBrand : trimToLimit(withoutBrand, 60);
+}
+
+function normalizeDescription(value: string): string {
+  return trimToLimit(value, 155);
+}
 
 function upsertMeta(
   selector: string,
@@ -50,17 +68,33 @@ export function Seo({
   indexable = true,
 }: SeoInput) {
   const canonical = absoluteUrl(path);
-  const normalizedDescription = description.replace(
-    /(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g,
-    SITE.phoneDisplay,
+  const normalizedTitle = normalizeTitle(title);
+  const normalizedDescription = normalizeDescription(
+    description.replace(
+      /(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g,
+      SITE.phoneDisplay,
+    ),
   );
   const listingDescription = normalizedDescription.includes(SITE.phoneDisplay)
     ? normalizedDescription
-    : `${normalizedDescription.replace(/\.$/, "")} Call ${SITE.phoneDisplay}.`;
-  const serialized = JSON.stringify(structuredData);
+    : trimToLimit(
+        `${trimToLimit(normalizedDescription, 125).replace(/\.$/, "")} Call ${SITE.phoneDisplay}.`,
+        155,
+      );
+  const effectiveStructuredData =
+    structuredData.length > 0
+      ? structuredData
+      : [
+          webPageSchema({
+            title: normalizedTitle,
+            description: listingDescription,
+            path,
+          }),
+        ];
+  const serialized = JSON.stringify(effectiveStructuredData);
 
   useEffect(() => {
-    document.title = title;
+    document.title = normalizedTitle;
 
     upsertMeta(
       'meta[name="description"]',
@@ -89,7 +123,7 @@ export function Seo({
         meta.setAttribute("property", "og:title");
         return meta;
       },
-      title,
+      normalizedTitle,
     );
 
     upsertMeta(
@@ -159,7 +193,7 @@ export function Seo({
         meta.setAttribute("property", "og:image:alt");
         return meta;
       },
-      `${title} — ${listingDescription}`,
+      `${normalizedTitle} — ${listingDescription}`,
     );
 
     upsertMeta(
@@ -189,7 +223,7 @@ export function Seo({
         meta.setAttribute("name", "twitter:title");
         return meta;
       },
-      title,
+      normalizedTitle,
     );
 
     upsertMeta(
@@ -225,7 +259,7 @@ export function Seo({
     return () => {
       script.remove();
     };
-  }, [title, listingDescription, canonical, image, serialized, indexable]);
+  }, [normalizedTitle, listingDescription, canonical, image, serialized, indexable]);
 
   return null;
 }
