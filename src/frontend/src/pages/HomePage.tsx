@@ -78,7 +78,7 @@ const FLIGHT_GUIDE_GROUPS = [
               ["Site and support", [
                 ["Contact", "/contact"], ["Privacy policy", "/privacy"], ["Terms of service", "/terms"],
               ]],
- as const;
+];
 
 export function HomePage() {
   return (
