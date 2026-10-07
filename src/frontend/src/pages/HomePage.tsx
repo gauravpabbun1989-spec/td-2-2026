@@ -55,6 +55,32 @@ function DeferredFlightSearch() {
   );
 }
 
+
+const FLIGHT_GUIDE_GROUPS = [
+              ["Booking help", [
+                ["Flight booking", "/flight-booking"], ["Flight search", "/flight-search"], ["Book a flight by phone", "/book-a-flight-by-phone"], ["How to book by phone", "/how-to-book-a-flight-by-phone"],
+                ["International flight booking", "/international-flight-booking"], ["Last-minute flight booking", "/last-minute-flight-booking"], ["Multi-city flight booking", "/multi-city-flight-booking"], ["Group flight booking", "/group-flight-booking"],
+                ["Cheap flight booking by phone", "/cheap-flight-booking-by-phone"], ["Business class flight booking", "/business-class-flight-booking"], ["Corporate flight booking", "/corporate-flight-booking"], ["Same-day flight booking", "/same-day-flight-booking"],
+                ["Family flight booking", "/family-flight-booking"], ["Pet flight booking", "/pet-flight-booking"], ["Infant flight booking", "/infant-flight-booking"], ["Baggage assistance", "/baggage-assistance"],
+                ["Flight change assistance", "/flight-change-assistance"], ["Flight cancellation assistance", "/flight-cancellation-assistance"], ["Airline reservation assistance", "/airline-reservation-assistance"], ["Flight booking assistance", "/flight-booking-assistance"],
+              ]],
+              ["Airlines", [
+                ["Delta Airlines", "/delta-airlines"], ["United Airlines", "/united-airlines"], ["American Airlines", "/american-airlines"], ["Southwest Airlines", "/southwest-airlines"],
+                ["JetBlue Airways", "/jetblue-airways"], ["Alaska Airlines", "/alaska-airlines"], ["British Airways", "/british-airways"], ["Lufthansa", "/lufthansa"],
+                ["Air Canada", "/air-canada"], ["SWISS", "/swiss-air"], ["Qatar Airways", "/qatar-airways"], ["Emirates", "/emirates"], ["LOT Polish Airlines", "/lot-polish-airlines"], ["Norse Atlantic Airways", "/norse-atlantic-airways"],
+              ]],
+              ["U.S. markets and international routes", [
+                ["USA to Canada", "/flights-usa-to-canada"], ["USA to UK", "/flights-usa-to-uk"], ["USA to Europe", "/flights-usa-to-europe"], ["USA to Mexico", "/flights-usa-to-mexico"],
+                ["Flights from New York", "/flights-from-new-york"], ["Flights from Los Angeles", "/flights-from-los-angeles"], ["Flights from Chicago", "/flights-from-chicago"], ["Flights from Miami", "/flights-from-miami"],
+                ["Flights from Atlanta", "/flights-from-atlanta"], ["Flights from Dallas", "/flights-from-dallas"], ["Flights from Orlando", "/flights-from-orlando"], ["Flights from San Francisco", "/flights-from-san-francisco"],
+                ["New York to London", "/flights-new-york-to-london"], ["New York to Paris", "/flights-new-york-to-paris"], ["New York to Dubai", "/flights-new-york-to-dubai"], ["Los Angeles to Tokyo", "/flights-los-angeles-to-tokyo"],
+                ["Los Angeles to London", "/flights-los-angeles-to-london"], ["Miami to Cancun", "/flights-miami-to-cancun"], ["Chicago to London", "/flights-chicago-to-london"], ["San Francisco to Tokyo", "/flights-san-francisco-to-tokyo"],
+              ]],
+              ["Site and support", [
+                ["Contact", "/contact"], ["Privacy policy", "/privacy"], ["Terms of service", "/terms"],
+              ]],
+            ] as const;
+
 export function HomePage() {
   return (
     <>
@@ -156,26 +182,8 @@ export function HomePage() {
       </section>
 
       <section className="border-b border-border bg-background px-5 py-14 sm:px-8 sm:py-20" aria-labelledby="popular-booking-help-heading">
-        <div className="mx-auto max-w-6xl"><p className="label-board text-accent">Popular booking help</p><h2 id="popular-booking-help-heading" className="mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl">A few common reasons travelers reach out.</h2><p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">Explore focused guides for urgent travel, premium cabins, family trips, affordable fare planning, and changes or cancellations.</p><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[["Cheap flight booking by phone","/cheap-flight-booking-by-phone"],["Business class flight booking","/business-class-flight-booking"],["Corporate flight booking","/corporate-flight-booking"],["Same-day flight booking","/same-day-flight-booking"],["Family flight booking","/family-flight-booking"],["Flight change assistance","/flight-change-assistance"],["Flight cancellation assistance","/flight-cancellation-assistance"]].map(([label,to])=><Link key={to} to={to} className="group rounded-[1.5rem] border border-border bg-card px-6 py-5 text-sm font-semibold text-primary shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated">{label}<span className="ml-2 transition-transform group-hover:translate-x-1">→</span></Link>)}</div></div>
-      </section>
-
-      <section className="border-b border-border bg-muted/40 px-5 py-14 sm:px-8 sm:py-20" aria-labelledby="high-intent-flight-searches-heading">
-        <div className="mx-auto max-w-6xl">
-          <p className="label-board text-accent">Flight reservation assistance</p>
-          <h2 id="high-intent-flight-searches-heading" className="mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl">Flight booking, change, cancellation and rebooking help for U.S. travelers</h2>
-          <p className="mt-5 max-w-5xl text-base leading-7 text-muted-foreground">TicketDepart helps U.S. travelers researching flight booking assistance, flight booking by phone, flight reservation assistance, airline reservation assistance, flight change assistance, flight cancellation assistance, flight rebooking assistance, flight rescheduling, last-minute flight booking, same-day flight booking, international flight booking, multi-city flight booking, group flight booking, family flight booking, business class flight booking, baggage assistance, pet flight booking, and infant flight booking. Travelers can start from major U.S. gateways including New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, Orlando, and San Francisco and discuss domestic or international routes to Canada, Mexico, the Caribbean, Latin America, Europe, Asia, the Middle East, Africa, and destinations worldwide.</p>
-          <p className="mt-4 max-w-5xl text-sm leading-6 text-muted-foreground">Common high-intent needs include booking a flight from the USA, changing a flight, canceling a flight, rebooking a flight, rescheduling a flight, comparing airports and connections, selecting a cabin, reviewing baggage rules, and understanding ticket conditions before payment. Airline names are used for travel identification; TicketDepart is an independent travel agency and is not an airline.</p>
-        </div>
-      </section>
-
-      <section className="border-b border-border bg-card px-5 py-12 sm:px-8 sm:py-16" aria-labelledby="flight-guide-index-heading">
-        <div className="mx-auto max-w-6xl">
-          <p className="label-board text-accent">Flight guide index</p>
-          <h2 id="flight-guide-index-heading" className="mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl">Explore every flight booking guide</h2>
-          <p className="mt-4 max-w-4xl text-base leading-7 text-muted-foreground">Use these focused guides to explore airline assistance, booking situations, U.S. departure gateways, and popular international routes. Each guide is an independent page with its own booking topic and destination or airline focus.</p>
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {[
-              ["Booking help", [
+        <div className="mx-auto max-w-6xl"><p className="label-board text-accent">Popular booking help</p><h2 id="popular-booking-help-heading" className="mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl">A few common reasons travelers reach out.</h2><p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">Explore focused guides for urgent travel, premium cabins, family trips, affordable fare planning, and changes or cancellations.</p><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[["Cheap flight booking by phone","/cheap-flight-booking-by-phone"],["Business class flight booking","/business-class-flight            {FLIGHT_GUIDE_GROUPS.map(([group, links]) => (
+king help", [
                 ["Flight booking", "/flight-booking"], ["Flight search", "/flight-search"], ["Book a flight by phone", "/book-a-flight-by-phone"], ["How to book by phone", "/how-to-book-a-flight-by-phone"],
                 ["International flight booking", "/international-flight-booking"], ["Last-minute flight booking", "/last-minute-flight-booking"], ["Multi-city flight booking", "/multi-city-flight-booking"], ["Group flight booking", "/group-flight-booking"],
                 ["Cheap flight booking by phone", "/cheap-flight-booking-by-phone"], ["Business class flight booking", "/business-class-flight-booking"], ["Corporate flight booking", "/corporate-flight-booking"], ["Same-day flight booking", "/same-day-flight-booking"],
