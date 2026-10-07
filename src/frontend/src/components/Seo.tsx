@@ -1,4 +1,4 @@
-import { DEFAULT_SHARE_IMAGE, type SeoInput } from "@/lib/seo";
+import { DEFAULT_SHARE_IMAGE, type SeoInput, webPageSchema } from "@/lib/seo";
 import { absoluteUrl, SITE } from "@/lib/site";
 import { useEffect } from "react";
 
