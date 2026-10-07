@@ -55,7 +55,7 @@ actor {
 
 
   public query func transformFlightApi({
-    _context : Blob;
+    context : Blob;
     response : IC.HttpRequestResult;
   }) : async IC.HttpRequestResult {
     { response with headers = [] };
