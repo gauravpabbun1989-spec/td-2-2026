@@ -197,16 +197,16 @@ export function HomePage() {
               ["Site and support", [
                 ["Contact", "/contact"], ["Privacy policy", "/privacy"], ["Terms of service", "/terms"],
               ]],
-            ].map(([group, links]) => (
+            ].map(([group, links]: [string, [string, string][]]) => (
               <details key={group} className="rounded-2xl border border-border bg-background p-5">
                 <summary className="cursor-pointer list-none font-display text-base font-semibold text-foreground">{group}</summary>
                 <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                  {(links as string[][]).map(([label, to]) => (
+                  {links.map(([label, to]) => (
                     <Link key={to} to={to} className="rounded-xl border border-border bg-card px-3 py-2 text-sm font-medium text-primary hover:border-primary/25 hover:text-primary/90">{label}</Link>
                   ))}
                 </div>
               </details>
-            ))}
+            ))
           </div>
         </div>
       </section>
