@@ -2,13 +2,6 @@ import { execFileSync } from "node:child_process";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      },
-    },
-  },
   plugins: [
     {
       name: "ticketdepart-generate-static-route-html",
