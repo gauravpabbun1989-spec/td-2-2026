@@ -405,25 +405,37 @@ function routeHtml(route, meta) {
     .replace(/<link\s+rel="canonical"\s+href="[^"]*"[\s\S]*?\/>/i, `<link rel="canonical" href="${url}" />`)
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, "");
 
-  const schema = {
+  const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: meta.title,
     description: listingDescription,
     url,
-    isPartOf: { "@type": "WebSite", name: "TicketDepart", url: "https://ticketdepart.com/" },
-    breadcrumb: {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://ticketdepart.com/" },
-        { "@type": "ListItem", position: 2, name: meta.heading, item: url },
-      ],
+    isPartOf: {
+      "@type": "WebSite",
+      name: "TicketDepart",
+      url: "https://ticketdepart.com/",
     },
+    about: {
+      "@type": "TravelAgency",
+      name: "TicketDepart",
+      telephone: "+1-888-958-0280",
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://ticketdepart.com/" },
+      { "@type": "ListItem", position: 2, name: meta.heading, item: url },
+    ],
   };
 
   html = html.replace(
     "</head>",
-    `<script type="application/ld+json">${JSON.stringify(schema)}</script>
+    `<script type="application/ld+json">${JSON.stringify(webPageSchema)}</script>
+<script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>
   </head>`,
   );
 
