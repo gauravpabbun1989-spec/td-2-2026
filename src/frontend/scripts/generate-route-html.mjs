@@ -619,8 +619,8 @@ function semanticExpansion(route, meta) {
 
   const routeLabelText = meta.heading.replace(/\s+by phone$/i, "");
   return [
-    \`<p><strong>Related \${escapeHtml(topic)}:</strong> \${escapeHtml(routeLabelText)} covers \${escapeHtml(details)}. These details can matter when comparing \${escapeHtml(intent)} and deciding whether an itinerary fits your schedule.</p>\`,
-    \`<section><h2>Flight booking details to review</h2><p>Before confirming travel, review the departure and arrival airports, dates and times, connection points, cabin, baggage terms, ticketing deadlines, and applicable change or cancellation conditions. For international travel, travelers should independently verify current passport, visa, and entry requirements with the appropriate government or consular authority.</p></section>\`,
+    "<p><strong>Related " + escapeHtml(topic) + ":</strong> " + escapeHtml(routeLabelText) + " covers " + escapeHtml(details) + ". These details can matter when comparing " + escapeHtml(intent) + " and deciding whether an itinerary fits your schedule.</p>",
+    "<section><h2>Flight booking details to review</h2><p>Before confirming travel, review the departure and arrival airports, dates and times, connection points, cabin, baggage terms, ticketing deadlines, and applicable change or cancellation conditions. For international travel, travelers should independently verify current passport, visa, and entry requirements with the appropriate government or consular authority.</p></section>",
   ].join("\n  ");
 }
 
