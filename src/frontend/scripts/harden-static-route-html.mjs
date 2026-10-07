@@ -59,12 +59,22 @@ for (const file of walk(distDir)) {
     `${a}${trimDescription(value)}${c}`
   );
 
-  const hasCanonical = /<link\s+rel=["']canonical["']/i.test(html);
-  if (!hasCanonical) {
-    const rel = path.relative(distDir, path.dirname(file)).replaceAll(path.sep, "/");
-    const route = rel ? `https://ticketdepart.com/${rel}/` : "https://ticketdepart.com/";
-    html = html.replace("</head>", `<link rel="canonical" href="${route}" />\n</head>`);
+  const rel = path.relative(distDir, path.dirname(file)).replaceAll(path.sep, "/");
+  const route = rel ? `https://ticketdepart.com/${rel}/` : "https://ticketdepart.com/";
+  const canonicalTag = `<link rel="canonical" href="${route}" />`;
+  if (/<link\s+rel=["']canonical["']/i.test(html)) {
+    html = html.replace(/<link\s+rel=["']canonical["'][^>]*>/i, canonicalTag);
+  } else {
+    html = html.replace("</head>", canonicalTag + "\n</head>");
   }
+  html = html.replace(
+    /(<meta\s+property=["']og:url["']\s+content=["'])[^"']*(["'][^>]*>)/i,
+    `$1${route}$2`,
+  );
+  html = html.replace(
+    /(<meta\s+name=["']robots["']\s+content=["'])[^"']*(["'][^>]*>)/i,
+    `$1index, follow, max-image-preview:large$2`,
+  );
 
   const mainMatch = html.match(/<main>[\s\S]*?<\/main>/i);
   if (mainMatch && !/visibility\s*:\s*hidden/i.test(mainMatch[0])) {
