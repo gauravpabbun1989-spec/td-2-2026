@@ -55,7 +55,9 @@ function DeferredFlightSearch() {
   );
 }
 
-const FLIGHT_GUIDE_GROUPS = [
+type FlightGuideGroup = [string, [string, string][]];
+
+const FLIGHT_GUIDE_GROUPS: FlightGuideGroup[] = [
               ["Booking help", [
                 ["Flight booking", "/flight-booking"], ["Flight search", "/flight-search"], ["Book a flight by phone", "/book-a-flight-by-phone"], ["How to book by phone", "/how-to-book-a-flight-by-phone"],
                 ["International flight booking", "/international-flight-booking"], ["Last-minute flight booking", "/last-minute-flight-booking"], ["Multi-city flight booking", "/multi-city-flight-booking"], ["Group flight booking", "/group-flight-booking"],
@@ -208,7 +210,7 @@ export function HomePage() {
                   ))}
                 </div>
               </details>
-            ))
+            ))}
           </div>
         </div>
       </section>
