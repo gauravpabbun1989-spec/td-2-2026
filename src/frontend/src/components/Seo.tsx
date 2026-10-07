@@ -78,7 +78,7 @@ export function Seo({
   const listingDescription = normalizedDescription.includes(SITE.phoneDisplay)
     ? normalizedDescription
     : trimToLimit(
-        `${normalizedDescription.replace(/\.$/, "")} Call ${SITE.phoneDisplay}.`,
+        `${trimToLimit(normalizedDescription, 125).replace(/\.$/, "")} Call ${SITE.phoneDisplay}.`,
         155,
       );
   const effectiveStructuredData =
