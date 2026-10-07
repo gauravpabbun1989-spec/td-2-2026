@@ -174,7 +174,7 @@ export function HomePage() {
           <h2 id="flight-guide-index-heading" className="mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl">Explore every flight booking guide</h2>
           <p className="mt-4 max-w-4xl text-base leading-7 text-muted-foreground">Use these focused guides to explore airline assistance, booking situations, U.S. departure gateways, and popular international routes. Each guide is an independent page with its own booking topic and destination or airline focus.</p>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {[
+            {([
               ["Booking help", [
                 ["Flight booking", "/flight-booking"], ["Flight search", "/flight-search"], ["Book a flight by phone", "/book-a-flight-by-phone"], ["How to book by phone", "/how-to-book-a-flight-by-phone"],
                 ["International flight booking", "/international-flight-booking"], ["Last-minute flight booking", "/last-minute-flight-booking"], ["Multi-city flight booking", "/multi-city-flight-booking"], ["Group flight booking", "/group-flight-booking"],
