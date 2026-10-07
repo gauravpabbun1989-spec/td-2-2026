@@ -100,7 +100,7 @@ export function TermsPage() {
   return (
     <>
       <Seo
-        title="Terms of Service | TicketDepart"
+        title="TicketDepart Terms of Service | Booking Terms"
         description="The terms that govern your use of the TicketDepart website and our independent travel agency booking services."
         path="/terms"
         structuredData={[
