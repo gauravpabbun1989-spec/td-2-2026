@@ -99,7 +99,7 @@ export function PrivacyPage() {
   return (
     <>
       <Seo
-        title="Privacy Policy | TicketDepart"
+        title="TicketDepart Privacy Policy | Data Practices"
         description="How TicketDepart collects, uses, and protects the personal information you share when you contact our travel specialists or book a flight."
         path="/privacy"
         structuredData={[
