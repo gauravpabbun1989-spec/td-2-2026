@@ -55,6 +55,31 @@ function DeferredFlightSearch() {
   );
 }
 
+const FLIGHT_GUIDE_GROUPS = {[
+              ["Booking help", [
+                ["Flight booking", "/flight-booking"], ["Flight search", "/flight-search"], ["Book a flight by phone", "/book-a-flight-by-phone"], ["How to book by phone", "/how-to-book-a-flight-by-phone"],
+                ["International flight booking", "/international-flight-booking"], ["Last-minute flight booking", "/last-minute-flight-booking"], ["Multi-city flight booking", "/multi-city-flight-booking"], ["Group flight booking", "/group-flight-booking"],
+                ["Cheap flight booking by phone", "/cheap-flight-booking-by-phone"], ["Business class flight booking", "/business-class-flight-booking"], ["Corporate flight booking", "/corporate-flight-booking"], ["Same-day flight booking", "/same-day-flight-booking"],
+                ["Family flight booking", "/family-flight-booking"], ["Pet flight booking", "/pet-flight-booking"], ["Infant flight booking", "/infant-flight-booking"], ["Baggage assistance", "/baggage-assistance"],
+                ["Flight change assistance", "/flight-change-assistance"], ["Flight cancellation assistance", "/flight-cancellation-assistance"], ["Airline reservation assistance", "/airline-reservation-assistance"], ["Flight booking assistance", "/flight-booking-assistance"],
+              ]],
+              ["Airlines", [
+                ["Delta Airlines", "/delta-airlines"], ["United Airlines", "/united-airlines"], ["American Airlines", "/american-airlines"], ["Southwest Airlines", "/southwest-airlines"],
+                ["JetBlue Airways", "/jetblue-airways"], ["Alaska Airlines", "/alaska-airlines"], ["British Airways", "/british-airways"], ["Lufthansa", "/lufthansa"],
+                ["Air Canada", "/air-canada"], ["SWISS", "/swiss-air"], ["Qatar Airways", "/qatar-airways"], ["Emirates", "/emirates"], ["LOT Polish Airlines", "/lot-polish-airlines"], ["Norse Atlantic Airways", "/norse-atlantic-airways"],
+              ]],
+              ["U.S. markets and international routes", [
+                ["USA to Canada", "/flights-usa-to-canada"], ["USA to UK", "/flights-usa-to-uk"], ["USA to Europe", "/flights-usa-to-europe"], ["USA to Mexico", "/flights-usa-to-mexico"],
+                ["Flights from New York", "/flights-from-new-york"], ["Flights from Los Angeles", "/flights-from-los-angeles"], ["Flights from Chicago", "/flights-from-chicago"], ["Flights from Miami", "/flights-from-miami"],
+                ["Flights from Atlanta", "/flights-from-atlanta"], ["Flights from Dallas", "/flights-from-dallas"], ["Flights from Orlando", "/flights-from-orlando"], ["Flights from San Francisco", "/flights-from-san-francisco"],
+                ["New York to London", "/flights-new-york-to-london"], ["New York to Paris", "/flights-new-york-to-paris"], ["New York to Dubai", "/flights-new-york-to-dubai"], ["Los Angeles to Tokyo", "/flights-los-angeles-to-tokyo"],
+                ["Los Angeles to London", "/flights-los-angeles-to-london"], ["Miami to Cancun", "/flights-miami-to-cancun"], ["Chicago to London", "/flights-chicago-to-london"], ["San Francisco to Tokyo", "/flights-san-francisco-to-tokyo"],
+              ]],
+              ["Site and support", [
+                ["Contact", "/contact"], ["Privacy policy", "/privacy"], ["Terms of service", "/terms"],
+              ]],
+ as const;
+
 export function HomePage() {
   return (
     <>
@@ -174,30 +199,7 @@ export function HomePage() {
           <h2 id="flight-guide-index-heading" className="mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl">Explore every flight booking guide</h2>
           <p className="mt-4 max-w-4xl text-base leading-7 text-muted-foreground">Use these focused guides to explore airline assistance, booking situations, U.S. departure gateways, and popular international routes. Each guide is an independent page with its own booking topic and destination or airline focus.</p>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {[
-              ["Booking help", [
-                ["Flight booking", "/flight-booking"], ["Flight search", "/flight-search"], ["Book a flight by phone", "/book-a-flight-by-phone"], ["How to book by phone", "/how-to-book-a-flight-by-phone"],
-                ["International flight booking", "/international-flight-booking"], ["Last-minute flight booking", "/last-minute-flight-booking"], ["Multi-city flight booking", "/multi-city-flight-booking"], ["Group flight booking", "/group-flight-booking"],
-                ["Cheap flight booking by phone", "/cheap-flight-booking-by-phone"], ["Business class flight booking", "/business-class-flight-booking"], ["Corporate flight booking", "/corporate-flight-booking"], ["Same-day flight booking", "/same-day-flight-booking"],
-                ["Family flight booking", "/family-flight-booking"], ["Pet flight booking", "/pet-flight-booking"], ["Infant flight booking", "/infant-flight-booking"], ["Baggage assistance", "/baggage-assistance"],
-                ["Flight change assistance", "/flight-change-assistance"], ["Flight cancellation assistance", "/flight-cancellation-assistance"], ["Airline reservation assistance", "/airline-reservation-assistance"], ["Flight booking assistance", "/flight-booking-assistance"],
-              ]],
-              ["Airlines", [
-                ["Delta Airlines", "/delta-airlines"], ["United Airlines", "/united-airlines"], ["American Airlines", "/american-airlines"], ["Southwest Airlines", "/southwest-airlines"],
-                ["JetBlue Airways", "/jetblue-airways"], ["Alaska Airlines", "/alaska-airlines"], ["British Airways", "/british-airways"], ["Lufthansa", "/lufthansa"],
-                ["Air Canada", "/air-canada"], ["SWISS", "/swiss-air"], ["Qatar Airways", "/qatar-airways"], ["Emirates", "/emirates"], ["LOT Polish Airlines", "/lot-polish-airlines"], ["Norse Atlantic Airways", "/norse-atlantic-airways"],
-              ]],
-              ["U.S. markets and international routes", [
-                ["USA to Canada", "/flights-usa-to-canada"], ["USA to UK", "/flights-usa-to-uk"], ["USA to Europe", "/flights-usa-to-europe"], ["USA to Mexico", "/flights-usa-to-mexico"],
-                ["Flights from New York", "/flights-from-new-york"], ["Flights from Los Angeles", "/flights-from-los-angeles"], ["Flights from Chicago", "/flights-from-chicago"], ["Flights from Miami", "/flights-from-miami"],
-                ["Flights from Atlanta", "/flights-from-atlanta"], ["Flights from Dallas", "/flights-from-dallas"], ["Flights from Orlando", "/flights-from-orlando"], ["Flights from San Francisco", "/flights-from-san-francisco"],
-                ["New York to London", "/flights-new-york-to-london"], ["New York to Paris", "/flights-new-york-to-paris"], ["New York to Dubai", "/flights-new-york-to-dubai"], ["Los Angeles to Tokyo", "/flights-los-angeles-to-tokyo"],
-                ["Los Angeles to London", "/flights-los-angeles-to-london"], ["Miami to Cancun", "/flights-miami-to-cancun"], ["Chicago to London", "/flights-chicago-to-london"], ["San Francisco to Tokyo", "/flights-san-francisco-to-tokyo"],
-              ]],
-              ["Site and support", [
-                ["Contact", "/contact"], ["Privacy policy", "/privacy"], ["Terms of service", "/terms"],
-              ]],
-            ] as [string, [string, string][]][]).map(([group, links]) => (
+            {FLIGHT_GUIDE_GROUPS.map(([group, links]) => (
               <details key={group} className="rounded-2xl border border-border bg-background p-5">
                 <summary className="cursor-pointer list-none font-display text-base font-semibold text-foreground">{group}</summary>
                 <div className="mt-4 grid gap-2 sm:grid-cols-2">
