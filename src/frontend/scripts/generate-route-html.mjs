@@ -380,6 +380,201 @@ const STATIC_SEO_CONTENT = {
   "/flights-from-new-york": { eyebrow: "New York flight planning", sections: [["Compare departure airports", "Discuss practical options from the New York area and the airport that best fits your itinerary."],["Domestic and international routes", "Plan dates, connections, cabin preferences, baggage, and destination airports with the trip's timing in mind."],["Nearby alternatives", "When practical, consider alternate airports or flexible dates if they improve the available itinerary choices."]] }
 };
 
+const RELATED_ROUTE_RULES = {
+  "/": [
+    "/flight-booking", "/book-a-flight-by-phone", "/flight-search",
+    "/international-flight-booking", "/same-day-flight-booking",
+    "/business-class-flight-booking",
+  ],
+  "/same-day-flight-booking": [
+    "/flight-booking", "/book-a-flight-by-phone", "/last-minute-flight-booking",
+    "/flight-search", "/flight-change-assistance", "/flight-cancellation-assistance",
+  ],
+  "/book-a-flight-by-phone": [
+    "/flight-booking", "/how-to-book-a-flight-by-phone", "/flight-search",
+    "/international-flight-booking", "/multi-city-flight-booking", "/same-day-flight-booking",
+  ],
+  "/flight-booking": [
+    "/flight-booking-assistance", "/book-a-flight-by-phone", "/international-flight-booking",
+    "/business-class-flight-booking", "/group-flight-booking", "/flight-search",
+  ],
+  "/flight-booking-assistance": [
+    "/flight-booking", "/book-a-flight-by-phone", "/international-flight-booking",
+    "/family-flight-booking", "/group-flight-booking", "/business-class-flight-booking",
+  ],
+  "/international-flight-booking": [
+    "/flights-usa-to-canada", "/flights-usa-to-europe", "/flights-usa-to-uk",
+    "/flights-usa-to-mexico", "/multi-city-flight-booking", "/business-class-flight-booking",
+  ],
+  "/business-class-flight-booking": [
+    "/corporate-flight-booking", "/international-flight-booking", "/flight-booking",
+    "/multi-city-flight-booking", "/flight-change-assistance", "/flight-search",
+  ],
+  "/group-flight-booking": [
+    "/family-flight-booking", "/corporate-flight-booking", "/flight-booking",
+    "/book-a-flight-by-phone", "/international-flight-booking",
+  ],
+  "/family-flight-booking": [
+    "/group-flight-booking", "/infant-flight-booking", "/pet-flight-booking",
+    "/flight-booking", "/international-flight-booking",
+  ],
+  "/last-minute-flight-booking": [
+    "/same-day-flight-booking", "/flight-booking", "/book-a-flight-by-phone",
+    "/flight-search", "/flight-change-assistance",
+  ],
+  "/flight-change-assistance": [
+    "/flight-cancellation-assistance", "/flight-booking", "/book-a-flight-by-phone",
+    "/flight-booking-assistance", "/contact",
+  ],
+  "/flight-cancellation-assistance": [
+    "/flight-change-assistance", "/flight-booking", "/book-a-flight-by-phone",
+    "/flight-booking-assistance", "/contact",
+  ],
+  "/airline-reservation-assistance": [
+    "/flight-booking", "/book-a-flight-by-phone", "/flight-change-assistance",
+    "/flight-cancellation-assistance", "/american-airlines", "/delta-airlines",
+  ],
+  "/american-airlines": [
+    "/airline-reservation-assistance", "/flight-booking", "/book-a-flight-by-phone",
+    "/international-flight-booking", "/multi-city-flight-booking",
+  ],
+  "/delta-airlines": [
+    "/airline-reservation-assistance", "/flight-booking", "/book-a-flight-by-phone",
+    "/international-flight-booking", "/same-day-flight-booking",
+  ],
+  "/united-airlines": [
+    "/airline-reservation-assistance", "/flight-booking", "/book-a-flight-by-phone",
+    "/international-flight-booking", "/multi-city-flight-booking",
+  ],
+  "/jetblue-airways": [
+    "/airline-reservation-assistance", "/flight-booking", "/family-flight-booking",
+    "/international-flight-booking", "/same-day-flight-booking",
+  ],
+  "/alaska-airlines": [
+    "/airline-reservation-assistance", "/flight-booking", "/international-flight-booking",
+    "/multi-city-flight-booking", "/flight-change-assistance",
+  ],
+  "/british-airways": [
+    "/airline-reservation-assistance", "/international-flight-booking", "/business-class-flight-booking",
+    "/flight-booking", "/multi-city-flight-booking",
+  ],
+  "/lufthansa": [
+    "/airline-reservation-assistance", "/international-flight-booking", "/business-class-flight-booking",
+    "/flight-booking", "/multi-city-flight-booking",
+  ],
+  "/swiss-air": [
+    "/airline-reservation-assistance", "/international-flight-booking", "/business-class-flight-booking",
+    "/flight-booking", "/multi-city-flight-booking",
+  ],
+  "/qatar-airways": [
+    "/airline-reservation-assistance", "/international-flight-booking", "/business-class-flight-booking",
+    "/flight-booking", "/multi-city-flight-booking",
+  ],
+  "/emirates": [
+    "/airline-reservation-assistance", "/international-flight-booking", "/business-class-flight-booking",
+    "/flight-booking", "/multi-city-flight-booking",
+  ],
+  "/norse-atlantic-airways": [
+    "/airline-reservation-assistance", "/international-flight-booking", "/flights-usa-to-europe",
+    "/flight-booking", "/multi-city-flight-booking",
+  ],
+  "/lot-polish-airlines": [
+    "/airline-reservation-assistance", "/international-flight-booking", "/flights-usa-to-europe",
+    "/flight-booking", "/multi-city-flight-booking",
+  ],
+  "/air-canada": [
+    "/airline-reservation-assistance", "/flights-usa-to-canada", "/international-flight-booking",
+    "/flight-booking", "/multi-city-flight-booking",
+  ],
+  "/flights-usa-to-canada": [
+    "/air-canada", "/international-flight-booking", "/flight-booking",
+    "/book-a-flight-by-phone", "/multi-city-flight-booking",
+  ],
+  "/flights-usa-to-europe": [
+    "/international-flight-booking", "/british-airways", "/lufthansa",
+    "/swiss-air", "/flight-booking",
+  ],
+  "/flights-usa-to-uk": [
+    "/international-flight-booking", "/british-airways", "/flights-new-york-to-london",
+    "/flight-booking", "/book-a-flight-by-phone",
+  ],
+  "/flights-usa-to-mexico": [
+    "/international-flight-booking", "/flights-miami-to-cancun", "/flight-booking",
+    "/book-a-flight-by-phone", "/family-flight-booking",
+  ],
+  "/flights-from-new-york": [
+    "/flight-booking", "/book-a-flight-by-phone", "/flights-new-york-to-london",
+    "/flights-new-york-to-paris", "/flights-new-york-to-dubai", "/international-flight-booking",
+  ],
+  "/flights-from-los-angeles": [
+    "/flight-booking", "/flights-los-angeles-to-london", "/flights-los-angeles-to-tokyo",
+    "/international-flight-booking", "/book-a-flight-by-phone",
+  ],
+  "/flights-from-chicago": [
+    "/flight-booking", "/flights-chicago-to-london", "/international-flight-booking",
+    "/book-a-flight-by-phone",
+  ],
+  "/flights-from-miami": [
+    "/flight-booking", "/flights-miami-to-cancun", "/flights-usa-to-mexico",
+    "/international-flight-booking",
+  ],
+  "/flights-from-dallas": [
+    "/flight-booking", "/international-flight-booking", "/book-a-flight-by-phone",
+    "/flight-search",
+  ],
+  "/flights-from-orlando": [
+    "/flight-booking", "/international-flight-booking", "/book-a-flight-by-phone",
+    "/flight-search",
+  ],
+  "/flights-from-san-francisco": [
+    "/flight-booking", "/flights-san-francisco-to-tokyo", "/international-flight-booking",
+    "/book-a-flight-by-phone",
+  ],
+  "/flights-new-york-to-london": [
+    "/flights-from-new-york", "/flights-usa-to-uk", "/british-airways",
+    "/international-flight-booking", "/flight-booking",
+  ],
+  "/flights-new-york-to-paris": [
+    "/flights-from-new-york", "/flights-usa-to-europe", "/international-flight-booking",
+    "/flight-booking",
+  ],
+  "/flights-new-york-to-dubai": [
+    "/flights-from-new-york", "/international-flight-booking", "/emirates",
+    "/business-class-flight-booking", "/flight-booking",
+  ],
+  "/flights-los-angeles-to-tokyo": [
+    "/flights-from-los-angeles", "/international-flight-booking", "/flight-booking",
+    "/book-a-flight-by-phone",
+  ],
+  "/flights-los-angeles-to-london": [
+    "/flights-from-los-angeles", "/flights-usa-to-uk", "/british-airways",
+    "/international-flight-booking", "/flight-booking",
+  ],
+  "/flights-miami-to-cancun": [
+    "/flights-from-miami", "/flights-usa-to-mexico", "/international-flight-booking",
+    "/flight-booking",
+  ],
+  "/flights-chicago-to-london": [
+    "/flights-from-chicago", "/flights-usa-to-uk", "/british-airways",
+    "/international-flight-booking", "/flight-booking",
+  ],
+  "/flights-san-francisco-to-tokyo": [
+    "/flights-from-san-francisco", "/international-flight-booking", "/flight-booking",
+    "/book-a-flight-by-phone",
+  ],
+};
+
+function routeLabel(route) {
+  const meta = routes[route];
+  if (meta?.heading) return meta.heading.replace(/\s+by phone$/i, "");
+  return route
+    .slice(1)
+    .split("-")
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 function routeHtml(route, meta) {
   const publicPath = route === "/" ? "/" : `${route.replace(/\/+$/, "")}/`;
   const url = "https://ticketdepart.com" + publicPath;
@@ -453,11 +648,11 @@ function routeHtml(route, meta) {
   const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>
   ${sectionHtml}
   <section><h2>Related flight booking help</h2><ul>
-    <li><a href="/flight-booking/">Flight booking assistance</a></li>
-    <li><a href="/book-a-flight-by-phone/">Book a flight by phone</a></li>
-    <li><a href="/international-flight-booking/">International flight booking</a></li>
-    <li><a href="/business-class-flight-booking/">Business class flight booking</a></li>
-    <li><a href="/group-flight-booking/">Group flight booking</a></li>
+    ${(RELATED_ROUTE_RULES[route] ?? ["/flight-booking", "/book-a-flight-by-phone", "/international-flight-booking", "/contact"])
+      .filter((relatedRoute, index, all) => relatedRoute !== route && all.indexOf(relatedRoute) === index && routes[relatedRoute])
+      .slice(0, 6)
+      .map((relatedRoute) => `<li><a href="${relatedRoute}/">${escapeHtml(routeLabel(relatedRoute))}</a></li>`)
+      .join("")}
     <li><a href="/contact/">Contact a travel specialist</a></li>
   </ul></section>
   <p>TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
