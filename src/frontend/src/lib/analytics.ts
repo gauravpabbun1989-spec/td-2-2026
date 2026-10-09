@@ -232,8 +232,16 @@ export function trackCallbackFormStart(location = "contact_form") {
 }
 
 export function trackCallbackFormSubmit(location = "contact_form") {
+  // A submit attempt is not a confirmed callback request.
   trackEvent("callback_form_submit", { callback_location: location });
-  trackEvent("callback_request", { callback_location: location });
+}
+
+export function trackCallbackRequest(location = "contact_form") {
+  // Called only after the backend confirms that the lead was stored.
+  trackEvent("callback_request", {
+    callback_location: location,
+    lead_status: "stored",
+  });
 }
 
 export function trackCallbackFormError(
