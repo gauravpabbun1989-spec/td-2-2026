@@ -359,6 +359,7 @@ function dateToAirRoutesDay(date: string): string {
   return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][weekday] ?? "";
 }
 
+// biome-ignore lint/correctness/noUnusedVariables: preserve the existing AIR-ROUTES adapter without wiring it into the Netlify search flow.
 async function fetchAirRoutesRoute(
   origin: string,
   destination: string,
