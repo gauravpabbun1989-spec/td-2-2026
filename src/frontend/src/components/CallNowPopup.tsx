@@ -1,0 +1,123 @@
+import { CallCta } from "@/components/CallCta";
+import { SITE } from "@/lib/site";
+import { trackEvent } from "@/lib/analytics";
+import { CheckCircle2, Clock3, Headset, X } from "lucide-react";
+import { useEffect, useState } from "react";
+
+const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed";
+const SHOW_DELAY_MS = 12_000;
+
+export function CallNowPopup() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.location.pathname.startsWith("/admin")) return;
+
+    try {
+      if (window.sessionStorage.getItem(DISMISSED_KEY) === "1") return;
+    } catch {
+      // Continue if storage is unavailable; the popup can still be dismissed in memory.
+    }
+
+    const timer = window.setTimeout(() => {
+      setIsOpen(true);
+      trackEvent("call_now_popup_impression", { popup_location: "sitewide_modal" });
+    }, SHOW_DELAY_MS);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  function dismissPopup() {
+    setIsOpen(false);
+    try {
+      window.sessionStorage.setItem(DISMISSED_KEY, "1");
+    } catch {
+      // In-memory dismissal still works when browser storage is blocked.
+    }
+    trackEvent("call_now_popup_dismiss", { popup_location: "sitewide_modal" });
+  }
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") dismissPopup();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/60 p-3 backdrop-blur-sm sm:items-center sm:p-6"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) dismissPopup();
+      }}
+    >
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="call-now-popup-title"
+        aria-describedby="call-now-popup-description"
+        className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/20 bg-background shadow-2xl"
+      >
+        <div className="relative overflow-hidden bg-primary px-6 pb-7 pt-8 text-primary-foreground sm:px-8">
+          <div aria-hidden="true" className="absolute -right-8 -top-12 size-40 rounded-full border-[24px] border-white/10" />
+          <button
+            type="button"
+            onClick={dismissPopup}
+            aria-label="Close call assistance popup"
+            className="absolute right-4 top-4 z-10 inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            <X className="size-5" />
+          </button>
+          <div className="relative flex size-14 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/20">
+            <Headset aria-hidden="true" className="size-7" />
+          </div>
+          <p className="relative mt-5 text-xs font-bold uppercase tracking-[0.18em] text-white/75">TicketDepart · Flight assistance</p>
+          <h2 id="call-now-popup-title" className="relative mt-2 text-balance text-2xl font-bold leading-tight sm:text-3xl">
+            Need help planning your next flight?
+          </h2>
+          <p id="call-now-popup-description" className="relative mt-3 text-sm leading-6 text-white/85">
+            Talk through your route, travel dates, cabin, baggage or booking options with an independent travel specialist.
+          </p>
+        </div>
+
+        <div className="px-6 pb-6 pt-5 sm:px-8 sm:pb-7">
+          <div className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
+            <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <Clock3 aria-hidden="true" className="size-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-foreground">Travel assistance, 24/7</p>
+              <p className="mt-0.5 text-xs leading-5 text-muted-foreground">Call when it suits you. A specialist can discuss the options.</p>
+            </div>
+          </div>
+
+          <CallCta
+            size="lg"
+            showNumber
+            ctaLocation="call_now_popup"
+            ocid="call_now_popup.call_button"
+            className="mt-5 flex min-h-14 w-full rounded-2xl"
+          />
+
+          <button
+            type="button"
+            onClick={dismissPopup}
+            data-ocid="call_now_popup.dismiss_button"
+            className="mt-3 min-h-11 w-full rounded-xl px-4 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            Maybe later
+          </button>
+          <p className="mt-4 flex items-start justify-center gap-1.5 text-center text-[11px] leading-5 text-muted-foreground">
+            <CheckCircle2 aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
+            Independent booking assistance. Not an airline or airline-affiliated service.
+          </p>
+        </div>
+      </section>
+    </div>
+  );
+}
