@@ -1,5 +1,4 @@
 import { CallCta } from "@/components/CallCta";
-import { SITE } from "@/lib/site";
 import { trackEvent } from "@/lib/analytics";
 import { CheckCircle2, Clock3, Headset, X } from "lucide-react";
 import { useEffect, useState } from "react";
