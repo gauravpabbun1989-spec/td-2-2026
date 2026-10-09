@@ -1,3 +1,4 @@
+import { CallNowPopup } from "@/components/CallNowPopup";
 import { MobileCallBar } from "@/components/MobileCallBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -34,6 +35,7 @@ export function Layout({ children }: LayoutProps) {
 
       <SiteFooter />
       <MobileCallBar />
+      <CallNowPopup />
     </div>
   );
 }
