@@ -1,6 +1,6 @@
 import { CallCta } from "@/components/CallCta";
 import { trackEvent } from "@/lib/analytics";
-import { CheckCircle2, Clock3, Headset, X } from "lucide-react";
+import { Clock3, Headset, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed";
@@ -111,10 +111,6 @@ export function CallNowPopup() {
           >
             Maybe later
           </button>
-          <p className="mt-4 flex items-start justify-center gap-1.5 text-center text-[11px] leading-5 text-muted-foreground">
-            <CheckCircle2 aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
-            Independent booking assistance. Not an airline or airline-affiliated service.
-          </p>
         </div>
       </section>
     </div>
