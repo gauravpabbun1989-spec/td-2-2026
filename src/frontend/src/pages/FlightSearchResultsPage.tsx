@@ -204,7 +204,7 @@ export function FlightSearchResultsPage() {
       });
       if (nextSearch.returnDate && nextSearch.tripType === "Round trip") params.set("return", nextSearch.returnDate);
       const endpoint = import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search";
-      const response = await fetch(endpoint + "?" + params.toString(), { headers: { accept: "application/json" } });
+      const response = await fetch(`${endpoint}?${params.toString()}`, { headers: { accept: "application/json" } });
       const contentType = response.headers.get("content-type") ?? "";
       if (!contentType.includes("application/json")) {
         throw new Error("Live flight search service is unavailable. Please try again shortly.");

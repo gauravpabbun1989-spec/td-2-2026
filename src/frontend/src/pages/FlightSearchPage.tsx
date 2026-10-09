@@ -89,7 +89,7 @@ export async function loadAirports(query: string): Promise<Airport[]> {
   try {
     const flightSearchEndpoint = import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search";
     const autocompleteEndpoint = flightSearchEndpoint.split("?")[0].replace("/api/flight-search", "/api/flight-autocomplete");
-    const response = await fetch(autocompleteEndpoint + "?q=" + encodeURIComponent(q), {
+    const response = await fetch(`${autocompleteEndpoint}?q=${encodeURIComponent(q)}`, {
       headers: { accept: "application/json" },
     });
     if (!response.ok) throw new Error("Airport search could not be loaded.");
