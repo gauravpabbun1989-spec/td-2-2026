@@ -1,7 +1,7 @@
 import { CallCta } from "@/components/CallCta";
 import { trackEvent } from "@/lib/analytics";
 import { Clock3, Headset, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed";
 const SHOW_DELAY_MS = 12_000;
@@ -27,7 +27,7 @@ export function CallNowPopup() {
     return () => window.clearTimeout(timer);
   }, []);
 
-  function dismissPopup() {
+  const dismissPopup = useCallback(() => {
     setIsOpen(false);
     try {
       window.sessionStorage.setItem(DISMISSED_KEY, "1");
@@ -35,7 +35,7 @@ export function CallNowPopup() {
       // In-memory dismissal still works when browser storage is blocked.
     }
     trackEvent("call_now_popup_dismiss", { popup_location: "sitewide_modal" });
-  }
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -44,7 +44,7 @@ export function CallNowPopup() {
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen]);
+  }, [isOpen, dismissPopup]);
 
   if (!isOpen) return null;
 
@@ -55,12 +55,12 @@ export function CallNowPopup() {
         if (event.target === event.currentTarget) dismissPopup();
       }}
     >
-      <section
-        role="dialog"
+      <dialog
+        open
         aria-modal="true"
         aria-labelledby="call-now-popup-title"
         aria-describedby="call-now-popup-description"
-        className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/20 bg-background shadow-2xl"
+        className="relative m-0 max-h-none w-full max-w-md overflow-hidden rounded-3xl border border-white/20 bg-background p-0 text-foreground shadow-2xl"
       >
         <div className="relative overflow-hidden bg-primary px-6 pb-7 pt-8 text-primary-foreground sm:px-8">
           <div aria-hidden="true" className="absolute -right-8 -top-12 size-40 rounded-full border-[24px] border-white/10" />
@@ -112,7 +112,7 @@ export function CallNowPopup() {
             Maybe later
           </button>
         </div>
-      </section>
+      </dialog>
     </div>
   );
 }
