@@ -73,8 +73,8 @@ export type FlightSchedule = {
 };
 
 // The main site stays on Caffeine. Flight-search requests alone go to the Netlify API.
-const FLIGHT_SEARCH_API_URL = (import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search").replace(/\\/+$/, "");
-const FLIGHT_API_BASE_URL = FLIGHT_SEARCH_API_URL.replace(/\\/flight-search$/, "");
+const FLIGHT_SEARCH_API_URL = (import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search").replace(/\/+$/, "");
+const FLIGHT_API_BASE_URL = FLIGHT_SEARCH_API_URL.replace(/\/flight-search$/, "");
 
 const PAGE_PATH = "/flight-search";
 const PAGE_TITLE = "Flight Schedule Search | TicketDepart";
