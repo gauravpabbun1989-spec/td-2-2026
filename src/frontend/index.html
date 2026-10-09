@@ -37,9 +37,11 @@
         script.async = true;
         script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
         document.head.appendChild(script);
-        window.gtag("js", new Date());
-        window.gtag("config", "G-4WC5K9Q31E");
       }
+      // Queue GA4 initialization before React can emit page and conversion events.
+      // The external library remains idle-loaded to avoid blocking first paint.
+      window.gtag("js", new Date());
+      window.gtag("config", "G-4WC5K9Q31E");
       function isKnownProbePath() {
         return /(?:^|\/)(?:\.env(?:\.|$)|\.git(?:\/|$)|@fs(?:\/|$)|wp-admin(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|server-status(?:$|\/)|\.aws(?:\/|$)|\.dockerenv(?:$|\/))/i.test(window.location.pathname || "/");
       }
