@@ -43,6 +43,10 @@
         const path = (window.location.pathname || "/").toLowerCase().replace(/\/+$/, "") || "/";
         // Match known secret/config and exploit-probe targets only. Do not
         // reject arbitrary .json/.txt/.php URLs or ordinary TicketDepart routes.
+        // Reject malformed injected paths and known framework probes before
+        // analytics loads. Real TicketDepart routes never contain whitespace
+        // or an embedded absolute URL.
+        if (/\s|https?:/i.test(path) || path.includes("__vite_rsc_findsourcemapurl")) return true;
         const segments = path.split("/").filter(Boolean);
         const exactProbeFiles = new Set([
           "/.env", "/.git", "/.git/config", "/.dockerenv", "/.bashrc", "/.npmrc", "/.zshrc", "/.env::$data",
