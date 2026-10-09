@@ -30,6 +30,11 @@
     <script>
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+      function isKnownProbePath() {
+        const path = (window.location.pathname || "/").toLowerCase();
+        return /(?:^|\/)(?:\.env(?:\.[^/]+)?|\.git(?:\/|$)|@fs(?:\/|$)|wp-(?:admin|includes|content)(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|server-status(?:$|\/)|\.aws(?:\/|$)|\.dockerenv(?:\/|$)|(?:config|database|credentials|secrets?|settings|env|docker-compose|composer\.(?:json|lock)|package-lock|yarn\.lock|pnpm-lock|phpinfo|php-info|info|debug|dump|backup|db_backup|wp-config|environment|local\.settings)(?:\.[^/]+)?|(?:phpmyadmin|db-admin|internal-api|dev-api|cgi-bin|private|backups?)(?:\/|$))/i.test(path)
+          || /\.(?:php\d?|sql|bak|old|save(?:\.\d+)?|ini|ya?ml|conf|lock|log|sh|pem|key|env|json|txt)(?:$|\/|\.)/i.test(path);
+      }
       function loadAnalytics() {
         if (window.__ticketdepartAnalyticsLoaded) return;
         window.__ticketdepartAnalyticsLoaded = true;
@@ -37,13 +42,12 @@
         script.async = true;
         script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
         document.head.appendChild(script);
-        window.gtag("js", new Date());
-        window.gtag("config", "G-4WC5K9Q31E");
-      }
-      function isKnownProbePath() {
-        return /(?:^|\/)(?:\.env(?:\.|$)|\.git(?:\/|$)|@fs(?:\/|$)|wp-admin(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|server-status(?:$|\/)|\.aws(?:\/|$)|\.dockerenv(?:$|\/))/i.test(window.location.pathname || "/");
       }
       if (!isKnownProbePath()) {
+        // Queue configuration before application events so early phone clicks
+        // are not queued ahead of the GA4 destination configuration.
+        window.gtag("js", new Date());
+        window.gtag("config", "G-4WC5K9Q31E");
         if ("requestIdleCallback" in window) {
           window.requestIdleCallback(loadAnalytics, { timeout: 6000 });
         } else {
