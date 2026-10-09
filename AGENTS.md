@@ -2,7 +2,12 @@
 
 ## User Preferences
 
-[No preferences set — the PM adds these from user requests]
+- **Production website deployment is Caffeine only.** The main TicketDepart website (`ticketdepart.com`) is maintained in this repository and must be prepared for import into Caffeine.
+- **Never use Netlify for the main website.** Do not configure, build, host, deploy, migrate, or recommend deploying the main site's frontend or production website through Netlify. This is a hard project constraint, not a suggestion.
+- **Netlify is reserved exclusively for the flight-search API.** Keep any Netlify-specific work limited to that API; do not change the main website's deployment path because of API hosting.
+- **Deployment workflow:** make and verify source changes in this GitHub repository, merge approved changes into `main`, then report that the user must import the updated project into Caffeine unless a successful Caffeine import/deployment is independently confirmed.
+- **Report status accurately:** distinguish source changes, pull-request merge, build/test verification, Caffeine import, and live production deployment. Never imply that merging to GitHub automatically deploys the site.
+- Before proposing or running any build/deployment workflow, check these constraints first. If a tool or environment offers only Netlify for website deployment, do not use it; explain the limitation and preserve the Caffeine workflow.
 
 ## Verified Commands
 
