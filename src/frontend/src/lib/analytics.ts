@@ -14,6 +14,7 @@ const handledClicks = new WeakSet<Event>();
 const recentEmits = new Map<string, number>();
 const emittedScrollDepths = new Set<number>();
 const observedPhoneCtas = new WeakSet<Element>();
+const registeredPhoneCtaTargets = new WeakSet<Element>();
 const emittedLandingSignals = new Set<string>();
 
 type AnalyticsWindow = Window & {
@@ -45,9 +46,21 @@ function getCleanPagePath() {
 
 /** Ignore scanner/probe paths so automated security scans do not pollute funnel metrics. */
 function isSuspiciousPath(path = getCleanPagePath()) {
-  const normalized = path.toLowerCase();
-  return /(?:^|\/)(?:wp-(?:admin|includes|content)(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|\.env(?:\.[^/]+)?|\.git(?:\/|$)|rclone\.conf|var\/run\/secrets|document\.php|dashboard\/\.env|(?:config|database|credentials|secrets?|settings|env|docker-compose|composer\.(?:json|lock)|package-lock|yarn\.lock|pnpm-lock|phpinfo|php-info|info|debug|dump|backup|db_backup|wp-config|environment|local\.settings)(?:\.[^/]+)?|(?:phpmyadmin|db-admin|internal-api|dev-api|cgi-bin|private|backups?)(?:\/|$))/i.test(normalized)
-    || /\.(?:php\d?|sql|bak|old|save(?:\.\d+)?|ini|ya?ml|conf|lock|log|sh|pem|key|env|json|txt)(?:$|\/|\.)/i.test(normalized);
+  const normalized = path.toLowerCase().replace(/\/+$/, "") || "/";
+  const exactProbePaths = new Set([
+    "/.env", "/.env::$data", "/.env.local", "/.env.production",
+    "/.git", "/.git/config", "/.dockerenv", "/.bashrc", "/.npmrc", "/.zshrc",
+    "/.aws/credentials", "/.ssh", "/id_rsa", "/etc/passwd",
+    "/wp-login.php", "/wp-config.php", "/wp-json", "/xmlrpc.php",
+    "/phpinfo.php", "/php-info.php", "/config.php", "/composer.json",
+    "/database.sql", "/dump.sql", "/backup.sql", "/server-status",
+    "/server.key", "/key.pem", "/aws-credentials.txt", "/health",
+    "/api/account", "/api/config", "/api/env", "/api/v1/env",
+    "/api/v1/settings"
+  ]);
+  if (exactProbePaths.has(normalized)) return true;
+  return /(?:^|\/)(?:wp-admin|wp-includes|wp-content|phpmyadmin|cgi-bin|phpunit)(?:\/|$)/i.test(normalized)
+    || /(?:^|\/)(?:config|credentials|secrets|database|dump|backup|wp-config|phpinfo|php-info)\.(?:php|txt|json|sql|bak|old)$/i.test(normalized);
 }
 
 function getLandingPage() {
@@ -271,8 +284,32 @@ function observePhoneCtaImpressions() {
     { threshold: 0.5 },
   );
 
-  for (const link of document.querySelectorAll('a[href^="tel:"]')) {
-    observer.observe(link);
+  const observeLinks = (root: ParentNode) => {
+    for (const link of root.querySelectorAll('a[href^="tel:"]')) {
+      if (registeredPhoneCtaTargets.has(link)) continue;
+      registeredPhoneCtaTargets.add(link);
+      observer.observe(link);
+    }
+  };
+
+  observeLinks(document);
+
+  // Route changes can mount new CTAs after the first observation pass.
+  if (typeof MutationObserver !== "undefined" && document.documentElement) {
+    const mutations = new MutationObserver((records) => {
+      for (const record of records) {
+        for (const node of record.addedNodes) {
+          if (node.nodeType !== Node.ELEMENT_NODE) continue;
+          const element = node as Element;
+          if (element.matches?.('a[href^="tel:"]') && !registeredPhoneCtaTargets.has(element)) {
+            registeredPhoneCtaTargets.add(element);
+            observer.observe(element);
+          }
+          observeLinks(element);
+        }
+      }
+    });
+    mutations.observe(document.documentElement, { childList: true, subtree: true });
   }
 }
 
