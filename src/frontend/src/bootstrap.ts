@@ -10,6 +10,13 @@ declare global {
 
 const root = document.getElementById("root");
 
+// SEO route HTML contains a static fallback inside #root. Hide and clear it
+// immediately before loading React so it cannot flash as unstyled page content.
+if (root) {
+  root.style.visibility = "hidden";
+  root.replaceChildren();
+}
+
 if (window.isKnownProbePath?.()) {
   document.title = "404 — Page Not Found | TicketDepart";
   if (root) {

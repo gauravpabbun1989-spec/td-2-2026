@@ -35,3 +35,8 @@ root.render(
   </QueryClientProvider>,
 );
 
+// Reveal the app only after React has had a frame to commit its first render.
+requestAnimationFrame(() => {
+  rootElement.style.visibility = "visible";
+});
+
