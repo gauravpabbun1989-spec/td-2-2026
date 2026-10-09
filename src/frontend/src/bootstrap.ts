@@ -1,6 +1,7 @@
-// Production-safe application bootstrap.
-export {}; Vite processes this file as an entrypoint,
+// Production-safe application bootstrap. Vite processes this file as an entrypoint,
 // so the deployed HTML never tries to load raw TSX from /src/main.tsx at runtime.
+export {};
+
 declare global {
   interface Window {
     isKnownProbePath?: () => boolean;
