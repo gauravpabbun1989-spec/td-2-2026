@@ -48,6 +48,8 @@ function auditOnce() {
   const app = read("src/frontend/src/App.tsx");
   const site = read("src/frontend/src/lib/site.ts");
   const flightSearch = read("src/frontend/src/pages/FlightSearchPage.tsx");
+  const flightResults = read("src/frontend/src/pages/FlightSearchResultsPage.tsx");
+  const flightApi = read("netlify/functions/flight-search.ts");
   const backend = read("src/backend/main.mo");
   const seo = read("src/frontend/src/components/Seo.tsx");
   const robots = read("src/frontend/public/robots.txt");
@@ -92,9 +94,8 @@ function auditOnce() {
   assert(flightSearch.includes("selectedOutbound"), "round-trip outbound state missing");
   assert(flightSearch.includes("selectedReturn"), "round-trip return state missing");
   assert(
-    (flightSearch.includes("searchFlightConnections") && backend.includes("/api/connections?from=") && backend.includes("max_stops=2")) ||
-    flightSearch.includes("max_stops=2"),
-    "connecting-flight search missing",
+    flightApi.includes("legs.length - 1") && flightResults.includes("result.legs") && flightResults.includes("result.stops"),
+    "SerpAPI connecting-flight itinerary support missing",
   );
 
   const auditScript = relative(ROOT, new URL(import.meta.url).pathname);

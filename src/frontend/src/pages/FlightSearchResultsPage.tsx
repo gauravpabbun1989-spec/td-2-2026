@@ -1,5 +1,3 @@
-import { createActor } from "@/backend";
-import { useActor } from "@caffeineai/core-infrastructure";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
@@ -15,10 +13,8 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  fetchSchedules,
   formatDisplayTime,
   formatDuration,
-  loadAirports,
   type FlightSchedule,
   type LocationChoice,
 } from "./FlightSearchPage";
@@ -166,7 +162,6 @@ function ResultCard({
 
 export function FlightSearchResultsPage() {
   const initialSearch = useMemo(() => readSearch(), []);
-  const { actor, isFetching: isActorFetching } = useActor(createActor);
   const search = initialSearch;
   const [outbound, setOutbound] = useState<FlightSchedule[]>([]);
   const [inbound, setInbound] = useState<FlightSchedule[]>([]);
@@ -174,7 +169,6 @@ export function FlightSearchResultsPage() {
   const [selectedReturn, setSelectedReturn] = useState<FlightSchedule | null>(null);
   const [selectedCallFlightId, setSelectedCallFlightId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [returnLoading, setReturnLoading] = useState(false);
   const [showModify, setShowModify] = useState(false);
   const [error, setError] = useState("");
 
@@ -201,16 +195,16 @@ export function FlightSearchResultsPage() {
       }
 
       const params = new URLSearchParams({
-        origin: nextSearch.from,
-        destination: nextSearch.to,
-        departureDate: nextSearch.departure,
-        tripType: nextSearch.tripType,
+        from: nextSearch.from,
+        to: nextSearch.to,
+        departure: nextSearch.departure,
+        trip: nextSearch.tripType,
         travelers: nextSearch.travelers,
         cabin: nextSearch.cabin,
       });
-      if (nextSearch.returnDate && nextSearch.tripType === "Round trip") params.set("returnDate", nextSearch.returnDate);
-
-      const response = await fetch(`/api/flight-search?${params.toString()}`, { headers: { accept: "application/json" } });
+      if (nextSearch.returnDate && nextSearch.tripType === "Round trip") params.set("return", nextSearch.returnDate);
+      const endpoint = import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search";
+      const response = await fetch(endpoint + "?" + params.toString(), { headers: { accept: "application/json" } });
       const contentType = response.headers.get("content-type") ?? "";
       if (!contentType.includes("application/json")) {
         throw new Error("Live flight search service is unavailable. Please try again shortly.");
@@ -236,8 +230,8 @@ export function FlightSearchResultsPage() {
       setError("This results page needs a valid flight search. Start a new search to continue.");
       return;
     }
-    if (!isActorFetching) void runSearch(initialSearch);
-  }, [isActorFetching, initialSearch, runSearch]);
+    void runSearch(initialSearch);
+  }, [initialSearch, runSearch]);
 
   const updateSearch = () => {
     const next: SearchState = {
@@ -406,54 +400,14 @@ export function FlightSearchResultsPage() {
                   result={result}
                   selected={selectedOutbound?.id === result.id}
                   showCallButton={selectedCallFlightId === result.id}
-                  onSelect={async () => {
+                  onSelect={() => {
                     setSelectedOutbound(result);
                     setSelectedCallFlightId(result.id);
                     setSelectedReturn(null);
-                    if (search.tripType !== "Round trip") return;
-                    setReturnLoading(true);
-                    setError("");
-                    try {
-                      if (!result.departureToken && actor) {
-                        const fromChoice: LocationChoice = { type: "airport", city: "", country: "", iata: search.to, label: search.to };
-                        const toChoice: LocationChoice = { type: "airport", city: "", country: "", iata: search.from, label: search.from };
-                        const fallback = await fetchSchedules(
-                          fromChoice,
-                          toChoice,
-                          search.returnDate,
-                          "",
-                          "One way",
-                          search.cabin,
-                          search.travelers,
-                          actor,
-                        );
-                        setInbound(fallback.outbound);
-                        if (!fallback.outbound.length) setError("No scheduled return options were returned for this date. Try another date.");
-                        return;
-                      }
-
-                      const response = await fetch(`/api/flight-search?${new URLSearchParams({
-                        origin: search.from,
-                        destination: search.to,
-                        departureDate: search.departure,
-                        returnDate: search.returnDate,
-                        tripType: search.tripType,
-                        travelers: search.travelers,
-                        cabin: search.cabin,
-                        ...(result.departureToken ? { departureToken: result.departureToken } : {}),
-                      }).toString()}`, { headers: { accept: "application/json" } });
-                      const contentType = response.headers.get("content-type") ?? "";
-                      if (!contentType.includes("application/json")) {
-                        throw new Error("Live flight search service is unavailable. Please try again shortly.");
-                      }
-                      const payload = await response.json() as { inbound?: FlightSchedule[]; error?: string };
-                      if (!response.ok) throw new Error(payload.error ?? "Return-flight search failed.");
-                      setInbound(payload.inbound ?? []);
-                      if (!(payload.inbound ?? []).length) setError("No return options were returned for this outbound flight. Try another outbound option.");
-                    } catch (e) {
-                      setError(e instanceof Error ? e.message : "Return-flight search failed.");
-                    } finally {
-                      setReturnLoading(false);
+                    if (search.tripType === "Round trip" && !inbound.length) {
+                      setError("No return options were returned for this date. Try another return date.");
+                    } else {
+                      setError("");
                     }
                   }}
                 />
@@ -462,7 +416,7 @@ export function FlightSearchResultsPage() {
 
             {search.tripType === "Round trip" && inbound.length > 0 && (
               <div className="mt-10">
-                <h2 className="mb-4 text-xl font-bold">{returnLoading ? "Finding return flights…" : "Choose your return flight"}</h2>
+                <h2 className="mb-4 text-xl font-bold">{"Choose your return flight"}</h2>
                 <div className="grid gap-4">
                   {inbound.map((result) => (
                     <ResultCard

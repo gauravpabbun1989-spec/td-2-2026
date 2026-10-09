@@ -87,7 +87,9 @@ export async function loadAirports(query: string): Promise<Airport[]> {
   }
 
   try {
-    const response = await fetch(`/api/flight-autocomplete?q=${encodeURIComponent(q)}`, {
+    const flightSearchEndpoint = import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search";
+    const autocompleteEndpoint = flightSearchEndpoint.split("?")[0].replace("/api/flight-search", "/api/flight-autocomplete");
+    const response = await fetch(autocompleteEndpoint + "?q=" + encodeURIComponent(q), {
       headers: { accept: "application/json" },
     });
     if (!response.ok) throw new Error("Airport search could not be loaded.");
@@ -126,25 +128,6 @@ export async function loadAirports(query: string): Promise<Airport[]> {
   }
 }
 
-const timezoneCache = new Map<string, string>();
-
-async function resolveAirportTimezone(choice: LocationChoice): Promise<string | undefined> {
-  if (choice.timezone) return choice.timezone;
-  if (typeof choice.lat !== "number" || typeof choice.lon !== "number") return undefined;
-  const key = choice.iata ?? `${choice.lat.toFixed(4)},${choice.lon.toFixed(4)}`;
-  const cached = timezoneCache.get(key);
-  if (cached) return cached;
-  try {
-    const response = await fetch(`https://api.geotimezone.com/public/timezone?latitude=${encodeURIComponent(String(choice.lat))}&longitude=${encodeURIComponent(String(choice.lon))}`);
-    if (!response.ok) return undefined;
-    const payload = (await response.json()) as { iana_timezone?: string };
-    if (!payload.iana_timezone) return undefined;
-    timezoneCache.set(key, payload.iana_timezone);
-    return payload.iana_timezone;
-  } catch {
-    return undefined;
-  }
-}
 function choices(airports: Airport[], query: string): LocationChoice[] {
   const q = query.trim().toLowerCase();
   if (!q)
@@ -186,73 +169,6 @@ function choices(airports: Airport[], query: string): LocationChoice[] {
   return [...cities, ...airportChoices];
 }
 
-function normalizeSchedule(
-  payload: unknown,
-  requestedDate: string,
-  requestedCabin: string,
-  originTimezone?: string,
-  destinationTimezone?: string,
-): FlightSchedule[] {
-  const route = payload as {
-    route_id?: string;
-    flying_min?: number;
-    airlines?: Array<{
-      airline_code?: string;
-      airline?: string;
-      schedule?: Array<{ day?: string; times?: string[] }>;
-    }>;
-  };
-  if (!route || !Array.isArray(route.airlines)) return [];
-
-  const [origin, destination] = String(route.route_id ?? "").split("-");
-  const requestedDay = dateToAirRoutesDay(requestedDate);
-  const durationMinutes = Number.isFinite(route.flying_min) ? Number(route.flying_min) : undefined;
-  const duration = durationMinutes !== undefined ? formatDuration(durationMinutes) : undefined;
-  const results: FlightSchedule[] = [];
-
-  route.airlines.forEach((airline, airlineIndex) => {
-    (airline.schedule ?? []).forEach((entry, dayIndex) => {
-      if (entry.day !== requestedDay) return;
-      (entry.times ?? []).forEach((time, timeIndex) => {
-        const arrival = calculateArrival(String(time), requestedDate, durationMinutes, originTimezone, destinationTimezone);
-        const airlineName = String(airline.airline ?? airline.airline_code ?? "Airline");
-        const airlineCode = airline.airline_code ? String(airline.airline_code).toUpperCase() : undefined;
-        const logoUrl = airlineCode
-          ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(airlineCode)}.png`
-          : undefined;
-        results.push({
-          id: `${route.route_id}-${airline.airline_code}-${requestedDay}-${time}-${airlineIndex}-${dayIndex}-${timeIndex}`,
-          airlineName,
-          airlineCode,
-          logoUrl,
-          departure: { iata: String(origin ?? ""), city: "", date: requestedDate, time: String(time || "Time not supplied") },
-          arrival: {
-            iata: String(destination ?? ""),
-            city: "",
-            date: arrival?.date ?? requestedDate,
-            time: arrival?.time ?? (durationMinutes !== undefined ? "Estimated arrival" : "Arrival time unavailable"),
-          },
-          duration,
-          stops: 0,
-          cabin: requestedCabin,
-          legs: [{
-            airlineName,
-            airlineCode,
-            logoUrl,
-            from: String(origin ?? ""),
-            to: String(destination ?? ""),
-            departureTime: String(time || "Time not supplied"),
-            arrivalTime: arrival?.time ?? "Arrival time unavailable",
-            arrivalDate: arrival?.date ?? requestedDate,
-            duration,
-          }],
-        });
-      });
-    });
-  });
-  return results;
-}
-
 export function formatDisplayTime(time: string): string {
   const match = time.match(/^(\d{1,2}):(\d{2})/);
   if (!match) return time;
@@ -270,241 +186,6 @@ export function formatDuration(minutes: number): string {
   return mins ? `${hours}h ${mins}m` : `${hours}h`;
 }
 
-function addMinutesToTime(time: string, minutes: number, date: string): { time: string; date: string } {
-  const match = time.match(/^(\d{1,2}):(\d{2})/);
-  if (!match) return { time: "Arrival time unavailable", date };
-  const total = Number(match[1]) * 60 + Number(match[2]) + minutes;
-  const normalized = ((total % 1440) + 1440) % 1440;
-  const dateOffset = Math.floor(total / 1440);
-  const [year, month, day] = date.split("-").map(Number);
-  const arrivalDate = new Date(Date.UTC(year, month - 1, day + dateOffset));
-  return {
-    time: `${String(Math.floor(normalized / 60)).padStart(2, "0")}:${String(normalized % 60).padStart(2, "0")}`,
-    date: `${arrivalDate.getUTCFullYear()}-${String(arrivalDate.getUTCMonth() + 1).padStart(2, "0")}-${String(arrivalDate.getUTCDate()).padStart(2, "0")}`,
-  };
-}
-
-function localDateTimeToUtc(date: string, time: string, timezone: string): number | null {
-  const match = time.match(/^(\d{1,2}):(\d{2})/);
-  if (!match) return null;
-  const hours = Number(match[1]);
-  const minutes = Number(match[2]);
-  if (hours > 23 || minutes > 59) return null;
-  const [year, month, day] = date.split("-").map(Number);
-  const localAsUtc = Date.UTC(year, month - 1, day, hours, minutes);
-  const offset = getTimezoneOffsetMinutes(new Date(localAsUtc), timezone);
-  return localAsUtc - offset * 60_000;
-}
-function calculateArrival(
-  departureTime: string,
-  departureDate: string,
-  durationMinutes?: number,
-  originTimezone?: string,
-  destinationTimezone?: string,
-): { date: string; time: string } | null {
-  if (durationMinutes === undefined) return null;
-  if (!originTimezone || !destinationTimezone) return addMinutesToTime(departureTime, durationMinutes, departureDate);
-  const match = departureTime.match(/^(\d{1,2}):(\d{2})/);
-  if (!match) return null;
-  const hours = Number(match[1]);
-  const minutes = Number(match[2]);
-  if (hours > 23 || minutes > 59) return null;
-
-  const [year, month, day] = departureDate.split("-").map(Number);
-  const localAsUtc = Date.UTC(year, month - 1, day, hours, minutes);
-  const originOffset = getTimezoneOffsetMinutes(new Date(localAsUtc), originTimezone);
-  const departureUtc = localAsUtc - originOffset * 60_000;
-  const arrivalUtc = departureUtc + durationMinutes * 60_000;
-  const arrivalOffset = getTimezoneOffsetMinutes(new Date(arrivalUtc), destinationTimezone);
-  const arrivalLocal = new Date(arrivalUtc + arrivalOffset * 60_000);
-  const yyyy = arrivalLocal.getUTCFullYear();
-  const mm = String(arrivalLocal.getUTCMonth() + 1).padStart(2, "0");
-  const dd = String(arrivalLocal.getUTCDate()).padStart(2, "0");
-  const hh = String(arrivalLocal.getUTCHours()).padStart(2, "0");
-  const min = String(arrivalLocal.getUTCMinutes()).padStart(2, "0");
-  return { date: `${yyyy}-${mm}-${dd}`, time: `${hh}:${min}` };
-}
-
-function getTimezoneOffsetMinutes(date: Date, timezone: string): number {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: timezone,
-    year: "numeric", month: "2-digit", day: "2-digit",
-    hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23",
-  }).formatToParts(date);
-  const values = Object.fromEntries(parts.filter((part) => part.type !== "literal").map((part) => [part.type, part.value]));
-  const asUtc = Date.UTC(Number(values.year), Number(values.month) - 1, Number(values.day), Number(values.hour), Number(values.minute), Number(values.second));
-  return Math.round((asUtc - date.getTime()) / 60_000);
-}
-
-function addDays(date: string, days: number): string {
-  const [year, month, day] = date.split("-").map(Number);
-  const next = new Date(Date.UTC(year, month - 1, day + days));
-  return `${next.getUTCFullYear()}-${String(next.getUTCMonth() + 1).padStart(2, "0")}-${String(next.getUTCDate()).padStart(2, "0")}`;
-}
-
-function utcToLocalDateTime(timestamp: number, timezone: string): { date: string; time: string } | null {
-  try {
-    const parts = new Intl.DateTimeFormat("en-US", { timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date(timestamp));
-    const values = Object.fromEntries(parts.filter((part) => part.type !== "literal").map((part) => [part.type, part.value]));
-    return { date: `${values.year}-${values.month}-${values.day}`, time: `${values.hour}:${values.minute}` };
-  } catch {
-    return null;
-  }
-}
-function dateToAirRoutesDay(date: string): string {
-  const [year, month, day] = date.split("-").map(Number);
-  const weekday = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
-  return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][weekday] ?? "";
-}
-
-async function fetchAirRoutesRoute(
-  origin: string,
-  destination: string,
-  date: string,
-  cabin: string,
-  actor: { searchFlightRoute: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }>; searchFlightConnections: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }> },
-  originTimezone?: string,
-  destinationTimezone?: string,
-) {
-  if (!actor) throw new Error("Flight schedule service is still connecting. Please try again in a moment.");
-  try {
-    const directResponse = await actor.searchFlightRoute(origin, destination);
-    if (Number(directResponse.status) === 200) {
-      const directResults = normalizeSchedule(JSON.parse(directResponse.body), date, cabin, originTimezone, destinationTimezone);
-      if (directResults.length) return directResults;
-    }
-  } catch {
-    // Continue to the connection search if the direct-route request is unavailable.
-  }
-
-  let connectionsResponse: { status: bigint | number; body: string };
-  try {
-    connectionsResponse = await actor.searchFlightConnections(origin, destination);
-  } catch {
-    throw new Error("Flight schedule service is temporarily unavailable. Please try again in a moment or call us for itinerary assistance.");
-  }
-  if (Number(connectionsResponse.status) !== 200) throw new Error("No scheduled options could be returned for this route.");
-
-  const payload = JSON.parse(connectionsResponse.body) as {
-    options?: Array<{
-      total_flying_min?: number;
-      stops?: number;
-      legs?: Array<{
-        from?: string;
-        to?: string;
-        flying_min?: number;
-        airlines?: Array<{
-          airline_code?: string;
-          airline?: string;
-          schedule?: Array<{ day?: string; times?: string[] }>;
-        }>;
-      }>;
-    }>;
-  };
-
-  const requestedDay = dateToAirRoutesDay(date);
-  const results: FlightSchedule[] = [];
-
-  for (let optionIndex = 0; optionIndex < (payload.options ?? []).length; optionIndex += 1) {
-    const option = payload.options?.[optionIndex];
-    const legs = option?.legs ?? [];
-    if (!legs.length) continue;
-
-    const airportsByIata = new Map<string, LocationChoice>();
-    const allIatas = Array.from(new Set(legs.flatMap((leg) => [String(leg.from ?? ""), String(leg.to ?? "")]).filter(Boolean)));
-    for (const iata of allIatas) {
-      const matches = await loadAirports(iata);
-      const airport = matches.find((item) => item.iata === iata) ?? matches[0];
-      if (airport) airportsByIata.set(iata, { type: "airport", city: airport.city, country: airport.country, iata: airport.iata, lat: airport.lat, lon: airport.lon, label: airport.name });
-    }
-
-    const displayLegs: FlightLeg[] = [];
-    let previousArrivalUtc: number | null = null;
-    let previousArrivalDate = date;
-    let firstDepartureUtc: number | null = null;
-    let finalArrivalUtc: number | null = null;
-    let valid = true;
-
-    for (let legIndex = 0; legIndex < legs.length; legIndex += 1) {
-      const leg = legs[legIndex];
-      const fromIata = String(leg.from ?? origin);
-      const toIata = String(leg.to ?? destination);
-      const fromChoice = airportsByIata.get(fromIata);
-      const toChoice = airportsByIata.get(toIata);
-      const fromTimezone = await resolveAirportTimezone(fromChoice ?? { type: "airport", city: "", country: "", iata: fromIata, label: fromIata });
-      const toTimezone = await resolveAirportTimezone(toChoice ?? { type: "airport", city: "", country: "", iata: toIata, label: toIata });
-      if (!fromTimezone || !toTimezone) { valid = false; break; }
-
-      const airline = leg.airlines?.[0];
-      const candidateDates = legIndex === 0 ? [date] : [previousArrivalDate, addDays(previousArrivalDate, 1)];
-      const candidateTimes = candidateDates.flatMap((candidateDate) => {
-        const day = dateToAirRoutesDay(candidateDate);
-        const entry = airline?.schedule?.find((item) => item.day === day);
-        return (entry?.times ?? []).map((time) => ({ time, date: candidateDate }));
-      });
-      if (!candidateTimes.length) { valid = false; break; }
-
-      let chosenDepartureUtc: number | null = null;
-      let chosenDepartureLocal = "";
-        for (const candidate of candidateTimes) {
-        const candidateDate = candidate.date;
-        const candidateTime = candidate.time;
-        const candidateUtc = localDateTimeToUtc(candidateDate, candidateTime, fromTimezone);
-        if (candidateUtc === null) continue;
-        if (previousArrivalUtc !== null && candidateUtc < previousArrivalUtc + 45 * 60_000) continue;
-        if (chosenDepartureUtc === null || candidateUtc < chosenDepartureUtc) {
-          chosenDepartureUtc = candidateUtc;
-          chosenDepartureLocal = candidateTime;
-        }
-      }
-      if (chosenDepartureUtc === null) { valid = false; break; }
-
-      const legDuration = Number.isFinite(leg.flying_min) ? Number(leg.flying_min) : undefined;
-      if (legDuration === undefined) { valid = false; break; }
-      const arrivalUtc = chosenDepartureUtc + legDuration * 60_000;
-      const arrivalLocal = utcToLocalDateTime(arrivalUtc, toTimezone);
-      if (!arrivalLocal) { valid = false; break; }
-
-      const layoverMinutes = previousArrivalUtc === null ? undefined : Math.round((chosenDepartureUtc - previousArrivalUtc) / 60_000);
-      const airlineCode = airline?.airline_code ? String(airline.airline_code).toUpperCase() : undefined;
-      displayLegs.push({
-        airlineName: String(airline?.airline ?? airline?.airline_code ?? "Airline"),
-        airlineCode,
-        logoUrl: airlineCode ? `https://images.kiwi.com/airlines/64/${encodeURIComponent(airlineCode)}.png` : undefined,
-        from: fromIata,
-        to: toIata,
-        departureTime: chosenDepartureLocal,
-        arrivalTime: arrivalLocal.time,
-        arrivalDate: arrivalLocal.date,
-        duration: formatDuration(legDuration),
-        layoverMinutes,
-      });
-      if (firstDepartureUtc === null) firstDepartureUtc = chosenDepartureUtc;
-      previousArrivalUtc = arrivalUtc;
-      previousArrivalDate = arrivalLocal.date;
-      finalArrivalUtc = arrivalUtc;
-    }
-
-    if (!valid || !displayLegs.length || firstDepartureUtc === null || finalArrivalUtc === null) continue;
-    const elapsedMinutes = Math.round((finalArrivalUtc - firstDepartureUtc) / 60_000);
-    const firstLeg = legs[0];
-    const lastLeg = legs[legs.length - 1];
-    results.push({
-      id: `${origin}-${destination}-${requestedDay}-${optionIndex}`,
-      airlineName: displayLegs.map((leg) => leg.airlineName).filter((name, index, names) => names.indexOf(name) === index).join(" + "),
-      airlineCode: displayLegs[0]?.airlineCode,
-      logoUrl: displayLegs[0]?.logoUrl,
-      departure: { iata: String(firstLeg.from ?? origin), city: "", date, time: displayLegs[0]?.departureTime ?? "" },
-      arrival: { iata: String(lastLeg.to ?? destination), city: "", date: displayLegs.at(-1)?.arrivalDate ?? date, time: displayLegs.at(-1)?.arrivalTime ?? "" },
-      duration: formatDuration(elapsedMinutes),
-      stops: Math.max(0, Number(option?.stops ?? legs.length - 1)),
-      cabin,
-      legs: displayLegs,
-    });
-  }
-  return results;
-}
-
 export async function fetchSchedules(
   fromChoice: LocationChoice,
   toChoice: LocationChoice,
@@ -513,18 +194,46 @@ export async function fetchSchedules(
   tripType: string,
   cabin: string,
   travelers: string,
-  actor: { searchFlightRoute: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }>; searchFlightConnections: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }> },
 ): Promise<{ outbound: FlightSchedule[]; inbound: FlightSchedule[] }> {
-  void travelers;
   const origin = fromChoice.iata ?? "";
   const destination = toChoice.iata ?? "";
   if (!origin || !destination) throw new Error("Select airports with valid IATA codes.");
-  const [originTimezone, destinationTimezone] = await Promise.all([resolveAirportTimezone(fromChoice), resolveAirportTimezone(toChoice)]);
-  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, actor, originTimezone, destinationTimezone);
-  if (tripType === "One way" || !returnDate) return { outbound, inbound: [] };
-  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, actor, destinationTimezone, originTimezone);
-  return { outbound, inbound };
+  if (!date) throw new Error("Choose a departure date.");
+
+  // The public website calls the Netlify API directly; provider credentials stay server-side.
+  const endpoint = import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search";
+  const params = new URLSearchParams({
+    from: origin,
+    to: destination,
+    departure: date,
+    trip: tripType === "One way" ? "One way" : "Round trip",
+    travelers: String(Math.max(1, Number.parseInt(travelers, 10) || 1)),
+    cabin,
+  });
+  if (returnDate && tripType !== "One way") params.set("return", returnDate);
+
+  let response: Response;
+  try {
+    response = await fetch(`${endpoint}${endpoint.includes("?") ? "&" : "?"}${params.toString()}`, {
+      headers: { accept: "application/json" },
+    });
+  } catch {
+    throw new Error("Flight search is temporarily unreachable. Please try again shortly or call us for itinerary assistance.");
+  }
+  const payload = await response.json().catch(() => null) as {
+    error?: string;
+    outbound?: FlightSchedule[];
+    inbound?: FlightSchedule[];
+  } | null;
+  if (!response.ok) {
+    throw new Error(payload?.error || "Flight search could not retrieve schedules. Please try again.");
+  }
+  if (!payload || !Array.isArray(payload.outbound) || !Array.isArray(payload.inbound)) {
+    throw new Error("Flight search returned an unexpected response. Please try again shortly.");
+  }
+  return { outbound: payload.outbound, inbound: payload.inbound };
 }
+
 export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
