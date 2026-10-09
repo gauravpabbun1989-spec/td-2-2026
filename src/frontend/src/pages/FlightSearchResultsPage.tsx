@@ -1,5 +1,3 @@
-import { createActor } from "@/backend";
-import { useActor } from "@caffeineai/core-infrastructure";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
 import { SITE } from "@/lib/site";
@@ -32,6 +30,9 @@ type SearchState = {
   travelers: string;
   cabin: string;
 };
+
+// The results UI is hosted by the main site; only the flight-search API is hosted on Netlify.
+const FLIGHT_SEARCH_API_URL = (import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search").replace(/\\/+$/, "");
 
 const PAGE_PATH = "/flight-search-results";
 const PAGE_TITLE = "Flight Search Results | TicketDepart";
@@ -166,7 +167,6 @@ function ResultCard({
 
 export function FlightSearchResultsPage() {
   const initialSearch = useMemo(() => readSearch(), []);
-  const { actor, isFetching: isActorFetching } = useActor(createActor);
   const search = initialSearch;
   const [outbound, setOutbound] = useState<FlightSchedule[]>([]);
   const [inbound, setInbound] = useState<FlightSchedule[]>([]);
@@ -210,7 +210,7 @@ export function FlightSearchResultsPage() {
       });
       if (nextSearch.returnDate && nextSearch.tripType === "Round trip") params.set("returnDate", nextSearch.returnDate);
 
-      const response = await fetch(`/api/flight-search?${params.toString()}`, { headers: { accept: "application/json" } });
+      const response = await fetch(`${FLIGHT_SEARCH_API_URL}?${params.toString()}`, { headers: { accept: "application/json" } });
       const contentType = response.headers.get("content-type") ?? "";
       if (!contentType.includes("application/json")) {
         throw new Error("Live flight search service is unavailable. Please try again shortly.");
@@ -236,8 +236,8 @@ export function FlightSearchResultsPage() {
       setError("This results page needs a valid flight search. Start a new search to continue.");
       return;
     }
-    if (!isActorFetching) void runSearch(initialSearch);
-  }, [isActorFetching, initialSearch, runSearch]);
+    void runSearch(initialSearch);
+  }, [initialSearch, runSearch]);
 
   const updateSearch = () => {
     const next: SearchState = {
