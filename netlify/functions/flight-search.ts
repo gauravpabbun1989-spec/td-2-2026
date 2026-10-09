@@ -135,10 +135,15 @@ export default async (request: Request): Promise<Response> => {
   if (!/^[A-Z0-9]{3}$/.test(origin) || !/^[A-Z0-9]{3}$/.test(destination) || origin === destination) {
     return json({ error: "Choose two different airports with valid three-character IATA codes." }, 400);
   }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(departure) || (trip !== "One way" && returnDate && !/^\d{4}-\d{2}-\d{2}$/.test(returnDate))) {
-    return json({ error: "Enter valid departure and return dates." }, 400);
+  const isValidDate = (value: string) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const parsed = new Date(`${value}T00:00:00Z`);
+    return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+  };
+  if (!isValidDate(departure) || (trip === "Round trip" && !isValidDate(returnDate))) {
+    return json({ error: "Enter a valid departure date and, for round trips, a valid return date (YYYY-MM-DD)." }, 400);
   }
-  if (trip !== "One way" && returnDate && returnDate < departure) {
+  if (trip === "Round trip" && returnDate < departure) {
     return json({ error: "The return date cannot be before the departure date." }, 400);
   }
   const apiKey = process.env.SERPAPI_KEY ?? process.env.SERP_API_KEY ?? "";
