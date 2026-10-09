@@ -49,7 +49,9 @@ let processed = 0;
 for (const file of walk(distDir)) {
   let html = fs.readFileSync(file, "utf8");
 
-  html = html.replace(/<div id="root"\s+style="visibility:hidden">/gi, '<div id="root">');
+  // Keep generated SEO fallback content hidden until React has rendered.
+  // main.tsx reveals #root after its first render; stripping this style here
+  // caused static page content to flash before the application loaded.
 
   html = html.replace(/<title>([\s\S]*?)<\/title>/i, (_, value) =>
     `<title>${trimTitle(value.replace(/<[^>]+>/g, ""))}</title>`
