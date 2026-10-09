@@ -30,44 +30,6 @@
     <script>
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
-      // Repair malformed legacy links like /delta-airlines/null before GA4
-      // configuration or React starts, so valid base routes are measured cleanly.
-      function normalizeNullSuffixPath() {
-        const path = (window.location.pathname || "/").replace(/\/+$/, "") || "/";
-        if (!/\/null$/i.test(path)) return;
-        const cleanPath = path.slice(0, -5).replace(/\/+$/, "") || "/";
-        window.history.replaceState(window.history.state, "", cleanPath + window.location.search + window.location.hash);
-      }
-      normalizeNullSuffixPath();
-      function isKnownProbePath() {
-        const path = (window.location.pathname || "/").toLowerCase().replace(/\/+$/, "") || "/";
-        // Match known secret/config and exploit-probe targets only. Do not
-        // reject arbitrary .json/.txt/.php URLs or ordinary TicketDepart routes.
-        const segments = path.split("/").filter(Boolean);
-        const exactProbeFiles = new Set([
-          "/.env", "/.git", "/.git/config", "/.dockerenv", "/.bashrc", "/.npmrc", "/.zshrc", "/.env::$data",
-          "/wp-login.php", "/xmlrpc.php", "/wp-config.php",
-          "/config.php", "/phpinfo.php", "/php-info.php",
-          "/aws-credentials.txt", "/.aws/credentials",
-          "/id_rsa", "/etc/passwd", "/server-status",
-          "/composer.json", "/.env.local", "/.env.production", "/wp-json", "/api/account", "/api/config", "/api/env", "/api/v1/env", "/api/v1/settings", "/health", "/key.pem", "/server.key",
-          "/database.sql", "/dump.sql", "/backup.sql"
-        ]);
-        if (exactProbeFiles.has(path)) return true;
-        const probeSegments = new Set([
-          ".git", ".env", ".aws", ".ssh", ".dockerenv", ".bashrc", ".npmrc", ".zshrc",
-          "wp-admin", "wp-includes", "wp-content", "phpmyadmin",
-          "cgi-bin", "phpunit", "actuator"
-        ]);
-        if (segments.some((segment) => probeSegments.has(segment))) {
-          if (segments.includes("actuator") && segments[segments.indexOf("actuator") + 1] !== "env") {
-            return false;
-          }
-          return true;
-        }
-        const file = segments[segments.length - 1] || "";
-        return /^(?:aws-credentials|wp-config|phpinfo|php-info|config|credentials|secrets|database|dump|backup)\.(?:php|txt|json|sql|bak|old)$/i.test(file);
-      }
       function loadAnalytics() {
         if (window.__ticketdepartAnalyticsLoaded) return;
         window.__ticketdepartAnalyticsLoaded = true;
@@ -75,12 +37,13 @@
         script.async = true;
         script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
         document.head.appendChild(script);
-      }
-      if (!isKnownProbePath()) {
-        // Queue configuration before application events so early phone clicks
-        // are not queued ahead of the GA4 destination configuration.
         window.gtag("js", new Date());
         window.gtag("config", "G-4WC5K9Q31E");
+      }
+      function isKnownProbePath() {
+        return /(?:^|\/)(?:\.env(?:\.|$)|\.git(?:\/|$)|@fs(?:\/|$)|wp-admin(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|server-status(?:$|\/)|\.aws(?:\/|$)|\.dockerenv(?:$|\/))/i.test(window.location.pathname || "/");
+      }
+      if (!isKnownProbePath()) {
         if ("requestIdleCallback" in window) {
           window.requestIdleCallback(loadAnalytics, { timeout: 6000 });
         } else {
@@ -130,6 +93,6 @@
       html, body { margin: 0; min-height: 100%; background: #fbfaf6; }
       #root { min-height: 100vh; }
     </style>
-    <script type="module" src="/src/bootstrap.ts"></script>
+    <script type="module" src="./src/main.tsx"></script>
   </body>
 </html>
