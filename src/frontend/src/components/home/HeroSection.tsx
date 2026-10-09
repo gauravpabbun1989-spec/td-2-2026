@@ -49,6 +49,7 @@ export function HeroSection() {
             <CallCta
               size="lg"
               ocid="home.hero_call_button"
+              showNumber
               className="w-full min-w-0 shadow-xl shadow-sky-900/15 sm:col-span-2"
             />
             <Link
