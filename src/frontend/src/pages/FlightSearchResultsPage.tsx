@@ -13,12 +13,10 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  fetchSchedules,
   formatDisplayTime,
   formatDuration,
   loadAirports,
   type FlightSchedule,
-  type LocationChoice,
 } from "./FlightSearchPage";
 
 type SearchState = {
@@ -32,7 +30,7 @@ type SearchState = {
 };
 
 // The results UI is hosted by the main site; only the flight-search API is hosted on Netlify.
-const FLIGHT_SEARCH_API_URL = (import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search").replace(/\\/+$/, "");
+const FLIGHT_SEARCH_API_URL = (import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search").replace(/\/+$/, "");
 
 const PAGE_PATH = "/flight-search-results";
 const PAGE_TITLE = "Flight Search Results | TicketDepart";
@@ -414,25 +412,10 @@ export function FlightSearchResultsPage() {
                     setReturnLoading(true);
                     setError("");
                     try {
-                      if (!result.departureToken && actor) {
-                        const fromChoice: LocationChoice = { type: "airport", city: "", country: "", iata: search.to, label: search.to };
-                        const toChoice: LocationChoice = { type: "airport", city: "", country: "", iata: search.from, label: search.from };
-                        const fallback = await fetchSchedules(
-                          fromChoice,
-                          toChoice,
-                          search.returnDate,
-                          "",
-                          "One way",
-                          search.cabin,
-                          search.travelers,
-                          actor,
-                        );
-                        setInbound(fallback.outbound);
-                        if (!fallback.outbound.length) setError("No scheduled return options were returned for this date. Try another date.");
-                        return;
+                      if (!result.departureToken) {
+                        throw new Error("This flight option did not include a return-search token. Please choose another outbound option.");
                       }
-
-                      const response = await fetch(`/api/flight-search?${new URLSearchParams({
+                      const response = await fetch(`${FLIGHT_SEARCH_API_URL}?${new URLSearchParams({
                         origin: search.from,
                         destination: search.to,
                         departureDate: search.departure,
@@ -440,7 +423,7 @@ export function FlightSearchResultsPage() {
                         tripType: search.tripType,
                         travelers: search.travelers,
                         cabin: search.cabin,
-                        ...(result.departureToken ? { departureToken: result.departureToken } : {}),
+                        departureToken: result.departureToken,
                       }).toString()}`, { headers: { accept: "application/json" } });
                       const contentType = response.headers.get("content-type") ?? "";
                       if (!contentType.includes("application/json")) {
