@@ -121,11 +121,14 @@ export default async (request: Request): Promise<Response> => {
   if (request.method !== "GET") return json({ error: "Use GET to search flight schedules." }, 405);
 
   const url = new URL(request.url);
-  const origin = (url.searchParams.get("from") ?? "").trim().toUpperCase();
-  const destination = (url.searchParams.get("to") ?? "").trim().toUpperCase();
-  const departure = url.searchParams.get("departure") ?? "";
-  const returnDate = url.searchParams.get("return") ?? "";
-  const trip = url.searchParams.get("trip") ?? "Round trip";
+  // Accept both the current frontend contract and the legacy live-endpoint
+  // contract so older links/callers keep working during deployment rollout.
+  const origin = (url.searchParams.get("from") ?? url.searchParams.get("origin") ?? "").trim().toUpperCase();
+  const destination = (url.searchParams.get("to") ?? url.searchParams.get("destination") ?? "").trim().toUpperCase();
+  const departure = url.searchParams.get("departure") ?? url.searchParams.get("departureDate") ?? "";
+  const returnDate = url.searchParams.get("return") ?? url.searchParams.get("returnDate") ?? "";
+  const rawTrip = url.searchParams.get("trip") ?? url.searchParams.get("tripType") ?? "One way";
+  const trip = /round\s*trip/i.test(rawTrip) || rawTrip === "1" ? "Round trip" : "One way";
   const cabin = url.searchParams.get("cabin") ?? "Economy";
   const travelers = Math.min(9, Math.max(1, Number.parseInt(url.searchParams.get("travelers") ?? "1", 10) || 1));
 
