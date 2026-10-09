@@ -87,7 +87,9 @@ export async function loadAirports(query: string): Promise<Airport[]> {
   }
 
   try {
-    const response = await fetch(`/api/flight-autocomplete?q=${encodeURIComponent(q)}`, {
+    const flightSearchEndpoint = import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search";
+    const autocompleteEndpoint = flightSearchEndpoint.split("?")[0].replace("/api/flight-search", "/api/flight-autocomplete");
+    const response = await fetch(autocompleteEndpoint + "?q=" + encodeURIComponent(q), {
       headers: { accept: "application/json" },
     });
     if (!response.ok) throw new Error("Airport search could not be loaded.");
@@ -513,18 +515,47 @@ export async function fetchSchedules(
   tripType: string,
   cabin: string,
   travelers: string,
-  actor: { searchFlightRoute: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }>; searchFlightConnections: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }> },
+  _actor?: { searchFlightRoute?: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }>; searchFlightConnections?: (origin: string, destination: string) => Promise<{ status: bigint | number; body: string }> },
 ): Promise<{ outbound: FlightSchedule[]; inbound: FlightSchedule[] }> {
-  void travelers;
   const origin = fromChoice.iata ?? "";
   const destination = toChoice.iata ?? "";
   if (!origin || !destination) throw new Error("Select airports with valid IATA codes.");
-  const [originTimezone, destinationTimezone] = await Promise.all([resolveAirportTimezone(fromChoice), resolveAirportTimezone(toChoice)]);
-  const outbound = await fetchAirRoutesRoute(origin, destination, date, cabin, actor, originTimezone, destinationTimezone);
-  if (tripType === "One way" || !returnDate) return { outbound, inbound: [] };
-  const inbound = await fetchAirRoutesRoute(destination, origin, returnDate, cabin, actor, destinationTimezone, originTimezone);
-  return { outbound, inbound };
+  if (!date) throw new Error("Choose a departure date.");
+
+  // The public website calls the Netlify API directly; provider credentials stay server-side.
+  const endpoint = import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search";
+  const params = new URLSearchParams({
+    from: origin,
+    to: destination,
+    departure: date,
+    trip: tripType === "One way" ? "One way" : "Round trip",
+    travelers: String(Math.max(1, Number.parseInt(travelers, 10) || 1)),
+    cabin,
+  });
+  if (returnDate && tripType !== "One way") params.set("return", returnDate);
+
+  let response: Response;
+  try {
+    response = await fetch(`${endpoint}${endpoint.includes("?") ? "&" : "?"}${params.toString()}`, {
+      headers: { accept: "application/json" },
+    });
+  } catch {
+    throw new Error("Flight search is temporarily unreachable. Please try again shortly or call us for itinerary assistance.");
+  }
+  const payload = await response.json().catch(() => null) as {
+    error?: string;
+    outbound?: FlightSchedule[];
+    inbound?: FlightSchedule[];
+  } | null;
+  if (!response.ok) {
+    throw new Error(payload?.error || "Flight search could not retrieve schedules. Please try again.");
+  }
+  if (!payload || !Array.isArray(payload.outbound) || !Array.isArray(payload.inbound)) {
+    throw new Error("Flight search returned an unexpected response. Please try again shortly.");
+  }
+  return { outbound: payload.outbound, inbound: payload.inbound };
 }
+
 export function FlightSearchPage({ embedded = false }: { embedded?: boolean }) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
