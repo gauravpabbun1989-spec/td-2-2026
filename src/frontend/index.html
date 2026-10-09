@@ -46,7 +46,7 @@
         // Reject malformed injected paths and known framework probes before
         // analytics loads. Real TicketDepart routes never contain whitespace
         // or an embedded absolute URL.
-        if (/\s|https?:/i.test(path) || path.includes("__vite_rsc_findSourceMapURL")) return true;
+        if (/\s|https?:/i.test(path) || path.includes("__vite_rsc_findsourcemapurl")) return true;
         const segments = path.split("/").filter(Boolean);
         const exactProbeFiles = new Set([
           "/.env", "/.git", "/.git/config", "/.dockerenv", "/.bashrc", "/.npmrc", "/.zshrc", "/.env::$data",
