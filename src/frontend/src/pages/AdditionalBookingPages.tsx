@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { FlightServiceIntentSection } from "@/components/FlightServiceIntentSection";
 import { PageContentExpansion } from "@/components/PageContentExpansion";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
@@ -1118,7 +1119,8 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
         </div>
       </Section>
 
-      <Section tone="paper" ocid={`${id}.related`}>
+            <FlightServiceIntentSection />
+<Section tone="paper" ocid={`${id}.related`}>
         <SectionHeading
           eyebrow="Related booking help"
           title="Explore more high-intent flight guides"

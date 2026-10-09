@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { FlightServiceIntentSection } from "@/components/FlightServiceIntentSection";
 import { PageContentExpansion } from "@/components/PageContentExpansion";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
@@ -242,6 +243,33 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
   },
   {
+    slug: "turkish-airlines",
+    name: "Turkish Airlines",
+    title: "Turkish Airlines Flight Booking & Reservation Assistance | TicketDepart",
+    description: "Independent travel agency providing Turkish Airlines reservation assistance for U.S. travelers, including booking, flight changes, cancellations, rebooking, rescheduling, Istanbul connections, and multi-city itineraries.",
+    heading: "Turkish Airlines flight booking and reservation assistance",
+    intro: "Planning a Turkish Airlines trip from the United States? Tell TicketDepart your route, dates, travelers, and cabin preferences. A specialist can discuss available Turkish Airlines itineraries, Istanbul connections, fare conditions, and service options before you decide to book.",
+    services: [
+      ["Turkish Airlines Flight Booking", "Discuss U.S. departures, international destinations, travel dates, cabin preferences, available fares, and practical itinerary options by phone."],
+      ["Turkish Airlines Flight Change Assistance", "Review an existing reservation and discuss eligible date, time, routing, and availability changes under the applicable ticket terms."],
+      ["Turkish Airlines Cancellation Assistance", "Discuss the ticket conditions and possible refund, credit, or other cancellation outcomes before you authorize a request."],
+      ["Turkish Airlines Rebooking & Rescheduling", "Compare replacement flights when plans change, including dates, routing, connections, and applicable fare differences."],
+      ["Turkish Airlines Booking by Phone", "Speak with an independent travel specialist about a new reservation, complex itinerary, cabin preference, baggage questions, or multi-city travel."],
+      ["Istanbul Airport (IST) Connections", "Turkish Airlines' main hub at Istanbul Airport can connect U.S. travelers with destinations across Türkiye, Europe, the Middle East, Africa, and Asia. Discuss connection timing and the full itinerary before booking."],
+      ["U.S. to Türkiye and Beyond", "Discuss itineraries from major U.S. gateways to Istanbul and onward destinations, with practical routing and connection considerations."],
+      ["Multi-City Turkish Airlines Travel", "Work through multiple destinations or open-jaw plans and discuss how the segments fit together before booking."],
+    ],
+    faqs: [
+      { question: "Is TicketDepart affiliated with Turkish Airlines?", answer: "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by Turkish Airlines and are not its official customer service." },
+      { question: "Can I book a Turkish Airlines flight by phone?", answer: "Yes. A TicketDepart specialist can discuss your U.S. departure, destination, dates, travelers, cabin preference, and available Turkish Airlines booking options." },
+      { question: "Can you help change a Turkish Airlines flight?", answer: "We can review the reservation information and discuss possible flight changes or rebooking. Exact eligibility and cost depend on the ticket terms, availability, and applicable airline rules." },
+      { question: "Can you help cancel a Turkish Airlines flight?", answer: "We can discuss cancellation options and the applicable ticket conditions. Refunds, credits, and other outcomes depend on the fare and ticket rules." },
+      { question: "Can you help rebook a Turkish Airlines flight by phone?", answer: "Yes. We can discuss replacement dates, routing, connection options, and applicable fare differences. Final availability is determined when the booking is processed." },
+      { question: "What is Istanbul Airport's role in Turkish Airlines travel?", answer: "Istanbul Airport (IST) is Turkish Airlines' primary hub and an important connection point for travelers from the United States traveling onward to Türkiye, Europe, the Middle East, Africa, and Asia." },
+      { question: "Are service fees disclosed before payment?", answer: "Any applicable TicketDepart service fee is disclosed before payment is authorized. Airline fare, taxes, and other applicable charges are reviewed before you decide." },
+    ],
+  },
+  {
     slug: "lot-polish-airlines",
     name: "LOT Polish Airlines",
     title: "LOT Polish Airlines Flight Booking Assistance | TicketDepart",
@@ -431,6 +459,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
         </div>
       </Section>
 
+      <FlightServiceIntentSection airline={page.name} />
       <Section tone="paper" ocid={`${id}.related`}>
         <SectionHeading eyebrow="Airline booking help" title="Explore another airline" description="Choose another airline-specific guide or return to general flight booking help." />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -455,5 +484,6 @@ export function AirCanadaPage() { return <AirlineAssistancePage page={AIRLINES[5
 export function SwissAirPage() { return <AirlineAssistancePage page={AIRLINES[6]} />; }
 export function QatarAirwaysPage() { return <AirlineAssistancePage page={AIRLINES[7]} />; }
 export function EmiratesPage() { return <AirlineAssistancePage page={AIRLINES[8]} />; }
-export function LotPolishAirlinesPage() { return <AirlineAssistancePage page={AIRLINES[10]} />; }
+export function TurkishAirlinesPage() { return <AirlineAssistancePage page={AIRLINES[10]} />; }
+export function LotPolishAirlinesPage() { return <AirlineAssistancePage page={AIRLINES[11]} />; }
 export function NorseAtlanticAirwaysPage() { return <AirlineAssistancePage page={AIRLINES[9]} />; }

@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { FlightServiceIntentSection } from "@/components/FlightServiceIntentSection";
 import { PageContentExpansion } from "@/components/PageContentExpansion";
 import { Section, SectionHeading } from "@/components/Section";
 import { Seo } from "@/components/Seo";
@@ -202,7 +203,8 @@ function RoutePage({ page }: { page: RoutePage }) {
         </div>
       </Section>
 
-      <Section tone="paper" ocid={`${id}.related`}>
+            <FlightServiceIntentSection routeLabel={`${page.origin} to ${page.destination}`} />
+<Section tone="paper" ocid={`${id}.related`}>
         <SectionHeading eyebrow="Related booking help" title="Continue planning" description="Move from a route search to broader booking assistance." />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
