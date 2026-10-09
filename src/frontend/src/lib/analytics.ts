@@ -46,7 +46,7 @@ function getCleanPagePath() {
 /** Ignore scanner/probe paths so automated security scans do not pollute funnel metrics. */
 function isSuspiciousPath(path = getCleanPagePath()) {
   const normalized = path.toLowerCase();
-  return /(?:^|\/)(?:wp-(?:admin|includes|content)(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|\.env(?:\.[^/]+)?|\.git(?:\/|$)|rclone\.conf|var\/run\/secrets|document\.php|dashboard\/\.env|(?:config|database|credentials|secrets?|settings|docker-compose|composer\.(?:json|lock)|package-lock|yarn\.lock|pnpm-lock|phpinfo|php-info|info|debug|dump|backup|db_backup|wp-config|environment|local\.settings)(?:\.[^/]+)?|(?:phpmyadmin|db-admin|internal-api|dev-api|cgi-bin|private|backups?)(?:\/|$))/i.test(normalized)
+  return /(?:^|\/)(?:wp-(?:admin|includes|content)(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|\.env(?:\.[^/]+)?|\.git(?:\/|$)|rclone\.conf|var\/run\/secrets|document\.php|dashboard\/\.env|(?:config|database|credentials|secrets?|settings|env|docker-compose|composer\.(?:json|lock)|package-lock|yarn\.lock|pnpm-lock|phpinfo|php-info|info|debug|dump|backup|db_backup|wp-config|environment|local\.settings)(?:\.[^/]+)?|(?:phpmyadmin|db-admin|internal-api|dev-api|cgi-bin|private|backups?)(?:\/|$))/i.test(normalized)
     || /\.(?:php\d?|sql|bak|old|save(?:\.\d+)?|ini|ya?ml|conf|lock|log|sh|pem|key|env|json|txt)(?:$|\/|\.)/i.test(normalized);
 }
 
