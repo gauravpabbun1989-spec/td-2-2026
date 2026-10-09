@@ -58,6 +58,7 @@ actor {
     context : Blob;
     response : IC.HttpRequestResult;
   }) : async IC.HttpRequestResult {
+    ignore context;
     { response with headers = [] };
   };
 
