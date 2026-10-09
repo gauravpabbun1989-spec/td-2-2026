@@ -33,9 +33,9 @@
       // Repair malformed legacy links like /delta-airlines/null before GA4
       // configuration or React starts, so valid base routes are measured cleanly.
       function normalizeNullSuffixPath() {
-        const path = (window.location.pathname || "/").replace(/\\/+$/, "") || "/";
-        if (!/\\/null$/i.test(path)) return;
-        const cleanPath = path.slice(0, -5).replace(/\\/+$/, "") || "/";
+        const path = (window.location.pathname || "/").replace(/\/+$/, "") || "/";
+        if (!/\/null$/i.test(path)) return;
+        const cleanPath = path.slice(0, -5).replace(/\/+$/, "") || "/";
         window.history.replaceState(window.history.state, "", cleanPath + window.location.search + window.location.hash);
       }
       normalizeNullSuffixPath();
