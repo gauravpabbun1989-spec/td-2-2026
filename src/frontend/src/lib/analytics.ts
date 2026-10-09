@@ -217,8 +217,13 @@ export function trackCallbackFormStart(location = "contact_form") {
 }
 
 export function trackCallbackFormSubmit(location = "contact_form") {
+  // Submission attempts are not confirmed callback requests.
   trackEvent("callback_form_submit", { callback_location: location });
-  trackEvent("callback_request", { callback_location: location });
+}
+
+export function trackCallbackRequest(location = "contact_form") {
+  // Emit only after the backend confirms that the lead was durably stored.
+  trackEvent("callback_request", { callback_location: location, lead_status: "stored" });
 }
 
 export function trackCallbackFormError(
@@ -269,8 +274,28 @@ function observePhoneCtaImpressions() {
     { threshold: 0.5 },
   );
 
-  for (const link of document.querySelectorAll('a[href^="tel:"]')) {
-    observer.observe(link);
+  const observeLinks = (root: ParentNode) => {
+    for (const link of root.querySelectorAll('a[href^="tel:"]')) {
+      if (!observedPhoneCtas.has(link)) observer.observe(link);
+    }
+  };
+
+  observeLinks(document);
+
+  // React routes and conditional CTAs can mount after initial page load.
+  // Observe inserted nodes so visible phone CTAs are not silently missed.
+  if (typeof MutationObserver !== "undefined" && document.documentElement) {
+    const mutations = new MutationObserver((records) => {
+      for (const record of records) {
+        for (const node of record.addedNodes) {
+          if (node.nodeType !== Node.ELEMENT_NODE) continue;
+          const element = node as Element;
+          if (element.matches?.('a[href^="tel:"]')) observer.observe(element);
+          observeLinks(element);
+        }
+      }
+    });
+    mutations.observe(document.documentElement, { childList: true, subtree: true });
   }
 }
 
