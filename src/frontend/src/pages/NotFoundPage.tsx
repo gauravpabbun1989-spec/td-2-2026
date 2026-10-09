@@ -68,6 +68,7 @@ export function NotFoundPage() {
         title="Page Not Found | TicketDepart"
         description="The page you were looking for could not be found. Browse TicketDepart flight booking, airline guides, or call a travel specialist at +1 888-958-0280."
         path="/404"
+        indexable={false}
       />
 
       <Section tone="paper" ocid="not_found.page">
