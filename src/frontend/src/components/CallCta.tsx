@@ -47,12 +47,10 @@ export function CallCta({
       )}
     >
       <Phone aria-hidden="true" className="size-4 shrink-0" />
-      <span className="min-w-0 whitespace-normal text-center">{SITE.ctaLabel}</span>
-      {showNumber ? (
-        <span className="min-w-0 whitespace-normal text-center" aria-hidden="true">
-          {SITE.phoneDisplay}
-        </span>
-      ) : null}
+      <span className={cn("min-w-0 whitespace-normal text-center", showNumber && "flex flex-col")}>
+        <span>{SITE.ctaLabel}</span>
+        {showNumber ? <span aria-hidden="true">{SITE.phoneDisplay}</span> : null}
+      </span>
     </a>
   );
 }
