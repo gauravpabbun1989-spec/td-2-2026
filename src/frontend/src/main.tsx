@@ -35,8 +35,3 @@ root.render(
   </QueryClientProvider>,
 );
 
-// Remove the static first-paint shell after React has mounted so users never see
-// an unstyled/code-like flash while the application bootstraps.
-const initialLoader = document.getElementById("initial-loader");
-if (initialLoader) initialLoader.remove();
-rootElement.style.visibility = "visible";
