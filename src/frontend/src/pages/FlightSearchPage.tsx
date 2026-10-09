@@ -72,6 +72,10 @@ export type FlightSchedule = {
   bookingToken?: string;
 };
 
+// The main site stays on Caffeine. Flight-search requests alone go to the Netlify API.
+const FLIGHT_SEARCH_API_URL = (import.meta.env.VITE_FLIGHT_SCHEDULE_API_URL || "https://ticket-depart2.netlify.app/api/flight-search").replace(/\\/+$/, "");
+const FLIGHT_API_BASE_URL = FLIGHT_SEARCH_API_URL.replace(/\\/flight-search$/, "");
+
 const PAGE_PATH = "/flight-search";
 const PAGE_TITLE = "Flight Schedule Search | TicketDepart";
 const PAGE_DESCRIPTION =
@@ -87,7 +91,7 @@ export async function loadAirports(query: string): Promise<Airport[]> {
   }
 
   try {
-    const response = await fetch(`/api/flight-autocomplete?q=${encodeURIComponent(q)}`, {
+    const response = await fetch(`${FLIGHT_API_BASE_URL}/flight-autocomplete?q=${encodeURIComponent(q)}`, {
       headers: { accept: "application/json" },
     });
     if (!response.ok) throw new Error("Airport search could not be loaded.");
