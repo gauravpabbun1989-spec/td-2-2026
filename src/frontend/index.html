@@ -31,9 +31,22 @@
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
       function isKnownProbePath() {
-        const path = (window.location.pathname || "/").toLowerCase();
-        return /(?:^|\/)(?:\.env(?:\.[^/]+)?|\.git(?:\/|$)|@fs(?:\/|$)|wp-(?:admin|includes|content)(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|server-status(?:$|\/)|\.aws(?:\/|$)|\.dockerenv(?:\/|$)|(?:config|database|credentials|secrets?|settings|env|docker-compose|composer\.(?:json|lock)|package-lock|yarn\.lock|pnpm-lock|phpinfo|php-info|info|debug|dump|backup|db_backup|wp-config|environment|local\.settings)(?:\.[^/]+)?|(?:phpmyadmin|db-admin|internal-api|dev-api|cgi-bin|private|backups?)(?:\/|$))/i.test(path)
-          || /\.(?:php\d?|sql|bak|old|save(?:\.\d+)?|ini|ya?ml|conf|lock|log|sh|pem|key|env|json|txt)(?:$|\/|\.)/i.test(path);
+        const path = (window.location.pathname || "/").toLowerCase().replace(/\\/+$/, "") || "/";
+        // Match known secret/config and exploit-probe targets only. Do not
+        // reject arbitrary .json/.txt/.php URLs or ordinary TicketDepart routes.
+        const exactProbeFiles = new Set([
+          "/.env", "/.git", "/.git/config", "/.dockerenv",
+          "/wp-login.php", "/xmlrpc.php", "/wp-config.php",
+          "/config.php", "/phpinfo.php", "/php-info.php",
+          "/aws-credentials.txt", "/.aws/credentials",
+          "/id_rsa", "/etc/passwd", "/server-status",
+          "/composer.json", "/.env.local", "/.env.production",
+          "/database.sql", "/dump.sql", "/backup.sql"
+        ]);
+        if (exactProbeFiles.has(path)) return true;
+        return /(?:^|\\/)(?:wp-admin|wp-includes|wp-content|phpmyadmin|cgi-bin|vendor\\/phpunit|actuator\\/env|\\.ssh|\\.aws)(?:\\/|$)/i.test(path)
+          || /(?:^|\\/)(?:\.git|\.env)(?:\\/|$)/i.test(path)
+          || /(?:^|\\/)(?:aws-credentials|wp-config|phpinfo|php-info|config|credentials|secrets|database|dump|backup)(?:\\.(?:php|txt|json|sql|bak|old))$/i.test(path);
       }
       function loadAnalytics() {
         if (window.__ticketdepartAnalyticsLoaded) return;
