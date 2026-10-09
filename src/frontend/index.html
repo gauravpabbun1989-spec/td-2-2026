@@ -31,9 +31,10 @@
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
       function isKnownProbePath() {
-        const path = (window.location.pathname || "/").toLowerCase().replace(/\\/+$/, "") || "/";
+        const path = (window.location.pathname || "/").toLowerCase().replace(/\/+$/, "") || "/";
         // Match known secret/config and exploit-probe targets only. Do not
         // reject arbitrary .json/.txt/.php URLs or ordinary TicketDepart routes.
+        const segments = path.split("/").filter(Boolean);
         const exactProbeFiles = new Set([
           "/.env", "/.git", "/.git/config", "/.dockerenv",
           "/wp-login.php", "/xmlrpc.php", "/wp-config.php",
@@ -44,9 +45,19 @@
           "/database.sql", "/dump.sql", "/backup.sql"
         ]);
         if (exactProbeFiles.has(path)) return true;
-        return /(?:^|\\/)(?:wp-admin|wp-includes|wp-content|phpmyadmin|cgi-bin|vendor\\/phpunit|actuator\\/env|\\.ssh|\\.aws)(?:\\/|$)/i.test(path)
-          || /(?:^|\\/)(?:\.git|\.env)(?:\\/|$)/i.test(path)
-          || /(?:^|\\/)(?:aws-credentials|wp-config|phpinfo|php-info|config|credentials|secrets|database|dump|backup)(?:\\.(?:php|txt|json|sql|bak|old))$/i.test(path);
+        const probeSegments = new Set([
+          ".git", ".env", ".aws", ".ssh", ".dockerenv",
+          "wp-admin", "wp-includes", "wp-content", "phpmyadmin",
+          "cgi-bin", "phpunit", "actuator"
+        ]);
+        if (segments.some((segment) => probeSegments.has(segment))) {
+          if (segments.includes("actuator") && segments[segments.indexOf("actuator") + 1] !== "env") {
+            return false;
+          }
+          return true;
+        }
+        const file = segments[segments.length - 1] || "";
+        return /^(?:aws-credentials|wp-config|phpinfo|php-info|config|credentials|secrets|database|dump|backup)\.(?:php|txt|json|sql|bak|old)$/i.test(file);
       }
       function loadAnalytics() {
         if (window.__ticketdepartAnalyticsLoaded) return;
