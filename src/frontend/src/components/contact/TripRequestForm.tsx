@@ -9,6 +9,7 @@ import {
   trackCallbackFormError,
   trackCallbackFormStart,
   trackCallbackFormSubmit,
+  trackCallbackRequest,
   trackLeadSubmit,
 } from "@/lib/analytics";
 import { SITE } from "@/lib/site";
@@ -305,6 +306,7 @@ export function TripRequestForm() {
           setValues(EMPTY_FORM);
           setErrors({});
           setEmailStatus(email);
+          trackCallbackRequest("contact_form");
           trackLeadSubmit("contact_form");
           setSubmitted(true);
           return;
