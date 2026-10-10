@@ -2,9 +2,23 @@ name: Submit live sitemap URLs to IndexNow
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "17 7 * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/indexnow.yml"
+      - "scripts/indexnow.mjs"
+      - "src/frontend/public/sitemap.xml"
+      - "src/frontend/public/7f4c2b9e8a1d4635b0c9e2a6d7f8135b.txt"
 
 permissions:
   contents: read
+
+concurrency:
+  group: indexnow-sitemap-submit
+  cancel-in-progress: false
 
 jobs:
   submit-sitemap:
