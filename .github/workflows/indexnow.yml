@@ -1,142 +1,20 @@
-name: IndexNow URL submission
+name: Submit live sitemap URLs to IndexNow
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "17 13 * * *"
 
 permissions:
   contents: read
 
 jobs:
-  submit:
+  submit-sitemap:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Validate key endpoint and sitemap URLs
-        shell: bash
-        env:
-          INDEXNOW_KEY: "7f4c2b9e8a1d4635b0c9e2a6d7f8135b"
-          KEY_LOCATION: "https://ticketdepart.com/7f4c2b9e8a1d4635b0c9e2a6d7f8135b.txt"
-          HOST: "ticketdepart.com"
-        run: |
-          python - <<'PY'
-          import os
-          import urllib.error
-          import urllib.request
-          import xml.etree.ElementTree as ET
-
-          key = os.environ["INDEXNOW_KEY"].strip()
-          key_location = os.environ["KEY_LOCATION"].strip()
-          host = os.environ["HOST"].strip().lower()
-          sitemap_path = "src/frontend/public/sitemap.xml"
-
-          try:
-              request = urllib.request.Request(
-                  key_location,
-                  headers={"User-Agent": "TicketDepart-IndexNow-Preflight/1.0"},
-              )
-              with urllib.request.urlopen(request, timeout=20) as response:
-                  body = response.read().decode("utf-8", errors="replace").strip()
-                  print(f"Key endpoint HTTP status: {response.status}")
-          except urllib.error.HTTPError as error:
-              detail = error.read().decode("utf-8", errors="replace")[:1000]
-              raise SystemExit(
-                  f"IndexNow key endpoint returned HTTP {error.code}: {detail}"
-              )
-          except Exception as error:
-              raise SystemExit(f"Could not validate IndexNow key endpoint: {error}")
-
-          if body != key:
-              raise SystemExit(
-                  "IndexNow key endpoint content does not exactly match INDEXNOW_KEY."
-              )
-
-          try:
-              with open(sitemap_path, "rb") as sitemap_file:
-                  root = ET.fromstring(sitemap_file.read())
-          except Exception as error:
-              raise SystemExit(f"Could not parse sitemap at {sitemap_path}: {error}")
-
-          urls = [
-              node.text.strip()
-              for node in root.iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")
-              if node.text and node.text.strip()
-          ]
-          if not urls:
-              raise SystemExit("No URLs found in sitemap")
-
-          invalid = [
-              url for url in urls
-              if not url.startswith("https://" + host + "/")
-          ]
-          if invalid:
-              raise SystemExit(
-                  "Sitemap contains URLs outside the configured HTTPS host: "
-                  + ", ".join(invalid[:10])
-              )
-
-          if len(urls) != len(set(urls)):
-              raise SystemExit("Sitemap contains duplicate URLs")
-
-          print(f"Validated IndexNow key endpoint and {len(urls)} unique sitemap URLs.")
-          PY
-      - name: Submit sitemap URLs to IndexNow
-        shell: bash
-        env:
-          INDEXNOW_KEY: "7f4c2b9e8a1d4635b0c9e2a6d7f8135b"
-          KEY_LOCATION: "https://ticketdepart.com/7f4c2b9e8a1d4635b0c9e2a6d7f8135b.txt"
-          HOST: "ticketdepart.com"
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          import urllib.error
-          import urllib.request
-          import xml.etree.ElementTree as ET
-
-          sitemap_path = "src/frontend/public/sitemap.xml"
-          sitemap_url = "https://ticketdepart.com/sitemap.xml"
-          key = os.environ["INDEXNOW_KEY"].strip()
-          key_location = os.environ["KEY_LOCATION"].strip()
-          host = os.environ["HOST"].strip().lower()
-
-          with open(sitemap_path, "rb") as sitemap_file:
-              root = ET.fromstring(sitemap_file.read())
-
-          urls = [
-              node.text.strip()
-              for node in root.iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")
-              if node.text and node.text.strip()
-          ]
-          payload = {
-              "host": host,
-              "key": key,
-              "keyLocation": key_location,
-              "urlList": urls,
-          }
-          data = json.dumps(payload).encode("utf-8")
-          request = urllib.request.Request(
-              "https://api.indexnow.org/indexnow",
-              data=data,
-              headers={"Content-Type": "application/json; charset=utf-8"},
-              method="POST",
-          )
-
-          try:
-              with urllib.request.urlopen(request, timeout=30) as response:
-                  body = response.read().decode("utf-8", errors="replace")
-                  print(f"IndexNow response HTTP {response.status}")
-                  if body:
-                      print(body[:2000])
-          except urllib.error.HTTPError as error:
-              body = error.read().decode("utf-8", errors="replace")
-              print(f"IndexNow submission failed: HTTP {error.code}")
-              if body:
-                  print(body[:2000])
-              raise SystemExit(1)
-          except Exception as error:
-              raise SystemExit(f"IndexNow submission failed: {error}")
-
-          print(f"Submitted {len(urls)} URLs from {sitemap_url}")
-          PY
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Submit URLs from the live sitemap
+        run: node scripts/indexnow.mjs
