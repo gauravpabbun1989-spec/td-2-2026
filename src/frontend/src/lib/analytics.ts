@@ -44,23 +44,52 @@ function getCleanPagePath() {
   return raw.replace(/\/+$/, "") || "/";
 }
 
+/** Decode repeated URL encoding before checking known scanner/probe paths. */
+function normalizePathForProbeCheck(path: string) {
+  let decoded = path.toLowerCase();
+
+  // Security scanners often encode path separators and dot-file names.
+  // Decode a bounded number of times and stop safely on malformed escapes.
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const next = decodeURIComponent(decoded);
+      if (next === decoded) break;
+      decoded = next;
+    } catch {
+      break;
+    }
+  }
+
+  return decoded.replace(/\\/g, "/").replace(/\/+$/, "") || "/";
+}
+
 /** Ignore scanner/probe paths so automated security scans do not pollute funnel metrics. */
 function isSuspiciousPath(path = getCleanPagePath()) {
-  const normalized = path.toLowerCase().replace(/\/+$/, "") || "/";
+  const normalized = normalizePathForProbeCheck(path);
   const exactProbePaths = new Set([
-    "/.env", "/.env::$data", "/.env.local", "/.env.production",
-    "/.git", "/.git/config", "/.dockerenv", "/.bashrc", "/.npmrc", "/.zshrc",
+    "/.env", "/.env::$data", "/.env.local", "/.env.production", "/.flaskenv",
+    "/.git", "/.git/config", "/.git-secret", "/.hg", "/.svn", "/.dockerenv",
+    "/.bashrc", "/.npmrc", "/.zshrc", "/.circleci/config.yml", "/.next",
     "/.aws/credentials", "/.ssh", "/id_rsa", "/etc/passwd",
     "/wp-login.php", "/wp-config.php", "/wp-json", "/xmlrpc.php",
     "/phpinfo.php", "/php-info.php", "/config.php", "/composer.json",
     "/database.sql", "/dump.sql", "/backup.sql", "/server-status",
     "/server.key", "/key.pem", "/aws-credentials.txt", "/health",
-    "/api/account", "/api/config", "/api/env", "/api/v1/env",
-    "/api/v1/settings"
+    "/api", "/api/health", "/api/settings", "/api/account", "/api/config",
+    "/api/env", "/api/v1/config", "/api/v1/env", "/api/v1/settings",
+    "/webpack.config.js", "/debug/default/view", "/app_dev.php/_profiler/open",
+    "/test_phpinfo5.php"
   ]);
+
+  if (normalized.startsWith("//")) return true;
   if (exactProbePaths.has(normalized)) return true;
+
   return /(?:^|\/)(?:wp-admin|wp-includes|wp-content|phpmyadmin|cgi-bin|phpunit)(?:\/|$)/i.test(normalized)
-    || /(?:^|\/)(?:config|credentials|secrets|database|dump|backup|wp-config|phpinfo|php-info)\.(?:php|txt|json|sql|bak|old)$/i.test(normalized);
+    || /(?:^|\/)(?:config|credentials|secrets?|database|dump|backup|wp-config|phpinfo|php-info)\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(normalized)
+    || /(?:^|\/)(?:\.env(?:\.[^/]+)?|\.git(?:-[^/]+)?|\.hg|\.svn|\.ssh|\.aws|\.next|\.circleci|\.docker|\.terraform|\.npmrc|\.yarnrc|\.flaskenv)(?:\/|$)/i.test(normalized)
+    || /(?:^|\/)(?:var\/log|proc\/self|etc\/passwd|debug\/default\/view|app_dev\.php\/_profiler|_next\/webpack-hmr|webpack-hmr)(?:\/|$)/i.test(normalized)
+    || /\.(?:php|sql|tfstate|tfvars|pem|key|bak|old|save)$/i.test(normalized)
+    || /(?:^|\/)(?:package\.json|docker-compose\.yml|serverless\.yml|webpack\.config\.js|terraform\.lock\.hcl)(?:\/|$)/i.test(normalized);
 }
 
 function getLandingPage() {
