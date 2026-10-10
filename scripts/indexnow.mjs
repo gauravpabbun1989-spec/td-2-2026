@@ -1,11 +1,23 @@
 const HOST = "ticketdepart.com";
 const SITEMAP_URL = `https://${HOST}/sitemap.xml`;
 const BASE_URL = `https://${HOST}`;
-const KEY = "d2671f2fe124045675597ca88dc4892e";
+// Reuse the key already configured by the existing IndexNow workflow.
+const KEY = "7f4c2b9e8a1d4635b0c9e2a6d7f8135b";
 const KEY_LOCATION = `${BASE_URL}/${KEY}.txt`;
 const ENDPOINT = "https://api.indexnow.org/indexnow";
 
 async function main() {
+  const keyResponse = await fetch(KEY_LOCATION, {
+    headers: { "User-Agent": "TicketDepart-IndexNow/1.0" }
+  });
+  if (!keyResponse.ok) {
+    throw new Error(`IndexNow key file is not reachable: HTTP ${keyResponse.status} at ${KEY_LOCATION}`);
+  }
+  const servedKey = (await keyResponse.text()).trim();
+  if (servedKey !== KEY) {
+    throw new Error("The live IndexNow key file does not match the configured key.");
+  }
+
   const sitemapResponse = await fetch(SITEMAP_URL, {
     headers: { "User-Agent": "TicketDepart-IndexNow/1.0" }
   });
