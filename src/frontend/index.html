@@ -30,6 +30,32 @@
     <script>
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+      // Recover once when a cached HTML document references a missing Vite chunk.
+      // This is especially important after a Caffeine import changes hashed asset names.
+      (function installChunkRecovery() {
+        const retryKey = "ticketdepart:chunk-retry:" + (window.location.pathname || "/");
+        let retryAttempted = false;
+        window.addEventListener("vite:preloadError", function (event) {
+          event.preventDefault();
+          if (retryAttempted) return;
+          retryAttempted = true;
+          try {
+            if (window.sessionStorage.getItem(retryKey) === "1") {
+              console.error("TicketDepart could not load a required JavaScript asset after one refresh.");
+              return;
+            }
+            window.sessionStorage.setItem(retryKey, "1");
+          } catch {
+            // In-memory guard still prevents repeated reloads when storage is blocked.
+          }
+          window.location.reload();
+        });
+        window.addEventListener("load", function () {
+          window.setTimeout(function () {
+            try { window.sessionStorage.removeItem(retryKey); } catch {}
+          }, 10000);
+        }, { once: true });
+      })();
       // Repair malformed legacy links like /delta-airlines/null before GA4
       // configuration or React starts, so valid base routes are measured cleanly.
       function normalizeNullSuffixPath() {
