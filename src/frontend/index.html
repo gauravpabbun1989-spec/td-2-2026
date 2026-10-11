@@ -78,8 +78,9 @@
             break;
           }
         }
-        path = path.replace(/\\/g, "/").replace(/\/+$/, "") || "/";
+        path = path.replace(/\\/g, "/");
         if (path.startsWith("//") || /\s|https?:/i.test(path) || path.includes("__vite_rsc_findsourcemapurl")) return true;
+        path = path.replace(/\/+$/, "") || "/";
 
         const segments = path.split("/").filter(Boolean);
         const exactProbePaths = new Set([
