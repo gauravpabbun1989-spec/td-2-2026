@@ -2,40 +2,44 @@ import { CallCta } from "@/components/CallCta";
 import { trackEvent } from "@/lib/analytics";
 import { Clock3, Headset, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed";
+const DISMISSED_KEY_PREFIX = "ticketdepart_call_now_popup_dismissed:";
 const SHOW_DELAY_MS = 12000;
 
 export function CallNowPopup() {
   const [isOpen, setIsOpen] = useState(false);
+  const { pathname } = useLocation();
+  const dismissedKey = `${DISMISSED_KEY_PREFIX}${pathname}`;
 
   useEffect(() => {
+    setIsOpen(false);
     if (typeof window === "undefined") return;
-    if (window.location.pathname.startsWith("/admin")) return;
+    if (pathname.startsWith("/admin")) return;
 
     try {
-      if (window.sessionStorage.getItem(DISMISSED_KEY) === "1") return;
+      if (window.sessionStorage.getItem(dismissedKey) === "1") return;
     } catch {
       // Continue if storage is unavailable; the popup can still be dismissed in memory.
     }
 
     const timer = window.setTimeout(() => {
       setIsOpen(true);
-      trackEvent("call_now_popup_impression", { popup_location: "sitewide_modal" });
+      trackEvent("call_now_popup_impression", { popup_location: "sitewide_modal", landing_path: pathname });
     }, SHOW_DELAY_MS);
 
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [dismissedKey, pathname]);
 
   const dismissPopup = useCallback(() => {
     setIsOpen(false);
     try {
-      window.sessionStorage.setItem(DISMISSED_KEY, "1");
+      window.sessionStorage.setItem(dismissedKey, "1");
     } catch {
       // In-memory dismissal still works when browser storage is blocked.
     }
-    trackEvent("call_now_popup_dismiss", { popup_location: "sitewide_modal" });
-  }, []);
+    trackEvent("call_now_popup_dismiss", { popup_location: "sitewide_modal", landing_path: pathname });
+  }, [dismissedKey, pathname]);
 
   if (!isOpen) return null;
 
