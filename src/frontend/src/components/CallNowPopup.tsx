@@ -1,46 +1,63 @@
 import { CallCta } from "@/components/CallCta";
 import { trackEvent } from "@/lib/analytics";
 import { Clock3, Headset, X } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
-const DISMISSED_KEY_PREFIX = "ticketdepart_call_now_popup_dismissed:";
+const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed";
+const SHOWN_KEY = "ticketdepart_call_now_popup_shown";
 // Show promptly after mount: 0.1 seconds (100 ms).
 const SHOW_DELAY_MS = 100;
 
 export function CallNowPopup() {
   const [isOpen, setIsOpen] = useState(false);
+  const hasShownThisSession = useRef(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const dismissedKey = `${DISMISSED_KEY_PREFIX}${pathname}`;
 
   useEffect(() => {
-    setIsOpen(false);
-    if (typeof window === "undefined") return;
-    if (pathname.startsWith("/admin")) return;
+    if (typeof window === "undefined" || pathname.startsWith("/admin")) return;
+    if (hasShownThisSession.current) return;
 
     try {
-      if (window.sessionStorage.getItem(dismissedKey) === "1") return;
+      if (
+        window.sessionStorage.getItem(DISMISSED_KEY) === "1" ||
+        window.sessionStorage.getItem(SHOWN_KEY) === "1"
+      ) {
+        hasShownThisSession.current = true;
+        return;
+      }
     } catch {
-      // Continue if storage is unavailable; the popup can still be dismissed in memory.
+      // The ref below still prevents repeat impressions while this component remains mounted.
     }
 
     const timer = window.setTimeout(() => {
+      hasShownThisSession.current = true;
+      try {
+        window.sessionStorage.setItem(SHOWN_KEY, "1");
+      } catch {
+        // Continue without session persistence if storage is unavailable.
+      }
       setIsOpen(true);
-      trackEvent("call_now_popup_impression", { popup_location: "sitewide_modal", landing_path: pathname });
+      trackEvent("call_now_popup_impression", {
+        popup_location: "sitewide_modal",
+        landing_path: pathname,
+      });
     }, SHOW_DELAY_MS);
 
     return () => window.clearTimeout(timer);
-  }, [dismissedKey, pathname]);
+  }, [pathname]);
 
   const dismissPopup = useCallback(() => {
     setIsOpen(false);
+    hasShownThisSession.current = true;
     try {
-      window.sessionStorage.setItem(dismissedKey, "1");
+      window.sessionStorage.setItem(DISMISSED_KEY, "1");
+      window.sessionStorage.setItem(SHOWN_KEY, "1");
     } catch {
       // In-memory dismissal still works when browser storage is blocked.
     }
     trackEvent("call_now_popup_dismiss", { popup_location: "sitewide_modal", landing_path: pathname });
-  }, [dismissedKey, pathname]);
+  }, [pathname]);
 
   if (!isOpen) return null;
 
