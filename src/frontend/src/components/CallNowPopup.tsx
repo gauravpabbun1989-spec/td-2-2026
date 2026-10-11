@@ -5,7 +5,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
 const DISMISSED_KEY_PREFIX = "ticketdepart_call_now_popup_dismissed:";
-const SHOW_DELAY_MS = 3000;
+// Show promptly after mount: 0.1 seconds (100 ms).
+const SHOW_DELAY_MS = 100;
 
 export function CallNowPopup() {
   const [isOpen, setIsOpen] = useState(false);

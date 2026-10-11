@@ -8,12 +8,12 @@
 
 const DEDUPE_WINDOW_MS = 250;
 const LANDING_PAGE_KEY = "ticketdepart_landing_page";
+const FUNNEL_ENTRY_KEY = "ticketdepart_funnel_entry_sent";
 const ENGAGEMENT_EVENT_DELAY_MS = 10_000;
 const SCROLL_THRESHOLDS = [25, 50, 75, 90] as const;
 const handledClicks = new WeakSet<Event>();
 const recentEmits = new Map<string, number>();
 const emittedScrollDepths = new Set<number>();
-const emittedLandingSignals = new Set<string>();
 
 type AnalyticsWindow = Window & {
   gtag?: (...args: unknown[]) => void;
@@ -62,10 +62,10 @@ function normalizePathForProbeCheck(path: string) {
 }
 
 /** Ignore scanner/probe paths so automated security scans do not pollute funnel metrics. */
-function isSuspiciousPath(path = getCleanPagePath()) {
+export function isSuspiciousPath(path = getCleanPagePath()) {
   const normalized = normalizePathForProbeCheck(path);
   const exactProbePaths = new Set([
-    "/.env", "/.env::$data", "/.env.local", "/.env.production", "/.flaskenv",
+    "/.env", "/.env::$data", "/.env.local", "/.env.production", "/.flaskenv", "/.htpasswd",
     "/.git", "/.git/config", "/.git-secret", "/.hg", "/.svn", "/.dockerenv",
     "/.bashrc", "/.npmrc", "/.zshrc", "/.circleci/config.yml", "/.next",
     "/.aws/credentials", "/.ssh", "/id_rsa", "/etc/passwd",
@@ -341,12 +341,19 @@ if (typeof document !== "undefined") {
 
   window.addEventListener("scroll", emitScrollDepth, { passive: true });
 
-  // Record the first meaningful conversion-funnel signal once per page view.
-  const landingSignal = getCleanPagePath();
-  if (!emittedLandingSignals.has(landingSignal)) {
-    emittedLandingSignals.add(landingSignal);
+  // Funnel entry is session-scoped: emit once for the first page in a session,
+  // not on every route change/reload. The landing page remains session-stored.
+  let funnelEntrySent = false;
+  try {
+    funnelEntrySent = window.sessionStorage.getItem(FUNNEL_ENTRY_KEY) === "1";
+    if (!funnelEntrySent) window.sessionStorage.setItem(FUNNEL_ENTRY_KEY, "1");
+  } catch {
+    // If session storage is unavailable, fall back to one emission per module load.
+  }
+  if (!funnelEntrySent) {
     trackEvent("conversion_funnel_entry", {
       conversion_stage: "landing",
+      funnel_entry_scope: "session",
       intent_family: getIntentFamily(),
     });
   }
