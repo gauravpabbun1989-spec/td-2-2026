@@ -78,8 +78,8 @@
             break;
           }
         }
-        path = path.replace(/\\\\/g, "/").replace(/\\/+$/, "") || "/";
-        if (path.startsWith("//") || /\\s|https?:/i.test(path) || path.includes("__vite_rsc_findsourcemapurl")) return true;
+        path = path.replace(/\\/g, "/").replace(/\/+$/, "") || "/";
+        if (path.startsWith("//") || /\s|https?:/i.test(path) || path.includes("__vite_rsc_findsourcemapurl")) return true;
 
         const segments = path.split("/").filter(Boolean);
         const exactProbePaths = new Set([
@@ -106,9 +106,9 @@
         if (segments.some((segment) => probeSegments.has(segment))) return true;
 
         const file = segments[segments.length - 1] || "";
-        if (/^(?:aws-credentials|wp-config|phpinfo|php-info|config|credentials|secrets|database|dump|backup)\\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(file)) return true;
-        if (/\\.(?:tfstate|tfvars|pem|key|sql|bak|old|save|ya?ml)$/i.test(path)) return true;
-        if (/(?:^|\\/)(?:var\\/log|proc\\/self|etc\\/passwd|debug\\/default\\/view|app_dev\\.php\\/_profiler|_next\\/webpack-hmr|webpack-hmr)(?:\\/|$)/i.test(path)) return true;
+        if (/^(?:aws-credentials|wp-config|phpinfo|php-info|config|credentials|secrets|database|dump|backup)\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(file)) return true;
+        if (/\.(?:tfstate|tfvars|pem|key|sql|bak|old|save|ya?ml)$/i.test(path)) return true;
+        if (/(?:^|\/)(?:var\/log|proc\/self|etc\/passwd|debug\/default\/view|app_dev\.php\/_profiler|_next\/webpack-hmr|webpack-hmr)(?:\/|$)/i.test(path)) return true;
         return false;
       }
       function loadAnalytics() {
