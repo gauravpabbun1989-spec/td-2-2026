@@ -4,7 +4,7 @@ import { Clock3, Headset, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
 const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed";
-const SHOW_DELAY_MS = 0;
+const SHOW_DELAY_MS = 12000;
 
 export function CallNowPopup() {
   const [isOpen, setIsOpen] = useState(false);
