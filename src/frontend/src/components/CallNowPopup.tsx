@@ -37,24 +37,10 @@ export function CallNowPopup() {
     trackEvent("call_now_popup_dismiss", { popup_location: "sitewide_modal" });
   }, []);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") dismissPopup();
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen, dismissPopup]);
-
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/60 p-3 backdrop-blur-sm sm:items-center sm:p-6"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) dismissPopup();
-      }}
-    >
+    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/60 p-3 backdrop-blur-sm sm:items-center sm:p-6">
       <dialog
         open
         aria-modal="true"
@@ -68,6 +54,7 @@ export function CallNowPopup() {
             type="button"
             onClick={dismissPopup}
             aria-label="Close call assistance popup"
+            data-ocid="call_now_popup.close_button"
             className="absolute right-4 top-4 z-10 inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             <X className="size-5" />
@@ -102,15 +89,6 @@ export function CallNowPopup() {
             ocid="call_now_popup.call_button"
             className="mt-5 flex min-h-14 w-full rounded-2xl"
           />
-
-          <button
-            type="button"
-            onClick={dismissPopup}
-            data-ocid="call_now_popup.dismiss_button"
-            className="mt-3 min-h-11 w-full rounded-xl px-4 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            Maybe later
-          </button>
         </div>
       </dialog>
     </div>
