@@ -30,7 +30,7 @@ export function CallCta({
   className,
   ocid = "call.primary_button",
   ctaLocation,
-  showNumber = false,
+  showNumber = true,
 }: CallCtaProps) {
   return (
     <a
