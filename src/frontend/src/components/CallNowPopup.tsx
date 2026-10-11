@@ -2,14 +2,14 @@ import { CallCta } from "@/components/CallCta";
 import { trackEvent } from "@/lib/analytics";
 import { Clock3, Headset, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useRouterState } from "@tanstack/react-router";
 
 const DISMISSED_KEY_PREFIX = "ticketdepart_call_now_popup_dismissed:";
 const SHOW_DELAY_MS = 12000;
 
 export function CallNowPopup() {
   const [isOpen, setIsOpen] = useState(false);
-  const { pathname } = useLocation();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const dismissedKey = `${DISMISSED_KEY_PREFIX}${pathname}`;
 
   useEffect(() => {
