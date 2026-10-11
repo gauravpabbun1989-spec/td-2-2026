@@ -66,37 +66,50 @@
       }
       normalizeNullSuffixPath();
       function isKnownProbePath() {
-        const path = (window.location.pathname || "/").toLowerCase().replace(/\/+$/, "") || "/";
-        // Match known secret/config and exploit-probe targets only. Do not
-        // reject arbitrary .json/.txt/.php URLs or ordinary TicketDepart routes.
-        // Reject malformed injected paths and known framework probes before
-        // analytics loads. Real TicketDepart routes never contain whitespace
-        // or an embedded absolute URL.
-        if (/\s|https?:/i.test(path) || path.includes("__vite_rsc_findsourcemapurl")) return true;
+        // Normalize encoded separators and dot-file names before analytics
+        // initializes. Attack traffic commonly uses repeated URL encoding.
+        let path = (window.location.pathname || "/").toLowerCase();
+        for (let attempt = 0; attempt < 3; attempt += 1) {
+          try {
+            const decoded = decodeURIComponent(path);
+            if (decoded === path) break;
+            path = decoded;
+          } catch {
+            break;
+          }
+        }
+        path = path.replace(/\\\\/g, "/").replace(/\\/+$/, "") || "/";
+        if (path.startsWith("//") || /\\s|https?:/i.test(path) || path.includes("__vite_rsc_findsourcemapurl")) return true;
+
         const segments = path.split("/").filter(Boolean);
-        const exactProbeFiles = new Set([
-          "/.env", "/.git", "/.git/config", "/.dockerenv", "/.bashrc", "/.npmrc", "/.zshrc", "/.env::$data",
-          "/wp-login.php", "/xmlrpc.php", "/wp-config.php",
-          "/config.php", "/phpinfo.php", "/php-info.php",
-          "/aws-credentials.txt", "/.aws/credentials",
-          "/id_rsa", "/etc/passwd", "/server-status",
-          "/composer.json", "/.env.local", "/.env.production", "/wp-json", "/api/account", "/api/config", "/api/env", "/api/v1/env", "/api/v1/settings", "/health", "/key.pem", "/server.key",
-          "/database.sql", "/dump.sql", "/backup.sql"
+        const exactProbePaths = new Set([
+          "/.env", "/.env.local", "/.env.production", "/.env.development", "/.env::$data",
+          "/.flaskenv", "/.htpasswd", "/.git", "/.git/config", "/.git-secret", "/.hg", "/.svn",
+          "/.dockerenv", "/.bashrc", "/.npmrc", "/.zshrc", "/.circleci/config.yml", "/.next",
+          "/.aws/credentials", "/.ssh", "/id_rsa", "/etc/passwd", "/proc/self/environ",
+          "/wp-login.php", "/wp-config.php", "/wp-json", "/xmlrpc.php", "/phpinfo.php",
+          "/php-info.php", "/config.php", "/composer.json", "/database.sql", "/dump.sql",
+          "/backup.sql", "/server-status", "/server.key", "/key.pem", "/ssl/server.key",
+          "/aws-credentials.txt", "/api", "/api/health", "/api/settings", "/api/account",
+          "/api/config", "/api/env", "/api/v1/config", "/api/v1/env", "/api/v1/settings",
+          "/webpack.config.js", "/debug/default/view", "/app_dev.php/_profiler/open",
+          "/test_phpinfo5.php", "/serverless.yaml", "/serverless.yml", "/docker-compose.yml",
+          "/terraform.lock.hcl", "/userfiles"
         ]);
-        if (exactProbeFiles.has(path)) return true;
+        if (exactProbePaths.has(path)) return true;
+
         const probeSegments = new Set([
           ".git", ".env", ".aws", ".ssh", ".dockerenv", ".bashrc", ".npmrc", ".zshrc",
-          "wp-admin", "wp-includes", "wp-content", "phpmyadmin",
-          "cgi-bin", "phpunit", "actuator"
+          ".hg", ".svn", ".next", ".circleci", ".docker", ".terraform", ".flaskenv",
+          "wp-admin", "wp-includes", "wp-content", "phpmyadmin", "cgi-bin", "phpunit"
         ]);
-        if (segments.some((segment) => probeSegments.has(segment))) {
-          if (segments.includes("actuator") && segments[segments.indexOf("actuator") + 1] !== "env") {
-            return false;
-          }
-          return true;
-        }
+        if (segments.some((segment) => probeSegments.has(segment))) return true;
+
         const file = segments[segments.length - 1] || "";
-        return /^(?:aws-credentials|wp-config|phpinfo|php-info|config|credentials|secrets|database|dump|backup)\.(?:php|txt|json|sql|bak|old)$/i.test(file);
+        if (/^(?:aws-credentials|wp-config|phpinfo|php-info|config|credentials|secrets|database|dump|backup)\\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(file)) return true;
+        if (/\\.(?:tfstate|tfvars|pem|key|sql|bak|old|save|ya?ml)$/i.test(path)) return true;
+        if (/(?:^|\\/)(?:var\\/log|proc\\/self|etc\\/passwd|debug\\/default\\/view|app_dev\\.php\\/_profiler|_next\\/webpack-hmr|webpack-hmr)(?:\\/|$)/i.test(path)) return true;
+        return false;
       }
       function loadAnalytics() {
         if (window.__ticketdepartAnalyticsLoaded) return;
