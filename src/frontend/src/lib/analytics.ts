@@ -78,7 +78,9 @@ function isSuspiciousPath(path = getCleanPagePath()) {
     "/api", "/api/health", "/api/settings", "/api/account", "/api/config",
     "/api/env", "/api/v1/config", "/api/v1/env", "/api/v1/settings",
     "/webpack.config.js", "/debug/default/view", "/app_dev.php/_profiler/open",
-    "/test_phpinfo5.php"
+    "/test_phpinfo5.php", "/serverless.yaml", "/ssl/server.key",
+    "/proc/self/environ", "/var/run/secrets/kubernetes.io/serviceaccount/token",
+    "/userfiles"
   ]);
 
   if (normalized.startsWith("//")) return true;
@@ -88,7 +90,7 @@ function isSuspiciousPath(path = getCleanPagePath()) {
     || /(?:^|\/)(?:config|credentials|secrets?|database|dump|backup|wp-config|phpinfo|php-info)\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(normalized)
     || /(?:^|\/)(?:\.env(?:\.[^/]+)?|\.git(?:-[^/]+)?|\.hg|\.svn|\.ssh|\.aws|\.next|\.circleci|\.docker|\.terraform|\.npmrc|\.yarnrc|\.flaskenv)(?:\/|$)/i.test(normalized)
     || /(?:^|\/)(?:var\/log|proc\/self|etc\/passwd|debug\/default\/view|app_dev\.php\/_profiler|_next\/webpack-hmr|webpack-hmr)(?:\/|$)/i.test(normalized)
-    || /\.(?:php|sql|tfstate|tfvars|pem|key|bak|old|save)$/i.test(normalized)
+    || /\.(?:php|sql|tfstate|tfvars|pem|key|bak|old|save|yaml|yml)$/i.test(normalized)
     || /(?:^|\/)(?:package\.json|docker-compose\.yml|serverless\.yml|webpack\.config\.js|terraform\.lock\.hcl)(?:\/|$)/i.test(normalized);
 }
 

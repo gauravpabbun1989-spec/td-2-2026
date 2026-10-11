@@ -28,8 +28,8 @@ const PAGES: readonly RoutePage[] = [
     airports: "JFK, EWR → LHR, LGW",
     title: "New York to London Flights | Booking Assistance | TicketDepart",
     description: "Plan New York to London flights by phone. Discuss JFK or Newark, London airports, nonstop and connecting options, cabins, dates, and fare conditions.",
-    intro: "Planning a New York to London trip? Share your dates, travelers, cabin, and airport preferences with a specialist and discuss practical nonstop and connecting itinerary options by phone.",
-    routeNotes: "Compare departure options around JFK and Newark with London-area arrival choices. Schedule, connection, baggage, cabin, and fare conditions can vary by itinerary.",
+    intro: "Planning a New York to London trip from the U.S. East Coast? Share your travel dates, traveler count, cabin, and whether JFK or Newark is easier to reach. A specialist can discuss available nonstop and connecting itineraries and the fare rules that apply.",
+    routeNotes: "Compare JFK and Newark departures with London-area arrival options such as Heathrow or Gatwick. Consider ground transport on both ends, arrival time, baggage allowance, connection details, and the change or cancellation rules for the exact fare. Schedules and nonstop availability depend on travel dates.",
     faqs: [
       { question: "Can I discuss New York to London flights by phone?", answer: "Yes. TicketDepart can discuss available itinerary options, dates, cabins, connections, baggage terms, and fare conditions by phone." },
       { question: "Can you compare JFK and Newark?", answer: "When practical, a specialist can discuss schedules from JFK and EWR and the trade-offs between available itineraries." },
@@ -56,8 +56,8 @@ const PAGES: readonly RoutePage[] = [
     airports: "JFK, EWR → DXB",
     title: "New York to Dubai Flights | Booking Assistance | TicketDepart",
     description: "Plan New York to Dubai flights by phone. Discuss JFK and Newark, nonstop and connecting options, cabins, baggage, dates, and international fare conditions.",
-    intro: "Planning a New York to Dubai itinerary? Discuss your travel window, cabin, travelers, and airport preferences with a specialist and review available international routing options.",
-    routeNotes: "Long-haul routing can differ by departure airport, carrier, connection, cabin, and fare family. Ask about baggage and change conditions before confirming.",
+    intro: "For New York to Dubai travel, share your date range, traveler count, preferred cabin, and tolerance for connections. A specialist can discuss available long-haul itineraries from the New York area and explain baggage and ticket conditions before you choose.",
+    routeNotes: "For this long-haul trip, compare total journey time, departure and arrival times, connection airport and layover, cabin, baggage allowance, and change or cancellation rules. Do not assume a nonstop option or a particular fare is available for every date; confirm live itinerary details before payment.",
     faqs: [
       { question: "Can I book New York to Dubai flights by phone?", answer: "Yes. A specialist can discuss available routing and booking options, subject to live airline availability." },
       { question: "Can you discuss business class options?", answer: "Yes. Business and other cabin options can be discussed along with schedules and fare conditions." },
@@ -70,8 +70,8 @@ const PAGES: readonly RoutePage[] = [
     airports: "LAX → HND, NRT",
     title: "Los Angeles to Tokyo Flights | Booking Assistance | TicketDepart",
     description: "Compare Los Angeles to Tokyo flights by phone. Discuss LAX, Haneda and Narita, nonstop and connecting options, cabins, dates, and fare conditions.",
-    intro: "Need a Los Angeles to Tokyo flight? Tell us your dates, travelers, cabin, and flexibility and discuss practical LAX-to-Tokyo routing options with a specialist.",
-    routeNotes: "Tokyo has more than one major airport, so arrival airport and schedule can affect the itinerary. Discuss Haneda versus Narita, connections, baggage, and fare conditions.",
+    intro: "Planning a Los Angeles to Tokyo trip? Share your travel window, traveler count, cabin preference, and whether Haneda or Narita is more convenient. A specialist can discuss available LAX itineraries and compare schedule and connection trade-offs.",
+    routeNotes: "Tokyo has two major international airports, Haneda (HND) and Narita (NRT), and the better arrival point depends on your final destination and ground transport. Compare total travel time, arrival time, connection details, baggage allowance, and fare rules for the specific dates.",
     faqs: [
       { question: "Can you compare Haneda and Narita?", answer: "Yes. A specialist can discuss available schedules and the practical differences between Tokyo-area arrival airports." },
       { question: "Can you help with a business class itinerary?", answer: "Yes. Premium cabin availability and fare conditions can be discussed for the route." },
@@ -126,8 +126,8 @@ const PAGES: readonly RoutePage[] = [
     airports: "SFO → HND, NRT",
     title: "San Francisco to Tokyo Flights | Booking Assistance | TicketDepart",
     description: "Plan San Francisco to Tokyo flights by phone. Discuss SFO, Haneda and Narita, nonstop and connecting routes, cabins, dates, and fare conditions.",
-    intro: "Planning San Francisco to Tokyo travel? Discuss your dates, airport preference, cabin, and traveler details with a specialist and compare practical route options.",
-    routeNotes: "Arrival airport, connection point, cabin, baggage, and schedule can materially change the itinerary. Discuss the full fare conditions before booking.",
+    intro: "Planning a San Francisco to Tokyo trip? Share your date range, traveler count, cabin preference, and whether Haneda or Narita works better for your final destination. A specialist can discuss available SFO itineraries and help compare schedule, connection, and fare-rule trade-offs.",
+    routeNotes: "For San Francisco–Tokyo travel, compare Haneda (HND) and Narita (NRT) against your final destination and ground transport. Review total journey time, arrival time, connection details, baggage allowance, and the change or cancellation rules for the exact fare before confirming.",
     faqs: [
       { question: "Can you help compare Tokyo airports?", answer: "Yes. A specialist can discuss available Haneda and Narita itineraries and their schedule differences." },
       { question: "Can I ask about premium cabins?", answer: "Yes. Business, first, and other available cabin options can be discussed for the route." },
@@ -138,6 +138,13 @@ const PAGES: readonly RoutePage[] = [
 function RoutePage({ page }: { page: RoutePage }) {
   const id = page.path.slice(1).replaceAll("-", "_");
   const breadcrumbs = [{ name: "Home", path: "/" }, { name: `${page.origin} to ${page.destination} flights`, path: page.path }];
+  const originGatewayPath: Record<string, string> = {
+    "New York": "/flights-from-new-york",
+    "Los Angeles": "/flights-from-los-angeles",
+    "Chicago": "/flights-from-chicago",
+    "Miami": "/flights-from-miami",
+    "San Francisco": "/flights-from-san-francisco",
+  };
   return (
     <>
       <Seo title={page.title} description={page.description} path={page.path} structuredData={[
@@ -208,6 +215,7 @@ function RoutePage({ page }: { page: RoutePage }) {
         <SectionHeading eyebrow="Related booking help" title="Continue planning" description="Move from a route search to broader booking assistance." />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
+            [`Flights from ${page.origin}`, originGatewayPath[page.origin] ?? "/flight-booking"],
             ["Flight booking", "/flight-booking"],
             ["International flights", "/international-flight-booking"],
             ["Last-minute flights", "/last-minute-flight-booking"],

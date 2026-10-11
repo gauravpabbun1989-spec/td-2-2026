@@ -23,9 +23,9 @@ import {
 } from "lucide-react";
 
 const PAGE_PATH = "/flight-booking";
-const PAGE_TITLE = "Flight Booking Help in the USA | Domestic & International | TicketDepart";
+const PAGE_TITLE = "Flight Booking Assistance by Phone in the USA | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Get help booking domestic and international flights from U.S. cities and airports, including multi-city, premium-cabin, and group trips. Speak with an independent travel specialist at +1 888-958-0280, 24/7.";
+  "Need help booking a flight by phone? Discuss U.S. domestic and international trips, multi-city itineraries, premium cabins, and group travel with an independent specialist, 24/7 at +1-888-958-0280.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
@@ -219,10 +219,10 @@ export function FlightBookingPage() {
           <div className="min-w-0">
             <p className="label-board text-accent">Booking assistance</p>
             <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
-              Flight booking help for trips a search box cannot finish
+              Flight booking assistance by phone for U.S. travelers
             </h1>
             <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              TicketDepart is an independent travel agency for flight booking by phone. If you are looking to book a flight by phone, need a flight booking phone number, or want to speak with a travel specialist, we can help with domestic and international flights, multi-city itineraries, premium cabins, and group travel — comparing schedules, connections, and fare conditions before anything is confirmed.
+              TicketDepart is an independent travel agency helping U.S. travelers plan domestic and international flights by phone. Discuss your dates, departure and arrival airports, traveler count, cabin, and schedule needs with a specialist. We can review available itineraries, connections, baggage terms, and applicable fare conditions before you decide whether to book.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -640,12 +640,12 @@ export function FlightBookingPage() {
       <Section tone="muted" ocid="flight_booking.keyword_intent">
         <SectionHeading
           eyebrow="Flight booking assistance"
-          title="High-intent flight booking, change and reservation searches"
-          description="U.S. travelers can discuss domestic and international flight booking needs by phone."
+          title="Help with flight booking, changes, and rebooking"
+          description="From a new reservation to a change or cancellation question, discuss the trip details and applicable ticket conditions with an independent travel specialist."
         />
         <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
           <p className="text-sm leading-relaxed text-muted-foreground">
-            TicketDepart supports U.S. travelers researching flight booking assistance, flight booking by phone, flight reservation assistance, airline reservation assistance, flight change assistance, change flight help, flight cancellation assistance, cancel flight help, flight rebooking assistance, rebook flight help, flight rescheduling assistance, last-minute flight booking, same-day flight booking, international flight booking, multi-city flight booking, group flight booking, family flight booking, business class flight booking, baggage assistance, pet flight booking, and infant flight booking. Travelers may be planning flights from New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, Orlando, San Francisco, or another U.S. airport to destinations across Canada, Mexico, the Caribbean, Latin America, Europe, Asia, the Middle East, Africa, and other parts of the world. The specific airline, airport, route, cabin, baggage allowance, fare conditions, cancellation terms, change rules, and availability should be confirmed for the actual reservation.
+            Travel needs vary: some travelers are planning a new domestic or international reservation, while others need help comparing multi-city or group itineraries, premium cabins, baggage questions, or a possible change or cancellation. We can discuss departures from U.S. cities including New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, Orlando, and San Francisco, subject to the routes and options available for your dates. Before you authorize payment, confirm the full itinerary, baggage allowance, fare conditions, any applicable agency service fee, and the rules for changes or cancellation.
           </p>
         </div>
       </Section>

@@ -34,7 +34,7 @@ const PAGES: readonly GatewayPage[] = [
     description:
       "Compare flight options from New York by phone. Discuss JFK, LaGuardia, Newark, domestic and international routes, dates, cabins, connections, and fare conditions.",
     intro:
-      "Flying from New York can mean choosing between several airports and many domestic or international routes. Tell a specialist your destination, dates, and airport preferences and discuss practical itinerary options.",
+      "Flying from New York can mean choosing between JFK, LaGuardia, and Newark, with different ground-transport needs and schedules. Share your destination, dates, traveler count, and airport flexibility so a specialist can discuss practical domestic or international itineraries.",
     routes:
       "Discuss domestic trips across the U.S., transatlantic travel, Caribbean routes, and other international itineraries departing from the New York area.",
     faqs: [
@@ -59,7 +59,7 @@ const PAGES: readonly GatewayPage[] = [
     description:
       "Plan flights from Los Angeles by phone. Discuss LAX routes, domestic and international destinations, flexible dates, connections, cabins, baggage, and fare conditions.",
     intro:
-      "Los Angeles is a major starting point for domestic and long-haul travel. Share your destination, preferred dates, and connection tolerance and a specialist can walk through available itinerary considerations.",
+      "For departures from Los Angeles, share your destination, date range, traveler count, cabin, and whether you prefer to depart from LAX or can use another airport. A specialist can discuss available domestic and long-haul options and the trade-offs between journey time, connections, and fare rules.",
     routes:
       "Discuss U.S. domestic routes plus international travel to Latin America, Europe, Asia, Canada, and other destinations served from the Los Angeles area.",
     faqs: [
@@ -109,7 +109,7 @@ const PAGES: readonly GatewayPage[] = [
     description:
       "Plan flights from Miami by phone. Discuss MIA routes, domestic and international destinations, connections, dates, cabins, baggage, and fare conditions.",
     intro:
-      "Miami is a useful starting point for both U.S. travel and international itineraries. Explain your destination and schedule and discuss routing options that fit your plans.",
+      "For flights from Miami, share your destination, travel dates, traveler count, and schedule priorities. A specialist can discuss domestic options and international routes toward the Caribbean, Mexico, Latin America, and beyond, subject to live availability.",
     routes:
       "Discuss domestic trips and international travel involving the Caribbean, Mexico, Latin America, Europe, and other destinations.",
     faqs: [
@@ -226,6 +226,14 @@ const PAGES: readonly GatewayPage[] = [
     ],
   },
 ];
+
+const CITY_ROUTE_LINKS: Record<string, readonly [string, string][]> = {
+  "New York": [["New York to London", "/flights-new-york-to-london"], ["New York to Paris", "/flights-new-york-to-paris"], ["New York to Dubai", "/flights-new-york-to-dubai"]],
+  "Los Angeles": [["Los Angeles to Tokyo", "/flights-los-angeles-to-tokyo"], ["Los Angeles to London", "/flights-los-angeles-to-london"]],
+  "Chicago": [["Chicago to London", "/flights-chicago-to-london"]],
+  "Miami": [["Miami to Cancun", "/flights-miami-to-cancun"]],
+  "San Francisco": [["San Francisco to Tokyo", "/flights-san-francisco-to-tokyo"]],
+};
 
 function GatewayFlightPage({ page }: { page: GatewayPage }) {
   const id = page.path.slice(1).replaceAll("-", "_");
@@ -359,6 +367,7 @@ function GatewayFlightPage({ page }: { page: GatewayPage }) {
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
+            ...(CITY_ROUTE_LINKS[page.city] ?? []),
             ["Flight booking", "/flight-booking"],
             ["International flights", "/international-flight-booking"],
             ["Last-minute flights", "/last-minute-flight-booking"],
