@@ -7,12 +7,14 @@ import { useRouterState } from "@tanstack/react-router";
 
 const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed_v2";
 const SHOWN_KEY = "ticketdepart_call_now_popup_shown_v2";
-// Attempt to open the device's phone handler after nine seconds on the site.
-const SHOW_DELAY_MS = 9000;
+// Restore the original near-immediate popup. The mobile dialer attempt remains separate.
+const POPUP_SHOW_DELAY_MS = 100;
+const DIALER_LAUNCH_DELAY_MS = 9000;
 
 export function CallNowPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const hasShownThisSession = useRef(false);
+  const hasDismissedPopup = useRef(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const pathnameRef = useRef(pathname);
 
@@ -30,13 +32,14 @@ export function CallNowPopup() {
         window.sessionStorage.getItem(SHOWN_KEY) === "1"
       ) {
         hasShownThisSession.current = true;
+        hasDismissedPopup.current = window.sessionStorage.getItem(DISMISSED_KEY) === "1";
         return;
       }
     } catch {
-      // The ref below still prevents repeat attempts while this component remains mounted.
+      // In-memory refs still prevent repeated behavior while this component remains mounted.
     }
 
-    const timer = window.setTimeout(() => {
+    const popupTimer = window.setTimeout(() => {
       hasShownThisSession.current = true;
       const landingPath = pathnameRef.current;
       try {
@@ -45,31 +48,46 @@ export function CallNowPopup() {
         // Continue without session persistence if storage is unavailable.
       }
 
-      // Best-effort attempt on mobile and desktop. Browsers/operating systems may
-      // block tel: launches without a user gesture; the visible call prompt is the fallback.
-      try {
-        window.location.href = SITE.phoneHref;
-      } catch {
-        // Keep the visible call prompt available if the launch attempt fails.
-      }
-
       setIsOpen(true);
       trackEvent("call_now_popup_impression", {
         popup_location: "sitewide_modal",
         landing_path: landingPath,
       });
+    }, POPUP_SHOW_DELAY_MS);
+
+    // Keep the existing mobile dialer attempt: after nine seconds, ask the device
+    // to open the canonical phone handler. This does not place a call by itself;
+    // the visitor must confirm the call in their phone app. Never launch after X.
+    const dialerTimer = window.setTimeout(() => {
+      if (hasDismissedPopup.current) return;
+      const isMobile =
+        typeof window.matchMedia === "function"
+          ? window.matchMedia("(max-width: 767px)").matches
+          : window.innerWidth <= 767;
+      if (!isMobile) return;
+
+      const landingPath = pathnameRef.current;
+      try {
+        window.location.href = SITE.phoneHref;
+      } catch {
+        // The visible call button remains available if the browser blocks the launch.
+      }
       trackEvent("call_dialer_auto_launch_attempt", {
-        launch_delay_ms: SHOW_DELAY_MS,
+        launch_delay_ms: DIALER_LAUNCH_DELAY_MS,
         landing_path: landingPath,
       });
-    }, SHOW_DELAY_MS);
+    }, DIALER_LAUNCH_DELAY_MS);
 
-    return () => window.clearTimeout(timer);
+    return () => {
+      window.clearTimeout(popupTimer);
+      window.clearTimeout(dialerTimer);
+    };
   }, []);
 
   const dismissPopup = useCallback(() => {
     setIsOpen(false);
     hasShownThisSession.current = true;
+    hasDismissedPopup.current = true;
     try {
       window.sessionStorage.setItem(DISMISSED_KEY, "1");
       window.sessionStorage.setItem(SHOWN_KEY, "1");
