@@ -357,6 +357,25 @@ const routes = {
   },
 };
 
+// Keep static crawlable HTML in sync with the canonical public sitemap.
+// Existing hand-authored route metadata takes precedence; newly listed USA-to-country
+// routes receive route-specific metadata and are emitted by the same hardened pipeline.
+const sitemapSource = fs.readFileSync(path.resolve("public/sitemap.xml"), "utf8");
+for (const match of sitemapSource.matchAll(/<loc>https:\/\/ticketdepart\.com(\/[^<]*)<\/loc>/g)) {
+  const route = match[1] === "/" ? "/" : match[1].replace(/\/+$/, "");
+  if (routes[route] || !route.startsWith("/flights-usa-to-")) continue;
+  const country = route.slice("/flights-usa-to-".length).split("-")
+    .map((word) => word === "usa" ? "USA" : word === "uae" ? "UAE" : word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+  const label = `USA to ${country} flights`;
+  routes[route] = {
+    title: `${label} | Flight Booking Assistance | TicketDepart`,
+    description: `Discuss flights from the USA to ${country}, travel dates, airports, connections, cabins, baggage, and fare conditions with a travel specialist.`,
+    heading: `${label} booking assistance`,
+    text: `Discuss USA-to-${country} routes, departure and arrival airports, travel dates, connections, cabin options, baggage, and applicable fare conditions.`,
+  };
+}
+
 function escapeHtml(value) {
   return value
     .replaceAll("&", "&amp;")
