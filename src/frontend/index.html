@@ -95,24 +95,16 @@
           "/api/config", "/api/env", "/api/v1/config", "/api/v1/env", "/api/v1/settings",
           "/webpack.config.js", "/debug/default/view", "/app_dev.php/_profiler/open",
           "/test_phpinfo5.php", "/serverless.yaml", "/serverless.yml", "/docker-compose.yml",
-          "/terraform.lock.hcl", "/terraform.tfstate", "/userfiles",
-          "/.gitlab-ci.yml", "/.travis.yml", "/docker-compose.override.yml",
-          "/actuator/env", "/actuator/heapdump", "/actuator/configprops",
-          "/solr/admin", "/jenkins/script", "/vendor/phpunit/phpunit/src/util/php/eval-stdin.php"
+          "/terraform.lock.hcl", "/userfiles"
         ]);
         if (exactProbePaths.has(path)) return true;
 
         const probeSegments = new Set([
           ".git", ".env", ".aws", ".ssh", ".dockerenv", ".bashrc", ".npmrc", ".zshrc",
           ".hg", ".svn", ".next", ".circleci", ".docker", ".terraform", ".flaskenv",
-          "wp-admin", "wp-includes", "wp-content", "phpmyadmin", "cgi-bin", "phpunit",
-          "actuator", "solr", "jenkins"
+          "wp-admin", "wp-includes", "wp-content", "phpmyadmin", "cgi-bin", "phpunit"
         ]);
         if (segments.some((segment) => probeSegments.has(segment))) return true;
-
-        // Hidden files/directories are not public TicketDepart routes. Preserve
-        // .well-known for standard domain verification and ACME challenges.
-        if (segments.some((segment) => segment.startsWith(".") && segment !== ".well-known")) return true;
 
         const file = segments[segments.length - 1] || "";
         if (/^(?:aws-credentials|wp-config|phpinfo|php-info|config|credentials|secrets|database|dump|backup)\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(file)) return true;
