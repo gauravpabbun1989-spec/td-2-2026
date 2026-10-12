@@ -66,10 +66,8 @@
       }
       normalizeNullSuffixPath();
       function isKnownProbePath() {
-        const rawPath = window.location.pathname || "/";
-        let path = rawPath.toLowerCase();
-        // Security scanners frequently URL-encode slashes, dotfiles, and probe paths.
-        // Decode a bounded number of times so those requests are filtered before GA4 loads.
+        let path = (window.location.pathname || "/").toLowerCase();
+        // Decode bounded layers because scanners often encode separators and dotfiles.
         for (let attempt = 0; attempt < 3; attempt += 1) {
           try {
             const decoded = decodeURIComponent(path);
@@ -79,7 +77,7 @@
             break;
           }
         }
-        path = path.replace(/\\\\/g, "/").replace(/\\/+$/, "") || "/";
+        path = path.replace(/\\/g, "/").replace(/\/+$/, "") || "/";
         if (path.startsWith("//")) return true;
 
         const exactProbePaths = new Set([
@@ -108,11 +106,11 @@
         ]);
         if (segments.some((segment) => probeSegments.has(segment))) return true;
 
-        return /(?:^|\\/)(?:config|credentials|secrets?|database|dump|backup|wp-config|phpinfo|php-info)\\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(path)
-          || /(?:^|\\/)(?:\\.env(?:\\.[^/]+)?|\\.git(?:-[^/]+)?|\\.hg|\\.svn|\\.ssh|\\.aws|\\.next|\\.circleci|\\.docker|\\.terraform|\\.npmrc|\\.yarnrc|\\.flaskenv)(?:\\/|$)/i.test(path)
-          || /(?:^|\\/)(?:var\\/log|proc\\/self|etc\\/passwd|debug\\/default\\/view|app_dev\\.php\\/_profiler|_next\\/webpack-hmr|webpack-hmr)(?:\\/|$)/i.test(path)
-          || /\\.(?:php|sql|tfstate|tfvars|pem|key|bak|old|save|yaml|yml)$/i.test(path)
-          || /(?:^|\\/)(?:package\\.json|docker-compose\\.yml|serverless\\.yml|webpack\\.config\\.js|terraform\\.lock\\.hcl)$/i.test(path);
+        return /(?:^|\/)(?:config|credentials|secrets?|database|dump|backup|wp-config|phpinfo|php-info)\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(path)
+          || /(?:^|\/)(?:\.env(?:\.[^/]+)?|\.git(?:-[^/]+)?|\.hg|\.svn|\.ssh|\.aws|\.next|\.circleci|\.docker|\.terraform|\.npmrc|\.yarnrc|\.flaskenv)(?:\/|$)/i.test(path)
+          || /(?:^|\/)(?:var\/log|proc\/self|etc\/passwd|debug\/default\/view|app_dev\.php\/_profiler|_next\/webpack-hmr|webpack-hmr)(?:\/|$)/i.test(path)
+          || /\.(?:php|sql|tfstate|tfvars|pem|key|bak|old|save|yaml|yml)$/i.test(path)
+          || /(?:^|\/)(?:package\.json|docker-compose\.yml|serverless\.yml|webpack\.config\.js|terraform\.lock\.hcl)$/i.test(path);
       }
       window.isKnownProbePath = isKnownProbePath;
       function loadAnalytics() {
