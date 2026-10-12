@@ -7,13 +7,13 @@
     <title>Make Flight Booking Easy | 24/7 Booking Assistance</title>
     <meta
       name="description"
-      content="Call +1-888-958-0280 for 24/7 flight booking assistance. Explore domestic and international flights, cabin options, baggage, and fare rules with a specialist."
+      content="Call +1-888-958-0280 to book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7."
     />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:title" content="Make Flight Booking Easy | 24/7 Booking Assistance" />
     <meta
       property="og:description"
-      content="Call +1-888-958-0280 for 24/7 flight booking assistance. Explore domestic and international flights, cabin options, baggage, and fare rules with a specialist."
+      content="Call +1-888-958-0280 to book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7."
     />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="TicketDepart" />
@@ -22,7 +22,7 @@
     <meta property="og:image" content="https://ticketdepart.com/assets/generated/hero-flight.dim_1600x1100.jpg" />
     <meta property="og:image:alt" content="TicketDepart independent travel agency" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:description" content="Call +1-888-958-0280 for 24/7 flight booking assistance. Explore domestic and international flights, cabin options, baggage, and fare rules with a specialist." />
+    <meta name="twitter:description" content="Call +1-888-958-0280 to book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7." />
     <meta name="twitter:image" content="https://ticketdepart.com/assets/generated/hero-flight.dim_1600x1100.jpg" />
     <link rel="canonical" href="https://ticketdepart.com/" />
     <link rel="preload" as="image" href="/assets/generated/hero-flight.dim_1600x1100.jpg" fetchpriority="high" />
@@ -66,38 +66,55 @@
       }
       normalizeNullSuffixPath();
       function isKnownProbePath() {
-        const path = (window.location.pathname || "/").toLowerCase().replace(/\/+$/, "") || "/";
-        // Match known secret/config and exploit-probe targets only. Do not
-        // reject arbitrary .json/.txt/.php URLs or ordinary TicketDepart routes.
-        // Reject malformed injected paths and known framework probes before
-        // analytics loads. Real TicketDepart routes never contain whitespace
-        // or an embedded absolute URL.
-        if (/\s|https?:/i.test(path) || path.includes("__vite_rsc_findsourcemapurl")) return true;
-        const segments = path.split("/").filter(Boolean);
-        const exactProbeFiles = new Set([
-          "/.env", "/.git", "/.git/config", "/.dockerenv", "/.bashrc", "/.npmrc", "/.zshrc", "/.env::$data",
-          "/wp-login.php", "/xmlrpc.php", "/wp-config.php",
-          "/config.php", "/phpinfo.php", "/php-info.php",
-          "/aws-credentials.txt", "/.aws/credentials",
-          "/id_rsa", "/etc/passwd", "/server-status",
-          "/composer.json", "/.env.local", "/.env.production", "/wp-json", "/api/account", "/api/config", "/api/env", "/api/v1/env", "/api/v1/settings", "/health", "/key.pem", "/server.key",
-          "/database.sql", "/dump.sql", "/backup.sql"
+        const rawPath = window.location.pathname || "/";
+        let path = rawPath.toLowerCase();
+        // Security scanners frequently URL-encode slashes, dotfiles, and probe paths.
+        // Decode a bounded number of times so those requests are filtered before GA4 loads.
+        for (let attempt = 0; attempt < 3; attempt += 1) {
+          try {
+            const decoded = decodeURIComponent(path);
+            if (decoded === path) break;
+            path = decoded;
+          } catch {
+            break;
+          }
+        }
+        path = path.replace(/\\\\/g, "/").replace(/\\/+$/, "") || "/";
+        if (path.startsWith("//")) return true;
+
+        const exactProbePaths = new Set([
+          "/.env", "/.env::$data", "/.env.local", "/.env.production", "/.flaskenv",
+          "/.git", "/.git/config", "/.git-secret", "/.hg", "/.svn", "/.dockerenv",
+          "/.bashrc", "/.npmrc", "/.zshrc", "/.circleci/config.yml", "/.next",
+          "/.aws/credentials", "/.ssh", "/id_rsa", "/etc/passwd",
+          "/wp-login.php", "/wp-config.php", "/wp-json", "/xmlrpc.php",
+          "/phpinfo.php", "/php-info.php", "/config.php", "/composer.json",
+          "/database.sql", "/dump.sql", "/backup.sql", "/server-status",
+          "/server.key", "/key.pem", "/aws-credentials.txt", "/health",
+          "/api", "/api/health", "/api/settings", "/api/account", "/api/config",
+          "/api/env", "/api/v1/config", "/api/v1/env", "/api/v1/settings",
+          "/webpack.config.js", "/debug/default/view", "/app_dev.php/_profiler/open",
+          "/test_phpinfo5.php", "/serverless.yaml", "/ssl/server.key",
+          "/proc/self/environ", "/var/run/secrets/kubernetes.io/serviceaccount/token",
+          "/userfiles"
         ]);
-        if (exactProbeFiles.has(path)) return true;
+        if (exactProbePaths.has(path)) return true;
+
+        const segments = path.split("/").filter(Boolean);
         const probeSegments = new Set([
-          ".git", ".env", ".aws", ".ssh", ".dockerenv", ".bashrc", ".npmrc", ".zshrc",
-          "wp-admin", "wp-includes", "wp-content", "phpmyadmin",
+          ".git", ".env", ".aws", ".ssh", ".dockerenv", ".bashrc", ".npmrc",
+          ".zshrc", "wp-admin", "wp-includes", "wp-content", "phpmyadmin",
           "cgi-bin", "phpunit", "actuator"
         ]);
-        if (segments.some((segment) => probeSegments.has(segment))) {
-          if (segments.includes("actuator") && segments[segments.indexOf("actuator") + 1] !== "env") {
-            return false;
-          }
-          return true;
-        }
-        const file = segments[segments.length - 1] || "";
-        return /^(?:aws-credentials|wp-config|phpinfo|php-info|config|credentials|secrets|database|dump|backup)\.(?:php|txt|json|sql|bak|old)$/i.test(file);
+        if (segments.some((segment) => probeSegments.has(segment))) return true;
+
+        return /(?:^|\\/)(?:config|credentials|secrets?|database|dump|backup|wp-config|phpinfo|php-info)\\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(path)
+          || /(?:^|\\/)(?:\\.env(?:\\.[^/]+)?|\\.git(?:-[^/]+)?|\\.hg|\\.svn|\\.ssh|\\.aws|\\.next|\\.circleci|\\.docker|\\.terraform|\\.npmrc|\\.yarnrc|\\.flaskenv)(?:\\/|$)/i.test(path)
+          || /(?:^|\\/)(?:var\\/log|proc\\/self|etc\\/passwd|debug\\/default\\/view|app_dev\\.php\\/_profiler|_next\\/webpack-hmr|webpack-hmr)(?:\\/|$)/i.test(path)
+          || /\\.(?:php|sql|tfstate|tfvars|pem|key|bak|old|save|yaml|yml)$/i.test(path)
+          || /(?:^|\\/)(?:package\\.json|docker-compose\\.yml|serverless\\.yml|webpack\\.config\\.js|terraform\\.lock\\.hcl)$/i.test(path);
       }
+      window.isKnownProbePath = isKnownProbePath;
       function loadAnalytics() {
         if (window.__ticketdepartAnalyticsLoaded) return;
         window.__ticketdepartAnalyticsLoaded = true;
@@ -122,7 +139,7 @@
         "name": "TicketDepart",
         "legalName": "TicketDepart Travel",
         "url": "https://ticketdepart.com/",
-        "description": "Call +1-888-958-0280 for 24/7 flight booking assistance. Explore domestic and international flights, cabin options, baggage, and fare rules with a specialist.",
+        "description": "Call +1-888-958-0280 to book domestic or international flights by phone with TicketDepart. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.",
         "telephone": "+1 888-958-0280",
         "email": "support@ticketdestinations.com",
         "address": {
