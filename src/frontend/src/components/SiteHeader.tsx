@@ -1,4 +1,5 @@
 import { AIRLINE_ITEMS, NAV_ITEMS, SITE } from "@/lib/site";
+import { trackPhoneClick } from "@/lib/analytics";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, BriefcaseBusiness, Globe2, Menu, Phone, PlaneTakeoff, Route, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -82,6 +83,9 @@ export function SiteHeader() {
         <div className="flex shrink-0 items-center gap-2">
           <a
             href={SITE.phoneHref}
+            onClick={(event) =>
+              trackPhoneClick("header", event.nativeEvent, event.currentTarget)
+            }
             aria-label={`Call TicketDepart at ${SITE.phoneDisplay}`}
             data-ocid="header.call_button"
             data-cta-location="header"
