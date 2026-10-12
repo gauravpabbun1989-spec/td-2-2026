@@ -100,13 +100,13 @@ export function CallNowPopup() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/60 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm">
+    <div className="fixed inset-0 z-[100] flex min-h-dvh items-center justify-center overflow-y-auto bg-slate-950/60 p-3 backdrop-blur-sm">
       <dialog
         open
         aria-modal="true"
         aria-labelledby="call-now-popup-title"
         aria-describedby="call-now-popup-description"
-        className="relative m-0 max-h-none w-full max-w-md overflow-hidden rounded-3xl border border-white/20 bg-background p-0 text-foreground shadow-2xl"
+        className="relative m-0 my-auto max-h-[calc(100dvh-1.5rem)] w-full max-w-md overflow-y-auto rounded-3xl border border-white/20 bg-background p-0 text-foreground shadow-2xl"
       >
         <div className="relative overflow-hidden bg-primary px-6 pb-7 pt-8 text-primary-foreground sm:px-8">
           <div aria-hidden="true" className="absolute -right-8 -top-12 size-40 rounded-full border-[24px] border-white/10" />
