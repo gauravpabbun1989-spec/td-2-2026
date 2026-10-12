@@ -6,8 +6,8 @@ import { useRouterState } from "@tanstack/react-router";
 
 const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed";
 const SHOWN_KEY = "ticketdepart_call_now_popup_shown";
-// Show promptly after mount: 0.1 seconds (100 ms).
-const SHOW_DELAY_MS = 100;
+// Show on mobile after nine seconds, without a visible countdown.
+const SHOW_DELAY_MS = 9000;
 
 export function CallNowPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +16,8 @@ export function CallNowPopup() {
 
   useEffect(() => {
     if (typeof window === "undefined" || pathname.startsWith("/admin")) return;
+    // This prompt is intentionally mobile-only. The header call button remains available on desktop.
+    if (!window.matchMedia("(max-width: 767px)").matches) return;
     if (hasShownThisSession.current) return;
 
     try {
@@ -62,7 +64,7 @@ export function CallNowPopup() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/60 p-3 backdrop-blur-sm sm:items-center sm:p-6">
+    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/60 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm md:hidden">
       <dialog
         open
         aria-modal="true"
