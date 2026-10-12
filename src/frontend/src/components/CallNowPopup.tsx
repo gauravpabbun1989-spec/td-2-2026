@@ -18,7 +18,11 @@ export function CallNowPopup() {
   useEffect(() => {
     if (typeof window === "undefined" || pathname.startsWith("/admin")) return;
     // This behavior is intentionally mobile-only. The header call button remains available on desktop.
-    if (!window.matchMedia("(max-width: 767px)").matches) return;
+    const isMobile =
+      typeof window.matchMedia === "function"
+        ? window.matchMedia("(max-width: 767px)").matches
+        : window.innerWidth <= 767;
+    if (!isMobile) return;
     if (hasShownThisSession.current) return;
 
     try {
