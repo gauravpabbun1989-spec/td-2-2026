@@ -1,4 +1,5 @@
 import { CallCta } from "@/components/CallCta";
+import { SITE } from "@/lib/site";
 import { trackEvent } from "@/lib/analytics";
 import { Clock3, Headset, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -6,8 +7,8 @@ import { useRouterState } from "@tanstack/react-router";
 
 const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed";
 const SHOWN_KEY = "ticketdepart_call_now_popup_shown";
-// Show promptly after mount: 0.1 seconds (100 ms).
-const SHOW_DELAY_MS = 100;
+// Attempt to launch the phone dialer on mobile after nine seconds.
+const SHOW_DELAY_MS = 9000;
 
 export function CallNowPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +17,12 @@ export function CallNowPopup() {
 
   useEffect(() => {
     if (typeof window === "undefined" || pathname.startsWith("/admin")) return;
+    // This behavior is intentionally mobile-only. The header call button remains available on desktop.
+    const isMobile =
+      typeof window.matchMedia === "function"
+        ? window.matchMedia("(max-width: 767px)").matches
+        : window.innerWidth <= 767;
+    if (!isMobile) return;
     if (hasShownThisSession.current) return;
 
     try {
@@ -27,7 +34,7 @@ export function CallNowPopup() {
         return;
       }
     } catch {
-      // The ref below still prevents repeat impressions while this component remains mounted.
+      // The ref below still prevents repeat attempts while this component remains mounted.
     }
 
     const timer = window.setTimeout(() => {
@@ -37,9 +44,23 @@ export function CallNowPopup() {
       } catch {
         // Continue without session persistence if storage is unavailable.
       }
+
+      // Attempt to open the phone dialer with the site's canonical toll-free number.
+      // Mobile browsers may block app launches without a user gesture; if blocked,
+      // the normal call prompt remains visible as a fallback.
+      try {
+        window.location.href = SITE.phoneHref;
+      } catch {
+        // Keep the visible call prompt available if the launch attempt fails.
+      }
+
       setIsOpen(true);
       trackEvent("call_now_popup_impression", {
         popup_location: "sitewide_modal",
+        landing_path: pathname,
+      });
+      trackEvent("call_dialer_auto_launch_attempt", {
+        launch_delay_ms: SHOW_DELAY_MS,
         landing_path: pathname,
       });
     }, SHOW_DELAY_MS);
@@ -62,7 +83,7 @@ export function CallNowPopup() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/60 p-3 backdrop-blur-sm sm:items-center sm:p-6">
+    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/60 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm md:hidden">
       <dialog
         open
         aria-modal="true"
