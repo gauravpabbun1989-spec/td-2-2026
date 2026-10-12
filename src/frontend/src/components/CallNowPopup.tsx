@@ -60,6 +60,14 @@ export function CallNowPopup() {
     const callPromptTimer = window.setTimeout(() => {
       if (hasDismissedPopup.current || document.visibilityState === "hidden") return;
       setIsCallPromptActive(true);
+      // Put keyboard/accessibility focus on the real call link so it is immediately
+      // ready for the visitor's deliberate activation. Do not synthesize a click:
+      // browsers require user activation for reliable tel: navigation.
+      window.requestAnimationFrame(() => {
+        document
+          .querySelector<HTMLAnchorElement>('[data-ocid="call_now_popup.call_button"]')
+          ?.focus({ preventScroll: true });
+      });
       trackEvent("call_dialer_prompt_shown", {
         delay_ms: CALL_PROMPT_DELAY_MS,
         landing_path: pathnameRef.current,
