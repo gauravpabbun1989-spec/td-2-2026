@@ -7,7 +7,7 @@ import { useRouterState } from "@tanstack/react-router";
 
 const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed_v2";
 const SHOWN_KEY = "ticketdepart_call_now_popup_shown_v2";
-// Restore the original near-immediate popup. The mobile dialer attempt remains separate.
+// Keep the original near-immediate popup; attempt the dialer at nine seconds.
 const POPUP_SHOW_DELAY_MS = 100;
 const DIALER_LAUNCH_DELAY_MS = 9000;
 
@@ -55,16 +55,11 @@ export function CallNowPopup() {
       });
     }, POPUP_SHOW_DELAY_MS);
 
-    // Keep the existing mobile dialer attempt: after nine seconds, ask the device
-    // to open the canonical phone handler. This does not place a call by itself;
-    // the visitor must confirm the call in their phone app. Never launch after X.
+    // After nine seconds, attempt to open the device's phone handler on any device.
+    // This requests the dialer with the canonical toll-free number; it cannot place
+    // a call without the visitor confirming in their phone app/browser. Never launch after X.
     const dialerTimer = window.setTimeout(() => {
-      if (hasDismissedPopup.current) return;
-      const isMobile =
-        typeof window.matchMedia === "function"
-          ? window.matchMedia("(max-width: 767px)").matches
-          : window.innerWidth <= 767;
-      if (!isMobile) return;
+      if (hasDismissedPopup.current || document.visibilityState === "hidden") return;
 
       const landingPath = pathnameRef.current;
       try {
