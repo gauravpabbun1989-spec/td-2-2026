@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/site";
+import { trackPhoneClick } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { Phone } from "lucide-react";
 
@@ -32,9 +33,24 @@ export function CallCta({
   ctaLocation,
   showNumber = true,
 }: CallCtaProps) {
+  const trackingLocation =
+    ctaLocation ??
+    (ocid.includes("hero")
+      ? "hero"
+      : ocid.includes("footer")
+        ? "footer"
+        : ocid.includes("header")
+          ? "header"
+          : ocid.includes("popup")
+            ? "call_now_popup"
+            : "content");
+
   return (
     <a
       href={SITE.phoneHref}
+      onClick={(event) =>
+        trackPhoneClick(trackingLocation, event.nativeEvent, event.currentTarget)
+      }
       data-ocid={ocid}
       data-cta-location={ctaLocation}
       aria-label={`${SITE.ctaLabel}: ${SITE.phoneDisplay}`}
