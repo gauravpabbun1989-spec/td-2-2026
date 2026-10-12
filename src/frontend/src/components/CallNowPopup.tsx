@@ -1,5 +1,4 @@
 import { CallCta } from "@/components/CallCta";
-import { SITE } from "@/lib/site";
 import { trackEvent } from "@/lib/analytics";
 import { Clock3, Headset, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -7,12 +6,12 @@ import { useRouterState } from "@tanstack/react-router";
 
 const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed_v2";
 const SHOWN_KEY = "ticketdepart_call_now_popup_shown_v2";
-// Keep the original near-immediate popup; attempt the dialer at nine seconds.
 const POPUP_SHOW_DELAY_MS = 100;
-const DIALER_LAUNCH_DELAY_MS = 9000;
+const CALL_PROMPT_DELAY_MS = 9000;
 
 export function CallNowPopup() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCallPromptActive, setIsCallPromptActive] = useState(false);
   const hasShownThisSession = useRef(false);
   const hasDismissedPopup = useRef(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
@@ -55,27 +54,21 @@ export function CallNowPopup() {
       });
     }, POPUP_SHOW_DELAY_MS);
 
-    // After nine seconds, attempt to open the device's phone handler on any device.
-    // This requests the dialer with the canonical toll-free number; it cannot place
-    // a call without the visitor confirming in their phone app/browser. Never launch after X.
-    const dialerTimer = window.setTimeout(() => {
+    // After nine seconds, visually prompt the visitor to tap the existing call button.
+    // Browsers can block timer-triggered tel: navigation, so preserve the visitor's
+    // control and let the existing CTA open the dialer after a tap. Never prompt after X.
+    const callPromptTimer = window.setTimeout(() => {
       if (hasDismissedPopup.current || document.visibilityState === "hidden") return;
-
-      const landingPath = pathnameRef.current;
-      try {
-        window.location.href = SITE.phoneHref;
-      } catch {
-        // The visible call button remains available if the browser blocks the launch.
-      }
-      trackEvent("call_dialer_auto_launch_attempt", {
-        launch_delay_ms: DIALER_LAUNCH_DELAY_MS,
-        landing_path: landingPath,
+      setIsCallPromptActive(true);
+      trackEvent("call_dialer_prompt_shown", {
+        delay_ms: CALL_PROMPT_DELAY_MS,
+        landing_path: pathnameRef.current,
       });
-    }, DIALER_LAUNCH_DELAY_MS);
+    }, CALL_PROMPT_DELAY_MS);
 
     return () => {
       window.clearTimeout(popupTimer);
-      window.clearTimeout(dialerTimer);
+      window.clearTimeout(callPromptTimer);
     };
   }, []);
 
@@ -83,6 +76,7 @@ export function CallNowPopup() {
     setIsOpen(false);
     hasShownThisSession.current = true;
     hasDismissedPopup.current = true;
+    setIsCallPromptActive(false);
     try {
       window.sessionStorage.setItem(DISMISSED_KEY, "1");
       window.sessionStorage.setItem(SHOWN_KEY, "1");
@@ -140,12 +134,24 @@ export function CallNowPopup() {
             </div>
           </div>
 
+          {isCallPromptActive && (
+            <div
+              role="status"
+              aria-live="polite"
+              className="mt-4 rounded-xl border-2 border-primary bg-primary/10 p-3 text-center motion-safe:animate-pulse"
+            >
+              <p className="text-sm font-bold text-foreground">Ready to speak with a flight specialist?</p>
+              <p className="mt-1 text-base font-extrabold tracking-wide text-primary">+1-888-958-0280</p>
+              <p className="mt-1 text-xs text-muted-foreground">Tap the call button below to open your phone dialer.</p>
+            </div>
+          )}
+
           <CallCta
             size="lg"
             showNumber
             ctaLocation="call_now_popup"
             ocid="call_now_popup.call_button"
-            className="mt-5 flex min-h-14 w-full rounded-2xl"
+            className={`mt-5 flex min-h-14 w-full rounded-2xl ${isCallPromptActive ? "ring-4 ring-primary/40 motion-safe:animate-pulse" : ""}`}
           />
         </div>
       </dialog>
