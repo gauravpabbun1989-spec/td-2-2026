@@ -2,6 +2,7 @@ import { CallCta } from "@/components/CallCta";
 import { trackEvent } from "@/lib/analytics";
 import { Clock3, Headset, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useRouterState } from "@tanstack/react-router";
 
 const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed_v2";
@@ -99,8 +100,8 @@ export function CallNowPopup() {
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-[100] flex min-h-dvh items-center justify-center overflow-y-auto bg-slate-950/60 p-3 backdrop-blur-sm">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] grid min-h-dvh place-items-center overflow-y-auto bg-slate-950/60 p-3 backdrop-blur-sm">
       <dialog
         open
         aria-modal="true"
@@ -162,6 +163,7 @@ export function CallNowPopup() {
           />
         </div>
       </dialog>
-    </div>
+    </div>,
+    document.body,
   );
 }
