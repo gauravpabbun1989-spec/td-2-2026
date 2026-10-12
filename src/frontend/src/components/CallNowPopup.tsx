@@ -135,15 +135,14 @@ export function CallNowPopup() {
           </div>
 
           {isCallPromptActive && (
-            <div
-              role="status"
+            <output
               aria-live="polite"
-              className="mt-4 rounded-xl border-2 border-primary bg-primary/10 p-3 text-center motion-safe:animate-pulse"
+              className="mt-4 block rounded-xl border-2 border-primary bg-primary/10 p-3 text-center motion-safe:animate-pulse"
             >
               <p className="text-sm font-bold text-foreground">Ready to speak with a flight specialist?</p>
               <p className="mt-1 text-base font-extrabold tracking-wide text-primary">+1-888-958-0280</p>
               <p className="mt-1 text-xs text-muted-foreground">Tap the call button below to open your phone dialer.</p>
-            </div>
+            </output>
           )}
 
           <CallCta
