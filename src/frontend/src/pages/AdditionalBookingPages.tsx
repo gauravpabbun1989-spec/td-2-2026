@@ -79,9 +79,9 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking",
-    title: "Business Class Flight Booking & Travel Agent Assistance | TicketDepart",
+    title: "Business Class Travel Agent | Flight Booking Help",
     description:
-      "Looking for business class travel agent assistance? Discuss business and corporate flight booking from U.S. airports, including New York, Los Angeles, Chicago, Miami, Dallas, and San Francisco, with an independent travel specialist by phone.",
+      "Speak with an independent business-class travel specialist about U.S. departures, cabin options, routes, connections, baggage, and fare rules. Call 24/7 to discuss your trip.",
     heading: "Business class flight booking and travel agent assistance by phone",
     intro:
       "Looking for a business class travel agent? TicketDepart can help you work through U.S. departure airports, international routes, schedules, aircraft, connections, cabins, baggage, flexibility, and fare conditions before you decide. We are an independent travel agency, not an airline.",
