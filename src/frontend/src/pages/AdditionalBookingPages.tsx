@@ -79,12 +79,12 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking",
-    title: "Business Class Flight Booking & Travel Agent Assistance | TicketDepart",
+    title: "Business Class Flight Booking by Phone | TicketDepart",
     description:
-      "Looking for business class travel agent assistance? Discuss business and corporate flight booking from U.S. airports, including New York, Los Angeles, Chicago, Miami, Dallas, and San Francisco, with an independent travel specialist by phone.",
-    heading: "Business class flight booking and travel agent assistance by phone",
+      "Need business class flights? Call TicketDepart to discuss U.S. departure airports, international routes, cabin options, connections, baggage, and fare rules with an independent travel specialist.",
+    heading: "Business class flight booking by phone",
     intro:
-      "Looking for a business class travel agent? TicketDepart can help you work through U.S. departure airports, international routes, schedules, aircraft, connections, cabins, baggage, flexibility, and fare conditions before you decide. We are an independent travel agency, not an airline.",
+      "Discuss your route, dates, preferred U.S. departure airport, cabin, connection times, and arrival schedule with a TicketDepart travel specialist. We can help you review available business-class itineraries and the fare conditions before you decide. TicketDepart is an independent travel agency, not an airline.",
     service: "Business class flight booking assistance",
     items: [
       [
@@ -128,8 +128,8 @@ const PAGES: readonly PageConfig[] = [
         "Consider nearby airports, alternate dates, one-way or round-trip structures, and other practical adjustments when the schedule allows.",
       ],
       [
-        "U.S. gateway planning",
-        "Discuss departures from major U.S. gateways such as New York, Chicago, Los Angeles, Miami, Dallas, Atlanta, and San Francisco when they fit the trip.",
+        "Total cost before booking",
+        "Ask for the complete price, including airfare, taxes, baggage charges, and any applicable TicketDepart service fee, and review the ticket conditions before authorizing payment.",
       ],
     ],
     faqs: [
@@ -172,6 +172,11 @@ const PAGES: readonly PageConfig[] = [
         question: "Can you help with business-class departures from major U.S. airports?",
         answer:
           "Yes. You can discuss departures from major U.S. gateways and practical nearby-airport alternatives, subject to the itinerary, schedule, and live availability.",
+      },
+      {
+        question: "What costs should I confirm before booking business class?",
+        answer:
+          "Ask for the total price, including airfare, taxes, baggage charges, and any applicable agency service fee. Review change, cancellation, and refund conditions before authorizing payment.",
       },
       {
         question: "Are business-class tickets always refundable?",
