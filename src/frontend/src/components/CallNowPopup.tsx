@@ -5,24 +5,23 @@ import { Clock3, Headset, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
-const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed";
-const SHOWN_KEY = "ticketdepart_call_now_popup_shown";
-// Attempt to launch the phone dialer on mobile after nine seconds.
+const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed_v2";
+const SHOWN_KEY = "ticketdepart_call_now_popup_shown_v2";
+// Attempt to open the device's phone handler after nine seconds on the site.
 const SHOW_DELAY_MS = 9000;
 
 export function CallNowPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const hasShownThisSession = useRef(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const pathnameRef = useRef(pathname);
 
   useEffect(() => {
-    if (typeof window === "undefined" || pathname.startsWith("/admin")) return;
-    // This behavior is intentionally mobile-only. The header call button remains available on desktop.
-    const isMobile =
-      typeof window.matchMedia === "function"
-        ? window.matchMedia("(max-width: 767px)").matches
-        : window.innerWidth <= 767;
-    if (!isMobile) return;
+    pathnameRef.current = pathname;
+  }, [pathname]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || pathnameRef.current.startsWith("/admin")) return;
     if (hasShownThisSession.current) return;
 
     try {
@@ -39,15 +38,15 @@ export function CallNowPopup() {
 
     const timer = window.setTimeout(() => {
       hasShownThisSession.current = true;
+      const landingPath = pathnameRef.current;
       try {
         window.sessionStorage.setItem(SHOWN_KEY, "1");
       } catch {
         // Continue without session persistence if storage is unavailable.
       }
 
-      // Attempt to open the phone dialer with the site's canonical toll-free number.
-      // Mobile browsers may block app launches without a user gesture; if blocked,
-      // the normal call prompt remains visible as a fallback.
+      // Best-effort attempt on mobile and desktop. Browsers/operating systems may
+      // block tel: launches without a user gesture; the visible call prompt is the fallback.
       try {
         window.location.href = SITE.phoneHref;
       } catch {
@@ -57,16 +56,16 @@ export function CallNowPopup() {
       setIsOpen(true);
       trackEvent("call_now_popup_impression", {
         popup_location: "sitewide_modal",
-        landing_path: pathname,
+        landing_path: landingPath,
       });
       trackEvent("call_dialer_auto_launch_attempt", {
         launch_delay_ms: SHOW_DELAY_MS,
-        landing_path: pathname,
+        landing_path: landingPath,
       });
     }, SHOW_DELAY_MS);
 
     return () => window.clearTimeout(timer);
-  }, [pathname]);
+  }, []);
 
   const dismissPopup = useCallback(() => {
     setIsOpen(false);
@@ -77,13 +76,16 @@ export function CallNowPopup() {
     } catch {
       // In-memory dismissal still works when browser storage is blocked.
     }
-    trackEvent("call_now_popup_dismiss", { popup_location: "sitewide_modal", landing_path: pathname });
-  }, [pathname]);
+    trackEvent("call_now_popup_dismiss", {
+      popup_location: "sitewide_modal",
+      landing_path: pathnameRef.current,
+    });
+  }, []);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/60 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm md:hidden">
+    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/60 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm">
       <dialog
         open
         aria-modal="true"
