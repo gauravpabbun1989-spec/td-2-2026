@@ -245,7 +245,11 @@ function emitPhoneClick(location: string, link?: Element | null) {
   });
 }
 
-export function trackPhoneClick(location: string, event?: Event) {
+export function trackPhoneClick(
+  location: string,
+  event?: Event,
+  link?: Element | null,
+) {
   if (event && handledClicks.has(event)) return;
   if (event) handledClicks.add(event);
 
@@ -253,7 +257,7 @@ export function trackPhoneClick(location: string, event?: Event) {
   const last = recentEmits.get(normalizedLocation);
   if (last !== undefined && Date.now() - last < DEDUPE_WINDOW_MS) return;
 
-  emitPhoneClick(normalizedLocation);
+  emitPhoneClick(normalizedLocation, link);
 }
 
 export function trackCallbackFormStart(location = "contact_form") {
