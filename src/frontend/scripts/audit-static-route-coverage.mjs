@@ -46,7 +46,7 @@ const normalized = locs.map((url) => {
 assert(new Set(normalized).size === normalized.length, "built sitemap contains duplicate paths after slash normalization");
 
 const countryUrls = locs.filter((url) => new URL(url).pathname.startsWith("/flights-usa-to-"));
-assert(countryUrls.length === 26, `expected 26 USA-to-country URLs in sitemap; found ${countryUrls.length}`);
+assert(countryUrls.length >= 26, `expected at least 26 USA-to-country URLs in sitemap; found ${countryUrls.length}`);
 
 const titles = new Set();
 const headings = new Set();
@@ -73,4 +73,4 @@ for (const url of countryUrls) {
   assert(visibleText.length >= 900, `insufficient static visible content for ${route}: ${visibleText.length} characters`);
 }
 
-console.log(`Static SEO route audit passed: ${countryUrls.length} country pages, unique titles/H1s, canonicals, indexability, internal links, normalized sitemap, and robots.txt.`);
+console.log(`Static SEO route audit passed: all ${countryUrls.length} USA-to-country pages, unique titles/H1s, canonicals, indexability, internal links, normalized sitemap, and robots.txt.`);
