@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/site";
+import { trackPhoneClick } from "@/lib/analytics";
 import { Phone } from "lucide-react";
 
 export function MobileCallBar() {
@@ -14,6 +15,9 @@ export function MobileCallBar() {
         </div>
         <a
           href={SITE.phoneHref}
+          onClick={(event) =>
+            trackPhoneClick("sticky_mobile", event.nativeEvent, event.currentTarget)
+          }
           data-ocid="mobile_call.button"
           data-cta-location="sticky_mobile"
           aria-label={`${SITE.ctaLabel}: ${SITE.phoneDisplay}`}
