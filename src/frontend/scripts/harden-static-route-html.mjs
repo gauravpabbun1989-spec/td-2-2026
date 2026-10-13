@@ -73,10 +73,15 @@ for (const file of walk(distDir)) {
     /(<meta\s+property=["']og:url["']\s+content=["'])[^"']*(["'][^>]*>)/i,
     `$1${route}$2`,
   );
-  html = html.replace(
-    /(<meta\s+name=["']robots["']\s+content=["'])[^"']*(["'][^>]*>)/i,
-    `$1index, follow, max-image-preview:large$2`,
-  );
+  const robotsMatch = html.match(/<meta\s+name="robots"\s+content="([^"]*)"[^>]*>/i);
+  const robotsContent = robotsMatch && /noindex/i.test(robotsMatch[1])
+    ? robotsMatch[1]
+    : "index, follow, max-image-preview:large";
+  if (robotsMatch) {
+    html = html.replace(robotsMatch[0], robotsMatch[0].replace(robotsMatch[1], robotsContent));
+  } else {
+    html = html.replace("</head>", `<meta name="robots" content="${robotsContent}" />\n</head>`);
+  }
 
   const mainMatch = html.match(/<main>[\s\S]*?<\/main>/i);
   if (mainMatch && !/visibility\s*:\s*hidden/i.test(mainMatch[0])) {
