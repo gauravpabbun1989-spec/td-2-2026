@@ -1,0 +1,78 @@
+#!/data/data/com.termux/files/usr/bin/bash
+set -eu
+APP_DIR="$(cd "$(dirname "$0")" && pwd)"
+DATA_DIR="${TD_DATA_DIR:-$APP_DIR/td-growth-data}"
+PID_FILE="$DATA_DIR/scheduler.pid"
+LOG_FILE="$DATA_DIR/worker.log"
+mkdir -p "$DATA_DIR"
+cd "$APP_DIR"
+
+is_running() {
+  [ -f "$PID_FILE" ] || return 1
+  pid="$(cat "$PID_FILE" 2>/dev/null || true)"
+  [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null
+}
+case "${1:-}" in
+  start)
+    if is_running; then
+      echo "TicketDepart growth monitor already running (PID $(cat "$PID_FILE"))."
+      exit 0
+    fi
+    rm -f "$DATA_DIR/STOP" "$PID_FILE"
+    export TD_DATA_DIR="$DATA_DIR"
+    export TD_SITE_URL="${TD_SITE_URL:-https://ticketdepart.com}"
+    export TD_INTERVAL_MINUTES="${TD_INTERVAL_MINUTES:-60}"
+    nohup node "$APP_DIR/scripts/ticketdepart-growth-scheduler.mjs" >> "$LOG_FILE" 2>&1 < /dev/null &
+    echo $! > "$PID_FILE"
+    sleep 1
+    if is_running; then
+      echo "Started. PID $(cat "$PID_FILE")."
+      echo "Site: $TD_SITE_URL"
+      echo "Interval: $TD_INTERVAL_MINUTES minutes"
+      echo "Logs: $LOG_FILE"
+    else
+      echo "Start failed. Check: $LOG_FILE"
+      exit 1
+    fi
+    ;;
+  stop)
+    if ! is_running; then
+      rm -f "$PID_FILE"
+      echo "Not running."
+      exit 0
+    fi
+    touch "$DATA_DIR/STOP"
+    pid="$(cat "$PID_FILE")"
+    echo "Stop requested for PID $pid. Waiting up to 10 seconds..."
+    for _ in $(seq 1 10); do
+      kill -0 "$pid" 2>/dev/null || break
+      sleep 1
+    done
+    if kill -0 "$pid" 2>/dev/null; then
+      echo "Still stopping; see logs: $LOG_FILE"
+    else
+      rm -f "$PID_FILE"
+      echo "Stopped."
+    fi
+    ;;
+  status)
+    if is_running; then
+      echo "RUNNING (PID $(cat "$PID_FILE"))"
+    else
+      echo "STOPPED"
+    fi
+    if [ -f "$DATA_DIR/state.json" ]; then cat "$DATA_DIR/state.json"; fi
+    ;;
+  logs)
+    touch "$LOG_FILE"
+    tail -n "${2:-80}" -f "$LOG_FILE"
+    ;;
+  once)
+    exec node "$APP_DIR/scripts/ticketdepart-growth-workers.mjs" "${TD_SITE_URL:-https://ticketdepart.com}"
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|status|logs|once}"
+    echo "Optional: TD_SITE_URL=https://ticketdepart.com TD_INTERVAL_MINUTES=60"
+    exit 2
+    ;;
+esac
