@@ -264,7 +264,7 @@ export function FlightSearchResultsPage() {
   if (!search) {
     return (
       <>
-        <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />
+        <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} indexable={false} />
         <Section tone="muted">
           <div className="mx-auto max-w-4xl">
             <p className="label-board text-accent">Flight search</p>
@@ -318,7 +318,7 @@ export function FlightSearchResultsPage() {
 
   return (
     <>
-      <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} />
+      <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} path={PAGE_PATH} indexable={false} />
       <section className="border-b border-border bg-card">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-5 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
