@@ -17,6 +17,13 @@ const routes = {
     heading: "Search flight options",
     text: "Search flight schedules by route and date, review available itinerary options, and continue by phone when you are ready to confirm booking details.",
   },
+  "/flight-search-results": {
+    title: "Flight Search Results | TicketDepart",
+    description: "Search-generated flight schedule results for a selected route and date. This page is provided for interactive itinerary review and is not intended for search indexing.",
+    heading: "Flight search results and itinerary planning",
+    text: "Review flight schedule options and modify your itinerary before calling TicketDepart for reservation assistance.",
+    indexable: false,
+  },
   "/book-a-flight-by-phone": {
     title: "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart",
     description: "Book a domestic or international flight by phone with an independent travel agency. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.",
@@ -667,6 +674,7 @@ function routeHtml(route, meta) {
     .replace(/<meta\s+name="twitter:description"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta name="twitter:description" content="${safeDescription}" />`)
     .replace(/<meta\s+property="og:url"\s+content="[^"]*"[\s\S]*?\/>/i, `<meta property="og:url" content="${url}" />`)
     .replace(/<link\s+rel="canonical"\s+href="[^"]*"[\s\S]*?\/>/i, `<link rel="canonical" href="${url}" />`)
+    .replace(/<meta\s+name="robots"\s+content="[^"]*"\s*\/>/i, `<meta name="robots" content="${meta.indexable === false ? "noindex, nofollow" : "index, follow, max-image-preview:large"}" />`)
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, "");
 
   const webPageSchema = {
