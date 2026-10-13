@@ -35,7 +35,7 @@ assert(builtRobots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "r
 const locs = extractLocs(builtSitemap);
 assert(locs.length === 84, `expected 84 intended sitemap URLs; found ${locs.length}`);
 assert(new Set(locs).size === locs.length, "built sitemap contains duplicate URLs");
-assert(!locs.some((url) => new URL(url).pathname.replace(/\\/+$/, "") === "/flight-search-results"), "non-indexable flight search results route must not be in the sitemap");
+assert(!locs.some((url) => new URL(url).pathname.replace(/\/+$/, "") === "/flight-search-results"), "non-indexable flight search results route must not be in the sitemap");
 
 const normalized = locs.map((url) => {
   const parsed = new URL(url);
@@ -49,13 +49,13 @@ assert(new Set(normalized).size === normalized.length, "built sitemap contains d
 const resultsHtmlPath = path.join(distDir, "flight-search-results", "index.html");
 assert(fs.existsSync(resultsHtmlPath), "missing static HTML for /flight-search-results");
 const resultsHtml = read(resultsHtmlPath);
-const resultsRobots = resultsHtml.match(/<meta\\s+name="robots"\\s+content="([^"]+)"/i)?.[1];
+const resultsRobots = resultsHtml.match(/<meta\s+name="robots"\s+content="([^"]+)"/i)?.[1];
 assert(resultsRobots === "noindex, nofollow", `flight-search-results must preserve noindex, nofollow after static hardening; found ${resultsRobots ?? "no robots meta"}`);
 
 const homeHtml = read(path.join(distDir, "index.html"));
-const homeDescription = homeHtml.match(/<meta\\s+name="description"\\s+content="([^"]+)"/i)?.[1] ?? "";
+const homeDescription = homeHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
 assert(homeDescription.includes("24/7") && homeDescription.includes("TicketDepart"), "built homepage meta description is missing expected service details");
-assert(!/855[\\s().-]*544[\\s().-]*9001/.test(homeHtml), "old public phone number remains in built homepage HTML");
+assert(!/855[\s().-]*544[\s().-]*9001/.test(homeHtml), "old public phone number remains in built homepage HTML");
 
 const countryUrls = locs.filter((url) => new URL(url).pathname.startsWith("/flights-usa-to-"));
 assert(countryUrls.length >= 26, `expected at least 26 USA-to-country URLs in sitemap; found ${countryUrls.length}`);
