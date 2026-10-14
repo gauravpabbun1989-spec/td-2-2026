@@ -88,7 +88,8 @@ export function isSuspiciousPath(path = getCleanPagePath()) {
     || /(?:^|\/)(?:config|credentials|secrets?|database|dump|backup|wp-config|phpinfo|php-info)\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(normalized)
     || /(?:^|\/)(?:\.env(?:\.[^/]+)?|\.git(?:-[^/]+)?|\.hg|\.svn|\.ssh|\.aws|\.next|\.circleci|\.docker|\.terraform|\.npmrc|\.yarnrc|\.flaskenv)(?:\/|$)/i.test(normalized)
     || /(?:^|\/)(?:var\/log|proc\/self|etc\/passwd|debug\/default\/view|app_dev\.php\/_profiler|_next\/webpack-hmr|webpack-hmr)(?:\/|$)/i.test(normalized)
-    || /\.(?:php|sql|tfstate|tfvars|pem|key|bak|old|save|yaml|yml)$/i.test(normalized)
+    || /(?:^|\/)(?:\$\([^/]*\)|\$\{[^/]*\}|undefined|null)(?:\/|$)/i.test(normalized)
+    || /\.(?:php|sql|tfstate|tfvars|toml|ini|conf|sh|lock|log|pem|key|bak|old|save|yaml|yml)$/i.test(normalized)
     || /(?:^|\/)(?:package\.json|docker-compose\.yml|serverless\.yml|webpack\.config\.js|terraform\.lock\.hcl)(?:\/|$)/i.test(normalized);
 }
 
