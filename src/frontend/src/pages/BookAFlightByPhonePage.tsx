@@ -11,7 +11,7 @@ import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 
-const PAGE_PATH = "/book-a-flight-by-phone";
+const PAGE_PATH = "/book-a-flight-by-phone/";
 const PAGE_TITLE =
   "Book a Flight by Phone in the USA | 24/7 Flight Booking Help | TicketDepart";
 const PAGE_DESCRIPTION =
@@ -119,7 +119,7 @@ export function BookAFlightByPhonePage() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <CallCta size="lg" ocid="book_flight_phone.call_button" />
             <Link
-              to="/flight-booking"
+              to="/flight-booking/"
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground"
             >
               Explore flight booking services
@@ -159,7 +159,7 @@ export function BookAFlightByPhonePage() {
               <p className="text-sm font-semibold text-foreground">Not ready to call?</p>
               <p className="mt-1 text-xs leading-5 text-muted-foreground">Send your trip details and request a callback.</p>
               <Link
-                to="/contact"
+                to="/contact/"
                 data-ocid="book_flight_phone.quick_callback_link"
                 className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-full border border-primary/25 bg-background px-4 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
               >
@@ -170,7 +170,7 @@ export function BookAFlightByPhonePage() {
               <p className="text-sm font-semibold text-foreground">Still comparing?</p>
               <p className="mt-1 text-xs leading-5 text-muted-foreground">See the booking services and trip types we handle.</p>
               <Link
-                to="/flight-booking"
+                to="/flight-booking/"
                 data-ocid="book_flight_phone.quick_services_link"
                 className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-full border border-border bg-background px-4 text-sm font-semibold text-foreground hover:border-primary/30 hover:text-primary"
               >
@@ -282,15 +282,15 @@ export function BookAFlightByPhonePage() {
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {[
-            ["Flight booking", "/flight-booking"],
-            ["International flight booking", "/international-flight-booking"],
-            ["Group flight booking", "/group-flight-booking"],
-            ["Business class & corporate booking", "/business-class-flight-booking"],
+            ["Flight booking", "/flight-booking/"],
+            ["International flight booking", "/international-flight-booking/"],
+            ["Group flight booking", "/group-flight-booking/"],
+            ["Business class & corporate booking", "/business-class-flight-booking/"],
             ["Last-minute flight booking", "/last-minute-flight-booking"],
-            ["How to book a flight by phone", "/how-to-book-a-flight-by-phone"],
-            ["American Airlines", "/american-airlines"],
-            ["Delta Airlines", "/delta-airlines"],
-            ["United Airlines", "/united-airlines"],
+            ["How to book a flight by phone", "/how-to-book-a-flight-by-phone/"],
+            ["American Airlines", "/american-airlines/"],
+            ["Delta Airlines", "/delta-airlines/"],
+            ["United Airlines", "/united-airlines/"],
           ].map(([label, to]) => (
             <Link
               key={to}
