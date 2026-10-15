@@ -53,14 +53,14 @@ export function HeroSection() {
               className="w-full min-w-0 shadow-xl shadow-sky-900/15 sm:col-span-2"
             />
             <Link
-              to="/flight-search"
+              to="/flight-search/"
               data-ocid="home.hero_flight_search_link"
               className="inline-flex min-w-0 h-12 items-center justify-center gap-2 rounded-full bg-[#087fc1] px-6 text-base font-semibold text-white shadow-md transition-smooth hover:bg-[#066da6]"
             >
               Search flights <ArrowRight className="size-4 shrink-0" />
             </Link>
             <Link
-              to="/contact"
+              to="/contact/"
               data-ocid="home.hero_trip_request_link"
               className="inline-flex min-w-0 h-12 items-center justify-center gap-2 rounded-full border border-sky-200 bg-white/90 px-6 text-base font-semibold text-[#17436b] shadow-sm backdrop-blur-sm transition-smooth hover:border-sky-300 hover:bg-white"
             >
@@ -100,8 +100,8 @@ export function HeroSection() {
         </div>
         <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            ["Book a flight", "/flight-booking"],
-            ["Change a flight", "/flight-change-assistance"],
+            ["Book a flight", "/flight-booking/"],
+            ["Change a flight", "/flight-change-assistance/"],
             ["Cancel a flight", "/flight-cancellation-assistance"],
             ["Airline reservation help", "/airline-reservation-assistance"],
           ].map(([label, to]) => (
