@@ -20,7 +20,7 @@ export function ContactInfoBlock() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <CallCta size="lg" ocid="home.contact_call_button" />
-              <Link to="/contact" data-ocid="home.contact_trip_request_link" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur hover:bg-white hover:text-primary">
+              <Link to="/contact/" data-ocid="home.contact_trip_request_link" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur hover:bg-white hover:text-primary">
                 Request a callback <ArrowRight className="size-4" />
               </Link>
             </div>
@@ -46,7 +46,7 @@ export function ContactInfoBlock() {
           </div>
           <div className="rounded-[1.5rem] border border-border bg-card p-6 shadow-subtle sm:p-7">
             <p className="label-board text-muted-foreground">Explore before you call</p>
-            <Link to="/flight-booking" data-ocid="home.contact_flight_booking_link" className="mt-2 inline-flex items-center gap-2 font-semibold text-primary hover:text-accent">
+            <Link to="/flight-booking/" data-ocid="home.contact_flight_booking_link" className="mt-2 inline-flex items-center gap-2 font-semibold text-primary hover:text-accent">
               See how flight booking assistance works <ArrowRight className="size-4" />
             </Link>
           </div>
