@@ -75,7 +75,8 @@ export function Seo({
       SITE.phoneDisplay,
     ),
   );
-  const listingDescription = normalizedDescription.includes(SITE.phoneDisplay)
+  const phoneDigits = SITE.phoneDisplay.replace(/\D/g, "");
+  const listingDescription = normalizedDescription.replace(/\D/g, "").includes(phoneDigits)
     ? normalizedDescription
     : trimToLimit(
         `${trimToLimit(normalizedDescription, 125).replace(/\.$/, "")} Call ${SITE.phoneDisplay}.`,
