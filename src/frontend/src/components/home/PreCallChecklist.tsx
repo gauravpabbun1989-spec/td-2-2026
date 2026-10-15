@@ -89,7 +89,7 @@ export function PreCallChecklist() {
       <p className="mt-10 text-sm leading-relaxed text-primary-foreground/75">
         Cannot call right now?{" "}
         <Link
-          to="/contact"
+          to="/contact/"
           data-ocid="home.pre_call_trip_request_link"
           className="font-medium text-primary-foreground underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
