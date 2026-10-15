@@ -45,7 +45,6 @@ const normalized = locs.map((url) => {
   return parsed.pathname.replace(/\/+$/, "") || "/";
 });
 assert(new Set(normalized).size === normalized.length, "built sitemap contains duplicate paths after slash normalization");
-assert(new Set(normalized).size === normalized.length, "built sitemap contains duplicate paths after slash normalization");
 
 // Audit every indexable sitemap URL, not only the country landing pages.
 // This catches slash, case, encoded-character, and canonical drift across the
