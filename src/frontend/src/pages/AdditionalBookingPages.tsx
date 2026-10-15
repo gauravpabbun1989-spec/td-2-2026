@@ -78,7 +78,7 @@ const PAGES: readonly PageConfig[] = [
     ],
   },
   {
-    path: "/business-class-flight-booking",
+    path: "/business-class-flight-booking/",
     title: "Business Class Flight Booking by Phone | TicketDepart",
     description:
       "Need business class flights? Call TicketDepart to discuss U.S. departure airports, international routes, cabin options, connections, baggage, and fare rules with an independent travel specialist.",
@@ -442,7 +442,7 @@ const PAGES: readonly PageConfig[] = [
     ],
   },
   {
-    path: "/flight-change-assistance",
+    path: "/flight-change-assistance/",
     title: "Flight Change Assistance by Phone | TicketDepart",
     description:
       "Need to change a flight? Discuss date, time, route, fare difference, and airline change rules with a TicketDepart travel specialist.",
@@ -897,7 +897,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <CallCta size="lg" ocid={`${id}.hero_call`} />
             <Link
-              to="/contact"
+              to="/contact/"
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground"
             >
               Send trip details <ArrowRight className="size-4" />
@@ -907,7 +907,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             <Phone className="size-4 text-accent" />
             {SITE.hours} · {SITE.phoneDisplay}
           </p>
-          {page.path === "/international-flight-booking" && (
+          {page.path === "/international-flight-booking/" && (
             <div
               data-cro-version="271"
               className="mt-8 rounded-2xl border border-border bg-card p-5 sm:p-6"
@@ -921,11 +921,11 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
               </p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
                 {[
-                  ["American Airlines", "/american-airlines"],
-                  ["Delta Airlines", "/delta-airlines"],
-                  ["United Airlines", "/united-airlines"],
-                  ["Southwest Airlines", "/southwest-airlines"],
-                  ["JetBlue Airways", "/jetblue-airways"],
+                  ["American Airlines", "/american-airlines/"],
+                  ["Delta Airlines", "/delta-airlines/"],
+                  ["United Airlines", "/united-airlines/"],
+                  ["Southwest Airlines", "/southwest-airlines/"],
+                  ["JetBlue Airways", "/jetblue-airways/"],
                 ].map(([label, to]) => (
                   <Link
                     key={to}
@@ -942,7 +942,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
             </div>
           )}
 
-          {page.path === "/business-class-flight-booking" && (
+          {page.path === "/business-class-flight-booking/" && (
             <div
               data-cro-version="269"
               className="mt-8 rounded-2xl border border-border bg-card p-5 sm:p-6"
@@ -956,10 +956,10 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
               </p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {[
-                  ["Business class", "/business-class-flight-booking", "Compare cabin features, schedules, and fare flexibility."],
-                  ["First class", "/contact", "Send your route and dates to discuss first-class availability."],
-                  ["Premium economy", "/flight-booking", "Review cabin choices and the trade-offs for your trip."],
-                  ["Long-haul premium travel", "/international-flight-booking", "Explore international routing and connection options."],
+                  ["Business class", "/business-class-flight-booking/", "Compare cabin features, schedules, and fare flexibility."],
+                  ["First class", "/contact/", "Send your route and dates to discuss first-class availability."],
+                  ["Premium economy", "/flight-booking/", "Review cabin choices and the trade-offs for your trip."],
+                  ["Long-haul premium travel", "/international-flight-booking/", "Explore international routing and connection options."],
                 ].map(([label, to, description]) => (
                   <Link
                     key={label}
@@ -976,7 +976,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
               </div>
             </div>
           )}
-          {page.path === "/business-class-flight-booking" && (
+          {page.path === "/business-class-flight-booking/" && (
             <div
               data-cro-version="270"
               className="mt-8 rounded-2xl border border-border bg-card p-5 sm:p-6"
@@ -1028,12 +1028,12 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
               </p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {[
-                  ["Domestic or international", "/international-flight-booking", "Plan a trip within the U.S. or abroad."],
+                  ["Domestic or international", "/international-flight-booking/", "Plan a trip within the U.S. or abroad."],
                   ["Last-minute or travel today", "/last-minute-flight-booking", "Explore options for a near-term departure."],
-                  ["Business or premium cabin", "/business-class-flight-booking", "Discuss business class and premium-cabin choices."],
+                  ["Business or premium cabin", "/business-class-flight-booking/", "Discuss business class and premium-cabin choices."],
                   ["Family or group trip", "/family-flight-booking", "Coordinate travelers, schedules, and trip details."],
-                  ["Multi-city itinerary", "/multi-city-flight-booking", "Plan a trip with multiple stops."],
-                  ["I need help choosing", "/contact", "Send your route and dates and request a callback."],
+                  ["Multi-city itinerary", "/multi-city-flight-booking/", "Plan a trip with multiple stops."],
+                  ["I need help choosing", "/contact/", "Send your route and dates and request a callback."],
                 ].map(([label, to, description]) => (
                   <Link
                     key={label}
@@ -1102,9 +1102,9 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
             ["Airline reservation assistance", "/airline-reservation-assistance", "Questions about an airline reservation, representative, or travel-support issue."],
-            ["Change a flight", "/flight-change-assistance", "Discuss dates, times, routes, fare differences, and eligible changes."],
+            ["Change a flight", "/flight-change-assistance/", "Discuss dates, times, routes, fare differences, and eligible changes."],
             ["Cancel a flight", "/flight-cancellation-assistance", "Review cancellation, refund, credit, and applicable ticket terms."],
-            ["Book a flight by phone", "/book-a-flight-by-phone", "Start a new booking with a travel specialist."],
+            ["Book a flight by phone", "/book-a-flight-by-phone/", "Start a new booking with a travel specialist."],
             ["Last-minute flight help", "/last-minute-flight-booking", "Discuss urgent travel, nearby airports, and ticketing timing."],
             ["Pet flight assistance", "/pet-flight-booking", "Discuss pet travel requirements, carrier questions, and itinerary details."],
             ["Infant flight assistance", "/infant-flight-booking", "Discuss infant traveler details, seating, bassinets, and baggage questions."],
@@ -1133,14 +1133,14 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            ["Flight booking", "/flight-booking"],
-            ["Business class booking", "/business-class-flight-booking"],
+            ["Flight booking", "/flight-booking/"],
+            ["Business class booking", "/business-class-flight-booking/"],
             ["Corporate flight booking", "/corporate-flight-booking"],
-            ["Book a flight by phone", "/book-a-flight-by-phone"],
-            ["International flights", "/international-flight-booking"],
+            ["Book a flight by phone", "/book-a-flight-by-phone/"],
+            ["International flights", "/international-flight-booking/"],
             ["Last-minute flights", "/last-minute-flight-booking"],
-            ["Multi-city flights", "/multi-city-flight-booking"],
-            ["Group flights", "/group-flight-booking"],
+            ["Multi-city flights", "/multi-city-flight-booking/"],
+            ["Group flights", "/group-flight-booking/"],
             ["Pet flight help", "/pet-flight-booking"],
             ["Infant flight help", "/infant-flight-booking"],
             ["Baggage help", "/baggage-assistance"],
