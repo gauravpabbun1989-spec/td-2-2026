@@ -14,6 +14,7 @@ export function PageContentExpansion({
   context,
 }: PageContentExpansionProps) {
   const pointNames = points.map(([name]) => name).filter(Boolean);
+  const introFocus = intro.split(/\s+/).slice(0, 12).join(" ");
   const planningContext =
     context ??
     `For ${subject.toLowerCase()}, compare the details that actually affect this itinerary: travel dates, departure and arrival airports, connections, cabin, baggage, and the rules attached to the specific ticket.`;
@@ -24,7 +25,7 @@ export function PageContentExpansion({
         <SectionHeading
           eyebrow="Planning details"
           title={`Before you confirm ${subject}`}
-          description={`Use these final checks for ${subject.toLowerCase()} rather than relying on general assumptions about an airline, route, or fare.`}
+          description={`Use these final checks for ${subject.toLowerCase()}. This page focuses on: ${introFocus}.`}
         />
         <div className="mt-10 space-y-6 text-base leading-7 text-muted-foreground">
           <p>{planningContext}</p>
