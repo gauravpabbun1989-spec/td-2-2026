@@ -605,6 +605,121 @@ function semanticExpansion(route, meta) {
   const excluded = new Set(["/terms", "/privacy", "/contact", "/about", "/404"]);
   if (excluded.has(route)) return "";
 
+  // Route-specific editorial guidance adds real planning value beyond swapping
+  // city names into a shared paragraph. Keep airport and service claims
+  // conditional: availability and schedules must be checked for travel dates.
+  const routeGuides = {
+    "/flights-from-new-york": {
+      title: "Choosing a New York departure airport",
+      copy: "New York-area trips may involve JFK, LaGuardia, or Newark, and they are not interchangeable for every itinerary. Compare the full journey from home to the airport, departure time, baggage terms, and the cost and time of ground transport—not just the flight duration. For international journeys, check the exact arrival airport and leave enough time for any onward connection.",
+      checklist: "Compare JFK and Newark when reviewing international options; consider LaGuardia mainly where the itinerary and carrier make it practical; confirm the airport code on every segment; and check connection and ground-transfer time before paying."
+    },
+    "/flights-from-los-angeles": {
+      title: "Planning a departure from the Los Angeles area",
+      copy: "Los Angeles itineraries can differ significantly depending on departure time, traffic to the airport, and whether a connection is involved. Compare the complete itinerary rather than treating a short connection or a distant airport as automatically better. For long-haul travel, check local arrival time, baggage through-checking, and the plan for reaching your final destination.",
+      checklist: "Allow realistic time to reach LAX; compare total travel time and connection length; confirm whether bags are checked through; and check local arrival dates when the itinerary crosses time zones."
+    },
+    "/flights-from-chicago": {
+      title: "Comparing Chicago departure options",
+      copy: "When planning from Chicago, confirm whether the itinerary uses O'Hare or Midway and how you will reach that airport. The most convenient departure can depend on the destination, travel time, and available connections on your dates. For international trips, review the connection airport and the time between flights before comparing cabin or baggage options.",
+      checklist: "Verify ORD versus MDW; compare ground travel as well as airfare; check connection time and terminal changes where relevant; and confirm the baggage allowance for every carrier on the ticket."
+    },
+    "/flights-from-miami": {
+      title: "Planning from Miami and South Florida",
+      copy: "For South Florida departures, compare the full journey from your starting point to the airport, not just the advertised flight time. If considering an alternate airport, include the extra ground travel in your decision. For trips to the Caribbean or Latin America, confirm destination airport, travel-document requirements, baggage terms, and any separate onward transport.",
+      checklist: "Confirm MIA or any alternate airport; compare arrival airport with your hotel or onward plans; check passport and entry rules with official authorities; and verify whether baggage is included in the fare."
+    },
+    "/flights-from-atlanta": {
+      title: "Making connections from Atlanta",
+      copy: "Atlanta itineraries may be nonstop or connect through another airport depending on destination and date. A lower fare is not always the easiest trip if it creates a tight connection or a long wait. Review the full schedule, connection time, and what happens if a delay affects a later segment.",
+      checklist: "Compare nonstop and connecting itineraries where offered; leave a sensible connection buffer; check whether the ticket protects onward segments; and review baggage and change rules before confirming."
+    },
+    "/flights-from-dallas": {
+      title: "Choosing an airport for Dallas-area travel",
+      copy: "Dallas-area plans may involve DFW or Dallas Love Field, and the right choice depends on the route and the carriers serving it. Include airport access, arrival location, and any connection in the comparison. If separate tickets are involved, understand that a delay on the first booking may not protect the next flight.",
+      checklist: "Confirm DFW versus DAL; compare door-to-door time; avoid assuming separate tickets are protected as one itinerary; and check baggage and change conditions for each booking."
+    },
+    "/flights-from-orlando": {
+      title: "Planning around an Orlando trip",
+      copy: "Orlando travel often includes a ground journey after landing, so the arrival airport and time can matter as much as the flight itself. If the trip is tied to a resort, cruise, event, or family schedule, compare arrival times and allow room for delays before committing to onward plans.",
+      checklist: "Match the arrival airport to your onward transport; leave a buffer before a cruise or fixed-time event; compare baggage and seat terms for each traveler; and check the ticket's change rules."
+    },
+    "/flights-from-san-francisco": {
+      title: "Choosing a Bay Area departure",
+      copy: "Bay Area travelers may compare San Francisco, Oakland, or San Jose depending on the destination and how far they are willing to travel to the airport. For long-haul itineraries, compare the arrival airport, total journey time, and local arrival date. A cheaper flight can be less convenient if ground transport or an overnight connection adds cost.",
+      checklist: "Compare SFO, OAK, and SJC only where they serve the itinerary; add ground-transfer time and cost; check the destination airport carefully; and review long-haul connection and baggage details."
+    },
+    "/flights-new-york-to-london": {
+      title: "Compare the whole New York–London journey",
+      copy: "For a New York–London trip, compare departure options from JFK and Newark with the London airport shown on the itinerary. A nonstop option, if available for the date, may save connection time, while a connecting itinerary can change the total journey substantially. Check the local arrival time, onward transport, baggage allowance, and whether the ticket includes every segment.",
+      checklist: "Confirm the departure and arrival airport codes; compare total travel time rather than flight time alone; check baggage and seat conditions; and verify current UK entry requirements with official government guidance."
+    },
+    "/flights-chicago-to-london": {
+      title: "Plan the Chicago–London crossing",
+      copy: "For Chicago to London, start by comparing the departure time from O'Hare, the London arrival airport, and the local arrival time. If an itinerary connects elsewhere, check the time between flights and whether you must change terminals or complete any transit formalities. The best fit depends on the dates, ticket terms, and your onward plans.",
+      checklist: "Confirm ORD and the London arrival airport; compare nonstop availability with connecting alternatives for your dates; review baggage and change terms; and check current UK entry and transit rules with official sources."
+    },
+    "/flights-new-york-to-paris": {
+      title: "Match your New York–Paris flight to your plans",
+      copy: "When comparing New York and Paris itineraries, verify whether the flight arrives at Charles de Gaulle or Orly and how you will continue into the city or onward to another destination. Arrival time, transport, baggage, and the time needed for a connection can affect the real convenience of the trip.",
+      checklist: "Check the Paris airport code; compare arrival time with hotel check-in or onward rail plans; confirm baggage and fare restrictions; and verify current French and Schengen entry requirements through official sources."
+    },
+    "/flights-new-york-to-dubai": {
+      title: "Prepare for a long-haul New York–Dubai itinerary",
+      copy: "For a New York–Dubai journey, compare the complete travel time, departure airport, Dubai arrival time, and any connection shown. On a long-haul itinerary, cabin, baggage, seat conditions, and the ability to change dates may matter more than a small difference in the listed journey time. Confirm the airport code and ticket conditions for every segment.",
+      checklist: "Review the full journey and connection buffer; check cabin and baggage inclusions; account for the local arrival date; and confirm current UAE entry and transit requirements with official government guidance."
+    },
+    "/flights-los-angeles-to-tokyo": {
+      title: "Check Tokyo airport and arrival-day details",
+      copy: "For Los Angeles to Tokyo, check whether the itinerary arrives at Haneda or Narita and how that affects your onward journey. Crossing the Pacific and the International Date Line means the local arrival date can differ from what you expect, so match the flight to hotel reservations, transfers, and any connecting travel.",
+      checklist: "Confirm HND versus NRT; check the local arrival date and time; compare nonstop and connecting options available on your dates; and verify Japan entry requirements with official sources."
+    },
+    "/flights-los-angeles-to-london": {
+      title: "Compare the Los Angeles–London itinerary",
+      copy: "For Los Angeles to London, compare the departure time, London arrival airport, and total time in transit. A connection can affect rest, baggage handling, and the chance of reaching onward transport on schedule. Review each segment and make sure the fare conditions match the flexibility you need.",
+      checklist: "Confirm the London arrival airport; compare total journey time and connection length; review baggage and change conditions; and check current UK entry or transit rules through official sources."
+    },
+    "/flights-miami-to-cancun": {
+      title: "Coordinate the Miami–Cancun flight with onward travel",
+      copy: "For Miami to Cancun, consider the arrival time alongside airport transfers, accommodation check-in, and any pre-booked activities. Compare the full itinerary and confirm whether baggage and seat selection are included. If the trip is part of a larger plan, allow a buffer between arrival and any separately booked transfer or event.",
+      checklist: "Confirm MIA and CUN; match arrival time to your transfer plans; check passport and entry requirements with official authorities; and review baggage, seat, and ticket-change conditions."
+    },
+    "/flights-san-francisco-to-tokyo": {
+      title: "Plan the San Francisco–Tokyo long-haul trip",
+      copy: "For San Francisco to Tokyo, compare the departure time, Tokyo arrival airport, and local arrival date. Haneda and Narita can lead to different onward journeys, so check the airport before arranging hotels or connections. For long-haul travel, review cabin and baggage inclusions along with the rules for changing the ticket.",
+      checklist: "Confirm SFO and HND or NRT; check local arrival date and onward transport; compare total journey time and any connection; and verify Japan entry requirements through official sources."
+    },
+    "/flights-usa-to-canada": {
+      title: "Compare the cross-border journey to Canada",
+      copy: "For travel from the USA to Canada, compare the destination city and airport, not just the country. A trip to a major hub can be very different from reaching a smaller city that needs another flight or ground transfer. Check connection time, baggage rules, and the documents required for your citizenship and itinerary.",
+      checklist: "Confirm the Canadian arrival airport; check whether onward travel is on the same ticket; review baggage and change rules; and verify passport and entry requirements through official Canadian guidance."
+    },
+    "/flights-usa-to-uk": {
+      title: "Choose a UK arrival airport and onward plan",
+      copy: "For USA–UK travel, the arrival airport can affect ground transport and onward connections. Compare total travel time, local arrival time, baggage conditions, and whether a connecting flight leaves enough time for the required airport process. Check entry and transit requirements using current official guidance before travel.",
+      checklist: "Confirm the UK arrival airport; compare nonstop and connecting itineraries for your dates; review baggage and ticket-change rules; and verify entry requirements through official UK sources."
+    },
+    "/flights-usa-to-europe": {
+      title: "Plan the first arrival and any onward European travel",
+      copy: "Europe is a region rather than a single destination, so begin with the city where you actually need to arrive. If the trip includes multiple countries, compare an open-jaw or multi-city itinerary with separate flights and account for airport transfers and time between bookings. Entry and transit rules can depend on your passport and route.",
+      checklist: "Choose the actual arrival city; check whether separate tickets require baggage collection or a new check-in; allow enough connection time; and verify current Schengen and destination-specific requirements with official sources."
+    },
+    "/flights-usa-to-mexico": {
+      title: "Match the Mexico arrival airport to your destination",
+      copy: "For USA–Mexico travel, choose the arrival city based on where you need to go next. Airport transfers can add significant time to a trip, especially when accommodation or an onward bus or domestic flight is in another area. Compare arrival time, baggage inclusions, and change conditions before choosing an itinerary.",
+      checklist: "Confirm the Mexican arrival airport; plan ground transport; check baggage and ticket terms; and verify current entry and passport requirements through official Mexican and US government guidance."
+    }
+  };
+
+  const guide = routeGuides[route];
+  if (guide) {
+    return [
+      "<section><h2>" + escapeHtml(guide.title) + "</h2><p>" + escapeHtml(guide.copy) + "</p></section>",
+      "<section><h2>Before you choose a ticket</h2><p>" + escapeHtml(guide.checklist) + "</p></section>",
+      "<section><h2>Confirm the details for your dates</h2><p>Schedules, available routes, baggage inclusions, seat options, and ticket conditions can change by travel date and fare. Compare the complete itinerary and confirm the rules for the exact ticket before paying. TicketDepart can help you talk through the details by phone at +1-888-958-0280, available 24/7.</p></section>"
+    ].join("\n  ");
+  }
+
   let topic = "flight booking assistance";
   let details = "flight routes, travel dates, departure and arrival airports, nonstop and connecting options, cabin preferences, baggage, and applicable fare conditions";
   let intent = "booking, itinerary planning, and reservation support";
