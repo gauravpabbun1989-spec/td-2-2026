@@ -13,11 +13,12 @@ export function PageContentExpansion({
   points,
   context,
 }: PageContentExpansionProps) {
-  const pointNames = points.map(([name]) => name).filter(Boolean);
-  const introFocus = intro.split(/\s+/).slice(0, 12).join(" ");
+  const pointNames = points.map(([name]) => name).filter(Boolean).slice(0, 6);
+  const introFocus = intro.split(/\s+/).slice(0, 14).join(" ");
+  const subjectLower = subject.toLowerCase();
   const planningContext =
     context ??
-    `For ${subject.toLowerCase()}, compare the details that actually affect this itinerary: travel dates, departure and arrival airports, connections, cabin, baggage, and the rules attached to the specific ticket.`;
+    `A useful starting point for ${subjectLower} is to work out what matters most on this trip: the dates you can travel, which airports are practical, how much time you have between connections, and what you need from the cabin and baggage allowance. Those details often narrow the options faster than looking at a long list of flights.`;
 
   return (
     <Section tone="muted" ocid="page.content_expansion">
@@ -25,42 +26,46 @@ export function PageContentExpansion({
         <SectionHeading
           eyebrow="Planning details"
           title={`Before you confirm ${subject}`}
-          description={`Use these final checks for ${subject.toLowerCase()}. This page focuses on: ${introFocus}.`}
+          description={`A few practical things to check for ${subjectLower}. This guide covers ${introFocus}.`}
         />
         <div className="mt-10 space-y-6 text-base leading-7 text-muted-foreground">
           <p>{planningContext}</p>
           <p>
-            Keep the decision specific to your trip. Confirm the passenger names,
-            travel dates, airport codes, flight times, connection points, cabin,
-            baggage allowance, ticketing deadline, and any disclosed service fee.
-            For an existing reservation, have the confirmation or ticket details
-            ready so the correct booking can be reviewed.
+            Before you settle on an itinerary, check the details that are easy to
+            overlook when comparing flights: the airport code, local arrival
+            time, connection length, baggage included in the fare, and the name
+            on each ticket. If you are calling about a booking you already have,
+            keep the confirmation number handy. It makes it easier to discuss the
+            right reservation rather than starting from scratch.
           </p>
-          <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
-            <h3 className="font-display text-lg font-semibold text-foreground">
-              Details to resolve for {subject.toLowerCase()}
-            </h3>
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">
-              {pointNames.slice(0, 6).map((name) => (
-                <li key={name}>{name}</li>
-              ))}
-              <li>Applicable changes, cancellations, refunds, credits, or fare differences</li>
-              <li>Live availability and the terms for the exact reservation</li>
-            </ul>
-          </div>
+          {pointNames.length > 0 && (
+            <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
+              <h3 className="font-display text-lg font-semibold text-foreground">
+                Questions worth asking about {subjectLower}
+              </h3>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">
+                {pointNames.map((name) => (
+                  <li key={name}>{name}</li>
+                ))}
+                <li>Whether a change, cancellation, refund, or credit has a cost or deadline</li>
+                <li>Which conditions apply to the exact ticket you are considering</li>
+              </ul>
+            </div>
+          )}
           <p>
-            Changes and cancellations are not interchangeable: the available
-            outcome depends on the ticket rules, how the reservation was issued,
-            provider policy, and current availability. Ask about the cost and
-            consequences before authorizing a change or cancellation. For
-            international travel, verify current passport, visa, transit, and
-            entry requirements with the relevant government or consular authority.
+            If plans might change, ask what the ticket allows before you pay.
+            Change fees, fare differences, refund options, and credit rules are
+            not the same thing, and the answer depends on the fare and how the
+            reservation was issued. For international trips, check passport,
+            visa, transit, and entry rules with the relevant government
+            authority; requirements can depend on your citizenship and route.
           </p>
           <p>
-            TicketDepart provides independent travel assistance and is not an
-            airline or an airline's official customer-service department. Airline
-            names identify the travel options being discussed; they do not imply
-            affiliation, endorsement, or official airline support.
+            TicketDepart is an independent travel assistance service, not an
+            airline or an airline's official customer-service department. We
+            can help you talk through the itinerary and booking details, while
+            airline schedules, availability, and ticket conditions must be
+            confirmed for the specific trip.
           </p>
         </div>
       </div>
