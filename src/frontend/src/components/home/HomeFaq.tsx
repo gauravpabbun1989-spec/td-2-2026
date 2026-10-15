@@ -45,7 +45,7 @@ export function HomeFaq() {
       <p className="mt-10 text-sm leading-relaxed text-muted-foreground">
         Still have a question?{" "}
         <Link
-          to="/contact"
+          to="/contact/"
           data-ocid="home.faq_contact_link"
           className="font-medium text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
