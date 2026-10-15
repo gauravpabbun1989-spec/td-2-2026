@@ -606,6 +606,8 @@ export const routeTree = rootRoute.addChildren([
 
 const router = createRouter({
   routeTree,
+  // Match the trailing-slash canonicals emitted by static SEO HTML and sitemap.xml.
+  trailingSlash: "always",
   defaultPreload: "intent",
   scrollRestoration: true,
 });
