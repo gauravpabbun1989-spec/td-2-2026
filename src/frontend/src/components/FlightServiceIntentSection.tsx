@@ -9,8 +9,18 @@ type Props = {
   airportLabel?: string;
 };
 
-export function FlightServiceIntentSection({ airline, routeLabel, country, hub, airportLabel }: Props) {
-  const subject = airline ? `${airline} flight` : routeLabel ? `${routeLabel} flight` : "your flight";
+export function FlightServiceIntentSection({
+  airline,
+  routeLabel,
+  country,
+  hub,
+  airportLabel,
+}: Props) {
+  const subject = airline
+    ? `${airline} flight`
+    : routeLabel
+      ? `${routeLabel} flight`
+      : "your flight";
   const brand = airline ? `${airline} ` : "";
   const destinationContext = country
     ? ` for travelers in the United States traveling to ${country}`
@@ -18,15 +28,42 @@ export function FlightServiceIntentSection({ airline, routeLabel, country, hub, 
   const hubContext = hub ? ` The main connection hub is ${hub}.` : "";
   const airportContext = airportLabel ? ` Major gateway context: ${airportLabel}.` : "";
 
+  // Keep airline + service combinations explicit for visitors searching for
+  // airline-specific changes, cancellations, and rebooking help. The shared
+  // layout remains the same; the wording reflects the service intent.
   const topics = [
-    [`${brand}change flight`, `Review a date, time, airport, or routing change on an existing ${subject} and discuss applicable fare differences or restrictions.`],
-    [`${brand}cancel flight`, `Discuss cancellation options for an existing ${subject}, including whether the ticket terms may allow a refund, credit, or another outcome.`],
-    [`${brand}rebook flight`, "If plans changed or a flight was cancelled, compare replacement dates and routing and review availability before rebooking."],
-    [`${brand}reschedule flight`, "For a date or schedule change, discuss alternative flights and the conditions attached to the existing reservation."],
-    [`${brand}flight change by phone`, "Phone assistance is useful when the itinerary is complex, involves multiple travelers, or needs a careful review of the existing ticket."],
-    [`${brand}flight cancellation assistance`, "A specialist can explain the next steps before you authorize a cancellation or change, with final outcomes determined by the ticket and applicable airline rules."],
-    [`${brand}flight booking by phone`, "Discuss a new reservation by phone, including dates, routing, travelers, cabin preferences, baggage questions, and fare conditions before you authorize a booking."],
-    [`${brand}rebook flight by phone`, "Phone assistance can help when you need to compare replacement dates, routing, connection options, or availability on an existing reservation."],
+    [
+      airline ? `${airline} Changes` : "Flight Changes",
+      `Review possible date, time, airport, or routing changes to an existing ${subject}. Eligibility and fare differences depend on the ticket and provider rules.`,
+    ],
+    [
+      airline ? `${airline} Cancellation` : "Flight Cancellation",
+      `Discuss cancellation timing, refund or credit possibilities, deadlines, and the effect on the existing ${subject} before authorizing a request.`,
+    ],
+    [
+      airline ? `${airline} Rebooking` : "Flight Rebooking",
+      `Compare replacement dates and routes for an existing ${subject}; options depend on ticket terms and current availability.`,
+    ],
+    [
+      airline ? `${airline} Rescheduling` : "Flight Rescheduling",
+      "Discuss alternative travel dates and schedules and confirm any fare difference or ticket restriction before a change is made.",
+    ],
+    [
+      airline ? `${airline} Changes by Phone` : "Flight Changes by Phone",
+      `A specialist can review the booking details and explain possible next steps for ${subject} changes before you decide how to proceed.`,
+    ],
+    [
+      airline ? `${airline} Cancellation Assistance` : "Flight Cancellation Assistance",
+      "Review the ticket rules, cancellation deadline, and possible refund or credit outcome before authorizing cancellation.",
+    ],
+    [
+      airline ? `${airline} Flight Booking` : "Flight Booking by Phone",
+      "Discuss dates, routing, travelers, cabin preferences, baggage questions, and fare conditions for a new reservation before authorizing a booking.",
+    ],
+    [
+      airline ? `${airline} Rebooking by Phone` : "Rebooking by Phone",
+      "Discuss replacement dates, routing, connection options, and availability for an existing reservation.",
+    ],
   ] as const;
 
   return (
@@ -34,7 +71,7 @@ export function FlightServiceIntentSection({ airline, routeLabel, country, hub, 
       <SectionHeading
         eyebrow="Flight changes, cancellations & rebooking"
         title={`${subject.charAt(0).toUpperCase() + subject.slice(1)} support when plans change`}
-        description={`Need to change, cancel, rebook, reschedule, or book ${subject}${destinationContext}? Review the common service requests below and call when you want to discuss the details with a travel specialist.${hubContext}${airportContext}`}
+        description={`Need to change, cancel, rebook, reschedule, or book ${subject}${destinationContext}? Review the service options below and call when you want to discuss the details with a travel specialist.${hubContext}${airportContext}`}
       />
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {topics.map(([title, body]) => (

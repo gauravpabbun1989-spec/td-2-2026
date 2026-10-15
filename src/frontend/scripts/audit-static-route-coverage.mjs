@@ -109,4 +109,50 @@ for (const url of countryUrls) {
   assert(visibleText.length >= 900, `insufficient static visible content for ${route}: ${visibleText.length} characters`);
 }
 
+
+// Every intended canonical page must be distinguishable in search metadata and
+// reachable through an HTML link, not only listed in sitemap.xml.
+function collectHtmlFiles(directory) {
+  const files = [];
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const fullPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) files.push(...collectHtmlFiles(fullPath));
+    else if (entry.isFile() && entry.name.endsWith(".html")) files.push(fullPath);
+  }
+  return files;
+}
+const allHtmlFiles = collectHtmlFiles(distDir);
+const allPageTitles = new Map();
+const allPageHeadings = new Map();
+const inboundLinks = new Map(locs.map((url) => [new URL(url).pathname, 0]));
+for (const file of allHtmlFiles) {
+  const html = read(file);
+  for (const match of html.matchAll(/\bhref=["']([^"'#]+)["']/gi)) {
+    try {
+      const linked = new URL(match[1], "https://ticketdepart.com");
+      if (linked.origin !== "https://ticketdepart.com") continue;
+      const linkedPath = linked.pathname === "/" ? "/" : linked.pathname.replace(/\/+$/, "") + "/";
+      if (inboundLinks.has(linkedPath)) inboundLinks.set(linkedPath, inboundLinks.get(linkedPath) + 1);
+    } catch {
+      // Ignore malformed href values; they cannot discover a canonical page.
+    }
+  }
+}
+for (const url of locs) {
+  const pathname = new URL(url).pathname;
+  const route = pathname === "/" ? "" : pathname.replace(/^\//, "").replace(/\/$/, "");
+  const html = read(path.join(distDir, route, "index.html"));
+  const title = html.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
+  const heading = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  const description = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)?.[1]?.trim() ?? "";
+  assert(title && title.length >= 20, "missing or weak title for " + url);
+  assert(heading && heading.length >= 10, "missing or weak H1 for " + url);
+  assert(description.length >= 60, "missing or weak meta description for " + url);
+  assert(!allPageTitles.has(title), "duplicate page title: " + title + " (" + allPageTitles.get(title) + " and " + url + ")");
+  assert(!allPageHeadings.has(heading), "duplicate H1: " + heading + " (" + allPageHeadings.get(heading) + " and " + url + ")");
+  allPageTitles.set(title, url);
+  allPageHeadings.set(heading, url);
+  assert((inboundLinks.get(pathname) ?? 0) > 0, "sitemap page has no crawlable internal link: " + url);
+}
+
 console.log(`Static SEO route audit passed: all ${countryUrls.length} USA-to-country pages, unique titles/H1s, canonicals, indexability, internal links, normalized sitemap, and robots.txt.`);

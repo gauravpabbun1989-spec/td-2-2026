@@ -65,35 +65,35 @@ export type NavItem = {
 
 export const NAV_ITEMS: readonly NavItem[] = [
   { label: "Home", to: "/" },
-  { label: "Flight Booking", to: "/flight-booking" },
-  { label: "Search Flights", to: "/flight-search" },
-  { label: "Book by Phone", to: "/book-a-flight-by-phone" },
-  { label: "International", to: "/international-flight-booking" },
-  { label: "Last-Minute", to: "/last-minute-flight-booking" },
-  { label: "Contact", to: "/contact" },
+  { label: "Flight Booking", to: "/flight-booking/" },
+  { label: "Search Flights", to: "/flight-search/" },
+  { label: "Book by Phone", to: "/book-a-flight-by-phone/" },
+  { label: "International", to: "/international-flight-booking/" },
+  { label: "Last-Minute", to: "/last-minute-flight-booking/" },
+  { label: "Contact", to: "/contact/" },
 ] as const;
 
 /** Legal pages, linked from the footer rather than the primary navigation. */
 export const AIRLINE_ITEMS: readonly NavItem[] = [
-  { label: "Delta", to: "/delta-airlines" },
-  { label: "United", to: "/united-airlines" },
-  { label: "American", to: "/american-airlines" },
-  { label: "Southwest", to: "/southwest-airlines" },
-  { label: "JetBlue", to: "/jetblue-airways" },
-  { label: "Alaska", to: "/alaska-airlines" },
-  { label: "British Airways", to: "/british-airways" },
-  { label: "Lufthansa", to: "/lufthansa" },
-  { label: "Air Canada", to: "/air-canada" },
-  { label: "SWISS", to: "/swiss-air" },
-  { label: "Qatar Airways", to: "/qatar-airways" },
-  { label: "Emirates", to: "/emirates" },
-  { label: "LOT Polish Airlines", to: "/lot-polish-airlines" },
-  { label: "Norse Atlantic Airways", to: "/norse-atlantic-airways" },
+  { label: "Delta", to: "/delta-airlines/" },
+  { label: "United", to: "/united-airlines/" },
+  { label: "American", to: "/american-airlines/" },
+  { label: "Southwest", to: "/southwest-airlines/" },
+  { label: "JetBlue", to: "/jetblue-airways/" },
+  { label: "Alaska", to: "/alaska-airlines/" },
+  { label: "British Airways", to: "/british-airways/" },
+  { label: "Lufthansa", to: "/lufthansa/" },
+  { label: "Air Canada", to: "/air-canada/" },
+  { label: "SWISS", to: "/swiss-air/" },
+  { label: "Qatar Airways", to: "/qatar-airways/" },
+  { label: "Emirates", to: "/emirates/" },
+  { label: "LOT Polish Airlines", to: "/lot-polish-airlines/" },
+  { label: "Norse Atlantic Airways", to: "/norse-atlantic-airways/" },
 ] as const;
 
 export const LEGAL_ITEMS: readonly NavItem[] = [
-  { label: "Privacy Policy", to: "/privacy" },
-  { label: "Terms of Service", to: "/terms" },
+  { label: "Privacy Policy", to: "/privacy/" },
+  { label: "Terms of Service", to: "/terms/" },
 ] as const;
 
 /** Absolute site origin used for canonical URLs and structured data. */
