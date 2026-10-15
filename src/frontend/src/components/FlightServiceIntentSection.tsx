@@ -21,7 +21,6 @@ export function FlightServiceIntentSection({
     : routeLabel
       ? `${routeLabel} flight`
       : "your flight";
-  const brand = airline ? `${airline} ` : "";
   const destinationContext = country
     ? ` for travelers in the United States traveling to ${country}`
     : "";
