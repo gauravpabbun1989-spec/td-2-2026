@@ -593,7 +593,7 @@ function CountryPageView({ page }: { page: CountryPage }) {
           <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">{page.intro}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <CallCta size="lg" ocid={`${id}.hero_call`} />
-            <Link to="/book-a-flight-by-phone" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground">
+            <Link to="/book-a-flight-by-phone/" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground">
               Book by phone <ArrowRight className="size-4" />
             </Link>
           </div>
