@@ -295,18 +295,18 @@ const AIRLINES: readonly AirlinePage[] = [
 ];
 
 const RELATED = [
-  ["/delta-airlines", "Delta Airlines"],
-  ["/united-airlines", "United Airlines"],
-  ["/american-airlines", "American Airlines"],
-  ["/southwest-airlines", "Southwest Airlines"],
-  ["/jetblue-airways", "JetBlue Airways"],
-  ["/alaska-airlines", "Alaska Airlines"],
-  ["/british-airways", "British Airways"],
-  ["/lufthansa", "Lufthansa"],
-  ["/air-canada", "Air Canada"],
-  ["/swiss-air", "SWISS"],
-  ["/qatar-airways", "Qatar Airways"],
-  ["/emirates", "Emirates"],
+  ["/delta-airlines/", "Delta Airlines"],
+  ["/united-airlines/", "United Airlines"],
+  ["/american-airlines/", "American Airlines"],
+  ["/southwest-airlines/", "Southwest Airlines"],
+  ["/jetblue-airways/", "JetBlue Airways"],
+  ["/alaska-airlines/", "Alaska Airlines"],
+  ["/british-airways/", "British Airways"],
+  ["/lufthansa/", "Lufthansa"],
+  ["/air-canada/", "Air Canada"],
+  ["/swiss-air/", "SWISS"],
+  ["/qatar-airways/", "Qatar Airways"],
+  ["/emirates/", "Emirates"],
 ] as const;
 
 function AirlineAssistancePage({ page }: { page: AirlinePage }) {
@@ -356,7 +356,7 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
           <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">{page.intro}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <CallCta size="lg" ocid={`${id}.hero_call`} />
-            <Link to="/book-a-flight-by-phone" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground">
+            <Link to="/book-a-flight-by-phone/" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground">
               Book by phone <ArrowRight className="size-4" />
             </Link>
           </div>
@@ -398,12 +398,12 @@ function AirlineAssistancePage({ page }: { page: AirlinePage }) {
           />
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              ["Book a flight by phone", "/book-a-flight-by-phone", "Start with a person and discuss your route, dates, and travelers."],
-              ["General flight booking", "/flight-booking", "Review domestic and international booking options."],
-              ["International flights", "/international-flight-booking", "Plan connections, cabins, flexible dates, and multi-city trips."],
+              ["Book a flight by phone", "/book-a-flight-by-phone/", "Start with a person and discuss your route, dates, and travelers."],
+              ["General flight booking", "/flight-booking/", "Review domestic and international booking options."],
+              ["International flights", "/international-flight-booking/", "Plan connections, cabins, flexible dates, and multi-city trips."],
               ["Last-minute flights", "/last-minute-flight-booking", "Discuss urgent travel, nearby airports, and ticketing timing."],
-              ["Business class", "/business-class-flight-booking", "Explore premium-cabin schedules, routing, and fare conditions."],
-              ["Send trip details", "/contact", "Request a callback if you are not ready to call yet."],
+              ["Business class", "/business-class-flight-booking/", "Explore premium-cabin schedules, routing, and fare conditions."],
+              ["Send trip details", "/contact/", "Request a callback if you are not ready to call yet."],
             ].map(([label, to, description]) => (
               <Link
                 key={to}
