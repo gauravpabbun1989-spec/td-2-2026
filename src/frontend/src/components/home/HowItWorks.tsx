@@ -26,7 +26,7 @@ export function HowItWorks() {
       <div className="relative mt-12 overflow-hidden rounded-[2rem] bg-white p-7 shadow-premium ring-1 ring-black/5 sm:p-9">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div><p className="label-board text-accent">Ready when you are</p><p className="mt-2 font-display text-2xl font-semibold">Get help from a real travel specialist.</p><p className="mt-2 text-sm text-muted-foreground">Prefer not to call? Send your trip details online and request a callback.</p></div>
-          <div className="flex flex-col gap-2 sm:flex-row"><CallCta size="lg" ocid="home.how_it_works_call_button" /><Link to="/contact" data-ocid="home.how_it_works_trip_request_link" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/20 px-5 text-sm font-semibold text-primary hover:bg-muted">Request a callback <ArrowRight className="size-4" /></Link></div>
+          <div className="flex flex-col gap-2 sm:flex-row"><CallCta size="lg" ocid="home.how_it_works_call_button" /><Link to="/contact/" data-ocid="home.how_it_works_trip_request_link" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/20 px-5 text-sm font-semibold text-primary hover:bg-muted">Request a callback <ArrowRight className="size-4" /></Link></div>
         </div>
       </div>
     </Section>

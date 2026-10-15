@@ -22,7 +22,7 @@ import {
   Users,
 } from "lucide-react";
 
-const PAGE_PATH = "/flight-booking";
+const PAGE_PATH = "/flight-booking/";
 const PAGE_TITLE = "Flight Booking Assistance by Phone in the USA | TicketDepart";
 const PAGE_DESCRIPTION =
   "Need help booking a flight by phone? Discuss U.S. domestic and international trips, multi-city itineraries, premium cabins, and group travel with an independent specialist, 24/7 at +1-888-958-0280.";
@@ -131,31 +131,31 @@ const PROCESS = [
 
 const AIRLINE_LINKS = [
   {
-    to: "/delta-airlines",
+    to: "/delta-airlines/",
     label: "Delta Airlines booking assistance",
     description:
       "Routes, cabins, and connection guidance for Delta Airlines itineraries.",
   },
   {
-    to: "/united-airlines",
+    to: "/united-airlines/",
     label: "United Airlines booking assistance",
     description:
       "Hub connections, international routings, and fare questions for United Airlines.",
   },
   {
-    to: "/american-airlines",
+    to: "/american-airlines/",
     label: "American Airlines booking assistance",
     description:
       "Domestic and international planning for American Airlines itineraries.",
   },
   {
-    to: "/business-class-flight-booking",
+    to: "/business-class-flight-booking/",
     label: "Business class booking assistance",
     description:
       "Compare premium-cabin routing, schedules, connections, and fare conditions.",
   },
   {
-    to: "/international-flight-booking",
+    to: "/international-flight-booking/",
     label: "International flight booking assistance",
     description:
       "Review international routes, connections, cabins, and fare conditions.",
@@ -232,7 +232,7 @@ export function FlightBookingPage() {
                 className="w-full sm:w-auto"
               />
               <Link
-                to="/contact"
+                to="/contact/"
                 data-ocid="flight_booking.contact_link"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
@@ -509,7 +509,7 @@ export function FlightBookingPage() {
             change, and ticketing questions are worth asking.
           </p>
           <Link
-            to="/how-to-book-a-flight-by-phone"
+            to="/how-to-book-a-flight-by-phone/"
             data-ocid="flight_booking.phone_guide_link"
             className="mt-4 inline-flex items-center gap-2 font-semibold text-primary underline underline-offset-4 hover:text-accent"
           >
@@ -522,7 +522,7 @@ export function FlightBookingPage() {
           <p>
             Planning an international itinerary?{" "}
             <Link
-              to="/international-flight-booking"
+              to="/international-flight-booking/"
               data-ocid="flight_booking.international_inline_link"
               className="rounded-sm font-semibold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
@@ -533,7 +533,7 @@ export function FlightBookingPage() {
           <p>
             Booking a trip that does not fit one carrier?{" "}
             <Link
-              to="/contact"
+              to="/contact/"
               data-ocid="flight_booking.contact_inline_link"
               className="rounded-sm font-semibold text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
@@ -668,7 +668,7 @@ export function FlightBookingPage() {
               className="w-full sm:w-auto"
             />
             <Link
-              to="/contact"
+              to="/contact/"
               data-ocid="flight_booking.cta_contact_link"
               className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-primary-foreground/30 px-6 text-base font-medium text-primary-foreground transition-smooth hover:bg-primary-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:w-auto"
             >

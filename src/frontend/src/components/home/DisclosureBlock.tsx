@@ -40,7 +40,7 @@ export function DisclosureBlock() {
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
               You can read more about{" "}
               <Link
-                to="/flight-booking"
+                to="/flight-booking/"
                 data-ocid="home.disclosure_flight_booking_link"
                 className="font-medium text-primary underline underline-offset-4 transition-smooth hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >

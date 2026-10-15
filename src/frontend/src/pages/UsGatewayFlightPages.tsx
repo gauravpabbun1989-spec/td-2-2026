@@ -295,7 +295,7 @@ function GatewayFlightPage({ page }: { page: GatewayPage }) {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <CallCta size="lg" ocid={`${id}.hero_call`} />
             <Link
-              to="/flight-booking"
+              to="/flight-booking/"
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground"
             >
               Explore flight booking help <ArrowRight className="size-4" />
@@ -368,12 +368,12 @@ function GatewayFlightPage({ page }: { page: GatewayPage }) {
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
             ...(CITY_ROUTE_LINKS[page.city] ?? []),
-            ["Flight booking", "/flight-booking"],
-            ["International flights", "/international-flight-booking"],
+            ["Flight booking", "/flight-booking/"],
+            ["International flights", "/international-flight-booking/"],
             ["Last-minute flights", "/last-minute-flight-booking"],
-            ["Multi-city flights", "/multi-city-flight-booking"],
-            ["Group flights", "/group-flight-booking"],
-            ["Book by phone", "/book-a-flight-by-phone"],
+            ["Multi-city flights", "/multi-city-flight-booking/"],
+            ["Group flights", "/group-flight-booking/"],
+            ["Book by phone", "/book-a-flight-by-phone/"],
           ].map(([label, to]) => (
             <Link
               key={to}

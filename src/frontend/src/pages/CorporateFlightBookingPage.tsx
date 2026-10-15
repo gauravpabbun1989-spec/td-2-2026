@@ -42,7 +42,7 @@ export function CorporateFlightBookingPage() {
           <p className="label-board text-accent">Corporate flight booking assistance</p>
           <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">Corporate flight booking by phone</h1>
           <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">Need to arrange business travel for yourself, employees, executives, or clients? Discuss routes, schedules, business-class options, connections, traveler details, and fare conditions with a TicketDepart travel specialist.</p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row"><CallCta size="lg" /><Link to="/contact" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground">Request a callback <ArrowRight className="size-4" /></Link></div>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row"><CallCta size="lg" /><Link to="/contact/" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground">Request a callback <ArrowRight className="size-4" /></Link></div>
           <p className="mt-5 text-sm text-muted-foreground">{SITE.hours} · Independent travel agency</p>
         </div>
       </Section>

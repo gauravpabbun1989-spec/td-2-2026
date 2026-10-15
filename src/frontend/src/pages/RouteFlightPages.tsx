@@ -166,7 +166,7 @@ function RoutePage({ page }: { page: RoutePage }) {
           <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">{page.intro}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <CallCta size="lg" ocid={`${id}.hero_call`} />
-            <Link to="/flight-booking" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground">
+            <Link to="/flight-booking/" className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground">
               More flight booking help <ArrowRight className="size-4" />
             </Link>
           </div>
@@ -215,11 +215,11 @@ function RoutePage({ page }: { page: RoutePage }) {
         <SectionHeading eyebrow="Related booking help" title="Continue planning" description="Move from a route search to broader booking assistance." />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            [`Flights from ${page.origin}`, originGatewayPath[page.origin] ?? "/flight-booking"],
-            ["Flight booking", "/flight-booking"],
-            ["International flights", "/international-flight-booking"],
+            [`Flights from ${page.origin}`, originGatewayPath[page.origin] ?? "/flight-booking/"],
+            ["Flight booking", "/flight-booking/"],
+            ["International flights", "/international-flight-booking/"],
             ["Last-minute flights", "/last-minute-flight-booking"],
-            ["Book by phone", "/book-a-flight-by-phone"],
+            ["Book by phone", "/book-a-flight-by-phone/"],
           ].map(([label, to]) => (
             <Link key={to} to={to} className="rounded-2xl border border-border bg-card p-5 shadow-subtle hover:shadow-elevated">
               <span className="font-display text-base font-semibold">{label}</span>

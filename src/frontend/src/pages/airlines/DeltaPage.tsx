@@ -17,7 +17,7 @@ import {
   Ticket,
 } from "lucide-react";
 
-const PATH = "/delta-airlines";
+const PATH = "/delta-airlines/";
 
 const TERMINAL_IMAGE = {
   src: "/assets/generated/delta-terminal-concourse.dim_1200x800.jpg",
@@ -146,12 +146,12 @@ const FAQS = [
 ] as const;
 
 const RELATED = [
-  { label: "United Airlines assistance", to: "/united-airlines" },
-  { label: "American Airlines assistance", to: "/american-airlines" },
-  { label: "International flight booking assistance", to: "/international-flight-booking" },
-  { label: "General flight booking", to: "/flight-booking" },
-  { label: "Business class booking assistance", to: "/business-class-flight-booking" },
-  { label: "Book a flight by phone", to: "/book-a-flight-by-phone" },
+  { label: "United Airlines assistance", to: "/united-airlines/" },
+  { label: "American Airlines assistance", to: "/american-airlines/" },
+  { label: "International flight booking assistance", to: "/international-flight-booking/" },
+  { label: "General flight booking", to: "/flight-booking/" },
+  { label: "Business class booking assistance", to: "/business-class-flight-booking/" },
+  { label: "Book a flight by phone", to: "/book-a-flight-by-phone/" },
 ] as const;
 
 /**
@@ -208,7 +208,7 @@ export function DeltaPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <CallCta size="lg" ocid="delta.call_button" />
               <Link
-                to="/flight-booking"
+                to="/flight-booking/"
                 data-ocid="delta.booking_link"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary transition-smooth hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >

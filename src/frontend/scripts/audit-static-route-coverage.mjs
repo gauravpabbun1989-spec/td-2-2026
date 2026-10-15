@@ -46,6 +46,30 @@ const normalized = locs.map((url) => {
 });
 assert(new Set(normalized).size === normalized.length, "built sitemap contains duplicate paths after slash normalization");
 
+// Audit every indexable sitemap URL, not only the country landing pages.
+// This catches slash, case, encoded-character, and canonical drift across the
+// entire site before a build can be published.
+const canonicalOwners = new Map();
+for (const url of locs) {
+  const parsed = new URL(url);
+  const pathname = parsed.pathname;
+  assert(pathname === "/" || /^\/[a-z0-9-]+(?:\/[a-z0-9-]+)*\/$/.test(pathname),
+    `sitemap path is not in the site's lowercase, single-trailing-slash format: ${url}`);
+  const route = pathname === "/" ? "" : pathname.replace(/^\//, "").replace(/\/$/, "");
+  const htmlPath = path.join(distDir, route, "index.html");
+  assert(fs.existsSync(htmlPath), `missing static HTML for sitemap URL: ${url}`);
+  const html = read(htmlPath);
+  const canonical = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1]
+    ?? html.match(/<link\s+href=["']([^"']+)["']\s+rel=["']canonical["']/i)?.[1];
+  assert(canonical === url, `canonical does not exactly match sitemap URL; sitemap=${url}; canonical=${canonical ?? "missing"}`);
+  const robots = html.match(/<meta\s+name=["']robots["']\s+content=["']([^"']+)["']/i)?.[1] ?? "";
+  assert(!/noindex/i.test(robots), `indexable sitemap URL is marked noindex: ${url} (${robots || "missing robots meta"})`);
+  const previous = canonicalOwners.get(canonical);
+  assert(!previous, `multiple sitemap URLs share one canonical: ${previous} and ${url}`);
+  canonicalOwners.set(canonical, url);
+}
+
+
 const resultsHtmlPath = path.join(distDir, "flight-search-results", "index.html");
 assert(fs.existsSync(resultsHtmlPath), "missing static HTML for /flight-search-results");
 const resultsHtml = read(resultsHtmlPath);
