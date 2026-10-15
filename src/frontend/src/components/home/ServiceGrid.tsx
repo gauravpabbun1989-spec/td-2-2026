@@ -4,12 +4,12 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, BriefcaseBusiness, CalendarClock, Globe2, Plane, Route, Users } from "lucide-react";
 
 const SERVICES = [
-  { icon: Plane, title: "Flight booking assistance", href: "/flight-booking", description: "Compare routes, schedules, cabins, baggage needs, and fare details with a travel specialist." },
-  { icon: Globe2, title: "International travel", href: "/international-flight-booking", description: "Think through long-haul routes, connections, layovers, and practical booking details." },
-  { icon: Route, title: "Multi-city itineraries", href: "/multi-city-flight-booking", description: "Coordinate multiple destinations into one organized itinerary with realistic connections." },
-  { icon: BriefcaseBusiness, title: "Business & first class", href: "/business-class-flight-booking", description: "Explore premium-cabin options with clear information about seats, baggage, and fare conditions." },
-  { icon: Users, title: "Group travel", href: "/group-flight-booking", description: "Organize family, friends, teams, or colleagues around one coordinated trip plan." },
-  { icon: CalendarClock, title: "Changes & rebooking", href: "/flight-change-assistance", description: "Understand available options and fare conditions when your plans change." },
+  { icon: Plane, title: "Flight booking assistance", href: "/flight-booking/", description: "Compare routes, schedules, cabins, baggage needs, and fare details with a travel specialist." },
+  { icon: Globe2, title: "International travel", href: "/international-flight-booking/", description: "Think through long-haul routes, connections, layovers, and practical booking details." },
+  { icon: Route, title: "Multi-city itineraries", href: "/multi-city-flight-booking/", description: "Coordinate multiple destinations into one organized itinerary with realistic connections." },
+  { icon: BriefcaseBusiness, title: "Business & first class", href: "/business-class-flight-booking/", description: "Explore premium-cabin options with clear information about seats, baggage, and fare conditions." },
+  { icon: Users, title: "Group travel", href: "/group-flight-booking/", description: "Organize family, friends, teams, or colleagues around one coordinated trip plan." },
+  { icon: CalendarClock, title: "Changes & rebooking", href: "/flight-change-assistance/", description: "Understand available options and fare conditions when your plans change." },
 ] as const;
 
 export function ServiceGrid() {
