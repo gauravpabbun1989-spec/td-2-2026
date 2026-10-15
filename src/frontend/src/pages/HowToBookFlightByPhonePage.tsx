@@ -11,7 +11,7 @@ import { SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 
-const PAGE_PATH = "/how-to-book-a-flight-by-phone";
+const PAGE_PATH = "/how-to-book-a-flight-by-phone/";
 const PAGE_TITLE = "How to Book a Flight by Phone | TicketDepart";
 const PAGE_DESCRIPTION =
   "Learn how phone flight booking works, what information to prepare, what to ask about fares and changes, and when speaking with a travel specialist can help.";
@@ -112,7 +112,7 @@ export function HowToBookFlightByPhonePage() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <CallCta size="lg" ocid="phone_booking_guide.call_button" />
             <Link
-              to="/flight-booking"
+              to="/flight-booking/"
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-card px-6 text-base font-medium text-primary hover:bg-primary hover:text-primary-foreground"
             >
               See flight booking services
@@ -258,9 +258,9 @@ export function HowToBookFlightByPhonePage() {
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {[
-            ["Delta Airlines", "/delta-airlines"],
-            ["United Airlines", "/united-airlines"],
-            ["American Airlines", "/american-airlines"],
+            ["Delta Airlines", "/delta-airlines/"],
+            ["United Airlines", "/united-airlines/"],
+            ["American Airlines", "/american-airlines/"],
           ].map(([label, to]) => (
             <Link
               key={to}
