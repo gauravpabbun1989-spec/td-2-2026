@@ -47,11 +47,6 @@ describe("static route HTML uses the full airline names", () => {
     mkdirSync(DIST_DIR, { recursive: true });
     writeFileSync(resolve(DIST_DIR, "index.html"), INDEX_FIXTURE);
     execFileSync("node", [SCRIPT], { cwd: FRONTEND_DIR, stdio: "pipe" });
-    execFileSync(
-      "node",
-      [resolve(FRONTEND_DIR, "scripts/harden-static-route-html.mjs")],
-      { cwd: FRONTEND_DIR, stdio: "pipe" },
-    );
   });
 
   afterAll(() => {
