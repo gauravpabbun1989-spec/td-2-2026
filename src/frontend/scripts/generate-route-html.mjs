@@ -758,11 +758,9 @@ function semanticExpansion(route, meta) {
     intent = "comparing available flight options before booking";
   }
 
-  const routeLabelText = meta.heading.replace(/\s+by phone$/i, "");
-  return [
-    "<p><strong>Related " + escapeHtml(topic) + ":</strong> " + escapeHtml(routeLabelText) + " covers " + escapeHtml(details) + ". These details can matter when comparing " + escapeHtml(intent) + " and deciding whether an itinerary fits your schedule.</p>",
-    "<section><h2>Flight booking details to review</h2><p>Before confirming travel, review the departure and arrival airports, dates and times, connection points, cabin, baggage terms, ticketing deadlines, and applicable change or cancellation conditions. For international travel, travelers should independently verify current passport, visa, and entry requirements with the appropriate government or consular authority.</p></section>",
-  ].join("\n  ");
+  // Keep the route's own summary and editorial sections without adding
+  // near-identical boilerplate to dozens of URLs.
+  return "";
 }
 
 function routeHtml(route, meta) {
@@ -826,13 +824,12 @@ function routeHtml(route, meta) {
   </head>`,
   );
 
+  // Prefer editorial sections written for this route. If none exist, retain
+  // the route-specific heading, summary, call action, and related links rather
+  // than padding the page with the same generic sections used across URLs.
   const staticContent = STATIC_SEO_CONTENT[route] ?? {
     eyebrow: meta.heading,
-    sections: [
-      ["Plan your trip", "Discuss your route, dates, travelers, cabin preferences, nearby airports, connections, baggage, and the booking terms that apply."],
-      ["Talk with a specialist", "Call when you want help working through an itinerary or when the trip has details that are easier to explain by phone."],
-      ["Review the details", "Availability, pricing, ticketing deadlines, baggage, changes, and cancellations depend on the specific itinerary and provider."]
-    ]
+    sections: [],
   };
   const sectionHtml = staticContent.sections
     .map(([heading, text]) => `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(text)}</p></section>`)

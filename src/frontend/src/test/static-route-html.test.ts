@@ -12,15 +12,10 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 /**
  * Cover for the static route HTML generator (`scripts/generate-route-html.mjs`).
  *
- * The generator writes crawlable entry points for the airline routes, and the
- * accepted request expands the airline display names in their titles,
- * descriptions, and headings. The generated files are build artifacts, so no
- * component test reaches them; this runs the real script against a minimal
- * `dist/index.html` fixture and asserts the emitted HTML.
- *
- * The fixture is written under the frontend package's `dist/` (the directory
- * the script resolves from `process.cwd()`) and removed afterwards. The script
- * is production code and is never modified.
+ * The static route generator and hardening pass run against a minimal
+ * `dist/index.html` fixture. These tests protect route-specific crawlable
+ * content and metadata while preventing repeated boilerplate sections from
+ * being injected across booking URLs.
  */
 
 const FRONTEND_DIR = process.cwd();
@@ -52,6 +47,11 @@ describe("static route HTML uses the full airline names", () => {
     mkdirSync(DIST_DIR, { recursive: true });
     writeFileSync(resolve(DIST_DIR, "index.html"), INDEX_FIXTURE);
     execFileSync("node", [SCRIPT], { cwd: FRONTEND_DIR, stdio: "pipe" });
+    execFileSync(
+      "node",
+      [resolve(FRONTEND_DIR, "scripts/harden-static-route-html.mjs")],
+      { cwd: FRONTEND_DIR, stdio: "pipe" },
+    );
   });
 
   afterAll(() => {
@@ -99,6 +99,17 @@ describe("static route HTML uses the full airline names", () => {
       // "United" or "Delta" airline label is not.
       expect(html).not.toMatch(/\bDelta\b(?! Airlines)/);
       expect(html).not.toMatch(/\bUnited\b(?! Airlines| States)/);
+    }
+  });
+
+  it("does not append repeated generic SEO paragraphs to booking routes", () => {
+    for (const route of ["/flight-booking", "/book-a-flight-by-phone"] as const) {
+      const html = readGenerated(route);
+      expect(html).not.toContain("Flight booking details to review");
+      expect(html).not.toContain("Related flight booking assistance:");
+      expect(html).not.toContain("Before confirming travel, review the departure and arrival airports");
+      expect(html).toContain("<h1>");
+      expect(html).toContain("tel:+18889580280");
     }
   });
 
