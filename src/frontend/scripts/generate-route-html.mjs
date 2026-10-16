@@ -715,8 +715,7 @@ function semanticExpansion(route, meta) {
   if (guide) {
     return [
       "<section><h2>" + escapeHtml(guide.title) + "</h2><p>" + escapeHtml(guide.copy) + "</p></section>",
-      "<section><h2>Before you choose a ticket</h2><p>" + escapeHtml(guide.checklist) + "</p></section>",
-      "<section><h2>Confirm the details for your dates</h2><p>Schedules, available routes, baggage inclusions, seat options, and ticket conditions can change by travel date and fare. Compare the complete itinerary and confirm the rules for the exact ticket before paying. TicketDepart can help you talk through the details by phone at +1-888-958-0280, available 24/7.</p></section>"
+      "<section><h2>Before you choose a ticket</h2><p>" + escapeHtml(guide.checklist) + "</p></section>"
     ].join("\n  ");
   }
 
