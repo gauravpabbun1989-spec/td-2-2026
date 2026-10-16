@@ -73,6 +73,15 @@ describe("per-route metadata", () => {
     },
   );
 
+  it("keeps descriptions concise and does not append a duplicate phone CTA", async () => {
+    renderRoute("/flight-booking");
+    await screen.findAllByRole("heading", { level: 1 });
+    const description = metaContent('meta[name="description"]') ?? "";
+    expect(description.length).toBeLessThanOrEqual(155);
+    expect((description.match(/(?:\+?1[\s().-]*)?888[\s().-]*958[\s().-]*0280/g) ?? []).length).toBeLessThanOrEqual(1);
+    expect(description).not.toMatch(/Call \+1-888-958-0280\. Call/i);
+  });
+
   it("gives each route a distinct title", async () => {
     const titles = new Set<string>();
     for (const path of ROUTES) {

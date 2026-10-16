@@ -75,13 +75,8 @@ export function Seo({
       SITE.phoneDisplay,
     ),
   );
-  const phoneDigits = SITE.phoneDisplay.replace(/\D/g, "");
-  const listingDescription = normalizedDescription.replace(/\D/g, "").includes(phoneDigits)
-    ? normalizedDescription
-    : trimToLimit(
-        `${trimToLimit(normalizedDescription, 125).replace(/\.$/, "")} Call ${SITE.phoneDisplay}.`,
-        155,
-      );
+  // Keep descriptions concise and route-specific; never append a second phone CTA.
+  const listingDescription = normalizedDescription;
   const effectiveStructuredData =
     structuredData.length > 0
       ? structuredData
