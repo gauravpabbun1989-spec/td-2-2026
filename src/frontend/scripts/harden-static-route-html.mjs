@@ -27,13 +27,6 @@ function trimDescription(description) {
   return (boundary > 100 ? cut.slice(0, boundary) : cut).replace(/[,:;\-]+$/, "") + ".";
 }
 
-const sharedSections = [
-  ["Plan the itinerary", "Before booking, review the departure city or airport, destination, travel dates, traveler count, cabin preference, connection needs, baggage questions, and any schedule constraints. A clear outline makes it easier to compare practical itinerary choices and identify details that need confirmation."],
-  ["Review the booking details", "Flight availability, schedules, ticket conditions, baggage allowances, change rules, cancellation terms, and applicable charges depend on the specific itinerary and provider. Review the details that apply to the selected option before payment, especially when travel includes multiple carriers, international connections, family travelers, or a tight departure schedule."],
-  ["Get independent assistance", "TicketDepart provides independent travel reservation assistance and is not an airline or the official customer-service department of any airline. A travel specialist can help you work through the information needed for a booking, but airline schedules, availability, policies, and entry requirements can change. Verify important travel-document requirements with the relevant government or official provider."],
-  ["Related booking help", "Use the related guides to compare common booking situations, including phone booking, international travel, business-class trips, group travel, changes, cancellations, and airline-specific assistance. When you are ready to discuss an itinerary, the site provides a phone option for 24/7 reservation assistance."]
-];
-
 function walk(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   const files = [];
@@ -91,10 +84,7 @@ for (const file of walk(distDir)) {
         .replace(/\s*\|\s*TicketDepart\s*$/i, "");
       main = main.replace(/<main>/i, `<main><h1>${heading}</h1>`);
     }
-    if (!/<h2\b/i.test(main)) {
-      const sectionHtml = sharedSections.slice(0, 3).map(([h,p]) => `<section><h2>${h}</h2><p>${p}</p></section>`).join("");
-      main = main.replace("</main>", sectionHtml + "</main>");
-    }
+
     html = html.replace(mainMatch[0], main);
   }
 

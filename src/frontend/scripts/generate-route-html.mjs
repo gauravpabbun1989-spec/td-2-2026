@@ -715,54 +715,24 @@ function semanticExpansion(route, meta) {
   if (guide) {
     return [
       "<section><h2>" + escapeHtml(guide.title) + "</h2><p>" + escapeHtml(guide.copy) + "</p></section>",
-      "<section><h2>Before you choose a ticket</h2><p>" + escapeHtml(guide.checklist) + "</p></section>",
-      "<section><h2>Confirm the details for your dates</h2><p>Schedules, available routes, baggage inclusions, seat options, and ticket conditions can change by travel date and fare. Compare the complete itinerary and confirm the rules for the exact ticket before paying. TicketDepart can help you talk through the details by phone at +1-888-958-0280, available 24/7.</p></section>"
+      "<section><h2>Before you choose a ticket</h2><p>" + escapeHtml(guide.checklist) + "</p></section>"
     ].join("\n  ");
   }
 
-  let topic = "flight booking assistance";
-  let details = "flight routes, travel dates, departure and arrival airports, nonstop and connecting options, cabin preferences, baggage, and applicable fare conditions";
-  let intent = "booking, itinerary planning, and reservation support";
-
-  if (/airlines$/.test(route) || /\/american-airlines|\/delta-airlines|\/united-airlines|\/jetblue-airways|\/alaska-airlines|\/british-airways|\/lufthansa|\/air-canada|\/swiss-air|\/qatar-airways|\/emirates|\/norse-atlantic-airways|\/lot-polish-airlines/.test(route)) {
-    topic = "airline flight booking and reservation assistance";
-    details = "new reservations, flight changes, cancellations, rebooking, connections, baggage, cabin options, and multi-city itineraries";
-    intent = "airline-specific trip planning and reservation questions";
-  } else if (/flights-(from|usa-to|.*-to-)/.test(route)) {
-    topic = "route-specific flight booking assistance";
-    details = "departure airports, destination airports, travel dates, nonstop and connecting flights, connection times, cabin choices, baggage, and itinerary flexibility";
-    intent = "route planning and flight-search decisions";
-  } else if (/business-class|corporate/.test(route)) {
-    topic = "business and premium-cabin flight booking";
-    details = "business-class cabins, corporate travel schedules, airport choices, connections, baggage allowances, flexible dates, and fare conditions";
-    intent = "executive, corporate, and premium-cabin travel planning";
-  } else if (/same-day|last-minute/.test(route)) {
-    topic = "urgent and same-day flight booking";
-    details = "current itinerary availability, nearby departure airports, same-day ticketing timing, connecting options, travel dates, and applicable fare conditions";
-    intent = "time-sensitive flight planning";
-  } else if (/family|infant|pet|group/.test(route)) {
-    topic = "family, group, and special-travel flight booking";
-    details = "traveler details, seating questions, baggage, connections, dates, cabin preferences, and requirements that can affect the itinerary";
-    intent = "coordinating travelers and special trip requirements";
-  } else if (/change|cancellation/.test(route)) {
-    topic = "flight change and cancellation assistance";
-    details = "existing reservations, travel dates, routing, fare differences, refund or credit questions, deadlines, and provider-specific ticket rules";
-    intent = "managing an existing reservation";
-  } else if (/baggage/.test(route)) {
-    topic = "flight baggage assistance";
-    details = "carry-on, checked baggage, excess baggage, special items, pet or infant baggage questions, and airline-specific baggage rules";
-    intent = "understanding baggage requirements before travel";
-  } else if (/flight-search/.test(route)) {
-    topic = "flight schedule search and itinerary comparison";
-    details = "departure and arrival airports, travel dates, airline options, nonstop or connecting itineraries, duration, stops, and cabin information";
-    intent = "comparing available flight options before booking";
+  // USA-to-country pages are generated from the sitemap, so give each one
+  // destination-specific planning guidance instead of a sitewide boilerplate
+  // paragraph. The destination label is derived from that page's own heading.
+  if (route.startsWith("/flights-usa-to-")) {
+    const destination = meta.heading.match(/^USA to (.+?) flights/i)?.[1] ?? "your destination";
+    return [
+      "<section><h2>Planning a USA-to-" + escapeHtml(destination) + " itinerary</h2><p>Compare U.S. departure airports with arrival gateways in " + escapeHtml(destination) + ", then review travel dates, total journey time, connection points, baggage allowances, cabin options, and fare conditions together. Airport choices and schedules vary by itinerary, so confirm the airport codes and current ticket rules for your exact dates before deciding.</p></section>",
+      "<section><h2>Details to confirm before booking</h2><p>Check whether each connection is on one ticket, whether baggage is checked through, and how any date or routing change would be handled under the fare rules. For international travel, verify passport, visa, and entry requirements with the appropriate official authorities. TicketDepart provides independent reservation assistance by phone; it is not an airline's official customer-service department.</p></section>",
+    ].join("\n  ");
   }
 
-  const routeLabelText = meta.heading.replace(/\s+by phone$/i, "");
-  return [
-    "<p><strong>Related " + escapeHtml(topic) + ":</strong> " + escapeHtml(routeLabelText) + " covers " + escapeHtml(details) + ". These details can matter when comparing " + escapeHtml(intent) + " and deciding whether an itinerary fits your schedule.</p>",
-    "<section><h2>Flight booking details to review</h2><p>Before confirming travel, review the departure and arrival airports, dates and times, connection points, cabin, baggage terms, ticketing deadlines, and applicable change or cancellation conditions. For international travel, travelers should independently verify current passport, visa, and entry requirements with the appropriate government or consular authority.</p></section>",
-  ].join("\n  ");
+  // Keep existing route-specific summaries and editorial guidance without
+  // adding near-identical boilerplate to dozens of unrelated URLs.
+  return "";
 }
 
 function routeHtml(route, meta) {
@@ -826,13 +796,12 @@ function routeHtml(route, meta) {
   </head>`,
   );
 
+  // Prefer editorial sections written for this route. If none exist, retain
+  // the route-specific heading, summary, call action, and related links rather
+  // than padding the page with the same generic sections used across URLs.
   const staticContent = STATIC_SEO_CONTENT[route] ?? {
     eyebrow: meta.heading,
-    sections: [
-      ["Plan your trip", "Discuss your route, dates, travelers, cabin preferences, nearby airports, connections, baggage, and the booking terms that apply."],
-      ["Talk with a specialist", "Call when you want help working through an itinerary or when the trip has details that are easier to explain by phone."],
-      ["Review the details", "Availability, pricing, ticketing deadlines, baggage, changes, and cancellations depend on the specific itinerary and provider."]
-    ]
+    sections: [],
   };
   const sectionHtml = staticContent.sections
     .map(([heading, text]) => `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(text)}</p></section>`)
