@@ -115,6 +115,14 @@ describe("static route HTML uses the full airline names", () => {
     expect(html).not.toContain("Confirm the details for your dates");
   });
 
+  it("adds destination-specific guidance to generated USA-to-country pages", () => {
+    const html = readGenerated("/flights-usa-to-italy");
+    expect(html).toContain("Planning a USA-to-Italy itinerary");
+    expect(html).toContain("arrival gateways in Italy");
+    expect(html).toContain("airport codes and current ticket rules");
+    expect(html).not.toContain("Flight booking details to review");
+  });
+
   it("still generates every route entry point", () => {
     for (const route of [
       "/flight-booking",
