@@ -134,7 +134,7 @@ const routes = {
   },
   "/flight-booking": {
     title: "Flight Booking Assistance | TicketDepart",
-    description: "Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 888-958-0280, 24/7.",
+    description: "Book domestic, international, multi-city and group flights with an independent travel specialist. Discuss routes, cabins, baggage and fare rules, 24/7.",
     heading: "Flight booking help from a real travel specialist",
     text: "Get practical help comparing flight options, complicated itineraries, premium cabins, group travel, and booking details by phone.",
   },
