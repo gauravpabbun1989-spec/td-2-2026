@@ -113,6 +113,13 @@ describe("static route HTML uses the full airline names", () => {
     }
   });
 
+  it("keeps route-specific guidance without a repeated generic guide footer", () => {
+    const html = readGenerated("/flights-from-new-york");
+    expect(html).toContain("Choosing a New York departure airport");
+    expect(html).toContain("Compare JFK and Newark");
+    expect(html).not.toContain("Confirm the details for your dates");
+  });
+
   it("still generates every route entry point", () => {
     for (const route of [
       "/flight-booking",
