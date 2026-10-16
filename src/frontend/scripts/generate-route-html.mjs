@@ -356,7 +356,8 @@ const STATIC_SEO_CONTENT = {
 };
 
 function routeHtml(route, meta) {
-  const url = `https://ticketdepart.com${route}`;
+  const canonicalRoute = route === "/" ? "/" : `${route.replace(/\/+$/, "")}/`;
+  const url = `https://ticketdepart.com${canonicalRoute}`;
   const safeTitle = escapeHtml(meta.title);
   const safeDescription = escapeHtml(meta.description);
   const safeHeading = escapeHtml(meta.heading);

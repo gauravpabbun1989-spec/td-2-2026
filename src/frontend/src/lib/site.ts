@@ -107,8 +107,8 @@ export function siteOrigin(): string {
 export function absoluteUrl(path: string): string {
   const origin = siteOrigin().replace(/\/$/, "");
   const normalized = path.startsWith("/") ? path : `/${path}`;
-  // Keep the homepage at "/" but normalize route canonicals to one
-  // non-trailing-slash form so /route and /route/ do not compete.
-  const canonicalPath = normalized === "/" ? "/" : normalized.replace(/\/+$/, "");
+  // Keep the homepage at "/" and normalize route canonicals to trailing slashes.
+  // This matches the sitemap and the preferred public URL format.
+  const canonicalPath = normalized === "/" ? "/" : `${normalized.replace(/\/+$/, "")}/`;
   return `${origin}${canonicalPath}`;
 }
