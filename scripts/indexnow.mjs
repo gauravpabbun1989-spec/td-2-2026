@@ -2,7 +2,7 @@ const HOST = "ticketdepart.com";
 const SITEMAP_URL = `https://${HOST}/sitemap.xml`;
 const BASE_URL = `https://${HOST}`;
 // Reuse the key already configured by the existing IndexNow workflow.
-const KEY = "7f4c2b9e8a1d4635b0c9e2a6d7f8135b";
+const KEY = "d2671f2fe124045675597ca88dc4892e";
 const KEY_LOCATION = `${BASE_URL}/${KEY}.txt`;
 const ENDPOINT = "https://api.indexnow.org/indexnow";
 const KEY_CHECK_DELAYS_MS = [0, 1500, 3500];
