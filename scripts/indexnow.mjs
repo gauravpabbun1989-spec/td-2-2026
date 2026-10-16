@@ -5,18 +5,46 @@ const BASE_URL = `https://${HOST}`;
 const KEY = "7f4c2b9e8a1d4635b0c9e2a6d7f8135b";
 const KEY_LOCATION = `${BASE_URL}/${KEY}.txt`;
 const ENDPOINT = "https://api.indexnow.org/indexnow";
+const KEY_CHECK_DELAYS_MS = [0, 1500, 3500];
+
+async function fetchVerifiedKey() {
+  let lastProblem = "the response body did not match the configured key";
+
+  for (let attempt = 0; attempt < KEY_CHECK_DELAYS_MS.length; attempt += 1) {
+    const delay = KEY_CHECK_DELAYS_MS[attempt];
+    if (delay > 0) {
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+
+    const response = await fetch(KEY_LOCATION, {
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-cache",
+        "User-Agent": "TicketDepart-IndexNow/1.0"
+      }
+    });
+
+    if (!response.ok) {
+      lastProblem = `HTTP ${response.status}`;
+      console.warn(`IndexNow key check attempt ${attempt + 1}/${KEY_CHECK_DELAYS_MS.length} failed: ${lastProblem}`);
+      continue;
+    }
+
+    const servedKey = (await response.text()).trim();
+    if (servedKey === KEY) {
+      console.log(`IndexNow key file verified on attempt ${attempt + 1}.`);
+      return;
+    }
+
+    lastProblem = "the served key did not match the configured key";
+    console.warn(`IndexNow key check attempt ${attempt + 1}/${KEY_CHECK_DELAYS_MS.length} failed: ${lastProblem}`);
+  }
+
+  throw new Error(`IndexNow key verification failed after ${KEY_CHECK_DELAYS_MS.length} attempts: ${lastProblem}. Check the Caffeine-published key file before retrying.`);
+}
 
 async function main() {
-  const keyResponse = await fetch(KEY_LOCATION, {
-    headers: { "User-Agent": "TicketDepart-IndexNow/1.0" }
-  });
-  if (!keyResponse.ok) {
-    throw new Error(`IndexNow key file is not reachable: HTTP ${keyResponse.status} at ${KEY_LOCATION}`);
-  }
-  const servedKey = (await keyResponse.text()).trim();
-  if (servedKey !== KEY) {
-    throw new Error("The live IndexNow key file does not match the configured key.");
-  }
+  await fetchVerifiedKey();
 
   const sitemapResponse = await fetch(SITEMAP_URL, {
     headers: { "User-Agent": "TicketDepart-IndexNow/1.0" }
@@ -26,7 +54,7 @@ async function main() {
   }
 
   const sitemap = await sitemapResponse.text();
-  const urls = [...sitemap.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/gi)]
+  const urls = [...sitemap.matchAll(/<loc>\\s*([^<]+?)\\s*<\\/loc>/gi)]
     .map((match) => match[1].trim())
     .map((value) => value.replaceAll("&amp;", "&"));
 
