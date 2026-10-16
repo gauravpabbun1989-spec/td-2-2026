@@ -12,6 +12,7 @@ on:
       - "scripts/indexnow.mjs"
       - "src/frontend/public/sitemap.xml"
       - "src/frontend/public/7f4c2b9e8a1d4635b0c9e2a6d7f8135b.txt"
+      - "src/frontend/public/d2671f2fe124045675597ca88dc4892e.txt"
 
 permissions:
   contents: read
