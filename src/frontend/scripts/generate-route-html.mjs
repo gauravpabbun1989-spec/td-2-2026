@@ -727,7 +727,7 @@ function semanticExpansion(route, meta) {
     return [
       "<section><h2>Planning a USA-to-" + escapeHtml(destination) + " itinerary</h2><p>Compare U.S. departure airports with arrival gateways in " + escapeHtml(destination) + ", then review travel dates, total journey time, connection points, baggage allowances, cabin options, and fare conditions together. Airport choices and schedules vary by itinerary, so confirm the airport codes and current ticket rules for your exact dates before deciding.</p></section>",
       "<section><h2>Details to confirm before booking</h2><p>Check whether each connection is on one ticket, whether baggage is checked through, and how any date or routing change would be handled under the fare rules. For international travel, verify passport, visa, and entry requirements with the appropriate official authorities. TicketDepart provides independent reservation assistance by phone; it is not an airline's official customer-service department.</p></section>",
-    ].join("\\n  ");
+    ].join("\n  ");
   }
 
   // Keep existing route-specific summaries and editorial guidance without
