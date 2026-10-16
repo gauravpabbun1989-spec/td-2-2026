@@ -720,44 +720,6 @@ function semanticExpansion(route, meta) {
     ].join("\n  ");
   }
 
-  let topic = "flight booking assistance";
-  let details = "flight routes, travel dates, departure and arrival airports, nonstop and connecting options, cabin preferences, baggage, and applicable fare conditions";
-  let intent = "booking, itinerary planning, and reservation support";
-
-  if (/airlines$/.test(route) || /\/american-airlines|\/delta-airlines|\/united-airlines|\/jetblue-airways|\/alaska-airlines|\/british-airways|\/lufthansa|\/air-canada|\/swiss-air|\/qatar-airways|\/emirates|\/norse-atlantic-airways|\/lot-polish-airlines/.test(route)) {
-    topic = "airline flight booking and reservation assistance";
-    details = "new reservations, flight changes, cancellations, rebooking, connections, baggage, cabin options, and multi-city itineraries";
-    intent = "airline-specific trip planning and reservation questions";
-  } else if (/flights-(from|usa-to|.*-to-)/.test(route)) {
-    topic = "route-specific flight booking assistance";
-    details = "departure airports, destination airports, travel dates, nonstop and connecting flights, connection times, cabin choices, baggage, and itinerary flexibility";
-    intent = "route planning and flight-search decisions";
-  } else if (/business-class|corporate/.test(route)) {
-    topic = "business and premium-cabin flight booking";
-    details = "business-class cabins, corporate travel schedules, airport choices, connections, baggage allowances, flexible dates, and fare conditions";
-    intent = "executive, corporate, and premium-cabin travel planning";
-  } else if (/same-day|last-minute/.test(route)) {
-    topic = "urgent and same-day flight booking";
-    details = "current itinerary availability, nearby departure airports, same-day ticketing timing, connecting options, travel dates, and applicable fare conditions";
-    intent = "time-sensitive flight planning";
-  } else if (/family|infant|pet|group/.test(route)) {
-    topic = "family, group, and special-travel flight booking";
-    details = "traveler details, seating questions, baggage, connections, dates, cabin preferences, and requirements that can affect the itinerary";
-    intent = "coordinating travelers and special trip requirements";
-  } else if (/change|cancellation/.test(route)) {
-    topic = "flight change and cancellation assistance";
-    details = "existing reservations, travel dates, routing, fare differences, refund or credit questions, deadlines, and provider-specific ticket rules";
-    intent = "managing an existing reservation";
-  } else if (/baggage/.test(route)) {
-    topic = "flight baggage assistance";
-    details = "carry-on, checked baggage, excess baggage, special items, pet or infant baggage questions, and airline-specific baggage rules";
-    intent = "understanding baggage requirements before travel";
-  } else if (/flight-search/.test(route)) {
-    topic = "flight schedule search and itinerary comparison";
-    details = "departure and arrival airports, travel dates, airline options, nonstop or connecting itineraries, duration, stops, and cabin information";
-    intent = "comparing available flight options before booking";
-  }
-
   // Keep the route's own summary and editorial sections without adding
   // near-identical boilerplate to dozens of URLs.
   return "";
