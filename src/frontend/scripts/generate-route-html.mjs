@@ -750,8 +750,10 @@ function makeListingDescription(value) {
     .trim();
   const phoneSuffix = " Call +1-888-958-0280.";
   const withoutPhone = normalized
+    .replace(/\b(?:call|at)\s*\+?1[\s().-]*888[\s().-]*958[\s().-]*0280/gi, "")
     .replace(/\+?1[\s().-]*888[\s().-]*958[\s().-]*0280/g, "")
     .replace(/\s+([.,;:])/g, "$1")
+    .replace(/\.\s*[,;:]/g, ".")
     .replace(/\s+/g, " ")
     .replace(/[.\s]+$/, "");
   const base = trimDescription(withoutPhone, 155 - phoneSuffix.length);
