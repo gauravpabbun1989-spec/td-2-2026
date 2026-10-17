@@ -756,8 +756,9 @@ function makeListingDescription(value) {
     .replace(/\.\s*[,;:]/g, ".")
     .replace(/\s+/g, " ")
     .replace(/[.\s]+$/, "");
-  const base = trimDescription(withoutPhone, 155 - phoneSuffix.length);
-  return `${base}${phoneSuffix}`;
+  const base = trimDescription(withoutPhone, 155 - phoneSuffix.length - 1);
+  const punctuatedBase = base && /[.!?]$/.test(base) ? base : `${base}.`;
+  return `${punctuatedBase}${phoneSuffix}`;
 }
 
 function routeHtml(route, meta) {
