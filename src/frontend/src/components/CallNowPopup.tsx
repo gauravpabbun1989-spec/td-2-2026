@@ -6,7 +6,6 @@ import { createPortal } from "react-dom";
 import { useRouterState } from "@tanstack/react-router";
 
 const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed_v2";
-const SHOWN_KEY = "ticketdepart_call_now_popup_shown_v2";
 const POPUP_SHOW_DELAY_MS = 100;
 const CALL_PROMPT_DELAY_MS = 9000;
 
@@ -27,12 +26,11 @@ export function CallNowPopup() {
     if (hasShownThisSession.current) return;
 
     try {
-      if (
-        window.sessionStorage.getItem(DISMISSED_KEY) === "1" ||
-        window.sessionStorage.getItem(SHOWN_KEY) === "1"
-      ) {
+      // Only an explicit dismissal suppresses the popup for this tab session.
+      // A legacy "shown" flag must not prevent a fresh direct visit from seeing it.
+      if (window.sessionStorage.getItem(DISMISSED_KEY) === "1") {
         hasShownThisSession.current = true;
-        hasDismissedPopup.current = window.sessionStorage.getItem(DISMISSED_KEY) === "1";
+        hasDismissedPopup.current = true;
         return;
       }
     } catch {
@@ -42,12 +40,6 @@ export function CallNowPopup() {
     const popupTimer = window.setTimeout(() => {
       hasShownThisSession.current = true;
       const landingPath = pathnameRef.current;
-      try {
-        window.sessionStorage.setItem(SHOWN_KEY, "1");
-      } catch {
-        // Continue without session persistence if storage is unavailable.
-      }
-
       setIsOpen(true);
       trackEvent("call_now_popup_impression", {
         popup_location: "sitewide_modal",
@@ -61,9 +53,6 @@ export function CallNowPopup() {
     const callPromptTimer = window.setTimeout(() => {
       if (hasDismissedPopup.current || document.visibilityState === "hidden") return;
       setIsCallPromptActive(true);
-      // Put keyboard/accessibility focus on the real call link so it is immediately
-      // ready for the visitor's deliberate activation. Do not synthesize a click:
-      // browsers require user activation for reliable tel: navigation.
       window.requestAnimationFrame(() => {
         document
           .querySelector<HTMLAnchorElement>('[data-ocid="call_now_popup.call_button"]')
@@ -88,7 +77,8 @@ export function CallNowPopup() {
     setIsCallPromptActive(false);
     try {
       window.sessionStorage.setItem(DISMISSED_KEY, "1");
-      window.sessionStorage.setItem(SHOWN_KEY, "1");
+      // Retain the legacy key for compatibility, but it is no longer used to suppress display.
+      window.sessionStorage.setItem("ticketdepart_call_now_popup_shown_v2", "1");
     } catch {
       // In-memory dismissal still works when browser storage is blocked.
     }
