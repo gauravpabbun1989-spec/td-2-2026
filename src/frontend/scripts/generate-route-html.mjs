@@ -26,9 +26,9 @@ const routes = {
   },
   "/book-a-flight-by-phone": {
     title: "Book a Flight by Phone | 24/7 Flight Booking Help | TicketDepart",
-    description: "Book a domestic or international flight by phone with an independent travel agency. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.",
+    description: "Book domestic or international flights by phone. Discuss routes, dates, cabins, baggage and fare rules with TicketDepart. Call +1-888-958-0280, 24/7.",
     heading: "Book a flight by phone with a travel specialist",
-    text: "Discuss domestic and international flight options, multi-city trips, premium cabins, family travel, and booking details with a travel specialist.",
+    text: "Before calling, gather your departure city, destination, travel dates, number of travelers, and preferred cabin if known. Ask about the full price, baggage allowance, connection details, change and cancellation terms, and any agency service fee before authorizing payment. Fares and availability may change until ticketing is complete. TicketDepart is an independent travel agency, not an airline.",
   },
   "/how-to-book-a-flight-by-phone": {
     title: "How to Book a Flight by Phone | TicketDepart",
@@ -122,9 +122,9 @@ const routes = {
   },
   "/airline-reservation-assistance": {
     title: "Airline Reservation Assistance by Phone | TicketDepart",
-    description: "Need help with an airline reservation? Discuss booking, changes, cancellations, connections, baggage, and fare conditions with a TicketDepart travel specialist.",
+    description: "Get help with airline bookings, changes, cancellations, connections and baggage. Discuss ticket terms with TicketDepart at +1-888-958-0280, 24/7.",
     heading: "Airline reservation assistance by phone",
-    text: "Discuss new or existing airline reservation questions, changes, cancellations, baggage, connections, and fare conditions with a travel specialist.",
+    text: "For a new trip or an existing ticket, have the airline, route, travel dates, and booking reference available if you have them. A specialist can discuss the ticket terms and possible next steps for changes, cancellations, connections, and baggage questions. Eligibility, fees, refunds, and credits depend on the ticket conditions and responsible airline or travel provider. TicketDepart is an independent travel agency and is not an airline’s official customer-service department.",
   },
   "/flight-booking-assistance": {
     title: "Flight Booking Assistance by Phone | TicketDepart",
@@ -134,9 +134,9 @@ const routes = {
   },
   "/flight-booking": {
     title: "Flight Booking Assistance | TicketDepart",
-    description: "Book domestic, international, multi-city and group flights with an independent travel specialist. Discuss routes, cabins, baggage and fare rules, 24/7.",
-    heading: "Flight booking help from a real travel specialist",
-    text: "Get practical help comparing flight options, complicated itineraries, premium cabins, group travel, and booking details by phone.",
+    description: "Book U.S. and international flights by phone. Discuss multi-city trips, premium cabins, group travel and fare rules. Call +1-888-958-0280, 24/7.",
+    heading: "Flight booking assistance by phone for U.S. travelers",
+    text: "Plan a domestic or international trip by reviewing departure and arrival airports, dates, traveler count, cabin preferences, connections, baggage, and fare conditions. For multi-city routes, group travel, or premium cabins, discuss the details with a travel specialist before you decide. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the applicable price and ticket terms before authorizing payment.",
   },
   "/delta-airlines": {
     title: "Delta Airlines Flight Booking Assistance | 24/7 | TicketDepart",
