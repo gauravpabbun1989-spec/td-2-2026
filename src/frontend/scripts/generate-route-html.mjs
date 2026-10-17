@@ -398,7 +398,9 @@ const STATIC_SEO_CONTENT = {
   "/book-a-flight-by-phone": { eyebrow: "Phone-first flight booking", sections: [["Start with the basics", "Have your departure city, destination, dates, traveler count, and preferred cabin ready if you know them. You can start with less and work through the rest."],["Talk through practical options", "Discuss nearby airports, connections, schedules, cabin choices, baggage, and fare conditions before deciding."],["Review the terms", "Make sure the applicable price, baggage rules, change conditions, cancellation terms, and any disclosed service charges are understood before payment."]] },
   "/international-flight-booking": { eyebrow: "International flight planning", sections: [["Plan the whole itinerary", "Discuss departure airports, destination cities, connections, flexible dates, cabins, baggage, and multi-city or open-jaw routing."],["Long-haul connections", "Review connection airports, layovers, and routing trade-offs that can matter on international trips."],["Travel documents", "Ask questions about the itinerary, but verify current passport, visa, and entry requirements with the relevant government or consulate."]] },
   "/last-minute-flight-booking": { eyebrow: "Urgent flight planning", sections: [["Travel soon", "Discuss currently available itineraries when your departure is close and seats or fares may change quickly."],["Consider practical alternatives", "Nearby airports, flexible dates, or connecting routes can sometimes create additional options."],["Check ticketing timing", "Same-day and last-minute travel can have tighter ticketing and airport deadlines, so review the applicable timing before payment."]] },
-  "/business-class-flight-booking": { eyebrow: "Business class and corporate travel", sections: [["Plan the business trip", "Discuss meeting dates, preferred airports, traveler count, schedule priorities, business-class cabin options, and whether the itinerary is domestic or international."],["Compare practical itinerary choices", "Review departure times, connection airports, layovers, routing, cabin options, and nearby airports when those alternatives are available for the trip."],["Review fare, baggage, and flexibility", "Compare the baggage allowance, change and cancellation conditions, ticketing deadlines, and other rules attached to the selected fare before payment."]] },
+  "/business-class-flight-booking": { eyebrow: "Business class flight planning", sections: [["Choose the cabin for the trip", "Compare the business-class options available for your route, including departure times, connection airports, total journey time, and the aircraft or seat details available for the specific flight."],["Check what the fare includes", "Before paying, confirm baggage allowance, seat selection, lounge access if relevant, change and cancellation rules, refund eligibility, and any service charges. Benefits differ by airline, route, aircraft, and fare."],["Plan around meetings and connections", "Allow realistic time between flights and meetings, compare arrival times, and review alternatives if a delay or missed connection would disrupt the trip. Confirm the final itinerary and ticket conditions before authorizing payment."]] },
+  "/corporate-flight-booking": { eyebrow: "Corporate and business travel planning", sections: [["Start with the travel policy", "Prepare traveler names as shown on travel documents, meeting locations, dates, preferred airports, cabin rules, and any company approval requirements before comparing itineraries."],["Balance schedule and total cost", "Review arrival time, connection risk, baggage, fare flexibility, and the total ticket cost rather than comparing the base fare alone. The most suitable option depends on the business schedule and the ticket conditions."],["Confirm before ticketing", "Check traveler details, itinerary, payment responsibility, change and cancellation rules, receipt requirements, and any applicable agency service fee before authorizing a booking."]]},
+  "/family-flight-booking": { eyebrow: "Family flight planning", sections: [["Prepare each traveler’s details", "Have each passenger’s name and date of birth available, including children and infants, and confirm that names match the required travel documents."],["Review seats, bags, and connections", "Ask what seating and baggage are included on the selected fare, how long each connection is, and whether the itinerary is practical for the family’s ages and needs. Seat assignments and adjacent seats depend on availability and ticket rules."],["Check documents and ticket terms", "For international trips, verify passport and entry requirements with official government sources. Before payment, review the full price, change and cancellation terms, and any applicable service charges."]] },
   "/group-flight-booking": { eyebrow: "Group, family, and event travel", sections: [["Families and larger groups", "Discuss coordinated itineraries for families, sports teams, schools, organizations, events, and other groups."],["Corporate groups", "Work through traveler count, cities, dates, meeting timing, cabin preferences, and itinerary coordination for business travel."],["Seats and booking terms", "Discuss seating, baggage, deposits, name deadlines, ticketing schedules, changes, and other conditions that apply to the specific booking."]] },
   "/airline-reservation-assistance": { eyebrow: "Independent airline reservation assistance", sections: [["Airline-specific planning", "Discuss booking, changes, cancellations, connections, cabins, baggage, and itinerary questions for the airline you are considering."],["Independent service", "TicketDepart is an independent travel agency and is not the official customer service department of any airline named on the site."],["Verify airline requirements", "Airline policies, schedules, availability, and ticket rules can change. Review the applicable terms for your specific itinerary before payment."]] },
   "/flight-change-assistance": { eyebrow: "Flight change assistance", sections: [["Existing reservations", "Have your confirmation or ticket details available when possible so the applicable booking and fare rules can be reviewed."],["Change options", "Discuss date, routing, passenger, or other changes that may be possible under the ticket's rules and current availability."],["Check costs and restrictions", "Change fees, fare differences, deadlines, and eligibility depend on the ticket and provider."]] },
@@ -735,16 +737,31 @@ function semanticExpansion(route, meta) {
   return "";
 }
 
+function trimDescription(value, maxLength) {
+  const normalized = value.replace(/\s+/g, " ").trim();
+  if (normalized.length <= maxLength) return normalized;
+  return normalized.slice(0, maxLength + 1).replace(/\s+\S*$/, "").trim().replace(/[|,:;\-]+$/, "").trim();
+}
+
+function makeListingDescription(value) {
+  const normalized = value
+    .replace(/(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g, "+1-888-958-0280")
+    .replace(/\s+/g, " ")
+    .trim();
+  const phoneSuffix = " Call +1-888-958-0280.";
+  const withoutPhone = normalized
+    .replace(/\+?1[\s().-]*888[\s().-]*958[\s().-]*0280/g, "")
+    .replace(/\s+([.,;:])/g, "$1")
+    .replace(/\s+/g, " ")
+    .replace(/[.\s]+$/, "");
+  const base = trimDescription(withoutPhone, 155 - phoneSuffix.length);
+  return `${base}${phoneSuffix}`;
+}
+
 function routeHtml(route, meta) {
   const publicPath = route === "/" ? "/" : `${route.replace(/\/+$/, "")}/`;
   const url = "https://ticketdepart.com" + publicPath;
-  const normalizedDescription = meta.description.replace(
-    /(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g,
-    "+1-888-958-0280",
-  );
-  const listingDescription = normalizedDescription.includes("+1-888-958-0280")
-    ? normalizedDescription
-    : normalizedDescription.replace(/\.$/, "") + " Call +1-888-958-0280.";
+  const listingDescription = makeListingDescription(meta.description);
   const safeTitle = escapeHtml(meta.title);
   const safeDescription = escapeHtml(listingDescription);
   const safeHeading = escapeHtml(meta.heading);
