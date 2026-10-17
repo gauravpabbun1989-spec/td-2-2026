@@ -25,7 +25,7 @@ import {
 const PAGE_PATH = "/flight-booking/";
 const PAGE_TITLE = "Flight Booking Assistance by Phone in the USA | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Need help booking a flight by phone? Discuss U.S. domestic and international trips, multi-city itineraries, premium cabins, and group travel with an independent specialist, 24/7 at +1-888-958-0280.";
+  "Book U.S. and international flights by phone. Discuss multi-city trips, premium cabins, group travel and fare rules. Call +1-888-958-0280, 24/7.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
