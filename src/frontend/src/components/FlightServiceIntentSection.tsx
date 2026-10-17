@@ -20,7 +20,7 @@ export function FlightServiceIntentSection({
     ? `${airline} flight`
     : routeLabel
       ? `${routeLabel} flight`
-      : "your flight";
+      : "flight";
   const destinationContext = country
     ? ` for travelers in the United States traveling to ${country}`
     : "";
@@ -70,7 +70,7 @@ export function FlightServiceIntentSection({
       <SectionHeading
         eyebrow="Flight changes, cancellations & rebooking"
         title={`${subject.charAt(0).toUpperCase() + subject.slice(1)} support when plans change`}
-        description={`Need to change, cancel, rebook, reschedule, or book ${subject}${destinationContext}? Review the service options below and call when you want to discuss the details with a travel specialist.${hubContext}${airportContext}`}
+        description={`Need to change, cancel, rebook, reschedule, or book a ${subject}${destinationContext}? Review the service options below and call when you want to discuss the details with a travel specialist.${hubContext}${airportContext}`}
       />
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {topics.map(([title, body]) => (
