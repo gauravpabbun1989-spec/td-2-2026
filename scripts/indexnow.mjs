@@ -56,7 +56,7 @@ async function main() {
   }
 
   const sitemap = await sitemapResponse.text();
-  const urls = [...sitemap.matchAll(/<loc>\\s*([^<]+?)\\s*<\\/loc>/gi)]
+  const urls = [...sitemap.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/gi)]
     .map((match) => match[1].trim())
     .map((value) => value.replaceAll("&amp;", "&"));
 
