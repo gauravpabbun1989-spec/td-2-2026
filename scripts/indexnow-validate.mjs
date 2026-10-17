@@ -1,4 +1,4 @@
-const KEY = "d2671f2fe124045675597ca88dc4892e";
+const KEY = "e83061ad4141464eb71501dea95f7556";
 const HOST = "ticketdepart.com";
 const BASE = "https://ticketdepart.com";
 const urls = [
