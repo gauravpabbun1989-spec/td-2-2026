@@ -11,7 +11,7 @@ on:
       - ".github/workflows/indexnow.yml"
       - "scripts/indexnow.mjs"
       - "src/frontend/public/sitemap.xml"
-      - "src/frontend/public/e83061ad4141464eb71501dea95f7556.txt"
+      - "src/frontend/public/d2671f2fe124045675597ca88dc4892e.txt"
 
 permissions:
   contents: read
