@@ -153,7 +153,7 @@ function getBrowserTimeContext() {
   try {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "unknown";
     const hour = new Date().getHours();
-    const usTimezone = /^(America\/(New_York|Detroit|Chicago|Denver|Phoenix|Los_Angeles|Anchorage|Adak))$/.test(timezone);
+    const usTimezone = /^America\/(?:New_York|Detroit|Indiana\/[^/]+|Kentucky\/[^/]+|Chicago|Menominee|North_Dakota\/[^/]+|Denver|Boise|Phoenix|Los_Angeles|Anchorage|Juneau|Sitka|Metlakatla|Yakutat|Nome|Adak|Honolulu)$/.test(timezone);
     return {
       browser_timezone: timezone,
       browser_local_hour: hour,
