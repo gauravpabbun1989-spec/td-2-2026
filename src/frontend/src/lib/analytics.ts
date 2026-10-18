@@ -7,6 +7,78 @@
  */
 
 const DEDUPE_WINDOW_MS = 250;
+const TEST_SESSION_KEY = "ticketdepart_analytics_test_session";
+const US_TIMEZONES = new Set([
+  "America/New_York",
+  "America/Detroit",
+  "America/Indiana/Indianapolis",
+  "America/Indiana/Knox",
+  "America/Indiana/Marengo",
+  "America/Indiana/Petersburg",
+  "America/Indiana/Tell_City",
+  "America/Indiana/Vevay",
+  "America/Indiana/Vincennes",
+  "America/Indiana/Winamac",
+  "America/Kentucky/Louisville",
+  "America/Kentucky/Monticello",
+  "America/Chicago",
+  "America/Menominee",
+  "America/North_Dakota/Beulah",
+  "America/North_Dakota/Center",
+  "America/North_Dakota/New_Salem",
+  "America/Denver",
+  "America/Boise",
+  "America/Phoenix",
+  "America/Los_Angeles",
+  "America/Anchorage",
+  "America/Juneau",
+  "America/Sitka",
+  "America/Metlakatla",
+  "America/Yakutat",
+  "America/Nome",
+  "America/Adak",
+  "Pacific/Honolulu",
+]);
+
+/** Identify explicit QA sessions and Google Tag Assistant preview traffic. */
+export function isAnalyticsTestReferrer(referrer: string) {
+  if (!referrer) return false;
+  try {
+    const hostname = new URL(referrer).hostname.toLowerCase();
+    return (
+      hostname === "tagassistant.google.com" ||
+      hostname === "tagassistant.googleusercontent.com"
+    );
+  } catch {
+    return false;
+  }
+}
+
+function isAnalyticsTestSession() {
+  if (typeof window === "undefined") return false;
+
+  try {
+    const storage = window.sessionStorage;
+    if (storage.getItem(TEST_SESSION_KEY) === "1") return true;
+
+    const params = new URLSearchParams(window.location.search);
+    if (
+      params.get("td_analytics_debug") === "1" ||
+      isAnalyticsTestReferrer(document.referrer)
+    ) {
+      storage.setItem(TEST_SESSION_KEY, "1");
+      return true;
+    }
+  } catch {
+    // Explicit query mode still works if sessionStorage is unavailable.
+    return (
+      new URLSearchParams(window.location.search).get("td_analytics_debug") === "1" ||
+      isAnalyticsTestReferrer(document.referrer)
+    );
+  }
+
+  return false;
+}
 const LANDING_PAGE_KEY = "ticketdepart_landing_page";
 const FUNNEL_ENTRY_KEY = "ticketdepart_funnel_entry_sent";
 const ENGAGEMENT_EVENT_DELAY_MS = 10_000;
@@ -119,7 +191,7 @@ function getBrowserTimeContext() {
   try {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "unknown";
     const hour = new Date().getHours();
-    const usTimezone = /^(America\/(New_York|Detroit|Chicago|Denver|Phoenix|Los_Angeles|Anchorage|Adak))$/.test(timezone);
+    const usTimezone = US_TIMEZONES.has(timezone);
     return {
       browser_timezone: timezone,
       browser_local_hour: hour,
@@ -216,7 +288,7 @@ export function trackEvent(
   params: Record<string, string | number | boolean | undefined> = {},
 ) {
   const win = getWindow();
-  if (!win || isSuspiciousPath()) return;
+  if (!win || isSuspiciousPath() || isAnalyticsTestSession()) return;
 
   const eventParams = {
     ...buildCommonParams(),

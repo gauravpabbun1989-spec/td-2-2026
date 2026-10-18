@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isSuspiciousPath } from "./analytics";
+import { isAnalyticsTestReferrer, isSuspiciousPath } from "./analytics";
 
 describe("analytics suspicious-path filtering", () => {
   it.each([
@@ -25,5 +25,24 @@ describe("analytics suspicious-path filtering", () => {
     "/contact",
   ])("does not filter legitimate site path %s", (path) => {
     expect(isSuspiciousPath(path)).toBe(false);
+  });
+});
+
+
+describe("analytics QA-session detection", () => {
+  it.each([
+    "https://tagassistant.google.com/",
+    "https://tagassistant.google.com/#/?id=preview",
+  ])("recognizes Tag Assistant test referrer %s", (referrer) => {
+    expect(isAnalyticsTestReferrer(referrer)).toBe(true);
+  });
+
+  it.each([
+    "",
+    "https://www.google.com/",
+    "https://ticketdepart.com/",
+    "not a URL",
+  ])("does not classify normal or invalid referrer as QA: %s", (referrer) => {
+    expect(isAnalyticsTestReferrer(referrer)).toBe(false);
   });
 });
