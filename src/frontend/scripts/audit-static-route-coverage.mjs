@@ -155,4 +155,33 @@ for (const url of locs) {
   assert((inboundLinks.get(pathname) ?? 0) > 0, "sitemap page has no crawlable internal link: " + url);
 }
 
-console.log(`Static SEO route audit passed: all ${countryUrls.length} USA-to-country pages, unique titles/H1s, canonicals, indexability, internal links, normalized sitemap, and robots.txt.`);
+// Priority U.S. phone-booking pages must keep intended static metadata and useful guide content.
+const businessHtml = read(path.join(distDir, "business-class-flight-booking", "index.html"));
+const businessTitle = businessHtml.match(/<title>([^<]+)<\\/title>/i)?.[1]?.trim() ?? "";
+const businessHeading = businessHtml.match(/<h1\\b[^>]*>([\\s\\S]*?)<\\/h1>/i)?.[1]?.replace(/<[^>]+>/g, "").replace(/\\s+/g, " ").trim() ?? "";
+const businessDescription = businessHtml.match(/<meta\\s+name="description"\\s+content="([^"]+)"/i)?.[1]?.trim() ?? "";
+assert(businessTitle === "Business Class Flight Booking by Phone | TicketDepart", `business-class static title mismatch: ${businessTitle}`);
+assert(businessHeading === "Business class flight booking by phone", `business-class static H1 mismatch: ${businessHeading}`);
+assert(businessDescription.length >= 60 && businessDescription.length <= 160 && /[.!?]$/.test(businessDescription), "business-class meta description must be complete and 60–160 characters");
+assert(!/855[\\s().-]*544[\\s().-]*9001/.test(businessHtml), "old public phone number remains on business-class page");
+
+const phoneGuideHtml = read(path.join(distDir, "how-to-book-a-flight-by-phone", "index.html"));
+const phoneGuideText = phoneGuideHtml.replace(/<script[\\s\\S]*?<\\/script>/gi, "").replace(/<style[\\s\\S]*?<\\/style>/gi, "").replace(/<[^>]+>/g, " ").replace(/\\s+/g, " ").trim();
+for (const phrase of ["Prepare your trip details", "Compare the full itinerary", "Confirm terms before payment", "independent travel agency"]) {
+  assert(phoneGuideText.toLowerCase().includes(phrase.toLowerCase()), `phone-booking guide is missing required useful content: ${phrase}`);
+}
+assert(phoneGuideText.length >= 1400, `phone-booking guide static content is too thin: ${phoneGuideText.length} characters`);
+
+// Every sitemap description must be complete, bounded, and must not repeat the public phone number.
+for (const url of locs) {
+  const pathname = new URL(url).pathname;
+  const route = pathname === "/" ? "" : pathname.replace(/^\\//, "").replace(/\\/$/, "");
+  const html = read(path.join(distDir, route, "index.html"));
+  const description = html.match(/<meta\\s+name=["']description["']\\s+content=["']([^"']+)["']/i)?.[1]?.trim() ?? "";
+  assert(description.length >= 60 && description.length <= 160, `meta description length out of bounds for ${url}: ${description.length}`);
+  assert(/[.!?]$/.test(description), `meta description ends mid-sentence for ${url}: ${description}`);
+  const phoneMatches = description.match(/(?:\\+?1[\\s().-]*)?888[\\s().-]*958[\\s().-]*0280/g) ?? [];
+  assert(phoneMatches.length <= 1, `duplicate TicketDepart phone number in meta description for ${url}`);
+}
+
+console.log(`Static SEO route audit passed: all ${countryUrls.length} USA-to-country pages, priority phone-booking content, metadata quality, unique titles/H1s, canonicals, indexability, internal links, normalized sitemap, and robots.txt.`);
