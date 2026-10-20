@@ -723,8 +723,92 @@ function semanticExpansion(route, meta) {
     ].join("\n  ");
   }
 
+  // Fill remaining commercial landing pages with route-aware guidance so the
+  // static HTML fallback is useful before React hydrates. Avoid applying this to
+  // legal/contact pages or the noindex results page.
+  const airlineNames = {
+    "/delta-airlines": "Delta Air Lines",
+    "/united-airlines": "United Airlines",
+    "/american-airlines": "American Airlines",
+    "/southwest-airlines": "Southwest Airlines",
+    "/jetblue-airways": "JetBlue",
+    "/alaska-airlines": "Alaska Airlines",
+    "/british-airways": "British Airways",
+    "/lufthansa": "Lufthansa",
+    "/air-canada": "Air Canada",
+    "/swiss-air": "SWISS",
+    "/qatar-airways": "Qatar Airways",
+    "/emirates": "Emirates",
+    "/norse-atlantic-airways": "Norse Atlantic Airways",
+    "/lot-polish-airlines": "LOT Polish Airlines",
+  };
+  const airline = airlineNames[route];
+  if (airline) {
+    return [
+      "<section><h2>Planning a " + escapeHtml(airline) + " itinerary</h2><p>When comparing " + escapeHtml(airline) + " flights, start with the complete trip: departure and arrival airports, travel dates, connection time, cabin, baggage needs, and the time you need to arrive. The best itinerary depends on your route and dates, so compare available options rather than assuming one schedule or fare applies to every trip. If you are considering an international or multi-city journey, check each flight segment and allow enough time for connections and onward transport.</p></section>",
+      "<section><h2>What to confirm before booking</h2><p>Review the total price and any disclosed agency service fee, the baggage allowance, seat-selection terms, ticketing status, and the rules for changes, cancellations, refunds, or credits. These conditions depend on the specific ticket and may differ between fare types or operating carriers. Confirm the passenger names and airport codes before authorizing payment, and keep the itinerary and confirmation details. For current airline-specific operating policies, verify the terms with the airline or the ticket issuer.</p></section>",
+      "<section><h2>Independent reservation assistance</h2><p>TicketDepart is an independent travel agency, not " + escapeHtml(airline) + " and not its official customer-service department. A travel specialist can discuss itinerary choices and booking details; availability and final ticket conditions must be confirmed for the selected trip.</p></section>"
+    ].join("\\n  ");
+  }
+
+  const serviceGuides = {
+    "/cheap-flight-booking-by-phone": {
+      title: "Compare the full cost, not only the displayed fare",
+      copy: "When looking for a lower-cost flight, compare nearby travel dates, practical departure airports, stop counts, total journey time, baggage, and seat-selection charges. A fare that appears cheaper may cost more after baggage or ground transport, and a longer connection may not suit every traveler. Prices and availability change, so confirm the current total and the conditions attached to the exact ticket.",
+      checklist: "Ask for the total amount before payment; check baggage and seat inclusions; compare alternate dates or airports only when practical; and read the change, cancellation, and refund terms."
+    },
+    "/same-day-flight-booking": {
+      title: "Check timing before choosing a same-day itinerary",
+      copy: "Same-day travel depends on current seat availability, ticketing cutoffs, airport procedures, and how quickly you can reach the departure airport. Confirm the exact departure airport and local time, allow for transport and check-in, and do not rely on a schedule or fare until it has been checked for your travel date. Connecting flights can introduce additional timing risks.",
+      checklist: "Confirm local departure time and airport code; ask whether ticketing can be completed in time; check connection buffers and baggage rules; and review the full fare conditions before authorizing payment."
+    },
+    "/pet-flight-booking": {
+      title: "Confirm pet acceptance before you book",
+      copy: "Pet travel rules can depend on the operating carrier, aircraft, route, destination, pet species and size, carrier dimensions, and whether the animal travels in the cabin or another approved arrangement. Some flights have limited pet capacity or restrictions, and international journeys may require documents or health checks. Never assume a pet is confirmed just because a passenger seat is available.",
+      checklist: "Ask the operating carrier about pet availability and carrier dimensions; verify destination and transit requirements with official authorities; confirm fees and documentation deadlines; and obtain clear confirmation before finalizing the trip."
+    },
+    "/baggage-assistance": {
+      title: "Check baggage rules for every flight segment",
+      copy: "Baggage allowances may vary by airline, route, cabin, fare family, loyalty status, and operating carrier. A connecting itinerary can include different rules across segments, particularly when separate tickets are involved. Confirm the dimensions and weight limits for carry-on and checked bags, whether special items need approval, and whether fees are charged per bag or per segment.",
+      checklist: "Check carry-on size and weight; confirm checked-bag allowance and fees; ask about special or oversized items; and verify whether baggage is checked through to the final destination."
+    },
+    "/multi-city-flight-booking": {
+      title: "Build a multi-city itinerary around the whole trip",
+      copy: "For a multi-city or open-jaw trip, list each city pair in travel order and note the dates and times you need to be in each place. Compare a single multi-city ticket with separate bookings only after considering baggage handling, airport transfers, missed-connection protection, and the rules that apply if plans change. Separate tickets can create extra risk when one delay affects a later departure.",
+      checklist: "Confirm the order and date of every segment; check airport changes and overnight stops; understand whether segments are on one ticket; and compare total price and change rules across the complete itinerary."
+    },
+    "/family-flight-booking": {
+      title: "Plan seats, passenger details, and connections together",
+      copy: "For family travel, check that passenger names and dates of birth match the required documents, and confirm the rules for infants and children on the selected itinerary. Seat assignments, adjacent seats, baggage allowances, and boarding arrangements depend on the fare and availability. A connection that is manageable for one traveler may be difficult with children, strollers, or additional bags.",
+      checklist: "Confirm each passenger's details; ask what seating and baggage are included; review connection length and airport changes; and verify passport and entry requirements with official authorities for international travel."
+    },
+    "/flight-booking-assistance": {
+      title: "Choose the right booking support for your itinerary",
+      copy: "The amount of help you need depends on the trip. A simple nonstop itinerary may need only a basic schedule and fare comparison, while multi-city travel, tight connections, premium cabins, family travel, or special baggage can require closer review. Keep the itinerary, total price, and ticket conditions together so you can compare the options on equal terms.",
+      checklist: "Have your route and dates ready; explain any timing or cabin constraints; compare baggage and connection details; and confirm the booking provider, ticketing status, and change or cancellation conditions before payment."
+    }
+  };
+  const serviceGuide = serviceGuides[route];
+  if (serviceGuide) {
+    return [
+      "<section><h2>" + escapeHtml(serviceGuide.title) + "</h2><p>" + escapeHtml(serviceGuide.copy) + "</p></section>",
+      "<section><h2>Practical checklist</h2><p>" + escapeHtml(serviceGuide.checklist) + "</p></section>",
+      "<section><h2>Confirm the exact ticket conditions</h2><p>Schedules, inventory, baggage allowances, fees, and ticket rules depend on the selected itinerary and can change. Ask for the total price, any disclosed agency service fee, ticketing status, and the applicable change, cancellation, refund, or credit conditions before authorizing payment. TicketDepart provides independent travel reservation assistance and is not an airline's official customer-service department.</p></section>"
+    ].join("\\n  ");
+  }
+
+  // Use the actual route label to add destination-specific comparison guidance
+  // to route pages that do not already have a hand-written editorial guide.
+  if (/^\\/flights-[a-z-]+-to-[a-z-]+$/.test(route)) {
+    const routeName = meta.heading.replace(/\\s+flight booking assistance$/i, "").replace(/\\s+flights?$/i, "");
+    return [
+      "<section><h2>Compare the complete " + escapeHtml(routeName) + " journey</h2><p>For this route, compare the departure and arrival airport codes, local departure and arrival times, connection airports, total journey time, cabin options, and baggage conditions. If the itinerary connects through another city, check whether the connection is on one ticket and whether you need to change terminals or collect baggage. Availability and schedules vary by date, so review the itinerary for your intended travel day.</p></section>",
+      "<section><h2>Before confirming your route</h2><p>Check the total price, any disclosed agency service fee, ticketing status, baggage allowance, and the rules for changes or cancellation. For international travel, verify current passport, visa, transit, and entry requirements with the relevant official authorities. Compare the arrival airport with your onward transport and accommodation plans, and keep enough time for connections or separately booked travel.</p></section>"
+    ].join("\\n  ");
+  }
+
   // Keep existing route-specific summaries and editorial guidance without
-  // adding near-identical boilerplate to dozens of unrelated URLs.
+  // adding near-identical boilerplate to unrelated URLs.
   return "";
 }
 
