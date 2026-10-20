@@ -741,7 +741,23 @@ function semanticExpansion(route, meta) {
 function trimDescription(value, maxLength) {
   const normalized = value.replace(/\s+/g, " ").trim();
   if (normalized.length <= maxLength) return normalized;
-  return normalized.slice(0, maxLength + 1).replace(/\s+\S*$/, "").trim().replace(/[|,:;\-]+$/, "").trim();
+
+  // Cut on a word boundary, then remove any dangling conjunction, determiner,
+  // preposition, or adjective before punctuation is added by the caller.
+  let candidate = normalized.slice(0, maxLength + 1)
+    .replace(/\s+\S*$/, "")
+    .trim()
+    .replace(/[|,:;\-]+$/, "")
+    .trim();
+  const danglingTail = /\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every)$/i;
+  while (candidate && danglingTail.test(candidate)) {
+    candidate = candidate
+      .replace(/\s+\S+$/, "")
+      .trim()
+      .replace(/[|,:;\-]+$/, "")
+      .trim();
+  }
+  return candidate;
 }
 
 function makeListingDescription(value) {
