@@ -116,10 +116,10 @@ describe("static route HTML uses the full airline names", () => {
   });
 
   it("adds destination-specific guidance to generated USA-to-country pages", () => {
-    const html = readGenerated("/flights-usa-to-italy");
-    expect(html).toContain("Planning a USA-to-Italy itinerary");
-    expect(html).toContain("arrival gateways in Italy");
-    expect(html).toContain("airport codes and current ticket rules");
+    const html = readGenerated("/flights-usa-to-canada");
+    expect(html).toContain("Compare the cross-border journey to Canada");
+    expect(html).toContain("Confirm the Canadian arrival airport");
+    expect(html).toContain("official Canadian guidance");
     expect(html).not.toContain("Flight booking details to review");
   });
 
