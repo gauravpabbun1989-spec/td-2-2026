@@ -17,7 +17,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 const HOME_TITLE = "Make Flight Booking Easy | 24/7 Booking Assistance";
-const HOME_DESCRIPTION = "Call +1-888-958-0280 to book domestic or international flights by phone. Discuss routes, dates, cabins, baggage and fare rules. Travel help 24/7.";
+const HOME_DESCRIPTION = "Call +1-888-958-0280 to book domestic or international flights by phone. Discuss routes, dates, cabins, baggage, and fare rules with a travel specialist 24/7.";
 
 const HOME_IMAGE = absoluteUrl("/assets/generated/hero-flight.dim_1600x1100.jpg");
 
