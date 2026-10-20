@@ -40,8 +40,6 @@ export function SiteHeader() {
         { label: "USA to UK", to: "/flights-usa-to-uk" },
         { label: "USA to Europe", to: "/flights-usa-to-europe" },
         { label: "New York to London", to: "/flights-new-york-to-london" },
-        { label: "New York to Paris", to: "/flights-new-york-to-paris" },
-        { label: "New York to Dubai", to: "/flights-new-york-to-dubai" },
       ],
     },
   ] as const;
