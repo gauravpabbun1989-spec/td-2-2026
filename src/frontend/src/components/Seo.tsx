@@ -21,7 +21,7 @@ function normalizeTitle(value: string): string {
 }
 
 function normalizeDescription(value: string): string {
-  return trimToLimit(value, 155);
+  return trimToLimit(value, 160);
 }
 
 function upsertMeta(
