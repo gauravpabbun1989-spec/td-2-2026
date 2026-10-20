@@ -78,13 +78,8 @@ const FlightsFromDallasPage = lazyPage(() => import("@/pages/UsGatewayFlightPage
 const FlightsFromOrlandoPage = lazyPage(() => import("@/pages/UsGatewayFlightPages").then(({ FlightsFromOrlandoPage }) => ({ default: FlightsFromOrlandoPage })));
 const FlightsFromSanFranciscoPage = lazyPage(() => import("@/pages/UsGatewayFlightPages").then(({ FlightsFromSanFranciscoPage }) => ({ default: FlightsFromSanFranciscoPage })));
 
-const FlightsNewYorkToLondonPage = lazyPage(() => import("@/pages/RouteFlightPages").then(({ FlightsNewYorkToLondonPage }) => ({ default: FlightsNewYorkToLondonPage })));
-const FlightsNewYorkToParisPage = lazyPage(() => import("@/pages/RouteFlightPages").then(({ FlightsNewYorkToParisPage }) => ({ default: FlightsNewYorkToParisPage })));
-const FlightsNewYorkToDubaiPage = lazyPage(() => import("@/pages/RouteFlightPages").then(({ FlightsNewYorkToDubaiPage }) => ({ default: FlightsNewYorkToDubaiPage })));
 const FlightsLosAngelesToTokyoPage = lazyPage(() => import("@/pages/RouteFlightPages").then(({ FlightsLosAngelesToTokyoPage }) => ({ default: FlightsLosAngelesToTokyoPage })));
 const FlightsLosAngelesToLondonPage = lazyPage(() => import("@/pages/RouteFlightPages").then(({ FlightsLosAngelesToLondonPage }) => ({ default: FlightsLosAngelesToLondonPage })));
-const FlightsMiamiToCancunPage = lazyPage(() => import("@/pages/RouteFlightPages").then(({ FlightsMiamiToCancunPage }) => ({ default: FlightsMiamiToCancunPage })));
-const FlightsChicagoToLondonPage = lazyPage(() => import("@/pages/RouteFlightPages").then(({ FlightsChicagoToLondonPage }) => ({ default: FlightsChicagoToLondonPage })));
 const FlightsSanFranciscoToTokyoPage = lazyPage(() => import("@/pages/RouteFlightPages").then(({ FlightsSanFranciscoToTokyoPage }) => ({ default: FlightsSanFranciscoToTokyoPage })));
 
 import { AmericanAirlinesPage } from "@/pages/airlines/AmericanAirlinesPage";
@@ -333,23 +328,8 @@ const flightsFromSanFranciscoRoute = createRoute({
   component: FlightsFromSanFranciscoPage,
 });
 
-const flightsNewYorkToLondonRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/flights-new-york-to-london",
-  component: FlightsNewYorkToLondonPage,
-});
 
-const flightsNewYorkToParisRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/flights-new-york-to-paris",
-  component: FlightsNewYorkToParisPage,
-});
 
-const flightsNewYorkToDubaiRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/flights-new-york-to-dubai",
-  component: FlightsNewYorkToDubaiPage,
-});
 
 const flightsLosAngelesToTokyoRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -363,17 +343,7 @@ const flightsLosAngelesToLondonRoute = createRoute({
   component: FlightsLosAngelesToLondonPage,
 });
 
-const flightsMiamiToCancunRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/flights-miami-to-cancun",
-  component: FlightsMiamiToCancunPage,
-});
 
-const flightsChicagoToLondonRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/flights-chicago-to-london",
-  component: FlightsChicagoToLondonPage,
-});
 
 const flightsSanFranciscoToTokyoRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -546,13 +516,8 @@ export const routeTree = rootRoute.addChildren([
   flightsFromDallasRoute,
   flightsFromOrlandoRoute,
   flightsFromSanFranciscoRoute,
-  flightsNewYorkToLondonRoute,
-  flightsNewYorkToParisRoute,
-  flightsNewYorkToDubaiRoute,
   flightsLosAngelesToTokyoRoute,
   flightsLosAngelesToLondonRoute,
-  flightsMiamiToCancunRoute,
-  flightsChicagoToLondonRoute,
   flightsSanFranciscoToTokyoRoute,
   flightBookingRoute,
   flightSearchRoute,
