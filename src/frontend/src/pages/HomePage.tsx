@@ -188,12 +188,25 @@ export function HomePage() {
         <div className="mx-auto max-w-6xl"><p className="label-board text-accent">Popular booking help</p><h2 id="popular-booking-help-heading" className="mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl">A few common reasons travelers reach out.</h2><p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">Explore focused guides for urgent travel, premium cabins, family trips, affordable fare planning, and changes or cancellations.</p><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[["Cheap flight booking by phone","/cheap-flight-booking-by-phone/"],["Business class flight booking","/business-class-flight-booking/"],["Corporate flight booking","/corporate-flight-booking/"],["Same-day flight booking","/same-day-flight-booking/"],["Family flight booking","/family-flight-booking/"],["Flight change assistance","/flight-change-assistance/"],["Flight cancellation assistance","/flight-cancellation-assistance/"]].map(([label,to])=><Link key={to} to={to} className="group rounded-[1.5rem] border border-border bg-card px-6 py-5 text-sm font-semibold text-primary shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated">{label}<span className="ml-2 transition-transform group-hover:translate-x-1">→</span></Link>)}</div></div>
       </section>
 
-      <section className="border-b border-border bg-muted/40 px-5 py-14 sm:px-8 sm:py-20" aria-labelledby="high-intent-flight-searches-heading">
+      <section className="border-b border-border bg-muted/40 px-5 py-14 sm:px-8 sm:py-20" aria-labelledby="before-you-pay-heading">
         <div className="mx-auto max-w-6xl">
-          <p className="label-board text-accent">Flight reservation assistance</p>
-          <h2 id="high-intent-flight-searches-heading" className="mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl">Flight booking, change, cancellation and rebooking help for U.S. travelers</h2>
-          <p className="mt-5 max-w-5xl text-base leading-7 text-muted-foreground">TicketDepart helps U.S. travelers researching flight booking assistance, flight booking by phone, flight reservation assistance, airline reservation assistance, flight change assistance, flight cancellation assistance, flight rebooking assistance, flight rescheduling, last-minute flight booking, same-day flight booking, international flight booking, multi-city flight booking, group flight booking, family flight booking, business class flight booking, baggage assistance, pet flight booking, and infant flight booking. Travelers can start from major U.S. gateways including New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, Orlando, and San Francisco and discuss domestic or international routes to Canada, Mexico, the Caribbean, Latin America, Europe, Asia, the Middle East, Africa, and destinations worldwide.</p>
-          <p className="mt-4 max-w-5xl text-sm leading-6 text-muted-foreground">Common high-intent needs include booking a flight from the USA, changing a flight, canceling a flight, rebooking a flight, rescheduling a flight, comparing airports and connections, selecting a cabin, reviewing baggage rules, and understanding ticket conditions before payment. Airline names are used for travel identification; TicketDepart is an independent travel agency and is not an airline.</p>
+          <p className="label-board text-accent">Before you book</p>
+          <h2 id="before-you-pay-heading" className="mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl">Check the details that can change the real cost of a flight.</h2>
+          <p className="mt-5 max-w-4xl text-base leading-7 text-muted-foreground">A fare is only one part of the decision. Before paying, confirm the full price, baggage allowance, connection times, cabin, ticket restrictions, and the terms for changes or cancellation. Options and prices depend on your route, dates, availability, and booking provider.</p>
+          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["Total trip cost", "Check taxes, baggage, and any separately charged services."],
+              ["Connections", "Review layover length, airport changes, and arrival times."],
+              ["Ticket conditions", "Ask which changes, cancellations, or refunds are permitted."],
+              ["Traveler details", "Confirm passenger names and document requirements before purchase."],
+            ].map(([title, description]) => (
+              <div key={title} className="rounded-2xl border border-border bg-card p-4">
+                <p className="text-sm font-semibold text-foreground">{title}</p>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">{description}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-5 max-w-4xl text-sm leading-6 text-muted-foreground">Want to discuss a specific itinerary? <Link to="/book-a-flight-by-phone/" className="font-semibold text-primary underline underline-offset-4">See how phone booking works</Link> or <Link to="/flight-change-assistance/" className="font-semibold text-primary underline underline-offset-4">review flight-change assistance</Link>. TicketDepart is an independent travel agency, not an airline.</p>
         </div>
       </section>
 
