@@ -727,7 +727,7 @@ function semanticExpansion(route, meta) {
   // static HTML fallback is useful before React hydrates. Avoid applying this to
   // legal/contact pages or the noindex results page.
   const airlineNames = {
-    "/delta-airlines": "Delta Air Lines",
+    "/delta-airlines": "Delta Airlines",
     "/united-airlines": "United Airlines",
     "/american-airlines": "American Airlines",
     "/southwest-airlines": "Southwest Airlines",
