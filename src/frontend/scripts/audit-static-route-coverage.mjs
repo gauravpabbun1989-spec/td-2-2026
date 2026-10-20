@@ -33,7 +33,7 @@ assert(builtRobots.includes("Allow: /"), "robots.txt does not allow public crawl
 assert(builtRobots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "robots.txt sitemap URL is incorrect");
 
 const locs = extractLocs(builtSitemap);
-assert(locs.length === 84, `expected 84 intended sitemap URLs; found ${locs.length}`);
+assert(locs.length === 51, `expected 51 URLs matching the indexed-page keep list; found ${locs.length}`);
 assert(new Set(locs).size === locs.length, "built sitemap contains duplicate URLs");
 assert(!locs.some((url) => new URL(url).pathname.replace(/\/+$/, "") === "/flight-search-results"), "non-indexable flight search results route must not be in the sitemap");
 
@@ -82,7 +82,7 @@ assert(homeDescription.includes("24/7") && homeDescription.includes("TicketDepar
 assert(!/855[\s().-]*544[\s().-]*9001/.test(homeHtml), "old public phone number remains in built homepage HTML");
 
 const countryUrls = locs.filter((url) => new URL(url).pathname.startsWith("/flights-usa-to-"));
-assert(countryUrls.length >= 26, `expected at least 26 USA-to-country URLs in sitemap; found ${countryUrls.length}`);
+assert(countryUrls.length === 4, `expected exactly four USA-to-country URLs from the indexed keep list; found ${countryUrls.length}`);
 
 const titles = new Set();
 const headings = new Set();

@@ -96,12 +96,7 @@ const routes = {
     heading: "Pet flight booking assistance by phone",
     text: "Discuss pet travel requirements, cabin or checked-pet questions, documentation, connections, and baggage considerations before booking.",
   },
-  "/infant-flight-booking": {
-    title: "Infant Flight Booking Assistance | TicketDepart",
-    description: "Book flights with an infant by phone. Discuss infant traveler details, seating questions, bassinet requests, baggage, connections, and airline requirements with a travel specialist.",
-    heading: "Infant flight booking assistance by phone",
-    text: "Discuss infant traveler details, seating, bassinets, stroller and baggage questions, connections, and airline requirements before booking.",
-  },
+
   "/baggage-assistance": {
     title: "Flight Baggage Assistance by Phone | TicketDepart",
     description: "Get flight baggage assistance by phone. Discuss baggage allowances, checked bags, carry-on questions, excess baggage, special items, and airline baggage rules with a travel specialist.",
@@ -126,12 +121,7 @@ const routes = {
     heading: "Airline reservation assistance by phone",
     text: "For a new trip or an existing ticket, have the airline, route, travel dates, and booking reference available if you have them. A specialist can discuss the ticket terms and possible next steps for changes, cancellations, connections, and baggage questions. Eligibility, fees, refunds, and credits depend on the ticket conditions and responsible airline or travel provider. TicketDepart is an independent travel agency and is not an airline’s official customer-service department.",
   },
-  "/flight-booking-assistance": {
-    title: "Flight Booking Assistance by Phone | TicketDepart",
-    description: "Get flight booking assistance by phone for domestic, international, multi-city, family, group, and premium-cabin travel with an independent travel specialist.",
-    heading: "Flight booking assistance by phone",
-    text: "Discuss routes, dates, airports, connections, cabins, traveler details, and fare conditions before you confirm a flight booking.",
-  },
+
   "/flight-booking": {
     title: "Flight Booking Assistance | TicketDepart",
     description: "Book U.S. and international flights by phone. Discuss multi-city trips, premium cabins, group travel and fare rules. Call +1-888-958-0280, 24/7.",
@@ -216,12 +206,7 @@ const routes = {
     heading: "Norse Atlantic Airways flight assistance with a travel specialist",
     text: "Get independent travel assistance for Norse Atlantic Airways transatlantic itineraries, connections, changes, and multi-city planning.",
   },
-  "/lot-polish-airlines": {
-    title: "LOT Polish Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for LOT Polish Airlines flight booking, European and international itineraries, premium cabins, connections, changes, and multi-city trips.",
-    heading: "LOT Polish Airlines flight assistance with a travel specialist",
-    text: "Get independent travel assistance for LOT Polish Airlines itineraries, including European travel, transatlantic trips, connections, premium cabins, changes, and multi-city planning.",
-  },
+
   "/flights-usa-to-canada": {
     title: "USA to Canada Flights | Booking Assistance | TicketDepart",
     description: "Get help comparing flights from the USA to Canada by phone, including cities, airports, dates, connections, cabins, baggage, and fare conditions.",
@@ -301,18 +286,8 @@ const routes = {
     heading: "New York to London flight booking assistance",
     text: "Discuss New York to London routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
   },
-  "/flights-new-york-to-paris": {
-    title: "New York to Paris Flights | Booking Assistance | TicketDepart",
-    description: "Discuss New York to Paris flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
-    heading: "New York to Paris flight booking assistance",
-    text: "Discuss New York to Paris routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
-  },
-  "/flights-new-york-to-dubai": {
-    title: "New York to Dubai Flights | Booking Assistance | TicketDepart",
-    description: "Discuss New York to Dubai flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
-    heading: "New York to Dubai flight booking assistance",
-    text: "Discuss New York to Dubai routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
-  },
+
+
   "/flights-los-angeles-to-tokyo": {
     title: "Los Angeles to Tokyo Flights | Booking Assistance | TicketDepart",
     description: "Discuss Los Angeles to Tokyo flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
@@ -325,18 +300,8 @@ const routes = {
     heading: "Los Angeles to London flight booking assistance",
     text: "Discuss Los Angeles to London routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
   },
-  "/flights-miami-to-cancun": {
-    title: "Miami to Cancun Flights | Booking Assistance | TicketDepart",
-    description: "Discuss Miami to Cancun flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
-    heading: "Miami to Cancun flight booking assistance",
-    text: "Discuss Miami to Cancun routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
-  },
-  "/flights-chicago-to-london": {
-    title: "Chicago to London Flights | Booking Assistance | TicketDepart",
-    description: "Discuss Chicago to London flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
-    heading: "Chicago to London flight booking assistance",
-    text: "Discuss Chicago to London routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
-  },
+
+
   "/flights-san-francisco-to-tokyo": {
     title: "San Francisco to Tokyo Flights | Booking Assistance | TicketDepart",
     description: "Discuss San Francisco to Tokyo flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
@@ -381,6 +346,16 @@ for (const match of sitemapSource.matchAll(/<loc>https:\/\/ticketdepart\.com(\/[
     heading: `${label} booking assistance`,
     text: `Discuss USA-to-${country} routes, departure and arrival airports, travel dates, connections, cabin options, baggage, and applicable fare conditions.`,
   };
+}
+
+// The sitemap is the single source of truth for indexable public routes.
+// Keep the interactive results page available to users, but never emit it as an indexable URL.
+const retainedPaths = new Set(
+  [...sitemapSource.matchAll(/<loc>https:\/\/ticketdepart\.com(\/[^<]*)<\/loc>/g)]
+    .map((match) => match[1] === "/" ? "/" : match[1].replace(/\/+$/, "")),
+);
+for (const route of Object.keys(routes)) {
+  if (!retainedPaths.has(route) && route !== "/flight-search-results") delete routes[route];
 }
 
 function escapeHtml(value) {
@@ -592,6 +567,21 @@ const RELATED_ROUTE_RULES = {
     "/book-a-flight-by-phone",
   ],
 };
+
+// Do not create crawlable links to pages excluded from the sitemap. This keeps
+// internal-link generation aligned with the same canonical indexed-page list.
+for (const route of Object.keys(STATIC_SEO_CONTENT)) {
+  if (!retainedPaths.has(route)) delete STATIC_SEO_CONTENT[route];
+}
+for (const route of Object.keys(RELATED_ROUTE_RULES)) {
+  if (!retainedPaths.has(route)) {
+    delete RELATED_ROUTE_RULES[route];
+    continue;
+  }
+  RELATED_ROUTE_RULES[route] = RELATED_ROUTE_RULES[route].filter(
+    (relatedRoute) => retainedPaths.has(relatedRoute),
+  );
+}
 
 function routeLabel(route) {
   const meta = routes[route];
