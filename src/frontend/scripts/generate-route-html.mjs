@@ -295,24 +295,6 @@ const routes = {
     heading: "Flights from San Francisco with booking assistance",
     text: "Discuss San Francisco departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.",
   },
-  "/flights-new-york-to-london": {
-    title: "New York to London Flights | Booking Assistance | TicketDepart",
-    description: "Discuss New York to London flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
-    heading: "New York to London flight booking assistance",
-    text: "Discuss New York to London routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
-  },
-  "/flights-new-york-to-paris": {
-    title: "New York to Paris Flights | Booking Assistance | TicketDepart",
-    description: "Discuss New York to Paris flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
-    heading: "New York to Paris flight booking assistance",
-    text: "Discuss New York to Paris routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
-  },
-  "/flights-new-york-to-dubai": {
-    title: "New York to Dubai Flights | Booking Assistance | TicketDepart",
-    description: "Discuss New York to Dubai flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
-    heading: "New York to Dubai flight booking assistance",
-    text: "Discuss New York to Dubai routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
-  },
   "/flights-los-angeles-to-tokyo": {
     title: "Los Angeles to Tokyo Flights | Booking Assistance | TicketDepart",
     description: "Discuss Los Angeles to Tokyo flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
@@ -324,18 +306,6 @@ const routes = {
     description: "Discuss Los Angeles to London flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
     heading: "Los Angeles to London flight booking assistance",
     text: "Discuss Los Angeles to London routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
-  },
-  "/flights-miami-to-cancun": {
-    title: "Miami to Cancun Flights | Booking Assistance | TicketDepart",
-    description: "Discuss Miami to Cancun flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
-    heading: "Miami to Cancun flight booking assistance",
-    text: "Discuss Miami to Cancun routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
-  },
-  "/flights-chicago-to-london": {
-    title: "Chicago to London Flights | Booking Assistance | TicketDepart",
-    description: "Discuss Chicago to London flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
-    heading: "Chicago to London flight booking assistance",
-    text: "Discuss Chicago to London routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
   },
   "/flights-san-francisco-to-tokyo": {
     title: "San Francisco to Tokyo Flights | Booking Assistance | TicketDepart",
