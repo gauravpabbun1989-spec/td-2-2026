@@ -33,7 +33,7 @@ assert(builtRobots.includes("Allow: /"), "robots.txt does not allow public crawl
 assert(builtRobots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "robots.txt sitemap URL is incorrect");
 
 const locs = extractLocs(builtSitemap);
-assert(locs.length === 84, `expected 84 intended sitemap URLs; found ${locs.length}`);
+assert(locs.length === 51, `expected 51 URLs matching the indexed-page keep list; found ${locs.length}`);
 assert(new Set(locs).size === locs.length, "built sitemap contains duplicate URLs");
 assert(!locs.some((url) => new URL(url).pathname.replace(/\/+$/, "") === "/flight-search-results"), "non-indexable flight search results route must not be in the sitemap");
 
