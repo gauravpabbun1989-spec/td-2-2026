@@ -348,6 +348,16 @@ for (const match of sitemapSource.matchAll(/<loc>https:\/\/ticketdepart\.com(\/[
   };
 }
 
+// The sitemap is the single source of truth for indexable public routes.
+// Keep the interactive results page available to users, but never emit it as an indexable URL.
+const retainedPaths = new Set(
+  [...sitemapSource.matchAll(/<loc>https:\/\/ticketdepart\.com(\/[^<]*)<\/loc>/g)]
+    .map((match) => match[1] === "/" ? "/" : match[1].replace(/\/+$/, "")),
+);
+for (const route of Object.keys(routes)) {
+  if (!retainedPaths.has(route) && route !== "/flight-search-results") delete routes[route];
+}
+
 function escapeHtml(value) {
   return value
     .replaceAll("&", "&amp;")
@@ -557,6 +567,21 @@ const RELATED_ROUTE_RULES = {
     "/book-a-flight-by-phone",
   ],
 };
+
+// Do not create crawlable links to pages excluded from the sitemap. This keeps
+// internal-link generation aligned with the same canonical indexed-page list.
+for (const route of Object.keys(STATIC_SEO_CONTENT)) {
+  if (!retainedPaths.has(route)) delete STATIC_SEO_CONTENT[route];
+}
+for (const route of Object.keys(RELATED_ROUTE_RULES)) {
+  if (!retainedPaths.has(route)) {
+    delete RELATED_ROUTE_RULES[route];
+    continue;
+  }
+  RELATED_ROUTE_RULES[route] = RELATED_ROUTE_RULES[route].filter(
+    (relatedRoute) => retainedPaths.has(relatedRoute),
+  );
+}
 
 function routeLabel(route) {
   const meta = routes[route];
