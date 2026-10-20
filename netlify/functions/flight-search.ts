@@ -18,7 +18,9 @@ type GoogleFlightLeg = {
 type GoogleFlightOption = {
   flights?: GoogleFlightLeg[];
   total_duration?: number;
+  price?: number;
   departure_token?: string;
+  booking_token?: string;
 };
 
 function json(body: unknown, status = 200): Response {
@@ -80,6 +82,11 @@ function normalizeOptions(options: GoogleFlightOption[] | undefined, origin: str
       stops: Math.max(0, legs.length - 1),
       cabin,
       legs: displayLegs,
+      ...(typeof option.price === "number" && Number.isFinite(option.price) && option.price >= 0
+        ? { price: option.price }
+        : {}),
+      ...(option.departure_token ? { departureToken: option.departure_token } : {}),
+      ...(option.booking_token ? { bookingToken: option.booking_token } : {}),
     }];
   });
 }
