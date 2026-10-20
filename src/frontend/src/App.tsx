@@ -264,19 +264,6 @@ const usaToMexicoFlightsRoute = createRoute({
 
 
 
-const usaToTürkiyeFlightsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/flights-usa-to-turkiye", component: UsaToTurkiyeFlightsPage });
-
-
-
-
-
-
-
-
-
-
-
-
 const flightsFromNewYorkRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/flights-from-new-york",
@@ -487,21 +474,6 @@ export const routeTree = rootRoute.addChildren([
   baggageAssistanceRoute,
 
   indexRoute,
-
-
-
-
-  usaToTürkiyeFlightsRoute,
-
-
-
-
-
-
-
-
-
-
 
   usaToMexicoFlightsRoute,
   usaToCanadaFlightsRoute,
