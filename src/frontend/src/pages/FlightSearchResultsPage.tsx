@@ -62,8 +62,8 @@ function buildResultsUrl(search: SearchState): string {
 
 function parseDurationMinutes(value?: string): number | null {
   if (!value) return null;
-  const hours = value.match(/(\\d+)\\s*h/i);
-  const minutes = value.match(/(\\d+)\\s*m/i);
+  const hours = value.match(/(\d+)\s*h/i);
+  const minutes = value.match(/(\d+)\s*m/i);
   if (!hours && !minutes) return null;
   return Number(hours?.[1] ?? 0) * 60 + Number(minutes?.[1] ?? 0);
 }
