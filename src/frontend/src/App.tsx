@@ -20,26 +20,6 @@ const FlightSearchPage = lazyPage(() => import("@/pages/FlightSearchPage").then(
 const FlightSearchResultsPage = lazyPage(() => import("@/pages/FlightSearchResultsPage").then(({ FlightSearchResultsPage }) => ({ default: FlightSearchResultsPage })));
 const HowToBookFlightByPhonePage = lazyPage(() => import("@/pages/HowToBookFlightByPhonePage").then(({ HowToBookFlightByPhonePage }) => ({ default: HowToBookFlightByPhonePage })));
 
-const UsaToItalyFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToItalyFlightsPage }) => ({ default: UsaToItalyFlightsPage })));
-const UsaToFranceFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToFranceFlightsPage }) => ({ default: UsaToFranceFlightsPage })));
-const UsaToGermanyFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToGermanyFlightsPage }) => ({ default: UsaToGermanyFlightsPage })));
-const UsaToSpainFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSpainFlightsPage }) => ({ default: UsaToSpainFlightsPage })));
-const UsaToJapanFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToJapanFlightsPage }) => ({ default: UsaToJapanFlightsPage })));
-const UsaToChinaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToChinaFlightsPage }) => ({ default: UsaToChinaFlightsPage })));
-const UsaToBrazilFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToBrazilFlightsPage }) => ({ default: UsaToBrazilFlightsPage })));
-const UsaToColombiaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToColombiaFlightsPage }) => ({ default: UsaToColombiaFlightsPage })));
-const UsaToGreeceFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToGreeceFlightsPage }) => ({ default: UsaToGreeceFlightsPage })));
-const UsaToSwitzerlandFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSwitzerlandFlightsPage }) => ({ default: UsaToSwitzerlandFlightsPage })));
-const UsaToNetherlandsFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToNetherlandsFlightsPage }) => ({ default: UsaToNetherlandsFlightsPage })));
-const UsaToUAEFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToUAEFlightsPage }) => ({ default: UsaToUAEFlightsPage })));
-const UsaToQatarFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToQatarFlightsPage }) => ({ default: UsaToQatarFlightsPage })));
-const UsaToSaudiArabiaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSaudiArabiaFlightsPage }) => ({ default: UsaToSaudiArabiaFlightsPage })));
-const UsaToTurkiyeFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToTurkiyeFlightsPage }) => ({ default: UsaToTurkiyeFlightsPage })));
-const UsaToMoroccoFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToMoroccoFlightsPage }) => ({ default: UsaToMoroccoFlightsPage })));
-const UsaToSouthAfricaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSouthAfricaFlightsPage }) => ({ default: UsaToSouthAfricaFlightsPage })));
-const UsaToSouthKoreaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSouthKoreaFlightsPage }) => ({ default: UsaToSouthKoreaFlightsPage })));
-const UsaToPhilippinesFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToPhilippinesFlightsPage }) => ({ default: UsaToPhilippinesFlightsPage })));
-const UsaToSingaporeFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToSingaporeFlightsPage }) => ({ default: UsaToSingaporeFlightsPage })));
 const UsaToMalaysiaFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToMalaysiaFlightsPage }) => ({ default: UsaToMalaysiaFlightsPage })));
 const UsaToThailandFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToThailandFlightsPage }) => ({ default: UsaToThailandFlightsPage })));
 const UsaToVietnamFlightsPage = lazyPage(() => import("@/pages/UsaWorldCountryPages").then(({ UsaToVietnamFlightsPage }) => ({ default: UsaToVietnamFlightsPage })));
