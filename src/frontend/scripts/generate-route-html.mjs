@@ -748,7 +748,7 @@ function semanticExpansion(route, meta) {
       "<section><h2>Planning a " + escapeHtml(airline) + " itinerary</h2><p>When comparing " + escapeHtml(airline) + " flights, start with the complete trip: departure and arrival airports, travel dates, connection time, cabin, baggage needs, and the time you need to arrive. The best itinerary depends on your route and dates, so compare available options rather than assuming one schedule or fare applies to every trip. If you are considering an international or multi-city journey, check each flight segment and allow enough time for connections and onward transport.</p></section>",
       "<section><h2>What to confirm before booking</h2><p>Review the total price and any disclosed agency service fee, the baggage allowance, seat-selection terms, ticketing status, and the rules for changes, cancellations, refunds, or credits. These conditions depend on the specific ticket and may differ between fare types or operating carriers. Confirm the passenger names and airport codes before authorizing payment, and keep the itinerary and confirmation details. For current airline-specific operating policies, verify the terms with the airline or the ticket issuer.</p></section>",
       "<section><h2>Independent reservation assistance</h2><p>TicketDepart is an independent travel agency, not " + escapeHtml(airline) + " and not its official customer-service department. A travel specialist can discuss itinerary choices and booking details; availability and final ticket conditions must be confirmed for the selected trip.</p></section>"
-    ].join("\\n  ");
+    ].join("\n  ");
   }
 
   const serviceGuides = {
@@ -794,7 +794,7 @@ function semanticExpansion(route, meta) {
       "<section><h2>" + escapeHtml(serviceGuide.title) + "</h2><p>" + escapeHtml(serviceGuide.copy) + "</p></section>",
       "<section><h2>Practical checklist</h2><p>" + escapeHtml(serviceGuide.checklist) + "</p></section>",
       "<section><h2>Confirm the exact ticket conditions</h2><p>Schedules, inventory, baggage allowances, fees, and ticket rules depend on the selected itinerary and can change. Ask for the total price, any disclosed agency service fee, ticketing status, and the applicable change, cancellation, refund, or credit conditions before authorizing payment. TicketDepart provides independent travel reservation assistance and is not an airline's official customer-service department.</p></section>"
-    ].join("\\n  ");
+    ].join("\n  ");
   }
 
   // Use the actual route label to add destination-specific comparison guidance
@@ -804,7 +804,7 @@ function semanticExpansion(route, meta) {
     return [
       "<section><h2>Compare the complete " + escapeHtml(routeName) + " journey</h2><p>For this route, compare the departure and arrival airport codes, local departure and arrival times, connection airports, total journey time, cabin options, and baggage conditions. If the itinerary connects through another city, check whether the connection is on one ticket and whether you need to change terminals or collect baggage. Availability and schedules vary by date, so review the itinerary for your intended travel day.</p></section>",
       "<section><h2>Before confirming your route</h2><p>Check the total price, any disclosed agency service fee, ticketing status, baggage allowance, and the rules for changes or cancellation. For international travel, verify current passport, visa, transit, and entry requirements with the relevant official authorities. Compare the arrival airport with your onward transport and accommodation plans, and keep enough time for connections or separately booked travel.</p></section>"
-    ].join("\\n  ");
+    ].join("\n  ");
   }
 
   // Keep existing route-specific summaries and editorial guidance without
