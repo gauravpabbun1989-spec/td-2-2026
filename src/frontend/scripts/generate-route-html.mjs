@@ -96,12 +96,7 @@ const routes = {
     heading: "Pet flight booking assistance by phone",
     text: "Discuss pet travel requirements, cabin or checked-pet questions, documentation, connections, and baggage considerations before booking.",
   },
-  "/infant-flight-booking": {
-    title: "Infant Flight Booking Assistance | TicketDepart",
-    description: "Book flights with an infant by phone. Discuss infant traveler details, seating questions, bassinet requests, baggage, connections, and airline requirements with a travel specialist.",
-    heading: "Infant flight booking assistance by phone",
-    text: "Discuss infant traveler details, seating, bassinets, stroller and baggage questions, connections, and airline requirements before booking.",
-  },
+
   "/baggage-assistance": {
     title: "Flight Baggage Assistance by Phone | TicketDepart",
     description: "Get flight baggage assistance by phone. Discuss baggage allowances, checked bags, carry-on questions, excess baggage, special items, and airline baggage rules with a travel specialist.",
@@ -126,12 +121,7 @@ const routes = {
     heading: "Airline reservation assistance by phone",
     text: "For a new trip or an existing ticket, have the airline, route, travel dates, and booking reference available if you have them. A specialist can discuss the ticket terms and possible next steps for changes, cancellations, connections, and baggage questions. Eligibility, fees, refunds, and credits depend on the ticket conditions and responsible airline or travel provider. TicketDepart is an independent travel agency and is not an airline’s official customer-service department.",
   },
-  "/flight-booking-assistance": {
-    title: "Flight Booking Assistance by Phone | TicketDepart",
-    description: "Get flight booking assistance by phone for domestic, international, multi-city, family, group, and premium-cabin travel with an independent travel specialist.",
-    heading: "Flight booking assistance by phone",
-    text: "Discuss routes, dates, airports, connections, cabins, traveler details, and fare conditions before you confirm a flight booking.",
-  },
+
   "/flight-booking": {
     title: "Flight Booking Assistance | TicketDepart",
     description: "Book U.S. and international flights by phone. Discuss multi-city trips, premium cabins, group travel and fare rules. Call +1-888-958-0280, 24/7.",
@@ -216,12 +206,7 @@ const routes = {
     heading: "Norse Atlantic Airways flight assistance with a travel specialist",
     text: "Get independent travel assistance for Norse Atlantic Airways transatlantic itineraries, connections, changes, and multi-city planning.",
   },
-  "/lot-polish-airlines": {
-    title: "LOT Polish Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for LOT Polish Airlines flight booking, European and international itineraries, premium cabins, connections, changes, and multi-city trips.",
-    heading: "LOT Polish Airlines flight assistance with a travel specialist",
-    text: "Get independent travel assistance for LOT Polish Airlines itineraries, including European travel, transatlantic trips, connections, premium cabins, changes, and multi-city planning.",
-  },
+
   "/flights-usa-to-canada": {
     title: "USA to Canada Flights | Booking Assistance | TicketDepart",
     description: "Get help comparing flights from the USA to Canada by phone, including cities, airports, dates, connections, cabins, baggage, and fare conditions.",
@@ -295,6 +280,14 @@ const routes = {
     heading: "Flights from San Francisco with booking assistance",
     text: "Discuss San Francisco departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.",
   },
+  "/flights-new-york-to-london": {
+    title: "New York to London Flights | Booking Assistance | TicketDepart",
+    description: "Discuss New York to London flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
+    heading: "New York to London flight booking assistance",
+    text: "Discuss New York to London routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
+  },
+
+
   "/flights-los-angeles-to-tokyo": {
     title: "Los Angeles to Tokyo Flights | Booking Assistance | TicketDepart",
     description: "Discuss Los Angeles to Tokyo flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
@@ -307,6 +300,8 @@ const routes = {
     heading: "Los Angeles to London flight booking assistance",
     text: "Discuss Los Angeles to London routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
   },
+
+
   "/flights-san-francisco-to-tokyo": {
     title: "San Francisco to Tokyo Flights | Booking Assistance | TicketDepart",
     description: "Discuss San Francisco to Tokyo flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
@@ -494,25 +489,27 @@ const RELATED_ROUTE_RULES = {
     "/swiss-air", "/flight-booking",
   ],
   "/flights-usa-to-uk": [
-    "/international-flight-booking", "/british-airways", "/flight-booking", "/book-a-flight-by-phone",
+    "/international-flight-booking", "/british-airways", "/flights-new-york-to-london",
+    "/flight-booking", "/book-a-flight-by-phone",
   ],
   "/flights-usa-to-mexico": [
-    "/international-flight-booking", "/flight-booking",
+    "/international-flight-booking", "/flights-miami-to-cancun", "/flight-booking",
     "/book-a-flight-by-phone", "/family-flight-booking",
   ],
   "/flights-from-new-york": [
-    "/flight-booking", "/book-a-flight-by-phone", "/international-flight-booking",
+    "/flight-booking", "/book-a-flight-by-phone", "/flights-new-york-to-london",
+    "/flights-new-york-to-paris", "/flights-new-york-to-dubai", "/international-flight-booking",
   ],
   "/flights-from-los-angeles": [
     "/flight-booking", "/flights-los-angeles-to-london", "/flights-los-angeles-to-tokyo",
     "/international-flight-booking", "/book-a-flight-by-phone",
   ],
   "/flights-from-chicago": [
-    "/flight-booking", "/international-flight-booking",
+    "/flight-booking", "/flights-chicago-to-london", "/international-flight-booking",
     "/book-a-flight-by-phone",
   ],
   "/flights-from-miami": [
-    "/flight-booking", "/flights-usa-to-mexico",
+    "/flight-booking", "/flights-miami-to-cancun", "/flights-usa-to-mexico",
     "/international-flight-booking",
   ],
   "/flights-from-dallas": [
@@ -527,12 +524,32 @@ const RELATED_ROUTE_RULES = {
     "/flight-booking", "/flights-san-francisco-to-tokyo", "/international-flight-booking",
     "/book-a-flight-by-phone",
   ],
+  "/flights-new-york-to-london": [
+    "/flights-from-new-york", "/flights-usa-to-uk", "/british-airways",
+    "/international-flight-booking", "/flight-booking",
+  ],
+  "/flights-new-york-to-paris": [
+    "/flights-from-new-york", "/flights-usa-to-europe", "/international-flight-booking",
+    "/flight-booking",
+  ],
+  "/flights-new-york-to-dubai": [
+    "/flights-from-new-york", "/international-flight-booking", "/emirates",
+    "/business-class-flight-booking", "/flight-booking",
+  ],
   "/flights-los-angeles-to-tokyo": [
     "/flights-from-los-angeles", "/international-flight-booking", "/flight-booking",
     "/book-a-flight-by-phone",
   ],
   "/flights-los-angeles-to-london": [
     "/flights-from-los-angeles", "/flights-usa-to-uk", "/british-airways",
+    "/international-flight-booking", "/flight-booking",
+  ],
+  "/flights-miami-to-cancun": [
+    "/flights-from-miami", "/flights-usa-to-mexico", "/international-flight-booking",
+    "/flight-booking",
+  ],
+  "/flights-chicago-to-london": [
+    "/flights-from-chicago", "/flights-usa-to-uk", "/british-airways",
     "/international-flight-booking", "/flight-booking",
   ],
   "/flights-san-francisco-to-tokyo": [
@@ -600,6 +617,26 @@ function semanticExpansion(route, meta) {
       copy: "Bay Area travelers may compare San Francisco, Oakland, or San Jose depending on the destination and how far they are willing to travel to the airport. For long-haul itineraries, compare the arrival airport, total journey time, and local arrival date. A cheaper flight can be less convenient if ground transport or an overnight connection adds cost.",
       checklist: "Compare SFO, OAK, and SJC only where they serve the itinerary; add ground-transfer time and cost; check the destination airport carefully; and review long-haul connection and baggage details."
     },
+    "/flights-new-york-to-london": {
+      title: "Compare the whole New York–London journey",
+      copy: "For a New York–London trip, compare departure options from JFK and Newark with the London airport shown on the itinerary. A nonstop option, if available for the date, may save connection time, while a connecting itinerary can change the total journey substantially. Check the local arrival time, onward transport, baggage allowance, and whether the ticket includes every segment.",
+      checklist: "Confirm the departure and arrival airport codes; compare total travel time rather than flight time alone; check baggage and seat conditions; and verify current UK entry requirements with official government guidance."
+    },
+    "/flights-chicago-to-london": {
+      title: "Plan the Chicago–London crossing",
+      copy: "For Chicago to London, start by comparing the departure time from O'Hare, the London arrival airport, and the local arrival time. If an itinerary connects elsewhere, check the time between flights and whether you must change terminals or complete any transit formalities. The best fit depends on the dates, ticket terms, and your onward plans.",
+      checklist: "Confirm ORD and the London arrival airport; compare nonstop availability with connecting alternatives for your dates; review baggage and change terms; and check current UK entry and transit rules with official sources."
+    },
+    "/flights-new-york-to-paris": {
+      title: "Match your New York–Paris flight to your plans",
+      copy: "When comparing New York and Paris itineraries, verify whether the flight arrives at Charles de Gaulle or Orly and how you will continue into the city or onward to another destination. Arrival time, transport, baggage, and the time needed for a connection can affect the real convenience of the trip.",
+      checklist: "Check the Paris airport code; compare arrival time with hotel check-in or onward rail plans; confirm baggage and fare restrictions; and verify current French and Schengen entry requirements through official sources."
+    },
+    "/flights-new-york-to-dubai": {
+      title: "Prepare for a long-haul New York–Dubai itinerary",
+      copy: "For a New York–Dubai journey, compare the complete travel time, departure airport, Dubai arrival time, and any connection shown. On a long-haul itinerary, cabin, baggage, seat conditions, and the ability to change dates may matter more than a small difference in the listed journey time. Confirm the airport code and ticket conditions for every segment.",
+      checklist: "Review the full journey and connection buffer; check cabin and baggage inclusions; account for the local arrival date; and confirm current UAE entry and transit requirements with official government guidance."
+    },
     "/flights-los-angeles-to-tokyo": {
       title: "Check Tokyo airport and arrival-day details",
       copy: "For Los Angeles to Tokyo, check whether the itinerary arrives at Haneda or Narita and how that affects your onward journey. Crossing the Pacific and the International Date Line means the local arrival date can differ from what you expect, so match the flight to hotel reservations, transfers, and any connecting travel.",
@@ -609,6 +646,11 @@ function semanticExpansion(route, meta) {
       title: "Compare the Los Angeles–London itinerary",
       copy: "For Los Angeles to London, compare the departure time, London arrival airport, and total time in transit. A connection can affect rest, baggage handling, and the chance of reaching onward transport on schedule. Review each segment and make sure the fare conditions match the flexibility you need.",
       checklist: "Confirm the London arrival airport; compare total journey time and connection length; review baggage and change conditions; and check current UK entry or transit rules through official sources."
+    },
+    "/flights-miami-to-cancun": {
+      title: "Coordinate the Miami–Cancun flight with onward travel",
+      copy: "For Miami to Cancun, consider the arrival time alongside airport transfers, accommodation check-in, and any pre-booked activities. Compare the full itinerary and confirm whether baggage and seat selection are included. If the trip is part of a larger plan, allow a buffer between arrival and any separately booked transfer or event.",
+      checklist: "Confirm MIA and CUN; match arrival time to your transfer plans; check passport and entry requirements with official authorities; and review baggage, seat, and ticket-change conditions."
     },
     "/flights-san-francisco-to-tokyo": {
       title: "Plan the San Francisco–Tokyo long-haul trip",
