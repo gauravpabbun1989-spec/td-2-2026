@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouterState } from "@tanstack/react-router";
 
-const DISMISSED_KEY = "ticketdepart_call_now_popup_dismissed_v2";
 const POPUP_SHOW_DELAY_MS = 100;
 const CALL_PROMPT_DELAY_MS = 9000;
 
@@ -24,18 +23,6 @@ export function CallNowPopup() {
   useEffect(() => {
     if (typeof window === "undefined" || pathnameRef.current.startsWith("/admin")) return;
     if (hasShownThisSession.current) return;
-
-    try {
-      // Only an explicit dismissal suppresses the popup for this tab session.
-      // A legacy "shown" flag must not prevent a fresh direct visit from seeing it.
-      if (window.sessionStorage.getItem(DISMISSED_KEY) === "1") {
-        hasShownThisSession.current = true;
-        hasDismissedPopup.current = true;
-        return;
-      }
-    } catch {
-      // In-memory refs still prevent repeated behavior while this component remains mounted.
-    }
 
     const popupTimer = window.setTimeout(() => {
       hasShownThisSession.current = true;
@@ -75,13 +62,6 @@ export function CallNowPopup() {
     hasShownThisSession.current = true;
     hasDismissedPopup.current = true;
     setIsCallPromptActive(false);
-    try {
-      window.sessionStorage.setItem(DISMISSED_KEY, "1");
-      // Retain the legacy key for compatibility, but it is no longer used to suppress display.
-      window.sessionStorage.setItem("ticketdepart_call_now_popup_shown_v2", "1");
-    } catch {
-      // In-memory dismissal still works when browser storage is blocked.
-    }
     trackEvent("call_now_popup_dismiss", {
       popup_location: "sitewide_modal",
       landing_path: pathnameRef.current,
