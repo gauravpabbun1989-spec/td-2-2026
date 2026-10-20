@@ -615,12 +615,12 @@ export function FlightBookingPage() {
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             ["New York → London", "/flights-new-york-to-london"],
-            ["New York → Paris", "/flights-new-york-to-paris"],
-            ["New York → Dubai", "/flights-new-york-to-dubai"],
+            
+            
             ["Los Angeles → Tokyo", "/flights-los-angeles-to-tokyo"],
             ["Los Angeles → London", "/flights-los-angeles-to-london"],
-            ["Miami → Cancun", "/flights-miami-to-cancun"],
-            ["Chicago → London", "/flights-chicago-to-london"],
+            
+            
             ["San Francisco → Tokyo", "/flights-san-francisco-to-tokyo"],
           ].map(([label, to]) => (
             <Link
