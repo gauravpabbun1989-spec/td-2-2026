@@ -527,32 +527,12 @@ const RELATED_ROUTE_RULES = {
     "/flight-booking", "/flights-san-francisco-to-tokyo", "/international-flight-booking",
     "/book-a-flight-by-phone",
   ],
-  "/flights-new-york-to-london": [
-    "/flights-from-new-york", "/flights-usa-to-uk", "/british-airways",
-    "/international-flight-booking", "/flight-booking",
-  ],
-  "/flights-new-york-to-paris": [
-    "/flights-from-new-york", "/flights-usa-to-europe", "/international-flight-booking",
-    "/flight-booking",
-  ],
-  "/flights-new-york-to-dubai": [
-    "/flights-from-new-york", "/international-flight-booking", "/emirates",
-    "/business-class-flight-booking", "/flight-booking",
-  ],
   "/flights-los-angeles-to-tokyo": [
     "/flights-from-los-angeles", "/international-flight-booking", "/flight-booking",
     "/book-a-flight-by-phone",
   ],
   "/flights-los-angeles-to-london": [
     "/flights-from-los-angeles", "/flights-usa-to-uk", "/british-airways",
-    "/international-flight-booking", "/flight-booking",
-  ],
-  "/flights-miami-to-cancun": [
-    "/flights-from-miami", "/flights-usa-to-mexico", "/international-flight-booking",
-    "/flight-booking",
-  ],
-  "/flights-chicago-to-london": [
-    "/flights-from-chicago", "/flights-usa-to-uk", "/british-airways",
     "/international-flight-booking", "/flight-booking",
   ],
   "/flights-san-francisco-to-tokyo": [
