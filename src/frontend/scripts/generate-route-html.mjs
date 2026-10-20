@@ -799,8 +799,8 @@ function semanticExpansion(route, meta) {
 
   // Use the actual route label to add destination-specific comparison guidance
   // to route pages that do not already have a hand-written editorial guide.
-  if (/^\\/flights-[a-z-]+-to-[a-z-]+$/.test(route)) {
-    const routeName = meta.heading.replace(/\\s+flight booking assistance$/i, "").replace(/\\s+flights?$/i, "");
+  if (/^\/flights-[a-z-]+-to-[a-z-]+$/.test(route)) {
+    const routeName = meta.heading.replace(/\s+flight booking assistance$/i, "").replace(/\s+flights?$/i, "");
     return [
       "<section><h2>Compare the complete " + escapeHtml(routeName) + " journey</h2><p>For this route, compare the departure and arrival airport codes, local departure and arrival times, connection airports, total journey time, cabin options, and baggage conditions. If the itinerary connects through another city, check whether the connection is on one ticket and whether you need to change terminals or collect baggage. Availability and schedules vary by date, so review the itinerary for your intended travel day.</p></section>",
       "<section><h2>Before confirming your route</h2><p>Check the total price, any disclosed agency service fee, ticketing status, baggage allowance, and the rules for changes or cancellation. For international travel, verify current passport, visa, transit, and entry requirements with the relevant official authorities. Compare the arrival airport with your onward transport and accommodation plans, and keep enough time for connections or separately booked travel.</p></section>"
