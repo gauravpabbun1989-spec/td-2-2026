@@ -16,7 +16,6 @@ import {
   formatDisplayTime,
   formatDuration,
   type FlightSchedule,
-  type LocationChoice,
 } from "./FlightSearchPage";
 
 type SearchState = {
@@ -60,16 +59,42 @@ function buildResultsUrl(search: SearchState): string {
   return `/flight-search-results?${params.toString()}`;
 }
 
+function parseDurationMinutes(value?: string): number | null {
+  if (!value) return null;
+  const hours = value.match(/(\d+)\s*h/i);
+  const minutes = value.match(/(\d+)\s*m/i);
+  if (!hours && !minutes) return null;
+  return Number(hours?.[1] ?? 0) * 60 + Number(minutes?.[1] ?? 0);
+}
+
+function sortSchedules(items: FlightSchedule[], sortBy: "recommended" | "departure" | "duration" | "stops" | "price"): FlightSchedule[] {
+  if (sortBy === "recommended") return items;
+  return [...items].sort((a, b) => {
+    if (sortBy === "stops") return a.stops - b.stops;
+    if (sortBy === "price") {
+      if (a.price == null) return b.price == null ? 0 : 1;
+      if (b.price == null) return -1;
+      return a.price - b.price;
+    }
+    if (sortBy === "duration") {
+      const aDuration = parseDurationMinutes(a.duration);
+      const bDuration = parseDurationMinutes(b.duration);
+      if (aDuration == null) return bDuration == null ? 0 : 1;
+      if (bDuration == null) return -1;
+      return aDuration - bDuration;
+    }
+    return a.departure.time.localeCompare(b.departure.time);
+  });
+}
+
 function ResultCard({
   result,
   selected,
   onSelect,
-  showCallButton,
 }: {
   result: FlightSchedule;
   selected: boolean;
   onSelect: () => void;
-  showCallButton: boolean;
 }) {
   const legs = result.legs?.length
     ? result.legs
@@ -105,6 +130,10 @@ function ResultCard({
             </p>
           </div>
         </div>
+
+        {result.price != null && Number.isFinite(result.price) && (
+          <p className="text-xl font-bold text-foreground">{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(result.price)} <span className="text-xs font-normal text-muted-foreground">displayed fare · confirm current price by phone</span></p>
+        )}
 
         <div className="rounded-2xl border border-border bg-background/60 p-4">
           {legs.map((leg, index) => (
@@ -145,16 +174,6 @@ function ResultCard({
           {selected ? <Check className="size-4" /> : null}
           {selected ? "Selected" : "Select itinerary"}
         </button>
-        {showCallButton && (
-          <a
-            href={SITE.phoneHref}
-            data-cta-location="results"
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-red-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 animate-pulse sm:w-auto sm:self-end"
-            aria-label="Call to Book / Prices / Confirm for this selected flight"
-          >
-            <Phone className="size-4 animate-bounce text-white" /> Call to Book / Prices / Confirm
-          </a>
-        )}
       </div>
     </article>
   );
@@ -167,7 +186,6 @@ export function FlightSearchResultsPage() {
   const [inbound, setInbound] = useState<FlightSchedule[]>([]);
   const [selectedOutbound, setSelectedOutbound] = useState<FlightSchedule | null>(null);
   const [selectedReturn, setSelectedReturn] = useState<FlightSchedule | null>(null);
-  const [selectedCallFlightId, setSelectedCallFlightId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showModify, setShowModify] = useState(false);
   const [error, setError] = useState("");
@@ -187,7 +205,6 @@ export function FlightSearchResultsPage() {
     setInbound([]);
     setSelectedOutbound(null);
     setSelectedReturn(null);
-    setSelectedCallFlightId(null);
     try {
       if (nextSearch.from === nextSearch.to) throw new Error("Departure and destination cannot be the same airport.");
       if (nextSearch.tripType === "Round trip" && (!nextSearch.returnDate || nextSearch.returnDate < nextSearch.departure)) {
@@ -253,6 +270,11 @@ export function FlightSearchResultsPage() {
     }
     window.location.assign(buildResultsUrl(next));
   };
+
+  const [sortBy, setSortBy] = useState<"recommended" | "departure" | "duration" | "stops" | "price">("recommended");
+
+  const sortedOutbound = useMemo(() => sortSchedules(outbound, sortBy), [outbound, sortBy]);
+  const sortedInbound = useMemo(() => sortSchedules(inbound, sortBy), [inbound, sortBy]);
 
   const itineraryReady = Boolean(selectedOutbound && (search?.tripType === "One way" || selectedReturn));
   const itinerarySummary = selectedOutbound
@@ -383,6 +405,13 @@ export function FlightSearchResultsPage() {
           description="Select your preferred itinerary. A reservation specialist will confirm current fare and booking details by phone."
         />
 
+        {!loading && !error && outbound.length > 1 && (
+          <div className="mt-6 flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div><p className="text-sm font-semibold">Compare itineraries</p><p className="text-xs text-muted-foreground">Sort the returned options; fares appear only when supplied by the search service.</p></div>
+            <label className="flex items-center gap-2 text-sm font-medium">Sort by<select value={sortBy} onChange={(event) => setSortBy(event.target.value as typeof sortBy)} className="h-10 rounded-xl border border-border bg-background px-3 text-sm"><option value="recommended">Recommended order</option><option value="departure">Earliest departure</option><option value="duration">Shortest duration</option><option value="stops">Fewest stops</option><option value="price">Lowest displayed fare</option></select></label>
+          </div>
+        )}
+
         {loading ? (
           <div className="mt-8 flex items-center justify-center rounded-2xl border border-border bg-card p-12 text-sm text-muted-foreground">
             <LoaderCircle className="mr-2 size-5 animate-spin" /> Loading flight schedules…
@@ -394,15 +423,13 @@ export function FlightSearchResultsPage() {
         ) : (
           <>
             <div className="mt-8 grid gap-4">
-              {outbound.map((result) => (
+              {sortedOutbound.map((result) => (
                 <ResultCard
                   key={result.id}
                   result={result}
                   selected={selectedOutbound?.id === result.id}
-                  showCallButton={selectedCallFlightId === result.id}
                   onSelect={() => {
                     setSelectedOutbound(result);
-                    setSelectedCallFlightId(result.id);
                     setSelectedReturn(null);
                     if (search.tripType === "Round trip" && !inbound.length) {
                       setError("No return options were returned for this date. Try another return date.");
@@ -418,15 +445,13 @@ export function FlightSearchResultsPage() {
               <div className="mt-10">
                 <h2 className="mb-4 text-xl font-bold">{"Choose your return flight"}</h2>
                 <div className="grid gap-4">
-                  {inbound.map((result) => (
+                  {sortedInbound.map((result) => (
                     <ResultCard
                       key={result.id}
                       result={result}
                       selected={selectedReturn?.id === result.id}
-                      showCallButton={selectedCallFlightId === result.id}
                       onSelect={() => {
                         setSelectedReturn(result);
-                        setSelectedCallFlightId(result.id);
                       }}
                     />
                   ))}
@@ -444,8 +469,8 @@ export function FlightSearchResultsPage() {
                 <h2 className="mt-1 text-xl font-bold">{itinerarySummary}</h2>
                 <p className="mt-1 text-sm text-muted-foreground">{search.travelers} traveler{search.travelers === "1" ? "" : "s"} · {search.cabin}</p>
               </div>
-              <a href={SITE.phoneHref} data-cta-location="results_summary" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-red-600 px-6 font-semibold text-white shadow-sm transition hover:bg-red-700 animate-pulse">
-                <Phone className="size-4 animate-bounce text-white" /> Call to Book / Prices / Confirm
+              <a href={SITE.phoneHref} data-cta-location="results_summary" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent px-6 font-semibold text-accent-foreground shadow-sm transition hover:bg-accent/90">
+                <Phone className="size-4" /> Call to confirm this itinerary
               </a>
             </div>
           </div>
