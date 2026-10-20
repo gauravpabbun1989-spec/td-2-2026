@@ -311,7 +311,7 @@ const routes = {
 
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
-    description: "Contact TicketDepart to plan your next flight. Call +1 888-958-0280 any time, or send your trip details and a travel specialist will follow up with options.",
+    description: "Contact TicketDepart for flight booking, itinerary questions, changes, or cancellations. Phone help is available 24/7.",
     heading: "Talk to a real travel specialist",
     text: "Call +1 888-958-0280 24/7 or send your trip details. TicketDepart is an independent travel agency.",
   },
@@ -823,6 +823,11 @@ function trimDescription(value, maxLength) {
     .trim()
     .replace(/[|,:;\-]+$/, "")
     .trim();
+  // A word-boundary cut can leave the incomplete noun phrase "with a travel".
+  // Remove that whole fragment rather than publishing it as a finished sentence.
+  if (/\bwith\s+a\s+travel$/i.test(candidate)) {
+    candidate = candidate.replace(/\s+\bwith\s+a\s+travel$/i, "").trim();
+  }
   const danglingTail = /\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every)$/i;
   while (candidate && danglingTail.test(candidate)) {
     candidate = candidate
