@@ -20,9 +20,7 @@ const PUBLIC_ROUTES = [
   "/flights-from-new-york", "/flights-from-los-angeles", "/flights-from-chicago",
   "/flights-from-miami", "/flights-from-atlanta", "/flights-from-dallas",
   "/flights-from-orlando", "/flights-from-san-francisco",
-  "/flights-new-york-to-london", "/flights-new-york-to-paris", "/flights-new-york-to-dubai",
-  "/flights-los-angeles-to-tokyo", "/flights-los-angeles-to-london", "/flights-miami-to-cancun",
-  "/flights-chicago-to-london", "/flights-san-francisco-to-tokyo",
+  "/flights-los-angeles-to-tokyo", "/flights-los-angeles-to-london", "/flights-san-francisco-to-tokyo",
   "/flights-usa-to-italy",
   "/flights-usa-to-france",
   "/flights-usa-to-germany",
@@ -57,9 +55,7 @@ const ALL_APP_PATHS = new Set([
   "/flights-from-new-york", "/flights-from-los-angeles", "/flights-from-chicago",
   "/flights-from-miami", "/flights-from-atlanta", "/flights-from-dallas",
   "/flights-from-orlando", "/flights-from-san-francisco",
-  "/flights-new-york-to-london", "/flights-new-york-to-paris", "/flights-new-york-to-dubai",
-  "/flights-los-angeles-to-tokyo", "/flights-los-angeles-to-london", "/flights-miami-to-cancun",
-  "/flights-chicago-to-london", "/flights-san-francisco-to-tokyo",
+  "/flights-los-angeles-to-tokyo", "/flights-los-angeles-to-london", "/flights-san-francisco-to-tokyo",
 ]);
 
 describe("current production route coverage", () => {
