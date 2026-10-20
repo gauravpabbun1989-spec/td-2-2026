@@ -494,27 +494,25 @@ const RELATED_ROUTE_RULES = {
     "/swiss-air", "/flight-booking",
   ],
   "/flights-usa-to-uk": [
-    "/international-flight-booking", "/british-airways", "/flights-new-york-to-london",
-    "/flight-booking", "/book-a-flight-by-phone",
+    "/international-flight-booking", "/british-airways", "/flight-booking", "/book-a-flight-by-phone",
   ],
   "/flights-usa-to-mexico": [
-    "/international-flight-booking", "/flights-miami-to-cancun", "/flight-booking",
+    "/international-flight-booking", "/flight-booking",
     "/book-a-flight-by-phone", "/family-flight-booking",
   ],
   "/flights-from-new-york": [
-    "/flight-booking", "/book-a-flight-by-phone", "/flights-new-york-to-london",
-    "/flights-new-york-to-paris", "/flights-new-york-to-dubai", "/international-flight-booking",
+    "/flight-booking", "/book-a-flight-by-phone", "/international-flight-booking",
   ],
   "/flights-from-los-angeles": [
     "/flight-booking", "/flights-los-angeles-to-london", "/flights-los-angeles-to-tokyo",
     "/international-flight-booking", "/book-a-flight-by-phone",
   ],
   "/flights-from-chicago": [
-    "/flight-booking", "/flights-chicago-to-london", "/international-flight-booking",
+    "/flight-booking", "/international-flight-booking",
     "/book-a-flight-by-phone",
   ],
   "/flights-from-miami": [
-    "/flight-booking", "/flights-miami-to-cancun", "/flights-usa-to-mexico",
+    "/flight-booking", "/flights-usa-to-mexico",
     "/international-flight-booking",
   ],
   "/flights-from-dallas": [
@@ -622,26 +620,6 @@ function semanticExpansion(route, meta) {
       copy: "Bay Area travelers may compare San Francisco, Oakland, or San Jose depending on the destination and how far they are willing to travel to the airport. For long-haul itineraries, compare the arrival airport, total journey time, and local arrival date. A cheaper flight can be less convenient if ground transport or an overnight connection adds cost.",
       checklist: "Compare SFO, OAK, and SJC only where they serve the itinerary; add ground-transfer time and cost; check the destination airport carefully; and review long-haul connection and baggage details."
     },
-    "/flights-new-york-to-london": {
-      title: "Compare the whole New York–London journey",
-      copy: "For a New York–London trip, compare departure options from JFK and Newark with the London airport shown on the itinerary. A nonstop option, if available for the date, may save connection time, while a connecting itinerary can change the total journey substantially. Check the local arrival time, onward transport, baggage allowance, and whether the ticket includes every segment.",
-      checklist: "Confirm the departure and arrival airport codes; compare total travel time rather than flight time alone; check baggage and seat conditions; and verify current UK entry requirements with official government guidance."
-    },
-    "/flights-chicago-to-london": {
-      title: "Plan the Chicago–London crossing",
-      copy: "For Chicago to London, start by comparing the departure time from O'Hare, the London arrival airport, and the local arrival time. If an itinerary connects elsewhere, check the time between flights and whether you must change terminals or complete any transit formalities. The best fit depends on the dates, ticket terms, and your onward plans.",
-      checklist: "Confirm ORD and the London arrival airport; compare nonstop availability with connecting alternatives for your dates; review baggage and change terms; and check current UK entry and transit rules with official sources."
-    },
-    "/flights-new-york-to-paris": {
-      title: "Match your New York–Paris flight to your plans",
-      copy: "When comparing New York and Paris itineraries, verify whether the flight arrives at Charles de Gaulle or Orly and how you will continue into the city or onward to another destination. Arrival time, transport, baggage, and the time needed for a connection can affect the real convenience of the trip.",
-      checklist: "Check the Paris airport code; compare arrival time with hotel check-in or onward rail plans; confirm baggage and fare restrictions; and verify current French and Schengen entry requirements through official sources."
-    },
-    "/flights-new-york-to-dubai": {
-      title: "Prepare for a long-haul New York–Dubai itinerary",
-      copy: "For a New York–Dubai journey, compare the complete travel time, departure airport, Dubai arrival time, and any connection shown. On a long-haul itinerary, cabin, baggage, seat conditions, and the ability to change dates may matter more than a small difference in the listed journey time. Confirm the airport code and ticket conditions for every segment.",
-      checklist: "Review the full journey and connection buffer; check cabin and baggage inclusions; account for the local arrival date; and confirm current UAE entry and transit requirements with official government guidance."
-    },
     "/flights-los-angeles-to-tokyo": {
       title: "Check Tokyo airport and arrival-day details",
       copy: "For Los Angeles to Tokyo, check whether the itinerary arrives at Haneda or Narita and how that affects your onward journey. Crossing the Pacific and the International Date Line means the local arrival date can differ from what you expect, so match the flight to hotel reservations, transfers, and any connecting travel.",
@@ -651,11 +629,6 @@ function semanticExpansion(route, meta) {
       title: "Compare the Los Angeles–London itinerary",
       copy: "For Los Angeles to London, compare the departure time, London arrival airport, and total time in transit. A connection can affect rest, baggage handling, and the chance of reaching onward transport on schedule. Review each segment and make sure the fare conditions match the flexibility you need.",
       checklist: "Confirm the London arrival airport; compare total journey time and connection length; review baggage and change conditions; and check current UK entry or transit rules through official sources."
-    },
-    "/flights-miami-to-cancun": {
-      title: "Coordinate the Miami–Cancun flight with onward travel",
-      copy: "For Miami to Cancun, consider the arrival time alongside airport transfers, accommodation check-in, and any pre-booked activities. Compare the full itinerary and confirm whether baggage and seat selection are included. If the trip is part of a larger plan, allow a buffer between arrival and any separately booked transfer or event.",
-      checklist: "Confirm MIA and CUN; match arrival time to your transfer plans; check passport and entry requirements with official authorities; and review baggage, seat, and ticket-change conditions."
     },
     "/flights-san-francisco-to-tokyo": {
       title: "Plan the San Francisco–Tokyo long-haul trip",
