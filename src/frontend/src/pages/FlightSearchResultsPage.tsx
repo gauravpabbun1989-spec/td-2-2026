@@ -16,7 +16,6 @@ import {
   formatDisplayTime,
   formatDuration,
   type FlightSchedule,
-  type LocationChoice,
 } from "./FlightSearchPage";
 
 type SearchState = {
