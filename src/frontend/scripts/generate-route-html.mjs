@@ -847,7 +847,13 @@ function makeListingDescription(value) {
     .replace(/\.\s*[,;:]/g, ".")
     .replace(/\s+/g, " ")
     .replace(/[.\s]+$/, "");
-  // Removing a leading call instruction must not leave a dangling preposition\n  // (for example, "to book" or "for U.S. flights") at the start of the snippet.\n  const cleanedBase = withoutPhone.replace(/^(?:to|for|at)\\s+/i, "").trim();\n  const base = trimDescription(cleanedBase, 155 - phoneSuffix.length - 1);\n  const capitalizedBase = base ? base[0].toUpperCase() + base.slice(1) : "Flight booking assistance";\n  const punctuatedBase = /[.!?]$/.test(capitalizedBase) ? capitalizedBase : `${capitalizedBase}.`;\n  return `${punctuatedBase}${phoneSuffix}`;
+  // Removing a leading call instruction must not leave a dangling preposition
+  // (for example, "to book" or "for U.S. flights") at the start of the snippet.
+  const cleanedBase = withoutPhone.replace(/^(?:to|for|at)\s+/i, "").trim();
+  const base = trimDescription(cleanedBase, 155 - phoneSuffix.length - 1);
+  const capitalizedBase = base ? base[0].toUpperCase() + base.slice(1) : "Flight booking assistance";
+  const punctuatedBase = /[.!?]$/.test(capitalizedBase) ? capitalizedBase : `${capitalizedBase}.`;
+  return `${punctuatedBase}${phoneSuffix}`;
 }
 
 function routeHtml(route, meta) {
