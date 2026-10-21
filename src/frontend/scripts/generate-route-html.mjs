@@ -311,7 +311,7 @@ const routes = {
 
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
-    description: "Contact TicketDepart to plan your next flight. Call +1 888-958-0280 any time, or send your trip details and a travel specialist will follow up with options.",
+    description: "Contact TicketDepart about flight bookings, itinerary questions, changes, or cancellations. Call +1-888-958-0280.",
     heading: "Talk to a real travel specialist",
     text: "Call +1 888-958-0280 24/7 or send your trip details. TicketDepart is an independent travel agency.",
   },
@@ -823,7 +823,7 @@ function trimDescription(value, maxLength) {
     .trim()
     .replace(/[|,:;\-]+$/, "")
     .trim();
-  const danglingTail = /\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every)$/i;
+  const danglingTail = /\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every|follow|follow up|with a travel)$/i;
   while (candidate && danglingTail.test(candidate)) {
     candidate = candidate
       .replace(/\s+\S+$/, "")
@@ -839,6 +839,14 @@ function makeListingDescription(value) {
     .replace(/(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g, "+1-888-958-0280")
     .replace(/\s+/g, " ")
     .trim();
+  // Preserve a call-first description instead of stripping its opening CTA
+  // and re-appending the phone number at the end (which left "to book" at the
+  // beginning of the static homepage snippet).
+  if (/^call\s*\+?1[\s().-]*888[\s().-]*958[\s().-]*0280\b/i.test(normalized)) {
+    const direct = trimDescription(normalized, 155);
+    return /[.!?]$/.test(direct) ? direct : trimDescription(direct, 154) + ".";
+  }
+
   const phoneSuffix = " Call +1-888-958-0280.";
   const withoutPhone = normalized
     .replace(/\b(?:call|at)\s*\+?1[\s().-]*888[\s().-]*958[\s().-]*0280/gi, "")
