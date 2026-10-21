@@ -57,8 +57,8 @@ for (const file of walk(distDir)) {
   // Keep social previews aligned with the final, trimmed page metadata. The
   // previous hardener changed only the standard description, leaving stale or
   // overlong Open Graph/Twitter values in the same static document.
-  const finalTitle = html.match(/<title>([\\s\\S]*?)<\\/title>/i)?.[1]?.trim() ?? "";
-  const finalDescription = html.match(/<meta\\s+name="description"\\s+content="([^"]*)"/i)?.[1]?.trim() ?? "";
+  const finalTitle = html.match(/<title>([\s\S]*?)<\\/title>/i)?.[1]?.trim() ?? "";
+  const finalDescription = html.match(/<meta\s+name="description"\s+content="([^"]*)"/i)?.[1]?.trim() ?? "";
   const escapeAttribute = (value) => value
     .replaceAll("&", "&amp;")
     .replaceAll('"', "&quot;")
@@ -69,12 +69,12 @@ for (const file of walk(distDir)) {
     (tag) => tag.replace(/content="[^"]*"/i, `content="${escapeAttribute(value)}"`),
   );
   if (finalTitle) {
-    html = replaceMetaContent(html, /<meta\\s+property="og:title"[^>]*>/i, finalTitle);
-    html = replaceMetaContent(html, /<meta\\s+name="twitter:title"[^>]*>/i, finalTitle);
+    html = replaceMetaContent(html, /<meta\s+property="og:title"[^>]*>/i, finalTitle);
+    html = replaceMetaContent(html, /<meta\s+name="twitter:title"[^>]*>/i, finalTitle);
   }
   if (finalDescription) {
-    html = replaceMetaContent(html, /<meta\\s+property="og:description"[^>]*>/i, finalDescription);
-    html = replaceMetaContent(html, /<meta\\s+name="twitter:description"[^>]*>/i, finalDescription);
+    html = replaceMetaContent(html, /<meta\s+property="og:description"[^>]*>/i, finalDescription);
+    html = replaceMetaContent(html, /<meta\s+name="twitter:description"[^>]*>/i, finalDescription);
   }
 
   const rel = path.relative(distDir, path.dirname(file)).replaceAll(path.sep, "/");
