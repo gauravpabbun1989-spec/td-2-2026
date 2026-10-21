@@ -15,7 +15,7 @@ const PAGE_PATH = "/book-a-flight-by-phone/";
 const PAGE_TITLE =
   "Book a Flight by Phone | 24/7 Booking Help";
 const PAGE_DESCRIPTION =
-  "Call +1-888-958-0280 to book a flight by phone. Compare routes, dates, cabins, baggage and fare rules with a travel specialist 24/7.";
+  "Book a flight by phone. Compare routes, dates, cabins, baggage and fare rules with a travel specialist 24/7. Call +1-888-958-0280.";
 
 const FAQS = [
   {

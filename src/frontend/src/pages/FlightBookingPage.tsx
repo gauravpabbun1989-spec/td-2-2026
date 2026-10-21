@@ -25,7 +25,7 @@ import {
 const PAGE_PATH = "/flight-booking/";
 const PAGE_TITLE = "Flight Booking Assistance by Phone | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Call +1-888-958-0280 for U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7.";
+  "Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7. Call +1-888-958-0280.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
