@@ -148,10 +148,10 @@ for (const url of locs) {
   assert(title && title.length >= 20, "missing or weak title for " + url);
   assert(heading && heading.length >= 10, "missing or weak H1 for " + url);
   assert(description.length >= 60, "missing or weak meta description for " + url);
-  const ogTitle = html.match(/<meta\\s+property=["']og:title["']\\s+content=["']([^"']+)["']/i)?.[1]?.trim() ?? "";
-  const twitterTitle = html.match(/<meta\\s+name=["']twitter:title["']\\s+content=["']([^"']+)["']/i)?.[1]?.trim() ?? "";
-  const ogDescription = html.match(/<meta\\s+property=["']og:description["']\\s+content=["']([^"']+)["']/i)?.[1]?.trim() ?? "";
-  const twitterDescription = html.match(/<meta\\s+name=["']twitter:description["']\\s+content=["']([^"']+)["']/i)?.[1]?.trim() ?? "";
+  const ogTitle = html.match(/<meta\s+property=["']og:title["']\s+content=["']([^"']+)["']/i)?.[1]?.trim() ?? "";
+  const twitterTitle = html.match(/<meta\s+name=["']twitter:title["']\s+content=["']([^"']+)["']/i)?.[1]?.trim() ?? "";
+  const ogDescription = html.match(/<meta\s+property=["']og:description["']\s+content=["']([^"']+)["']/i)?.[1]?.trim() ?? "";
+  const twitterDescription = html.match(/<meta\s+name=["']twitter:description["']\s+content=["']([^"']+)["']/i)?.[1]?.trim() ?? "";
   assert(ogTitle === title, "Open Graph title differs from page title: " + url);
   assert(twitterTitle === title, "Twitter title differs from page title: " + url);
   assert(ogDescription === description, "Open Graph description differs from meta description: " + url);
