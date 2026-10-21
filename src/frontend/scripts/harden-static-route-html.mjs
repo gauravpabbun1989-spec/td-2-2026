@@ -53,6 +53,37 @@ for (const file of walk(distDir)) {
   html = html.replace(/(<meta\s+name="description"\s+content=")([^"]*)(")/i, (_, a, value, c) =>
     `${a}${trimDescription(value)}${c}`
   );
+  
+  // Keep social previews aligned with the final, trimmed page metadata. The
+  // previous hardener changed only the standard description, leaving stale or
+  // overlong Open Graph/Twitter values in the same static document.
+  const finalTitle = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1]?.trim() ?? "";
+  const finalDescription = html.match(/<meta\s+name="description"\s+content="([^"]*)"/i)?.[1]?.trim() ?? "";
+  const escapeAttribute = (value) => value
+    .replace(/&(?!(?:amp|lt|gt|quot|#39);)/g, "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+  const replaceMetaContent = (source, selector, attributes, value) => {
+    const existing = source.match(selector)?.[0];
+    if (existing) {
+      return source.replace(selector, (tag) =>
+        tag.replace(/content="[^"]*"/i, `content="${escapeAttribute(value)}"`),
+      );
+    }
+    return source.replace(
+      "</head>",
+      `<meta ${attributes} content="${escapeAttribute(value)}" />\n</head>`,
+    );
+  };
+  if (finalTitle) {
+    html = replaceMetaContent(html, /<meta\s+property="og:title"[^>]*>/i, 'property="og:title"', finalTitle);
+    html = replaceMetaContent(html, /<meta\s+name="twitter:title"[^>]*>/i, 'name="twitter:title"', finalTitle);
+  }
+  if (finalDescription) {
+    html = replaceMetaContent(html, /<meta\s+property="og:description"[^>]*>/i, 'property="og:description"', finalDescription);
+    html = replaceMetaContent(html, /<meta\s+name="twitter:description"[^>]*>/i, 'name="twitter:description"', finalDescription);
+  }
 
   const rel = path.relative(distDir, path.dirname(file)).replaceAll(path.sep, "/");
   const route = rel ? `https://ticketdepart.com/${rel}/` : "https://ticketdepart.com/";
