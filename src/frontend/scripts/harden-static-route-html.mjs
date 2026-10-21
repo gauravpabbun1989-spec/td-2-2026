@@ -60,7 +60,7 @@ for (const file of walk(distDir)) {
   const finalTitle = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1]?.trim() ?? "";
   const finalDescription = html.match(/<meta\s+name="description"\s+content="([^"]*)"/i)?.[1]?.trim() ?? "";
   const escapeAttribute = (value) => value
-    .replaceAll("&", "&amp;")
+    .replace(/&(?!(?:amp|lt|gt|quot|#39);)/g, "&amp;")
     .replaceAll('"', "&quot;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
