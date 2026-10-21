@@ -57,7 +57,7 @@ for (const file of walk(distDir)) {
   // Keep social previews aligned with the final, trimmed page metadata. The
   // previous hardener changed only the standard description, leaving stale or
   // overlong Open Graph/Twitter values in the same static document.
-  const finalTitle = html.match(/<title>([\s\S]*?)<\\/title>/i)?.[1]?.trim() ?? "";
+  const finalTitle = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1]?.trim() ?? "";
   const finalDescription = html.match(/<meta\s+name="description"\s+content="([^"]*)"/i)?.[1]?.trim() ?? "";
   const escapeAttribute = (value) => value
     .replaceAll("&", "&amp;")
