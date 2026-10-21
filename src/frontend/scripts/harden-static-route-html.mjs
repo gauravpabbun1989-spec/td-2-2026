@@ -64,17 +64,25 @@ for (const file of walk(distDir)) {
     .replaceAll('"', "&quot;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
-  const replaceMetaContent = (source, selector, value) => source.replace(
-    selector,
-    (tag) => tag.replace(/content="[^"]*"/i, `content="${escapeAttribute(value)}"`),
-  );
+  const replaceMetaContent = (source, selector, attributes, value) => {
+    const existing = source.match(selector)?.[0];
+    if (existing) {
+      return source.replace(selector, (tag) =>
+        tag.replace(/content="[^"]*"/i, `content="${escapeAttribute(value)}"`),
+      );
+    }
+    return source.replace(
+      "</head>",
+      `<meta ${attributes} content="${escapeAttribute(value)}" />\\n</head>`,
+    );
+  };
   if (finalTitle) {
-    html = replaceMetaContent(html, /<meta\s+property="og:title"[^>]*>/i, finalTitle);
-    html = replaceMetaContent(html, /<meta\s+name="twitter:title"[^>]*>/i, finalTitle);
+    html = replaceMetaContent(html, /<meta\s+property="og:title"[^>]*>/i, 'property="og:title"', finalTitle);
+    html = replaceMetaContent(html, /<meta\s+name="twitter:title"[^>]*>/i, 'name="twitter:title"', finalTitle);
   }
   if (finalDescription) {
-    html = replaceMetaContent(html, /<meta\s+property="og:description"[^>]*>/i, finalDescription);
-    html = replaceMetaContent(html, /<meta\s+name="twitter:description"[^>]*>/i, finalDescription);
+    html = replaceMetaContent(html, /<meta\s+property="og:description"[^>]*>/i, 'property="og:description"', finalDescription);
+    html = replaceMetaContent(html, /<meta\s+name="twitter:description"[^>]*>/i, 'name="twitter:description"', finalDescription);
   }
 
   const rel = path.relative(distDir, path.dirname(file)).replaceAll(path.sep, "/");
