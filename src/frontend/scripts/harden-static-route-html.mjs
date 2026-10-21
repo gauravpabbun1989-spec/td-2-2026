@@ -73,7 +73,7 @@ for (const file of walk(distDir)) {
     }
     return source.replace(
       "</head>",
-      `<meta ${attributes} content="${escapeAttribute(value)}" />\\n</head>`,
+      `<meta ${attributes} content="${escapeAttribute(value)}" />\n</head>`,
     );
   };
   if (finalTitle) {
