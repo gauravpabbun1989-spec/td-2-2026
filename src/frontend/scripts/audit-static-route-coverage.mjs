@@ -157,6 +157,8 @@ for (const url of locs) {
   assert(ogDescription === description, "Open Graph description differs from meta description: " + url);
   assert(twitterDescription === description, "Twitter description differs from meta description: " + url);
   assert(description.length <= 160, "meta description exceeds 160 characters: " + url);
+  assert(!/\bwith a travel\.?$/i.test(description), "meta description contains an awkward truncated phrase: " + url + ": " + description);
+  assert(!/\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as)\.$/i.test(description), "meta description ends with an incomplete phrase: " + url + ": " + description);
   assert(!/^(?:to|for|at)\b/i.test(description), "meta description starts with a dangling preposition: " + url);
   assert(!allPageTitles.has(title), "duplicate page title: " + title + " (" + allPageTitles.get(title) + " and " + url + ")");
   assert(!allPageHeadings.has(heading), "duplicate H1: " + heading + " (" + allPageHeadings.get(heading) + " and " + url + ")");
