@@ -311,7 +311,7 @@ const routes = {
 
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
-    description: "Contact TicketDepart to plan your next flight. Call +1 888-958-0280 any time, or send your trip details and a travel specialist will follow up with options.",
+    description: "Contact TicketDepart about flight booking, itinerary questions, changes, or cancellations.",
     heading: "Talk to a real travel specialist",
     text: "Call +1 888-958-0280 24/7 or send your trip details. TicketDepart is an independent travel agency.",
   },
@@ -814,7 +814,7 @@ function semanticExpansion(route, meta) {
 
 function trimDescription(value, maxLength) {
   const normalized = value.replace(/\s+/g, " ").trim();
-  if (normalized.length <= maxLength) return normalized;
+  if (normalized.length <= maxLength) return normalized.replace(/\s+with a travel$/i, "").trim();
 
   // Cut on a word boundary, then remove any dangling conjunction, determiner,
   // preposition, or adjective before punctuation is added by the caller.
@@ -823,6 +823,8 @@ function trimDescription(value, maxLength) {
     .trim()
     .replace(/[|,:;\-]+$/, "")
     .trim();
+  // Never publish a fragment such as "with a travel" when truncation cuts a longer phrase.
+  candidate = candidate.replace(/\s+with a travel$/i, "").trim();
   const danglingTail = /\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every)$/i;
   while (candidate && danglingTail.test(candidate)) {
     candidate = candidate
