@@ -175,6 +175,21 @@ assert(businessHeading === "Business class flight booking by phone", `business-c
 assert(businessDescription.length >= 60 && businessDescription.length <= 160 && /[.!?]$/.test(businessDescription), "business-class meta description must be complete and 60–160 characters");
 assert(!/855[\s().-]*544[\s().-]*9001/.test(businessHtml), "old public phone number remains on business-class page");
 
+const corporateHtml = read(path.join(distDir, "corporate-flight-booking", "index.html"));
+const corporateText = corporateHtml.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").toLowerCase();
+for (const phrase of ["travel policy", "employee and executive", "receipt requirements", "business class is a cabin preference", "independent travel agency"]) {
+  assert(corporateText.includes(phrase.toLowerCase()), "corporate flight page is missing distinct business-travel guidance: " + phrase);
+}
+assert(!/855[\s().-]*544[\s().-]*9001/.test(corporateHtml), "old public phone number remains on corporate flight page");
+
+const chicagoHtml = read(path.join(distDir, "flights-from-chicago", "index.html"));
+const chicagoText = chicagoHtml.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").toLowerCase();
+for (const phrase of ["ord", "midway", "mdw", "connection", "ground travel"]) {
+  assert(chicagoText.includes(phrase.toLowerCase()), "Chicago departure page is missing airport and itinerary guidance: " + phrase);
+}
+
+
+
 const phoneGuideHtml = read(path.join(distDir, "how-to-book-a-flight-by-phone", "index.html"));
 const phoneGuideText = phoneGuideHtml.replace(/<script[\s\S]*?<\/script>/gi, "").replace(/<style[\s\S]*?<\/style>/gi, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 for (const phrase of ["Prepare your trip details", "Compare the full itinerary", "Confirm terms before payment", "independent travel agency"]) {
