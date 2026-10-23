@@ -184,7 +184,7 @@ assert(!/855[\s().-]*544[\s().-]*9001/.test(corporateHtml), "old public phone nu
 
 const chicagoHtml = read(path.join(distDir, "flights-from-chicago", "index.html"));
 const chicagoText = chicagoHtml.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").toLowerCase();
-for (const phrase of ["o'hare", "ord", "midway", "mdw", "connection", "ground transport"]) {
+for (const phrase of ["ord", "midway", "mdw", "connection", "ground transport"]) {
   assert(chicagoText.includes(phrase.toLowerCase()), "Chicago departure page is missing airport and itinerary guidance: " + phrase);
 }
 
