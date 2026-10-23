@@ -188,12 +188,12 @@ for (const phrase of ["ord", "midway", "mdw", "connection", "ground travel"]) {
   assert(chicagoText.includes(phrase.toLowerCase()), "Chicago departure page is missing airport and itinerary guidance: " + phrase);
 }
 
-const corporateDescription = corporateHtml.match(/<meta\\s+name="description"\\s+content="([^"]+)"/i)?.[1]?.trim() ?? "";
-const chicagoDescription = chicagoHtml.match(/<meta\\s+name="description"\\s+content="([^"]+)"/i)?.[1]?.trim() ?? "";
-assert(!/with a travel\\./i.test(chicagoDescription), `Chicago meta description is awkwardly truncated: ${chicagoDescription}`);
+const corporateDescription = corporateHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1]?.trim() ?? "";
+const chicagoDescription = chicagoHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1]?.trim() ?? "";
+assert(!/with a travel\./i.test(chicagoDescription), `Chicago meta description is awkwardly truncated: ${chicagoDescription}`);
 assert(/employee and executive/i.test(corporateDescription), `corporate meta description lost its intended audience: ${corporateDescription}`);
-assert(/[.!?]\\s+Call \\+1-888-958-0280\\.$/.test(corporateDescription), `corporate meta description lacks a complete phone CTA: ${corporateDescription}`);
-assert(/[.!?]\\s+Call \\+1-888-958-0280\\.$/.test(chicagoDescription), `Chicago meta description lacks a complete phone CTA: ${chicagoDescription}`);
+assert(/[.!?]\s+Call \+1-888-958-0280\.$/.test(corporateDescription), `corporate meta description lacks a complete phone CTA: ${corporateDescription}`);
+assert(/[.!?]\s+Call \+1-888-958-0280\.$/.test(chicagoDescription), `Chicago meta description lacks a complete phone CTA: ${chicagoDescription}`);
 
 
 
