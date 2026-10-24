@@ -951,4 +951,22 @@ for (const [route, meta] of Object.entries(routes)) {
   fs.writeFileSync(path.join(dir, "index.html"), routeHtml(route, meta));
 }
 
+// The legacy alias is intentionally excluded from the sitemap, but it must
+// still have a static document for direct visits and consistent canonical and
+// Open Graph metadata. Keep this explicit write as a guard against route-list
+// refactors accidentally omitting the compatibility URL from the generation
+// map.
+const legacyRoute = "/flight-booking-assistance";
+const legacyMeta = routes[legacyRoute] ?? routes["/flight-booking"];
+if (legacyMeta) {
+  const legacyDir = path.join(distDir, legacyRoute.slice(1));
+  fs.mkdirSync(legacyDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(legacyDir, "index.html"),
+    routeHtml(legacyRoute, { ...legacyMeta, canonicalPath: "/flight-booking/" }),
+  );
+} else {
+  throw new Error("Cannot generate legacy /flight-booking-assistance static HTML: booking route metadata is missing");
+}
+
 console.log(`Generated ${Object.keys(routes).length} crawlable route entry points.`);
