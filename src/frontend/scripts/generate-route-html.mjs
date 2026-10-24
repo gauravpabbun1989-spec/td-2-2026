@@ -19,7 +19,7 @@ const routes = {
   },
   "/flight-search-results": {
     title: "Flight Search Results | TicketDepart",
-    description: "Search-generated flight schedule results for a selected route and date. This page is provided for interactive itinerary review and is not intended for search indexing.",
+    description: "Review flight schedules for your selected route and date. Interactive results are excluded from search indexing.",
     heading: "Flight search results and itinerary planning",
     text: "Review flight schedule options and modify your itinerary before calling TicketDepart for reservation assistance.",
     indexable: false,
@@ -38,7 +38,7 @@ const routes = {
   },
   "/international-flight-booking": {
     title: "International Flight Booking Assistance | TicketDepart",
-    description: "Get help planning and booking international flights by phone. Discuss routes, connections, cabins, dates, and fare conditions with an independent travel specialist.",
+    description: "Plan international flights by phone. Review routes, connections, cabin options, travel dates, and fare conditions.",
     heading: "International flight booking assistance by phone",
     text: "Discuss international routes, connections, cabins, flexible dates, travel-document questions, and fare conditions before booking.",
   },
@@ -68,7 +68,7 @@ const routes = {
   },
   "/corporate-flight-booking": {
     title: "Corporate Flight Booking by Phone | Business Travel | TicketDepart",
-    description: "Get corporate and business travel flight booking assistance by phone. Discuss employee travel, executive trips, international itineraries, business-class options, schedules, and booking terms with an independent travel specialist.",
+    description: "Coordinate employee and executive flight planning by phone. Review travel policy, dates, connections, and ticket terms. Call +1-888-958-0280.",
     heading: "Corporate flight booking by phone",
     text: "Coordinate employee and executive trips by reviewing travel-policy requirements, traveler count, meeting times, departure airports, routing, approval steps, and receipt or billing needs. Compare schedule reliability, connection risk, baggage, flexibility, and total ticket cost across available itineraries. Business class is a cabin choice within a trip plan, not the same as coordinating company travel. Confirm any disclosed service fees and fare conditions before authorizing payment. TicketDepart is an independent travel agency; this page does not promise negotiated corporate rates or an existing company account.",
   },
@@ -92,14 +92,14 @@ const routes = {
   },
   "/pet-flight-booking": {
     title: "Pet Flight Booking Assistance | TicketDepart",
-    description: "Plan flights with a pet by phone. Discuss cabin or checked-pet questions, carrier requirements, pet documentation, airports, connections, and booking details with a travel specialist.",
+    description: "Plan pet-friendly flights by phone. Ask about carrier rules, pet documents, cabin or hold options, and connections.",
     heading: "Pet flight booking assistance by phone",
     text: "Discuss pet travel requirements, cabin or checked-pet questions, documentation, connections, and baggage considerations before booking.",
   },
 
   "/baggage-assistance": {
     title: "Flight Baggage Assistance by Phone | TicketDepart",
-    description: "Get flight baggage assistance by phone. Discuss baggage allowances, checked bags, carry-on questions, excess baggage, special items, and airline baggage rules with a travel specialist.",
+    description: "Get help understanding carry-on limits, checked bags, excess baggage, special items, and airline baggage rules.",
     heading: "Flight baggage assistance by phone",
     text: "Discuss carry-on, checked, excess, special-item, pet, infant, and multi-airline baggage questions for your itinerary.",
   },
@@ -130,7 +130,7 @@ const routes = {
   },
   "/delta-airlines": {
     title: "Delta Airlines Flight Booking Assistance | 24/7 | TicketDepart",
-    description: "Independent travel agency helping you book, change, and rebook Delta Airlines flights — domestic, international, multi-city, and premium cabins. Discuss Delta Airlines reservation assistance by phone 24/7.",
+    description: "Discuss Delta Airlines flight bookings, changes, rebooking, multi-city trips, and premium cabins.",
     heading: "Delta Airlines flight bookings handled by a real travel specialist",
     text: "Get independent travel assistance for Delta Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, premium cabins, and 24/7 reservation assistance.",
   },
@@ -142,67 +142,67 @@ const routes = {
   },
   "/american-airlines": {
     title: "American Airlines Flight Booking Assistance | Book by Phone | TicketDepart",
-    description: "Independent travel agency for American Airlines bookings — domestic, international, multi-city, cabin options, and rebooking help. Discuss booking an American Airlines flight by phone.",
+    description: "Discuss American Airlines bookings, cabin options, multi-city trips, and rebooking with an independent travel agency.",
     heading: "American Airlines trips booked with a travel specialist",
     text: "Get independent travel assistance for American Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and cabin options by phone.",
   },
   "/southwest-airlines": {
     title: "Southwest Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for Southwest Airlines flight booking, family travel, same-day trips, changes, cancellations, and multi-city itineraries.",
+    description: "Get independent help with Southwest flight bookings, family trips, same-day travel, changes, and cancellations.",
     heading: "Southwest Airlines flight assistance, with a specialist on the phone",
     text: "Get independent travel assistance for Southwest Airlines itineraries, including new bookings, family travel, same-day trips, changes, cancellations, and multi-city planning.",
   },
   "/jetblue-airways": {
     title: "JetBlue Airways Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for JetBlue Airways flight booking, changes, cancellations, family trips, and urgent travel planning.",
+    description: "Get independent help with JetBlue bookings, family trips, urgent travel, changes, and cancellations.",
     heading: "JetBlue Airways flight booking assistance",
     text: "Get independent travel assistance for JetBlue Airways itineraries, including booking, changes, family travel, international trips, and last-minute planning.",
   },
   "/alaska-airlines": {
     title: "Alaska Airlines Flight Booking & Reservation Assistance | TicketDepart",
-    description: "Independent travel agency assistance for Alaska Airlines flight booking and reservation questions, changes, cancellations, family travel, and multi-city itineraries.",
+    description: "Get independent help with Alaska Airlines bookings, family travel, multi-city trips, changes, and cancellations.",
     heading: "Alaska Airlines flight booking and reservation assistance",
     text: "Get independent travel assistance for Alaska Airlines itineraries, including booking, reservation questions, changes, family travel, international trips, and multi-city planning.",
   },
   "/british-airways": {
     title: "British Airways Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for British Airways international booking, premium cabins, changes, cancellations, and multi-city travel.",
+    description: "Get independent help with British Airways international trips, premium cabins, changes, and multi-city bookings.",
     heading: "British Airways flight booking assistance",
     text: "Get independent travel assistance for British Airways international itineraries, premium cabins, connections, changes, and multi-city planning.",
   },
   "/lufthansa": {
     title: "Lufthansa Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for Lufthansa flight booking, Europe and international itineraries, premium cabins, changes, and cancellations.",
+    description: "Get independent help with Lufthansa bookings, European routes, premium cabins, changes, and cancellations.",
     heading: "Lufthansa flight booking assistance",
     text: "Get independent travel assistance for Lufthansa itineraries, international connections, premium cabins, changes, and multi-city planning.",
   },
   "/air-canada": {
     title: "Air Canada Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for Air Canada flight booking, Canada and international travel, family itineraries, changes, and multi-city trips.",
+    description: "Get independent help with Air Canada bookings, family trips, international routes, and multi-city travel.",
     heading: "Air Canada flight booking assistance",
     text: "Get independent travel assistance for Air Canada itineraries, including Canada, international travel, family trips, changes, and multi-city planning.",
   },
   "/swiss-air": {
     title: "SWISS Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for SWISS flight booking, Europe and international itineraries, premium cabins, changes, and multi-city travel.",
+    description: "Get independent help with SWISS bookings, European routes, premium cabins, and multi-city travel.",
     heading: "SWISS flight assistance with a travel specialist",
     text: "Get independent travel assistance for SWISS itineraries, international connections, premium cabins, changes, and multi-city planning.",
   },
   "/qatar-airways": {
     title: "Qatar Airways Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for Qatar Airways flight booking, international itineraries, premium cabins, connections, changes, and multi-city trips.",
+    description: "Get independent help with Qatar Airways bookings, premium cabins, connections, and multi-city trips.",
     heading: "Qatar Airways flight assistance with a travel specialist",
     text: "Get independent travel assistance for Qatar Airways itineraries, long-haul connections, premium cabins, changes, and multi-city planning.",
   },
   "/emirates": {
     title: "Emirates Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for Emirates flight booking, international itineraries, premium cabins, connections, changes, and multi-city trips.",
+    description: "Get independent help with Emirates bookings, premium cabins, connections, changes, and multi-city trips.",
     heading: "Emirates flight assistance with a travel specialist",
     text: "Get independent travel assistance for Emirates itineraries, long-haul connections, premium cabins, changes, and multi-city planning.",
   },
   "/norse-atlantic-airways": {
     title: "Norse Atlantic Airways Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency assistance for Norse Atlantic Airways flight booking, transatlantic itineraries, connections, changes, and multi-city travel.",
+    description: "Get independent help with Norse Atlantic Airways bookings, transatlantic routes, connections, and changes.",
     heading: "Norse Atlantic Airways flight assistance with a travel specialist",
     text: "Get independent travel assistance for Norse Atlantic Airways transatlantic itineraries, connections, changes, and multi-city planning.",
   },
@@ -215,13 +215,13 @@ const routes = {
   },
   "/flights-usa-to-uk": {
     title: "USA to UK Flights | Booking Assistance | TicketDepart",
-    description: "Plan USA to UK flights by phone and discuss destinations, dates, connections, cabins, baggage, and fare conditions with a travel specialist.",
+    description: "Plan flights from the USA to the UK. Compare routes, dates, connections, cabins, baggage, and fare conditions.",
     heading: "USA to UK flight booking assistance",
     text: "Discuss USA-to-UK routes, UK arrival airports, schedules, cabins, baggage, and fare conditions with a travel specialist.",
   },
   "/flights-usa-to-europe": {
     title: "USA to Europe Flights | Booking Assistance | TicketDepart",
-    description: "Plan USA to Europe flights by phone and discuss destinations, connections, dates, cabins, baggage, and fare conditions with a travel specialist.",
+    description: "Plan flights from the USA to Europe. Compare routes, dates, connections, cabins, baggage, and fare conditions.",
     heading: "USA to Europe flight booking assistance",
     text: "Discuss European destinations, connections, flexible dates, cabins, multi-city routing, baggage, and fare conditions.",
   },
@@ -234,55 +234,55 @@ const routes = {
 
   "/flights-from-new-york": {
     title: "Flights from New York | Flight Booking Assistance | TicketDepart",
-    description: "Discuss flights from New York, nearby airports, international routes, connections, cabins, and fare conditions with a travel specialist.",
+    description: "Explore flights from New York. Compare nearby airports, international routes, connections, and cabin options.",
     heading: "Flights from New York with booking assistance",
     text: "Discuss New York departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.",
   },
   "/flights-from-los-angeles": {
     title: "Flights from Los Angeles | Flight Booking Assistance | TicketDepart",
-    description: "Discuss flights from Los Angeles, nearby airports, international routes, connections, cabins, and fare conditions with a travel specialist.",
+    description: "Explore flights from Los Angeles. Compare nearby airports, international routes, connections, and cabin options.",
     heading: "Flights from Los Angeles with booking assistance",
     text: "Discuss Los Angeles departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.",
   },
   "/flights-from-chicago": {
     title: "Flights from Chicago | Flight Booking Assistance | TicketDepart",
-    description: "Discuss flights from Chicago, nearby airports, international routes, connections, cabins, and fare conditions with a travel specialist.",
+    description: "Compare Chicago airports, connections, cabins, and fare terms with TicketDepart. Call +1-888-958-0280.",
     heading: "Flights from Chicago with booking assistance",
     text: "Discuss Chicago departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.",
   },
   "/flights-from-miami": {
     title: "Flights from Miami | Flight Booking Assistance | TicketDepart",
-    description: "Discuss flights from Miami, nearby airports, international routes, connections, cabins, and fare conditions with a travel specialist.",
+    description: "Explore flights from Miami. Compare nearby airports, international routes, connections, and cabin options.",
     heading: "Flights from Miami with booking assistance",
     text: "Discuss Miami departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.",
   },
   "/flights-from-atlanta": {
     title: "Flights from Atlanta | Flight Booking Assistance | TicketDepart",
-    description: "Discuss flights from Atlanta, nearby airports, international routes, connections, cabins, and fare conditions with a travel specialist.",
+    description: "Explore flights from Atlanta. Compare nearby airports, international routes, connections, and cabin options.",
     heading: "Flights from Atlanta with booking assistance",
     text: "Discuss Atlanta departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.",
   },
   "/flights-from-dallas": {
     title: "Flights from Dallas | Flight Booking Assistance | TicketDepart",
-    description: "Discuss flights from Dallas, nearby airports, international routes, connections, cabins, and fare conditions with a travel specialist.",
+    description: "Explore flights from Dallas. Compare nearby airports, international routes, connections, and cabin options.",
     heading: "Flights from Dallas with booking assistance",
     text: "Discuss Dallas departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.",
   },
   "/flights-from-orlando": {
     title: "Flights from Orlando | Flight Booking Assistance | TicketDepart",
-    description: "Discuss flights from Orlando, nearby airports, international routes, connections, cabins, and fare conditions with a travel specialist.",
+    description: "Explore flights from Orlando. Compare nearby airports, international routes, connections, and cabin options.",
     heading: "Flights from Orlando with booking assistance",
     text: "Discuss Orlando departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.",
   },
   "/flights-from-san-francisco": {
     title: "Flights from San Francisco | Flight Booking Assistance | TicketDepart",
-    description: "Discuss flights from San Francisco, nearby airports, international routes, connections, cabins, and fare conditions with a travel specialist.",
+    description: "Explore flights from San Francisco. Compare nearby airports, international routes, connections, and cabin options.",
     heading: "Flights from San Francisco with booking assistance",
     text: "Discuss San Francisco departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.",
   },
   "/flights-new-york-to-london": {
     title: "New York to London Flights | Booking Assistance | TicketDepart",
-    description: "Discuss New York to London flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
+    description: "Explore New York to London flights. Compare departure airports, connections, cabin options, and baggage terms.",
     heading: "New York to London flight booking assistance",
     text: "Discuss New York to London routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
   },
@@ -290,13 +290,13 @@ const routes = {
 
   "/flights-los-angeles-to-tokyo": {
     title: "Los Angeles to Tokyo Flights | Booking Assistance | TicketDepart",
-    description: "Discuss Los Angeles to Tokyo flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
+    description: "Explore Los Angeles to Tokyo flights. Compare departure airports, connections, cabin options, and baggage terms.",
     heading: "Los Angeles to Tokyo flight booking assistance",
     text: "Discuss Los Angeles to Tokyo routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
   },
   "/flights-los-angeles-to-london": {
     title: "Los Angeles to London Flights | Booking Assistance | TicketDepart",
-    description: "Discuss Los Angeles to London flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
+    description: "Explore Los Angeles to London flights. Compare departure airports, connections, cabin options, and baggage terms.",
     heading: "Los Angeles to London flight booking assistance",
     text: "Discuss Los Angeles to London routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
   },
@@ -304,14 +304,14 @@ const routes = {
 
   "/flights-san-francisco-to-tokyo": {
     title: "San Francisco to Tokyo Flights | Booking Assistance | TicketDepart",
-    description: "Discuss San Francisco to Tokyo flights, departure airports, connections, cabins, dates, baggage, and fare conditions with a travel specialist.",
+    description: "Explore San Francisco to Tokyo flights. Compare departure airports, connections, cabin options, and baggage terms.",
     heading: "San Francisco to Tokyo flight booking assistance",
     text: "Discuss San Francisco to Tokyo routes, departure airports, schedules, connections, cabins, baggage, and fare conditions.",
   },
 
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
-    description: "Contact TicketDepart to plan your next flight. Call +1 888-958-0280 any time, or send your trip details and a travel specialist will follow up with options.",
+    description: "Contact TicketDepart about your trip. Call +1 888-958-0280 or send your travel details for follow-up.",
     heading: "Talk to a real travel specialist",
     text: "Call +1 888-958-0280 24/7 or send your trip details. TicketDepart is an independent travel agency.",
   },
@@ -823,7 +823,7 @@ function trimDescription(value, maxLength) {
     .trim()
     .replace(/[|,:;\-]+$/, "")
     .trim();
-  const danglingTail = /\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every)$/i;
+  const danglingTail = /\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every|travel)$/i;
   while (candidate && danglingTail.test(candidate)) {
     candidate = candidate
       .replace(/\s+\S+$/, "")
