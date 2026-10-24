@@ -83,7 +83,7 @@ assert(!/855[\s().-]*544[\s().-]*9001/.test(homeHtml), "old public phone number 
 
 const contactHtml = read(path.join(distDir, "contact", "index.html"));
 const contactDescription = contactHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
-assert(contactDescription === "Contact TicketDepart about your flight plans. Call +1-888-958-0280 or send your trip details for a callback.", "Contact page static description is stale or awkward");
+assert(contactDescription === "Contact TicketDepart about your flight plans and send your trip details for a callback. Call +1-888-958-0280.", `Contact page static description is stale or awkward: ${contactDescription}`);
 
 const legacyBookingPath = path.join(distDir, "flight-booking-assistance", "index.html");
 assert(fs.existsSync(legacyBookingPath), "missing static HTML for legacy /flight-booking-assistance route");
