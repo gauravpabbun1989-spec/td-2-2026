@@ -86,7 +86,12 @@ for (const file of walk(distDir)) {
   }
 
   const rel = path.relative(distDir, path.dirname(file)).replaceAll(path.sep, "/");
-  const route = rel ? `https://ticketdepart.com/${rel}/` : "https://ticketdepart.com/";
+  // Preserve the canonical destination for legacy aliases while keeping the output
+  // file under its requested route path. The generator sets this route-specific
+  // canonical before this hardening pass runs.
+  const route = rel === "flight-booking-assistance"
+    ? "https://ticketdepart.com/flight-booking/"
+    : rel ? `https://ticketdepart.com/${rel}/` : "https://ticketdepart.com/";
   const canonicalTag = `<link rel="canonical" href="${route}" />`;
   if (/<link\s+rel=["']canonical["']/i.test(html)) {
     html = html.replace(/<link\s+rel=["']canonical["'][^>]*>/i, canonicalTag);
