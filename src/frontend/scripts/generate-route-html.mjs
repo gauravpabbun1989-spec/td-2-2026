@@ -128,6 +128,13 @@ const routes = {
     heading: "Flight booking assistance by phone for U.S. travelers",
     text: "Plan a domestic or international trip by reviewing departure and arrival airports, dates, traveler count, cabin preferences, connections, baggage, and fare conditions. For multi-city routes, group travel, or premium cabins, discuss the details with a travel specialist before you decide. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the applicable price and ticket terms before authorizing payment.",
   },
+  "/flight-booking-assistance": {
+    title: "Flight Booking Assistance by Phone | TicketDepart",
+    description: "Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7.",
+    heading: "Flight booking assistance by phone for U.S. travelers",
+    text: "Plan a domestic or international trip by reviewing departure and arrival airports, dates, traveler count, cabin preferences, connections, baggage, and fare conditions. For multi-city routes, group travel, or premium cabins, discuss the details with a travel specialist before you decide. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the applicable price and ticket terms before authorizing payment.",
+    canonicalPath: "/flight-booking/",
+  },
   "/delta-airlines": {
     title: "Delta Airlines Flight Booking Assistance | 24/7 | TicketDepart",
     description: "Discuss Delta Airlines flight bookings, changes, rebooking, multi-city trips, and premium cabins.",
@@ -311,7 +318,7 @@ const routes = {
 
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
-    description: "Contact TicketDepart about your trip. Call +1 888-958-0280 or send your travel details for follow-up.",
+    description: "Contact TicketDepart about your flight plans. Call +1-888-958-0280 or send your trip details for a callback.",
     heading: "Talk to a real travel specialist",
     text: "Call +1 888-958-0280 24/7 or send your trip details. TicketDepart is an independent travel agency.",
   },
@@ -858,7 +865,8 @@ function makeListingDescription(value) {
 
 function routeHtml(route, meta) {
   const publicPath = route === "/" ? "/" : `${route.replace(/\/+$/, "")}/`;
-  const url = "https://ticketdepart.com" + publicPath;
+  const canonicalPath = meta.canonicalPath ?? publicPath;
+  const url = "https://ticketdepart.com" + (canonicalPath.startsWith("/") ? canonicalPath : `/${canonicalPath}`);
   const listingDescription = makeListingDescription(meta.description);
   const safeTitle = escapeHtml(meta.title);
   const safeDescription = escapeHtml(listingDescription);
