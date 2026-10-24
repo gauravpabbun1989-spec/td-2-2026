@@ -328,6 +328,13 @@ const flightBookingRoute = createRoute({
   component: FlightBookingPage,
 });
 
+// Preserve the legacy assistance URL while giving it the correct booking-page metadata.
+const flightBookingAssistanceAliasRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/flight-booking-assistance",
+  component: FlightBookingPage,
+});
+
 const deltaRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/delta-airlines",
@@ -461,6 +468,7 @@ export const routeTree = rootRoute.addChildren([
 
   flightsSanFranciscoToTokyoRoute,
   flightBookingRoute,
+  flightBookingAssistanceAliasRoute,
   flightSearchRoute,
   flightSearchResultsRoute,
   internationalFlightBookingRoute,
