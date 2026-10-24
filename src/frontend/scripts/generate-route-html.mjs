@@ -318,7 +318,7 @@ const routes = {
 
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
-    description: "Contact TicketDepart about your flight plans. Call +1-888-958-0280 or send your trip details for a callback.",
+    description: "Contact TicketDepart about your flight plans and send your trip details for a callback.",
     heading: "Talk to a real travel specialist",
     text: "Call +1 888-958-0280 24/7 or send your trip details. TicketDepart is an independent travel agency.",
   },
