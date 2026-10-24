@@ -128,6 +128,13 @@ const routes = {
     heading: "Flight booking assistance by phone for U.S. travelers",
     text: "Plan a domestic or international trip by reviewing departure and arrival airports, dates, traveler count, cabin preferences, connections, baggage, and fare conditions. For multi-city routes, group travel, or premium cabins, discuss the details with a travel specialist before you decide. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the applicable price and ticket terms before authorizing payment.",
   },
+  "/flight-booking-assistance": {
+    title: "Flight Booking Assistance by Phone | TicketDepart",
+    description: "Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7.",
+    heading: "Flight booking assistance by phone for U.S. travelers",
+    text: "Plan a domestic or international trip by reviewing departure and arrival airports, dates, traveler count, cabin preferences, connections, baggage, and fare conditions. For multi-city routes, group travel, or premium cabins, discuss the details with a travel specialist before you decide. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the applicable price and ticket terms before authorizing payment.",
+    canonicalPath: "/flight-booking/",
+  },
   "/delta-airlines": {
     title: "Delta Airlines Flight Booking Assistance | 24/7 | TicketDepart",
     description: "Discuss Delta Airlines flight bookings, changes, rebooking, multi-city trips, and premium cabins.",
@@ -311,7 +318,7 @@ const routes = {
 
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
-    description: "Contact TicketDepart about your trip. Call +1 888-958-0280 or send your travel details for follow-up.",
+    description: "Contact TicketDepart about your flight plans and send your trip details for a callback.",
     heading: "Talk to a real travel specialist",
     text: "Call +1 888-958-0280 24/7 or send your trip details. TicketDepart is an independent travel agency.",
   },
@@ -858,7 +865,8 @@ function makeListingDescription(value) {
 
 function routeHtml(route, meta) {
   const publicPath = route === "/" ? "/" : `${route.replace(/\/+$/, "")}/`;
-  const url = "https://ticketdepart.com" + publicPath;
+  const canonicalPath = meta.canonicalPath ?? publicPath;
+  const url = "https://ticketdepart.com" + (canonicalPath.startsWith("/") ? canonicalPath : `/${canonicalPath}`);
   const listingDescription = makeListingDescription(meta.description);
   const safeTitle = escapeHtml(meta.title);
   const safeDescription = escapeHtml(listingDescription);
@@ -941,6 +949,24 @@ for (const [route, meta] of Object.entries(routes)) {
   const dir = path.join(distDir, route.slice(1));
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, "index.html"), routeHtml(route, meta));
+}
+
+// The legacy alias is intentionally excluded from the sitemap, but it must
+// still have a static document for direct visits and consistent canonical and
+// Open Graph metadata. Keep this explicit write as a guard against route-list
+// refactors accidentally omitting the compatibility URL from the generation
+// map.
+const legacyRoute = "/flight-booking-assistance";
+const legacyMeta = routes[legacyRoute] ?? routes["/flight-booking"];
+if (legacyMeta) {
+  const legacyDir = path.join(distDir, legacyRoute.slice(1));
+  fs.mkdirSync(legacyDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(legacyDir, "index.html"),
+    routeHtml(legacyRoute, { ...legacyMeta, canonicalPath: "/flight-booking/" }),
+  );
+} else {
+  throw new Error("Cannot generate legacy /flight-booking-assistance static HTML: booking route metadata is missing");
 }
 
 console.log(`Generated ${Object.keys(routes).length} crawlable route entry points.`);
