@@ -44,7 +44,7 @@ export function ContactPage() {
     <>
       <Seo
         title="Contact TicketDepart | Speak with a Travel Specialist"
-        description="Contact TicketDepart to plan your next flight. Send your trip details and a travel specialist will follow up with options."
+        description="Contact TicketDepart about your flight plans. Call +1-888-958-0280 or send your trip details for a callback."
         path="/contact"
         structuredData={[
           organizationSchema(),
