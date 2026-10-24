@@ -823,7 +823,7 @@ function trimDescription(value, maxLength) {
     .trim()
     .replace(/[|,:;\-]+$/, "")
     .trim();
-  const danglingTail = /\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every)$/i;
+  const danglingTail = /\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every|travel)$/i;
   while (candidate && danglingTail.test(candidate)) {
     candidate = candidate
       .replace(/\s+\S+$/, "")
