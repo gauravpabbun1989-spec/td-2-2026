@@ -215,7 +215,7 @@ for (const url of locs) {
   assert(description.length >= 60 && description.length <= 160, `meta description length out of bounds for ${url}: ${description.length}`);
   assert(/[.!?]$/.test(description), `meta description ends mid-sentence for ${url}: ${description}`);
   assert(
-    !/\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every)\.\s+Call\s+\+1-888-958-0280/i.test(description),
+    !/\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every|travel)\.\s+Call\s+\+1-888-958-0280/i.test(description),
     `meta description has a dangling phrase before the phone CTA for ${url}: ${description}`,
   );
   const phoneMatches = description.match(/(?:\+?1[\s().-]*)?888[\s().-]*958[\s().-]*0280/g) ?? [];
