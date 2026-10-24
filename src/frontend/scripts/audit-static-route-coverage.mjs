@@ -82,14 +82,14 @@ assert(homeDescription.includes("24/7") && homeDescription.includes("TicketDepar
 assert(!/855[\s().-]*544[\s().-]*9001/.test(homeHtml), "old public phone number remains in built homepage HTML");
 
 const contactHtml = read(path.join(distDir, "contact", "index.html"));
-const contactDescription = contactHtml.match(/<meta\\s+name="description"\\s+content="([^"]+)"/i)?.[1] ?? "";
+const contactDescription = contactHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
 assert(contactDescription === "Contact TicketDepart about your flight plans. Call +1-888-958-0280 or send your trip details for a callback.", "Contact page static description is stale or awkward");
 
 const legacyBookingPath = path.join(distDir, "flight-booking-assistance", "index.html");
 assert(fs.existsSync(legacyBookingPath), "missing static HTML for legacy /flight-booking-assistance route");
 const legacyBookingHtml = read(legacyBookingPath);
-const legacyCanonical = legacyBookingHtml.match(/<link\\s+rel="canonical"\\s+href="([^"]+)"/i)?.[1] ?? "";
-const legacyOgUrl = legacyBookingHtml.match(/<meta\\s+property="og:url"\\s+content="([^"]+)"/i)?.[1] ?? "";
+const legacyCanonical = legacyBookingHtml.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1] ?? "";
+const legacyOgUrl = legacyBookingHtml.match(/<meta\s+property="og:url"\s+content="([^"]+)"/i)?.[1] ?? "";
 assert(legacyCanonical === "https://ticketdepart.com/flight-booking/", `legacy booking canonical must point to /flight-booking/; found ${legacyCanonical || "missing"}`);
 assert(legacyOgUrl === "https://ticketdepart.com/flight-booking/", `legacy booking Open Graph URL must point to /flight-booking/; found ${legacyOgUrl || "missing"}`);
 
