@@ -11,7 +11,7 @@ const faqs = [
   { question: "Can you help with corporate flight bookings?", answer: "Yes. TicketDepart can discuss corporate and business travel itineraries by phone, including routes, dates, cabin preferences, connections, and fare conditions." },
   { question: "Can you help book flights for employees or executives?", answer: "Yes. You can discuss traveler counts, schedules, preferred airports, cabins, and other itinerary requirements with a travel specialist." },
   { question: "Can you help with international corporate travel?", answer: "Yes. We can discuss international routing, connections, premium cabins, flexible dates, and the fare conditions that apply to the itinerary." },
-  { question: "Can you help compare business-class options?", answer: "A specialist can discuss available business-class schedules, aircraft or cabin information when available, connections, and fare rules. Availability depends on the itinerary." },
+  { question: "Can you help compare business-class options?", answer: "A specialist can discuss business-class schedules, aircraft or cabin information where published, connections, and fare rules for your itinerary." },
   { question: "What should I have ready before calling?", answer: "Have the origin, destination, travel dates, traveler count, preferred cabin, airline preferences, and any schedule or airport requirements you already know." },
 ];
 
