@@ -109,7 +109,7 @@ export function CallNowPopup() {
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold text-foreground">Travel assistance, 24/7</p>
-              <p className="mt-0.5 text-xs leading-5 text-muted-foreground">Call when it suits you. A specialist can discuss the options.</p>
+              <p className="mt-0.5 text-xs leading-5 text-muted-foreground">Call now for a specialist.</p>
             </div>
           </div>
 
