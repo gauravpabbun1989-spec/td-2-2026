@@ -580,7 +580,7 @@ const PAGES: readonly PageConfig[] = [
     faqs: [
       {
         question: "Can I get airline reservation help by phone?",
-        answer: "Yes. TicketDepart can discuss new and existing reservation questions by phone. Exact actions and availability depend on the ticket, airline, and applicable rules.",
+        answer: "Yes. TicketDepart can discuss new and existing reservation questions by phone. Exact actions depend on the ticket, airline, and applicable rules.",
       },
       {
         question: "Can you help change an existing reservation?",
@@ -628,7 +628,7 @@ const PAGES: readonly PageConfig[] = [
         question: "Can you compare different flight options?",
         answer: "A specialist can discuss available routing, schedules, connections, cabins, airports, and fare conditions for your trip.",
       },
-      { question: "Will the price stay the same while I decide?", answer: "Not necessarily. Airfare and seat availability can change until a ticket is issued." }
+      { question: "Will the price stay the same while I decide?", answer: "Not necessarily. Review the quoted fare and ticketing terms before deciding." }
     ]
   },
   {
@@ -830,7 +830,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
   const supportFaqs = [
     {
       question: "Can I call for help with an existing flight reservation?",
-      answer: "Yes. TicketDepart is an independent travel agency and a specialist can discuss your existing itinerary, possible changes, cancellations, rebooking, or other reservation questions. What can be handled depends on how the ticket was issued, its fare rules, airline policies, and current availability.",
+      answer: "Yes. TicketDepart is an independent travel agency and a specialist can discuss your existing itinerary, possible changes, cancellations, rebooking, or other reservation questions. What can be handled depends on how the ticket was issued, its fare rules, and airline policies.",
     },
     {
       question: "Can I speak with a travel specialist about my flight?",
