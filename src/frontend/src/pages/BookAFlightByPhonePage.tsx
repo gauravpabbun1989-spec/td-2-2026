@@ -26,7 +26,7 @@ const FAQS = [
   {
     question: "What flights can I book by phone?",
     answer:
-      "We can discuss domestic and international trips, one-way and round-trip itineraries, multi-city travel, premium cabins, and group travel. Availability and ticketing options depend on the itinerary and responsible travel provider.",
+      "We can discuss domestic and international trips, one-way and round-trip itineraries, and help you work through the booking steps for your trip.",
   },
   {
     question: "Can I ask about the total price before paying?",
