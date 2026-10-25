@@ -88,7 +88,7 @@ assert(contactDescription === "Need help with a flight? Call TicketDepart now fo
 const disclaimerHtmlPath = path.join(distDir, "disclaimer", "index.html");
 assert(fs.existsSync(disclaimerHtmlPath), "missing static HTML for /disclaimer");
 const disclaimerHtml = read(disclaimerHtmlPath);
-const disclaimerCanonical = disclaimerHtml.match(/<link\\s+rel="canonical"\\s+href="([^"]+)"/i)?.[1] ?? "";
+const disclaimerCanonical = disclaimerHtml.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1] ?? "";
 assert(disclaimerCanonical === "https://ticketdepart.com/disclaimer/", `disclaimer canonical must point to /disclaimer/; found ${disclaimerCanonical || "missing"}`);
 assert(disclaimerHtml.includes("A quote is not a ticket or a guarantee that a fare remains available"), "disclaimer is missing the fare-availability qualification");
 
