@@ -395,7 +395,7 @@ const RELATED_ROUTE_RULES = {
   "/": [
     "/flight-booking", "/book-a-flight-by-phone", "/flight-search",
     "/international-flight-booking", "/same-day-flight-booking",
-    "/business-class-flight-booking", "/how-to-book-a-flight-by-phone",
+    "/business-class-flight-booking",
   ],
   "/same-day-flight-booking": [
     "/flight-booking", "/book-a-flight-by-phone", "/last-minute-flight-booking",
