@@ -109,7 +109,7 @@ const PAGES: readonly GatewayPage[] = [
     description:
       "Plan flights from Miami by phone. Discuss MIA routes, domestic and international destinations, connections, dates, cabins, baggage, and fare conditions.",
     intro:
-      "For flights from Miami, share your destination, travel dates, traveler count, and schedule priorities. A specialist can discuss domestic options and international routes toward the Caribbean, Mexico, Latin America, and beyond, subject to live availability.",
+      "For flights from Miami, share your destination, travel dates, traveler count, and schedule priorities. A specialist can discuss domestic options and international routes toward the Caribbean, Mexico, Latin America, and beyond, based on your requested route and dates.",
     routes:
       "Discuss domestic trips and international travel involving the Caribbean, Mexico, Latin America, Europe, and other destinations.",
     faqs: [
@@ -121,7 +121,7 @@ const PAGES: readonly GatewayPage[] = [
       {
         question: "Can you help with Caribbean or Latin America trips?",
         answer:
-          "Yes. You can discuss international itinerary options and connections for Caribbean and Latin American travel, subject to live airline availability.",
+          "Yes. You can discuss international itinerary options and connections for Caribbean and Latin American travel, for your requested route and dates.",
       },
     ],
   },
@@ -211,7 +211,7 @@ const PAGES: readonly GatewayPage[] = [
     intro:
       "San Francisco is a major gateway for U.S. and international travel. Share your destination, dates, cabin preference, and connection needs and review practical itinerary considerations.",
     routes:
-      "Discuss domestic travel and international routes to Europe, Asia, Canada, Mexico, and other destinations, subject to live airline availability.",
+      "Discuss domestic travel and international routes to Europe, Asia, Canada, Mexico, and other destinations, for your requested route and dates.",
     faqs: [
       {
         question: "Can you help with international flights from SFO?",

@@ -191,7 +191,7 @@ export function HomePage() {
         <div className="mx-auto max-w-6xl">
           <p className="label-board text-accent">Before you book</p>
           <h2 id="before-you-pay-heading" className="mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl">Check the details that can change the real cost of a flight.</h2>
-          <p className="mt-5 max-w-4xl text-base leading-7 text-muted-foreground">A fare is only one part of the decision. Before paying, confirm the full price, baggage allowance, connection times, cabin, ticket restrictions, and the terms for changes or cancellation. Options and prices depend on your route, dates, availability, and booking provider.</p>
+          <p className="mt-5 max-w-4xl text-base leading-7 text-muted-foreground">A fare is only one part of the decision. Before paying, confirm the full price, baggage allowance, connection times, cabin, ticket restrictions, and the terms for changes or cancellation. Options and prices vary by route, travel dates, and booking provider.</p>
           <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {[
               ["Total trip cost", "Check taxes, baggage, and any separately charged services."],

@@ -31,7 +31,7 @@ const FAQS = [
   {
     question: "Can I ask about the total price before paying?",
     answer:
-      "Yes. Ask for the airfare, taxes and charges, baggage terms, and any applicable agency service fee before authorizing payment. Fares and availability can change until a ticket is issued.",
+      "Yes. Ask for the airfare, taxes and charges, baggage terms, ticketing provider, and any applicable agency service fee before authorizing payment. Review the complete itinerary and terms before you decide.",
   },
   {
     question: "Can you help with complicated or last-minute trips?",
