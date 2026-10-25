@@ -9,7 +9,7 @@ export const SITE = {
   legalName: "TicketDepart Travel",
   tagline: "Independent travel agency",
   description:
-    "TicketDepart is an independent travel agency helping travelers plan and book domestic and international flights with a real specialist on the phone.",
+    "Flight booking assistance for domestic and international trips, with help from a real specialist by phone.",
   phoneDisplay: "+1-888-958-0280",
   phoneHref: "tel:+18889580280",
   email: "support@ticketdestinations.com",
