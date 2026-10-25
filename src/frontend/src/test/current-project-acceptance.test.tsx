@@ -60,6 +60,9 @@ const PUBLIC_ROUTES = [
   "/flights-san-francisco-to-tokyo",
 ] as const;
 
+// Keep the route covered by route-level tests, but omit it from the curated sitemap.
+const SITEMAP_ROUTES = PUBLIC_ROUTES.filter((path) => path !== "/flights-new-york-to-london");
+
 const ALL_APP_PATHS = new Set([...PUBLIC_ROUTES, "/disclaimer", "/flight-search-results", "/admin/leads"]);
 
 describe("current production route coverage", () => {
@@ -128,8 +131,8 @@ describe("static SEO assets", () => {
 
   it("sitemap contains exactly the current public routes", () => {
     const locs = Array.from(read("sitemap.xml").matchAll(/<loc>([^<]+)<\/loc>/g)).map((m) => m[1]);
-    expect(new Set(locs).size).toBe(PUBLIC_ROUTES.length);
-    expect(locs).toEqual(PUBLIC_ROUTES.map((path) => `https://ticketdepart.com${path === "/" ? "/" : `${path}/`}`));
+    expect(new Set(locs).size).toBe(SITEMAP_ROUTES.length);
+    expect(locs).toEqual(SITEMAP_ROUTES.map((path) => `https://ticketdepart.com${path === "/" ? "/" : `${path}/`}`));
   });
 
   it("robots points to the canonical sitemap", () => {
