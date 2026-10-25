@@ -27,6 +27,7 @@ const PUBLIC_ROUTES = [
   "/contact",
   "/privacy",
   "/terms",
+  "/disclaimer",
   "/international-flight-booking",
   "/last-minute-flight-booking",
   "/multi-city-flight-booking",
