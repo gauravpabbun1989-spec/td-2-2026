@@ -9,7 +9,6 @@ const HomeFaq = lazy(() => import("@/components/home/HomeFaq").then((module) => 
 const HowItWorks = lazy(() => import("@/components/home/HowItWorks").then((module) => ({ default: module.HowItWorks })));
 const PreCallChecklist = lazy(() => import("@/components/home/PreCallChecklist").then((module) => ({ default: module.PreCallChecklist })));
 const ServiceGrid = lazy(() => import("@/components/home/ServiceGrid").then((module) => ({ default: module.ServiceGrid })));
-const DisclosureBlock = lazy(() => import("@/components/home/DisclosureBlock").then((module) => ({ default: module.DisclosureBlock })));
 const ContactInfoBlock = lazy(() => import("@/components/home/ContactInfoBlock").then((module) => ({ default: module.ContactInfoBlock })));
 import { breadcrumbSchema, organizationSchema, serviceSchema, websiteSchema } from "@/lib/seo";
 import { SITE, absoluteUrl } from "@/lib/site";
@@ -120,7 +119,7 @@ export function HomePage() {
         <div className="mx-auto max-w-6xl">
           <p className="label-board text-accent">Where we serve</p>
           <h2 className="mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl">Flight assistance for travelers across the USA, Canada, Mexico & UK.</h2>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">English-speaking travelers can get help with domestic, international, last-minute, multi-city, family, group, and premium-cabin itineraries. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department.</p>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">English-speaking travelers can get help exploring domestic, international, last-minute, and flexible flight options, with support for routes, dates, baggage, and fare conditions.</p>
           <div className="mt-7 flex flex-wrap gap-2">{["USA","Canada","Mexico","UK"].map(m=><span key={m} className="rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold shadow-subtle">{m}</span>)}</div>
         </div>
       </section>
@@ -206,7 +205,7 @@ export function HomePage() {
               </div>
             ))}
           </div>
-          <p className="mt-5 max-w-4xl text-sm leading-6 text-muted-foreground">Want to discuss a specific itinerary? <Link to="/book-a-flight-by-phone/" className="font-semibold text-primary underline underline-offset-4">See how phone booking works</Link> or <Link to="/flight-change-assistance/" className="font-semibold text-primary underline underline-offset-4">review flight-change assistance</Link>. TicketDepart is an independent travel agency, not an airline.</p>
+          <p className="mt-5 max-w-4xl text-sm leading-6 text-muted-foreground">Want to discuss a specific itinerary? <Link to="/book-a-flight-by-phone/" className="font-semibold text-primary underline underline-offset-4">See how phone booking works</Link> or <Link to="/flight-change-assistance/" className="font-semibold text-primary underline underline-offset-4">review flight-change assistance</Link>.</p>
         </div>
       </section>
 
@@ -230,7 +229,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <Suspense fallback={<div className="min-h-24" aria-hidden="true" />}><HomeFaq /><DisclosureBlock /><ContactInfoBlock /></Suspense>
+      <Suspense fallback={<div className="min-h-24" aria-hidden="true" />}><HomeFaq /><ContactInfoBlock /></Suspense>
       </div>
       <p className="sr-only">{SITE.name} — {SITE.tagline}. {SITE.hours}.</p>
     </>

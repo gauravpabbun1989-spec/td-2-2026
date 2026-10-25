@@ -13,7 +13,7 @@ export function SiteFooter() {
         <div className="mb-10 rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur sm:p-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="label-board text-accent">Independent travel agency</p>
+              <p className="label-board text-accent">Flight booking assistance</p>
               <h2 className="mt-2 font-display text-2xl font-semibold">Flight help without the runaround.</h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-white/75">Clear information, human assistance, and a straightforward booking experience.</p>
             </div>

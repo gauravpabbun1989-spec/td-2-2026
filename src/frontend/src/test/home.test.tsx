@@ -1,11 +1,10 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { SITE } from "@/lib/site";
 import { renderRoute } from "@/test/render-route";
 
 describe("homepage content", () => {
-  it("renders the hero, services, how-it-works, checklist, FAQ, disclosure, and contact block", async () => {
+  it("renders the hero, services, how-it-works, checklist, FAQ, and contact block", async () => {
     renderRoute("/");
     await screen.findByRole("heading", { level: 1 });
 
@@ -22,11 +21,6 @@ describe("homepage content", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: /frequently asked questions/i }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", {
-        name: /we are an independent travel agency/i,
-      }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: /helpful flight guidance, without the pressure/i }),
@@ -47,11 +41,11 @@ describe("homepage content", () => {
     expect(image.getAttribute("alt")?.length ?? 0).toBeGreaterThan(20);
   });
 
-  it("states the independent-agency disclosure", async () => {
+  it("keeps the full airline-affiliation disclaimer off the homepage", async () => {
     renderRoute("/");
     await screen.findByRole("heading", { level: 1 });
 
-    // The disclosure appears in both the homepage section and the footer.
-    expect(screen.getAllByText(SITE.disclosure).length).toBeGreaterThan(0);
+    expect(screen.queryByText(/We are not affiliated with, endorsed by, or sponsored by any airline/i)).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /disclaimer/i })).toHaveAttribute("href", "/disclaimer/");
   });
 });
