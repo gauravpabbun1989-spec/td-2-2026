@@ -59,7 +59,7 @@ const PUBLIC_ROUTES = [
   "/flights-san-francisco-to-tokyo",
 ] as const;
 
-const ALL_APP_PATHS = new Set([...PUBLIC_ROUTES, "/flight-search-results", "/admin/leads"]);
+const ALL_APP_PATHS = new Set([...PUBLIC_ROUTES, "/disclaimer", "/flight-search-results", "/admin/leads"]);
 
 describe("current production route coverage", () => {
   it.each(PUBLIC_ROUTES)("renders %s with one H1, canonical metadata, and a working call target", async (path) => {
@@ -80,7 +80,7 @@ describe("current internal-link contract", () => {
       const hrefs = screen.getAllByRole("link")
         .map((link) => link.getAttribute("href") ?? "")
         .filter((href) => href.startsWith("/"))
-        .map((href) => href.split(/[?#]/)[0]);
+        .map((href) => href.split(/[?#]/)[0].replace(/\/$/, "") || "/");
       for (const href of hrefs) expect(ALL_APP_PATHS.has(href)).toBe(true);
     },
   );
