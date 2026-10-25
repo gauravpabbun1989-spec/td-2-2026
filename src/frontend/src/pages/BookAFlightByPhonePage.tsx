@@ -15,7 +15,7 @@ const PAGE_PATH = "/book-a-flight-by-phone/";
 const PAGE_TITLE =
   "Book a Flight by Phone | 24/7 Booking Help";
 const PAGE_DESCRIPTION =
-  "Ready to book? Call +1-888-958-0280 now for 24/7 help with domestic and international flights, routes, dates, baggage, and fare questions.";
+  "Looking for an affordable flight? Call +1-888-958-0280 for 24/7 help comparing domestic and international economy options, flexible dates, baggage, and fare rules.";
 
 const FAQS = [
   {
@@ -42,20 +42,20 @@ const FAQS = [
 
 const BENEFITS = [
   [
-    "Domestic & international",
-    "Discuss U.S. domestic trips and international itineraries with a specialist.",
+    "Affordable economy options",
+    "Discuss available economy itineraries and compare the complete trip cost before choosing.",
+  ],
+  [
+    "Domestic & international flights",
+    "Explore routes from U.S. airports to domestic and international destinations.",
+  ],
+  [
+    "Flexible dates & airports",
+    "Consider nearby airports, alternate dates, nonstop flights, and connecting itineraries.",
   ],
   [
     "Multi-city & complex trips",
-    "Review multiple cities, open-jaw routing, connections, and flexible airports.",
-  ],
-  [
-    "Business & first class",
-    "Talk through cabin options, schedules, baggage, and fare conditions.",
-  ],
-  [
-    "Groups & families",
-    "Coordinate traveler details and trip requirements in one conversation.",
+    "Review multiple stops, connections, baggage, and fare conditions in one conversation.",
   ],
 ] as const;
 
@@ -109,12 +109,10 @@ export function BookAFlightByPhonePage() {
         <div className="mx-auto mt-10 max-w-4xl">
           <p className="label-board text-accent">24/7 phone flight booking</p>
           <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
-            Book a flight by phone with a travel specialist
+            Book an affordable flight by phone with a travel specialist
           </h1>
           <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Tell us where you want to fly, when you want to travel, and what
-            matters to you. A specialist can discuss itinerary options, cabin
-            choices, baggage, and fare rules before you decide.
+            Tell us where you want to fly and when you want to travel. A specialist can help you discuss available economy options, flexible dates, nearby airports, connections, baggage costs, and fare rules so you can compare the full trip cost before deciding.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <CallCta size="lg" ocid="book_flight_phone.call_button" />
