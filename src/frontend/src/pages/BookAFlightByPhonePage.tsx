@@ -15,13 +15,13 @@ const PAGE_PATH = "/book-a-flight-by-phone/";
 const PAGE_TITLE =
   "Book a Flight by Phone | 24/7 Booking Help";
 const PAGE_DESCRIPTION =
-  "Book a flight by phone. Compare routes, dates, cabins, baggage and fare rules with a travel specialist 24/7. Call +1-888-958-0280.";
+  "Ready to book? Call +1-888-958-0280 now for 24/7 help with domestic and international flights, routes, dates, baggage, and fare questions.";
 
 const FAQS = [
   {
     question: "Can I book a flight by phone with TicketDepart?",
     answer:
-      "Yes. TicketDepart is an independent U.S. travel agency. A travel specialist can discuss your itinerary, available booking options, and applicable terms with you before you decide whether to book.",
+      "Yes. Call TicketDepart to discuss your trip, review flight options, ask questions, and get help with the booking process.",
   },
   {
     question: "What flights can I book by phone?",
