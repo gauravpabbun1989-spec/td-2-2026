@@ -61,7 +61,7 @@ const PUBLIC_ROUTES = [
 ] as const;
 
 // Keep the route covered by route-level tests, but omit it from the curated sitemap.
-const SITEMAP_ROUTES = PUBLIC_ROUTES.filter((path) => path !== "/flights-new-york-to-london");
+const SITEMAP_ROUTES = PUBLIC_ROUTES.filter((path) => !["/flights-new-york-to-london", "/group-flight-booking", "/corporate-flight-booking"].includes(path));
 
 const ALL_APP_PATHS = new Set([...PUBLIC_ROUTES, "/disclaimer", "/flight-search-results", "/admin/leads"]);
 
@@ -71,7 +71,12 @@ describe("current production route coverage", () => {
     expect(await screen.findAllByRole("heading", { level: 1 })).toHaveLength(1);
     const canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     expect(new URL(canonical?.href ?? "http://localhost/").pathname).toBe(path === "/" ? "/" : `${path}/`);
-    expect(document.head.querySelector<HTMLMetaElement>('meta[name="robots"]')?.content).toMatch(/index/i);
+    const robots = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]')?.content ?? "";
+    if (path === "/group-flight-booking" || path === "/corporate-flight-booking") {
+      expect(robots).toBe("noindex, nofollow");
+    } else {
+      expect(robots).toMatch(/index/i);
+    }
     expect(screen.getAllByRole("link").some((link) => link.getAttribute("href") === SITE.phoneHref)).toBe(true);
   });
 });

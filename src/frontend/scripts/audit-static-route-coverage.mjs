@@ -33,10 +33,11 @@ assert(builtRobots.includes("Allow: /"), "robots.txt does not allow public crawl
 assert(builtRobots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "robots.txt sitemap URL is incorrect");
 
 const locs = extractLocs(builtSitemap);
-assert(locs.length === 51, `expected 51 URLs matching the indexed-page keep list; found ${locs.length}`);
+assert(locs.length === 49, `expected 49 URLs matching the indexed-page keep list after excluding group/corporate pages; found ${locs.length}`);
 assert(new Set(locs).size === locs.length, "built sitemap contains duplicate URLs");
 assert(!locs.some((url) => new URL(url).pathname === "/flights-new-york-to-london/"), "known low-performing New York–London route URL must remain out of the curated sitemap until it is intentionally re-evaluated");
 assert(!locs.some((url) => new URL(url).pathname.replace(/\/+$/, "") === "/flight-search-results"), "non-indexable flight search results route must not be in the sitemap");
+assert(!locs.some((url) => ["/group-flight-booking", "/corporate-flight-booking"].includes(new URL(url).pathname.replace(/\/+$/, ""))), "group and corporate flight pages must remain out of the economy-first sitemap");
 
 const normalized = locs.map((url) => {
   const parsed = new URL(url);
@@ -76,6 +77,14 @@ assert(fs.existsSync(resultsHtmlPath), "missing static HTML for /flight-search-r
 const resultsHtml = read(resultsHtmlPath);
 const resultsRobots = resultsHtml.match(/<meta\s+name="robots"\s+content="([^"]+)"/i)?.[1];
 assert(resultsRobots === "noindex, nofollow", `flight-search-results must preserve noindex, nofollow after static hardening; found ${resultsRobots ?? "no robots meta"}`);
+
+for (const route of ["/group-flight-booking", "/corporate-flight-booking"]) {
+  const pagePath = path.join(distDir, route.slice(1), "index.html");
+  assert(fs.existsSync(pagePath), `missing static HTML for legacy route ${route}`);
+  const html = read(pagePath);
+  const robots = html.match(/<meta\s+name="robots"\s+content="([^"]+)"/i)?.[1] ?? "";
+  assert(robots === "noindex, nofollow", `${route} must remain accessible but noindex; found ${robots || "no robots meta"}`);
+}
 
 const homeHtml = read(path.join(distDir, "index.html"));
 const homeDescription = homeHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";

@@ -31,7 +31,7 @@ export function CorporateFlightBookingPage() {
 
   return (
     <>
-      <Seo title={title} description={description} path={path} structuredData={[
+      <Seo title={title} description={description} path={path} indexable={false} structuredData={[
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Corporate flight booking", path }]),
         webPageSchema({ title, description, path }),
         serviceSchema({ name: "Corporate flight booking assistance", description, path }),

@@ -21,6 +21,8 @@ describe("static SEO assets", () => {
     expect(sitemap.trimEnd().endsWith("</urlset>")).toBe(true);
     expect(locs.length).toBeGreaterThan(0);
     expect(new Set(locs).size).toBe(locs.length);
+    expect(locs).not.toContain("https://ticketdepart.com/group-flight-booking/");
+    expect(locs).not.toContain("https://ticketdepart.com/corporate-flight-booking/");
     expect(locs.every((loc) => /^https:\/\/ticketdepart\.com\//.test(loc))).toBe(true);
   });
 
