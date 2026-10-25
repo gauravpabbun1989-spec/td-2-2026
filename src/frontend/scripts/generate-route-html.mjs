@@ -793,7 +793,7 @@ function semanticExpansion(route, meta) {
       title: "Choose the right booking support for your itinerary",
       copy: "The amount of help you need depends on the trip. A simple nonstop itinerary may need only a basic schedule and fare comparison, while multi-city travel, tight connections, premium cabins, family travel, or special baggage can require closer review. Keep the itinerary, total price, and ticket conditions together so you can compare the options on equal terms.",
       checklist: "Have your route and dates ready; explain any timing or cabin constraints; compare baggage and connection details; and confirm the booking provider, ticketing status, and change or cancellation conditions before payment."
-    }
+    },
 
     "/business-class-flight-booking": {
       title: "Compare the business-class experience and the complete fare",
