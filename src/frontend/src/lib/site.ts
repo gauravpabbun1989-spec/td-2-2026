@@ -24,7 +24,7 @@ export const SITE = {
   hours: "Travel specialists available 24/7",
   ctaLabel: "Call Now to Book Your Flight",
   disclosure:
-    "TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by any airline. All airline names and trademarks belong to their respective owners and are used for identification purposes only.",
+    "A travel specialist can help you review available routes, schedules, baggage details, and fare conditions so you can compare options and make an informed booking decision.",
 } as const;
 
 export const ADDRESS_LINE = `${SITE.address.street}, ${SITE.address.city}, ${SITE.address.region} ${SITE.address.postalCode}`;
