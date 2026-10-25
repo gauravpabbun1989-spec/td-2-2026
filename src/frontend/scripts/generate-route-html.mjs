@@ -15,7 +15,7 @@ const routes = {
     title: "Search Flights | Flight Schedule Search | TicketDepart",
     description: "Search flights from the USA and Canada to destinations worldwide. Compare dates, stops, baggage, and fare rules with TicketDepart.",
     heading: "Search flight options",
-    text: "Search flight schedules from U.S. and Canadian departure cities to destinations worldwide by route and date, review available economy itinerary options, and continue by phone when you are ready to confirm booking details.",
+    text: "Search flight schedules from U.S. and Canadian departure cities to destinations worldwide by route and date, then compare practical economy itinerary options. Check the departure and arrival airports, local departure and arrival times, number of stops, total journey duration, and whether a connection requires changing airports. Compare travel dates when your plans allow flexibility, and review baggage allowance, seat-selection costs, taxes, and other charges rather than relying on a headline fare alone. Flight schedules and fares can change as inventory updates; a search result is not a confirmed reservation. When you find an itinerary worth considering, call TicketDepart to discuss the route, travel dates, fare conditions, ticketing process, and any disclosed agency service fee before authorizing payment.",
   },
   "/flight-search-results": {
     title: "Flight Search Results | TicketDepart",
@@ -40,13 +40,13 @@ const routes = {
     title: "International Flight Booking Assistance | TicketDepart",
     description: "Compare international flights from the USA and Canada to worldwide destinations, including routes, connections, dates, baggage, and fare conditions.",
     heading: "International flight booking assistance by phone",
-    text: "Looking for international flights from the USA or Canada? Compare routes to destinations worldwide, including Mexico, the Caribbean, Europe, the United Kingdom, Asia, Africa, and beyond. Review departure airports, flexible dates, nonstop versus connecting flights, baggage allowances, layover length, total journey time, and the full fare before choosing an itinerary. If you are searching for cheap international flights, checking nearby airports and shifting departure or return dates may reveal more options, but compare the full itinerary and fare terms before choosing. Check passport, visa, transit, and entry requirements with the relevant official authorities. You can choose the cabin that suits your trip; selecting a travel class is not required to explore booking assistance."
+    text: "Looking for international flights from the USA or Canada? Compare routes to destinations worldwide, including Mexico, the Caribbean, Europe, the United Kingdom, Asia, Africa, and beyond. Start with your origin, destination, travel window, and number of travelers, then compare departure airports, flexible dates, nonstop versus connecting flights, baggage allowances, layover length, total journey time, and the complete fare. For affordable economy options, compare the full price after taxes, baggage, seat-selection charges, and ground transport—not just the advertised base fare. Nearby airports or shifting departure and return dates may reveal alternatives, but savings and availability are never guaranteed. For connecting itineraries, check whether a connection is protected, whether baggage is checked through, and whether a terminal or airport change is required. Confirm passport, visa, transit, and entry requirements with the relevant official authorities before booking. A specialist can help you review the route, ticketing status, baggage terms, and change or cancellation conditions before you authorize payment."
   },
   "/last-minute-flight-booking": {
     title: "Last-Minute Flight Booking Assistance | TicketDepart",
     description: "Need a last-minute flight? Compare available routes, flexible dates, stops, baggage, and total fares with TicketDepart before confirming.",
     heading: "Last-minute flight booking help when time matters",
-    text: "Need last-minute flights or a flight departing soon? Compare available departures from U.S. and Canadian airports, nearby airports, alternate dates, nonstop and connecting itineraries, baggage costs, and total fare. For same-day or urgent international flights, check ticketing cutoffs, passport and transit requirements, and connection feasibility. Compare the complete fare, ticketing deadlines, and travel requirements before paying."
+    text: "Need last-minute flights or a flight departing soon? Compare available departures from U.S. and Canadian airports, nearby airports, alternate dates, nonstop and connecting itineraries, baggage costs, and the total fare. If your schedule is flexible, check nearby departure times and airports you can realistically reach, while accounting for ground transport and arrival time. For same-day or urgent international flights, check ticketing cutoffs, passport and transit requirements, minimum connection times, and whether a connection is practical. Ask when the ticket will be issued and how long the quoted fare can be held, if a hold is available. Availability and prices can change quickly, and a search does not guarantee a seat. Before paying, confirm the complete itinerary, baggage allowance, total charges, any disclosed agency service fee, and change or cancellation conditions."
   },
   "/multi-city-flight-booking": {
     title: "Multi-City Flight Booking Assistance | TicketDepart",
@@ -55,6 +55,7 @@ const routes = {
     text: "Discuss multiple city pairs, open-jaw routing, connections, mixed carriers, flexible dates, and fare rules.",
   },
   "/group-flight-booking": {
+    indexable: false,
     title: "Group Flight Booking Assistance | TicketDepart",
     description: "Plan group flight travel by phone with help reviewing traveler details, routing, cabin options, baggage, and applicable booking terms.",
     heading: "Group flight booking assistance",
@@ -67,6 +68,7 @@ const routes = {
     text: "Searching for cheap flights from the USA or affordable flights from Canada to an international destination? Compare departure dates, nearby airports, one-stop and nonstop routes, layover times, baggage fees, seat-selection costs, and total trip cost. Flexible dates can broaden the available options, but no fare or saving is guaranteed. TicketDepart can discuss flight booking by phone for routes from U.S. and Canadian cities to destinations worldwide, across available cabin classes. Confirm the final fare, ticketing status, baggage allowance, change and cancellation terms, and any disclosed service fee before authorizing payment."
   },
   "/corporate-flight-booking": {
+    indexable: false,
     title: "Corporate Flight Booking by Phone | Business Travel | TicketDepart",
     description: "Coordinate employee and executive flight planning by phone. Review travel policy, dates, connections, and ticket terms. Call +1-888-958-0280.",
     heading: "Corporate flight booking by phone",
@@ -107,13 +109,13 @@ const routes = {
     title: "Flight Change Assistance by Phone | TicketDepart",
     description: "Need to change a flight? Review date options, fare differences, ticket restrictions, and airline flight-change rules with TicketDepart.",
     heading: "Flight change assistance by phone",
-    text: "Need to change a flight or change a plane ticket? Review available new dates, departure times, airports, routes, and connections, along with airline change fees, fare differences, ticket restrictions, and deadlines. Some fares may allow changes without an airline change fee, but a fare difference or other charge can still apply. For international flights booked from the USA or Canada, the rules depend on the airline, ticket type, seller, and whether travel has started. Confirm the revised itinerary and total cost before authorizing a flight change or rebooking."
+    text: "Need to change a flight or change a plane ticket? Review available new dates, departure times, airports, routes, and connections, along with airline change fees, fare differences, ticket restrictions, and deadlines. Some fares may allow changes without an airline change fee, but a fare difference or other charge can still apply. Before changing the ticket, check whether the original fare is refundable, whether any segment has already been used, and whether the airline or ticket issuer must process the request. For international flights booked from the USA or Canada, rules depend on the airline, ticket type, seller, and whether travel has started. Compare the revised itinerary with the original schedule and confirm the new total cost, any service fee, and ticketing timeline before authorizing a flight change or rebooking. Do not assume a change request is complete until the revised ticket or confirmation is issued."
   },
   "/flight-cancellation-assistance": {
     title: "Flight Cancellation Assistance by Phone | TicketDepart",
     description: "Need to cancel a flight? Review cancellation rules, refund eligibility, credits, deadlines, and ticket conditions with TicketDepart.",
     heading: "Flight cancellation assistance by phone",
-    text: "Need to cancel a flight, request a flight ticket refund, or rebook after cancelling? Review the ticket’s cancellation deadline, refund eligibility, refundable versus nonrefundable terms, possible airline credit or voucher, and the effect on remaining segments. Refunds depend on the fare rules, airline policy, applicable regulations, and who issued the ticket; cancellation does not automatically mean a cash refund. If you still need to travel, compare replacement flights and rebooking costs before confirming a cancellation. Check the exact ticket conditions and total charges before proceeding."
+    text: "Need to cancel a flight, request a flight ticket refund, or rebook after cancelling? Review the ticket’s cancellation deadline, refund eligibility, refundable versus nonrefundable terms, possible airline credit or voucher, and the effect on remaining segments. Refunds depend on fare rules, airline policy, applicable regulations, and who issued the ticket; cancellation does not automatically mean a cash refund. If your trip has multiple legs, ask how cancelling one segment could affect the rest of the itinerary. If you still need to travel, compare replacement flights and rebooking costs before confirming a cancellation. Ask who will submit the request, what fees may apply, how any eligible refund or credit will be processed, and what confirmation to expect. Check the exact ticket conditions and total charges before proceeding, and keep the cancellation or refund reference for your records."
   },
   "/airline-reservation-assistance": {
     title: "Airline Reservation Assistance by Phone | TicketDepart",
@@ -320,7 +322,7 @@ const routes = {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
     description: "Need help with a flight? Call TicketDepart now for 24/7 assistance or send your trip details for a callback.",
     heading: "Need Help with Your Flight? Call Now",
-    text: "For immediate help with flight questions, call +1-888-958-0280, available 24/7. A travel specialist can discuss your route, dates, affordable economy options, baggage, and fare questions. You can also send your trip details for a callback. TicketDepart is an independent travel agency.",
+    text: "For immediate help with flight questions, call +1-888-958-0280, available 24/7. A travel specialist can discuss your route, dates, affordable economy options, baggage, connections, and fare questions. You can also send your trip details for a callback. To make the conversation useful, share your departure city, destination, travel dates or date range, number of travelers, and any flexibility you have. Before you authorize a booking, ask for the complete price, baggage allowance, ticketing status, change and cancellation conditions, and any disclosed agency service fee. Do not send payment-card details or sensitive identity documents through a general contact form. TicketDepart is an independent travel agency.",
   },
   "/privacy": {
     title: "Privacy Policy | TicketDepart",
@@ -368,7 +370,7 @@ const retainedPaths = new Set(
     .map((match) => match[1] === "/" ? "/" : match[1].replace(/\/+$/, "")),
 );
 for (const route of Object.keys(routes)) {
-  if (!retainedPaths.has(route) && route !== "/flight-search-results" && route !== "/flights-new-york-to-london") delete routes[route];
+  if (!retainedPaths.has(route) && route !== "/flight-search-results" && route !== "/flights-new-york-to-london" && route !== "/group-flight-booking" && route !== "/corporate-flight-booking") delete routes[route];
 }
 
 function escapeHtml(value) {
