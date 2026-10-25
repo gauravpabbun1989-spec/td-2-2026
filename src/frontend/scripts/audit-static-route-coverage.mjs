@@ -82,7 +82,7 @@ for (const route of ["/group-flight-booking", "/corporate-flight-booking"]) {
   const pagePath = path.join(distDir, route.slice(1), "index.html");
   assert(fs.existsSync(pagePath), `missing static HTML for legacy route ${route}`);
   const html = read(pagePath);
-  const robots = html.match(/<meta\\s+name="robots"\\s+content="([^"]+)"/i)?.[1] ?? "";
+  const robots = html.match(/<meta\s+name="robots"\s+content="([^"]+)"/i)?.[1] ?? "";
   assert(robots === "noindex, nofollow", `${route} must remain accessible but noindex; found ${robots || "no robots meta"}`);
 }
 
