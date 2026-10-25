@@ -267,11 +267,6 @@ for (const [route, minimumCharacters] of [
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '" '.trim())
-    .replace(/&#39;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
     .replace(/\s+/g, " ")
     .trim();
   assert(visibleText.length >= minimumCharacters, "static fallback content is too thin for " + route + ": " + visibleText.length + " characters");
