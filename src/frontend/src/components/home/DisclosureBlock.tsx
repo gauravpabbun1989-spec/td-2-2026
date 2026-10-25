@@ -4,9 +4,8 @@ import { Link } from "@tanstack/react-router";
 import { Info } from "lucide-react";
 
 /**
- * Independent agency disclosure. States plainly that TicketDepart is not an
- * airline and has no affiliation with any carrier, which keeps the site honest
- * and protects travelers from confusion.
+ * Customer-focused trust section. Legal relationship details live on the
+ * dedicated disclaimer page, not in the main booking journey.
  */
 export function DisclosureBlock() {
   return (
@@ -21,24 +20,23 @@ export function DisclosureBlock() {
             <Info aria-hidden="true" className="size-5" />
           </span>
           <div className="min-w-0">
-            <p className="label-board text-accent">Important disclosure</p>
+            <p className="label-board text-accent">Clear information, no pressure</p>
             <h2
               id="home-disclosure-heading"
               className="mt-2 text-xl font-semibold leading-snug sm:text-2xl"
             >
-              We are an independent travel agency
+              Know your flight options before you decide
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
               {SITE.disclosure}
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              We do not operate flights, set airline fares, or control airline
-              schedules. When you book through us, your contract of carriage is
-              with the operating airline, and their fare rules and conditions
-              apply to your ticket.
+              Flight prices, schedules, baggage allowances, and fare conditions
+              can vary. Review the details and total price before authorizing a
+              booking; a fare is confirmed only when ticketing is completed.
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              You can read more about{" "}
+              Learn more about{" "}
               <Link
                 to="/flight-booking/"
                 data-ocid="home.disclosure_flight_booking_link"
@@ -46,7 +44,7 @@ export function DisclosureBlock() {
               >
                 how our flight booking service works
               </Link>{" "}
-              before you decide.
+              before you choose.
             </p>
           </div>
         </div>
