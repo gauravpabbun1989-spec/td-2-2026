@@ -429,7 +429,7 @@ const STATIC_SEO_CONTENT = {
 
 const RELATED_ROUTE_RULES = {
   "/": [
-    "/flight-booking", "/book-a-flight-by-phone", "/flight-search",
+    "/flight-booking", "/book-a-flight-by-phone", "/how-to-book-a-flight-by-phone", "/flight-search",
     "/international-flight-booking", "/same-day-flight-booking",
     "/business-class-flight-booking",
   ],
