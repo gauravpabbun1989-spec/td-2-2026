@@ -80,6 +80,7 @@ const homeHtml = read(path.join(distDir, "index.html"));
 const homeDescription = homeHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
 assert(homeDescription.includes("24/7") && homeDescription.includes("TicketDepart"), "built homepage meta description is missing expected service details");
 assert(!/855[\s().-]*544[\s().-]*9001/.test(homeHtml), "old public phone number remains in built homepage HTML");
+assert(/href="\/how-to-book-a-flight-by-phone\/"/i.test(homeHtml), "homepage is missing a crawlable link to the phone-booking guide");
 
 const contactHtml = read(path.join(distDir, "contact", "index.html"));
 const contactDescription = contactHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
@@ -170,6 +171,7 @@ for (const url of locs) {
   assert(twitterDescription === description, "Twitter description differs from meta description: " + url);
   assert(description.length <= 160, "meta description exceeds 160 characters: " + url);
   assert(!/\bwith a travel\.?$/i.test(description), "meta description contains an awkward truncated phrase: " + url + ": " + description);
+  assert(!/\bapplicable booking\.\s+Call \+1-888-958-0280\.$/i.test(description), "meta description contains an incomplete booking phrase: " + url + ": " + description);
   assert(!/\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as)\.$/i.test(description), "meta description ends with an incomplete phrase: " + url + ": " + description);
   assert(!/^(?:to|for|at)\b/i.test(description), "meta description starts with a dangling preposition: " + url);
   assert(!allPageTitles.has(title), "duplicate page title: " + title + " (" + allPageTitles.get(title) + " and " + url + ")");
