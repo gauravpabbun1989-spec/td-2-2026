@@ -862,7 +862,7 @@ function makeListingDescription(value) {
   const capitalizedBase = base ? base[0].toUpperCase() + base.slice(1) : "Flight booking assistance";
   const punctuatedBase = /[.!?]$/.test(capitalizedBase) ? capitalizedBase : `${capitalizedBase}.`;
   const description = `${punctuatedBase}${phoneSuffix}`;
-  if (/\\b(?:with a travel|applicable booking)\\.\\s+Call \\+1-888-958-0280\\.$/i.test(description)) {
+  if (/\b(?:with a travel|applicable booking)\.\s+Call \+1-888-958-0280\.$/i.test(description)) {
     throw new Error(`Generated an incomplete meta description: ${description}`);
   }
   return description;
