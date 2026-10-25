@@ -52,7 +52,7 @@ const routes = {
     title: "Multi-City Flight Booking Assistance | TicketDepart",
     description: "Plan a multi-city or open-jaw flight itinerary by phone. Discuss multiple stops, connections, flexible dates, cabins, and fare rules.",
     heading: "Multi-city flight booking for complex itineraries",
-    text: "Discuss multiple city pairs, open-jaw routing, connections, mixed carriers, flexible dates, and fare rules.",
+    text: "Planning a trip with several stops or different arrival and return cities? List each city, preferred travel date, and the order you want to visit destinations before comparing routes. Check whether each segment is on one ticket or separate tickets, how long each connection lasts, whether you must collect and recheck baggage, and whether an airport change is required. Compare the complete itinerary cost, not just the first flight, and leave realistic time for ground transport and delays between separately ticketed segments. Fare rules, change fees, missed-connection protections, and baggage terms can differ by carrier and segment. Before paying, confirm every flight number, airport, local departure time, traveler name, baggage allowance, ticketing status, and any disclosed agency service fee.",
   },
   "/group-flight-booking": {
     indexable: false,
@@ -84,13 +84,13 @@ const routes = {
     title: "Same-Day Flight Booking Assistance | TicketDepart",
     description: "Need to travel today? Discuss same-day flight options, departure airports, connections, ticketing deadlines, and fare conditions by phone.",
     heading: "Same-day flight booking assistance",
-    text: "Discuss same-day options, nearby departure airports, connections, ticketing deadlines, and applicable fare conditions.",
+    text: "If you need to fly today, start with your departure airport, destination, the latest time you can leave, and whether nearby airports are practical. Compare currently available departures, nonstop and connecting options, total journey time, baggage costs, and the complete fare. Check airport travel time, check-in deadlines, minimum connection times, terminal changes, and whether the itinerary is on one ticket. For international trips, confirm passport, visa, transit, and entry requirements with official authorities. Same-day availability and prices can change quickly, and a search does not reserve a seat. Before authorizing payment, ask when the ticket will be issued, confirm the complete itinerary and fare restrictions, and review any disclosed service fee and change or cancellation terms.",
   },
   "/family-flight-booking": {
     title: "Family Flight Booking Assistance | TicketDepart",
     description: "Plan family flights by phone and discuss traveler details, seats, baggage, routing, dates, and applicable booking terms.",
     heading: "Family flight booking assistance",
-    text: "Discuss family traveler details, routing, cabin preferences, baggage, dates, and applicable booking conditions.",
+    text: "When planning a family flight, compare travel dates, total journey time, connections, baggage allowances, and the full fare for every traveler. Make sure names and dates of birth match required travel documents, and ask about the airline rules for infants, children, strollers, car seats, and unaccompanied minors when relevant. Seat assignments and adjacent seats depend on the airline, fare, aircraft, and availability, so confirm what is included and what may cost extra. For connecting itineraries, consider the time needed to move through the airport with children and bags, and check whether baggage is checked through. Before paying, verify each passenger’s details, the complete itinerary, total price, ticketing status, and change or cancellation conditions.",
   },
   "/pet-flight-booking": {
     title: "Pet Flight Booking Assistance | TicketDepart",
