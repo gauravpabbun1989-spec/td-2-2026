@@ -171,7 +171,7 @@ const PAGES: readonly PageConfig[] = [
       {
         question: "Can you help with business-class departures from major U.S. airports?",
         answer:
-          "Yes. You can discuss departures from major U.S. gateways and practical nearby-airport alternatives, subject to the itinerary, schedule, and live availability.",
+          "Yes. You can discuss departures from major U.S. gateways and practical nearby-airport alternatives based on your itinerary and schedule.",
       },
       {
         question: "What costs should I confirm before booking business class?",
@@ -189,7 +189,7 @@ const PAGES: readonly PageConfig[] = [
     path: "/same-day-flight-booking",
     title: "Same-Day Flight Booking Assistance | TicketDepart",
     description:
-      "Need to travel today? Call TicketDepart to discuss same-day flight availability, nearby airports, connections, and ticketing deadlines with a travel specialist.",
+      "Need to travel today? Call TicketDepart to discuss same-day flight options, nearby airports, connections, and ticketing deadlines with a travel specialist.",
     heading: "Same-day flight booking help",
     intro:
       "Same-day travel can change quickly as seats sell and departure deadlines approach. Call with your route and timing so the specialist can work through the available possibilities.",
@@ -224,7 +224,7 @@ const PAGES: readonly PageConfig[] = [
       {
         question: "Can you help me book a flight for today?",
         answer:
-          "We can discuss same-day options by phone. Availability depends on live inventory, the route, departure time, and ticketing deadlines.",
+          "We can discuss same-day options by phone. Discuss the route, departure time, and ticketing deadlines with a specialist before deciding.",
       },
       {
         question: "Can you check nearby airports?",
@@ -234,7 +234,7 @@ const PAGES: readonly PageConfig[] = [
       {
         question: "Will the price be guaranteed while I decide?",
         answer:
-          "No. Same-day fares and seat availability can change until a ticket is issued.",
+          "No. Review the full fare and ticketing terms before paying.",
       },
     ],
   },
@@ -282,7 +282,7 @@ const PAGES: readonly PageConfig[] = [
       {
         question: "Can you keep the family on the same flight?",
         answer:
-          "We can discuss coordinated itineraries, but keeping everyone together depends on inventory and the airline's booking and seat availability.",
+          "We can discuss coordinated itineraries, subject to airline booking and seating rules.",
       },
       {
         question: "What family travel details should I have ready?",
@@ -667,7 +667,7 @@ const PAGES: readonly PageConfig[] = [
     faqs: [
       {
         question: "Can you help with USA to Canada flights?",
-        answer: "Yes. A specialist can discuss available itineraries between U.S. and Canadian cities. Final availability and pricing depend on live airline inventory.",
+        answer: "Yes. A specialist can discuss itinerary and pricing options between U.S. and Canadian cities.",
       },
       {
         question: "Can nearby airports be compared?",
@@ -723,7 +723,7 @@ const PAGES: readonly PageConfig[] = [
       },
       {
         question: "Can you guarantee a fare while I decide?",
-        answer: "Airline fares and availability can change until a ticket is issued, so a quote should not be treated as a guarantee unless the applicable terms say otherwise.",
+        answer: "Review the quoted fare and ticketing terms before deciding; a quote is not a ticket.",
       },
     ],
   },
@@ -811,7 +811,7 @@ const PAGES: readonly PageConfig[] = [
     faqs: [
       {
         question: "Can you help book flights from the USA to Mexico?",
-        answer: "Yes. TicketDepart can discuss USA-to-Mexico flight options by phone, subject to live airline availability.",
+        answer: "Yes. TicketDepart can discuss USA-to-Mexico flight options by phone for your requested route and dates.",
       },
       {
         question: "Can you help with family trips to Mexico?",
