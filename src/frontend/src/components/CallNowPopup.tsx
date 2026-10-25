@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouterState } from "@tanstack/react-router";
 
-const POPUP_SHOW_DELAY_MS = 100;
+const POPUP_SHOW_DELAY_MS = 5000;
 const CALL_PROMPT_DELAY_MS = 9000;
 
 export function CallNowPopup() {
