@@ -36,8 +36,8 @@ const TERMS_BLOCKS: readonly TermsBlock[] = [
     id: "booking-services",
     heading: "Booking services and pricing",
     paragraphs: [
-      "We help travelers research and book flights and, where available, arrange other reservation services. Fares, schedules, seat availability, and baggage rules are set by the airline and can change at any time before a ticket is issued.",
-      "A fare is not confirmed until the ticket is issued and you receive confirmation. Prices and availability may change before ticketing. Before you authorize payment, review the total amount, including taxes and any agency service fee, what is included in the fare, the supplier or ticket issuer, and the applicable ticket conditions.",
+      "We help travelers research and book flights and, where offered, arrange other reservation services. Airlines set schedules, baggage rules, and ticket conditions.",
+      "Before authorizing payment, review the total amount, including taxes and any agency service fee, what is included in the fare, the supplier or ticket issuer, and the applicable ticket conditions. A booking is complete when ticketing is completed and the relevant confirmation is received.",
       "Any agency service fee we charge must be disclosed before you authorize the purchase. Ask for clarification if the amount, payment recipient, ticketing status, or fare conditions are not clear; do not authorize payment until you understand the terms.",
     ],
   },
