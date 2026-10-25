@@ -15,7 +15,7 @@ export function SiteFooter() {
             <div>
               <p className="label-board text-accent">Independent travel agency</p>
               <h2 className="mt-2 font-display text-2xl font-semibold">Flight help without the runaround.</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-white/60">Clear information, human assistance, and a straightforward booking experience.</p>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-white/75">Clear information, human assistance, and a straightforward booking experience. Review the full price, any disclosed agency service fee, ticket issuer, and fare conditions before authorizing payment.</p>
             </div>
             <CallCta size="lg" ocid="footer.call_button" />
           </div>
@@ -59,7 +59,8 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-7">
-          <p className="max-w-5xl text-xs leading-5 text-white/45">{SITE.disclosure}</p>
+          <p className="max-w-5xl text-xs leading-5 text-white/60">{SITE.disclosure}</p>
+          <p className="mt-3 max-w-5xl text-xs leading-5 text-white/60">A quote is not a ticket. Fare availability and prices may change until ticketing is confirmed. Change, cancellation, refund, and credit eligibility depends on the ticket conditions and applicable rules; any agency service fee will be disclosed before purchase authorization.</p>
           <div className="mt-6 flex flex-col gap-2 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
             <p>© {year} {SITE.legalName}. All rights reserved.</p>
           </div>
