@@ -479,7 +479,7 @@ export function FlightSearchResultsPage() {
 
       <Section tone="muted">
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Schedule options are informational and subject to confirmation. A reservation specialist will confirm the itinerary, fare, availability, and booking details by phone before payment. {SITE.disclosure}
+          Schedule options are informational. Call a reservation specialist to discuss the itinerary, fare, and booking details before payment. {SITE.disclosure}
         </p>
       </Section>
     </>
