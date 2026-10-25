@@ -7,7 +7,7 @@ const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 const routes = {
   "/": {
     title: "Make Flight Booking Easy | 24/7 Booking Assistance",
-    description: "TicketDepart offers 24/7 flight booking help with affordable economy options, routes, dates, baggage, and fare questions.",
+    description: "24/7 TicketDepart flight booking help for affordable economy trips, routes, dates, baggage, and fare questions.",
     heading: "Need a Flight? Call Now to Get Started.",
     text: "TicketDepart helps travelers departing from the United States and Canada discuss affordable economy flights to destinations worldwide. Call +1-888-958-0280 for 24/7 help with routes, travel dates, nearby airports, nonstop and connecting itineraries, baggage costs, and fare questions. Compare the full trip cost, including taxes, checked bags, seat fees, connection time, and airport transfers. Have your departure city, destination, travel dates, and traveler count ready; cabin class is optional. If plans change after booking, ask about flight-change fees, fare differences, cancellation rules, refund eligibility, travel credits, and rebooking options for your ticket. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Explore our guides to affordable flights, international flight booking, last-minute travel planning, booking by phone, flight changes, cancellations, refunds, and rebooking.",
   },
