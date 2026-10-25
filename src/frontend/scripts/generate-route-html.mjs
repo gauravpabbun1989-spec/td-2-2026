@@ -860,7 +860,7 @@ function makeListingDescription(value) {
     .replace(/[.\s]+$/, "");
   // Removing a leading call instruction must not leave a dangling preposition
   // (for example, "to book" or "for U.S. flights") at the start of the snippet.
-  const cleanedBase = withoutPhone.replace(/^(?:to|for|at)\s+/i, "").trim();
+  const cleanedBase = withoutPhone.trim().replace(/^(?:to|for|at)\s+/i, "").trim();
   const base = trimDescription(cleanedBase, 155 - phoneSuffix.length - 1);
   const capitalizedBase = base ? base[0].toUpperCase() + base.slice(1) : "Flight booking assistance";
   const punctuatedBase = /[.!?]$/.test(capitalizedBase) ? capitalizedBase : `${capitalizedBase}.`;
