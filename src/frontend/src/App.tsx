@@ -71,6 +71,7 @@ const DeltaPage = lazyPage(() => import("@/pages/airlines/DeltaPage").then(({ De
 const UnitedPage = lazyPage(() => import("@/pages/airlines/UnitedPage").then(({ UnitedPage }) => ({ default: UnitedPage })));
 const PrivacyPage = lazyPage(() => import("@/pages/PrivacyPage").then(({ PrivacyPage }) => ({ default: PrivacyPage })));
 const TermsPage = lazyPage(() => import("@/pages/TermsPage").then(({ TermsPage }) => ({ default: TermsPage })));
+const DisclaimerPage = lazyPage(() => import("@/pages/DisclaimerPage").then(({ DisclaimerPage }) => ({ default: DisclaimerPage })));
 
 
 const rootRoute = createRootRoute({
@@ -435,6 +436,12 @@ const termsRoute = createRoute({
   component: TermsPage,
 });
 
+const disclaimerRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/disclaimer",
+  component: DisclaimerPage,
+});
+
 const adminLeadsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/admin/leads",
@@ -515,6 +522,7 @@ export const routeTree = rootRoute.addChildren([
   contactRoute,
   privacyRoute,
   termsRoute,
+  disclaimerRoute,
   adminLeadsRoute,
 ]);
 
