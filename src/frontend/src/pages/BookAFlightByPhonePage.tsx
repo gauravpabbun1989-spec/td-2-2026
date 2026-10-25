@@ -109,7 +109,7 @@ export function BookAFlightByPhonePage() {
         <div className="mx-auto mt-10 max-w-4xl">
           <p className="label-board text-accent">24/7 phone flight booking</p>
           <h1 className="mt-4 text-balance text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-6xl">
-            Book a flight by phone with a travel specialist
+            Book an affordable flight by phone with a travel specialist
           </h1>
           <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
             Tell us where you want to fly and when you want to travel. A specialist can help you discuss available economy options, flexible dates, nearby airports, connections, baggage costs, and fare rules so you can compare the full trip cost before deciding.
