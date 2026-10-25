@@ -26,9 +26,9 @@ const routes = {
   },
   "/book-a-flight-by-phone": {
     title: "Book a Flight by Phone | 24/7 Booking Help",
-    description: "Ready to book? Call +1-888-958-0280 now for 24/7 help with domestic and international flights, routes, dates, baggage, and fare questions.",
-    heading: "Ready to Book a Flight? Call Now",
-    text: "Call TicketDepart now for help discussing domestic and international flights, affordable economy options, travel dates, routes, baggage, and fare questions. Have your departure city, destination, dates, and traveler count ready if possible. Ask about the full price, baggage allowance, connection details, change and cancellation terms, and any agency service fee before authorizing payment. TicketDepart is an independent travel agency, not an airline.",
+    description: "Looking for an affordable flight? Call +1-888-958-0280 for 24/7 help comparing domestic and international economy options, flexible dates, baggage, and fare rules.",
+    heading: "Book an Affordable Flight by Phone",
+    text: "TicketDepart helps travelers discuss available economy flight options for domestic and international trips. Compare flexible dates, nearby airports, nonstop and connecting itineraries, baggage costs, and the full trip price before deciding. Have your departure city, destination, travel dates, and traveler count ready if possible. Confirm baggage allowance, connection details, change and cancellation terms, ticketing status, and any disclosed agency service fee before authorizing payment. TicketDepart is an independent travel agency, not an airline.",
   },
   "/how-to-book-a-flight-by-phone": {
     title: "How to Book a Flight by Phone | TicketDepart",
