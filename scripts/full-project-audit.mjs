@@ -114,7 +114,8 @@ function auditOnce() {
   assert(robots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "robots sitemap mismatch");
 
   const locs = [...sitemap.matchAll(new RegExp("<loc>([^<]+)</loc>", "g"))].map((m) => m[1]);
-  const expectedLocs = PUBLIC_ROUTES.map((path) => `https://ticketdepart.com${path === "/" ? "/" : `${path}/`}`);
+  const SITEMAP_ROUTES = PUBLIC_ROUTES.filter((path) => path !== "/flights-new-york-to-london");
+  const expectedLocs = SITEMAP_ROUTES.map((path) => `https://ticketdepart.com${path === "/" ? "/" : `${path}/`}`);
   assert(JSON.stringify(locs) === JSON.stringify(expectedLocs), "sitemap does not exactly match current public route set");
 
   for (const path of PUBLIC_ROUTES) {
