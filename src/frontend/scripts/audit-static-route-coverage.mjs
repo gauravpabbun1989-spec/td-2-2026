@@ -218,6 +218,33 @@ for (const phrase of ["Prepare your trip details", "Compare the full itinerary",
 }
 assert(phoneGuideText.length >= 1400, `phone-booking guide static content is too thin: ${phoneGuideText.length} characters`);
 
+
+ // High-intent U.S. booking pages must expose useful, route-specific guidance
+ // in their static HTML, not only in the hydrated React application.
+const priorityGuides = [
+  ["business-class-flight-booking", "Compare the business-class experience and the complete fare"],
+  ["corporate-flight-booking", "Coordinate business travel around policy and schedules"],
+  ["group-flight-booking", "Plan group travel before comparing the fare"],
+  ["flight-booking", "Compare the complete itinerary before choosing a ticket"],
+  ["book-a-flight-by-phone", "What to prepare for a phone flight booking"],
+  ["international-flight-booking", "Plan international flights from the U.S. with the full trip in mind"],
+  ["last-minute-flight-booking", "Check availability and timing for a last-minute flight"],
+];
+for (const [route, requiredHeading] of priorityGuides) {
+  const html = read(path.join(distDir, route, "index.html"));
+  const text = html
+    .replace(/<script[\\s\\S]*?<\\/script>/gi, " ")
+    .replace(/<style[\\s\\S]*?<\\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/\\s+/g, " ")
+    .trim();
+  assert(text.includes(requiredHeading), "priority booking page is missing route-specific guidance: " + route);
+  assert(text.length >= 1500, "priority booking page static content is too thin: " + route + " (" + text.length + " characters)");
+  assert(/Call \\+1 888-958-0280/.test(text), "priority booking page is missing a visible phone CTA: " + route);
+}
+
 // Every sitemap description must be complete, bounded, and must not repeat the public phone number.
 for (const url of locs) {
   const pathname = new URL(url).pathname;
