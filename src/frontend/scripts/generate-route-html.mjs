@@ -7,13 +7,13 @@ const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 const routes = {
   "/": {
     title: "Make Flight Booking Easy | 24/7 Booking Assistance",
-    description: "Book domestic or international flights by phone. Discuss routes, dates, cabins, baggage and fare rules with TicketDepart, 24/7.",
+    description: "Call +1-888-958-0280 to book domestic or international flights by phone. Compare economy fares, routes, baggage, and fare rules with TicketDepart, 24/7.",
     heading: "Book flights by phone with a travel specialist",
-    text: "TicketDepart helps travelers work through flight booking questions by phone. You can discuss domestic or international trips, departure and arrival airports, travel dates, cabin preferences, connections, baggage questions, and applicable fare conditions before deciding how to proceed. If your itinerary is straightforward, you can start with the flight options on the site. If the trip involves multiple cities, tight schedules, family or group travel, or a premium cabin, a conversation can help you work through the details in one place. Before calling, it helps to have your preferred travel dates, departure city or airport, destination, number of travelers, and any important timing or cabin requirements ready. For international travel, you may also want to ask about connection points, baggage rules, and the booking conditions that apply to the itinerary you are considering. TicketDepart provides independent flight reservation assistance and is not an airline or an airline’s official customer-service department. Airline schedules, availability, baggage policies, and fare conditions can vary by route and ticket, so specific details should be reviewed before a booking is confirmed. The site also includes focused guides for international flights, business-class travel, group bookings, flight changes, cancellations, and airline-specific reservation assistance. If you are not sure which booking option fits your trip, you can review the booking guides first or contact a travel specialist. The goal is to make the practical details easier to understand before you confirm your travel plans.",
+    text: "TicketDepart helps everyday travelers compare economy flight options and work through booking questions by phone. Explore cheap-flight considerations, domestic and international routes, flexible dates, practical departure airports, connections, baggage allowances, and fare rules before deciding how to proceed. A low advertised fare is not always the lowest total trip cost, so compare taxes, baggage, seat-selection charges, airport transfers, and the terms of the exact ticket. If you need to book a flight by phone, have your preferred dates, departure city or airport, destination, and traveler count ready where possible. For last-minute travel, check current availability and ticketing deadlines rather than assuming a low fare will remain available. For an existing reservation, separate flight-change questions from cancellation and refund questions, since the available options depend on the ticket and issuer. TicketDepart provides independent flight reservation assistance and is not an airline or an airline’s official customer-service department. Airline schedules, availability, baggage policies, and fare conditions can vary by route and ticket, so confirm specific details before payment. Use the focused guides to compare affordable economy flights, international routes, phone booking, last-minute options, flight changes, and cancellations.",
   },
   "/flight-search": {
     title: "Search Flights | Flight Schedule Search | TicketDepart",
-    description: "Search flight options by city or airport and travel date, then call TicketDepart to confirm booking details with a travel specialist.",
+    description: "Search domestic and international flight options by route and date. Compare economy fares, stops, baggage, and fare rules with TicketDepart.",
     heading: "Search flight options",
     text: "Search flight schedules by route and date, review available itinerary options, and continue by phone when you are ready to confirm booking details.",
   },
@@ -44,7 +44,7 @@ const routes = {
   },
   "/last-minute-flight-booking": {
     title: "Last-Minute Flight Booking Assistance | TicketDepart",
-    description: "Need a last-minute flight? Discuss available routes, nearby airports, flexible dates, connections, and fare conditions with a travel specialist.",
+    description: "Need a last-minute flight? Compare available routes, flexible dates, stops, baggage, and total fares with TicketDepart before confirming.",
     heading: "Last-minute flight booking help when time matters",
     text: "Discuss urgent departures, nearby airports, flexible dates, connections, same-day questions, and fare conditions.",
   },
@@ -62,7 +62,7 @@ const routes = {
   },
   "/cheap-flight-booking-by-phone": {
     title: "Cheap Flight Booking by Phone | TicketDepart",
-    description: "Discuss practical ways to compare flight options, flexible dates, nearby airports, baggage terms, and fare conditions by phone.",
+    description: "Compare cheap flight options by phone. Review flexible dates, practical airports, baggage, total trip cost, and fare rules with TicketDepart.",
     heading: "Cheap flight booking assistance by phone",
     text: "Discuss practical fare-comparison factors including flexible dates, nearby airports, itinerary trade-offs, and fare conditions.",
   },
@@ -105,13 +105,13 @@ const routes = {
   },
   "/flight-change-assistance": {
     title: "Flight Change Assistance by Phone | TicketDepart",
-    description: "Need to change a flight? Discuss date, time, route, fare difference, and airline change rules with a TicketDepart travel specialist.",
+    description: "Need to change a flight? Review date options, fare differences, ticket restrictions, and airline flight-change rules with TicketDepart.",
     heading: "Flight change assistance by phone",
     text: "Review possible date, time, route, connection, and fare changes for an existing itinerary before authorizing a change.",
   },
   "/flight-cancellation-assistance": {
     title: "Flight Cancellation Assistance by Phone | TicketDepart",
-    description: "Need to cancel a flight? Discuss cancellation rules, refunds, credits, deadlines, and replacement travel options with a TicketDepart specialist.",
+    description: "Need to cancel a flight? Review cancellation rules, refund eligibility, credits, deadlines, and ticket conditions with TicketDepart.",
     heading: "Flight cancellation assistance by phone",
     text: "Review cancellation timing, refund or credit questions, partial itinerary effects, and replacement travel options.",
   },
