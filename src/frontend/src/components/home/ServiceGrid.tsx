@@ -1,21 +1,21 @@
 import { Section, SectionHeading } from "@/components/Section";
 import { AIRLINE_ITEMS } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, BriefcaseBusiness, CalendarClock, Globe2, Plane, Route, Users } from "lucide-react";
+import { ArrowUpRight, CalendarClock, Globe2, Plane, Route } from "lucide-react";
 
 const SERVICES = [
-  { icon: Plane, title: "Flight booking assistance", href: "/flight-booking/", description: "Compare routes, schedules, cabins, baggage needs, and fare details with a travel specialist." },
-  { icon: Globe2, title: "International travel", href: "/international-flight-booking/", description: "Think through long-haul routes, connections, layovers, and practical booking details." },
-  { icon: Route, title: "Multi-city itineraries", href: "/multi-city-flight-booking/", description: "Coordinate multiple destinations into one organized itinerary with realistic connections." },
-  { icon: BriefcaseBusiness, title: "Business & first class", href: "/business-class-flight-booking/", description: "Explore premium-cabin options with clear information about seats, baggage, and fare conditions." },
-  { icon: Users, title: "Group travel", href: "/group-flight-booking/", description: "Organize family, friends, teams, or colleagues around one coordinated trip plan." },
-  { icon: CalendarClock, title: "Changes & rebooking", href: "/flight-change-assistance/", description: "Understand available options and fare conditions when your plans change." },
+  { icon: Plane, title: "Affordable flight booking by phone", href: "/cheap-flight-booking-by-phone/", description: "Compare economy fares, nearby dates, baggage allowances, and the full trip cost before booking." },
+  { icon: Globe2, title: "International flight booking", href: "/international-flight-booking/", description: "Review routes, connections, baggage, and fare rules for domestic and international trips." },
+  { icon: CalendarClock, title: "Last-minute flights", href: "/last-minute-flight-booking/", description: "Check available dates, departure times, connection windows, and ticketing details for urgent trips." },
+  { icon: Plane, title: "Same-day flight booking", href: "/same-day-flight-booking/", description: "Review departure timing, airport access, connection risks, and current ticketing availability." },
+  { icon: Route, title: "Multi-city itineraries", href: "/multi-city-flight-booking/", description: "Compare the complete itinerary, connection details, and fare conditions across multiple stops." },
+  { icon: CalendarClock, title: "Changes & rebooking", href: "/flight-change-assistance/", description: "Understand available options and ticket rules when your travel plans change." },
 ] as const;
 
 export function ServiceGrid() {
   return (
     <Section tone="paper" ocid="home.services_section" aria-labelledby="home-services-heading">
-      <SectionHeading id="home-services-heading" eyebrow="Travel support" title="Everything feels easier with a specialist beside you." description="From a straightforward one-way trip to a complex itinerary, get clear human guidance without having to figure everything out alone." />
+      <SectionHeading id="home-services-heading" eyebrow="Travel support" title="Practical help for your next flight." description="Explore economy-focused booking help, international routes, urgent trips, and ticket changes with clear information about itinerary details and fare rules." />
       <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {SERVICES.map((service, index) => (
           <li key={service.title} data-ocid={`home.service_card.${index + 1}`} className="group relative overflow-hidden rounded-[1.75rem] border border-border/80 bg-card p-7 shadow-subtle transition-smooth hover:-translate-y-1.5 hover:border-primary/20 hover:shadow-premium">
