@@ -261,20 +261,19 @@ for (const [route, minimumCharacters] of [
   ["/terms", 1400],
 ]) {
   const htmlPath = path.join(distDir, route.slice(1), "index.html");
-  assert(fs.existsSync(htmlPath), \`missing static HTML for \${route}\`);
+  assert(fs.existsSync(htmlPath), "missing static HTML for " + route);
   const html = read(htmlPath);
   const visibleText = html
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
+    .replace(/&quot;/g, '" '.trim())
     .replace(/&#39;/g, "'")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/\s+/g, " ")
     .trim();
-  assert(visibleText.length >= minimumCharacters, \`static fallback content is too thin for \${route}: \${visibleText.length} characters\`);
+  assert(visibleText.length >= minimumCharacters, "static fallback content is too thin for " + route + ": " + visibleText.length + " characters");
 }
-
 console.log(`Static SEO route audit passed: all ${countryUrls.length} USA-to-country pages, priority phone-booking content, metadata quality, unique titles/H1s, canonicals, indexability, internal links, normalized sitemap, and robots.txt.`);
