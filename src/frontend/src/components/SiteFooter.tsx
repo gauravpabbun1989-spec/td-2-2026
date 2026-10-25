@@ -60,6 +60,7 @@ export function SiteFooter() {
 
         <div className="mt-12 border-t border-white/10 pt-5">
           <p className="text-[9px] leading-4 text-white/35">
+            TicketDepart is an independent travel agency and is not affiliated with any airline. Quotes are not tickets; fares, fees, ticketing, and change or refund eligibility depend on the confirmed booking terms.{" "}
             <Link to="/disclaimer/" className="underline underline-offset-2 hover:text-white/60">Disclaimer</Link>
           </p>
           <div className="mt-4 flex flex-col gap-2 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
