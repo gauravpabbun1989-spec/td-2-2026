@@ -956,7 +956,7 @@ function routeHtml(route, meta) {
       .join("")}
     <li><a href="/contact/">Contact a travel specialist</a></li>
   </ul></section>
-  <p>TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main>`;
+</main>`;
 
   return html.replace(/<div id="root"(?:\s+style="visibility:hidden")?><\/div>/i, `<div id="root" style="visibility:hidden">${fallback}</div>`);
 }
