@@ -144,7 +144,7 @@ export function HowToBookFlightByPhonePage() {
             {
               number: "03",
               title: "Confirm the booking",
-              text: "Once you choose an itinerary, verify passenger names and the final terms. A booking is complete only after the responsible travel provider issues the ticket and confirmation.",
+              text: "Once you choose an itinerary, verify passenger names and the final terms. Follow the booking steps with the specialist and review your itinerary details before completing your booking.",
             },
           ].map((step) => (
             <li
