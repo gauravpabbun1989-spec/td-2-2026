@@ -5,7 +5,7 @@ import { breadcrumbSchema } from "@/lib/seo";
 import { ADDRESS_LINE, SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 
-const LAST_UPDATED = "September 18, 2026";
+const LAST_UPDATED = "October 25, 2026";
 
 type PolicyBlock = {
   id: string;
@@ -25,10 +25,10 @@ const POLICY_BLOCKS: readonly PolicyBlock[] = [
     bullets: [
       "Your name and phone number, so a specialist can reach you.",
       "Your email address, for written follow-up and confirmations.",
-      "Trip type — round trip, one way, multi-city, business class, first class, group travel, or other.",
+      "Trip type — such as round trip, one way, or multi-city travel.",
       "Origin and destination cities or airports.",
       "Departure date and, for round trips, an optional return date.",
-      "Number of travelers and the cabin you are interested in.",
+      "Number of travelers and, if you choose to provide it, your preferred cabin class. Cabin preference is optional.",
       "Any optional trip details you add, such as seat preferences, flexible dates, or baggage needs.",
     ],
   },
