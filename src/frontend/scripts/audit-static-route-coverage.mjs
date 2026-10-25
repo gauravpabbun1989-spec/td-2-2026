@@ -253,4 +253,29 @@ for (const url of locs) {
   assert(phoneMatches.length <= 1, `duplicate TicketDepart phone number in meta description for ${url}`);
 }
 
+// Legal and contact routes must provide meaningful static fallback text to crawlers
+// and users whose browser does not execute the application bundle.
+for (const [route, minimumCharacters] of [
+  ["/contact", 1000],
+  ["/privacy", 1400],
+  ["/terms", 1400],
+]) {
+  const htmlPath = path.join(distDir, route.slice(1), "index.html");
+  assert(fs.existsSync(htmlPath), `missing static HTML for ${route}`);
+  const html = read(htmlPath);
+  const visibleText = html
+    .replace(/<script[\\s\\S]*?<\\/script>/gi, " ")
+    .replace(/<style[\\s\\S]*?<\\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/\\s+/g, " ")
+    .trim();
+  assert(visibleText.length >= minimumCharacters, `static fallback content is too thin for ${route}: ${visibleText.length} characters`);
+  assert(html.includes('href="/contact/"') || route === "/contact", `missing contact path in static fallback for ${route}`);
+}
+
 console.log(`Static SEO route audit passed: all ${countryUrls.length} USA-to-country pages, priority phone-booking content, metadata quality, unique titles/H1s, canonicals, indexability, internal links, normalized sitemap, and robots.txt.`);
