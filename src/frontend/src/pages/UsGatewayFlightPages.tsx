@@ -211,7 +211,7 @@ const PAGES: readonly GatewayPage[] = [
     intro:
       "San Francisco is a major gateway for U.S. and international travel. Share your destination, dates, cabin preference, and connection needs and review practical itinerary considerations.",
     routes:
-      "Discuss domestic travel and international routes to Europe, Asia, Canada, Mexico, and other destinations, subject to live airline availability.",
+      "Discuss domestic travel and international routes to Europe, Asia, Canada, Mexico, and other destinations, for your requested route and dates.",
     faqs: [
       {
         question: "Can you help with international flights from SFO?",
