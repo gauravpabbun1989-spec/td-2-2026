@@ -93,8 +93,8 @@ export function HomePage() {
           <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,620px)] lg:items-center">
             <div className="min-w-0">
               <p className="label-board text-accent">Choose your next step</p>
-              <h2 id="home-start-heading" className="mt-1 text-xl font-semibold sm:text-2xl">Ready to plan the trip?</h2>
-              <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">If you already know what you need, call us. If you are still figuring it out, you can explore the options first.</p>
+              <h2 id="home-start-heading" className="mt-1 text-xl font-semibold sm:text-2xl">Ready to book your flight?</h2>
+              <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">Call now to discuss your route, dates, and flight questions with a travel specialist and take the next step toward booking.</p>
             </div>
             <div className="grid min-w-0 gap-2 sm:grid-cols-3">
               <CallCta size="md" ocid="home.quick_call_button" ctaLocation="home_quick" className="w-full min-w-0 px-3 sm:px-3" />
@@ -110,7 +110,7 @@ export function HomePage() {
       <div className="home-deferred-content">
       <section className="relative overflow-hidden border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-14">
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div><p className="label-board text-accent">Start with a conversation</p><h2 className="mt-2 max-w-3xl text-balance text-2xl font-semibold sm:text-3xl">Tell us what you need. We’ll help you make sense of the options.</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">Discuss your route, dates, cabin, baggage, and fare rules before you decide.</p></div>
+          <div><p className="label-board text-accent">Start with a conversation</p><h2 className="mt-2 max-w-3xl text-balance text-2xl font-semibold sm:text-3xl">Call now and get help with your flight plans.</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">Get help reviewing routes, travel dates, baggage, and fare details. Call now to discuss your options.</p></div>
           <Link to="/book-a-flight-by-phone/" className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-subtle hover:bg-primary/90">Explore phone booking <span aria-hidden="true" className="ml-2">→</span></Link>
         </div>
       </section>
