@@ -60,8 +60,8 @@ type FlightGuideGroup = [string, [string, string][]];
 const FLIGHT_GUIDE_GROUPS: FlightGuideGroup[] = [
               ["Booking help", [
                 ["Flight booking", "/flight-booking/"], ["Flight search", "/flight-search/"], ["Book a flight by phone", "/book-a-flight-by-phone/"], ["How to book by phone", "/how-to-book-a-flight-by-phone/"],
-                ["International flight booking", "/international-flight-booking/"], ["Last-minute flight booking", "/last-minute-flight-booking/"], ["Multi-city flight booking", "/multi-city-flight-booking/"], ["Group flight booking", "/group-flight-booking/"],
-                ["Cheap flight booking by phone", "/cheap-flight-booking-by-phone/"], ["Business class flight booking", "/business-class-flight-booking/"], ["Corporate flight booking", "/corporate-flight-booking/"], ["Same-day flight booking", "/same-day-flight-booking/"],
+                ["International flight booking", "/international-flight-booking/"], ["Last-minute flight booking", "/last-minute-flight-booking/"], ["Multi-city flight booking", "/multi-city-flight-booking/"], 
+                ["Cheap flight booking by phone", "/cheap-flight-booking-by-phone/"], ["Business class flight booking", "/business-class-flight-booking/"],  ["Same-day flight booking", "/same-day-flight-booking/"],
                 ["Family flight booking", "/family-flight-booking/"], ["Pet flight booking", "/pet-flight-booking/"],  ["Baggage assistance", "/baggage-assistance/"],
                 ["Flight change assistance", "/flight-change-assistance/"], ["Flight cancellation assistance", "/flight-cancellation-assistance/"], ["Airline reservation assistance", "/airline-reservation-assistance/"], 
               ]],
@@ -132,9 +132,9 @@ export function HomePage() {
               <h2 id="call-reasons-heading" className="mt-2 max-w-3xl text-balance text-2xl font-semibold sm:text-3xl">Some trips are easy to book online. Others are easier when you can ask a person a question.</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 {[
-                  ["Compare routes", "Talk through nonstop, connecting, and alternate-airport options."],
-                  ["Ask before booking", "Clarify baggage, cabin, fare rules, and change questions."],
-                  ["Handle complex trips", "Get help with multi-city, group, international, or urgent travel."],
+                  ["Compare economy routes", "Talk through nonstop, connecting, and alternate-airport options."],
+                  ["Check the full fare", "Clarify baggage costs, fare rules, and change conditions before paying."],
+                  ["Plan urgent trips", "Discuss last-minute departures, same-day options, and practical connections."],
                 ].map(([title, description]) => (
                   <div key={title} className="rounded-2xl border border-border bg-background p-4">
                     <p className="text-sm font-semibold text-foreground">{title}</p>
@@ -184,7 +184,7 @@ export function HomePage() {
       </section>
 
       <section className="border-b border-border bg-background px-5 py-14 sm:px-8 sm:py-20" aria-labelledby="popular-booking-help-heading">
-        <div className="mx-auto max-w-6xl"><p className="label-board text-accent">Popular booking help</p><h2 id="popular-booking-help-heading" className="mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl">A few common reasons travelers reach out.</h2><p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">Explore focused guides for urgent travel, premium cabins, family trips, affordable fare planning, and changes or cancellations.</p><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[["Cheap flight booking by phone","/cheap-flight-booking-by-phone/"],["Business class flight booking","/business-class-flight-booking/"],["Corporate flight booking","/corporate-flight-booking/"],["Same-day flight booking","/same-day-flight-booking/"],["Family flight booking","/family-flight-booking/"],["Flight change assistance","/flight-change-assistance/"],["Flight cancellation assistance","/flight-cancellation-assistance/"]].map(([label,to])=><Link key={to} to={to} className="group rounded-[1.5rem] border border-border bg-card px-6 py-5 text-sm font-semibold text-primary shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated">{label}<span className="ml-2 transition-transform group-hover:translate-x-1">→</span></Link>)}</div></div>
+        <div className="mx-auto max-w-6xl"><p className="label-board text-accent">Popular booking help</p><h2 id="popular-booking-help-heading" className="mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl">A few common reasons travelers reach out.</h2><p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">Explore practical guides for affordable economy flights, urgent travel, family trips, and ticket changes or cancellations.</p><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[["Cheap flight booking by phone","/cheap-flight-booking-by-phone/"],["International flight booking","/international-flight-booking/"],["Last-minute flight booking","/last-minute-flight-booking/"],["Same-day flight booking","/same-day-flight-booking/"],["Family flight booking","/family-flight-booking/"],["Flight change assistance","/flight-change-assistance/"],["Flight cancellation assistance","/flight-cancellation-assistance/"]].map(([label,to])=><Link key={to} to={to} className="group rounded-[1.5rem] border border-border bg-card px-6 py-5 text-sm font-semibold text-primary shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated">{label}<span className="ml-2 transition-transform group-hover:translate-x-1">→</span></Link>)}</div></div>
       </section>
 
       <section className="border-b border-border bg-muted/40 px-5 py-14 sm:px-8 sm:py-20" aria-labelledby="before-you-pay-heading">
