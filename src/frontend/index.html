@@ -94,9 +94,12 @@
           "/webpack.config.js", "/debug/default/view", "/app_dev.php/_profiler/open",
           "/test_phpinfo5.php", "/serverless.yaml", "/ssl/server.key",
           "/proc/self/environ", "/var/run/secrets/kubernetes.io/serviceaccount/token",
-          "/userfiles"
+          "/userfiles", "/.ds_store", "/dockerfile", "/secrets.env",
+          "/api/proc/self/environ", "/api/fs/read", "/api/system/fileview",
+          "/api/console/api_server", "/z9x8c7v6b5-debug-trigger-ticketdepart.com"
         ]);
         if (exactProbePaths.has(path)) return true;
+        if (/^\\/api\\/(?:proc\\/self|fs\\/read|system\\/fileview|console\\/api_server)(?:\\/|$)/i.test(path)) return true;
 
         const segments = path.split("/").filter(Boolean);
         const probeSegments = new Set([
@@ -121,7 +124,11 @@
         script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
         document.head.appendChild(script);
       }
-      if (!isKnownProbePath()) {
+      // Only the canonical production host should send analytics. Caffeine preview
+      // hosts and other deployment aliases otherwise inflate Direct traffic and
+      // can make QA activity look like real customer acquisition.
+      const isProductionAnalyticsHost = window.location.hostname.toLowerCase() === "ticketdepart.com";
+      if (isProductionAnalyticsHost && !isKnownProbePath()) {
         // Queue configuration before application events so early phone clicks
         // are not queued ahead of the GA4 destination configuration.
         window.gtag("js", new Date());
