@@ -7,13 +7,13 @@ const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 const routes = {
   "/": {
     title: "Make Flight Booking Easy | 24/7 Booking Assistance",
-    description: "Compare affordable economy flights from the USA and Canada to destinations worldwide, with flexible dates, baggage, and fare rules.",
+    description: "Compare affordable flights from the USA and Canada to destinations worldwide, with flexible dates, baggage, and fare rules. TicketDepart offers 24/7 booking assistance.",
     heading: "Book flights by phone with a travel specialist",
-    text: "TicketDepart helps everyday travelers departing from the USA and Canada compare economy flight options to destinations worldwide and work through booking questions by phone. Explore cheap-flight considerations, international routes across the Americas, Europe, Asia, Africa, and beyond, flexible dates, practical departure airports, connections, baggage allowances, and fare rules before deciding how to proceed. A low advertised fare is not always the lowest total trip cost, so compare taxes, baggage, seat-selection charges, airport transfers, and the terms of the exact ticket. If you need to book a flight by phone, have your preferred dates, departure city or airport, destination, and traveler count ready where possible. For last-minute travel, check current availability and ticketing deadlines rather than assuming a low fare will remain available. For an existing reservation, separate flight-change questions from cancellation and refund questions, since the available options depend on the ticket and issuer. TicketDepart provides independent flight reservation assistance and is not an airline or an airline’s official customer-service department. Airline schedules, availability, baggage policies, and fare conditions can vary by route and ticket, so confirm specific details before payment. Use the focused guides to compare affordable economy flights, international routes, phone booking, last-minute options, flight changes, and cancellations.",
+    text: "TicketDepart helps everyday travelers departing from the USA and Canada compare flight options to destinations worldwide and work through booking questions by phone. Explore affordable-flight considerations, international routes across the Americas, Europe, Asia, Africa, and beyond, flexible dates, practical departure airports, connections, baggage allowances, cabin choices when relevant, and fare rules before deciding how to proceed. A low advertised fare is not always the lowest total trip cost, so compare taxes, baggage, seat-selection charges, airport transfers, and the terms of the exact ticket. If you need to book a flight by phone, have your preferred dates, departure city or airport, destination, and traveler count ready where possible. For last-minute travel, check current availability and ticketing deadlines rather than assuming a low fare will remain available. For an existing reservation, separate flight-change questions from cancellation and refund questions, since the available options depend on the ticket and issuer. TicketDepart provides independent flight reservation assistance and is not an airline or an airline’s official customer-service department. Airline schedules, availability, baggage policies, and fare conditions can vary by route and ticket, so confirm specific details before payment. Use the focused guides to compare affordable flights, international routes, phone booking, last-minute options, flight changes, cancellations, and rebooking.",
   },
   "/flight-search": {
     title: "Search Flights | Flight Schedule Search | TicketDepart",
-    description: "Search economy flights from the USA and Canada to destinations worldwide. Compare dates, stops, baggage, and fare rules with TicketDepart.",
+    description: "Search flights from the USA and Canada to destinations worldwide. Compare dates, stops, baggage, and fare rules with TicketDepart.",
     heading: "Search flight options",
     text: "Search flight schedules from U.S. and Canadian departure cities to destinations worldwide by route and date, review available economy itinerary options, and continue by phone when you are ready to confirm booking details.",
   },
@@ -38,7 +38,7 @@ const routes = {
   },
   "/international-flight-booking": {
     title: "International Flight Booking Assistance | TicketDepart",
-    description: "Compare international economy flights from the USA and Canada to worldwide destinations, including routes, connections, dates, baggage, and fare conditions.",
+    description: "Compare international flights from the USA and Canada to worldwide destinations, including routes, connections, dates, baggage, and fare conditions.",
     heading: "International flight booking assistance by phone",
     text: "Compare routes from U.S. and Canadian departure cities to destinations worldwide, including flexible dates, nearby airports, connections, baggage costs, travel-document considerations, and fare conditions before booking.",
   },
@@ -62,9 +62,9 @@ const routes = {
   },
   "/cheap-flight-booking-by-phone": {
     title: "Cheap Flight Booking by Phone | TicketDepart",
-    description: "Compare cheap economy flights from the USA and Canada to destinations worldwide. Review flexible dates, airports, baggage, total trip cost, and fare rules.",
+    description: "Compare affordable flights from the USA and Canada to destinations worldwide. Review flexible dates, airports, baggage, total trip cost, and fare rules.",
     heading: "Cheap flight booking assistance by phone",
-    text: "Discuss affordable economy itineraries from U.S. and Canadian cities to destinations worldwide. Compare flexible dates, nearby airports, connections, baggage, total trip cost, and fare conditions rather than relying on the headline fare alone.",
+    text: "Discuss affordable itineraries from U.S. and Canadian cities to destinations worldwide. Compare flexible dates, nearby airports, connections, baggage, total trip cost, and fare conditions rather than relying on the headline fare alone.",
   },
   "/corporate-flight-booking": {
     title: "Corporate Flight Booking by Phone | Business Travel | TicketDepart",
