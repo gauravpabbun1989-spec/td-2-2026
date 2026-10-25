@@ -37,13 +37,13 @@ const PAGES: CountryPage[] = [
       ["Italy flight booking by phone", "Discuss U.S. departure cities, Italian arrival airports, dates, cabin preference, connections, baggage, and the fare conditions that apply before booking."],
       ["Italy flight change assistance", "Review an existing itinerary and discuss possible date, time, routing, or connection changes under the applicable ticket rules."],
       ["Italy flight cancellation assistance", "Discuss cancellation timing, refund or credit possibilities, and ticket conditions before authorizing a cancellation."],
-      ["Italy flight rebooking and rescheduling", "Compare replacement dates and routings when travel plans change, including possible fare differences and availability."],
+      ["Italy flight rebooking and rescheduling", "Compare replacement dates and routings when travel plans change, including any applicable fare differences."],
       ["Rome and Milan gateway planning", "Use FCO or MXP as practical international gateways and discuss onward Italian travel, connection timing, and airport choices."],
       ["Italy multi-city travel", "Plan open-jaw or multi-city trips such as Rome, Florence, Venice, and Milan while reviewing the complete itinerary before booking."],
     ],
     faqs: [
       ["Can I book a flight from the USA to Italy by phone?", "Yes. A TicketDepart specialist can discuss U.S. departure airports, Italian destinations, dates, cabins, connections, and available booking options."],
-      ["Can you help change a USA to Italy flight?", "We can review the reservation and discuss possible changes or rebooking. Eligibility and costs depend on the ticket rules, airline policy, availability, and how the ticket was issued."],
+      ["Can you help change a USA to Italy flight?", "We can review the reservation and discuss possible changes or rebooking. Eligibility and costs depend on the ticket rules, airline policy, and how the ticket was issued."],
       ["Which Italian airports can I discuss?", "Common international gateways include Rome Fiumicino and Milan Malpensa, with other airports such as Venice, Naples, and Florence depending on the itinerary."],
       ["Is TicketDepart affiliated with an Italian airline?", "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by any airline mentioned on this page."],
     ],
@@ -69,7 +69,7 @@ const PAGES: CountryPage[] = [
     ],
     faqs: [
       ["Can I book USA to France flights by phone?", "Yes. You can discuss route, dates, U.S. departure city, French arrival airport, cabin, and itinerary options with a specialist."],
-      ["Can you help reschedule a flight to France?", "We can review the ticket and discuss available replacement options. Exact eligibility and costs depend on the ticket terms and live availability."],
+      ["Can you help reschedule a flight to France?", "We can review the ticket and discuss available replacement options. Exact eligibility and costs depend on the ticket terms and airline rules."],
       ["What is the main Paris gateway?", "Paris Charles de Gaulle (CDG) is the major international gateway. Paris Orly (ORY) is another airport to consider depending on the itinerary."],
       ["Are you Air France customer service?", "No. TicketDepart is an independent travel agency and is not Air France's official customer service or affiliated with the airline."],
     ],
@@ -95,7 +95,7 @@ const PAGES: CountryPage[] = [
     ],
     faqs: [
       ["Can I book a flight from the USA to Germany by phone?", "Yes. A specialist can discuss your route, dates, departure airport, destination airport, cabin, and available itinerary options."],
-      ["Can you help change a Lufthansa flight?", "Ticket-specific assistance can be discussed, but eligibility and costs depend on how the ticket was issued, its fare rules, airline policy, and availability."],
+      ["Can you help change a Lufthansa flight?", "Ticket-specific assistance can be discussed, but eligibility and costs depend on how the ticket was issued, its fare rules, airline policy."],
       ["Which German airports are useful for international travel?", "Frankfurt (FRA) and Munich (MUC) are major international gateways; Berlin, Düsseldorf, and Hamburg can also be relevant depending on the trip."],
       ["Are you Lufthansa official customer service?", "No. TicketDepart is an independent travel agency and is not Lufthansa's official customer service or affiliated with the airline."],
     ],
@@ -121,7 +121,7 @@ const PAGES: CountryPage[] = [
     ],
     faqs: [
       ["Can I book USA to Spain flights by phone?", "Yes. Discuss your U.S. departure city, Spanish destination, dates, travelers, cabin, and connection preferences with a specialist."],
-      ["Can you help change a flight to Spain?", "We can review the reservation and discuss possible changes or rebooking. Exact outcomes depend on the ticket and current availability."],
+      ["Can you help change a flight to Spain?", "We can review the reservation and discuss possible changes or rebooking. Exact outcomes depend on the ticket and airline rules."],
       ["Which Spanish airports should I consider?", "Madrid-Barajas and Barcelona-El Prat are major international gateways, with Málaga, Palma de Mallorca, and Valencia useful for specific trips."],
       ["Is TicketDepart affiliated with Iberia?", "No. TicketDepart is an independent travel agency and is not Iberia's official customer service or affiliated with the airline."],
     ],
@@ -139,7 +139,7 @@ const PAGES: CountryPage[] = [
     routes: ["New York to Tokyo", "Los Angeles to Tokyo", "San Francisco to Tokyo", "Seattle to Tokyo", "Chicago to Tokyo"],
     services: [
       ["Japan flight booking by phone", "Discuss U.S. departure gateways, Tokyo or other Japanese airports, dates, cabins, nonstop or connecting options, and baggage."],
-      ["Japan flight change assistance", "Review possible itinerary changes and discuss applicable fare rules, availability, and any fare difference."],
+      ["Japan flight change assistance", "Review possible itinerary changes and discuss applicable fare rules and any fare difference."],
       ["Japan cancellation assistance", "Discuss cancellation terms, deadlines, refunds or credits, and the effect on connected segments."],
       ["Japan rebooking and rescheduling", "Compare replacement dates and routes when plans change, including alternative Tokyo airports when practical."],
       ["Tokyo gateway planning", "Discuss Haneda and Narita based on the itinerary, arrival time, onward travel, and available schedules."],
@@ -148,7 +148,7 @@ const PAGES: CountryPage[] = [
     faqs: [
       ["Can I book a USA to Japan flight by phone?", "Yes. A specialist can discuss U.S. departure airports, Japanese destinations, dates, travelers, cabin, and itinerary options."],
       ["Should I compare Haneda and Narita?", "Yes. Airport choice can affect ground transportation and schedule convenience. Discuss both when the available itineraries make that practical."],
-      ["Can you help change an ANA or Japan Airlines itinerary?", "We can discuss possible changes or rebooking, subject to ticket rules, how the reservation was issued, airline policy, and live availability."],
+      ["Can you help change an ANA or Japan Airlines itinerary?", "We can discuss possible changes or rebooking, subject to ticket rules, how the reservation was issued, airline policy."],
       ["Are you ANA or Japan Airlines customer service?", "No. TicketDepart is an independent travel agency and is not official airline customer service or affiliated with either airline."],
     ],
   },
@@ -173,7 +173,7 @@ const PAGES: CountryPage[] = [
     ],
     faqs: [
       ["Can I book a flight from the USA to China by phone?", "Yes. Discuss your U.S. departure, Chinese destination, dates, travelers, cabin, and connection preferences with a specialist."],
-      ["Can you help change a China flight?", "We can review the reservation and discuss possible changes or rebooking. Eligibility and cost depend on the ticket, airline rules, and availability."],
+      ["Can you help change a China flight?", "We can review the reservation and discuss possible changes or rebooking. Eligibility and cost depend on the ticket, airline rules."],
       ["Which China airports are major international gateways?", "Shanghai Pudong, Guangzhou Baiyun, and Beijing Capital are major gateways, with Beijing Daxing and Shenzhen also relevant for some itineraries."],
       ["Do I need to verify entry requirements?", "Yes. Travelers should verify current passport, visa, transit, entry, and other requirements with official government and airline sources for their specific itinerary."],
     ],
@@ -199,7 +199,7 @@ const PAGES: CountryPage[] = [
     ],
     faqs: [
       ["Can I book USA to Brazil flights by phone?", "Yes. A specialist can discuss your U.S. departure, Brazilian destination, dates, travelers, cabin, and available itinerary options."],
-      ["Can you help change a Brazil flight?", "We can review the ticket and discuss possible changes or rebooking. Exact eligibility and cost depend on ticket rules and availability."],
+      ["Can you help change a Brazil flight?", "We can review the ticket and discuss possible changes or rebooking. Exact eligibility and cost depend on ticket rules."],
       ["What is Brazil's major international gateway?", "São Paulo Guarulhos (GRU) is a major international gateway, while Rio de Janeiro Galeão (GIG) is also important for international itineraries."],
       ["Are you affiliated with LATAM or GOL?", "No. TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by the airlines mentioned."],
     ],
@@ -219,13 +219,13 @@ const PAGES: CountryPage[] = [
       ["Colombia flight booking by phone", "Discuss U.S. departure airports, Colombian destinations, dates, cabins, baggage, connections, and fare conditions."],
       ["Colombia flight change assistance", "Review possible changes to dates, times, routing, or connections under the applicable ticket rules."],
       ["Colombia cancellation assistance", "Discuss cancellation terms, possible refund or credit outcomes, and deadlines before processing."],
-      ["Colombia rebooking and rescheduling", "Compare replacement flights when plans change and review availability and fare differences."],
+      ["Colombia rebooking and rescheduling", "Compare replacement flights when plans change and review possible fare differences."],
       ["Bogotá gateway planning", "Discuss BOG as a major international gateway and consider onward domestic connections to Medellín, Cartagena, Cali, or other cities."],
       ["Colombia multi-city travel", "Plan combinations of Colombian cities or Colombia plus another international destination when supported by the fare."],
     ],
     faqs: [
       ["Can I book a USA to Colombia flight by phone?", "Yes. Discuss your U.S. departure, Colombian destination, dates, traveler count, cabin, and itinerary preferences with a specialist."],
-      ["Can you help change an Avianca flight?", "We can discuss possible reservation changes or rebooking, subject to the ticket rules, how it was issued, airline policy, and availability."],
+      ["Can you help change an Avianca flight?", "We can discuss possible reservation changes or rebooking, subject to the ticket rules, how it was issued, airline policy."],
       ["Which Colombian airport is the main international gateway?", "Bogotá El Dorado (BOG) is the principal international gateway, with Medellín, Cartagena, Cali, and Barranquilla serving other travel needs."],
       ["Are you Avianca customer service?", "No. TicketDepart is an independent travel agency and is not Avianca's official customer service or affiliated with the airline."],
     ],
@@ -251,7 +251,7 @@ const PAGES: CountryPage[] = [
     ],
     faqs: [
       ["Can I book USA to Greece flights by phone?", "Yes. A specialist can discuss U.S. departure cities, Athens or island destinations, dates, travelers, cabin, and routing."],
-      ["Can you help with a Greece flight change?", "We can review the reservation and discuss possible changes or rebooking. Exact terms depend on the ticket and availability."],
+      ["Can you help with a Greece flight change?", "We can review the reservation and discuss possible changes or rebooking. Exact terms depend on the ticket and airline rules."],
       ["What is Greece's main international gateway?", "Athens International (ATH) is the principal international gateway and a common connection point for onward Greek destinations."],
       ["Can I combine Athens with a Greek island?", "Yes. Multi-city or connected itineraries can be discussed when schedules and fare rules support the trip."],
     ],
@@ -277,7 +277,7 @@ const PAGES: CountryPage[] = [
     ],
     faqs: [
       ["Can I book a USA to Switzerland flight by phone?", "Yes. Discuss your U.S. departure, Swiss destination, dates, cabin, travelers, and connection preferences with a specialist."],
-      ["Can you help change a SWISS flight?", "We can review the reservation and discuss possible changes or rebooking, subject to ticket rules, airline policy, availability, and how the ticket was issued."],
+      ["Can you help change a SWISS flight?", "We can review the reservation and discuss possible changes or rebooking, subject to ticket rules, airline policy, and how the ticket was issued."],
       ["Which Swiss airports are useful for international travel?", "Zurich (ZRH) is the primary international gateway, while Geneva (GVA) is important for western Switzerland and other specific itineraries."],
       ["Are you SWISS official customer service?", "No. TicketDepart is an independent travel agency and is not SWISS official customer service or affiliated with the airline."],
     ],
@@ -617,7 +617,7 @@ function CountryPageView({ page }: { page: CountryPage }) {
         <SectionHeading
           eyebrow="U.S. to destination planning"
           title={`${page.country} gateways, airlines and U.S. routes`}
-          description={`Common planning context includes ${page.hub}, major airports, major airlines, and U.S.-origin routes. Availability changes by date, season, aircraft, airline schedule, and ticket rules.`}
+          description={`Common planning context includes ${page.hub}, major airports, major airlines, and U.S.-origin routes. Schedules and itinerary options vary by date, season, aircraft, airline schedule, and ticket rules.`}
         />
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
           <article className="rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
