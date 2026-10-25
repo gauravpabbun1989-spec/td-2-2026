@@ -29,7 +29,7 @@ const PAGES: readonly RoutePage[] = [
     title: "New York to London Flights | Booking Assistance | TicketDepart",
     description: "Plan New York to London flights by phone. Discuss JFK or Newark, London airports, nonstop and connecting options, cabins, dates, and fare conditions.",
     intro: "Planning a New York to London trip from the U.S. East Coast? Share your travel dates, traveler count, cabin, and whether JFK or Newark is easier to reach. A specialist can discuss available nonstop and connecting itineraries and the fare rules that apply.",
-    routeNotes: "Compare JFK and Newark departures with London-area arrival options such as Heathrow or Gatwick. Consider ground transport on both ends, arrival time, baggage allowance, connection details, and the change or cancellation rules for the exact fare. Schedules and nonstop availability depend on travel dates.",
+    routeNotes: "Compare JFK and Newark departures with London-area arrival options such as Heathrow or Gatwick. Consider ground transport on both ends, arrival time, baggage allowance, connection details, and the change or cancellation rules for the exact fare. Schedules and nonstop route options vary by travel date.",
     faqs: [
       { question: "Can I discuss New York to London flights by phone?", answer: "Yes. TicketDepart can discuss available itinerary options, dates, cabins, connections, baggage terms, and fare conditions by phone." },
       { question: "Can you compare JFK and Newark?", answer: "When practical, a specialist can discuss schedules from JFK and EWR and the trade-offs between available itineraries." },
@@ -59,7 +59,7 @@ const PAGES: readonly RoutePage[] = [
     intro: "For New York to Dubai travel, share your date range, traveler count, preferred cabin, and tolerance for connections. A specialist can discuss available long-haul itineraries from the New York area and explain baggage and ticket conditions before you choose.",
     routeNotes: "For this long-haul trip, compare total journey time, departure and arrival times, connection airport and layover, cabin, baggage allowance, and change or cancellation rules. Do not assume a nonstop option or a particular fare is available for every date; confirm live itinerary details before payment.",
     faqs: [
-      { question: "Can I book New York to Dubai flights by phone?", answer: "Yes. A specialist can discuss available routing and booking options, subject to live airline availability." },
+      { question: "Can I book New York to Dubai flights by phone?", answer: "Yes. A specialist can discuss routing and booking options for your requested dates." },
       { question: "Can you discuss business class options?", answer: "Yes. Business and other cabin options can be discussed along with schedules and fare conditions." },
     ],
   },
@@ -101,7 +101,7 @@ const PAGES: readonly RoutePage[] = [
     intro: "Planning Miami to Cancun travel? Call with your dates, travelers, and preferred cabin and discuss practical MIA-to-CUN options with a specialist.",
     routeNotes: "For a short international route, schedule and fare-family differences can matter. Discuss baggage, connection needs, and change conditions before payment.",
     faqs: [
-      { question: "Can I discuss Miami to Cancun flights by phone?", answer: "Yes. TicketDepart can discuss available route and fare options subject to live availability." },
+      { question: "Can I discuss Miami to Cancun flights by phone?", answer: "Yes. TicketDepart can discuss route and fare options for your requested dates." },
       { question: "Can you help with family travel?", answer: "Yes. Share traveler count and any seating or baggage considerations when discussing the itinerary." },
     ],
   },
@@ -116,7 +116,7 @@ const PAGES: readonly RoutePage[] = [
     routeNotes: "Chicago departures and London arrival airports can produce different schedules and connections. Compare practical itinerary details before confirming.",
     faqs: [
       { question: "Can you help with Chicago to London booking?", answer: "Yes. Discuss routing, dates, cabins, baggage, connections, and fare conditions by phone." },
-      { question: "Can you discuss nonstop options?", answer: "Yes. A specialist can discuss available nonstop and connecting itineraries based on live availability." },
+      { question: "Can you discuss nonstop options?", answer: "Yes. A specialist can discuss nonstop and connecting itinerary options for your route." },
     ],
   },
   {
