@@ -36,13 +36,13 @@ const routes = {
     heading: "How to book a flight by phone",
     text: "Prepare your departure and arrival airports, dates, traveler count, and cabin preference. Compare the complete itinerary, including connections, baggage, total travel time, and applicable fare conditions. Before paying, confirm the total price, taxes, any disclosed agency service fee, ticketing status, change and cancellation terms, and refund eligibility. Airport services, airline booking channels, and independent travel agencies are different options; confirm which provider will issue and service the ticket. Phone booking is not always cheaper, and prices depend on availability and the specific fare rules.",
   },
-  "/international-flight-booking": {
+  "/international-flight-booking": { eyebrow: "International flight planning", sections: [["Plan the whole itinerary", "Discuss departure airports, destination cities, connections, flexible dates, cabins, baggage, and multi-city or open-jaw routing."],["Long-haul connections", "Review connection airports, layovers, and routing trade-offs that can matter on international trips."],["Travel documents", "Ask questions about the itinerary, but verify current passport, visa, and entry requirements with the relevant government or consulate."]] },
     title: "International Flight Booking Assistance | TicketDepart",
     description: "Plan international flights by phone. Review routes, connections, cabin options, travel dates, and fare conditions.",
     heading: "International flight booking assistance by phone",
     text: "Discuss international routes, connections, cabins, flexible dates, travel-document questions, and fare conditions before booking.",
   },
-  "/last-minute-flight-booking": {
+  "/last-minute-flight-booking": { eyebrow: "Urgent flight planning", sections: [["Travel soon", "Discuss currently available itineraries when your departure is close and seats or fares may change quickly."],["Consider practical alternatives", "Nearby airports, flexible dates, or connecting routes can sometimes create additional options."],["Check ticketing timing", "Same-day and last-minute travel can have tighter ticketing and airport deadlines, so review the applicable timing before payment."]] },
     title: "Last-Minute Flight Booking Assistance | TicketDepart",
     description: "Need a last-minute flight? Discuss available routes, nearby airports, flexible dates, connections, and fare conditions with a travel specialist.",
     heading: "Last-minute flight booking help when time matters",
@@ -54,7 +54,7 @@ const routes = {
     heading: "Multi-city flight booking for complex itineraries",
     text: "Discuss multiple city pairs, open-jaw routing, connections, mixed carriers, flexible dates, and fare rules.",
   },
-  "/group-flight-booking": {
+  "/group-flight-booking": { eyebrow: "Group, family, and event travel", sections: [["Families and larger groups", "Discuss coordinated itineraries for families, sports teams, schools, organizations, events, and other groups."],["Corporate groups", "Work through traveler count, cities, dates, meeting timing, cabin preferences, and itinerary coordination for business travel."],["Seats and booking terms", "Discuss seating, baggage, deposits, name deadlines, ticketing schedules, changes, and other conditions that apply to the specific booking."]] },
     title: "Group Flight Booking Assistance | TicketDepart",
     description: "Plan group flight travel by phone with help reviewing traveler details, routing, cabin options, baggage, and applicable booking terms.",
     heading: "Group flight booking assistance",
