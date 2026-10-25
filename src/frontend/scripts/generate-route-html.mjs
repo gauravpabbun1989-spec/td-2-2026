@@ -320,7 +320,7 @@ const routes = {
 
   "/contact": {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
-    description: "Contact TicketDepart about your flight plans. Call +1-888-958-0280 or send your trip details for a callback.",
+    description: "Contact TicketDepart about your flight plans and callback requests.",
     heading: "Contact TicketDepart about your flight",
     text: "Contact TicketDepart for help planning an affordable domestic or international economy flight, reviewing an existing reservation, or understanding baggage and fare conditions. Call +1-888-958-0280 for 24/7 assistance, or use the callback form to share your departure city, destination, preferred dates, traveler count, and schedule flexibility. You do not need to have every detail finalized before contacting us. A specialist can discuss route options, connection times, nearby airports, baggage costs, the total quoted price, ticketing status, and applicable change or cancellation terms. Before authorizing a purchase, confirm the supplier or ticket issuer, the full amount due, and any agency service fee. A callback request is not a reservation or a guarantee that a fare remains available. Never submit payment-card details or sensitive identity documents through a general contact form. TicketDepart is an independent travel agency, not an airline or an airline's official customer-service department.",
   },
