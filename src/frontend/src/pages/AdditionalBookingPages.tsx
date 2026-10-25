@@ -63,7 +63,7 @@ const PAGES: readonly PageConfig[] = [
       {
         question: "Can you help me find a cheaper flight?",
         answer:
-          "A specialist can discuss available fares, dates, airports, routing, and cabin options. Final prices depend on live availability and fare rules.",
+          "Call now to discuss fares, dates, nearby airports, routes, and economy options that may fit your trip.",
       },
       {
         question: "Can changing my departure airport lower the fare?",
