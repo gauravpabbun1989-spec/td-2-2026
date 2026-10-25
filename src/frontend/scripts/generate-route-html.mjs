@@ -9,7 +9,7 @@ const routes = {
     title: "Make Flight Booking Easy | 24/7 Booking Assistance",
     description: "TicketDepart offers 24/7 help comparing flights from the USA and Canada to worldwide destinations, with dates, baggage, and fare rules.",
     heading: "Book flights by phone with a travel specialist",
-    text: "TicketDepart helps everyday travelers departing from the USA and Canada compare flight options to destinations worldwide and work through booking questions by phone. Explore affordable-flight considerations, international routes across the Americas, Europe, Asia, Africa, and beyond, flexible dates, practical departure airports, connections, baggage allowances, cabin choices when relevant, and fare rules before deciding how to proceed. A low advertised fare is not always the lowest total trip cost, so compare taxes, baggage, seat-selection charges, airport transfers, and the terms of the exact ticket. If you need to book a flight by phone, have your preferred dates, departure city or airport, destination, and traveler count ready where possible. For last-minute travel, check current availability and ticketing deadlines rather than assuming a low fare will remain available. For an existing reservation, separate flight-change questions from cancellation and refund questions, since the available options depend on the ticket and issuer. TicketDepart provides independent flight reservation assistance and is not an airline or an airline’s official customer-service department. Airline schedules, availability, baggage policies, and fare conditions can vary by route and ticket, so confirm specific details before payment. Use the focused guides to compare affordable flights, international routes, phone booking, last-minute options, flight changes, cancellations, and rebooking.",
+    text: "TicketDepart helps travelers departing from the United States and Canada find and compare affordable flights to destinations worldwide. Explore cheap flights from the USA, cheap international flights, flights from Canada, flexible travel dates, nearby departure airports, nonstop and connecting flights, baggage costs, and ticket rules. Compare the full trip cost rather than the headline airfare alone, including taxes, checked bags, seat fees, connection time, and airport transfers. To book a flight by phone, have your departure city, destination, travel dates, traveler count, and any preferences ready; cabin class is optional. Looking for last-minute flights? Compare nearby airports and dates, but confirm live availability and ticketing deadlines instead of assuming a low fare will remain available. If plans change after booking, review flight-change fees, fare differences, cancellation rules, refund eligibility, travel credits, and rebooking options for the exact ticket. TicketDepart provides independent flight reservation assistance and is not an airline or an airline’s official customer-service department. Airline schedules, fares, baggage policies, and change conditions vary by route and ticket, so confirm details before payment. Explore our guides to cheap flights, international flight booking, last-minute flights, booking by phone, flight changes, cancellations, refunds, and rebooking.",
   },
   "/flight-search": {
     title: "Search Flights | Flight Schedule Search | TicketDepart",
@@ -34,19 +34,19 @@ const routes = {
     title: "How to Book a Flight by Phone | TicketDepart",
     description: "Learn what to prepare, how to compare flight itineraries, and which fare, baggage, and change terms to check before paying.",
     heading: "How to book a flight by phone",
-    text: "Prepare your departure and arrival airports, dates, traveler count, and cabin preference. Compare the complete itinerary, including connections, baggage, total travel time, and applicable fare conditions. Before paying, confirm the total price, taxes, any disclosed agency service fee, ticketing status, change and cancellation terms, and refund eligibility. Airport services, airline booking channels, and independent travel agencies are different options; confirm which provider will issue and service the ticket. Phone booking is not always cheaper, and prices depend on availability and the specific fare rules.",
+    text: "To book a flight by phone, prepare your departure city, destination, preferred dates, and number of travelers; choosing a cabin class is optional. Compare the full itinerary, including nonstop or connecting flights, baggage, total travel time, and fare rules. Before paying, confirm the total price, taxes, any disclosed agency service fee, ticketing status, flight change and cancellation terms, refund eligibility, and who will issue and service the ticket. Travelers departing from the USA and Canada can ask about domestic or international routes worldwide, flexible dates, and available alternatives. Phone booking is not always cheaper, and prices depend on live availability and the exact fare conditions."
   },
   "/international-flight-booking": {
     title: "International Flight Booking Assistance | TicketDepart",
     description: "Compare international flights from the USA and Canada to worldwide destinations, including routes, connections, dates, baggage, and fare conditions.",
     heading: "International flight booking assistance by phone",
-    text: "Compare routes from U.S. and Canadian departure cities to destinations worldwide, including flexible dates, nearby airports, connections, baggage costs, travel-document considerations, and fare conditions before booking.",
+    text: "Looking for international flights from the USA or Canada? Compare routes to destinations worldwide, including Mexico, the Caribbean, Europe, the United Kingdom, Asia, Africa, and beyond. Review departure airports, flexible dates, nonstop versus connecting flights, baggage allowances, layover length, total journey time, and the full fare before choosing an itinerary. If you are searching for cheap international flights, checking nearby airports and shifting departure or return dates may reveal more options, but prices and availability change. Check passport, visa, transit, and entry requirements with the relevant official authorities. You can choose the cabin that suits your trip; selecting a travel class is not required to explore booking assistance."
   },
   "/last-minute-flight-booking": {
     title: "Last-Minute Flight Booking Assistance | TicketDepart",
     description: "Need a last-minute flight? Compare available routes, flexible dates, stops, baggage, and total fares with TicketDepart before confirming.",
     heading: "Last-minute flight booking help when time matters",
-    text: "Discuss urgent departures, nearby airports, flexible dates, connections, same-day questions, and fare conditions.",
+    text: "Need last-minute flights or a flight departing soon? Compare available departures from U.S. and Canadian airports, nearby airports, alternate dates, nonstop and connecting itineraries, baggage costs, and total fare. For same-day or urgent international flights, check ticketing cutoffs, passport and transit requirements, and connection feasibility. Last-minute flight prices can rise or fall with availability, so confirm the current fare and ticketing status before paying; a cheap last-minute flight is not guaranteed."
   },
   "/multi-city-flight-booking": {
     title: "Multi-City Flight Booking Assistance | TicketDepart",
@@ -64,7 +64,7 @@ const routes = {
     title: "Cheap Flight Booking by Phone | TicketDepart",
     description: "Compare affordable flights from the USA and Canada to destinations worldwide. Review flexible dates, airports, baggage, total trip cost, and fare rules.",
     heading: "Cheap flight booking assistance by phone",
-    text: "Discuss affordable itineraries from U.S. and Canadian cities to destinations worldwide. Compare flexible dates, nearby airports, connections, baggage, total trip cost, and fare conditions rather than relying on the headline fare alone.",
+    text: "Searching for cheap flights from the USA or affordable flights from Canada to an international destination? Compare departure dates, nearby airports, one-stop and nonstop routes, layover times, baggage fees, seat-selection costs, and total trip cost. Flexible dates can broaden the available options, but no fare or saving is guaranteed. TicketDepart can discuss flight booking by phone for routes from U.S. and Canadian cities to destinations worldwide, across available cabin classes. Confirm the final fare, ticketing status, baggage allowance, change and cancellation terms, and any disclosed service fee before authorizing payment."
   },
   "/corporate-flight-booking": {
     title: "Corporate Flight Booking by Phone | Business Travel | TicketDepart",
@@ -107,13 +107,13 @@ const routes = {
     title: "Flight Change Assistance by Phone | TicketDepart",
     description: "Need to change a flight? Review date options, fare differences, ticket restrictions, and airline flight-change rules with TicketDepart.",
     heading: "Flight change assistance by phone",
-    text: "Review possible date, time, route, connection, and fare changes for an existing itinerary before authorizing a change.",
+    text: "Need to change a flight or change a plane ticket? Review available new dates, departure times, airports, routes, and connections, along with airline change fees, fare differences, ticket restrictions, and deadlines. Some fares may allow changes without an airline change fee, but a fare difference or other charge can still apply. For international flights booked from the USA or Canada, the rules depend on the airline, ticket type, seller, and whether travel has started. Confirm the revised itinerary and total cost before authorizing a flight change or rebooking."
   },
   "/flight-cancellation-assistance": {
     title: "Flight Cancellation Assistance by Phone | TicketDepart",
     description: "Need to cancel a flight? Review cancellation rules, refund eligibility, credits, deadlines, and ticket conditions with TicketDepart.",
     heading: "Flight cancellation assistance by phone",
-    text: "Review cancellation timing, refund or credit questions, partial itinerary effects, and replacement travel options.",
+    text: "Need to cancel a flight, request a flight ticket refund, or rebook after cancelling? Review the ticket’s cancellation deadline, refund eligibility, refundable versus nonrefundable terms, possible airline credit or voucher, and the effect on remaining segments. Refunds depend on the fare rules, airline policy, applicable regulations, and who issued the ticket; cancellation does not automatically mean a cash refund. If you still need to travel, compare replacement flights and rebooking costs before confirming a cancellation. Check the exact ticket conditions and total charges before proceeding."
   },
   "/airline-reservation-assistance": {
     title: "Airline Reservation Assistance by Phone | TicketDepart",
@@ -126,7 +126,7 @@ const routes = {
     title: "Flight Booking Assistance by Phone | TicketDepart",
     description: "Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7.",
     heading: "Flight booking assistance by phone for U.S. travelers",
-    text: "Plan a domestic or international trip by reviewing departure and arrival airports, dates, traveler count, cabin preferences, connections, baggage, and fare conditions. For multi-city routes, group travel, or premium cabins, discuss the details with a travel specialist before you decide. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the applicable price and ticket terms before authorizing payment.",
+    text: "Need flight booking assistance for a trip from the United States or Canada? Compare domestic and international flights to destinations worldwide by departure city, arrival airport, travel dates, number of travelers, connections, baggage, and total fare. If you are looking for cheap flights, consider flexible dates and nearby airports while checking the complete ticket conditions. Cabin class is optional, and you can discuss the preferences that matter for your trip. For an existing booking, ask about changing a flight, cancelling a ticket, refund eligibility, travel credits, or rebooking. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the final price, any disclosed service fee, ticketing status, and fare rules before authorizing payment."
   },
   "/flight-booking-assistance": {
     title: "Flight Booking Assistance by Phone | TicketDepart",
