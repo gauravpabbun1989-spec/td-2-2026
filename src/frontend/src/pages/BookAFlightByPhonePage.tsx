@@ -280,15 +280,15 @@ export function BookAFlightByPhonePage() {
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {[
+            ["Cheap flight booking by phone", "/cheap-flight-booking-by-phone/"],
             ["Flight booking", "/flight-booking/"],
             ["International flight booking", "/international-flight-booking/"],
-            ["Group flight booking", "/group-flight-booking/"],
-            ["Business class & corporate booking", "/business-class-flight-booking/"],
-            ["Last-minute flight booking", "/last-minute-flight-booking"],
+            ["Last-minute flight booking", "/last-minute-flight-booking/"],
             ["How to book a flight by phone", "/how-to-book-a-flight-by-phone/"],
+            ["Flight search", "/flight-search/"],
+            ["Same-day flight booking", "/same-day-flight-booking/"],
             ["American Airlines", "/american-airlines/"],
             ["Delta Airlines", "/delta-airlines/"],
-            ["United Airlines", "/united-airlines/"],
           ].map(([label, to]) => (
             <Link
               key={to}
@@ -356,9 +356,9 @@ export function BookAFlightByPhonePage() {
       </Section>
 
       <Section tone="muted" ocid="book_flight_phone.keyword_intent">
-        <SectionHeading eyebrow="Phone-first flight booking" title="Book flights by phone from the USA with reservation assistance" description="High-intent booking and service terms covered throughout the booking conversation." />
+        <SectionHeading eyebrow="Compare your options" title="Explore affordable economy flights before you decide" description="Focus on the route, travel dates, baggage, and complete fare—not just the headline price." />
         <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
-          <p className="text-sm leading-relaxed text-muted-foreground">U.S. travelers searching for book a flight by phone, flight booking assistance, flight reservation assistance, airline reservation assistance, international flight booking by phone, cheap flight booking by phone, last-minute flight booking, same-day flight booking, business class flight booking, family flight booking, group flight booking, multi-city flight booking, flight change assistance, flight cancellation assistance, flight rebooking assistance, and flight rescheduling help can discuss the complete itinerary with a specialist. Tell us your U.S. departure city, destination country or airport, travel dates, travelers, cabin, baggage needs, connection preferences, and existing reservation details when applicable. The goal is to match the conversation to the actual trip rather than rely on a generic airline or route description.</p>
+          <p className="text-sm leading-relaxed text-muted-foreground">Travelers departing from the United States or Canada can discuss domestic and international economy itineraries, flexible dates, nearby airports, nonstop or connecting flights, baggage allowances, and the total trip cost. If you are comparing prices, start with our <Link to="/cheap-flight-booking-by-phone/" className="font-semibold text-primary underline underline-offset-4 hover:text-primary/80">cheap flight booking by phone guide</Link> and review the options that fit your route. For trips with changing dates or tight departure windows, our <Link to="/last-minute-flight-booking/" className="font-semibold text-primary underline underline-offset-4 hover:text-primary/80">last-minute flight guide</Link> explains what to confirm before booking. Always check the final fare, ticketing status, baggage terms, any disclosed service fee, and change or cancellation conditions before authorizing payment.</p>
         </div>
       </Section>
 
