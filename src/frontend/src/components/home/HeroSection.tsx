@@ -38,11 +38,11 @@ export function HeroSection() {
             className="mt-5 max-w-2xl text-balance text-[2.75rem] font-bold leading-[1.02] tracking-[-0.05em] text-[#0b3155] sm:text-5xl lg:text-[4rem]"
           >
             Need a Flight?{" "}
-            <span className="text-[#087fc1]">We’re Here to Help.</span>
+            <span className="text-[#087fc1]">Call Now to Get Started.</span>
           </h1>
 
           <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-slate-700 sm:text-lg sm:leading-8">
-            Call +1-888-958-0280 for 24/7 flight booking assistance. Our travel specialists can review routes, dates, cabins, baggage, changes, cancellations, and fare rules for domestic and international flights.
+            Call +1-888-958-0280 now for 24/7 flight booking assistance. Get help with routes, travel dates, affordable economy options, baggage, changes, and fare questions for domestic and international trips.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-2">

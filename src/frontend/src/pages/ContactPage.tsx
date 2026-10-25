@@ -59,7 +59,7 @@ export function ContactPage() {
           Talk to a real travel specialist about your flight
         </h1>
         <p className="mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground">
-          Tell us where you are going and when. A specialist from our travel desk can review your trip and help you understand the next steps.
+          Call now for the fastest help with your flight questions, or send your trip details and request a callback. Our team can help you work through your options and next steps.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
           <CallCta size="lg" ocid="contact.hero.call_button" ctaLocation="contact_hero" />
@@ -71,7 +71,7 @@ export function ContactPage() {
       </Section>
 
       <Section tone="muted" ocid="contact.details.section">
-        <SectionHeading eyebrow="Reach us" title="Simple ways to get in touch" description="Call for the fastest answer, or request a callback if you would rather send your trip details first." />
+        <SectionHeading eyebrow="Reach us" title="Simple ways to get in touch" description="For immediate help with your flight questions, call us now. You can also send your trip details for a callback." />
         <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {CONTACT_DETAILS.map((detail) => (
             <div key={detail.label} data-ocid={`contact.detail.${detail.label.toLowerCase()}`} className="flex flex-col rounded-[1.5rem] border border-border bg-card p-6 shadow-subtle">

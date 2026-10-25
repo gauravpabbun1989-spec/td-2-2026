@@ -14,7 +14,7 @@ import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 const PAGE_PATH = "/how-to-book-a-flight-by-phone/";
 const PAGE_TITLE = "How to Book a Flight by Phone | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Learn how phone flight booking works, what information to prepare, what to ask about fares and changes, and when speaking with a travel specialist can help.";
+  "Ready to book a flight by phone? Call TicketDepart for help with routes, dates, baggage, fare questions, and the steps to arrange your trip.";
 
 const FAQS = [
   {
@@ -101,12 +101,7 @@ export function HowToBookFlightByPhonePage() {
             How to book a flight by phone
           </h1>
           <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            If you are searching for a flight booking phone number or want to book a
-            flight by phone, this guide explains what to prepare and what to ask.
-            Booking by phone can be useful when your trip is more complicated
-            than a simple search. A travel specialist can talk through dates,
-            airports, connections, cabin options, baggage, and fare rules with
-            you before you decide what to book.
+            Need help with your flight plans? Call now to speak with a travel specialist about dates, airports, connections, economy cabin options, baggage, and fare questions. Get your questions answered and take the next step toward booking.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -149,7 +144,7 @@ export function HowToBookFlightByPhonePage() {
             {
               number: "03",
               title: "Confirm the booking",
-              text: "Once you choose an itinerary, verify passenger names and the final terms. A booking is complete only after the responsible travel provider issues the ticket and confirmation.",
+              text: "Once you choose an itinerary, verify passenger names and the final terms. Follow the booking steps with the specialist and review your itinerary details before completing your booking.",
             },
           ].map((step) => (
             <li

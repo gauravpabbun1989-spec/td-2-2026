@@ -95,10 +95,10 @@ export function CallNowPopup() {
           </div>
           <p className="relative mt-5 text-xs font-bold uppercase tracking-[0.18em] text-white/75">TicketDepart · Flight assistance</p>
           <h2 id="call-now-popup-title" className="relative mt-2 text-balance text-2xl font-bold leading-tight sm:text-3xl">
-            Need help planning your next flight?
+            Ready to Book Your Flight? Call Now
           </h2>
           <p id="call-now-popup-description" className="relative mt-3 text-sm leading-6 text-white/85">
-            Talk through your route, travel dates, cabin, baggage or booking options with an independent travel specialist.
+            Call us now to get your flight booking confirmed. Speak with a flight specialist and take the next step right away.
           </p>
         </div>
 
@@ -109,7 +109,7 @@ export function CallNowPopup() {
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold text-foreground">Travel assistance, 24/7</p>
-              <p className="mt-0.5 text-xs leading-5 text-muted-foreground">Call when it suits you. A specialist can discuss the options.</p>
+              <p className="mt-0.5 text-xs leading-5 text-muted-foreground">Call now to get help confirming your flight booking.</p>
             </div>
           </div>
 
