@@ -831,7 +831,8 @@ function trimDescription(value, maxLength) {
     .replace(/[|,:;\-]+$/, "")
     .trim();
   const danglingTail = /\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every|travel)$/i;
-  while (candidate && danglingTail.test(candidate)) {
+  const danglingPhrase = /\b(?:with a travel|applicable booking)$/i;
+  while (candidate && (danglingTail.test(candidate) || danglingPhrase.test(candidate))) {
     candidate = candidate
       .replace(/\s+\S+$/, "")
       .trim()
@@ -860,7 +861,11 @@ function makeListingDescription(value) {
   const base = trimDescription(cleanedBase, 155 - phoneSuffix.length - 1);
   const capitalizedBase = base ? base[0].toUpperCase() + base.slice(1) : "Flight booking assistance";
   const punctuatedBase = /[.!?]$/.test(capitalizedBase) ? capitalizedBase : `${capitalizedBase}.`;
-  return `${punctuatedBase}${phoneSuffix}`;
+  const description = `${punctuatedBase}${phoneSuffix}`;
+  if (/\b(?:with a travel|applicable booking)\.\s+Call \+1-888-958-0280\.$/i.test(description)) {
+    throw new Error(`Generated an incomplete meta description: ${description}`);
+  }
+  return description;
 }
 
 function routeHtml(route, meta) {
@@ -929,7 +934,8 @@ function routeHtml(route, meta) {
   const sectionHtml = staticContent.sections
     .map(([heading, text]) => `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(text)}</p></section>`)
     .join("");
-  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>
+  const homeGuideLink = route === "/" ? `<section><h2>Phone booking guide</h2><p><a href="/how-to-book-a-flight-by-phone/">How to book a flight by phone</a></p></section>` : "";
+  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>${homeGuideLink}
   ${sectionHtml}
   ${semanticContent}
   <section><h2>Related flight booking help</h2><ul>
