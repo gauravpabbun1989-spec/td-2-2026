@@ -103,14 +103,14 @@ export function ContactPage() {
         </div>
       </Section>
 
-      <PageContentExpansion subject="contacting TicketDepart about a flight" intro="When you contact TicketDepart, the most useful starting point is a clear description of the trip you are trying to arrange or the reservation you need help understanding." points={[["Trip basics", "Origin, destination, dates, travelers, and cabin preference."],["Existing reservation", "Confirmation code, ticket details, passenger name, and current itinerary."],["Travel priorities", "Schedule, airport, connection, baggage, seating, or flexibility needs."],["Questions before booking", "Fare conditions, changes, cancellations, refunds, credits, and applicable charges."]]} context="You do not need a perfect itinerary before contacting us. The purpose of the conversation is to understand what you need, identify the practical details that matter, and explain the available next steps clearly." />
+      <PageContentExpansion subject="contacting TicketDepart about a flight" intro="When you contact TicketDepart, the most useful starting point is a clear description of the trip you are trying to arrange or the reservation you need help understanding." points={[["Trip basics", "Origin, destination, travel dates, and number of travelers. Cabin class is optional."],["Existing reservation", "Confirmation code, ticket details, passenger name, and current itinerary."],["Travel priorities", "Schedule, airport, connections, baggage, seating, and date flexibility."],["Questions before booking", "Total price, any agency service fee, ticketing status, fare rules, changes, cancellations, refunds, and credits."]]} context="You do not need a perfect itinerary before contacting us. The purpose of the conversation is to understand what you need, identify the practical details that matter, and explain the available next steps clearly." />
 
       <Section tone="navy" ocid="contact.disclosure.section">
         <div className="max-w-3xl">
           <p className="label-board text-accent">Independent agency</p>
           <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">Who you are working with</h2>
           <p className="mt-4 text-pretty text-base leading-relaxed text-primary-foreground/80">{SITE.disclosure}</p>
-          <p className="mt-4 text-pretty text-base leading-relaxed text-primary-foreground/80">We are a U.S.-based travel agency, not an airline. Your booking is made through an airline or authorized distributor, and applicable airline fare rules and conditions apply.</p>
+          <p className="mt-4 text-pretty text-base leading-relaxed text-primary-foreground/80">TicketDepart is an independent U.S.-based travel agency, not an airline or an airline’s official customer-service department. Before you authorize a purchase, ask us to confirm the supplier or ticket issuer, the full price including any agency service fee, whether the ticket has been issued, and the fare rules that apply. A quote is not a ticket, and availability and prices can change until ticketing is confirmed.</p>
           <div className="mt-8"><CallCta variant="solid" size="lg" ocid="contact.disclosure.call_button" /></div>
         </div>
       </Section>

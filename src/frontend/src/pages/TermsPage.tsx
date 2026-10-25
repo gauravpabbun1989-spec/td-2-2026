@@ -5,7 +5,7 @@ import { breadcrumbSchema } from "@/lib/seo";
 import { ADDRESS_LINE, SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 
-const LAST_UPDATED = "September 18, 2026";
+const LAST_UPDATED = "October 25, 2026";
 
 type TermsBlock = {
   id: string;
@@ -28,7 +28,7 @@ const TERMS_BLOCKS: readonly TermsBlock[] = [
     heading: "Independent travel agency — no airline affiliation",
     paragraphs: [
       `${SITE.name} is an independent travel agency. We are not an airline, and we are not affiliated with, endorsed by, or the official customer service of any airline.`,
-      "We do not sell tickets directly. We help you research and compare flights, and any reservation is issued by the airline or an authorized distributor and ticketed in your own name.",
+      "TicketDepart provides independent travel booking assistance and may arrange reservations through an airline or an authorized distributor. Before you authorize payment, we will identify the applicable supplier or ticket issuer and explain the booking steps. The ticket should be considered issued only when ticketing is confirmed and you receive the relevant confirmation.",
       "Airline names, logos, and trademarks that appear on this site belong to their respective owners and are used only to identify the carriers whose flights we can help you book. Any airline name on this site does not imply a partnership, agency appointment, or endorsement.",
     ],
   },
@@ -37,8 +37,8 @@ const TERMS_BLOCKS: readonly TermsBlock[] = [
     heading: "Booking services and pricing",
     paragraphs: [
       "We help travelers research and book flights and, where available, arrange other reservation services. Fares, schedules, seat availability, and baggage rules are set by the airline and can change at any time before a ticket is issued.",
-      "A fare is not confirmed until it is ticketed and you receive a confirmation from us. Prices shown or quoted before ticketing are subject to change and may include service fees charged by our agency in addition to the airline's fare.",
-      "Any service fee we charge is disclosed to you before you authorize a purchase.",
+      "A fare is not confirmed until the ticket is issued and you receive confirmation. Prices and availability may change before ticketing. Before you authorize payment, review the total amount, including taxes and any agency service fee, what is included in the fare, the supplier or ticket issuer, and the applicable ticket conditions.",
+      "Any agency service fee we charge must be disclosed before you authorize the purchase. Ask for clarification if the amount, payment recipient, ticketing status, or fare conditions are not clear; do not authorize payment until you understand the terms.",
     ],
   },
   {
@@ -60,7 +60,7 @@ const TERMS_BLOCKS: readonly TermsBlock[] = [
     paragraphs: [
       "Changes, cancellations, and refunds are governed by the fare rules of the airline that issued your ticket. Many fares are non-refundable and some are non-changeable.",
       "Where a fare allows a change or refund, the airline may charge a fee and any difference in fare. Our agency may also charge a service fee for handling the change. We will explain the applicable costs before we proceed.",
-      "Refunds are issued by the airline and can take several billing cycles to appear once approved.",
+      "Refund processing depends on the ticket issuer, payment method, applicable law, and the fare conditions. A refund is not guaranteed merely because a cancellation is requested. We will explain the known process and applicable charges before proceeding, and we will not describe a refund as approved until the responsible supplier confirms it.",
     ],
   },
   {
