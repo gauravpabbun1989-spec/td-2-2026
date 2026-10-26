@@ -47,8 +47,8 @@ for (const [label, config] of [
 const notFoundHtmlPath = path.join(distDir, "404.html");
 assert(fs.existsSync(notFoundHtmlPath), "missing custom 404.html in built assets");
 const notFoundHtml = read(notFoundHtmlPath);
-assert(/<meta\\s+name=["']robots["']\\s+content=["']noindex, nofollow["']/i.test(notFoundHtml), "404.html must be noindex, nofollow");
-assert(/<h1>Page Not Found<\\/h1>/i.test(notFoundHtml), "404.html is missing its Page Not Found heading");
+assert(/<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']/i.test(notFoundHtml), "404.html must be noindex, nofollow");
+assert(/<h1>Page Not Found<\/h1>/i.test(notFoundHtml), "404.html is missing its Page Not Found heading");
 assert(!/googletagmanager|G-4WC5K9Q31E/i.test(notFoundHtml), "404.html must not load GA4 or GTM and pollute acquisition analytics");
 
 const locs = extractLocs(builtSitemap);
@@ -94,9 +94,9 @@ for (const url of locs) {
 const adminLeadsHtmlPath = path.join(distDir, "admin", "leads", "index.html");
 assert(fs.existsSync(adminLeadsHtmlPath), "missing static HTML shell for /admin/leads after enabling 404 handling");
 const adminLeadsHtml = read(adminLeadsHtmlPath);
-const adminLeadsRobots = adminLeadsHtml.match(/<meta\\s+name=["']robots["']\\s+content=["']([^"']+)["']/i)?.[1] ?? "";
+const adminLeadsRobots = adminLeadsHtml.match(/<meta\s+name=["']robots["']\s+content=["']([^"']+)["']/i)?.[1] ?? "";
 assert(adminLeadsRobots === "noindex, nofollow", `/admin/leads must remain noindex, nofollow; found ${adminLeadsRobots || "no robots meta"}`);
-assert(!locs.some((url) => new URL(url).pathname.replace(/\\/+$/, "") === "/admin/leads"), "/admin/leads must not be added to the public sitemap");
+assert(!locs.some((url) => new URL(url).pathname.replace(/\/+$/, "") === "/admin/leads"), "/admin/leads must not be added to the public sitemap");
 
 const resultsHtmlPath = path.join(distDir, "flight-search-results", "index.html");
 assert(fs.existsSync(resultsHtmlPath), "missing static HTML for /flight-search-results");
