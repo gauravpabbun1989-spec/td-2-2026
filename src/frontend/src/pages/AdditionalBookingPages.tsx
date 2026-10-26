@@ -21,14 +21,15 @@ type PageConfig = {
   service: string;
   items: readonly [string, string][];
   faqs: readonly { question: string; answer: string }[];
+  indexable?: boolean;
 };
 
 const PAGES: readonly PageConfig[] = [
   {
     path: "/cheap-flight-booking-by-phone",
-    title: "Cheap Flight Booking by Phone for U.S. Travelers | TicketDepart",
+    title: "Cheap Economy Flights by Phone | TicketDepart",
     description:
-      "Discuss affordable domestic and international flight options from U.S. airports by phone. Compare dates, nearby airports, cabins, and fare conditions with a TicketDepart travel specialist.",
+      "Compare cheap economy flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules. Call +1-888-958-0280.",
     heading: "Cheap flight booking help by phone",
     intro:
       "A small change in travel date, airport, cabin, or routing can affect the fare. Tell us what you are trying to balance and a specialist can review available options with you.",
@@ -79,6 +80,7 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/business-class-flight-booking/",
+    indexable: false,
     title: "Business Class Flight Booking by Phone | TicketDepart",
     description:
       "Need business class flights? Call TicketDepart to discuss U.S. departure airports, international routes, cabin options, connections, baggage, and fare rules with an independent travel specialist.",
@@ -849,6 +851,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
         title={page.title}
         description={page.description}
         path={page.path}
+        indexable={page.indexable !== false}
         structuredData={[
           breadcrumbSchema([
             { name: "Home", path: "/" },
