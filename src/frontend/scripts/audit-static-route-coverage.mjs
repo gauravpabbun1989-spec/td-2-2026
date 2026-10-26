@@ -48,15 +48,19 @@ const notFoundHtmlPath = path.join(distDir, "404.html");
 assert(fs.existsSync(notFoundHtmlPath), "missing custom 404.html in built assets");
 const notFoundHtml = read(notFoundHtmlPath);
 assert(/<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']/i.test(notFoundHtml), "404.html must be noindex, nofollow");
-assert(/<h1>Page Not Found<\/h1>/i.test(notFoundHtml), "404.html is missing its Page Not Found heading");
+assert(/<h1>This page has departed<\/h1>/i.test(notFoundHtml), "404.html is missing its recovery heading");
+assert(/href="tel:\+18889580280"/i.test(notFoundHtml), "404.html must offer the canonical phone CTA");
+assert(/<meta\s+name="robots"\s+content="noindex, nofollow"/i.test(notFoundHtml), "404.html must remain excluded from indexing");
 assert(!/googletagmanager|G-4WC5K9Q31E/i.test(notFoundHtml), "404.html must not load GA4 or GTM and pollute acquisition analytics");
 
 const locs = extractLocs(builtSitemap);
-assert(locs.length === 49, `expected 49 URLs matching the indexed-page keep list after excluding group/corporate pages; found ${locs.length}`);
+assert(locs.length === 48, `expected 48 URLs after excluding business-class, group, and corporate pages from the economy-first sitemap; found ${locs.length}`);
 assert(new Set(locs).size === locs.length, "built sitemap contains duplicate URLs");
 assert(!locs.some((url) => new URL(url).pathname === "/flights-new-york-to-london/"), "known low-performing New York–London route URL must remain out of the curated sitemap until it is intentionally re-evaluated");
 assert(!locs.some((url) => new URL(url).pathname.replace(/\/+$/, "") === "/flight-search-results"), "non-indexable flight search results route must not be in the sitemap");
-assert(!locs.some((url) => ["/group-flight-booking", "/corporate-flight-booking"].includes(new URL(url).pathname.replace(/\/+$/, ""))), "group and corporate flight pages must remain out of the economy-first sitemap");
+assert(!locs.some((url) => ["/group-flight-booking", "/corporate-flight-booking", "/business-class-flight-booking"].includes(new URL(url).pathname.replace(/\/+$/, ""))), "business-class, group, and corporate flight pages must remain out of the economy-first sitemap");
+const businessClassHtml = read(path.join(distDir, "business-class-flight-booking", "index.html"));
+assert(/<meta\s+name="robots"\s+content="noindex, nofollow"/i.test(businessClassHtml), "business-class page must remain available to visitors but excluded from organic targeting");
 
 const normalized = locs.map((url) => {
   const parsed = new URL(url);
