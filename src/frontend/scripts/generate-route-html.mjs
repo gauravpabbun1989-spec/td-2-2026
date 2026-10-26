@@ -982,6 +982,18 @@ for (const [route, meta] of Object.entries(routes)) {
 // Open Graph metadata. Keep this explicit write as a guard against route-list
 // refactors accidentally omitting the compatibility URL from the generation
 // map.
+// Keep the private admin route's static shell explicit as well. With 404-page
+// handling enabled, this file is required for the application router to load the
+// protected route; its metadata remains noindex and it is not added to the sitemap.
+const adminRoute = "/admin/leads";
+const adminMeta = routes[adminRoute];
+if (!adminMeta) {
+  throw new Error("Cannot generate static HTML for /admin/leads: admin route metadata is missing");
+}
+const adminDir = path.join(distDir, adminRoute.slice(1));
+fs.mkdirSync(adminDir, { recursive: true });
+fs.writeFileSync(path.join(adminDir, "index.html"), routeHtml(adminRoute, adminMeta));
+
 const legacyRoute = "/flight-booking-assistance";
 const legacyMeta = routes[legacyRoute] ?? routes["/flight-booking"];
 if (legacyMeta) {
