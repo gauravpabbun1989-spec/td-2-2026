@@ -7,7 +7,7 @@
  */
 
 const DEDUPE_WINDOW_MS = 250;
-const TEST_SESSION_KEY = "ticketdepart_analytics_test_session";
+
 const US_TIMEZONES = new Set([
   "America/New_York",
   "America/Detroit",
@@ -57,28 +57,12 @@ export function isAnalyticsTestReferrer(referrer: string) {
 function isAnalyticsTestSession() {
   if (typeof window === "undefined") return false;
 
-  try {
-    const storage = window.sessionStorage;
-    if (storage.getItem(TEST_SESSION_KEY) === "1") return true;
-
-    const params = new URLSearchParams(window.location.search);
-    if (
-      params.get("td_analytics_debug") === "1" ||
-      isAnalyticsTestReferrer(document.referrer)
-    ) {
-      storage.setItem(TEST_SESSION_KEY, "1");
-      return true;
-    }
-  } catch {
-    // Explicit query mode still works if sessionStorage is unavailable.
-    return (
-      new URLSearchParams(window.location.search).get("td_analytics_debug") === "1" ||
-      isAnalyticsTestReferrer(document.referrer)
-    );
-  }
-
-  return false;
+  // Only an explicit opt-out query suppresses analytics. Do not persist
+  // Tag Assistant/referrer detection in sessionStorage: that can silence
+  // every later real phone click in the same tab after a QA session.
+  return new URLSearchParams(window.location.search).get("td_analytics_debug") === "1";
 }
+
 const LANDING_PAGE_KEY = "ticketdepart_landing_page";
 const FUNNEL_ENTRY_KEY = "ticketdepart_funnel_entry_sent";
 const ENGAGEMENT_EVENT_DELAY_MS = 10_000;
@@ -293,6 +277,9 @@ export function trackEvent(
   const eventParams = {
     ...buildCommonParams(),
     ...params,
+    // A phone CTA immediately opens the device dialer. Prefer beacon transport
+    // so the event has a better chance of reaching GA4 as the page backgrounds.
+    ...(eventName === "phone_click" ? { transport_type: "beacon" } : {}),
   };
 
   if (win.gtag) {
