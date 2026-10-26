@@ -128,11 +128,11 @@ const disclaimerCanonical = disclaimerHtml.match(/<link\s+rel="canonical"\s+href
 assert(disclaimerCanonical === "https://ticketdepart.com/disclaimer/", `disclaimer canonical must point to /disclaimer/; found ${disclaimerCanonical || "missing"}`);
 assert(disclaimerHtml.includes("A quote is not a ticket or a guarantee that a fare remains available"), "disclaimer is missing the fare-availability qualification");
 const disclaimerDescription = disclaimerHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1]?.trim() ?? "";
-assert(disclaimerDescription === "Understand TicketDepart's booking service, airline relationships, fare quotes, fees, ticketing, changes, and refunds. Call +1-888-958-0280.", `disclaimer meta description is incomplete or awkward: \${disclaimerDescription}`);
+assert(disclaimerDescription === "Understand TicketDepart's booking service, airline relationships, fare quotes, fees, ticketing, changes, and refunds. Call +1-888-958-0280.", `disclaimer meta description is incomplete or awkward: ${disclaimerDescription}`);
 
 const cheapHtml = read(path.join(distDir, "cheap-flight-booking-by-phone", "index.html"));
 const cheapDescription = cheapHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1]?.trim() ?? "";
-assert(cheapDescription === "Compare affordable flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules. Call +1-888-958-0280.", `cheap-flight meta description is incomplete or awkward: \${cheapDescription}`);
+assert(cheapDescription === "Compare affordable flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules. Call +1-888-958-0280.", `cheap-flight meta description is incomplete or awkward: ${cheapDescription}`);
 
 
 const legacyBookingPath = path.join(distDir, "flight-booking-assistance", "index.html");
