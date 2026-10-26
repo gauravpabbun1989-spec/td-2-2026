@@ -26,7 +26,6 @@ export function CallNowPopup() {
 
     const popupTimer = window.setTimeout(() => {
       hasShownThisSession.current = true;
-      const landingPath = pathnameRef.current;
       setIsOpen(true);
       // Popup visibility is an impression, not a lead. Do not emit it as an
       // analytics event; phone_click is recorded only when a visitor taps tel:.
