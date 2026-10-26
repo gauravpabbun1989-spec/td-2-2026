@@ -69,10 +69,10 @@ const routes = {
     text: "Discuss group traveler details, routing, cabin preferences, baggage needs, and applicable booking conditions.",
   },
   "/cheap-flight-booking-by-phone": {
-    title: "Cheap Flight Booking by Phone | TicketDepart",
-    description: "Compare affordable flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules.",
+    title: "Cheap Economy Flights by Phone | TicketDepart",
+    description: "Compare cheap economy flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules.",
     heading: "Cheap flight booking assistance by phone",
-    text: "Searching for cheap flights from the USA or affordable flights from Canada to an international destination? Compare departure dates, nearby airports, one-stop and nonstop routes, layover times, baggage fees, seat-selection costs, and total trip cost. Flexible dates can broaden the available options, but no fare or saving is guaranteed. TicketDepart can discuss flight booking by phone for routes from U.S. and Canadian cities to destinations worldwide, across available cabin classes. Confirm the final fare, ticketing status, baggage allowance, change and cancellation terms, and any disclosed service fee before authorizing payment."
+    text: "Searching for cheap economy flights from the USA or Canada? Compare departure dates, nearby airports, one-stop and nonstop routes, layover times, baggage fees, seat-selection costs, and total trip cost. Flexible dates can broaden the available options, but no fare or saving is guaranteed. TicketDepart can discuss affordable economy flight booking by phone for domestic and international routes from U.S. and Canadian cities. Confirm the final fare, ticketing status, baggage allowance, change and cancellation terms, and any disclosed service fee before authorizing payment."
   },
   "/corporate-flight-booking": {
     indexable: false,
@@ -82,6 +82,7 @@ const routes = {
     text: "Coordinate employee and executive trips by reviewing travel policy requirements, traveler count, meeting times, departure airports, routing, approval steps, receipt requirements, and billing needs. Compare schedule reliability, connection risk, baggage, flexibility, and total ticket cost across available itineraries. Business class is a cabin preference within a trip plan, not the same as coordinating company travel. Confirm any disclosed service fees and fare conditions before authorizing payment. TicketDepart is an independent travel agency; this page does not promise negotiated corporate rates or an existing company account.",
   },
   "/business-class-flight-booking": {
+    indexable: false,
     title: "Business Class Flight Booking by Phone | TicketDepart",
     description: "Discuss business-class flights from U.S. airports, cabin options, connections, baggage, flexible dates, and fare rules with an independent travel specialist.",
     heading: "Business class flight booking by phone",
@@ -377,7 +378,7 @@ const retainedPaths = new Set(
     .map((match) => match[1] === "/" ? "/" : match[1].replace(/\/+$/, "")),
 );
 for (const route of Object.keys(routes)) {
-  if (!retainedPaths.has(route) && route !== "/flight-search-results" && route !== "/flights-new-york-to-london" && route !== "/group-flight-booking" && route !== "/corporate-flight-booking") delete routes[route];
+  if (!retainedPaths.has(route) && route !== "/flight-search-results" && route !== "/flights-new-york-to-london" && route !== "/group-flight-booking" && route !== "/corporate-flight-booking" && route !== "/business-class-flight-booking") delete routes[route];
 }
 
 function escapeHtml(value) {
@@ -954,7 +955,7 @@ function routeHtml(route, meta) {
   const sectionHtml = staticContent.sections
     .map(([heading, text]) => `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(text)}</p></section>`)
     .join("");
-  const homeGuideLink = route === "/" ? `<section><h2>Phone booking guide</h2><p><a href="/how-to-book-a-flight-by-phone/">How to book a flight by phone</a></p></section>` : "";
+  const homeGuideLink = route === "/" ? `<section><h2>Affordable economy flight booking</h2><p><a href="/cheap-flight-booking-by-phone/">Cheap economy flights by phone</a></p><p><a href="/how-to-book-a-flight-by-phone/">How to book a flight by phone</a></p></section>` : "";
   const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>${homeGuideLink}
   ${sectionHtml}
   ${semanticContent}

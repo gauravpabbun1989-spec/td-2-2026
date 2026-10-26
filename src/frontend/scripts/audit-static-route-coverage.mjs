@@ -48,15 +48,23 @@ const notFoundHtmlPath = path.join(distDir, "404.html");
 assert(fs.existsSync(notFoundHtmlPath), "missing custom 404.html in built assets");
 const notFoundHtml = read(notFoundHtmlPath);
 assert(/<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']/i.test(notFoundHtml), "404.html must be noindex, nofollow");
-assert(/<h1>Page Not Found<\/h1>/i.test(notFoundHtml), "404.html is missing its Page Not Found heading");
+assert(/<h1>This page has departed<\/h1>/i.test(notFoundHtml), "404.html is missing its recovery heading");
+assert(/href="tel:\+18889580280"/i.test(notFoundHtml), "404.html must offer the canonical phone CTA");
+assert(/<meta\s+name="robots"\s+content="noindex, nofollow"/i.test(notFoundHtml), "404.html must remain excluded from indexing");
 assert(!/googletagmanager|G-4WC5K9Q31E/i.test(notFoundHtml), "404.html must not load GA4 or GTM and pollute acquisition analytics");
+const analyticsSource = read(path.join(root, "src", "lib", "analytics.ts"));
+const popupSource = read(path.join(root, "src", "components", "CallNowPopup.tsx"));
+assert(!analyticsSource.includes('trackEvent("phone_cta_impression"'), "CTA visibility must not emit an impression event");
+assert(!popupSource.includes('trackEvent("call_now_popup_impression"'), "popup visibility must not emit an impression event");
 
 const locs = extractLocs(builtSitemap);
-assert(locs.length === 49, `expected 49 URLs matching the indexed-page keep list after excluding group/corporate pages; found ${locs.length}`);
+assert(locs.length === 48, `expected 48 URLs after excluding business-class, group, and corporate pages from the economy-first sitemap; found ${locs.length}`);
 assert(new Set(locs).size === locs.length, "built sitemap contains duplicate URLs");
 assert(!locs.some((url) => new URL(url).pathname === "/flights-new-york-to-london/"), "known low-performing New York–London route URL must remain out of the curated sitemap until it is intentionally re-evaluated");
 assert(!locs.some((url) => new URL(url).pathname.replace(/\/+$/, "") === "/flight-search-results"), "non-indexable flight search results route must not be in the sitemap");
-assert(!locs.some((url) => ["/group-flight-booking", "/corporate-flight-booking"].includes(new URL(url).pathname.replace(/\/+$/, ""))), "group and corporate flight pages must remain out of the economy-first sitemap");
+assert(!locs.some((url) => ["/group-flight-booking", "/corporate-flight-booking", "/business-class-flight-booking"].includes(new URL(url).pathname.replace(/\/+$/, ""))), "business-class, group, and corporate flight pages must remain out of the economy-first sitemap");
+const businessClassHtml = read(path.join(distDir, "business-class-flight-booking", "index.html"));
+assert(/<meta\s+name="robots"\s+content="noindex, nofollow"/i.test(businessClassHtml), "business-class page must remain available to visitors but excluded from organic targeting");
 
 const normalized = locs.map((url) => {
   const parsed = new URL(url);
@@ -132,7 +140,7 @@ assert(disclaimerDescription === "Understand TicketDepart's booking service, air
 
 const cheapHtml = read(path.join(distDir, "cheap-flight-booking-by-phone", "index.html"));
 const cheapDescription = cheapHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1]?.trim() ?? "";
-assert(cheapDescription === "Compare affordable flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules. Call +1-888-958-0280.", `cheap-flight meta description is incomplete or awkward: ${cheapDescription}`);
+assert(cheapDescription === "Compare cheap economy flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules. Call +1-888-958-0280.", `cheap-flight meta description is incomplete or awkward: ${cheapDescription}`);
 
 
 const legacyBookingPath = path.join(distDir, "flight-booking-assistance", "index.html");
