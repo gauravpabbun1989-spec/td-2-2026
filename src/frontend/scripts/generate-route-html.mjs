@@ -72,7 +72,7 @@ const routes = {
     title: "Cheap Economy Flights by Phone | TicketDepart",
     description: "Compare cheap economy flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules.",
     heading: "Cheap flight booking assistance by phone",
-    text: "Searching for cheap flights from the USA or affordable flights from Canada to an international destination? Compare departure dates, nearby airports, one-stop and nonstop routes, layover times, baggage fees, seat-selection costs, and total trip cost. Flexible dates can broaden the available options, but no fare or saving is guaranteed. TicketDepart can discuss flight booking by phone for routes from U.S. and Canadian cities to destinations worldwide, across available cabin classes. Confirm the final fare, ticketing status, baggage allowance, change and cancellation terms, and any disclosed service fee before authorizing payment."
+    text: "Searching for cheap economy flights from the USA or Canada? Compare departure dates, nearby airports, one-stop and nonstop routes, layover times, baggage fees, seat-selection costs, and total trip cost. Flexible dates can broaden the available options, but no fare or saving is guaranteed. TicketDepart can discuss affordable economy flight booking by phone for domestic and international routes from U.S. and Canadian cities. Confirm the final fare, ticketing status, baggage allowance, change and cancellation terms, and any disclosed service fee before authorizing payment."
   },
   "/corporate-flight-booking": {
     indexable: false,
