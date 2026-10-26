@@ -425,7 +425,7 @@ if (typeof document !== "undefined") {
     // If session storage is unavailable, fall back to one emission per module load.
   }
   if (!funnelEntrySent) {
-    trackEvent("conversion_funnel_entry", {
+    trackEvent("session_funnel_entry", {
       conversion_stage: "landing",
       funnel_entry_scope: "session",
       intent_family: getIntentFamily(),
