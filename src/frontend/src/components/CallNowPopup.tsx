@@ -28,10 +28,8 @@ export function CallNowPopup() {
       hasShownThisSession.current = true;
       const landingPath = pathnameRef.current;
       setIsOpen(true);
-      trackEvent("call_now_popup_impression", {
-        popup_location: "sitewide_modal",
-        landing_path: landingPath,
-      });
+      // Popup visibility is an impression, not a lead. Do not emit it as an
+      // analytics event; phone_click is recorded only when a visitor taps tel:.
     }, POPUP_SHOW_DELAY_MS);
 
     // After nine seconds, visually prompt the visitor to tap the existing call button.
