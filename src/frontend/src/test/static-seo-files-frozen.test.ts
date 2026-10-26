@@ -23,6 +23,7 @@ describe("static SEO assets", () => {
     expect(new Set(locs).size).toBe(locs.length);
     expect(locs).not.toContain("https://ticketdepart.com/group-flight-booking/");
     expect(locs).not.toContain("https://ticketdepart.com/corporate-flight-booking/");
+    expect(locs).not.toContain("https://ticketdepart.com/business-class-flight-booking/");
     expect(locs.every((loc) => /^https:\/\/ticketdepart\.com\//.test(loc))).toBe(true);
   });
 
