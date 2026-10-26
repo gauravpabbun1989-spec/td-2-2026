@@ -373,10 +373,11 @@ export function trackLeadSubmit(location = "contact_form") {
 }
 
 /**
- * CTA impressions are intentionally not emitted. GA4 currently treats the
- * legacy phone_cta_impression event as a key event, which falsely inflates
- * conversions. Re-enable visibility reporting only after the GA4 key-event
- * configuration has been corrected and verified.
+ * CTA and popup impressions are intentionally not emitted as GA4 events.
+ * Impressions are not leads. Keep lead reporting tied to explicit actions;
+ * phone_click is a click-intent signal, not proof that a call connected.
+ * Re-enable impression reporting only after key-event configuration and
+ * reporting have been verified.
  */
 
 if (typeof document !== "undefined") {
