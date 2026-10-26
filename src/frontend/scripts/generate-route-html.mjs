@@ -378,7 +378,7 @@ const retainedPaths = new Set(
     .map((match) => match[1] === "/" ? "/" : match[1].replace(/\/+$/, "")),
 );
 for (const route of Object.keys(routes)) {
-  if (!retainedPaths.has(route) && route !== "/flight-search-results" && route !== "/flights-new-york-to-london" && route !== "/group-flight-booking" && route !== "/corporate-flight-booking") delete routes[route];
+  if (!retainedPaths.has(route) && route !== "/flight-search-results" && route !== "/flights-new-york-to-london" && route !== "/group-flight-booking" && route !== "/corporate-flight-booking" && route !== "/business-class-flight-booking") delete routes[route];
 }
 
 function escapeHtml(value) {
