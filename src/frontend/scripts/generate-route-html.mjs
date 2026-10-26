@@ -70,7 +70,7 @@ const routes = {
   },
   "/cheap-flight-booking-by-phone": {
     title: "Cheap Flight Booking by Phone | TicketDepart",
-    description: "Compare affordable flights from the USA and Canada to destinations worldwide. Review flexible dates, airports, baggage, total trip cost, and fare rules.",
+    description: "Compare affordable flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules.",
     heading: "Cheap flight booking assistance by phone",
     text: "Searching for cheap flights from the USA or affordable flights from Canada to an international destination? Compare departure dates, nearby airports, one-stop and nonstop routes, layover times, baggage fees, seat-selection costs, and total trip cost. Flexible dates can broaden the available options, but no fare or saving is guaranteed. TicketDepart can discuss flight booking by phone for routes from U.S. and Canadian cities to destinations worldwide, across available cabin classes. Confirm the final fare, ticketing status, baggage allowance, change and cancellation terms, and any disclosed service fee before authorizing payment."
   },
@@ -345,7 +345,7 @@ const routes = {
   },
   "/disclaimer": {
     title: "TicketDepart Disclaimer | Booking Information",
-    description: "Important information about TicketDepart booking assistance, airline relationships, fares, fees, ticket issuance, and ticket conditions.",
+    description: "Understand TicketDepart's booking service, airline relationships, fare quotes, fees, ticketing, changes, and refunds.",
     heading: "Disclaimer",
     text: "TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or sponsored by any airline. A quote is not a ticket or a guarantee that a fare remains available. Prices, schedules, seat availability, baggage allowances, and fare conditions may change before ticketing. A booking should be considered ticketed only after ticket issuance is confirmed and the relevant confirmation is received. Before authorizing payment, confirm the total price, any agency service fee, payment recipient, supplier or ticket issuer, and the terms that apply to the ticket.",
   },
