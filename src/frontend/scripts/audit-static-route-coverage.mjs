@@ -32,6 +32,25 @@ assert(builtRobots.includes("User-agent: *"), "robots.txt is missing a wildcard 
 assert(builtRobots.includes("Allow: /"), "robots.txt does not allow public crawling");
 assert(builtRobots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "robots.txt sitemap URL is incorrect");
 
+const frontendWrangler = JSON.parse(read(path.join(root, "wrangler.jsonc")));
+const rootWrangler = JSON.parse(read(path.resolve(root, "..", "..", "wrangler.jsonc")));
+for (const [label, config] of [
+  ["frontend", frontendWrangler],
+  ["root", rootWrangler],
+]) {
+  assert(
+    config.assets?.not_found_handling === "404-page",
+    `${label} Wrangler config must return a real 404 page for unknown asset paths`,
+  );
+}
+
+const notFoundHtmlPath = path.join(distDir, "404.html");
+assert(fs.existsSync(notFoundHtmlPath), "missing custom 404.html in built assets");
+const notFoundHtml = read(notFoundHtmlPath);
+assert(/<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']/i.test(notFoundHtml), "404.html must be noindex, nofollow");
+assert(/<h1>Page Not Found<\/h1>/i.test(notFoundHtml), "404.html is missing its Page Not Found heading");
+assert(!/googletagmanager|G-4WC5K9Q31E/i.test(notFoundHtml), "404.html must not load GA4 or GTM and pollute acquisition analytics");
+
 const locs = extractLocs(builtSitemap);
 assert(locs.length === 49, `expected 49 URLs matching the indexed-page keep list after excluding group/corporate pages; found ${locs.length}`);
 assert(new Set(locs).size === locs.length, "built sitemap contains duplicate URLs");
@@ -71,6 +90,13 @@ for (const url of locs) {
   canonicalOwners.set(canonical, url);
 }
 
+
+const adminLeadsHtmlPath = path.join(distDir, "admin", "leads", "index.html");
+assert(fs.existsSync(adminLeadsHtmlPath), "missing static HTML shell for /admin/leads after enabling 404 handling");
+const adminLeadsHtml = read(adminLeadsHtmlPath);
+const adminLeadsRobots = adminLeadsHtml.match(/<meta\s+name=["']robots["']\s+content=["']([^"']+)["']/i)?.[1] ?? "";
+assert(adminLeadsRobots === "noindex, nofollow", `/admin/leads must remain noindex, nofollow; found ${adminLeadsRobots || "no robots meta"}`);
+assert(!locs.some((url) => new URL(url).pathname.replace(/\/+$/, "") === "/admin/leads"), "/admin/leads must not be added to the public sitemap");
 
 const resultsHtmlPath = path.join(distDir, "flight-search-results", "index.html");
 assert(fs.existsSync(resultsHtmlPath), "missing static HTML for /flight-search-results");

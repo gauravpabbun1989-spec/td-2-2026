@@ -17,6 +17,13 @@ const routes = {
     heading: "Search flight options",
     text: "Search flight schedules from U.S. and Canadian departure cities to destinations worldwide by route and date, then compare practical economy itinerary options. Check the departure and arrival airports, local departure and arrival times, number of stops, total journey duration, and whether a connection requires changing airports. Compare travel dates when your plans allow flexibility, and review baggage allowance, seat-selection costs, taxes, and other charges rather than relying on a headline fare alone. Flight schedules and fares can change as inventory updates; a search result is not a confirmed reservation. When you find an itinerary worth considering, call TicketDepart to discuss the route, travel dates, fare conditions, ticketing process, and any disclosed agency service fee before authorizing payment.",
   },
+  "/admin/leads": {
+    title: "Lead Dashboard | TicketDepart",
+    description: "Private TicketDepart lead dashboard for authorized administrators.",
+    heading: "Lead Dashboard",
+    text: "This page is for authorized TicketDepart administrators. Sign in to review lead records.",
+    indexable: false,
+  },
   "/flight-search-results": {
     title: "Flight Search Results | TicketDepart",
     description: "Review flight schedules for your selected route and date. Interactive results are excluded from search indexing.",
@@ -975,6 +982,24 @@ for (const [route, meta] of Object.entries(routes)) {
 // Open Graph metadata. Keep this explicit write as a guard against route-list
 // refactors accidentally omitting the compatibility URL from the generation
 // map.
+// Keep the private admin route's static shell explicit as well. With 404-page
+// handling enabled, this file is required for the application router to load the
+// protected route; its metadata remains noindex and it is not added to the sitemap.
+const adminRoute = "/admin/leads";
+// Keep the admin shell generation resilient when this script is exercised by
+// isolated route-generator tests that intentionally provide a reduced route map.
+// Production builds use the explicit route metadata above.
+const adminMeta = routes[adminRoute] ?? {
+  title: "Lead Dashboard | TicketDepart",
+  description: "Private TicketDepart lead dashboard for authorized administrators.",
+  heading: "Lead Dashboard",
+  text: "This page is for authorized TicketDepart administrators. Sign in to review lead records.",
+  indexable: false,
+};
+const adminDir = path.join(distDir, adminRoute.slice(1));
+fs.mkdirSync(adminDir, { recursive: true });
+fs.writeFileSync(path.join(adminDir, "index.html"), routeHtml(adminRoute, adminMeta));
+
 const legacyRoute = "/flight-booking-assistance";
 const legacyMeta = routes[legacyRoute] ?? routes["/flight-booking"];
 if (legacyMeta) {

@@ -3,6 +3,7 @@
   "name": "ticket-depart2",
   "compatibility_date": "2026-09-21",
   "assets": {
-    "directory": "./src/frontend/dist"
+    "directory": "./src/frontend/dist",
+    "not_found_handling": "404-page"
   }
 }
