@@ -426,7 +426,7 @@ if (typeof document !== "undefined") {
   }
   if (!funnelEntrySent) {
     trackEvent("session_funnel_entry", {
-      conversion_stage: "landing",
+      funnel_stage: "landing",
       funnel_entry_scope: "session",
       intent_family: getIntentFamily(),
     });
