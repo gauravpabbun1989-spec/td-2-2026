@@ -17,6 +17,13 @@ const routes = {
     heading: "Search flight options",
     text: "Search flight schedules from U.S. and Canadian departure cities to destinations worldwide by route and date, then compare practical economy itinerary options. Check the departure and arrival airports, local departure and arrival times, number of stops, total journey duration, and whether a connection requires changing airports. Compare travel dates when your plans allow flexibility, and review baggage allowance, seat-selection costs, taxes, and other charges rather than relying on a headline fare alone. Flight schedules and fares can change as inventory updates; a search result is not a confirmed reservation. When you find an itinerary worth considering, call TicketDepart to discuss the route, travel dates, fare conditions, ticketing process, and any disclosed agency service fee before authorizing payment.",
   },
+  "/admin/leads": {
+    title: "Lead Dashboard | TicketDepart",
+    description: "Private TicketDepart lead dashboard for authorized administrators.",
+    heading: "Lead Dashboard",
+    text: "This page is for authorized TicketDepart administrators. Sign in to review lead records.",
+    indexable: false,
+  },
   "/flight-search-results": {
     title: "Flight Search Results | TicketDepart",
     description: "Review flight schedules for your selected route and date. Interactive results are excluded from search indexing.",
