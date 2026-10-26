@@ -82,6 +82,7 @@ const routes = {
     text: "Coordinate employee and executive trips by reviewing travel policy requirements, traveler count, meeting times, departure airports, routing, approval steps, receipt requirements, and billing needs. Compare schedule reliability, connection risk, baggage, flexibility, and total ticket cost across available itineraries. Business class is a cabin preference within a trip plan, not the same as coordinating company travel. Confirm any disclosed service fees and fare conditions before authorizing payment. TicketDepart is an independent travel agency; this page does not promise negotiated corporate rates or an existing company account.",
   },
   "/business-class-flight-booking": {
+    indexable: false,
     title: "Business Class Flight Booking by Phone | TicketDepart",
     description: "Discuss business-class flights from U.S. airports, cabin options, connections, baggage, flexible dates, and fare rules with an independent travel specialist.",
     heading: "Business class flight booking by phone",
