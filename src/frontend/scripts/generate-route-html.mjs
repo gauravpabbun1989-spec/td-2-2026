@@ -9,7 +9,7 @@ const routes = {
     title: "Make Flight Booking Easy | 24/7 Booking Assistance",
     description: "24/7 TicketDepart flight booking help for affordable economy trips, routes, dates, baggage, and fare questions.",
     heading: "Need a Flight? Call Now to Get Started.",
-    text: "TicketDepart helps travelers departing from the United States and Canada discuss affordable economy flights to destinations worldwide. Call +1-888-958-0280 for 24/7 help with routes, travel dates, nearby airports, nonstop and connecting itineraries, baggage costs, and fare questions. Compare the full trip cost, including taxes, checked bags, seat fees, connection time, and airport transfers. Have your departure city, destination, travel dates, and traveler count ready; cabin class is optional. Before deciding, review the complete itinerary, total price, baggage allowance, connection details, and the fare rules for changes or cancellations. Our travel specialists can help you compare available options and understand any disclosed agency service fee before you authorize payment. Explore our guides to affordable flights, international flight booking, last-minute travel planning, booking by phone, flight changes, cancellations, refunds, and rebooking.",
+    text: "TicketDepart helps travelers departing from the United States and Canada discuss affordable economy flights to destinations worldwide. Call +1-833-225-0511 for 24/7 help with routes, travel dates, nearby airports, nonstop and connecting itineraries, baggage costs, and fare questions. Compare the full trip cost, including taxes, checked bags, seat fees, connection time, and airport transfers. Have your departure city, destination, travel dates, and traveler count ready; cabin class is optional. Before deciding, review the complete itinerary, total price, baggage allowance, connection details, and the fare rules for changes or cancellations. Our travel specialists can help you compare available options and understand any disclosed agency service fee before you authorize payment. Explore our guides to affordable flights, international flight booking, last-minute travel planning, booking by phone, flight changes, cancellations, refunds, and rebooking.",
   },
   "/flight-search": {
     title: "Search Flights | Flight Schedule Search | TicketDepart",
@@ -77,7 +77,7 @@ const routes = {
   "/corporate-flight-booking": {
     indexable: false,
     title: "Corporate Flight Booking by Phone | Business Travel | TicketDepart",
-    description: "Coordinate employee and executive flight planning by phone. Review travel policy, dates, connections, and ticket terms. Call +1-888-958-0280.",
+    description: "Coordinate employee and executive flight planning by phone. Review travel policy, dates, connections, and ticket terms. Call +1-833-225-0511.",
     heading: "Corporate flight booking by phone",
     text: "Coordinate employee and executive trips by reviewing travel policy requirements, traveler count, meeting times, departure airports, routing, approval steps, receipt requirements, and billing needs. Compare schedule reliability, connection risk, baggage, flexibility, and total ticket cost across available itineraries. Business class is a cabin preference within a trip plan, not the same as coordinating company travel. Confirm any disclosed service fees and fare conditions before authorizing payment. TicketDepart is an independent travel agency; this page does not promise negotiated corporate rates or an existing company account.",
   },
@@ -127,7 +127,7 @@ const routes = {
   },
   "/airline-reservation-assistance": {
     title: "Airline Reservation Assistance by Phone | TicketDepart",
-    description: "Get help with airline bookings, changes, cancellations, connections and baggage. Discuss ticket terms with TicketDepart at +1-888-958-0280, 24/7.",
+    description: "Get help with airline bookings, changes, cancellations, connections and baggage. Discuss ticket terms with TicketDepart at +1-833-225-0511, 24/7.",
     heading: "Airline reservation assistance by phone",
     text: "For a new trip or an existing ticket, have the airline, route, travel dates, and booking reference available if you have them. A specialist can discuss the ticket terms and possible next steps for changes, cancellations, connections, and baggage questions. Eligibility, fees, refunds, and credits depend on the ticket conditions and responsible airline or travel provider. TicketDepart is an independent travel agency and is not an airline’s official customer-service department.",
   },
@@ -153,7 +153,7 @@ const routes = {
   },
   "/united-airlines": {
     title: "United Airlines Flight Booking Assistance | TicketDepart",
-    description: "Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1 888-958-0280.",
+    description: "Independent travel agency for United Airlines bookings — domestic, international, multi-city, premium cabins, and rebooking help. Call +1-833-225-0511.",
     heading: "United Airlines flight itineraries planned and booked by phone",
     text: "Get independent travel assistance for United Airlines itineraries, including new bookings, changes, rebooking, multi-city trips, and premium cabins.",
   },
@@ -263,7 +263,7 @@ const routes = {
   },
   "/flights-from-chicago": {
     title: "Flights from Chicago | Flight Booking Assistance | TicketDepart",
-    description: "Compare Chicago airports, connections, cabins, and fare terms with TicketDepart. Call +1-888-958-0280.",
+    description: "Compare Chicago airports, connections, cabins, and fare terms with TicketDepart. Call +1-833-225-0511.",
     heading: "Flights from Chicago with booking assistance",
     text: "Discuss Chicago departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.",
   },
@@ -330,7 +330,7 @@ const routes = {
     title: "Contact TicketDepart | Speak with a Travel Specialist",
     description: "Contact TicketDepart about your flight plans and callback requests.",
     heading: "Contact TicketDepart about your flight",
-    text: "Contact TicketDepart for help planning an affordable domestic or international economy flight, reviewing an existing reservation, or understanding baggage and fare conditions. Call +1-888-958-0280 for 24/7 assistance, or use the callback form to share your departure city, destination, preferred dates, traveler count, and schedule flexibility. You do not need to have every detail finalized before contacting us. A specialist can discuss route options, connection times, nearby airports, baggage costs, the total quoted price, ticketing status, and applicable change or cancellation terms. Before authorizing a purchase, confirm the supplier or ticket issuer, the full amount due, and any agency service fee. A callback request is not a reservation or a guarantee that a fare remains available. Never submit payment-card details or sensitive identity documents through a general contact form. TicketDepart is an independent travel agency, not an airline or an airline's official customer-service department.",
+    text: "Contact TicketDepart for help planning an affordable domestic or international economy flight, reviewing an existing reservation, or understanding baggage and fare conditions. Call +1-833-225-0511 for 24/7 assistance, or use the callback form to share your departure city, destination, preferred dates, traveler count, and schedule flexibility. You do not need to have every detail finalized before contacting us. A specialist can discuss route options, connection times, nearby airports, baggage costs, the total quoted price, ticketing status, and applicable change or cancellation terms. Before authorizing a purchase, confirm the supplier or ticket issuer, the full amount due, and any agency service fee. A callback request is not a reservation or a guarantee that a fare remains available. Never submit payment-card details or sensitive identity documents through a general contact form. TicketDepart is an independent travel agency, not an airline or an airline's official customer-service department.",
   },
   "/privacy": {
     title: "Privacy Policy | TicketDepart",
@@ -405,7 +405,7 @@ const STATIC_SEO_CONTENT = {
   "/flight-change-assistance": { eyebrow: "Flight change help and ticket options", sections: [["Help with changing a booked flight", "If you need to change a flight, have your booking confirmation or ticket number available where possible. The available options depend on who issued the ticket, the airline, the fare conditions, and the departure date."],["Dates, routes, and same-day changes", "Possible changes may include travel dates, flight times, routing, or connections, subject to the ticket rules and current availability. Ask whether a fare difference, change fee, or ticket reissue is involved before authorizing a change."],["Are flight changes free?", "Sometimes, but not always. A change may involve a service fee, fare difference, or ticket restriction, and rules vary by airline, ticket type, and issuer. Confirm the exact cost and eligibility for your reservation before authorizing a change."],["Confirm eligibility and cost", "Flight changes are not always free, and some restricted fares may have limited options. Confirm the total cost, deadlines, updated itinerary, and how the change will be ticketed. For a cancellation or refund instead, review the applicable cancellation rules before taking action."]] },
   "/flight-cancellation-assistance": { eyebrow: "Flight cancellation and refund assistance", sections: [["Understand flight cancellation options", "If you need to cancel a flight, first check the ticket conditions, airline policy, and the provider that issued the reservation. A cancellation does not automatically mean a full refund."],["Will I get a refund if I cancel my flight?", "A refund is not automatic. Eligibility can depend on the fare rules, reason for cancellation, ticket issuer, timing, and applicable airline or legal policies. Ask about refund, credit, and fee outcomes before confirming cancellation."],["Refunds, credits, and cancellation fees", "Ask whether the ticket may qualify for a refund, travel credit, or other option, and confirm any applicable fees, deadlines, and fare differences. Eligibility depends on the specific ticket and circumstances; do not cancel until you understand the likely outcome."],["Keep booking details available", "Have the confirmation, traveler name, and ticket details ready when discussing the reservation. If you are considering changing dates instead, compare change options and costs before choosing cancellation."]] },
   "/flights-from-new-york": { eyebrow: "New York flight planning", sections: [["Compare departure airports", "Discuss practical options from the New York area and the airport that best fits your itinerary."],["Domestic and international routes", "Plan dates, connections, cabin preferences, baggage, and destination airports with the trip's timing in mind."],["Nearby alternatives", "When practical, consider alternate airports or flexible dates if they improve the itinerary choices."]] },
-  "/disclaimer": { eyebrow: "Important booking information", sections: [["Independent travel agency", "TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by any airline. Airline names and trademarks belong to their respective owners."],["Quotes, fares, and ticket issuance", "A quote is not a ticket or a guarantee that a fare remains available. Prices, schedules, seat availability, baggage allowances, and fare conditions may change before ticketing. A booking should be considered ticketed only after ticket issuance is confirmed and the relevant confirmation is received."],["Pricing and agency fees", "Before authorizing payment, confirm the total price, taxes, any agency service fee, what the fare includes, the payment recipient, and the supplier or ticket issuer. Any agency service fee must be disclosed before purchase authorization."],["Changes, cancellations, and refunds", "Change, cancellation, refund, and credit eligibility depends on the ticket issuer, fare conditions, payment method, and applicable law. Some fares are non-refundable or non-changeable. A refund request is not an approval; the responsible supplier must confirm the outcome."],["Contact", "For questions, contact TicketDepart at support@ticketdestinations.com or +1-888-958-0280."]]}
+  "/disclaimer": { eyebrow: "Important booking information", sections: [["Independent travel agency", "TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by any airline. Airline names and trademarks belong to their respective owners."],["Quotes, fares, and ticket issuance", "A quote is not a ticket or a guarantee that a fare remains available. Prices, schedules, seat availability, baggage allowances, and fare conditions may change before ticketing. A booking should be considered ticketed only after ticket issuance is confirmed and the relevant confirmation is received."],["Pricing and agency fees", "Before authorizing payment, confirm the total price, taxes, any agency service fee, what the fare includes, the payment recipient, and the supplier or ticket issuer. Any agency service fee must be disclosed before purchase authorization."],["Changes, cancellations, and refunds", "Change, cancellation, refund, and credit eligibility depends on the ticket issuer, fare conditions, payment method, and applicable law. Some fares are non-refundable or non-changeable. A refund request is not an approval; the responsible supplier must confirm the outcome."],["Contact", "For questions, contact TicketDepart at support@ticketdestinations.com or +1-833-225-0511."]]}
 };
 
 const RELATED_ROUTE_RULES = {
@@ -865,10 +865,10 @@ function trimDescription(value, maxLength) {
 
 function makeListingDescription(value) {
   const normalized = value
-    .replace(/(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g, "+1-888-958-0280")
+    .replace(/(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g, "+1-833-225-0511")
     .replace(/\s+/g, " ")
     .trim();
-  const phoneSuffix = " Call +1-888-958-0280.";
+  const phoneSuffix = " Call +1-833-225-0511.";
   const withoutPhone = normalized
     .replace(/\b(?:call|at)\s*\+?1[\s().-]*888[\s().-]*958[\s().-]*0280/gi, "")
     .replace(/\+?1[\s().-]*888[\s().-]*958[\s().-]*0280/g, "")
@@ -883,7 +883,7 @@ function makeListingDescription(value) {
   const capitalizedBase = base ? base[0].toUpperCase() + base.slice(1) : "Flight booking assistance";
   const punctuatedBase = /[.!?]$/.test(capitalizedBase) ? capitalizedBase : `${capitalizedBase}.`;
   const description = `${punctuatedBase}${phoneSuffix}`;
-  if (/\b(?:with a travel|applicable booking)\.\s+Call \+1-888-958-0280\.$/i.test(description)) {
+  if (/\b(?:with a travel|applicable booking)\.\s+Call \+1-833-225-0511\.$/i.test(description)) {
     throw new Error(`Generated an incomplete meta description: ${description}`);
   }
   return description;
@@ -925,7 +925,7 @@ function routeHtml(route, meta) {
     about: {
       "@type": "TravelAgency",
       name: "TicketDepart",
-      telephone: "+1-888-958-0280",
+      telephone: "+1-833-225-0511",
     },
   };
 
@@ -956,7 +956,7 @@ function routeHtml(route, meta) {
     .map(([heading, text]) => `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(text)}</p></section>`)
     .join("");
   const homeGuideLink = route === "/" ? `<section><h2>Affordable economy flight booking</h2><p><a href="/cheap-flight-booking-by-phone/">Cheap economy flights by phone</a></p><p><a href="/how-to-book-a-flight-by-phone/">How to book a flight by phone</a></p></section>` : "";
-  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>${homeGuideLink}
+  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+1-833-225-0511">Call +1-833-225-0511</a> — available 24/7.</p>${homeGuideLink}
   ${sectionHtml}
   ${semanticContent}
   <section><h2>Related flight booking help</h2><ul>
