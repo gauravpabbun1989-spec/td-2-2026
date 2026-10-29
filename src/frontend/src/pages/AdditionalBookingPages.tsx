@@ -29,7 +29,7 @@ const PAGES: readonly PageConfig[] = [
     path: "/cheap-flight-booking-by-phone",
     title: "Cheap Economy Flights by Phone | TicketDepart",
     description:
-      "Compare cheap economy flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules. Call +1-888-958-0280.",
+      "Compare cheap economy flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules. Call +1-833-225-0511.",
     heading: "Cheap flight booking help by phone",
     intro:
       "A small change in travel date, airport, cabin, or routing can affect the fare. Tell us what you are trying to balance and a specialist can review available options with you.",
