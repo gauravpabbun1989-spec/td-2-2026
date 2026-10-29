@@ -27,6 +27,7 @@
     <link rel="canonical" href="https://ticketdepart.com/" />
     <link rel="preload" as="image" href="/assets/generated/hero-flight.dim_1600x1100.jpg" fetchpriority="high" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
@@ -116,14 +117,10 @@
           || /(?:^|\/)(?:package\.json|docker-compose\.yml|serverless\.yml|webpack\.config\.js|terraform\.lock\.hcl)$/i.test(path);
       }
       window.isKnownProbePath = isKnownProbePath;
-      // Load the official GA4 tag only on TicketDepart production hosts.
+      // Configure GA4 only on TicketDepart production hosts and normal page paths.
       const analyticsHostname = window.location.hostname.toLowerCase();
       const isProductionAnalyticsHost = analyticsHostname === "ticketdepart.com" || analyticsHostname === "www.ticketdepart.com";
       if (isProductionAnalyticsHost && !isKnownProbePath()) {
-        const googleTagScript = document.createElement("script");
-        googleTagScript.async = true;
-        googleTagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
-        document.head.appendChild(googleTagScript);
         window.gtag("js", new Date());
         window.gtag("config", "G-4WC5K9Q31E");
       }
