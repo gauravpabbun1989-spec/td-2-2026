@@ -1,52 +1,59 @@
 #!/usr/bin/env node
 /**
- * Audit tracked project files for the retired TicketDepart phone number.
- *
- * Usage:
- *   node scripts/sync-phone-number.mjs          # report stale references; exit 1 if found
- *   node scripts/sync-phone-number.mjs --replace # replace stale references in tracked text files
- *
- * The current display number and tel: URI are read from SITE in
- * src/frontend/src/lib/site.ts, so that file remains the single source of truth.
+ * Audit or replace retired TicketDepart phone numbers.
+ * Canonical values: config/phone-number.json
  */
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { resolve, extname } from "node:path";
 
 const root = process.cwd();
-const configPath = resolve(root, "src/frontend/src/lib/site.ts");
-const config = readFileSync(configPath, "utf8");
-const display = config.match(/phoneDisplay:\s*"([^"]+)"/)?.[1];
-const href = config.match(/phoneHref:\s*"([^"]+)"/)?.[1];
+const config = JSON.parse(
+  readFileSync(resolve(root, "config/phone-number.json"), "utf8"),
+);
 
-if (!display || !href) {
-  console.error("Could not read phoneDisplay and phoneHref from SITE.");
+if (!config.display || !config.tel || !Array.isArray(config.legacy)) {
+  console.error("Invalid config/phone-number.json");
   process.exit(2);
 }
 
-const oldVariants = [
-  "+1-888-958-0280",
-  "tel:+18889580280",
-  "+1 888 958 0280",
-  "1-888-958-0280",
-  "18889580280",
-];
-const replacements = [
-  [ /\+1-888-958-0280/g, display ],
-  [ /tel:\+18889580280/g, href ],
-  [ /\+1 888 958 0280/g, display ],
-  [ /1-888-958-0280/g, display.replace(/^\+/, "") ],
-  [ /18889580280/g, href.replace(/^tel:\+/, "") ],
-];
 const replaceMode = process.argv.includes("--replace");
-const files = execFileSync("git", ["ls-files", "-z"], { encoding: "utf8" })
-  .split("\0").filter(Boolean);
-const ignored = new Set(["src/frontend/src/lib/site.ts"]);
-const found = [];
+
+const files = execFileSync("git", ["ls-files", "-z"], {
+  encoding: "utf8",
+}).split("\0").filter(Boolean);
+
+const ignored = new Set([
+  "config/phone-number.json",
+  "src/frontend/src/lib/site.ts",
+]);
+
+const textExtensions = new Set([
+  ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs",
+  ".json", ".html", ".md", ".txt", ".xml", ".yml",
+  ".yaml", ".css", ".scss", ".svg",
+]);
+
+const patterns = config.legacy.map((old) => {
+  const digits = old.replace(/\D/g, "");
+  const national = digits.startsWith("1") ? digits.slice(1) : digits;
+  const prefix = digits.startsWith("1")
+    ? String.raw`(?:\+?1[\s().-]*)?`
+    : "";
+  const body = national.split("").join(String.raw`[\s().-]*`);
+
+  return new RegExp(
+    String.raw`(?<!\d)${prefix}${body}(?!\d)`,
+    "g",
+  );
+});
+
 let changed = 0;
+const found = [];
 
 for (const file of files) {
-  if (ignored.has(file)) continue;
+  if (ignored.has(file) || !textExtensions.has(extname(file))) continue;
+
   let content;
   try {
     const bytes = readFileSync(resolve(root, file));
@@ -55,15 +62,29 @@ for (const file of files) {
   } catch {
     continue;
   }
+
   let next = content;
-  for (const [pattern, replacement] of replacements) {
-    if (pattern.test(next)) {
-      pattern.lastIndex = 0;
-      found.push({ file, match: pattern.source });
-      if (replaceMode) next = next.replace(pattern, replacement);
+
+  for (const pattern of patterns) {
+    const telPattern = new RegExp(
+      String.raw`tel:\s*${pattern.source}`,
+      "gi",
+    );
+
+    for (const match of content.matchAll(telPattern)) {
+      found.push({ file, match: match[0] });
     }
-    pattern.lastIndex = 0;
+
+    for (const match of content.matchAll(pattern)) {
+      found.push({ file, match: match[0] });
+    }
+
+    if (replaceMode) {
+      next = next.replace(telPattern, `tel:${config.tel}`);
+      next = next.replace(pattern, config.display);
+    }
   }
+
   if (replaceMode && next !== content) {
     writeFileSync(resolve(root, file), next);
     changed++;
@@ -71,10 +92,15 @@ for (const file of files) {
 }
 
 if (found.length) {
-  console.log((replaceMode ? "Updated" : "Found stale phone references") + ":");
-  for (const item of found) console.log(`- ${item.file} (${item.match})`);
-  if (replaceMode) console.log(`Updated ${changed} tracked file(s). Re-run without --replace to verify.`);
-  else process.exitCode = 1;
+  console.log(replaceMode ? "Replaced legacy references:" : "Legacy references found:");
+  for (const item of found) {
+    console.log(`- ${item.file}: ${item.match}`);
+  }
+  if (replaceMode) {
+    console.log(`Updated ${changed} tracked file(s).`);
+  } else {
+    process.exitCode = 1;
+  }
 } else {
-  console.log(`No retired phone-number references found in ${files.length} tracked files.`);
+  console.log(`No retired phone references found in ${files.length} tracked files.`);
 }

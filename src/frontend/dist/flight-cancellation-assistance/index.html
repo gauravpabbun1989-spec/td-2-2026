@@ -5,61 +5,138 @@
     <!-- Performance: critical hero image is preloaded; non-critical analytics is idle-loaded. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Flight Cancellation Assistance by Phone | TicketDepart</title>
-    <meta name="description" content="Need to cancel a flight? Discuss cancellation rules, refunds, credits, deadlines, and replacement travel options with a TicketDepart specialist." />
+    <meta name="description" content="Need to cancel a flight? Review cancellation rules, refund eligibility, credits, deadlines, and ticket conditions with TicketDepart. Call +1-833-225-0511." />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:title" content="Flight Cancellation Assistance by Phone | TicketDepart" />
-    <meta property="og:description" content="Need to cancel a flight? Discuss cancellation rules, refunds, credits, deadlines, and replacement travel options with a TicketDepart specialist." />
+    <meta property="og:description" content="Need to cancel a flight? Review cancellation rules, refund eligibility, credits, deadlines, and ticket conditions with TicketDepart. Call +1-833-225-0511." />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="TicketDepart" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:url" content="https://ticketdepart.com/flight-cancellation-assistance" />
+    <meta property="og:url" content="https://ticketdepart.com/flight-cancellation-assistance/" />
     <meta property="og:image" content="https://ticketdepart.com/assets/generated/hero-flight.dim_1600x1100.jpg" />
     <meta property="og:image:alt" content="TicketDepart independent travel agency" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:description" content="Need to cancel a flight? Review cancellation rules, refund eligibility, credits, deadlines, and ticket conditions with TicketDepart. Call +1-833-225-0511." />
     <meta name="twitter:image" content="https://ticketdepart.com/assets/generated/hero-flight.dim_1600x1100.jpg" />
-    <link rel="canonical" href="https://ticketdepart.com/flight-cancellation-assistance" />
+    <link rel="canonical" href="https://ticketdepart.com/flight-cancellation-assistance/" />
     <link rel="preload" as="image" href="/assets/generated/hero-flight.dim_1600x1100.jpg" fetchpriority="high" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
-      function loadAnalytics() {
-        if (window.__ticketdepartAnalyticsLoaded) return;
-        window.__ticketdepartAnalyticsLoaded = true;
-        const script = document.createElement("script");
-        script.async = true;
-        script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
-        document.head.appendChild(script);
+      // Recover once when a cached HTML document references a missing Vite chunk.
+      // This is especially important after a Caffeine import changes hashed asset names.
+      (function installChunkRecovery() {
+        const retryKey = "ticketdepart:chunk-retry:" + (window.location.pathname || "/");
+        let retryAttempted = false;
+        window.addEventListener("vite:preloadError", function (event) {
+          event.preventDefault();
+          if (retryAttempted) return;
+          retryAttempted = true;
+          try {
+            if (window.sessionStorage.getItem(retryKey) === "1") {
+              console.error("TicketDepart could not load a required JavaScript asset after one refresh.");
+              return;
+            }
+            window.sessionStorage.setItem(retryKey, "1");
+          } catch {
+            // In-memory guard still prevents repeated reloads when storage is blocked.
+          }
+          window.location.reload();
+        });
+        window.addEventListener("load", function () {
+          window.setTimeout(function () {
+            try { window.sessionStorage.removeItem(retryKey); } catch {}
+          }, 10000);
+        }, { once: true });
+      })();
+      // Repair malformed legacy links like /delta-airlines/null before GA4
+      // configuration or React starts, so valid base routes are measured cleanly.
+      function normalizeNullSuffixPath() {
+        const path = (window.location.pathname || "/").replace(/\/+$/, "") || "/";
+        if (!/\/null$/i.test(path)) return;
+        const cleanPath = path.slice(0, -5).replace(/\/+$/, "") || "/";
+        window.history.replaceState(window.history.state, "", cleanPath + window.location.search + window.location.hash);
+      }
+      normalizeNullSuffixPath();
+      function isKnownProbePath() {
+        let path = (window.location.pathname || "/").toLowerCase();
+        // Decode bounded layers because scanners often encode separators and dotfiles.
+        for (let attempt = 0; attempt < 3; attempt += 1) {
+          try {
+            const decoded = decodeURIComponent(path);
+            if (decoded === path) break;
+            path = decoded;
+          } catch {
+            break;
+          }
+        }
+        path = path.replace(/\\/g, "/").replace(/\/+$/, "") || "/";
+        if (path.startsWith("//")) return true;
+
+        const exactProbePaths = new Set([
+          "/.env", "/.env::$data", "/.env.local", "/.env.production", "/.flaskenv",
+          "/.git", "/.git/config", "/.git-secret", "/.hg", "/.svn", "/.dockerenv",
+          "/.bashrc", "/.npmrc", "/.zshrc", "/.circleci/config.yml", "/.next",
+          "/.aws/credentials", "/.ssh", "/id_rsa", "/etc/passwd",
+          "/wp-login.php", "/wp-config.php", "/wp-json", "/xmlrpc.php",
+          "/phpinfo.php", "/php-info.php", "/config.php", "/composer.json",
+          "/database.sql", "/dump.sql", "/backup.sql", "/server-status",
+          "/server.key", "/key.pem", "/aws-credentials.txt", "/health",
+          "/api", "/api/health", "/api/settings", "/api/account", "/api/config",
+          "/api/env", "/api/v1/config", "/api/v1/env", "/api/v1/settings",
+          "/webpack.config.js", "/debug/default/view", "/app_dev.php/_profiler/open",
+          "/test_phpinfo5.php", "/serverless.yaml", "/ssl/server.key",
+          "/proc/self/environ", "/var/run/secrets/kubernetes.io/serviceaccount/token",
+          "/userfiles", "/.ds_store", "/dockerfile", "/secrets.env",
+          "/api/proc/self/environ", "/api/fs/read", "/api/system/fileview",
+          "/api/console/api_server", "/z9x8c7v6b5-debug-trigger-ticketdepart.com"
+        ]);
+        if (exactProbePaths.has(path)) return true;
+        if (/^\/api\/(?:proc\/self|fs\/read|system\/fileview|console\/api_server)(?:\/|$)/i.test(path)) return true;
+
+        const segments = path.split("/").filter(Boolean);
+        const probeSegments = new Set([
+          ".git", ".env", ".aws", ".ssh", ".dockerenv", ".bashrc", ".npmrc",
+          ".zshrc", "wp-admin", "wp-includes", "wp-content", "phpmyadmin",
+          "cgi-bin", "phpunit", "actuator"
+        ]);
+        if (segments.some((segment) => probeSegments.has(segment))) return true;
+
+        return /(?:^|\/)(?:config|credentials|secrets?|database|dump|backup|wp-config|phpinfo|php-info)\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(path)
+          || /(?:^|\/)(?:\.env(?:\.[^/]+)?|\.git(?:-[^/]+)?|\.hg|\.svn|\.ssh|\.aws|\.next|\.circleci|\.docker|\.terraform|\.npmrc|\.yarnrc|\.flaskenv)(?:\/|$)/i.test(path)
+          || /(?:^|\/)(?:var\/log|proc\/self|etc\/passwd|debug\/default\/view|app_dev\.php\/_profiler|_next\/webpack-hmr|webpack-hmr)(?:\/|$)/i.test(path)
+          || /\.(?:php|sql|tfstate|tfvars|pem|key|bak|old|save|yaml|yml)$/i.test(path)
+          || /(?:^|\/)(?:package\.json|docker-compose\.yml|serverless\.yml|webpack\.config\.js|terraform\.lock\.hcl)$/i.test(path);
+      }
+      window.isKnownProbePath = isKnownProbePath;
+      // Configure GA4 only on TicketDepart production hosts and normal page paths.
+      const analyticsHostname = window.location.hostname.toLowerCase();
+      const isProductionAnalyticsHost = analyticsHostname === "ticketdepart.com" || analyticsHostname === "www.ticketdepart.com";
+      if (isProductionAnalyticsHost && !isKnownProbePath()) {
         window.gtag("js", new Date());
         window.gtag("config", "G-4WC5K9Q31E");
       }
-      function isKnownProbePath() {
-        return /(?:^|\/)(?:\.env(?:\.|$)|\.git(?:\/|$)|@fs(?:\/|$)|wp-admin(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|server-status(?:$|\/)|\.aws(?:\/|$)|\.dockerenv(?:$|\/))/i.test(window.location.pathname || "/");
-      }
-      if (!isKnownProbePath()) {
-        if ("requestIdleCallback" in window) {
-          window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
-        } else {
-          window.addEventListener("load", () => setTimeout(loadAnalytics, 1500), { once: true });
-        }
-      }
     </script>
-    
-    <script type="module" crossorigin src="/assets/index-BHJvdsBv.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-X6KAE8xu.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Flight Cancellation Assistance by Phone | TicketDepart","description":"Need to cancel a flight? Discuss cancellation rules, refunds, credits, deadlines, and replacement travel options with a TicketDepart specialist.","url":"https://ticketdepart.com/flight-cancellation-assistance","isPartOf":{"@type":"WebSite","name":"TicketDepart","url":"https://ticketdepart.com/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ticketdepart.com/"},{"@type":"ListItem","position":2,"name":"Flight cancellation assistance by phone","item":"https://ticketdepart.com/flight-cancellation-assistance"}]}}</script>
-  </head>
+
+    <script type="module" crossorigin src="/assets/index-BbAo49mp.js"></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Flight Cancellation Assistance by Phone | TicketDepart","description":"Need to cancel a flight? Review cancellation rules, refund eligibility, credits, deadlines, and ticket conditions with TicketDepart. Call +1-833-225-0511.","url":"https://ticketdepart.com/flight-cancellation-assistance/","isPartOf":{"@type":"WebSite","name":"TicketDepart","url":"https://ticketdepart.com/"},"about":{"@type":"TravelAgency","name":"TicketDepart","telephone":"+1-833-225-0511"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ticketdepart.com/"},{"@type":"ListItem","position":2,"name":"Flight cancellation assistance by phone","item":"https://ticketdepart.com/flight-cancellation-assistance/"}]}</script>
+  <meta name="twitter:title" content="Flight Cancellation Assistance by Phone | TicketDepart" />
+</head>
   <body>
-    <div id="root" style="visibility:hidden"><main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / Flight cancellation assistance by phone</nav><p><strong>Flight cancellation assistance</strong></p><h1>Flight cancellation assistance by phone</h1><p>Review cancellation timing, refund or credit questions, partial itinerary effects, and replacement travel options.</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>
-  <section><h2>Review the ticket first</h2><p>Cancellation options depend on how the ticket was issued, its fare rules, and the applicable provider policies.</p></section><section><h2>Understand the outcome</h2><p>Ask about refund eligibility, credits, deadlines, and any applicable charges before confirming a cancellation.</p></section><section><h2>Keep the records</h2><p>Have your confirmation and traveler details available so the correct reservation can be discussed.</p></section>
+    <div id="root" style="visibility:hidden"><main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / Flight cancellation assistance by phone</nav><p><strong>Flight cancellation and refund assistance</strong></p><h1>Flight cancellation assistance by phone</h1><p>Need to cancel a flight, request a flight ticket refund, or rebook after cancelling? Review the ticket’s cancellation deadline, refund eligibility, refundable versus nonrefundable terms, possible airline credit or voucher, and the effect on remaining segments. Refunds depend on fare rules, airline policy, applicable regulations, and who issued the ticket; cancellation does not automatically mean a cash refund. If your trip has multiple legs, ask how cancelling one segment could affect the rest of the itinerary. If you still need to travel, compare replacement flights and rebooking costs before confirming a cancellation. Ask who will submit the request, what fees may apply, how any eligible refund or credit will be processed, and what confirmation to expect. Check the exact ticket conditions and total charges before proceeding, and keep the cancellation or refund reference for your records.</p><p><a href="tel:+18332250511">Call +1-833-225-0511</a> — available 24/7.</p>
+  <section><h2>Understand flight cancellation options</h2><p>If you need to cancel a flight, first check the ticket conditions, airline policy, and the provider that issued the reservation. A cancellation does not automatically mean a full refund.</p></section><section><h2>Will I get a refund if I cancel my flight?</h2><p>A refund is not automatic. Eligibility can depend on the fare rules, reason for cancellation, ticket issuer, timing, and applicable airline or legal policies. Ask about refund, credit, and fee outcomes before confirming cancellation.</p></section><section><h2>Refunds, credits, and cancellation fees</h2><p>Ask whether the ticket may qualify for a refund, travel credit, or other option, and confirm any applicable fees, deadlines, and fare differences. Eligibility depends on the specific ticket and circumstances; do not cancel until you understand the likely outcome.</p></section><section><h2>Keep booking details available</h2><p>Have the confirmation, traveler name, and ticket details ready when discussing the reservation. If you are considering changing dates instead, compare change options and costs before choosing cancellation.</p></section>
+
   <section><h2>Related flight booking help</h2><ul>
-    <li><a href="/flight-booking">Flight booking assistance</a></li>
-    <li><a href="/book-a-flight-by-phone">Book a flight by phone</a></li>
-    <li><a href="/international-flight-booking">International flight booking</a></li>
-    <li><a href="/business-class-flight-booking">Business class flight booking</a></li>
-    <li><a href="/group-flight-booking">Group flight booking</a></li>
-    <li><a href="/contact">Contact a travel specialist</a></li>
+    <li><a href="/flight-change-assistance/">Flight change assistance</a></li><li><a href="/flight-booking/">Flight booking assistance by phone for U.S. travelers</a></li><li><a href="/book-a-flight-by-phone/">Book an Affordable Flight</a></li><li><a href="/contact/">Contact TicketDepart about your flight</a></li>
+    <li><a href="/contact/">Contact a travel specialist</a></li>
   </ul></section>
-  <p>TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main></div>
+</main></div>
+    <style>
+      html, body { margin: 0; min-height: 100%; background: #fbfaf6; }
+      #root { min-height: 100vh; }
+    </style>
   </body>
 </html>

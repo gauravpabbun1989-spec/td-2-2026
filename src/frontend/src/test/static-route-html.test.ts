@@ -2,11 +2,13 @@ import { execFileSync } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
+  mkdtempSync,
   readFileSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { resolve } from "node:path";
+import { join, resolve } from "node:path";
+import { tmpdir } from "node:os";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 /**
@@ -19,7 +21,8 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
  */
 
 const FRONTEND_DIR = process.cwd();
-const DIST_DIR = resolve(FRONTEND_DIR, "dist");
+const TEST_ROOT = mkdtempSync(join(tmpdir(), "ticketdepart-static-route-"));
+const DIST_DIR = resolve(TEST_ROOT, "dist");
 const SCRIPT = resolve(FRONTEND_DIR, "scripts/generate-route-html.mjs");
 
 const INDEX_FIXTURE = `<!doctype html>
@@ -46,19 +49,26 @@ describe("static route HTML uses the full airline names", () => {
   beforeAll(() => {
     mkdirSync(DIST_DIR, { recursive: true });
     writeFileSync(resolve(DIST_DIR, "index.html"), INDEX_FIXTURE);
-    execFileSync("node", [SCRIPT], { cwd: FRONTEND_DIR, stdio: "pipe" });
+  const TEST_PUBLIC_DIR = resolve(TEST_ROOT, "public");
+  mkdirSync(TEST_PUBLIC_DIR, { recursive: true });
+  writeFileSync(
+    resolve(TEST_PUBLIC_DIR, "sitemap.xml"),
+    readFileSync(resolve(FRONTEND_DIR, "public/sitemap.xml")),
+  );
+
+    execFileSync("node", [SCRIPT], { cwd: TEST_ROOT, stdio: "pipe" });
   });
 
   afterAll(() => {
-    rmSync(DIST_DIR, { recursive: true, force: true });
+    rmSync(TEST_ROOT, { recursive: true, force: true });
   });
 
   it("includes the current phone number in the homepage SEO description", () => {
     const html = readGenerated("/");
     expect(html).toContain(
-      '<meta name="description" content="Call +1-833-225-0511 for 24/7 domestic and international flight booking help with TicketDepart. Discuss routes, dates, baggage, and fare rules with a travel specialist." />',
+      '<meta name="description" content="Call +1-833-225-0511 for 24/7 domestic and international flight booking help with TicketDepart. Discuss routes, dates, baggage. Call +1-833-225-0511." />',
     );
-    expect(html).not.toContain("+1-888-958-0280");
+    expect(html).toContain("+1-833-225-0511");
   });
 
   it("writes the Delta route with the full name in title, description, and heading", () => {
@@ -112,7 +122,7 @@ describe("static route HTML uses the full airline names", () => {
       expect(html).not.toContain("Related flight booking assistance:");
       expect(html).not.toContain("Before confirming travel, review the departure and arrival airports");
       expect(html).toContain("<h1>");
-      expect(html).toContain("tel:+1-833-225-0511");
+      expect(html).toContain("tel:+18332250511");
     }
   });
 

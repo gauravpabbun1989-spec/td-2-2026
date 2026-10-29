@@ -17,7 +17,7 @@ const replacements = config.legacy.flatMap((old) => {
 });
 const excluded = new Set([
   ".git", "node_modules", "dist", "build", "coverage", ".next",
-  ".turbo", "vendor", "pnpm-lock.yaml", "package-lock.json", "yarn.lock",
+  ".turbo", "vendor", ".phone-number-backups", "ticket-depart2", "pnpm-lock.yaml", "package-lock.json", "yarn.lock",
 ]);
 const textExtensions = new Set([
   ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".json", ".html",

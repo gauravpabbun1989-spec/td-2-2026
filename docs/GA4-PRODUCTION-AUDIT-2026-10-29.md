@@ -35,7 +35,7 @@
 1. Confirm the live HTML is from the expected Cloudflare/Caffeine build and contains no placeholder `G-XXXXXXXXXX`.
 2. Confirm the browser loads `https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E`.
 3. Confirm `page_view` reaches GA4 Realtime and DebugView from a normal production visit.
-4. Tap a visible `tel:+18889580280` CTA and confirm one `phone_click` event (not duplicate events).
+4. Tap a visible `tel:+18332250511` CTA and confirm one `phone_click` event (not duplicate events).
 5. Confirm popup display/dismissal does not block page interactions or steal focus.
 6. In GA4 Admin, remove `phone_cta_impression` from key events and retain `phone_click` as the phone-intent conversion. A click does not prove a call connected.
 7. Reconcile canonical host and redirects between live HTML, sitemap, and repository metadata.

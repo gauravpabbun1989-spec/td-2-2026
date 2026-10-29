@@ -1,5 +1,27 @@
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(scriptDir, "../../..");
+const phoneConfig = JSON.parse(
+  fs.readFileSync(path.join(repoRoot, "config/phone-number.json"), "utf8"),
+);
+const PHONE_DISPLAY = phoneConfig.display;
+const PHONE_HREF = `tel:${phoneConfig.tel}`;
+
+const RETIRED_PHONE_PATTERNS = phoneConfig.legacy.map((phone) => {
+  const digits = phone.replace(/\D/g, "");
+  const national = digits.startsWith("1") ? digits.slice(1) : digits;
+  const countryPrefix = digits.startsWith("1")
+    ? String.raw`(?:\+?1[\s().-]*)?`
+    : "";
+  const formattedNational = national.split("").join(String.raw`[\s().-]*`);
+  return new RegExp(
+    String.raw`(?<!\d)${countryPrefix}${formattedNational}(?!\d)`,
+    "gi",
+  );
+});
 
 const distDir = path.resolve("dist");
 const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
@@ -868,10 +890,9 @@ function makeListingDescription(value) {
     .replace(/(?:\+?1[\s().-]*)?855[\s().-]*544[\s().-]*9001/g, "+1-833-225-0511")
     .replace(/\s+/g, " ")
     .trim();
-  const phoneSuffix = " Call +1-833-225-0511.";
-  const withoutPhone = normalized
-    .replace(/\b(?:call|at)\s*\+?1[\s().-]*888[\s().-]*958[\s().-]*0280/gi, "")
-    .replace(/\+?1[\s().-]*888[\s().-]*958[\s().-]*0280/g, "")
+  const phoneSuffix = ` Call ${PHONE_DISPLAY}.`;
+  const withoutPhone = RETIRED_PHONE_PATTERNS
+    .reduce((text, pattern) => text.replace(pattern, ""), normalized)
     .replace(/\s+([.,;:])/g, "$1")
     .replace(/\.\s*[,;:]/g, ".")
     .replace(/\s+/g, " ")
@@ -883,13 +904,21 @@ function makeListingDescription(value) {
   const capitalizedBase = base ? base[0].toUpperCase() + base.slice(1) : "Flight booking assistance";
   const punctuatedBase = /[.!?]$/.test(capitalizedBase) ? capitalizedBase : `${capitalizedBase}.`;
   const description = `${punctuatedBase}${phoneSuffix}`;
-  if (/\b(?:with a travel|applicable booking)\.\s+Call \+1-833-225-0511\.$/i.test(description)) {
+  if (new RegExp(String.raw`\b(?:with a travel|applicable booking)\.\s+Call ${PHONE_DISPLAY.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\.$`, "i").test(description)) {
     throw new Error(`Generated an incomplete meta description: ${description}`);
   }
   return description;
 }
 
 function routeHtml(route, meta) {
+  meta = Object.fromEntries(
+    Object.entries(meta).map(([key, value]) => [
+      key,
+      typeof value === "string"
+        ? value.replaceAll("+1-833-225-0511", PHONE_DISPLAY)
+        : value,
+    ]),
+  );
   const publicPath = route === "/" ? "/" : `${route.replace(/\/+$/, "")}/`;
   const canonicalPath = meta.canonicalPath ?? publicPath;
   const url = "https://ticketdepart.com" + (canonicalPath.startsWith("/") ? canonicalPath : `/${canonicalPath}`);
@@ -925,7 +954,7 @@ function routeHtml(route, meta) {
     about: {
       "@type": "TravelAgency",
       name: "TicketDepart",
-      telephone: "+1-833-225-0511",
+      telephone: PHONE_DISPLAY,
     },
   };
 
@@ -956,7 +985,7 @@ function routeHtml(route, meta) {
     .map(([heading, text]) => `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(text)}</p></section>`)
     .join("");
   const homeGuideLink = route === "/" ? `<section><h2>Affordable economy flight booking</h2><p><a href="/cheap-flight-booking-by-phone/">Cheap economy flights by phone</a></p><p><a href="/how-to-book-a-flight-by-phone/">How to book a flight by phone</a></p></section>` : "";
-  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="tel:+1-833-225-0511">Call +1-833-225-0511</a> — available 24/7.</p>${homeGuideLink}
+  const fallback = `<main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="${PHONE_HREF}">Call ${PHONE_DISPLAY}</a> — available 24/7.</p>${homeGuideLink}
   ${sectionHtml}
   ${semanticContent}
   <section><h2>Related flight booking help</h2><ul>
