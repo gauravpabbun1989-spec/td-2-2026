@@ -53,6 +53,14 @@ describe("static route HTML uses the full airline names", () => {
     rmSync(DIST_DIR, { recursive: true, force: true });
   });
 
+  it("includes the current phone number in the homepage SEO description", () => {
+    const html = readGenerated("/");
+    expect(html).toContain(
+      '<meta name="description" content="Call +1-833-225-0511 for 24/7 domestic and international flight booking help with TicketDepart. Discuss routes, dates, baggage, and fare rules with a travel specialist." />',
+    );
+    expect(html).not.toContain("+1-888-958-0280");
+  });
+
   it("writes the Delta route with the full name in title, description, and heading", () => {
     const html = readGenerated("/delta-airlines");
     expect(html).toContain(
