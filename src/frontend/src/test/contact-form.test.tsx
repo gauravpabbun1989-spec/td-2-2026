@@ -188,7 +188,7 @@ describe("TripRequestForm", () => {
       '[data-ocid="contact.success.call_link"]',
     );
     expect(callLink).not.toBeNull();
-    expect(callLink).toHaveAttribute("href", "tel:+18889580280");
+    expect(callLink).toHaveAttribute("href", "tel:+18332250511");
     expect(callLink).toHaveTextContent(SITE.phoneDisplay);
 
     // The confirmation carries the exact accepted copy, including the colon
@@ -198,7 +198,7 @@ describe("TripRequestForm", () => {
     );
     expect(confirmation).not.toBeNull();
     expect(confirmation).toHaveTextContent(
-      "Need help faster? Call a Travel Specialist: +1-888-958-0280",
+      "Need help faster? Call a Travel Specialist: +1-833-225-0511",
     );
   });
 
