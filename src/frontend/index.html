@@ -100,7 +100,7 @@
           "/api/console/api_server", "/z9x8c7v6b5-debug-trigger-ticketdepart.com"
         ]);
         if (exactProbePaths.has(path)) return true;
-        if (/^\\/api\\/(?:proc\\/self|fs\\/read|system\\/fileview|console\\/api_server)(?:\\/|$)/i.test(path)) return true;
+        if (/^\/api\/(?:proc\/self|fs\/read|system\/fileview|console\/api_server)(?:\/|$)/i.test(path)) return true;
 
         const segments = path.split("/").filter(Boolean);
         const probeSegments = new Set([
