@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "check": "biome check src",
     "fix": "biome check --write src",
-    "test": "vitest run --environment jsdom"
+    "test": "vitest run --environment jsdom",
+    "phone:replace": "node scripts/replace-phone-number.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
