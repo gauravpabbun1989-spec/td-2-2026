@@ -1,18 +1,20 @@
 import fs from "node:fs";
 import path from "node:path";
-import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
-const repoRoot = path.resolve("..", "..");
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const configPath = path.join(repoRoot, "config", "phone-number.json");
+const thisFile = fileURLToPath(import.meta.url);
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
-const replacements = [
-  ...config.legacy.map((value) => [value, config.display]),
-  [config.tel.replace(/^\+/, ""), config.tel.replace(/^\+/, "")],
-  ["tel:+1-888-958-0280", `tel:${config.tel}`],
-  ["tel:+18889580280", `tel:${config.tel}`],
-  ["+1-833-225-0511", config.display],
-  ["+18332250511", config.tel.replace(/^\+/, "")],
-];
+const replacements = config.legacy.flatMap((old) => {
+  const compact = old.replace(/[^0-9]/g, "");
+  return [
+    [old, config.display],
+    [compact, config.tel.replace(/^\+/, "")],
+    [`tel:${old}`, `tel:${config.tel}`],
+    [`tel:+${compact}`, `tel:${config.tel}`],
+  ];
+});
 const excluded = new Set([
   ".git", "node_modules", "dist", "build", "coverage", ".next",
   ".turbo", "vendor", "pnpm-lock.yaml", "package-lock.json", "yarn.lock",
@@ -36,7 +38,7 @@ function walk(dir) {
     if (!entry.isFile()) continue;
     const ext = path.extname(entry.name).toLowerCase();
     if (!textExtensions.has(ext) && ![".gitignore", ".npmrc", ".prettierignore"].includes(entry.name)) continue;
-    if (full === configPath || full === new URL(import.meta.url).pathname) continue;
+    if (full === configPath || full === thisFile) continue;
     let content;
     try { content = fs.readFileSync(full, "utf8"); } catch { continue; }
     if (content.includes("\0")) continue;
