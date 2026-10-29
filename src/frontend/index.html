@@ -127,7 +127,8 @@
       // Only the canonical production host should send analytics. Caffeine preview
       // hosts and other deployment aliases otherwise inflate Direct traffic and
       // can make QA activity look like real customer acquisition.
-      const isProductionAnalyticsHost = window.location.hostname.toLowerCase() === "ticketdepart.com";
+      const analyticsHostname = window.location.hostname.toLowerCase();
+      const isProductionAnalyticsHost = analyticsHostname === "ticketdepart.com" || analyticsHostname === "www.ticketdepart.com";
       if (isProductionAnalyticsHost && !isKnownProbePath()) {
         // Queue configuration before application events so early phone clicks
         // are not queued ahead of the GA4 destination configuration.
