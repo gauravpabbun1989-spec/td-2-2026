@@ -15,7 +15,7 @@ const PAGE_PATH = "/book-a-flight-by-phone/";
 const PAGE_TITLE =
   "Book a Flight by Phone | 24/7 Booking Help";
 const PAGE_DESCRIPTION =
-  "Affordable domestic and international economy options, flexible dates, nearby airports, baggage, and fare rules. Call +1-888-958-0280.";
+  "Affordable domestic and international economy options, flexible dates, nearby airports, baggage, and fare rules. Call +1-833-225-0511.";
 
 const FAQS = [
   {
