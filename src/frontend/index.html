@@ -116,7 +116,7 @@
           || /(?:^|\/)(?:package\.json|docker-compose\.yml|serverless\.yml|webpack\.config\.js|terraform\.lock\.hcl)$/i.test(path);
       }
       window.isKnownProbePath = isKnownProbePath;
-      // Load the standard Google tag only on the production hostname and exclude known probe paths.
+      // Load the official GA4 tag only on TicketDepart production hosts.
       const analyticsHostname = window.location.hostname.toLowerCase();
       const isProductionAnalyticsHost = analyticsHostname === "ticketdepart.com" || analyticsHostname === "www.ticketdepart.com";
       if (isProductionAnalyticsHost && !isKnownProbePath()) {
@@ -124,11 +124,9 @@
         googleTagScript.async = true;
         googleTagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
         document.head.appendChild(googleTagScript);
-
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
         window.gtag("js", new Date());
         window.gtag("config", "G-4WC5K9Q31E");
+      }
       }
     </script>
     <script type="application/ld+json">
