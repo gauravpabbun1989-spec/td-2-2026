@@ -5,14 +5,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouterState } from "@tanstack/react-router";
 
-const POPUP_SHOW_DELAY_MS = 5000;
-const CALL_PROMPT_DELAY_MS = 9000;
+const POPUP_SHOW_DELAY_MS = 100;
 
 export function CallNowPopup() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isCallPromptActive, setIsCallPromptActive] = useState(false);
   const hasShownThisSession = useRef(false);
-  const hasDismissedPopup = useRef(false);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const pathnameRef = useRef(pathname);
 
@@ -24,41 +21,19 @@ export function CallNowPopup() {
     if (typeof window === "undefined" || pathnameRef.current.startsWith("/admin")) return;
     if (hasShownThisSession.current) return;
 
+    // Show the centered assistance popup promptly, but never steal keyboard focus.
+    // Visitors remain in control and can close it with the X button.
     const popupTimer = window.setTimeout(() => {
       hasShownThisSession.current = true;
       setIsOpen(true);
-      // Popup visibility is an impression, not a lead. Do not emit it as an
-      // analytics event; phone_click is recorded only when a visitor taps tel:.
     }, POPUP_SHOW_DELAY_MS);
 
-    // After nine seconds, visually prompt the visitor to tap the existing call button.
-    // Browsers can block timer-triggered tel: navigation, so preserve the visitor's
-    // control and let the existing CTA open the dialer after a tap. Never prompt after X.
-    const callPromptTimer = window.setTimeout(() => {
-      if (hasDismissedPopup.current || document.visibilityState === "hidden") return;
-      setIsCallPromptActive(true);
-      window.requestAnimationFrame(() => {
-        document
-          .querySelector<HTMLAnchorElement>('[data-ocid="call_now_popup.call_button"]')
-          ?.focus({ preventScroll: true });
-      });
-      trackEvent("call_dialer_prompt_shown", {
-        delay_ms: CALL_PROMPT_DELAY_MS,
-        landing_path: pathnameRef.current,
-      });
-    }, CALL_PROMPT_DELAY_MS);
-
-    return () => {
-      window.clearTimeout(popupTimer);
-      window.clearTimeout(callPromptTimer);
-    };
+    return () => window.clearTimeout(popupTimer);
   }, []);
 
   const dismissPopup = useCallback(() => {
     setIsOpen(false);
     hasShownThisSession.current = true;
-    hasDismissedPopup.current = true;
-    setIsCallPromptActive(false);
     trackEvent("call_now_popup_dismiss", {
       popup_location: "sitewide_modal",
       landing_path: pathnameRef.current,
@@ -95,7 +70,7 @@ export function CallNowPopup() {
             Ready to Book Your Flight? Call Now
           </h2>
           <p id="call-now-popup-description" className="relative mt-3 text-sm leading-6 text-white/85">
-            Call us now to get your flight booking confirmed. Speak with a flight specialist and take the next step right away.
+            Discuss your route, dates, cabin, and fare conditions with a travel specialist before deciding.
           </p>
         </div>
 
@@ -106,27 +81,16 @@ export function CallNowPopup() {
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold text-foreground">Travel assistance, 24/7</p>
-              <p className="mt-0.5 text-xs leading-5 text-muted-foreground">Call now to get help confirming your flight booking.</p>
+              <p className="mt-0.5 text-xs leading-5 text-muted-foreground">Call now to speak with a travel specialist.</p>
             </div>
           </div>
-
-          {isCallPromptActive && (
-            <output
-              aria-live="polite"
-              className="mt-4 block rounded-xl border-2 border-primary bg-primary/10 p-3 text-center motion-safe:animate-pulse"
-            >
-              <p className="text-sm font-bold text-foreground">Ready to speak with a flight specialist?</p>
-              <p className="mt-1 text-base font-extrabold tracking-wide text-primary">+1-888-958-0280</p>
-              <p className="mt-1 text-xs text-muted-foreground">Tap the call button below to open your phone dialer.</p>
-            </output>
-          )}
 
           <CallCta
             size="lg"
             showNumber
             ctaLocation="call_now_popup"
             ocid="call_now_popup.call_button"
-            className={`mt-5 flex min-h-14 w-full rounded-2xl ${isCallPromptActive ? "ring-4 ring-primary/40 motion-safe:animate-pulse" : ""}`}
+            className="mt-5 flex min-h-14 w-full rounded-2xl"
           />
         </div>
       </dialog>
