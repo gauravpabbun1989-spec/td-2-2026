@@ -105,8 +105,8 @@ function auditOnce() {
   assert(buildWorkflow.includes("pnpm --dir src/frontend build"), "frontend build missing from CI");
   assert(buildWorkflow.includes("pnpm test:backend"), "backend integration tests missing from CI");
 
-  assert(site.includes('phoneDisplay: "+1-888-958-0280"'), "canonical phone display changed");
-  assert(site.includes('phoneHref: "tel:+18889580280"'), "canonical phone href changed");
+  assert(site.includes('phoneDisplay: "+1-833-225-0511"'), "canonical phone display does not match the updated number");
+  assert(site.includes('phoneHref: "tel:+18332250511"'), "canonical phone href does not match the updated number");
   assert(seo.includes("index, follow") && seo.includes("noindex, nofollow"), "SEO indexability control missing");
 
   assert(robots.includes("User-agent: *"), "robots user-agent missing");

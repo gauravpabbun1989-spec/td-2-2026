@@ -10,8 +10,8 @@ export const SITE = {
   tagline: "Independent travel agency",
   description:
     "Flight booking assistance for domestic and international trips, with help from a real specialist by phone.",
-  phoneDisplay: "+1-888-958-0280",
-  phoneHref: "tel:+18889580280",
+  phoneDisplay: "+1-833-225-0511",
+  phoneHref: "tel:+18332250511",
   email: "support@ticketdestinations.com",
   emailHref: "mailto:support@ticketdestinations.com",
   address: {
