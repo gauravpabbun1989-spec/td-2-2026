@@ -116,26 +116,19 @@
           || /(?:^|\/)(?:package\.json|docker-compose\.yml|serverless\.yml|webpack\.config\.js|terraform\.lock\.hcl)$/i.test(path);
       }
       window.isKnownProbePath = isKnownProbePath;
-      function loadAnalytics() {
-        if (window.__ticketdepartAnalyticsLoaded) return;
-        window.__ticketdepartAnalyticsLoaded = true;
-        const script = document.createElement("script");
-        script.async = true;
-        script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
-        document.head.appendChild(script);
-      }
-      // Only the canonical production host should send analytics. Caffeine preview
-      // hosts and other deployment aliases otherwise inflate Direct traffic and
-      // can make QA activity look like real customer acquisition.
+      // Load the standard Google tag only on the production hostname and exclude known probe paths.
       const analyticsHostname = window.location.hostname.toLowerCase();
       const isProductionAnalyticsHost = analyticsHostname === "ticketdepart.com" || analyticsHostname === "www.ticketdepart.com";
       if (isProductionAnalyticsHost && !isKnownProbePath()) {
-        // Queue configuration before application events so early phone clicks
-        // are not queued ahead of the GA4 destination configuration.
+        const googleTagScript = document.createElement("script");
+        googleTagScript.async = true;
+        googleTagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
+        document.head.appendChild(googleTagScript);
+
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
         window.gtag("js", new Date());
         window.gtag("config", "G-4WC5K9Q31E");
-        // Load GA4 immediately (asynchronously) so activity is not delayed behind idle scheduling.
-        loadAnalytics();
       }
     </script>
     <script type="application/ld+json">
