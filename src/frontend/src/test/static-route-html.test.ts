@@ -104,7 +104,7 @@ describe("static route HTML uses the full airline names", () => {
       expect(html).not.toContain("Related flight booking assistance:");
       expect(html).not.toContain("Before confirming travel, review the departure and arrival airports");
       expect(html).toContain("<h1>");
-      expect(html).toContain("tel:+18889580280");
+      expect(html).toContain("tel:+1-833-225-0511");
     }
   });
 
