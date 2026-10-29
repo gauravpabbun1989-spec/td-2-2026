@@ -4,62 +4,139 @@
     <meta charset="UTF-8" />
     <!-- Performance: critical hero image is preloaded; non-critical analytics is idle-loaded. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flight Booking Assistance | TicketDepart</title>
-    <meta name="description" content="Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 888-958-0280, 24/7." />
+    <title>Flight Booking Assistance by Phone | TicketDepart</title>
+    <meta name="description" content="Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7. Call +1-833-225-0511." />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta property="og:title" content="Flight Booking Assistance | TicketDepart" />
-    <meta property="og:description" content="Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 888-958-0280, 24/7." />
+    <meta property="og:title" content="Flight Booking Assistance by Phone | TicketDepart" />
+    <meta property="og:description" content="Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7. Call +1-833-225-0511." />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="TicketDepart" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:url" content="https://ticketdepart.com/flight-booking" />
+    <meta property="og:url" content="https://ticketdepart.com/flight-booking/" />
     <meta property="og:image" content="https://ticketdepart.com/assets/generated/hero-flight.dim_1600x1100.jpg" />
     <meta property="og:image:alt" content="TicketDepart independent travel agency" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:description" content="Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7. Call +1-833-225-0511." />
     <meta name="twitter:image" content="https://ticketdepart.com/assets/generated/hero-flight.dim_1600x1100.jpg" />
-    <link rel="canonical" href="https://ticketdepart.com/flight-booking" />
+    <link rel="canonical" href="https://ticketdepart.com/flight-booking/" />
     <link rel="preload" as="image" href="/assets/generated/hero-flight.dim_1600x1100.jpg" fetchpriority="high" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
-      function loadAnalytics() {
-        if (window.__ticketdepartAnalyticsLoaded) return;
-        window.__ticketdepartAnalyticsLoaded = true;
-        const script = document.createElement("script");
-        script.async = true;
-        script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
-        document.head.appendChild(script);
+      // Recover once when a cached HTML document references a missing Vite chunk.
+      // This is especially important after a Caffeine import changes hashed asset names.
+      (function installChunkRecovery() {
+        const retryKey = "ticketdepart:chunk-retry:" + (window.location.pathname || "/");
+        let retryAttempted = false;
+        window.addEventListener("vite:preloadError", function (event) {
+          event.preventDefault();
+          if (retryAttempted) return;
+          retryAttempted = true;
+          try {
+            if (window.sessionStorage.getItem(retryKey) === "1") {
+              console.error("TicketDepart could not load a required JavaScript asset after one refresh.");
+              return;
+            }
+            window.sessionStorage.setItem(retryKey, "1");
+          } catch {
+            // In-memory guard still prevents repeated reloads when storage is blocked.
+          }
+          window.location.reload();
+        });
+        window.addEventListener("load", function () {
+          window.setTimeout(function () {
+            try { window.sessionStorage.removeItem(retryKey); } catch {}
+          }, 10000);
+        }, { once: true });
+      })();
+      // Repair malformed legacy links like /delta-airlines/null before GA4
+      // configuration or React starts, so valid base routes are measured cleanly.
+      function normalizeNullSuffixPath() {
+        const path = (window.location.pathname || "/").replace(/\/+$/, "") || "/";
+        if (!/\/null$/i.test(path)) return;
+        const cleanPath = path.slice(0, -5).replace(/\/+$/, "") || "/";
+        window.history.replaceState(window.history.state, "", cleanPath + window.location.search + window.location.hash);
+      }
+      normalizeNullSuffixPath();
+      function isKnownProbePath() {
+        let path = (window.location.pathname || "/").toLowerCase();
+        // Decode bounded layers because scanners often encode separators and dotfiles.
+        for (let attempt = 0; attempt < 3; attempt += 1) {
+          try {
+            const decoded = decodeURIComponent(path);
+            if (decoded === path) break;
+            path = decoded;
+          } catch {
+            break;
+          }
+        }
+        path = path.replace(/\\/g, "/").replace(/\/+$/, "") || "/";
+        if (path.startsWith("//")) return true;
+
+        const exactProbePaths = new Set([
+          "/.env", "/.env::$data", "/.env.local", "/.env.production", "/.flaskenv",
+          "/.git", "/.git/config", "/.git-secret", "/.hg", "/.svn", "/.dockerenv",
+          "/.bashrc", "/.npmrc", "/.zshrc", "/.circleci/config.yml", "/.next",
+          "/.aws/credentials", "/.ssh", "/id_rsa", "/etc/passwd",
+          "/wp-login.php", "/wp-config.php", "/wp-json", "/xmlrpc.php",
+          "/phpinfo.php", "/php-info.php", "/config.php", "/composer.json",
+          "/database.sql", "/dump.sql", "/backup.sql", "/server-status",
+          "/server.key", "/key.pem", "/aws-credentials.txt", "/health",
+          "/api", "/api/health", "/api/settings", "/api/account", "/api/config",
+          "/api/env", "/api/v1/config", "/api/v1/env", "/api/v1/settings",
+          "/webpack.config.js", "/debug/default/view", "/app_dev.php/_profiler/open",
+          "/test_phpinfo5.php", "/serverless.yaml", "/ssl/server.key",
+          "/proc/self/environ", "/var/run/secrets/kubernetes.io/serviceaccount/token",
+          "/userfiles", "/.ds_store", "/dockerfile", "/secrets.env",
+          "/api/proc/self/environ", "/api/fs/read", "/api/system/fileview",
+          "/api/console/api_server", "/z9x8c7v6b5-debug-trigger-ticketdepart.com"
+        ]);
+        if (exactProbePaths.has(path)) return true;
+        if (/^\/api\/(?:proc\/self|fs\/read|system\/fileview|console\/api_server)(?:\/|$)/i.test(path)) return true;
+
+        const segments = path.split("/").filter(Boolean);
+        const probeSegments = new Set([
+          ".git", ".env", ".aws", ".ssh", ".dockerenv", ".bashrc", ".npmrc",
+          ".zshrc", "wp-admin", "wp-includes", "wp-content", "phpmyadmin",
+          "cgi-bin", "phpunit", "actuator"
+        ]);
+        if (segments.some((segment) => probeSegments.has(segment))) return true;
+
+        return /(?:^|\/)(?:config|credentials|secrets?|database|dump|backup|wp-config|phpinfo|php-info)\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(path)
+          || /(?:^|\/)(?:\.env(?:\.[^/]+)?|\.git(?:-[^/]+)?|\.hg|\.svn|\.ssh|\.aws|\.next|\.circleci|\.docker|\.terraform|\.npmrc|\.yarnrc|\.flaskenv)(?:\/|$)/i.test(path)
+          || /(?:^|\/)(?:var\/log|proc\/self|etc\/passwd|debug\/default\/view|app_dev\.php\/_profiler|_next\/webpack-hmr|webpack-hmr)(?:\/|$)/i.test(path)
+          || /\.(?:php|sql|tfstate|tfvars|pem|key|bak|old|save|yaml|yml)$/i.test(path)
+          || /(?:^|\/)(?:package\.json|docker-compose\.yml|serverless\.yml|webpack\.config\.js|terraform\.lock\.hcl)$/i.test(path);
+      }
+      window.isKnownProbePath = isKnownProbePath;
+      // Configure GA4 only on TicketDepart production hosts and normal page paths.
+      const analyticsHostname = window.location.hostname.toLowerCase();
+      const isProductionAnalyticsHost = analyticsHostname === "ticketdepart.com" || analyticsHostname === "www.ticketdepart.com";
+      if (isProductionAnalyticsHost && !isKnownProbePath()) {
         window.gtag("js", new Date());
         window.gtag("config", "G-4WC5K9Q31E");
       }
-      function isKnownProbePath() {
-        return /(?:^|\/)(?:\.env(?:\.|$)|\.git(?:\/|$)|@fs(?:\/|$)|wp-admin(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|server-status(?:$|\/)|\.aws(?:\/|$)|\.dockerenv(?:$|\/))/i.test(window.location.pathname || "/");
-      }
-      if (!isKnownProbePath()) {
-        if ("requestIdleCallback" in window) {
-          window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
-        } else {
-          window.addEventListener("load", () => setTimeout(loadAnalytics, 1500), { once: true });
-        }
-      }
     </script>
-    
-    <script type="module" crossorigin src="/assets/index-BHJvdsBv.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-X6KAE8xu.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Flight Booking Assistance | TicketDepart","description":"Get help booking domestic, international, multi-city, business or first-class, and group flights. Speak with an independent travel specialist at +1 888-958-0280, 24/7.","url":"https://ticketdepart.com/flight-booking","isPartOf":{"@type":"WebSite","name":"TicketDepart","url":"https://ticketdepart.com/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ticketdepart.com/"},{"@type":"ListItem","position":2,"name":"Flight booking help from a real travel specialist","item":"https://ticketdepart.com/flight-booking"}]}}</script>
-  </head>
+
+    <script type="module" crossorigin src="/assets/index-BbAo49mp.js"></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Flight Booking Assistance by Phone | TicketDepart","description":"Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7. Call +1-833-225-0511.","url":"https://ticketdepart.com/flight-booking/","isPartOf":{"@type":"WebSite","name":"TicketDepart","url":"https://ticketdepart.com/"},"about":{"@type":"TravelAgency","name":"TicketDepart","telephone":"+1-833-225-0511"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ticketdepart.com/"},{"@type":"ListItem","position":2,"name":"Flight booking assistance by phone for U.S. travelers","item":"https://ticketdepart.com/flight-booking/"}]}</script>
+  <meta name="twitter:title" content="Flight Booking Assistance by Phone | TicketDepart" />
+</head>
   <body>
-    <div id="root" style="visibility:hidden"><main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / Flight booking help from a real travel specialist</nav><p><strong>Flight booking assistance</strong></p><h1>Flight booking help from a real travel specialist</h1><p>Get practical help comparing flight options, complicated itineraries, premium cabins, group travel, and booking details by phone.</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>
-  <section><h2>Domestic and international booking</h2><p>Discuss routes, dates, travelers, cabin preferences, nearby airports, connections, baggage, and the fare conditions that apply to the itinerary.</p></section><section><h2>Booking by phone</h2><p>Call when you want to talk through a trip with a real specialist rather than work through every detail alone.</p></section><section><h2>Complex itineraries</h2><p>Ask about multi-city trips, flexible dates, international connections, family travel, or other itineraries that need more planning.</p></section>
+    <div id="root" style="visibility:hidden"><main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / Flight booking assistance by phone for U.S. travelers</nav><p><strong>Economy flight booking assistance</strong></p><h1>Flight booking assistance by phone for U.S. travelers</h1><p>Need flight booking assistance for a trip from the United States or Canada? Compare domestic and international flights to destinations worldwide by departure city, arrival airport, travel dates, number of travelers, connections, baggage, and total fare. If you are looking for cheap flights, consider flexible dates and nearby airports while checking the complete ticket conditions. Cabin class is optional, and you can discuss the preferences that matter for your trip. For an existing booking, ask about changing a flight, cancelling a ticket, refund eligibility, travel credits, or rebooking. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the final price, any disclosed service fee, ticketing status, and fare rules before authorizing payment.</p><p><a href="tel:+18332250511">Call +1-833-225-0511</a> — available 24/7.</p>
+  <section><h2>Find affordable flight options</h2><p>When looking for cheap flights or affordable economy airfare, compare nearby travel dates, departure airports you can realistically reach, nonstop and connecting routes, total journey time, and the full price after taxes and fees. The lowest advertised fare is not always the lowest total trip cost.</p></section><section><h2>Domestic and international flight booking</h2><p>Discuss routes within the United States, flights between the U.S. and Canada, and international destinations. Compare schedules, layovers, baggage allowances, seat-selection charges, and fare rules for the exact itinerary rather than assuming all economy tickets include the same benefits.</p></section><section><h2>Book a flight by phone when useful</h2><p>If you want help comparing flight options, dates, airports, or ticket conditions, you can discuss the details with a TicketDepart specialist. Phone booking is not automatically cheaper; confirm the total price, provider, and terms before deciding.</p></section><section><h2>What to check before paying</h2><p>Confirm passenger names, airport codes, local departure times, ticketing status, baggage, change and cancellation conditions, refund eligibility, and any disclosed service fee. Review the complete itinerary and fare terms before authorizing payment.</p></section>
+
   <section><h2>Related flight booking help</h2><ul>
-    <li><a href="/flight-booking">Flight booking assistance</a></li>
-    <li><a href="/book-a-flight-by-phone">Book a flight by phone</a></li>
-    <li><a href="/international-flight-booking">International flight booking</a></li>
-    <li><a href="/business-class-flight-booking">Business class flight booking</a></li>
-    <li><a href="/group-flight-booking">Group flight booking</a></li>
-    <li><a href="/contact">Contact a travel specialist</a></li>
+    <li><a href="/cheap-flight-booking-by-phone/">Cheap flight booking assistance</a></li><li><a href="/book-a-flight-by-phone/">Book an Affordable Flight</a></li><li><a href="/flight-search/">Search flight options</a></li><li><a href="/last-minute-flight-booking/">Last-minute flight booking help when time matters</a></li><li><a href="/international-flight-booking/">International flight booking assistance</a></li><li><a href="/flight-change-assistance/">Flight change assistance</a></li>
+    <li><a href="/contact/">Contact a travel specialist</a></li>
   </ul></section>
-  <p>TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main></div>
+</main></div>
+    <style>
+      html, body { margin: 0; min-height: 100%; background: #fbfaf6; }
+      #root { min-height: 100vh; }
+    </style>
   </body>
 </html>

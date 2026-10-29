@@ -93,7 +93,7 @@ describe("GA4 phone_click payload contract", () => {
     const calls = installGtag();
     await loadAnalytics();
 
-    const link = makeLink("tel:+18889580280");
+    const link = makeLink("tel:+18332250511");
     link.setAttribute("data-ocid", "header.call_button");
     document.body.append(link);
 
@@ -114,7 +114,7 @@ describe("GA4 phone_click payload contract", () => {
     const calls = installGtag();
     await loadAnalytics();
 
-    const link = makeLink("tel:+18889580280");
+    const link = makeLink("tel:+18332250511");
     link.setAttribute("aria-label", "Speak with a Travel Specialist");
     document.body.append(link);
 
@@ -133,7 +133,7 @@ describe("GA4 phone_click payload contract", () => {
     const calls = installGtag();
     await loadAnalytics();
 
-    const link = makeLink("tel:+18889580280");
+    const link = makeLink("tel:+18332250511");
     document.body.append(link);
 
     link.click();
@@ -150,7 +150,7 @@ describe("GA4 phone_click payload contract", () => {
     (window as WindowWithAnalytics).dataLayer = [];
     await loadAnalytics();
 
-    const link = makeLink("tel:+18889580280");
+    const link = makeLink("tel:+18332250511");
     link.setAttribute("data-ocid", "footer.call_button");
     document.body.append(link);
 

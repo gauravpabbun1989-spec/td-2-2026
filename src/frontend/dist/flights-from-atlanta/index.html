@@ -4,62 +4,140 @@
     <meta charset="UTF-8" />
     <!-- Performance: critical hero image is preloaded; non-critical analytics is idle-loaded. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flights from Atlanta | Flight Booking Assistance | TicketDepart</title>
-    <meta name="description" content="Discuss flights from Atlanta, nearby airports, international routes, connections, cabins, and fare conditions with a travel specialist." />
+    <title>Flights from Atlanta | Flight Booking Assistance</title>
+    <meta name="description" content="Explore flights from Atlanta. Compare nearby airports, international routes, connections, and cabin options. Call +1-833-225-0511." />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta property="og:title" content="Flights from Atlanta | Flight Booking Assistance | TicketDepart" />
-    <meta property="og:description" content="Discuss flights from Atlanta, nearby airports, international routes, connections, cabins, and fare conditions with a travel specialist." />
+    <meta property="og:title" content="Flights from Atlanta | Flight Booking Assistance" />
+    <meta property="og:description" content="Explore flights from Atlanta. Compare nearby airports, international routes, connections, and cabin options. Call +1-833-225-0511." />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="TicketDepart" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:url" content="https://ticketdepart.com/flights-from-atlanta" />
+    <meta property="og:url" content="https://ticketdepart.com/flights-from-atlanta/" />
     <meta property="og:image" content="https://ticketdepart.com/assets/generated/hero-flight.dim_1600x1100.jpg" />
     <meta property="og:image:alt" content="TicketDepart independent travel agency" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:description" content="Explore flights from Atlanta. Compare nearby airports, international routes, connections, and cabin options. Call +1-833-225-0511." />
     <meta name="twitter:image" content="https://ticketdepart.com/assets/generated/hero-flight.dim_1600x1100.jpg" />
-    <link rel="canonical" href="https://ticketdepart.com/flights-from-atlanta" />
+    <link rel="canonical" href="https://ticketdepart.com/flights-from-atlanta/" />
     <link rel="preload" as="image" href="/assets/generated/hero-flight.dim_1600x1100.jpg" fetchpriority="high" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
-      function loadAnalytics() {
-        if (window.__ticketdepartAnalyticsLoaded) return;
-        window.__ticketdepartAnalyticsLoaded = true;
-        const script = document.createElement("script");
-        script.async = true;
-        script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
-        document.head.appendChild(script);
+      // Recover once when a cached HTML document references a missing Vite chunk.
+      // This is especially important after a Caffeine import changes hashed asset names.
+      (function installChunkRecovery() {
+        const retryKey = "ticketdepart:chunk-retry:" + (window.location.pathname || "/");
+        let retryAttempted = false;
+        window.addEventListener("vite:preloadError", function (event) {
+          event.preventDefault();
+          if (retryAttempted) return;
+          retryAttempted = true;
+          try {
+            if (window.sessionStorage.getItem(retryKey) === "1") {
+              console.error("TicketDepart could not load a required JavaScript asset after one refresh.");
+              return;
+            }
+            window.sessionStorage.setItem(retryKey, "1");
+          } catch {
+            // In-memory guard still prevents repeated reloads when storage is blocked.
+          }
+          window.location.reload();
+        });
+        window.addEventListener("load", function () {
+          window.setTimeout(function () {
+            try { window.sessionStorage.removeItem(retryKey); } catch {}
+          }, 10000);
+        }, { once: true });
+      })();
+      // Repair malformed legacy links like /delta-airlines/null before GA4
+      // configuration or React starts, so valid base routes are measured cleanly.
+      function normalizeNullSuffixPath() {
+        const path = (window.location.pathname || "/").replace(/\/+$/, "") || "/";
+        if (!/\/null$/i.test(path)) return;
+        const cleanPath = path.slice(0, -5).replace(/\/+$/, "") || "/";
+        window.history.replaceState(window.history.state, "", cleanPath + window.location.search + window.location.hash);
+      }
+      normalizeNullSuffixPath();
+      function isKnownProbePath() {
+        let path = (window.location.pathname || "/").toLowerCase();
+        // Decode bounded layers because scanners often encode separators and dotfiles.
+        for (let attempt = 0; attempt < 3; attempt += 1) {
+          try {
+            const decoded = decodeURIComponent(path);
+            if (decoded === path) break;
+            path = decoded;
+          } catch {
+            break;
+          }
+        }
+        path = path.replace(/\\/g, "/").replace(/\/+$/, "") || "/";
+        if (path.startsWith("//")) return true;
+
+        const exactProbePaths = new Set([
+          "/.env", "/.env::$data", "/.env.local", "/.env.production", "/.flaskenv",
+          "/.git", "/.git/config", "/.git-secret", "/.hg", "/.svn", "/.dockerenv",
+          "/.bashrc", "/.npmrc", "/.zshrc", "/.circleci/config.yml", "/.next",
+          "/.aws/credentials", "/.ssh", "/id_rsa", "/etc/passwd",
+          "/wp-login.php", "/wp-config.php", "/wp-json", "/xmlrpc.php",
+          "/phpinfo.php", "/php-info.php", "/config.php", "/composer.json",
+          "/database.sql", "/dump.sql", "/backup.sql", "/server-status",
+          "/server.key", "/key.pem", "/aws-credentials.txt", "/health",
+          "/api", "/api/health", "/api/settings", "/api/account", "/api/config",
+          "/api/env", "/api/v1/config", "/api/v1/env", "/api/v1/settings",
+          "/webpack.config.js", "/debug/default/view", "/app_dev.php/_profiler/open",
+          "/test_phpinfo5.php", "/serverless.yaml", "/ssl/server.key",
+          "/proc/self/environ", "/var/run/secrets/kubernetes.io/serviceaccount/token",
+          "/userfiles", "/.ds_store", "/dockerfile", "/secrets.env",
+          "/api/proc/self/environ", "/api/fs/read", "/api/system/fileview",
+          "/api/console/api_server", "/z9x8c7v6b5-debug-trigger-ticketdepart.com"
+        ]);
+        if (exactProbePaths.has(path)) return true;
+        if (/^\/api\/(?:proc\/self|fs\/read|system\/fileview|console\/api_server)(?:\/|$)/i.test(path)) return true;
+
+        const segments = path.split("/").filter(Boolean);
+        const probeSegments = new Set([
+          ".git", ".env", ".aws", ".ssh", ".dockerenv", ".bashrc", ".npmrc",
+          ".zshrc", "wp-admin", "wp-includes", "wp-content", "phpmyadmin",
+          "cgi-bin", "phpunit", "actuator"
+        ]);
+        if (segments.some((segment) => probeSegments.has(segment))) return true;
+
+        return /(?:^|\/)(?:config|credentials|secrets?|database|dump|backup|wp-config|phpinfo|php-info)\.(?:php|txt|json|sql|bak|old|save|yml|yaml)$/i.test(path)
+          || /(?:^|\/)(?:\.env(?:\.[^/]+)?|\.git(?:-[^/]+)?|\.hg|\.svn|\.ssh|\.aws|\.next|\.circleci|\.docker|\.terraform|\.npmrc|\.yarnrc|\.flaskenv)(?:\/|$)/i.test(path)
+          || /(?:^|\/)(?:var\/log|proc\/self|etc\/passwd|debug\/default\/view|app_dev\.php\/_profiler|_next\/webpack-hmr|webpack-hmr)(?:\/|$)/i.test(path)
+          || /\.(?:php|sql|tfstate|tfvars|pem|key|bak|old|save|yaml|yml)$/i.test(path)
+          || /(?:^|\/)(?:package\.json|docker-compose\.yml|serverless\.yml|webpack\.config\.js|terraform\.lock\.hcl)$/i.test(path);
+      }
+      window.isKnownProbePath = isKnownProbePath;
+      // Configure GA4 only on TicketDepart production hosts and normal page paths.
+      const analyticsHostname = window.location.hostname.toLowerCase();
+      const isProductionAnalyticsHost = analyticsHostname === "ticketdepart.com" || analyticsHostname === "www.ticketdepart.com";
+      if (isProductionAnalyticsHost && !isKnownProbePath()) {
         window.gtag("js", new Date());
         window.gtag("config", "G-4WC5K9Q31E");
       }
-      function isKnownProbePath() {
-        return /(?:^|\/)(?:\.env(?:\.|$)|\.git(?:\/|$)|@fs(?:\/|$)|wp-admin(?:\/|$)|proc(?:\/|$)|api\/(?:uploads|attachments)(?:\/|$)|server-status(?:$|\/)|\.aws(?:\/|$)|\.dockerenv(?:$|\/))/i.test(window.location.pathname || "/");
-      }
-      if (!isKnownProbePath()) {
-        if ("requestIdleCallback" in window) {
-          window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
-        } else {
-          window.addEventListener("load", () => setTimeout(loadAnalytics, 1500), { once: true });
-        }
-      }
     </script>
-    
-    <script type="module" crossorigin src="/assets/index-BHJvdsBv.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-X6KAE8xu.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Flights from Atlanta | Flight Booking Assistance | TicketDepart","description":"Discuss flights from Atlanta, nearby airports, international routes, connections, cabins, and fare conditions with a travel specialist.","url":"https://ticketdepart.com/flights-from-atlanta","isPartOf":{"@type":"WebSite","name":"TicketDepart","url":"https://ticketdepart.com/"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ticketdepart.com/"},{"@type":"ListItem","position":2,"name":"Flights from Atlanta with booking assistance","item":"https://ticketdepart.com/flights-from-atlanta"}]}}</script>
-  </head>
+
+    <script type="module" crossorigin src="/assets/index-BbAo49mp.js"></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Flights from Atlanta | Flight Booking Assistance | TicketDepart","description":"Explore flights from Atlanta. Compare nearby airports, international routes, connections, and cabin options. Call +1-833-225-0511.","url":"https://ticketdepart.com/flights-from-atlanta/","isPartOf":{"@type":"WebSite","name":"TicketDepart","url":"https://ticketdepart.com/"},"about":{"@type":"TravelAgency","name":"TicketDepart","telephone":"+1-833-225-0511"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ticketdepart.com/"},{"@type":"ListItem","position":2,"name":"Flights from Atlanta with booking assistance","item":"https://ticketdepart.com/flights-from-atlanta/"}]}</script>
+  <meta name="twitter:title" content="Flights from Atlanta | Flight Booking Assistance" />
+</head>
   <body>
-    <div id="root" style="visibility:hidden"><main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / Flights from Atlanta with booking assistance</nav><p><strong>Flights from Atlanta with booking assistance</strong></p><h1>Flights from Atlanta with booking assistance</h1><p>Discuss Atlanta departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.</p><p><a href="tel:+18889580280">Call +1 888-958-0280</a> — available 24/7.</p>
-  <section><h2>Plan your trip</h2><p>Discuss your route, dates, travelers, cabin preferences, nearby airports, connections, baggage, and the booking terms that apply.</p></section><section><h2>Talk with a specialist</h2><p>Call when you want help working through an itinerary or when the trip has details that are easier to explain by phone.</p></section><section><h2>Review the details</h2><p>Availability, pricing, ticketing deadlines, baggage, changes, and cancellations depend on the specific itinerary and provider.</p></section>
+    <div id="root" style="visibility:hidden"><main><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / Flights from Atlanta with booking assistance</nav><p><strong>Flights from Atlanta with booking assistance</strong></p><h1>Flights from Atlanta with booking assistance</h1><p>Discuss Atlanta departure airports, domestic and international routes, connections, flexible dates, cabins, and fare conditions.</p><p><a href="tel:+18332250511">Call +1-833-225-0511</a> — available 24/7.</p>
+
+  <section><h2>Making connections from Atlanta</h2><p>Atlanta itineraries may be nonstop or connect through another airport depending on destination and date. A lower fare is not always the easiest trip if it creates a tight connection or a long wait. Review the full schedule, connection time, and what happens if a delay affects a later segment.</p></section>
+  <section><h2>Before you choose a ticket</h2><p>Compare nonstop and connecting itineraries where offered; leave a sensible connection buffer; check whether the ticket protects onward segments; and review baggage and change rules before confirming.</p></section>
   <section><h2>Related flight booking help</h2><ul>
-    <li><a href="/flight-booking">Flight booking assistance</a></li>
-    <li><a href="/book-a-flight-by-phone">Book a flight by phone</a></li>
-    <li><a href="/international-flight-booking">International flight booking</a></li>
-    <li><a href="/business-class-flight-booking">Business class flight booking</a></li>
-    <li><a href="/group-flight-booking">Group flight booking</a></li>
-    <li><a href="/contact">Contact a travel specialist</a></li>
+    <li><a href="/flight-booking/">Flight booking assistance by phone for U.S. travelers</a></li><li><a href="/book-a-flight-by-phone/">Book an Affordable Flight</a></li><li><a href="/international-flight-booking/">International flight booking assistance</a></li><li><a href="/contact/">Contact TicketDepart about your flight</a></li>
+    <li><a href="/contact/">Contact a travel specialist</a></li>
   </ul></section>
-  <p>TicketDepart is an independent travel agency and is not affiliated with, endorsed by, or the official customer service of any airline.</p></main></div>
+</main></div>
+    <style>
+      html, body { margin: 0; min-height: 100%; background: #fbfaf6; }
+      #root { min-height: 100vh; }
+    </style>
   </body>
 </html>

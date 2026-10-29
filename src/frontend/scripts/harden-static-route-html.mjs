@@ -124,6 +124,7 @@ for (const file of walk(distDir)) {
     html = html.replace(mainMatch[0], main);
   }
 
+  html = html.replace(/[ \t]+(?=\r?$)/gm, "");
   fs.writeFileSync(file, html);
   processed++;
 }

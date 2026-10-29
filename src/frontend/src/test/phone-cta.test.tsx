@@ -8,9 +8,9 @@ import { renderRoute } from "@/test/render-route";
 /**
  * Cover for the accepted phone-CTA contract:
  *
- *   1. the displayed business number `+1-888-958-0280` appears correctly
+ *   1. the displayed business number `+1-833-225-0511` appears correctly
  *      wherever the call CTA is shown;
- *   2. the call CTA is a real `tel:` link wired to `tel:+18889580280`;
+ *   2. the call CTA is a real `tel:` link wired to `tel:+18332250511`;
  *   3. activating the call CTA does not break navigation or the page.
  *
  * The existing suites already assert the `tel:` href on every route
@@ -40,9 +40,9 @@ const ROUTES_WITH_CALL_CTA = [
 ] as const;
 
 /** The exact accepted display string, asserted literally, not via `SITE`. */
-const DISPLAYED_NUMBER = "+1-888-958-0280";
+const DISPLAYED_NUMBER = "+1-833-225-0511";
 /** The exact accepted `tel:` target, asserted literally. */
-const TEL_HREF = "tel:+18889580280";
+const TEL_HREF = "tel:+18332250511";
 
 describe("call CTA phone number", () => {
   it("keeps the canonical display string and tel: target in sync", () => {

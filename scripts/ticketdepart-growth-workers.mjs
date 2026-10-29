@@ -11,7 +11,7 @@ const MAX_URLS = Math.max(1, Math.min(100, Number(process.env.MAX_URLS || 100)))
 const CONCURRENCY = Math.max(1, Math.min(3, Number(process.env.CONCURRENCY || 3)));
 const DELAY_MS = Math.max(500, Number(process.env.DELAY_MS || 1000));
 const USER_AGENT = 'TicketDepartGrowthMonitor/1.0 (+site-owner SEO and availability audit)';
-const PHONE = '+1-888-958-0280';
+const PHONE = '+1-833-225-0511';
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const safeText = html => html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
@@ -98,7 +98,7 @@ try {
             || first(html, /<link\b[^>]*href=[\"']([^\"']+)[\"'][^>]*rel=[\"']canonical[\"']/i);
           item.metaRobots = first(html, /<meta\b[^>]*name=[\"']robots[\"'][^>]*content=[\"']([^\"']*)/i)
             || first(html, /<meta\b[^>]*content=[\"']([^\"']*)[\"'][^>]*name=[\"']robots[\"']/i);
-          item.hasPublicPhone = html.includes(PHONE) || html.includes('888-958-0280');
+          item.hasPublicPhone = html.includes(PHONE) || html.includes('833-225-0511');
           item.hasCallLink = /href=[\"']tel:/i.test(html);
           item.issues = [];
           if (!res.ok) item.issues.push('http-not-ok');
