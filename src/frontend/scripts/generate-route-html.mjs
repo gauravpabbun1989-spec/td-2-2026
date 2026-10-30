@@ -29,7 +29,7 @@ const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 const routes = {
   "/": {
     title: "Make Flight Booking Easy | 24/7 Booking Assistance",
-    description: "Call +1-833-225-0511 for 24/7 domestic and international flight booking help with TicketDepart. Discuss routes, dates, baggage, and fare rules with a travel specialist.",
+    description: "Call +1-833-225-0511 for 24/7 economy-first domestic and international flight booking help. Compare routes, dates, baggage, and fare rules.",
     heading: "Need a Flight? Call Now to Get Started.",
     text: "TicketDepart helps travelers departing from the United States and Canada discuss affordable economy flights to destinations worldwide. Call +1-833-225-0511 for 24/7 help with routes, travel dates, nearby airports, nonstop and connecting itineraries, baggage costs, and fare questions. Compare the full trip cost, including taxes, checked bags, seat fees, connection time, and airport transfers. Have your departure city, destination, travel dates, and traveler count ready; cabin class is optional. Before deciding, review the complete itinerary, total price, baggage allowance, connection details, and the fare rules for changes or cancellations. Our travel specialists can help you compare available options and understand any disclosed agency service fee before you authorize payment. Explore our guides to affordable flights, international flight booking, last-minute travel planning, booking by phone, flight changes, cancellations, refunds, and rebooking.",
   },
@@ -156,7 +156,7 @@ const routes = {
 
   "/flight-booking": {
     title: "Flight Booking Assistance by Phone | TicketDepart",
-    description: "Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7.",
+    description: "Get economy-first U.S. and international flight booking help. Compare dates, routes, baggage, and fare rules 24/7.",
     heading: "Flight booking assistance by phone for U.S. travelers",
     text: "Need flight booking assistance for a trip from the United States or Canada? Compare domestic and international flights to destinations worldwide by departure city, arrival airport, travel dates, number of travelers, connections, baggage, and total fare. If you are looking for cheap flights, consider flexible dates and nearby airports while checking the complete ticket conditions. Cabin class is optional, and you can discuss the preferences that matter for your trip. For an existing booking, ask about changing a flight, cancelling a ticket, refund eligibility, travel credits, or rebooking. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the final price, any disclosed service fee, ticketing status, and fare rules before authorizing payment."
   },
@@ -164,7 +164,7 @@ const routes = {
     title: "Flight Booking Assistance by Phone | TicketDepart",
     description: "Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7.",
     heading: "Flight booking assistance by phone for U.S. travelers",
-    text: "Plan a domestic or international trip by reviewing departure and arrival airports, dates, traveler count, cabin preferences, connections, baggage, and fare conditions. For multi-city routes, group travel, or premium cabins, discuss the details with a travel specialist before you decide. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the applicable price and ticket terms before authorizing payment.",
+    text: "Plan a domestic or international economy trip by reviewing departure and arrival airports, dates, traveler count, connections, baggage, and fare conditions. For multi-city routes or optional premium cabins, discuss the details with a travel specialist before you decide. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the applicable price and ticket terms before authorizing payment.",
     canonicalPath: "/flight-booking/",
   },
   "/delta-airlines": {
