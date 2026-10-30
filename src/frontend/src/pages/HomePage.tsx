@@ -16,7 +16,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 const HOME_TITLE = "Make Flight Booking Easy | 24/7 Booking Assistance";
-const HOME_DESCRIPTION = "Call +1-833-225-0511 for 24/7 domestic and international flight booking help with TicketDepart. Discuss routes, dates, baggage, and fare rules with a travel specialist.";
+const HOME_DESCRIPTION = "Call +1-833-225-0511 for 24/7 economy-first domestic and international flight booking help. Compare routes, dates, baggage, and fare rules.";
 
 const HOME_IMAGE = absoluteUrl("/assets/generated/hero-flight.dim_1600x1100.jpg");
 
@@ -61,7 +61,7 @@ const FLIGHT_GUIDE_GROUPS: FlightGuideGroup[] = [
               ["Booking help", [
                 ["Flight booking", "/flight-booking/"], ["Flight search", "/flight-search/"], ["Book a flight by phone", "/book-a-flight-by-phone/"], ["How to book by phone", "/how-to-book-a-flight-by-phone/"],
                 ["International flight booking", "/international-flight-booking/"], ["Last-minute flight booking", "/last-minute-flight-booking/"], ["Multi-city flight booking", "/multi-city-flight-booking/"], 
-                ["Cheap flight booking by phone", "/cheap-flight-booking-by-phone/"], ["Business class flight booking", "/business-class-flight-booking/"],  ["Same-day flight booking", "/same-day-flight-booking/"],
+                ["Cheap flight booking by phone", "/cheap-flight-booking-by-phone/"], ["Same-day flight booking", "/same-day-flight-booking/"],
                 ["Family flight booking", "/family-flight-booking/"], ["Pet flight booking", "/pet-flight-booking/"],  ["Baggage assistance", "/baggage-assistance/"],
                 ["Flight change assistance", "/flight-change-assistance/"], ["Flight cancellation assistance", "/flight-cancellation-assistance/"], ["Airline reservation assistance", "/airline-reservation-assistance/"], 
               ]],
@@ -77,6 +77,7 @@ const FLIGHT_GUIDE_GROUPS: FlightGuideGroup[] = [
                 ["New York to London", "/flights-new-york-to-london/"],   ["Los Angeles to Tokyo", "/flights-los-angeles-to-tokyo/"],
                 ["Los Angeles to London", "/flights-los-angeles-to-london/"],   ["San Francisco to Tokyo", "/flights-san-francisco-to-tokyo/"],
               ]],
+              ["Optional cabin", [["Business class flight booking", "/business-class-flight-booking/"]]],
               ["Site and support", [
                 ["Contact", "/contact/"], ["Privacy policy", "/privacy/"], ["Terms of service", "/terms/"],
               ]],
