@@ -1,13 +1,13 @@
 import { CallCta } from "@/components/CallCta";
 import { SITE } from "@/lib/site";
-import { ArrowRight, Check, Globe2, Headset, Route } from "lucide-react";
+import { ArrowRight, Check, Globe2, Headset, Plane } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 const HERO_IMAGE = "/assets/generated/hero-flight.dim_1600x1100.jpg";
 
 const HERO_POINTS = [
-  { icon: Globe2, label: "Domestic & international", detail: "Simple or complex itineraries" },
-  { icon: Route, label: "Multi-city & group trips", detail: "Built around your plans" },
+  { icon: Globe2, label: "Domestic & international", detail: "Flights from the USA and Canada" },
+  { icon: Plane, label: "Affordable economy options", detail: "Compare dates, routes and total trip cost" },
   { icon: Headset, label: "Real specialists 24/7", detail: "Human help when you need it" },
 ] as const;
 
@@ -42,7 +42,7 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-slate-700 sm:text-lg sm:leading-8">
-            Call +1-833-225-0511 now for 24/7 flight booking assistance. Get help with routes, travel dates, affordable economy options, baggage, changes, and fare questions for domestic and international trips.
+            Call +1-833-225-0511 now for 24/7 flight booking assistance. Compare affordable economy options for domestic and international trips, including flexible dates, nearby airports, baggage costs, flight changes, and fare conditions.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-2">
@@ -69,7 +69,7 @@ export function HeroSection() {
           </div>
 
           <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold text-slate-700">
-            {["Available 24/7", "Booking or reservation help", "Help with complex trips"].map((item) => (
+            {["Available 24/7", "Booking or reservation help", "Economy fares for individual travelers"].map((item) => (
               <span key={item} className="inline-flex items-center gap-2">
                 <Check className="size-4 text-emerald-600" />
                 {item}

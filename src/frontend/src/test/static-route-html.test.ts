@@ -66,9 +66,16 @@ describe("static route HTML uses the full airline names", () => {
   it("includes the current phone number in the homepage SEO description", () => {
     const html = readGenerated("/");
     expect(html).toContain(
-      '<meta name="description" content="Call +1-833-225-0511 for 24/7 domestic and international flight booking help with TicketDepart. Discuss routes, dates, baggage. Call +1-833-225-0511." />',
+      '<meta name="description" content="Call +1-833-225-0511 for 24/7 economy-first flight booking help with TicketDepart. Compare routes, dates, baggage, and fare rules. Call +1-833-225-0511." />',
     );
     expect(html).toContain("+1-833-225-0511");
+  });
+
+  it("keeps the generated flight-booking page focused on economy travelers", () => {
+    const html = readGenerated("/flight-booking");
+    expect(html).toContain("economy-first");
+    expect(html).not.toContain("group travel");
+    expect(html).not.toContain("Group flight booking");
   });
 
   it("writes the Delta route with the full name in title, description, and heading", () => {

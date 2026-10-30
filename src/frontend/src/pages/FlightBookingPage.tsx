@@ -19,13 +19,12 @@ import {
   Phone,
   RefreshCw,
   Route,
-  Users,
 } from "lucide-react";
 
 const PAGE_PATH = "/flight-booking/";
 const PAGE_TITLE = "Flight Booking Assistance by Phone | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7. Call +1-833-225-0511.";
+  "Get economy-first U.S. and international flight booking help. Compare dates, routes, baggage, and fare rules 24/7. Call +1-833-225-0511.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },
@@ -40,6 +39,16 @@ type BookingService = {
 };
 
 const SERVICES: readonly BookingService[] = [
+  {
+    icon: Globe2,
+    title: "Economy flight booking",
+    description: "Compare available economy itineraries, flexible dates, nearby airports, baggage costs, and the complete trip price before deciding.",
+    details: [
+      "One-way and round-trip economy options",
+      "Flexible dates and nearby airports",
+      "Taxes, baggage, and total fare reviewed",
+    ],
+  },
   {
     icon: MapPinned,
     title: "Domestic flight booking",
@@ -75,24 +84,13 @@ const SERVICES: readonly BookingService[] = [
   },
   {
     icon: Briefcase,
-    title: "Business and first class",
+    title: "Optional premium cabins",
     description:
-      "Premium cabin requests where cabin availability, lie-flat options, and upgrade rules matter as much as the schedule.",
+      "Business and premium economy can be discussed when specifically requested; economy remains the primary booking focus.",
     details: [
-      "Business, first, and premium economy cabins",
-      "Cabin and aircraft comparisons",
-      "Upgrade and change-rule guidance",
-    ],
-  },
-  {
-    icon: Users,
-    title: "Group flight booking",
-    description:
-      "Coordinated travel for families, teams, and organizations that want compatible routing and schedules.",
-    details: [
-      "Family and extended-family trips",
-      "Sports, school, and church groups",
-      "Seating kept together where available",
+      "Business and premium economy, when available",
+      "Cabin and aircraft details",
+      "Applicable fare and change conditions",
     ],
   },
   {
@@ -267,8 +265,7 @@ export function FlightBookingPage() {
                 "Domestic one-way and round-trip",
                 "International long-haul and transborder",
                 "Multi-city and open-jaw routings",
-                "Business, first, and premium economy",
-                "Group and family bookings",
+                "Economy as the primary cabin; premium cabins on request",
                 "Changes, rebooking, and disrupted plans",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
@@ -362,7 +359,8 @@ export function FlightBookingPage() {
             ["International flight booking", "Talk through international routes, connections, nearby airports, and fare conditions."],
             ["Last-minute flight booking", "For urgent travel, discuss same-day or near-term options and practical alternatives."],
             ["Multi-city flight booking", "Work through several city pairs, open-jaw plans, and complex routing requirements."],
-            ["Business and first class flight booking", "Compare premium cabin schedules and fare conditions based on your trip requirements."],
+            ["Affordable economy flight booking", "Compare flexible dates, nearby airports, baggage costs, and the full trip price before deciding."],
+            ["Optional business class booking", "Discuss premium-cabin schedules and fare conditions when business class is specifically preferred."],
           ].map(([title, description]) => (
             <article key={title} className="rounded-2xl border border-border bg-card p-6 shadow-subtle">
               <h3 className="font-display text-lg font-semibold">{title}</h3>
@@ -645,7 +643,7 @@ export function FlightBookingPage() {
         />
         <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Travel needs vary: some travelers are planning a new domestic or international reservation, while others need help comparing multi-city or group itineraries, premium cabins, baggage questions, or a possible change or cancellation. We can discuss departures from U.S. cities including New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, Orlando, and San Francisco, subject to the routes and options available for your dates. Before you authorize payment, confirm the full itinerary, baggage allowance, fare conditions, any applicable agency service fee, and the rules for changes or cancellation.
+            Travel needs vary: some travelers are planning an affordable domestic or international economy reservation, while others need help comparing multi-city itineraries, optional premium cabins, baggage questions, or a possible change or cancellation. We can discuss departures from U.S. cities including New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, Orlando, and San Francisco, subject to the routes and options available for your dates. Before you authorize payment, confirm the full itinerary, baggage allowance, fare conditions, any applicable agency service fee, and the rules for changes or cancellation.
           </p>
         </div>
       </Section>
