@@ -66,7 +66,7 @@ describe("static route HTML uses the full airline names", () => {
   it("includes the current phone number in the homepage SEO description", () => {
     const html = readGenerated("/");
     expect(html).toContain(
-      '<meta name="description" content="Call +1-833-225-0511 for 24/7 economy-first domestic and international flight booking help. Compare routes, dates, baggage, and fare. Call +1-833-225-0511." />',
+      '<meta name="description" content="Call +1-833-225-0511 for 24/7 economy-first flight booking help with TicketDepart. Compare routes, dates, baggage, and fare rules. Call +1-833-225-0511." />',
     );
     expect(html).toContain("+1-833-225-0511");
   });
