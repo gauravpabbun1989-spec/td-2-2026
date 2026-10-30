@@ -9,12 +9,12 @@ describe("economy-first homepage positioning", () => {
     await screen.findByRole("heading", { level: 1, name: /Need a Flight\?/i });
 
     const hero = document.querySelector('[data-ocid="home.hero_section"]');
-    expect(hero).not.toBeNull();
+    if (!hero) throw new Error("Homepage hero was not rendered");
     expect(hero).toHaveTextContent(/affordable economy options/i);
     expect(hero).toHaveTextContent(/individual travelers/i);
     expect(hero).not.toHaveTextContent(/group trips|group booking|corporate travel/i);
   });
-  
+
   it("makes economy the first service on the main flight-booking page", async () => {
     renderRoute("/flight-booking");
     await screen.findByRole("heading", {
