@@ -14,4 +14,17 @@ describe("economy-first homepage positioning", () => {
     expect(hero).toHaveTextContent(/individual travelers/i);
     expect(hero).not.toHaveTextContent(/group trips|group booking|corporate travel/i);
   });
+  
+  it("makes economy the first service on the main flight-booking page", async () => {
+    renderRoute("/flight-booking");
+    await screen.findByRole("heading", {
+      level: 1,
+      name: /flight booking assistance by phone for u\.s\. travelers/i,
+    });
+
+    expect(screen.getByText("Economy flight booking")).toBeInTheDocument();
+    expect(screen.getByText("Optional premium cabins")).toBeInTheDocument();
+    expect(screen.queryByText("Group flight booking")).not.toBeInTheDocument();
+    expect(screen.queryByText(/group and family bookings/i)).not.toBeInTheDocument();
+  });
 });
