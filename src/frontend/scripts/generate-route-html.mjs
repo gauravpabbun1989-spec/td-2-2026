@@ -162,7 +162,7 @@ const routes = {
   },
   "/flight-booking-assistance": {
     title: "Flight Booking Assistance by Phone | TicketDepart",
-    description: "Get U.S. and international flight booking help. Discuss routes, multi-city trips, cabins, baggage and fare rules 24/7.",
+    description: "Get economy-first U.S. and international flight booking help. Compare dates, routes, baggage, and fare rules 24/7.",
     heading: "Flight booking assistance by phone for U.S. travelers",
     text: "Plan a domestic or international economy trip by reviewing departure and arrival airports, dates, traveler count, connections, baggage, and fare conditions. For multi-city routes or optional premium cabins, discuss the details with a travel specialist before you decide. TicketDepart is an independent travel agency, not an airline or an airline’s official customer-service department. Review the applicable price and ticket terms before authorizing payment.",
     canonicalPath: "/flight-booking/",
