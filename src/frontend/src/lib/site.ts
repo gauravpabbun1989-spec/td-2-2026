@@ -7,7 +7,7 @@
 export const SITE = {
   name: "TicketDepart",
   legalName: "TicketDepart Travel",
-  tagline: "Independent travel agency",
+  tagline: "24/7 Flight Booking Assistance",
   description:
     "Flight booking assistance for domestic and international trips, with help from a real specialist by phone.",
   phoneDisplay: "+1-833-225-0511",
