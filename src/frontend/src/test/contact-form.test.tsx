@@ -113,9 +113,11 @@ describe("TripRequestForm", () => {
     }
 
     expect(screen.getByLabelText(/preferred callback time/i)).toHaveValue("Any time");
-    expect(screen.getByText(/add trip preferences \(optional\)/i)).toBeInTheDocument();
-    expect(screen.queryByLabelText(/trip type/i)).not.toBeInTheDocument();
-    expect(screen.queryByLabelText(/cabin/i)).not.toBeInTheDocument();
+    const preferences = screen.getByText(/add trip preferences \(optional\)/i).closest("details");
+    expect(preferences).not.toBeNull();
+    expect(preferences).not.toHaveAttribute("open");
+    expect(within(preferences as HTMLElement).getByLabelText(/trip type \(optional\)/i)).toBeInTheDocument();
+    expect(within(preferences as HTMLElement).getByLabelText(/cabin \(optional\)/i)).toBeInTheDocument();
 
     await userEvent.setup().click(screen.getByText(/add trip preferences \(optional\)/i));
     expect(screen.getByLabelText(/trip type \(optional\)/i)).toBeInTheDocument();
