@@ -61,11 +61,11 @@ export function PageContentExpansion({
             authority; requirements can depend on your citizenship and route.
           </p>
           <p>
-            TicketDepart is an independent travel assistance service, not an
-            airline or an airline's official customer-service department. We
-            can help you talk through the itinerary and booking details, while
-            airline schedules, availability, and ticket conditions must be
-            confirmed for the specific trip.
+            A TicketDepart travel specialist can help you compare practical
+            itinerary details, understand the fare conditions, and review
+            available next steps for your trip. You can ask questions about
+            schedules, connections, baggage, changes, and cancellation terms
+            before deciding how to proceed.
           </p>
         </div>
       </div>
