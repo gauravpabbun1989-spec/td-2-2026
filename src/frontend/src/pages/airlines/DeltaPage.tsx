@@ -109,7 +109,7 @@ const FAQS = [
   {
     question: "Can TicketDepart book Delta Airlines flights for me?",
     answer:
-      "Yes. TicketDepart is an independent travel agency and our specialists can search, price, and book Delta Airlines-operated and Delta Airlines-marketed flights on your behalf. We are not Delta Airlines and we are not Delta Airlines' official customer service — we are a third-party agency that books travel for our clients.",
+      "Yes. Our specialists can review Delta-operated and Delta-marketed flight options, explain applicable booking terms, and help arrange a reservation based on your trip details.",
   },
   {
     question:
@@ -136,7 +136,7 @@ const FAQS = [
   {
     question: "Can I get Delta Airlines flight booking assistance 24/7?",
     answer:
-      "Yes. TicketDepart travel specialists are available 24/7 for independent Delta Airlines booking assistance. We are not Delta Airlines official customer service, and airline-specific support hours can vary by channel.",
+      "Yes. TicketDepart travel specialists are available 24/7 to discuss Delta flight options, reservation questions, changes, and rebooking possibilities.",
   },
   {
     question: "Can I book business or first class through TicketDepart?",
@@ -229,15 +229,11 @@ export function DeltaPage() {
             <div className="flex items-center gap-2.5">
               <ShieldCheck aria-hidden="true" className="size-5 text-accent" />
               <h2 className="font-display text-lg font-semibold">
-                Independent agency disclosure
+                Travel planning support
               </h2>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              TicketDepart is an independent travel agency. We are not
-              affiliated with, endorsed by, or sponsored by Delta Airlines, and
-              we are not Delta Airlines' official customer service. Delta
-              Airlines and all related names and marks belong to their
-              respective owners and are used here for identification only.
+              A TicketDepart specialist can help you review Delta route options, cabin choices, connections, and applicable booking terms.
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               We do not link out to airline booking websites. Every booking and
