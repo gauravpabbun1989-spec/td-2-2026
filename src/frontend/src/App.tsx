@@ -7,6 +7,7 @@ import {
   createRootRoute,
   createRoute,
   createRouter,
+  useRouterState,
 } from "@tanstack/react-router";
 import { lazy, Suspense, type ComponentType } from "react";
 
@@ -78,6 +79,20 @@ const TermsPage = lazyPage(() => import("@/pages/TermsPage").then(({ TermsPage }
 const DisclaimerPage = lazyPage(() => import("@/pages/DisclaimerPage").then(({ DisclaimerPage }) => ({ default: DisclaimerPage })));
 
 
+// Google’s live renderer has been falling through to the root 404 for this
+// canonical route despite its route being registered. Keep this exact public
+// landing page available as a narrowly-scoped fallback without weakening 404s.
+function RootNotFound() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const normalizedPath = pathname.replace(/\\/+$/, "");
+
+  if (normalizedPath === "/flights-from-new-york") {
+    return <FlightsFromNewYorkPage />;
+  }
+
+  return <NotFoundPage />;
+}
+
 const rootRoute = createRootRoute({
   component: () => (
     <Layout>
@@ -86,7 +101,7 @@ const rootRoute = createRootRoute({
       </Suspense>
     </Layout>
   ),
-  notFoundComponent: NotFoundPage,
+  notFoundComponent: RootNotFound,
 });
 
 const petFlightBookingRoute = createRoute({
