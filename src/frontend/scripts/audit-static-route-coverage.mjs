@@ -44,9 +44,9 @@ for (const [label, config] of [
   );
   assert(
     Array.isArray(config.assets?.run_worker_first),
-    `${label} Wrangler config must use selective Worker-first routing`,
+    `${label} Wrangler config must use Worker-first route validation`,
   );
-  for (const path of ["/.env*", "/*/.env*", "/*/null*", "/flight-booking-assistance", "/flights-from-new-york/"]) {
+  for (const path of ["/*", "/.env*", "/*/.env*", "/*/null*", "/flight-booking-assistance", "/flights-from-new-york/"]) {
     assert(
       config.assets.run_worker_first.includes(path),
       `${label} Wrangler config is missing Worker-first path ${path}`,
