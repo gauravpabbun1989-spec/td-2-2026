@@ -2,6 +2,7 @@
   "name": "ticket-depart2",
   "main": "./src/worker.ts",
   "compatibility_date": "2026-09-21",
+  "compatibility_flags": ["assets_navigation_has_no_effect"],
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
