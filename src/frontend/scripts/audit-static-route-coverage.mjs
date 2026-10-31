@@ -55,6 +55,12 @@ assert(!/googletagmanager|G-4WC5K9Q31E/i.test(notFoundHtml), "404.html must not 
 const htmlShell = read(path.join(root, "index.html"));
 assert(!htmlShell.includes("normalizeNullSuffixPath"), "malformed /null paths must remain invalid instead of being rewritten to indexable routes");
 assert(htmlShell.includes('if (/\\/null$/i.test(path)) return true;'), "malformed /null paths must be excluded from GA4 while the host returns the 404 page");
+const callbackFormSource = read(path.join(root, "src", "components", "contact", "TripRequestForm.tsx"));
+assert(callbackFormSource.includes('label="Preferred callback time (optional)"'), "callback form must offer an optional preferred callback window");
+assert(callbackFormSource.includes("getLocalTimeZone()"), "callback form must display and store the visitor's local time zone");
+assert(callbackFormSource.includes("input.tripType || TripType.other"), "trip type must remain optional in callback requests");
+assert(callbackFormSource.includes("input.cabin || Cabin.noPreference"), "cabin preference must remain optional in callback requests");
+assert(callbackFormSource.includes('Add trip preferences (optional)'), "trip preferences must be collapsed so the primary callback form stays short");
 const analyticsSource = read(path.join(root, "src", "lib", "analytics.ts"));
 const popupSource = read(path.join(root, "src", "components", "CallNowPopup.tsx"));
 assert(!analyticsSource.includes('trackEvent("phone_cta_impression"'), "CTA visibility must not emit an impression event");
