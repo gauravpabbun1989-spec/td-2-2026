@@ -916,8 +916,13 @@ function makeListingDescription(value) {
     .replace(/\s+/g, " ")
     .trim();
   const phoneSuffix = ` Call ${PHONE_DISPLAY}.`;
+  const escapedPhone = PHONE_DISPLAY.replace(/[.*+?^${}()|[\]\\]/g, "\\  const withoutPhone = RETIRED_PHONE_PATTERNS
+    .reduce((text, pattern) => text.replace(pattern, ""), normalized)
+    .replace(/\s+([.,;:])/g, "$1")");
+  const currentPhonePattern = new RegExp(`(?:\\bCall\\s*)?${escapedPhone}`, "gi");
   const withoutPhone = RETIRED_PHONE_PATTERNS
     .reduce((text, pattern) => text.replace(pattern, ""), normalized)
+    .replace(currentPhonePattern, "")
     .replace(/\s+([.,;:])/g, "$1")
     .replace(/\.\s*[,;:]/g, ".")
     .replace(/\s+/g, " ")
