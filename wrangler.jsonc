@@ -3,7 +3,6 @@
   "name": "ticket-depart2",
   "main": "./src/frontend/src/worker.ts",
   "compatibility_date": "2026-09-21",
-  "compatibility_flags": ["assets_navigation_has_no_effect"],
   "routes": [
     {
       "pattern": "ticketdepart.com/*",
@@ -13,36 +12,8 @@
   "assets": {
     "directory": "./src/frontend/dist",
     "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page",
-    "run_worker_first": [
-      "/*/null*",
-      "/null*",
-      "/%*",
-      "/.env*",
-      "/*/.env*",
-      "/.git*",
-      "/*/.git*",
-      "/.hg*",
-      "/*/.hg*",
-      "/.svn*",
-      "/*/.svn*",
-      "/.ssh*",
-      "/*/.ssh*",
-      "/.aws*",
-      "/*/.aws*",
-      "/.dockerenv",
-      "/wp-*",
-      "/xmlrpc.php",
-      "/*.php",
-      "/*.sql",
-      "/*.pem",
-      "/*.key",
-      "/api/*",
-      "/proc/*",
-      "/etc/*",
-      "/var/*",
-      "/debug/*",
-      "/ssl/*"
-    ]
+    "run_worker_first": true
   }
 }
