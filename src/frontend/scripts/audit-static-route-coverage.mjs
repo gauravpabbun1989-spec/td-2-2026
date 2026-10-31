@@ -39,8 +39,8 @@ for (const [label, config] of [
   ["root", rootWrangler],
 ]) {
   assert(
-    config.assets?.not_found_handling === "single-page-application",
-    `${label} Wrangler config must use SPA fallback so client-side routes resolve on direct navigation`,
+    config.assets?.not_found_handling === "404-page",
+    `${label} Wrangler config must return a real 404 response for unknown routes`,
   );
 }
 
