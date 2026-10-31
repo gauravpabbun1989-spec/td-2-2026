@@ -55,12 +55,12 @@ const PUBLIC_ROUTES = [
   "/flights-from-orlando",
   "/flights-from-san-francisco",
   "/flights-new-york-to-london",
+  "/flights-los-angeles-to-tokyo",
+  "/flights-los-angeles-to-london",
   "/flights-new-york-to-paris",
   "/flights-new-york-to-dubai",
   "/flights-chicago-to-london",
   "/flights-miami-to-cancun",
-  "/flights-los-angeles-to-tokyo",
-  "/flights-los-angeles-to-london",
   "/flights-san-francisco-to-tokyo",
 
 ];
