@@ -129,6 +129,24 @@ export function isRejectedRequestPath(pathname: string) {
   );
 }
 
+const LEGACY_CANONICAL_PATHS = new Map<string, string>([
+  ["/flight-booking-assistance", "/flight-booking/"],
+]);
+
+/** Return the preferred trailing-slash URL for public HTML routes. */
+export function canonicalRedirectPath(pathname: string): string | null {
+  if (
+    pathname === "/" ||
+    pathname.endsWith("/") ||
+    pathname.startsWith("/api/") ||
+    pathname.split("/").at(-1)?.includes(".")
+  ) {
+    return null;
+  }
+
+  return LEGACY_CANONICAL_PATHS.get(pathname) ?? `${pathname}/`;
+}
+
 async function notFoundResponse(request: Request, env: Env) {
   const notFoundUrl = new URL("/404.html", request.url);
   const notFoundAsset = await env.ASSETS.fetch(
@@ -155,6 +173,15 @@ const worker = {
 
     if (isRejectedRequestPath(pathname)) {
       return notFoundResponse(request, env);
+    }
+
+    if (request.method === "GET" || request.method === "HEAD") {
+      const canonicalPath = canonicalRedirectPath(pathname);
+      if (canonicalPath) {
+        const canonicalUrl = new URL(request.url);
+        canonicalUrl.pathname = canonicalPath;
+        return Response.redirect(canonicalUrl.toString(), 301);
+      }
     }
 
     return env.ASSETS.fetch(request);
