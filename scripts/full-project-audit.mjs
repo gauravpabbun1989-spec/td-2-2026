@@ -104,7 +104,8 @@ function auditOnce() {
   assert(wrangler.includes('"not_found_handling": "404-page"'), "Cloudflare assets must return a real HTTP 404 for unknown routes");
   const wranglerConfig = JSON.parse(wrangler);
   const workerFirstPaths = wranglerConfig.assets?.run_worker_first;
-  assert(Array.isArray(workerFirstPaths), "Cloudflare must use selective Worker-first routing");
+  assert(Array.isArray(workerFirstPaths), "Cloudflare must configure Worker-first routing");
+  assert(workerFirstPaths.includes("/*"), "Cloudflare must run the Worker first for every request so unknown HTML routes can be rejected explicitly");
   for (const path of ["/.env*", "/*/.env*", "/*/null*", "/flight-booking-assistance", "/flights-from-new-york/"]) {
     assert(workerFirstPaths.includes(path), `Cloudflare Worker-first routing is missing ${path}`);
   }
