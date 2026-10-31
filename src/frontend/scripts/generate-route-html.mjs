@@ -341,6 +341,31 @@ const routes = {
   },
 
 
+  "/flights-new-york-to-paris": {
+    title: "New York to Paris Flights | Booking Assistance | TicketDepart",
+    description: "Compare New York to Paris airports, connections, baggage, and economy fare rules. Call +1-833-225-0511.",
+    heading: "New York to Paris flight booking assistance",
+    text: "Compare New York to Paris flights, arrival airports, local arrival times, connections, baggage, and economy fare conditions.",
+  },
+  "/flights-new-york-to-dubai": {
+    title: "New York to Dubai Flights | Booking Assistance | TicketDepart",
+    description: "Compare New York to Dubai departures, connections, arrival times, baggage, and economy fare rules. Call +1-833-225-0511.",
+    heading: "New York to Dubai flight booking assistance",
+    text: "Compare New York to Dubai flights from JFK or Newark, connection details, arrival times, baggage, and economy fare conditions.",
+  },
+  "/flights-chicago-to-london": {
+    title: "Chicago to London Flights | Booking Assistance | TicketDepart",
+    description: "Compare Chicago to London airports, connections, baggage, and economy fare rules. Call +1-833-225-0511.",
+    heading: "Chicago to London flight booking assistance",
+    text: "Compare Chicago to London flights from O'Hare, arrival airports, connections, baggage, and economy fare conditions.",
+  },
+  "/flights-miami-to-cancun": {
+    title: "Miami to Cancun Flights | Booking Assistance | TicketDepart",
+    description: "Compare Miami to Cancun nonstop and connecting flights, baggage, arrival times, and fare rules. Call +1-833-225-0511.",
+    heading: "Miami to Cancun flight booking assistance",
+    text: "Compare Miami to Cancun flights, nonstop and connecting options, arrival times, baggage, and economy fare conditions.",
+  },
+
   "/flights-san-francisco-to-tokyo": {
     title: "San Francisco to Tokyo Flights | Booking Assistance | TicketDepart",
     description: "Explore San Francisco to Tokyo flights. Compare departure airports, connections, cabin options, and baggage terms.",
