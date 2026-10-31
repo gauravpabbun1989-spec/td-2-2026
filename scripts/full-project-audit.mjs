@@ -98,8 +98,10 @@ function auditOnce() {
   const backendCaffeine = read("src/backend/caffeine.toml");
   const netlify = read("netlify.toml");
   const buildWorkflow = read(".github/workflows/build.yml");
+  const wrangler = read("wrangler.jsonc");
 
   assert(caffeine.includes('type = "assets"'), "frontend is not configured as an assets project");
+  assert(wrangler.includes('"not_found_handling": "404-page"'), "Cloudflare assets must return a real HTTP 404 for unknown routes");
   assert(caffeine.includes('out = "dist"'), "frontend output is not dist");
   assert(backendCaffeine.includes('type = "motoko"'), "backend is not configured as Motoko");
   assert(netlify.includes('publish = "netlify/api-public"'), "Netlify publish directory mismatch");assert(netlify.includes('functions = "netlify/functions"'), "Netlify functions directory mismatch");assert(netlify.includes('from = "/api/flight-search"') && netlify.includes('to = "/.netlify/functions/flight-search"'), "Netlify flight-search redirect missing");assert(netlify.includes('from = "/api/flight-autocomplete"') && netlify.includes('to = "/.netlify/functions/flight-autocomplete"'), "Netlify autocomplete redirect missing");
