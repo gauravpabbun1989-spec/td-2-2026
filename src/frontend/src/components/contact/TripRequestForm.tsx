@@ -503,7 +503,7 @@ export function TripRequestForm() {
                 className={selectClasses}
                 data-ocid="contact.cabin.select"
               >
-                <option value="">No preference</option>
+                <option value="">Choose a cabin (optional)</option>
                 {CABIN_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
