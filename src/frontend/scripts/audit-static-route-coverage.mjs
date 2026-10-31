@@ -1,9 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
-const scriptDir = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(scriptDir, "..");
+const root = process.cwd();
 const publicDir = path.join(root, "public");
 const distDir = path.join(root, "dist");
 const sourceSitemapPath = path.join(publicDir, "sitemap.xml");
