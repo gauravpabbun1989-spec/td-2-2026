@@ -57,7 +57,7 @@ describe("Cloudflare edge route protection", () => {
   });
 
   it("returns a real 404 for unknown HTML routes with or without a trailing slash", async () => {
-    for (const pathname of ["/not-a-real-route", "/not-a-real-route/"]) {
+    for (const pathname of ["/not-a-real-route", "/not-a-real-route/", "/not-a-real-route.html"]) {
       const { env, fetch } = createEnv();
       const response = await worker.fetch(
         new Request(`https://ticketdepart.com${pathname}`),
@@ -70,6 +70,19 @@ describe("Cloudflare edge route protection", () => {
       expect(fetch).toHaveBeenCalledTimes(1);
       expect(new URL(fetch.mock.calls[0][0].url).pathname).toBe("/404.html");
     }
+  });
+
+  it("allows direct access to the branded 404 asset document", async () => {
+    const { env, fetch } = createEnv();
+    const response = await worker.fetch(
+      new Request("https://ticketdepart.com/404.html"),
+      env,
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe("custom not found");
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(new URL(fetch.mock.calls[0][0].url).pathname).toBe("/404.html");
   });
 
   it("returns a real 404 for environment-file probes", async () => {
