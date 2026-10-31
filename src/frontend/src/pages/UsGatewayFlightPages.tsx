@@ -379,7 +379,8 @@ function GatewayFlightPage({ page }: { page: GatewayPage }) {
             ["International flights", "/international-flight-booking/"],
             ["Last-minute flights", "/last-minute-flight-booking"],
             ["Multi-city flights", "/multi-city-flight-booking/"],
-            ["Group flights", "/group-flight-booking/"],
+            ["Cheap economy flights", "/cheap-flight-booking-by-phone/"],
+            ["Flight changes", "/flight-change-assistance/"],
             ["Book by phone", "/book-a-flight-by-phone/"],
           ].map(([label, to]) => (
             <Link
