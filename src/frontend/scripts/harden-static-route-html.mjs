@@ -1,10 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
-const scriptDir = path.dirname(fileURLToPath(import.meta.url));
-const frontendRoot = path.resolve(scriptDir, "..");
-const distDir = path.join(frontendRoot, "dist");
+const distDir = path.resolve("dist");
 
 function trimTitle(title) {
   const raw = title.replace(/\s+/g, " ").trim();
