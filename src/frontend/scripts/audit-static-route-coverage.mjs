@@ -236,7 +236,7 @@ for (const url of locs) {
   assert(ogDescription === description, "Open Graph description differs from meta description: " + url);
   assert(twitterDescription === description, "Twitter description differs from meta description: " + url);
   assert(description.length <= 160, "meta description exceeds 160 characters: " + url);
-  const phoneMentions = description.match(/\\+1-833-225-0511/g) ?? [];
+  const phoneMentions = description.split("+1-833-225-0511").length - 1;
   assert(phoneMentions === 1, "meta description must contain the current phone number exactly once: " + url);
   assert(!/\bwith a travel\.?$/i.test(description), "meta description contains an awkward truncated phrase: " + url + ": " + description);
   assert(!/\bapplicable booking\.\s+Call \+1-833-225-0511\.$/i.test(description), "meta description contains an incomplete booking phrase: " + url + ": " + description);
