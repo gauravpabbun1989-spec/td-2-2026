@@ -135,9 +135,9 @@ const CHECKLIST = [
 
 const FAQS = [
   {
-    question: "Is TicketDepart part of United Airlines?",
+    question: "Can I get help planning a United Airlines flight?",
     answer:
-      "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by United Airlines, and we are not United Airlines' official customer service. We book travel for our own clients as a third party.",
+      "Yes. A TicketDepart specialist can discuss your route, dates, cabin preference, connections, and available United Airlines itinerary options.",
   },
   {
     question: "What United Airlines booking help can I get over the phone?",
@@ -279,13 +279,9 @@ export function UnitedPage() {
             />
             <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
               <span className="font-semibold text-foreground">
-                Independent agency disclosure:
+                Travel planning support:
               </span>{" "}
-              TicketDepart is an independent travel agency. We are not
-              affiliated with, endorsed by, or sponsored by United Airlines, and
-              we are not United Airlines' official customer service. United
-              Airlines and all related names and marks belong to their
-              respective owners and are used for identification only.
+              A TicketDepart specialist can help you review United Airlines route options, cabin choices, connections, and applicable booking terms.
             </p>
           </div>
           <CallCta
