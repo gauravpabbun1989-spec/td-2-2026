@@ -86,7 +86,7 @@ const PAGES: readonly PageConfig[] = [
       "Need business class flights? Call TicketDepart to discuss U.S. departure airports, international routes, cabin options, connections, baggage, and fare rules with an independent travel specialist.",
     heading: "Business class flight booking by phone",
     intro:
-      "Discuss your route, dates, preferred U.S. departure airport, cabin, connection times, and arrival schedule with a TicketDepart travel specialist. We can help you review available business-class itineraries and the fare conditions before you decide. A TicketDepart specialist can help you compare business-class itineraries and understand the fare conditions before you decide.",
+      "Discuss your route, dates, preferred U.S. departure airport, cabin, connection times, and arrival schedule with a TicketDepart travel specialist. We can help you review available business-class itineraries and the fare conditions before you decide.",
     service: "Business class flight booking assistance",
     items: [
       [
