@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: indexnow-sitemap-submit
@@ -23,11 +24,34 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || 'main' }}
+      - name: Confirm the deployment job actually ran
+        id: deployment_check
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOY_RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_EVENT_NAME" != "workflow_run" ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          conclusion="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${DEPLOY_RUN_ID}/jobs?per_page=100" --jq '.jobs[] | select(.name == "Build and deploy production Worker") | .steps[] | select(.name == "Deploy Cloudflare Worker to production") | .conclusion' | tail -n 1)"
+          if [ "$conclusion" = "success" ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "A production deployment completed; submit the live sitemap."
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "The deploy step conclusion was '${conclusion:-missing}'; skip IndexNow submission."
+          fi
       - name: Set up Node.js
+        if: steps.deployment_check.outputs.should_run == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 24.18.0
       - name: Validate the local IndexNow key and canonical sitemap
+        if: steps.deployment_check.outputs.should_run == 'true'
         run: node scripts/indexnow-validate.mjs
       - name: Submit URLs from the live sitemap
+        if: steps.deployment_check.outputs.should_run == 'true'
         run: node scripts/indexnow.mjs
