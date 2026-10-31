@@ -1,13 +1,19 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
 import { defineConfig } from "vite";
 
-const frontendRoot = path.dirname(fileURLToPath(import.meta.url));
-
 export default defineConfig({
-  root: frontendRoot,
   build: {
-    outDir: path.join(frontendRoot, "dist"),
     emptyOutDir: true,
   },
+  plugins: [
+    {
+      name: "ticketdepart-generate-static-route-html",
+      closeBundle() {
+        execFileSync("node", ["scripts/generate-route-html.mjs"], {
+          stdio: "inherit",
+          cwd: process.cwd(),
+        });
+      },
+    },
+  ],
 });
