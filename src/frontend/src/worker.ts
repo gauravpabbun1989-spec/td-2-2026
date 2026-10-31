@@ -211,7 +211,13 @@ const worker = {
     if (staticDocumentPath && (request.method === "GET" || request.method === "HEAD")) {
       const assetUrl = new URL(request.url);
       assetUrl.pathname = staticDocumentPath;
-      return fetchAssetResponse(new Request(assetUrl, request), env);
+      return fetchAssetResponse(
+        new Request(assetUrl, {
+          method: request.method,
+          headers: request.headers,
+        }),
+        env,
+      );
     }
 
     return fetchAssetResponse(request, env);
