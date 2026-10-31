@@ -80,30 +80,30 @@ jobs:
             const html = fs.readFileSync('/tmp/phone-guide.html', 'utf8');
             const checks = [
               ['phone guide title', /<title>[^<]*How to Book a Flight by Phone/i.test(html)],
-              ['indexable robots meta', /<meta[^>]*name=["']robots["'][^>]*content=["']index,\\s*follow/i.test(html) || /<meta[^>]*content=["']index,\\s*follow["'][^>]*name=["']robots/i.test(html)],
-              ['self-referencing canonical', /<link[^>]*rel=["']canonical["'][^>]*href=["']https:\\/\\/ticketdepart\\.com\\/how-to-book-a-flight-by-phone\\//i.test(html) || /<link[^>]*href=["']https:\\/\\/ticketdepart\\.com\\/how-to-book-a-flight-by-phone\\//i.test(html) && /<link[^>]*rel=["']canonical/i.test(html)],
+              ['indexable robots meta', /<meta[^>]*name=["']robots["'][^>]*content=["']index,\s*follow/i.test(html) || /<meta[^>]*content=["']index,\s*follow["'][^>]*name=["']robots/i.test(html)],
+              ['self-referencing canonical', /<link[^>]*rel=["']canonical["'][^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) || /<link[^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) && /<link[^>]*rel=["']canonical/i.test(html)],
               ['economy fare comparison content', /Economy fare comparison/i.test(html)],
               ['full trip cost content', /Compare the full trip cost/i.test(html)],
               ['changes and refunds content', /Changes, cancellations, and refunds/i.test(html)],
-              ['production phone CTA', /tel:\\+18332250511/.test(html)],
+              ['production phone CTA', /tel:\+18332250511/.test(html)],
             ];
             for (const [name, ok] of checks) console.log((ok ? 'PASS ' : 'FAIL ') + name);
             if (checks.some(([, ok]) => !ok)) throw new Error('Phone guide static HTML checks failed.');
 
             const base = 'https://ticketdepart.com/';
-            const scriptUrls = [...html.matchAll(/<script\\b[^>]*src=["']([^"']+\\.js(?:\\?[^"']*)?)["'][^>]*>/gi)]
+            const scriptUrls = [...html.matchAll(/<script\b[^>]*src=["']([^"']+\.js(?:\?[^"']*)?)["'][^>]*>/gi)]
               .map((match) => new URL(match[1], base));
             if (scriptUrls.length === 0) throw new Error('No JavaScript entry bundles found in the phone guide HTML.');
 
             const scriptBodies = await Promise.all(scriptUrls.map(async (url) => {
               const response = await fetch(url, { cache: 'no-store' });
-              if (!response.ok) throw new Error(`Could not fetch live script bundle: ${url} (HTTP ${response.status})`);
+              if (!response.ok) throw new Error('Could not fetch live script bundle: ' + url + ' (HTTP ' + response.status + ')');
               return { url, body: await response.text() };
             }));
 
             let pageChunkUrl;
             for (const script of scriptBodies) {
-              const match = script.body.match(/(?:\\.\\/|\\/assets\\/)(HowToBookFlightByPhonePage-[A-Za-z0-9_-]+\\.js)/);
+              const match = script.body.match(/(?:\.\/|\/assets\/)(HowToBookFlightByPhonePage-[A-Za-z0-9_-]+\.js)/);
               if (match) {
                 pageChunkUrl = new URL(match[1], script.url);
                 break;
@@ -112,7 +112,7 @@ jobs:
             if (!pageChunkUrl) throw new Error('Could not locate the lazy-loaded phone guide JavaScript chunk.');
 
             const chunkResponse = await fetch(pageChunkUrl, { cache: 'no-store' });
-            if (!chunkResponse.ok) throw new Error(`Could not fetch live phone guide bundle (HTTP ${chunkResponse.status})`);
+            if (!chunkResponse.ok) throw new Error('Could not fetch live phone guide bundle (HTTP ' + chunkResponse.status + ')');
             const bundle = await chunkResponse.text();
             const bundleChecks = [
               ['compiled economy fare comparison', bundle.includes('Economy fare comparison')],
