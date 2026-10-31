@@ -318,6 +318,11 @@ for (const route of generatedRoutePaths) {
   assert(workerRoutePaths.includes(route), `Worker HTML route allowlist is missing generated route ${route}`);
 }
 assert(workerRoutePaths.includes("/404.html"), "Worker HTML route allowlist must permit the branded 404 document");
+const appSource = read(path.join(root, "src/App.tsx"));
+const appRoutePaths = [...appSource.matchAll(/path:\\s*["']([^"']+)["']/g)].map((match) => match[1]);
+for (const route of appRoutePaths) {
+  assert(workerRoutePaths.includes(route), `Worker HTML route allowlist is missing App.tsx route ${route}`);
+}
 
 const assetsDir = path.join(distDir, "assets");
 const phoneGuideBundles = fs.readdirSync(assetsDir).filter((name) =>
