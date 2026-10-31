@@ -920,11 +920,6 @@ function makeListingDescription(value) {
     .reduce((text, pattern) => text.replace(pattern, ""), normalized)
     .replaceAll(`Call ${PHONE_DISPLAY}`, "")
     .replaceAll(PHONE_DISPLAY, "")
-    .replace(/\s+([.,;:])/g, "$1")");
-  const currentPhonePattern = new RegExp(`(?:\\bCall\\s*)?${escapedPhone}`, "gi");
-  const withoutPhone = RETIRED_PHONE_PATTERNS
-    .reduce((text, pattern) => text.replace(pattern, ""), normalized)
-    .replace(currentPhonePattern, "")
     .replace(/\s+([.,;:])/g, "$1")
     .replace(/\.\s*[,;:]/g, ".")
     .replace(/\s+/g, " ")
