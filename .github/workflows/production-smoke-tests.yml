@@ -72,13 +72,15 @@ jobs:
         run: |
           set -euo pipefail
           url="https://ticketdepart.com/how-to-book-a-flight-by-phone/"
-          status="$(curl --location --silent --show-error --output /tmp/phone-guide.html --write-out '%{http_code}' "$url")"
+          status="$(curl --location --silent --show-error --dump-header /tmp/phone-guide.headers --output /tmp/phone-guide.html --write-out '%{http_code}' "$url")"
           test "$status" = "200"
           node <<'NODE'
           const fs = require('node:fs');
           (async () => {
             const html = fs.readFileSync('/tmp/phone-guide.html', 'utf8');
+            const headers = fs.readFileSync('/tmp/phone-guide.headers', 'utf8');
             const checks = [
+              ['request was handled by the production Worker', /x-ticketdepart-worker:\s*edge/i.test(headers)],
               ['phone guide title', /<title>[^<]*How to Book a Flight by Phone/i.test(html)],
               ['indexable robots meta', /<meta[^>]*name=["']robots["'][^>]*content=["']index,\s*follow/i.test(html) || /<meta[^>]*content=["']index,\s*follow["'][^>]*name=["']robots/i.test(html)],
               ['self-referencing canonical', /<link[^>]*rel=["']canonical["'][^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) || /<link[^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) && /<link[^>]*rel=["']canonical/i.test(html)],
@@ -133,7 +135,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          status="$(curl --location --silent --show-error --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/__ticketdepart_404_smoke_test_20261101__/")"
+          status="$(curl --location --silent --show-error --dump-header /tmp/not-found.headers --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/__ticketdepart_404_smoke_test_20261101__/")"
           if [ "$status" != "404" ]; then
             echo "FAIL unknown route returned HTTP $status; expected 404"
             exit 1
@@ -141,6 +143,11 @@ jobs:
           node <<'NODE'
           const fs = require('node:fs');
           const html = fs.readFileSync('/tmp/not-found.html', 'utf8');
+          const headers = fs.readFileSync('/tmp/not-found.headers', 'utf8');
+          if (!/x-ticketdepart-worker:\\s*edge/i.test(headers)) {
+            console.error('FAIL unknown route was not handled by the production Worker');
+            process.exit(1);
+          }
           const robots = html.match(/<meta\b[^>]*>/gi)?.find(tag => /name=["']robots["']/i.test(tag));
           if (!robots || !/content=["']noindex/i.test(robots)) {
             console.error('FAIL unknown route is missing a noindex robots directive');
