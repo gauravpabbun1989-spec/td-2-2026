@@ -56,6 +56,22 @@ describe("Cloudflare edge route protection", () => {
     expect(new URL(fetch.mock.calls[0][0].url).pathname).toBe("/404.html");
   });
 
+  it("returns a real 404 for unknown HTML routes with or without a trailing slash", async () => {
+    for (const pathname of ["/not-a-real-route", "/not-a-real-route/"]) {
+      const { env, fetch } = createEnv();
+      const response = await worker.fetch(
+        new Request(`https://ticketdepart.com${pathname}`),
+        env,
+      );
+
+      expect(response.status).toBe(404);
+      expect(await response.text()).toBe("custom not found");
+      expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow");
+      expect(fetch).toHaveBeenCalledTimes(1);
+      expect(new URL(fetch.mock.calls[0][0].url).pathname).toBe("/404.html");
+    }
+  });
+
   it("returns a real 404 for environment-file probes", async () => {
     const { env } = createEnv();
     const response = await worker.fetch(
@@ -102,6 +118,7 @@ describe("Cloudflare edge route protection", () => {
     expect(canonicalRedirectPath("/api/flight-search")).toBeNull();
     expect(canonicalRedirectPath("/assets/app.js")).toBeNull();
     expect(canonicalRedirectPath("/contact/")).toBeNull();
+    expect(canonicalRedirectPath("/not-a-real-route")).toBeNull();
   });
 
   it("serves the New York landing page from its exact generated HTML document", async () => {
