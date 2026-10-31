@@ -1,8 +1,8 @@
 export const HOME_FAQS = [
   {
-    question: "Is TicketDepart an airline?",
+    question: "What can TicketDepart help me with?",
     answer:
-      "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or the official customer service of any airline. We research, compare, and book flights on your behalf as your agent.",
+      "A travel specialist can help you compare domestic and international flight options, review routes and travel dates, discuss baggage and fare conditions, and explore available next steps for your trip.",
   },
   {
     question: "How much does it cost to call?",
