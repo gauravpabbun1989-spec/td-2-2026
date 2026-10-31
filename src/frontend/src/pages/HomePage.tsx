@@ -75,7 +75,10 @@ const FLIGHT_GUIDE_GROUPS: FlightGuideGroup[] = [
                 ["Flights from New York", "/flights-from-new-york/"], ["Flights from Los Angeles", "/flights-from-los-angeles/"], ["Flights from Chicago", "/flights-from-chicago/"], ["Flights from Miami", "/flights-from-miami/"],
                 ["Flights from Atlanta", "/flights-from-atlanta/"], ["Flights from Dallas", "/flights-from-dallas/"], ["Flights from Orlando", "/flights-from-orlando/"], ["Flights from San Francisco", "/flights-from-san-francisco/"],
                 ["New York to London", "/flights-new-york-to-london/"],   ["Los Angeles to Tokyo", "/flights-los-angeles-to-tokyo/"],
-                ["Los Angeles to London", "/flights-los-angeles-to-london/"],   ["San Francisco to Tokyo", "/flights-san-francisco-to-tokyo/"],
+                ["Los Angeles to London", "/flights-los-angeles-to-london/"],
+                ["New York to Paris", "/flights-new-york-to-paris/"], ["New York to Dubai", "/flights-new-york-to-dubai/"],
+                ["Chicago to London", "/flights-chicago-to-london/"], ["Miami to Cancun", "/flights-miami-to-cancun/"],
+                ["San Francisco to Tokyo", "/flights-san-francisco-to-tokyo/"],
               ]],
               ["Optional cabin", [["Business class flight booking", "/business-class-flight-booking/"]]],
               ["Site and support", [
