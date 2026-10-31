@@ -1,37 +1,51 @@
-const KEY = "d2671f2fe124045675597ca88dc4892e";
-const HOST = "ticketdepart.com";
-const BASE = "https://ticketdepart.com";
-const urls = [
-  "/", "/flight-booking", "/book-a-flight-by-phone", "/how-to-book-a-flight-by-phone",
-  "/delta-airlines", "/united-airlines", "/american-airlines", "/southwest-airlines",
-  "/jetblue-airways", "/alaska-airlines", "/british-airways", "/lufthansa", "/air-canada",
-  "/swiss-air", "/qatar-airways", "/emirates", "/lot-polish-airlines",
-  "/norse-atlantic-airways", "/contact", "/privacy", "/terms",
-  "/international-flight-booking", "/last-minute-flight-booking", "/multi-city-flight-booking",
-  "/group-flight-booking", "/cheap-flight-booking-by-phone", "/business-class-flight-booking",
-  "/same-day-flight-booking", "/family-flight-booking", "/flight-change-assistance",
-  "/flight-cancellation-assistance"
-].map((p) => BASE + p);
+import fs from "node:fs";
+import path from "node:path";
 
-const checks = [
-  ["key length", () => KEY.length >= 8 && KEY.length <= 128],
-  ["key charset", () => /^[A-Za-z0-9-]+$/.test(KEY)],
-  ["host", () => HOST === "ticketdepart.com"],
-  ["key location", () => `https://${HOST}/${KEY}.txt` === `${BASE}/${KEY}.txt`],
-  ["HTTPS URLs", () => urls.every((u) => u.startsWith(BASE))],
-  ["URL limit", () => urls.length <= 10000],
-  ["unique URLs", () => new Set(urls).size === urls.length],
-  ["valid URLs", () => urls.every((u) => new URL(u).hostname === HOST)],
-  ["all 14 airline URLs", () => ["/delta-airlines","/united-airlines","/american-airlines","/southwest-airlines","/jetblue-airways","/alaska-airlines","/british-airways","/lufthansa","/air-canada","/swiss-air","/qatar-airways","/emirates","/lot-polish-airlines","/norse-atlantic-airways"].every((p) => urls.includes(BASE+p))],
-  ["IndexNow endpoint", () => ENDPOINT_OK()]
-];
-function ENDPOINT_OK() { return "https://api.indexnow.org/indexnow".startsWith("https://"); }
-
-let failedPasses = [];
-for (let pass = 1; pass <= 50; pass++) {
-  const failed = checks.filter(([, fn]) => !fn()).map(([name]) => name);
-  if (failed.length) failedPasses.push({ pass, failed });
+const ROOT = process.cwd();
+const script = fs.readFileSync(path.join(ROOT, "scripts/indexnow.mjs"), "utf8");
+const sitemap = fs.readFileSync(path.join(ROOT, "src/frontend/public/sitemap.xml"), "utf8");
+const keyMatch = script.match(/const KEY = "([A-Za-z0-9-]+)";/);
+if (!keyMatch) throw new Error("IndexNow submission script is missing its configured key.");
+const key = keyMatch[1];
+const keyFile = path.join(ROOT, "src/frontend/public", `${key}.txt`);
+if (!fs.existsSync(keyFile)) throw new Error("The configured IndexNow key file is missing from public assets.");
+if (fs.readFileSync(keyFile, "utf8").trim() !== key) {
+  throw new Error("The public IndexNow key file does not match the submission script.");
 }
-const report = { passes: 50, checksPerPass: checks.length, totalChecks: 50 * checks.length, passed: failedPasses.length === 0, failedPasses, urlCount: urls.length };
-console.log(JSON.stringify(report, null, 2));
-if (!report.passed) process.exitCode = 1;
+if (!script.includes("https://api.indexnow.org/indexnow")) {
+  throw new Error("IndexNow submission endpoint is missing or invalid.");
+}
+if (!script.includes("${BASE_URL}/${KEY}.txt")) {
+  throw new Error("IndexNow keyLocation must point to the matching public key file.");
+}
+
+const urls = [...sitemap.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/gi)]
+  .map((match) => match[1].trim())
+  .map((value) => value.replaceAll("&amp;", "&"));
+if (urls.length === 0 || urls.length > 10000) {
+  throw new Error(`Sitemap URL count is outside IndexNow limits: ${urls.length}`);
+}
+const normalized = urls.map((value) => {
+  const url = new URL(value);
+  if (url.protocol !== "https:" || url.hostname !== "ticketdepart.com" || url.username || url.password) {
+    throw new Error(`Unexpected URL in sitemap: ${value}`);
+  }
+  return url.href;
+});
+if (new Set(normalized).size !== normalized.length) {
+  throw new Error("The sitemap contains duplicate URLs.");
+}
+const excludedPaths = new Set([
+  "/group-flight-booking/",
+  "/corporate-flight-booking/",
+  "/business-class-flight-booking/",
+  "/flight-search-results/",
+  "/404/",
+]);
+for (const value of normalized) {
+  const pathname = new URL(value).pathname;
+  if (excludedPaths.has(pathname)) {
+    throw new Error(`A non-indexable route is present in the IndexNow sitemap: ${pathname}`);
+  }
+}
+console.log(`PASS: IndexNow key file matches; ${normalized.length} unique, same-host HTTPS sitemap URLs are valid.`);
