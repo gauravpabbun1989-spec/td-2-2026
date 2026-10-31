@@ -227,8 +227,7 @@ export function AmericanAirlinesPage() {
             className="h-auto w-full object-cover"
           />
           <figcaption className="border-t border-border px-5 py-3 text-xs leading-relaxed text-muted-foreground sm:px-6">
-            A quiet terminal concourse before departure. TicketDepart is an
-            independent agency and is not affiliated with any airline.
+            A quiet terminal concourse before departure. A TicketDepart specialist can help you review American Airlines route options, cabin choices, and booking terms.
           </figcaption>
         </figure>
       </Section>
