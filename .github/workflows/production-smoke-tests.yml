@@ -76,18 +76,56 @@ jobs:
           test "$status" = "200"
           node <<'NODE'
           const fs = require('node:fs');
-          const html = fs.readFileSync('/tmp/phone-guide.html', 'utf8');
-          const checks = [
-            ['phone guide title', /<title>[^<]*How to Book a Flight by Phone/i.test(html)],
-            ['indexable robots meta', /<meta[^>]*name=["']robots["'][^>]*content=["']index,\s*follow/i.test(html) || /<meta[^>]*content=["']index,\s*follow["'][^>]*name=["']robots/i.test(html)],
-            ['self-referencing canonical', /<link[^>]*rel=["']canonical["'][^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) || /<link[^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) && /<link[^>]*rel=["']canonical/i.test(html)],
-            ['economy fare comparison content', /Economy fare comparison/i.test(html)],
-            ['full trip cost content', /Compare the full trip cost/i.test(html)],
-            ['changes and refunds content', /Changes, cancellations, and refunds/i.test(html)],
-            ['production phone CTA', /tel:\+18332250511/.test(html)],
-          ];
-          for (const [name, ok] of checks) console.log((ok ? 'PASS ' : 'FAIL ') + name);
-          if (checks.some(([, ok]) => !ok)) process.exit(1);
+          (async () => {
+            const html = fs.readFileSync('/tmp/phone-guide.html', 'utf8');
+            const checks = [
+              ['phone guide title', /<title>[^<]*How to Book a Flight by Phone/i.test(html)],
+              ['indexable robots meta', /<meta[^>]*name=["']robots["'][^>]*content=["']index,\\s*follow/i.test(html) || /<meta[^>]*content=["']index,\\s*follow["'][^>]*name=["']robots/i.test(html)],
+              ['self-referencing canonical', /<link[^>]*rel=["']canonical["'][^>]*href=["']https:\\/\\/ticketdepart\\.com\\/how-to-book-a-flight-by-phone\\//i.test(html) || /<link[^>]*href=["']https:\\/\\/ticketdepart\\.com\\/how-to-book-a-flight-by-phone\\//i.test(html) && /<link[^>]*rel=["']canonical/i.test(html)],
+              ['economy fare comparison content', /Economy fare comparison/i.test(html)],
+              ['full trip cost content', /Compare the full trip cost/i.test(html)],
+              ['changes and refunds content', /Changes, cancellations, and refunds/i.test(html)],
+              ['production phone CTA', /tel:\\+18332250511/.test(html)],
+            ];
+            for (const [name, ok] of checks) console.log((ok ? 'PASS ' : 'FAIL ') + name);
+            if (checks.some(([, ok]) => !ok)) throw new Error('Phone guide static HTML checks failed.');
+
+            const base = 'https://ticketdepart.com/';
+            const scriptUrls = [...html.matchAll(/<script\\b[^>]*src=["']([^"']+\\.js(?:\\?[^"']*)?)["'][^>]*>/gi)]
+              .map((match) => new URL(match[1], base));
+            if (scriptUrls.length === 0) throw new Error('No JavaScript entry bundles found in the phone guide HTML.');
+
+            const scriptBodies = await Promise.all(scriptUrls.map(async (url) => {
+              const response = await fetch(url, { cache: 'no-store' });
+              if (!response.ok) throw new Error(`Could not fetch live script bundle: ${url} (HTTP ${response.status})`);
+              return { url, body: await response.text() };
+            }));
+
+            let pageChunkUrl;
+            for (const script of scriptBodies) {
+              const match = script.body.match(/(?:\\.\\/|\\/assets\\/)(HowToBookFlightByPhonePage-[A-Za-z0-9_-]+\\.js)/);
+              if (match) {
+                pageChunkUrl = new URL(match[1], script.url);
+                break;
+              }
+            }
+            if (!pageChunkUrl) throw new Error('Could not locate the lazy-loaded phone guide JavaScript chunk.');
+
+            const chunkResponse = await fetch(pageChunkUrl, { cache: 'no-store' });
+            if (!chunkResponse.ok) throw new Error(`Could not fetch live phone guide bundle (HTTP ${chunkResponse.status})`);
+            const bundle = await chunkResponse.text();
+            const bundleChecks = [
+              ['compiled economy fare comparison', bundle.includes('Economy fare comparison')],
+              ['compiled full trip cost', bundle.includes('Compare the full trip cost')],
+              ['old keyword-stuffed list removed', !bundle.includes('Travelers searching how to book a flight by phone may also need')],
+            ];
+            for (const [name, ok] of bundleChecks) console.log((ok ? 'PASS ' : 'FAIL ') + name);
+            if (bundleChecks.some(([, ok]) => !ok)) throw new Error('Live phone guide JavaScript bundle is stale or missing updated copy.');
+            console.log('PASS live phone guide JavaScript bundle contains the updated economy-first copy.');
+          })().catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
           NODE
 
       - name: Confirm an unknown route returns HTTP 404 and noindex
