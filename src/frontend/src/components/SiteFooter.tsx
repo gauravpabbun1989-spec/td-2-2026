@@ -1,5 +1,5 @@
 import { CallCta } from "@/components/CallCta";
-import { ADDRESS_LINE, LEGAL_ITEMS, NAV_ITEMS, SITE } from "@/lib/site";
+import { ADDRESS_LINE, AIRLINE_ITEMS, LEGAL_ITEMS, NAV_ITEMS, SITE } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
 import { Clock, Mail, MapPin, Plane } from "lucide-react";
 
@@ -57,6 +57,55 @@ export function SiteFooter() {
             </ul>
           </div>
         </div>
+
+
+        <section aria-label="More flight guides" className="mt-10 border-t border-white/10 pt-8">
+          <div className="grid gap-8 md:grid-cols-2">
+            <div>
+              <h2 className="label-board text-white/45">Airline booking guides</h2>
+              <ul className="mt-4 grid grid-cols-2 gap-x-5 gap-y-2 text-sm">
+                {AIRLINE_ITEMS.map((item) => (
+                  <li key={item.to}>
+                    <Link to={item.to} className="text-white/70 transition-smooth hover:text-accent">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h2 className="label-board text-white/45">U.S. departure guides</h2>
+              <ul className="mt-4 grid grid-cols-2 gap-x-5 gap-y-2 text-sm">
+                {[
+                  ["New York", "/flights-from-new-york/"],
+                  ["Los Angeles", "/flights-from-los-angeles/"],
+                  ["Chicago", "/flights-from-chicago/"],
+                  ["Miami", "/flights-from-miami/"],
+                  ["Atlanta", "/flights-from-atlanta/"],
+                  ["Dallas", "/flights-from-dallas/"],
+                  ["Orlando", "/flights-from-orlando/"],
+                  ["San Francisco", "/flights-from-san-francisco/"],
+                ].map(([label, to]) => (
+                  <li key={to}>
+                    <Link to={to} className="text-white/70 transition-smooth hover:text-accent">
+                      Flights from {label}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <Link to="/baggage-assistance/" className="text-white/70 transition-smooth hover:text-accent">
+                    Baggage assistance
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/disclaimer/" className="text-white/70 transition-smooth hover:text-accent">
+                    Disclaimer
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
 
         <div className="mt-12 border-t border-white/10 pt-5">
           <p className="text-[9px] leading-4 text-white/35">
