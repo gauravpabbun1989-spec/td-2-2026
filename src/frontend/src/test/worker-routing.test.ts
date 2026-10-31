@@ -104,6 +104,20 @@ describe("Cloudflare edge route protection", () => {
     expect(canonicalRedirectPath("/contact/")).toBeNull();
   });
 
+  it("serves the New York landing page from its exact generated HTML document", async () => {
+    const { env, fetch } = createEnv();
+    const request = new Request("https://ticketdepart.com/flights-from-new-york/?source=gsc");
+
+    const response = await worker.fetch(request, env);
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe("asset");
+    expect(fetch).toHaveBeenCalledTimes(1);
+    const assetUrl = new URL(fetch.mock.calls[0][0].url);
+    expect(assetUrl.pathname).toBe("/flights-from-new-york/index.html");
+    expect(assetUrl.search).toBe("?source=gsc");
+  });
+
   it("passes legitimate pages through to static assets unchanged", async () => {
     const { env, fetch } = createEnv();
     const request = new Request("https://ticketdepart.com/contact/");
