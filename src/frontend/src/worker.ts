@@ -167,6 +167,23 @@ async function notFoundResponse(request: Request, env: Env) {
   });
 }
 
+async function fetchAssetResponse(request: Request, env: Env): Promise<Response> {
+  const response = await env.ASSETS.fetch(request);
+  const contentType = response.headers.get("content-type")?.toLowerCase() ?? "";
+
+  // HTML is the mutable app shell; hashed JS/CSS/assets remain safely cacheable.
+  if (!contentType.includes("text/html")) return response;
+
+  const headers = new Headers(response.headers);
+  headers.set("Cache-Control", "no-store, max-age=0, must-revalidate");
+  headers.set("CDN-Cache-Control", "no-store");
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 const worker = {
   async fetch(request: Request, env: Env): Promise<Response> {
     const { pathname } = new URL(request.url);
@@ -184,7 +201,7 @@ const worker = {
       }
     }
 
-    return env.ASSETS.fetch(request);
+    return fetchAssetResponse(request, env);
   },
 };
 
