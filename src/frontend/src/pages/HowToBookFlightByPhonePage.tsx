@@ -43,7 +43,7 @@ const CHECKLIST = [
   "Departure and destination cities or airport codes",
   "Preferred departure and return dates",
   "Number of travelers and passenger ages when relevant",
-  "Cabin preference: economy, premium economy, business, or first",
+  "Preferred cabin, starting with economy if keeping the fare down is the priority",
   "Flexible dates or nearby airports you can use",
   "Baggage, seating, accessibility, or other travel requirements",
 ] as const;
@@ -208,28 +208,27 @@ export function HowToBookFlightByPhonePage() {
 
       <Section tone="muted" ocid="phone_booking_guide.when_helpful">
         <SectionHeading
-          eyebrow="When it helps"
-          title="Phone booking is especially useful for complicated trips"
-          description="A phone conversation can be useful when the itinerary needs more context than a basic origin-and-destination search provides."
+          eyebrow="When a phone conversation helps"
+          title="Practical help for everyday flight plans"
+          description="A call can help you compare the details that affect the total cost, timing, and flexibility of an individual trip."
         />
-
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
             [
-              "Multi-city",
-              "Three or more cities, open-jaw trips, or unusual routing.",
+              "Economy fare comparison",
+              "Compare available economy itineraries, flexible dates, nearby airports, baggage, and the complete trip price.",
             ],
             [
-              "International",
-              "Long connections, multiple airports, and document questions.",
+              "International connections",
+              "Review connection airports, layover times, local arrival dates, baggage terms, and practical routing.",
             ],
             [
-              "Premium cabins",
-              "Business or first class where cabin and aircraft details matter.",
+              "Short-notice travel",
+              "Discuss near-term departures, ticketing deadlines, and realistic alternatives when travel is urgent.",
             ],
             [
-              "Groups",
-              "Families, teams, or groups that need coordinated travel.",
+              "Changes to existing plans",
+              "Check the current ticket rules, deadlines, fare differences, and available options before authorizing a change.",
             ],
           ].map(([title, text]) => (
             <article
@@ -277,11 +276,45 @@ export function HowToBookFlightByPhonePage() {
         </div>
       </Section>
 
-      <Section tone="muted" ocid="phone_booking_guide.keyword_intent">
-        <SectionHeading eyebrow="Flight booking search intent" title="How to book, change, cancel or rebook a flight by phone" description="A phone-first guide for U.S. travelers who need reservation assistance." />
-        <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-border/80 bg-card p-6 shadow-subtle">
-          <p className="text-sm leading-relaxed text-muted-foreground">Travelers searching how to book a flight by phone may also need flight booking assistance, flight reservation assistance, change flight help, cancel flight help, rebook flight assistance, reschedule flight assistance, airline reservation support, international flight booking, multi-city flight booking, last-minute flight booking, same-day flight booking, business class booking, family flight booking, group flight booking, baggage assistance, pet flight booking, or infant flight booking. U.S. travelers can discuss flights from New York, Los Angeles, Chicago, Miami, Atlanta, Dallas, Orlando, San Francisco, and other U.S. airports to destinations worldwide, including Canada, Mexico, the Caribbean, Latin America, Europe, Asia, the Middle East, and Africa.</p>
+      <Section tone="muted" ocid="phone_booking_guide.price_check">
+        <SectionHeading
+          eyebrow="Before you pay"
+          title="Compare the full trip cost, not only the first fare"
+          description="A low starting fare may not be the lowest-cost choice after baggage, seats, airport transfers, and ticket restrictions are considered."
+        />
+        <div className="mt-10 grid gap-5 sm:grid-cols-2">
+          {[
+            [
+              "Airfare, taxes, and service fees",
+              "Ask for the complete amount due, including taxes, carrier charges, and any applicable agency service fee. Review it before authorizing payment.",
+            ],
+            [
+              "Baggage and seat costs",
+              "Check the carry-on and checked-bag allowance for the exact fare. Ask whether seat selection or other optional services cost extra.",
+            ],
+            [
+              "Airport and connection costs",
+              "Confirm the airport code for every segment, connection length, terminal changes, and any ground transfer needed between airports.",
+            ],
+            [
+              "Changes, cancellations, and refunds",
+              "Ask whether the fare permits changes, what fare differences or fees may apply, and whether a cancellation results in a refund or credit.",
+            ],
+          ].map(([title, text]) => (
+            <article
+              key={title}
+              className="rounded-2xl border border-border bg-card p-6 shadow-subtle"
+            >
+              <h2 className="font-display text-lg font-semibold">{title}</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {text}
+              </p>
+            </article>
+          ))}
         </div>
+        <p className="mx-auto mt-8 max-w-4xl text-sm leading-relaxed text-muted-foreground">
+          If your budget is the priority, compare the total cost of each practical itinerary rather than choosing by the headline fare alone. Check the schedule and ticket conditions as well as the price, and do not authorize payment until the itinerary and applicable charges are clear.
+        </p>
       </Section>
 
       <Section tone="navy" ocid="phone_booking_guide.cta">
