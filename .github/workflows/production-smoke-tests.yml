@@ -43,24 +43,24 @@ jobs:
           if (checks.some(([, ok]) => !ok)) process.exit(1);
           NODE
 
-      - name: Confirm the not-found route returns HTTP 404 and noindex
+      - name: Confirm an unknown route returns HTTP 404 and noindex
         shell: bash
         run: |
           set -euo pipefail
-          status="$(curl --location --silent --show-error --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/404/")"
+          status="$(curl --location --silent --show-error --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/__ticketdepart_404_smoke_test_20261101__/")"
           if [ "$status" != "404" ]; then
-            echo "FAIL /404/ returned HTTP $status; expected 404"
+            echo "FAIL unknown route returned HTTP $status; expected 404"
             exit 1
           fi
           node <<'NODE'
           const fs = require('node:fs');
           const html = fs.readFileSync('/tmp/not-found.html', 'utf8');
-          const robots = html.match(/<meta\b[^>]*>/gi)?.find(tag => /name=["']robots["']/i.test(tag));
+          const robots = html.match(/<meta\\b[^>]*>/gi)?.find(tag => /name=["']robots["']/i.test(tag));
           if (!robots || !/content=["']noindex/i.test(robots)) {
-            console.error('FAIL /404/ is missing a noindex robots directive');
+            console.error('FAIL unknown route is missing a noindex robots directive');
             process.exit(1);
           }
-          console.log('PASS /404/ returns HTTP 404 with noindex');
+          console.log('PASS unknown route returns HTTP 404 with noindex');
           NODE
 
       - name: Confirm security probes and malformed routes return HTTP 404
