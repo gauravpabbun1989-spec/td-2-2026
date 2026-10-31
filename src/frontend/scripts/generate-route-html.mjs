@@ -699,7 +699,7 @@ function semanticExpansion(route, meta) {
     },
     "/flights-chicago-to-london": {
       title: "Plan the Chicago–London crossing",
-      copy: "For Chicago to London, start by comparing the departure time from O'Hare, the London arrival airport, and the local arrival time. If an itinerary connects elsewhere, check the time between flights and whether you must change terminals or complete any transit formalities. The best fit depends on the dates, ticket terms, and your onward plans.",
+      copy: "For Chicago to London, compare the departure time from O'Hare (ORD), the London arrival airport, and the local arrival time. Heathrow (LHR) and Gatwick (LGW) can lead to different onward journeys, so include ground transport in the comparison. If an itinerary connects elsewhere, check the layover, terminal change, transit requirements, and whether every segment is on one ticket. Review baggage, seat charges, and the economy fare's change, cancellation, and refund conditions for the dates you intend to travel.",
       checklist: "Confirm ORD and the London arrival airport; compare nonstop options with connecting alternatives for your dates; review baggage and change terms; and check current UK entry and transit rules with official sources."
     },
     "/flights-new-york-to-paris": {
@@ -729,7 +729,7 @@ function semanticExpansion(route, meta) {
     },
     "/flights-san-francisco-to-tokyo": {
       title: "Plan the San Francisco–Tokyo long-haul trip",
-      copy: "For San Francisco to Tokyo, compare the departure time, Tokyo arrival airport, and local arrival date. Haneda and Narita can lead to different onward journeys, so check the airport before arranging hotels or connections. For long-haul travel, review cabin and baggage inclusions along with the rules for changing the ticket.",
+      copy: "For San Francisco to Tokyo, compare the SFO departure time, Tokyo arrival airport, and local arrival date. Haneda (HND) and Narita (NRT) can lead to different onward journeys, so check the airport before arranging hotels or connections. Crossing the International Date Line can move the arrival to the next calendar day. For long-haul economy travel, review total journey time, connection length, baggage inclusions, seat charges, and the rules for changing or cancelling the ticket.",
       checklist: "Confirm SFO and HND or NRT; check local arrival date and onward transport; compare total journey time and any connection; and verify Japan entry requirements through official sources."
     },
     "/flights-usa-to-canada": {
