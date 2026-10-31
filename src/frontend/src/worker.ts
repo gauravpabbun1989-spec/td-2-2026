@@ -293,9 +293,13 @@ const worker = {
       if (canonicalPath) {
         const canonicalUrl = new URL(request.url);
         canonicalUrl.pathname = canonicalPath;
-        const redirect = Response.redirect(canonicalUrl.toString(), 301);
-        redirect.headers.set("X-TicketDepart-Worker", "edge");
-        return redirect;
+        return new Response(null, {
+          status: 301,
+          headers: {
+            Location: canonicalUrl.toString(),
+            "X-TicketDepart-Worker": "edge",
+          },
+        });
       }
 
       const normalizedPath = normalizeRequestPath(pathname);
