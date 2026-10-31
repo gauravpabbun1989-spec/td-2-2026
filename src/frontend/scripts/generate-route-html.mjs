@@ -494,7 +494,7 @@ const RELATED_ROUTE_RULES = {
     "/book-a-flight-by-phone", "/international-flight-booking",
   ],
   "/family-flight-booking": [
-    "/group-flight-booking", "/infant-flight-booking", "/pet-flight-booking",
+    "/group-flight-booking", "/book-a-flight-by-phone", "/pet-flight-booking",
     "/flight-booking", "/international-flight-booking",
   ],
   "/last-minute-flight-booking": [
