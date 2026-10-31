@@ -23,7 +23,7 @@ const RETIRED_PHONE_PATTERNS = phoneConfig.legacy.map((phone) => {
   );
 });
 
-const distDir = path.resolve("dist");
+const distDir = path.resolve(scriptDir, "../dist");
 const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 
 const routes = {
@@ -61,9 +61,9 @@ const routes = {
   },
   "/how-to-book-a-flight-by-phone": {
     title: "How to Book a Flight by Phone | TicketDepart",
-    description: "Learn how to book a flight by phone, compare affordable economy itineraries, and review baggage, fare, and change terms before paying.",
+    description: "Learn how to book an economy flight by phone. Compare full trip costs, baggage, and fare rules before paying.",
     heading: "How to Book a Flight by Phone",
-    text: "To book a flight by phone, prepare your departure city, destination, preferred dates, and number of travelers; choosing a cabin class is optional. Compare the full itinerary, including nonstop or connecting flights, baggage, total travel time, and fare rules. Before paying, confirm the total price, taxes, any disclosed agency service fee, ticketing status, flight change and cancellation terms, refund eligibility, and who will issue and service the ticket. Travelers departing from the USA and Canada can ask about domestic or international routes, flexible dates, and affordable economy options. Phone booking is not automatically cheaper, so compare the full price and terms before deciding."
+    text: "Start with an economy itinerary that fits your route, dates, and budget. Compare nonstop and connecting options, nearby airports you can realistically reach, total journey time, taxes, baggage charges, seat-selection fees, ground transfers, and any disclosed agency service fee; a low base fare is not always the lowest total cost. Have your departure city, destination, preferred dates, and traveler count ready; cabin preference is optional. Before payment, confirm the complete itinerary, total price, ticketing status, baggage allowance, change, cancellation and refund rules, and who will issue and service the ticket. TicketDepart can discuss domestic and international routes from the USA and Canada, but fares and availability depend on current inventory and ticket conditions."
   },
   "/international-flight-booking": {
     title: "International Flight Booking Assistance | TicketDepart",
