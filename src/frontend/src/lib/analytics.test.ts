@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isAnalyticsTestReferrer, isSuspiciousPath } from "./analytics";
+import { isAnalyticsTestReferrer, isAnalyticsTestSession, isSuspiciousPath } from "./analytics";
 
 describe("analytics suspicious-path filtering", () => {
   it.each([
@@ -44,5 +44,20 @@ describe("analytics QA-session detection", () => {
     "not a URL",
   ])("does not classify normal or invalid referrer as QA: %s", (referrer) => {
     expect(isAnalyticsTestReferrer(referrer)).toBe(false);
+  });
+});
+
+
+describe("analytics test-session filtering", () => {
+  it.each([
+    ["?td_analytics_debug=1", "", true],
+    ["?gtm_debug=x", "", true],
+    ["?gtm_preview=env-3", "", true],
+    ["", "https://tagassistant.google.com/", true],
+    ["", "https://www.google.com/", false],
+    ["?utm_source=chatgpt.com", "https://chatgpt.com/", false],
+    ["", "", false],
+  ])("classifies search=%s referrer=%s as test=%s", (search, referrer, expected) => {
+    expect(isAnalyticsTestSession(search, referrer)).toBe(expected);
   });
 });
