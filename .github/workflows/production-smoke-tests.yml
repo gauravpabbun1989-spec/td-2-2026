@@ -49,7 +49,7 @@ jobs:
           set -euo pipefail
           status="$(curl --location --silent --show-error --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/__ticketdepart_404_smoke_test_20261101__/")"
           if [ "$status" != "404" ]; then
-            echo "FAIL /404/ returned HTTP $status; expected 404"
+            echo "FAIL unknown route returned HTTP $status; expected 404"
             exit 1
           fi
           node <<'NODE'
@@ -60,7 +60,7 @@ jobs:
             console.error('FAIL /404/ is missing a noindex robots directive');
             process.exit(1);
           }
-          console.log('PASS /404/ returns HTTP 404 with noindex');
+          console.log('PASS unknown route returns HTTP 404 with noindex');
           NODE
 
       - name: Confirm security probes and malformed routes return HTTP 404
