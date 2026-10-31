@@ -23,7 +23,7 @@ const RETIRED_PHONE_PATTERNS = phoneConfig.legacy.map((phone) => {
   );
 });
 
-const distDir = path.resolve(scriptDir, "../dist");
+const distDir = path.resolve("dist");
 const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
 
 const routes = {
