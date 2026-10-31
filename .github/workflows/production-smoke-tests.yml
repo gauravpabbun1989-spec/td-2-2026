@@ -43,6 +43,29 @@ jobs:
           if (checks.some(([, ok]) => !ok)) process.exit(1);
           NODE
 
+      - name: Check the economy-first phone-booking guide
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="https://ticketdepart.com/how-to-book-a-flight-by-phone/"
+          status="$(curl --location --silent --show-error --output /tmp/phone-guide.html --write-out '%{http_code}' "$url")"
+          test "$status" = "200"
+          node <<'NODE'
+          const fs = require('node:fs');
+          const html = fs.readFileSync('/tmp/phone-guide.html', 'utf8');
+          const checks = [
+            ['phone guide title', /<title>[^<]*How to Book a Flight by Phone/i.test(html)],
+            ['indexable robots meta', /<meta[^>]*name=["']robots["'][^>]*content=["']index,\s*follow/i.test(html) || /<meta[^>]*content=["']index,\s*follow["'][^>]*name=["']robots/i.test(html)],
+            ['self-referencing canonical', /<link[^>]*rel=["']canonical["'][^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) || /<link[^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) && /<link[^>]*rel=["']canonical/i.test(html)],
+            ['economy fare comparison content', /Economy fare comparison/i.test(html)],
+            ['full trip cost content', /Compare the full trip cost/i.test(html)],
+            ['changes and refunds content', /Changes, cancellations, and refunds/i.test(html)],
+            ['production phone CTA', /tel:\+18332250511/.test(html)],
+          ];
+          for (const [name, ok] of checks) console.log((ok ? 'PASS ' : 'FAIL ') + name);
+          if (checks.some(([, ok]) => !ok)) process.exit(1);
+          NODE
+
       - name: Confirm an unknown route returns HTTP 404 and noindex
         shell: bash
         run: |
