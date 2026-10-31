@@ -164,7 +164,8 @@ describe("TripRequestForm", () => {
       cabin: Cabin.business,
     });
     expect(input.travelers).toBe(2n);
-    expect(input.details).toBeUndefined();
+    expect(input.details).toContain("Preferred callback window: Any time (local time)");
+    expect(input.details).toContain("Visitor time zone:");
 
     // The confirmation replaces the form and prominently shows the phone
     // number as a tappable tel: link.
@@ -244,28 +245,26 @@ describe("TripRequestForm", () => {
     expect(submitTripRequest).not.toHaveBeenCalled();
   });
 
-  it("requires a cabin preference to be chosen", async () => {
+  it("submits a callback request without choosing trip type or cabin", async () => {
+    submitTripRequest.mockImplementation(async (input) => okResult(input));
     const user = userEvent.setup();
     await openContactForm();
 
     await user.type(screen.getByLabelText(/full name/i), "Jordan Ellis");
     await user.type(screen.getByLabelText(/^phone$/i), "3105550142");
     await user.type(screen.getByLabelText(/^email$/i), "jordan@example.com");
-    await user.selectOptions(
-      screen.getByLabelText(/trip type/i),
-      TripType.oneWay,
-    );
     await user.type(screen.getByLabelText(/flying from/i), "Los Angeles (LAX)");
     await user.type(screen.getByLabelText(/flying to/i), "Tokyo (HND)");
     await user.type(screen.getByLabelText(/departure date/i), "2026-03-14");
-    await user.clear(screen.getByLabelText(/travelers/i));
-    await user.type(screen.getByLabelText(/travelers/i), "1");
     await user.click(screen.getByRole("button", { name: /send my request/i }));
 
-    expect(
-      await screen.findByText(/choose a cabin preference/i),
-    ).toBeInTheDocument();
-    expect(submitTripRequest).not.toHaveBeenCalled();
+    expect(await screen.findByText(/request received/i)).toBeInTheDocument();
+    const input = submitTripRequest.mock.calls[0][0];
+    expect(input.tripType).toBe(TripType.other);
+    expect(input.cabin).toBe(Cabin.noPreference);
+    expect(input.travelers).toBe(1n);
+    expect(input.details).toContain("Preferred callback window: Any time (local time)");
+    expect(input.details).toContain("Visitor time zone:");
   });
 
   it("rejects a phone number with fewer than 7 digits", async () => {
