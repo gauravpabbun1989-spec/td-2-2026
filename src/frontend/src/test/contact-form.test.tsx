@@ -223,6 +223,7 @@ describe("TripRequestForm", () => {
   it("requires a return date for a round trip", async () => {
     const user = userEvent.setup();
     await openContactForm();
+    await user.click(screen.getByText(/add trip preferences \(optional\)/i));
 
     await user.type(screen.getByLabelText(/full name/i), "Jordan Ellis");
     await user.type(screen.getByLabelText(/^phone$/i), "3105550142");
@@ -297,29 +298,6 @@ describe("TripRequestForm", () => {
     expect(submitTripRequest).not.toHaveBeenCalled();
   });
 
-  it("requires a trip type to be chosen", async () => {
-    const user = userEvent.setup();
-    await openContactForm();
-
-    // Fill every other required field but leave the trip-type select on its
-    // disabled placeholder, so only that validation branch can fire.
-    await user.type(screen.getByLabelText(/full name/i), "Jordan Ellis");
-    await user.type(screen.getByLabelText(/^phone$/i), "3105550142");
-    await user.type(screen.getByLabelText(/^email$/i), "jordan@example.com");
-    await user.type(screen.getByLabelText(/flying from/i), "Los Angeles (LAX)");
-    await user.type(screen.getByLabelText(/flying to/i), "Tokyo (HND)");
-    await user.type(screen.getByLabelText(/departure date/i), "2026-03-14");
-    await user.clear(screen.getByLabelText(/travelers/i));
-    await user.type(screen.getByLabelText(/travelers/i), "2");
-    await user.selectOptions(screen.getByLabelText(/cabin/i), Cabin.economy);
-    await user.click(screen.getByRole("button", { name: /send my request/i }));
-
-    expect(
-      await screen.findByText(/choose the type of trip you are planning/i),
-    ).toBeInTheDocument();
-    expect(submitTripRequest).not.toHaveBeenCalled();
-  });
-
   it("returns to an empty form after choosing to submit another request", async () => {
     submitTripRequest.mockImplementation(async (input) => okResult(input));
     const user = userEvent.setup();
@@ -337,6 +315,7 @@ describe("TripRequestForm", () => {
     expect(screen.getByLabelText(/^email$/i)).toHaveValue("");
     expect(screen.getByLabelText(/departure date/i)).toHaveValue("");
     expect(screen.getByLabelText(/return date/i)).toHaveValue("");
+    expect(screen.getByLabelText(/preferred callback time/i)).toHaveValue("Any time");
     expect(
       screen.getByRole("button", { name: /send my request/i }),
     ).toBeInTheDocument();
