@@ -2,10 +2,10 @@
   "name": "ticket-depart2",
   "main": "./src/worker.ts",
   "compatibility_date": "2026-09-21",
-  "compatibility_flags": ["assets_navigation_has_no_effect"],
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page",
     "run_worker_first": [
       "/*/null*",
@@ -35,7 +35,9 @@
       "/etc/*",
       "/var/*",
       "/debug/*",
-      "/ssl/*"
+      "/ssl/*",
+      "/flight-booking-assistance",
+      "/flights-from-new-york/"
     ]
   }
 }

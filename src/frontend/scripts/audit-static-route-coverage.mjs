@@ -42,6 +42,20 @@ for (const [label, config] of [
     config.assets?.not_found_handling === "404-page",
     `${label} Wrangler config must return a real 404 response for unknown routes`,
   );
+  assert(
+    Array.isArray(config.assets?.run_worker_first),
+    `${label} Wrangler config must use selective Worker-first routing`,
+  );
+  for (const path of ["/.env*", "/*/.env*", "/*/null*", "/flight-booking-assistance", "/flights-from-new-york/"]) {
+    assert(
+      config.assets.run_worker_first.includes(path),
+      `${label} Wrangler config is missing Worker-first path ${path}`,
+    );
+  }
+  assert(
+    !config.compatibility_flags?.includes("assets_navigation_has_no_effect"),
+    `${label} Wrangler config must not disable asset-first navigation fallback behavior`,
+  );
 }
 
 const notFoundHtmlPath = path.join(distDir, "404.html");

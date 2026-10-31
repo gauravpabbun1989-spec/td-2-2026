@@ -102,6 +102,13 @@ function auditOnce() {
 
   assert(caffeine.includes('type = "assets"'), "frontend is not configured as an assets project");
   assert(wrangler.includes('"not_found_handling": "404-page"'), "Cloudflare assets must return a real HTTP 404 for unknown routes");
+  const wranglerConfig = JSON.parse(wrangler);
+  const workerFirstPaths = wranglerConfig.assets?.run_worker_first;
+  assert(Array.isArray(workerFirstPaths), "Cloudflare must use selective Worker-first routing");
+  for (const path of ["/.env*", "/*/.env*", "/*/null*", "/flight-booking-assistance", "/flights-from-new-york/"]) {
+    assert(workerFirstPaths.includes(path), `Cloudflare Worker-first routing is missing ${path}`);
+  }
+  assert(!wrangler.includes("assets_navigation_has_no_effect"), "Cloudflare navigation compatibility flag must not disable the custom 404 fallback");
   assert(caffeine.includes('out = "dist"'), "frontend output is not dist");
   assert(backendCaffeine.includes('type = "motoko"'), "backend is not configured as Motoko");
   assert(netlify.includes('publish = "netlify/api-public"'), "Netlify publish directory mismatch");assert(netlify.includes('functions = "netlify/functions"'), "Netlify functions directory mismatch");assert(netlify.includes('from = "/api/flight-search"') && netlify.includes('to = "/.netlify/functions/flight-search"'), "Netlify flight-search redirect missing");assert(netlify.includes('from = "/api/flight-autocomplete"') && netlify.includes('to = "/.netlify/functions/flight-autocomplete"'), "Netlify autocomplete redirect missing");
