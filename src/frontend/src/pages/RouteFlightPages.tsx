@@ -17,6 +17,7 @@ type RoutePage = {
   description: string;
   intro: string;
   routeNotes: string;
+  planningContext?: string;
   faqs: readonly { question: string; answer: string }[];
 };
 
@@ -30,6 +31,7 @@ const PAGES: readonly RoutePage[] = [
     description: "Plan New York to London flights by phone. Discuss JFK or Newark, London airports, nonstop and connecting options, cabins, dates, and fare conditions.",
     intro: "Planning a New York to London trip from the U.S. East Coast? Share your travel dates, traveler count, cabin, and whether JFK or Newark is easier to reach. A specialist can discuss available nonstop and connecting itineraries and the fare rules that apply.",
     routeNotes: "Compare JFK and Newark departures with London-area arrival options such as Heathrow or Gatwick. Consider ground transport on both ends, arrival time, baggage allowance, connection details, and the change or cancellation rules for the exact fare. Schedules and nonstop route options vary by travel date.",
+    planningContext: "For a New York–London trip, compare JFK and Newark by the complete journey from home to the departure airport and from the London arrival airport to your final stop. Heathrow (LHR) and Gatwick (LGW) are not interchangeable for onward ground travel, so check the arrival airport before arranging a hotel, rail journey, or pickup. Compare nonstop and connecting itineraries for the exact dates, including total travel time, connection length, local arrival time, and whether baggage is checked through. Review the fare family for baggage, seat selection, changes, cancellations, and refund eligibility; these benefits can differ even when two options use the same route.",
     faqs: [
       { question: "Can I discuss New York to London flights by phone?", answer: "Yes. TicketDepart can discuss available itinerary options, dates, cabins, connections, baggage terms, and fare conditions by phone." },
       { question: "Can you compare JFK and Newark?", answer: "When practical, a specialist can discuss schedules from JFK and EWR and the trade-offs between available itineraries." },
@@ -44,6 +46,7 @@ const PAGES: readonly RoutePage[] = [
     description: "Book and compare New York to Paris flight options by phone. Discuss airports, nonstop and connecting routes, cabins, flexible dates, and fare rules.",
     intro: "For a New York to Paris trip, tell us your preferred dates, departure airport, travelers, and cabin. A specialist can work through nonstop and connecting options and explain the applicable terms.",
     routeNotes: "Discuss JFK or Newark departures and Paris-area arrival choices, including schedule, connection, cabin, baggage, and change-condition considerations.",
+    planningContext: "For New York–Paris travel, check whether the itinerary arrives at Charles de Gaulle (CDG) or Orly (ORY) and how you will reach your final destination from that airport. Compare JFK and Newark departure schedules with the Paris arrival time, not only the advertised flight duration. If a connection is involved, review the connecting airport, layover length, terminal transfer, and whether both flight segments are covered by one ticket. For economy fares, compare the total after baggage and seat charges and read the change, cancellation, and refund conditions for the specific fare before paying.",
     faqs: [
       { question: "Can you help with New York to Paris flight booking?", answer: "Yes. You can discuss routes, dates, travelers, cabins, connections, baggage, and fare conditions by phone." },
       { question: "Can flexible dates be considered?", answer: "Yes. If your dates are flexible, provide a range so different schedules and fare options can be discussed." },
@@ -58,6 +61,7 @@ const PAGES: readonly RoutePage[] = [
     description: "Plan New York to Dubai flights by phone. Discuss JFK and Newark, nonstop and connecting options, cabins, baggage, dates, and international fare conditions.",
     intro: "For New York to Dubai travel, share your date range, traveler count, preferred cabin, and tolerance for connections. A specialist can discuss available long-haul itineraries from the New York area and explain baggage and ticket conditions before you choose.",
     routeNotes: "For this long-haul trip, compare total journey time, departure and arrival times, connection airport and layover, cabin, baggage allowance, and change or cancellation rules. Do not assume a nonstop option or a particular fare is available for every date; confirm live itinerary details before payment.",
+    planningContext: "A New York–Dubai itinerary is a long-haul journey, so compare the total time from departure to arrival, local arrival date, and any connection rather than looking only at flight time. Check whether the departure is from JFK or Newark and confirm the DXB arrival airport on the itinerary. For a connecting trip, review the connection airport, layover duration, terminal transfer, and baggage handling between segments. Compare economy fare families by baggage allowance, seat selection, change fees, cancellation terms, and refund eligibility. Business class can be discussed when specifically requested, but compare it separately from the primary economy options.",
     faqs: [
       { question: "Can I book New York to Dubai flights by phone?", answer: "Yes. A specialist can discuss routing and booking options for your requested dates." },
       { question: "Can you discuss business class options?", answer: "Yes. Business and other cabin options can be discussed along with schedules and fare conditions." },
@@ -100,6 +104,7 @@ const PAGES: readonly RoutePage[] = [
     description: "Plan Miami to Cancun flights by phone. Discuss MIA, nonstop and connecting options, dates, travelers, cabins, baggage, and fare conditions.",
     intro: "Planning Miami to Cancun travel? Call with your dates, travelers, and preferred cabin and discuss practical MIA-to-CUN options with a specialist.",
     routeNotes: "For a short international route, schedule and fare-family differences can matter. Discuss baggage, connection needs, and change conditions before payment.",
+    planningContext: "For Miami–Cancun travel, confirm Miami International (MIA) as the departure airport and Cancun International (CUN) as the arrival airport on the selected itinerary. Compare the departure time with your hotel check-in, airport transfer, and any separately booked activity; leave a practical buffer if another reservation depends on the arrival. Review whether the fare is nonstop or connecting, what baggage is included, and whether seat selection carries an extra charge. Before payment, check the ticket's change, cancellation, and refund conditions and verify current passport and entry requirements with official government sources.",
     faqs: [
       { question: "Can I discuss Miami to Cancun flights by phone?", answer: "Yes. TicketDepart can discuss route and fare options for your requested dates." },
       { question: "Can you help with family travel?", answer: "Yes. Share traveler count and any seating or baggage considerations when discussing the itinerary." },
@@ -114,6 +119,7 @@ const PAGES: readonly RoutePage[] = [
     description: "Compare Chicago to London flights by phone. Discuss O'Hare, London airports, nonstop and connecting itineraries, cabins, dates, and fare conditions.",
     intro: "Need a Chicago to London flight? Tell us your dates, traveler count, cabin, and flexibility and a specialist can discuss available ORD-to-London itinerary choices.",
     routeNotes: "Chicago departures and London arrival airports can produce different schedules and connections. Compare practical itinerary details before confirming.",
+    planningContext: "For Chicago–London travel, confirm that the departure is from O'Hare (ORD) and check whether the London arrival is Heathrow (LHR) or Gatwick (LGW). Compare the ground journey at both ends as well as the flight schedule. If the itinerary connects through another city, check the layover length, terminal change, transit requirements, and whether all segments are issued on one ticket. Review local arrival time, baggage allowance, and the exact economy fare's change and cancellation conditions. Current nonstop and connecting schedules depend on the travel date, so compare options for the dates you intend to fly.",
     faqs: [
       { question: "Can you help with Chicago to London booking?", answer: "Yes. Discuss routing, dates, cabins, baggage, connections, and fare conditions by phone." },
       { question: "Can you discuss nonstop options?", answer: "Yes. A specialist can discuss nonstop and connecting itinerary options for your route." },
@@ -128,6 +134,7 @@ const PAGES: readonly RoutePage[] = [
     description: "Plan San Francisco to Tokyo flights by phone. Discuss SFO, Haneda and Narita, nonstop and connecting routes, cabins, dates, and fare conditions.",
     intro: "Planning a San Francisco to Tokyo trip? Share your date range, traveler count, cabin preference, and whether Haneda or Narita works better for your final destination. A specialist can discuss available SFO itineraries and help compare schedule, connection, and fare-rule trade-offs.",
     routeNotes: "For San Francisco–Tokyo travel, compare Haneda (HND) and Narita (NRT) against your final destination and ground transport. Review total journey time, arrival time, connection details, baggage allowance, and the change or cancellation rules for the exact fare before confirming.",
+    planningContext: "For a San Francisco–Tokyo trip, check whether the flight arrives at Haneda (HND) or Narita (NRT) and compare the onward journey to your hotel, meeting, or connection. Crossing the International Date Line means the local arrival date may be the following calendar day; match the itinerary to hotel and ground-transfer reservations. Compare nonstop and connecting options for the exact travel dates, including total journey time, connection airport and layover, baggage allowance, and fare flexibility. Confirm the airport code and local times on every segment before paying.",
     faqs: [
       { question: "Can you help compare Tokyo airports?", answer: "Yes. A specialist can discuss available Haneda and Narita itineraries and their schedule differences." },
       { question: "Can I ask about premium cabins?", answer: "Yes. Business, first, and other available cabin options can be discussed for the route." },
@@ -199,7 +206,7 @@ function RoutePage({ page }: { page: RoutePage }) {
         </div>
       </Section>
 
-      <PageContentExpansion subject={`${page.origin} to ${page.destination} flights`} intro={page.intro} points={[["Airport choices", `Typical airport pair: ${page.airports}`],["Route considerations", page.routeNotes],["Dates and flexibility", "Discuss your travel window and any flexibility."],["Cabin and baggage", "Review cabin options and baggage terms before booking."]]} />
+      <PageContentExpansion subject={`${page.origin} to ${page.destination} flights`} intro={page.intro} context={page.planningContext} points={[["Airport choices", `Typical airport pair: ${page.airports}`],["Route considerations", page.routeNotes],["Dates and flexibility", "Discuss your travel window and any flexibility."],["Cabin and baggage", "Review cabin options and baggage terms before booking."]]} />
 
       <Section tone="paper" ocid={`${id}.cta`}>
         <div className="mx-auto max-w-3xl text-center">
