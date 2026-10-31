@@ -52,6 +52,9 @@ assert(/<h1>This page has departed<\/h1>/i.test(notFoundHtml), "404.html is miss
 assert(/href="tel:\+1-833-225-0511"/i.test(notFoundHtml), "404.html must offer the canonical phone CTA");
 assert(/<meta\s+name="robots"\s+content="noindex, nofollow"/i.test(notFoundHtml), "404.html must remain excluded from indexing");
 assert(!/googletagmanager|G-4WC5K9Q31E/i.test(notFoundHtml), "404.html must not load GA4 or GTM and pollute acquisition analytics");
+const htmlShell = read(path.join(root, "index.html"));
+assert(!htmlShell.includes("normalizeNullSuffixPath"), "malformed /null paths must remain invalid instead of being rewritten to indexable routes");
+assert(htmlShell.includes('if (/\\/null$/i.test(path)) return true;'), "malformed /null paths must be excluded from GA4 while the host returns the 404 page");
 const analyticsSource = read(path.join(root, "src", "lib", "analytics.ts"));
 const popupSource = read(path.join(root, "src", "components", "CallNowPopup.tsx"));
 assert(!analyticsSource.includes('trackEvent("phone_cta_impression"'), "CTA visibility must not emit an impression event");
