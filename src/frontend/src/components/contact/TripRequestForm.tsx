@@ -49,7 +49,7 @@ const EMPTY_FORM: FormValues = {
   travelers: "1",
   cabin: "",
   details: "",
-  callbackWindow: "",
+  callbackWindow: "Any time",
 };
 
 const TRIP_TYPE_OPTIONS: readonly { value: TripType; label: string }[] = [
