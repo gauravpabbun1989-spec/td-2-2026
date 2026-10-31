@@ -310,8 +310,8 @@ assert(phoneGuideText.includes("Compare the full trip cost"), "phone-booking gui
 const generatorSource = read(path.join(root, "scripts/generate-route-html.mjs"));
 const workerSource = read(path.join(root, "src/worker.ts"));
 const generatedRouteDefinitions = generatorSource.split("const STATIC_SEO_CONTENT")[0];
-const generatedRoutePaths = [...generatedRouteDefinitions.matchAll(/^\\s*"([^"]+)":\\s*\\{/gm)].map((match) => match[1]);
-const workerRouteBlock = workerSource.match(/const KNOWN_HTML_ROUTE_PATHS = new Set<string>\\(\\[([\\s\\S]*?)\\]\\);/);
+const generatedRoutePaths = [...generatedRouteDefinitions.matchAll(/^\s*"([^"]+)":\s*\{/gm)].map((match) => match[1]);
+const workerRouteBlock = workerSource.match(/const KNOWN_HTML_ROUTE_PATHS = new Set<string>\(\[([\s\S]*?)\]\);/);
 assert(workerRouteBlock, "Worker HTML route allowlist is missing");
 const workerRoutePaths = [...workerRouteBlock[1].matchAll(/"([^"]+)"/g)].map((match) => match[1]);
 for (const route of generatedRoutePaths) {
@@ -321,7 +321,7 @@ assert(workerRoutePaths.includes("/404.html"), "Worker HTML route allowlist must
 
 const assetsDir = path.join(distDir, "assets");
 const phoneGuideBundles = fs.readdirSync(assetsDir).filter((name) =>
-  /^HowToBookFlightByPhonePage-[A-Za-z0-9_-]+\\.js$/.test(name),
+  /^HowToBookFlightByPhonePage-[A-Za-z0-9_-]+\.js$/.test(name),
 );
 assert(
   phoneGuideBundles.length === 1,
