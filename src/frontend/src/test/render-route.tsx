@@ -25,6 +25,8 @@ export function renderRoute(initialPath: string): RenderRouteResult {
   });
   const router = createRouter({
     routeTree,
+    // Mirror App.tsx so route tests exercise the exact production URL matcher.
+    trailingSlash: "always",
     history: createMemoryHistory({ initialEntries: [initialPath] }),
   });
 
