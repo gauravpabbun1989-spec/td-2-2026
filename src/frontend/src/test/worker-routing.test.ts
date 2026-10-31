@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import worker, {
+  canonicalRedirectPath,
   isRejectedRequestPath,
   normalizeRequestPath,
   type Env,
@@ -64,6 +65,43 @@ describe("Cloudflare edge route protection", () => {
 
     expect(response.status).toBe(404);
     expect(await response.text()).toBe("custom not found");
+  });
+
+  it("normalizes public route URLs to their trailing-slash canonical", async () => {
+    const { env, fetch } = createEnv();
+    const response = await worker.fetch(
+      new Request("https://ticketdepart.com/flights-from-new-york?source=gsc"),
+      env,
+    );
+
+    expect(response.status).toBe(301);
+    expect(response.headers.get("location")).toBe(
+      "https://ticketdepart.com/flights-from-new-york/?source=gsc",
+    );
+    expect(fetch).not.toHaveBeenCalled();
+    expect(canonicalRedirectPath("/flights-from-new-york")).toBe(
+      "/flights-from-new-york/",
+    );
+  });
+
+  it("redirects the legacy booking-assistance alias to the primary booking URL", async () => {
+    const { env, fetch } = createEnv();
+    const response = await worker.fetch(
+      new Request("https://ticketdepart.com/flight-booking-assistance"),
+      env,
+    );
+
+    expect(response.status).toBe(301);
+    expect(response.headers.get("location")).toBe(
+      "https://ticketdepart.com/flight-booking/",
+    );
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("does not rewrite API paths or static asset URLs", async () => {
+    expect(canonicalRedirectPath("/api/flight-search")).toBeNull();
+    expect(canonicalRedirectPath("/assets/app.js")).toBeNull();
+    expect(canonicalRedirectPath("/contact/")).toBeNull();
   });
 
   it("passes legitimate pages through to static assets unchanged", async () => {
