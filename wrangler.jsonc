@@ -4,6 +4,12 @@
   "main": "./src/frontend/src/worker.ts",
   "compatibility_date": "2026-09-21",
   "compatibility_flags": ["assets_navigation_has_no_effect"],
+  "routes": [
+    {
+      "pattern": "ticketdepart.com/*",
+      "zone_name": "ticketdepart.com"
+    }
+  ],
   "assets": {
     "directory": "./src/frontend/dist",
     "binding": "ASSETS",
