@@ -285,7 +285,7 @@ assert(/[.!?]\s+Call \+1-833-225-0511\.$/.test(chicagoDescription), `Chicago met
 
 const phoneGuideHtml = read(path.join(distDir, "how-to-book-a-flight-by-phone", "index.html"));
 const phoneGuideText = phoneGuideHtml.replace(/<script[\s\S]*?<\/script>/gi, "").replace(/<style[\s\S]*?<\/style>/gi, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-for (const phrase of ["Prepare your trip details", "Compare the full itinerary", "Confirm terms before payment", "independent travel agency", "Compare the full trip cost", "Economy fare comparison", "Changes, cancellations, and refunds"]) {
+for (const phrase of ["Start with an economy itinerary", "Prepare your trip details", "Compare the full itinerary", "Confirm terms before payment", "independent travel agency", "Compare the full trip cost", "Economy fare comparison", "Changes, cancellations, and refunds"]) {
   assert(phoneGuideText.toLowerCase().includes(phrase.toLowerCase()), `phone-booking guide is missing required useful content: ${phrase}`);
 }
 assert(!phoneGuideText.includes("Travelers searching how to book a flight by phone may also need"), "phone-booking guide must not contain a keyword-stuffed service list");
@@ -293,7 +293,7 @@ assert(phoneGuideText.length >= 1600, `phone-booking guide static content is too
 
 const assetsDir = path.join(distDir, "assets");
 const phoneGuideBundles = fs.readdirSync(assetsDir).filter((name) =>
-  /^HowToBookFlightByPhonePage-[A-Za-z0-9_-]+\\.js$/.test(name),
+  /^HowToBookFlightByPhonePage-[A-Za-z0-9_-]+\.js$/.test(name),
 );
 assert(
   phoneGuideBundles.length === 1,
