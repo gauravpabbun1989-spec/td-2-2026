@@ -6,12 +6,12 @@ import worker, {
   type Env,
 } from "../worker";
 
-function createEnv() {
+function createEnv(contentType = "text/html; charset=utf-8") {
   const fetch = vi.fn(async (request: Request) => {
     const path = new URL(request.url).pathname;
     return new Response(path === "/404.html" ? "custom not found" : "asset", {
       status: 200,
-      headers: { "Content-Type": "text/html; charset=utf-8" },
+      headers: { "Content-Type": contentType },
     });
   });
 
@@ -114,6 +114,28 @@ describe("Cloudflare edge route protection", () => {
     expect(await response.text()).toBe("asset");
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(new URL(fetch.mock.calls[0][0].url).pathname).toBe("/contact/");
+  });
+
+  it("prevents stale HTML shells while preserving normal asset caching", async () => {
+    const { env } = createEnv();
+    const htmlResponse = await worker.fetch(
+      new Request("https://ticketdepart.com/flight-cancellation-assistance/"),
+      env,
+    );
+
+    expect(htmlResponse.headers.get("cache-control")).toBe(
+      "no-store, max-age=0, must-revalidate",
+    );
+    expect(htmlResponse.headers.get("cdn-cache-control")).toBe("no-store");
+
+    const assetEnv = createEnv("application/javascript").env;
+    const assetResponse = await worker.fetch(
+      new Request("https://ticketdepart.com/assets/app.js"),
+      assetEnv,
+    );
+
+    expect(assetResponse.headers.get("cache-control")).toBeNull();
+    expect(assetResponse.headers.get("cdn-cache-control")).toBeNull();
   });
 
   it("returns an empty body for HEAD requests to rejected paths", async () => {
