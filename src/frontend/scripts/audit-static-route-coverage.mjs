@@ -302,6 +302,41 @@ for (const phrase of ["Prepare your trip details", "Compare the full itinerary",
 }
 assert(!phoneGuideText.includes("Travelers searching how to book a flight by phone may also need"), "phone-booking guide must not contain a keyword-stuffed service list");
 assert(phoneGuideText.length >= 1600, `phone-booking guide static content is too thin: ${phoneGuideText.length} characters`);
+assert(phoneGuideText.includes("Start with an economy itinerary"), "phone-booking guide static fallback is missing the economy-first introduction");
+assert(phoneGuideText.includes("Compare the full trip cost"), "phone-booking guide static fallback is missing total-cost comparison guidance");
+
+
+
+const generatorSource = read(path.join(root, "scripts/generate-route-html.mjs"));
+const workerSource = read(path.join(root, "src/worker.ts"));
+const generatedRouteDefinitions = generatorSource.split("const STATIC_SEO_CONTENT")[0];
+const generatedRoutePaths = [...generatedRouteDefinitions.matchAll(/^\\s*"([^"]+)":\\s*\\{/gm)].map((match) => match[1]);
+const workerRouteBlock = workerSource.match(/const KNOWN_HTML_ROUTE_PATHS = new Set<string>\\(\\[([\\s\\S]*?)\\]\\);/);
+assert(workerRouteBlock, "Worker HTML route allowlist is missing");
+const workerRoutePaths = [...workerRouteBlock[1].matchAll(/"([^"]+)"/g)].map((match) => match[1]);
+for (const route of generatedRoutePaths) {
+  assert(workerRoutePaths.includes(route), `Worker HTML route allowlist is missing generated route ${route}`);
+}
+assert(workerRoutePaths.includes("/404.html"), "Worker HTML route allowlist must permit the branded 404 document");
+
+const assetsDir = path.join(distDir, "assets");
+const phoneGuideBundles = fs.readdirSync(assetsDir).filter((name) =>
+  /^HowToBookFlightByPhonePage-[A-Za-z0-9_-]+\\.js$/.test(name),
+);
+assert(
+  phoneGuideBundles.length === 1,
+  `expected one built phone-guide JavaScript bundle, found ${phoneGuideBundles.length}`,
+);
+const phoneGuideBundle = read(path.join(assetsDir, phoneGuideBundles[0]));
+assert(
+  phoneGuideBundle.includes("Compare the full trip cost") &&
+    phoneGuideBundle.includes("Economy fare comparison"),
+  "built phone-guide JavaScript bundle is stale or missing the updated economy-first copy",
+);
+assert(
+  !phoneGuideBundle.includes("Travelers searching how to book a flight by phone may also need"),
+  "built phone-guide JavaScript bundle still contains the old keyword-stuffed service list",
+);
 
 // Every sitemap description must be complete, bounded, and must not repeat the public phone number.
 for (const url of locs) {
