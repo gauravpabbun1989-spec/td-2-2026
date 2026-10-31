@@ -15,6 +15,27 @@ describe("economy-first homepage positioning", () => {
     expect(hero).not.toHaveTextContent(/group trips|group booking|corporate travel/i);
   });
 
+  it("replaces the airline-status FAQ with useful booking information", async () => {
+    renderRoute("/");
+    expect(
+      await screen.findByText("What can TicketDepart help me with?"),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("Is TicketDepart an airline?"),
+    ).not.toBeInTheDocument();
+    const faqSection = document.querySelector('[data-ocid="home.faq_section"]');
+    if (!faqSection) throw new Error("Homepage FAQ section was not rendered");
+    expect(faqSection).not.toHaveTextContent(
+      /independent travel agency|not affiliated with, endorsed by/i,
+    );
+
+    const footer = document.querySelector('[data-ocid="site.footer"]');
+    if (!footer) throw new Error("Site footer was not rendered");
+    expect(footer).toHaveTextContent(
+      /independent travel agency and is not affiliated with any airline/i,
+    );
+  });
+
   it("makes economy the first service on the main flight-booking page", async () => {
     renderRoute("/flight-booking");
     await screen.findByRole("heading", {
