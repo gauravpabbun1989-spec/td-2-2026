@@ -66,6 +66,70 @@ const EXACT_PROBE_PATHS = new Set([
   "/api/console/api_server",
 ]);
 
+// Keep this allowlist aligned with the route definitions in scripts/generate-route-html.mjs.
+// The static-route audit verifies every generated route is represented here.
+const KNOWN_HTML_ROUTE_PATHS = new Set<string>([
+  "/",
+  "/flight-search",
+  "/admin/leads",
+  "/flight-search-results",
+  "/book-a-flight-by-phone",
+  "/how-to-book-a-flight-by-phone",
+  "/international-flight-booking",
+  "/last-minute-flight-booking",
+  "/multi-city-flight-booking",
+  "/group-flight-booking",
+  "/cheap-flight-booking-by-phone",
+  "/corporate-flight-booking",
+  "/business-class-flight-booking",
+  "/same-day-flight-booking",
+  "/family-flight-booking",
+  "/pet-flight-booking",
+  "/baggage-assistance",
+  "/flight-change-assistance",
+  "/flight-cancellation-assistance",
+  "/airline-reservation-assistance",
+  "/flight-booking",
+  "/flight-booking-assistance",
+  "/delta-airlines",
+  "/united-airlines",
+  "/american-airlines",
+  "/southwest-airlines",
+  "/jetblue-airways",
+  "/alaska-airlines",
+  "/british-airways",
+  "/lufthansa",
+  "/air-canada",
+  "/swiss-air",
+  "/qatar-airways",
+  "/emirates",
+  "/norse-atlantic-airways",
+  "/flights-usa-to-canada",
+  "/flights-usa-to-uk",
+  "/flights-usa-to-europe",
+  "/flights-usa-to-mexico",
+  "/flights-from-new-york",
+  "/flights-from-los-angeles",
+  "/flights-from-chicago",
+  "/flights-from-miami",
+  "/flights-from-atlanta",
+  "/flights-from-dallas",
+  "/flights-from-orlando",
+  "/flights-from-san-francisco",
+  "/flights-new-york-to-london",
+  "/flights-los-angeles-to-tokyo",
+  "/flights-los-angeles-to-london",
+  "/flights-new-york-to-paris",
+  "/flights-new-york-to-dubai",
+  "/flights-chicago-to-london",
+  "/flights-miami-to-cancun",
+  "/flights-san-francisco-to-tokyo",
+  "/contact",
+  "/privacy",
+  "/terms",
+  "/disclaimer",
+  "/404.html",
+]);
 /**
  * Decode bounded URL-encoding layers before applying path security rules.
  * Malformed escapes are left unchanged and still pass through the other checks.
@@ -129,6 +193,13 @@ export function isRejectedRequestPath(pathname: string) {
   );
 }
 
+function isPotentialHtmlRoute(pathname: string) {
+  const normalizedPath = normalizeRequestPath(pathname);
+  if (normalizedPath.startsWith("/api/")) return false;
+  const lastSegment = normalizedPath.split("/").at(-1) ?? "";
+  return !lastSegment.includes(".") || lastSegment.endsWith(".html");
+}
+
 const LEGACY_CANONICAL_PATHS = new Map<string, string>([
   ["/flight-booking-assistance", "/flight-booking/"],
 ]);
@@ -141,16 +212,19 @@ const STATIC_DOCUMENT_PATHS = new Map<string, string>([
 
 /** Return the preferred trailing-slash URL for public HTML routes. */
 export function canonicalRedirectPath(pathname: string): string | null {
+  const normalizedPath = normalizeRequestPath(pathname);
   if (
-    pathname === "/" ||
+    normalizedPath === "/" ||
     pathname.endsWith("/") ||
-    pathname.startsWith("/api/") ||
-    pathname.split("/").at(-1)?.includes(".")
+    normalizedPath.startsWith("/api/") ||
+    normalizedPath.split("/").at(-1)?.includes(".")
   ) {
     return null;
   }
 
-  return LEGACY_CANONICAL_PATHS.get(pathname) ?? `${pathname}/`;
+  const legacyPath = LEGACY_CANONICAL_PATHS.get(normalizedPath);
+  if (legacyPath) return legacyPath;
+  return KNOWN_HTML_ROUTE_PATHS.has(normalizedPath) ? `${normalizedPath}/` : null;
 }
 
 async function notFoundResponse(request: Request, env: Env) {
@@ -204,6 +278,14 @@ const worker = {
         const canonicalUrl = new URL(request.url);
         canonicalUrl.pathname = canonicalPath;
         return Response.redirect(canonicalUrl.toString(), 301);
+      }
+
+      const normalizedPath = normalizeRequestPath(pathname);
+      if (
+        isPotentialHtmlRoute(pathname) &&
+        !KNOWN_HTML_ROUTE_PATHS.has(normalizedPath)
+      ) {
+        return notFoundResponse(request, env);
       }
     }
 
