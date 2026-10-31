@@ -208,6 +208,7 @@ const LEGACY_CANONICAL_PATHS = new Map<string, string>([
 // SPA fallback document being selected for the trailing-slash navigation URL.
 const STATIC_DOCUMENT_PATHS = new Map<string, string>([
   ["/flights-from-new-york/", "/flights-from-new-york/index.html"],
+  ["/how-to-book-a-flight-by-phone/", "/how-to-book-a-flight-by-phone/index.html"],
 ]);
 
 /** Return the preferred trailing-slash URL for public HTML routes. */
@@ -236,6 +237,7 @@ async function notFoundResponse(request: Request, env: Env) {
   headers.set("Cache-Control", "no-store");
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("X-Robots-Tag", "noindex, nofollow");
+  headers.set("X-TicketDepart-Worker", "edge");
   if (!headers.has("Content-Type")) {
     headers.set("Content-Type", "text/html; charset=utf-8");
   }
@@ -257,6 +259,7 @@ async function fetchAssetResponse(request: Request, env: Env): Promise<Response>
   const headers = new Headers(response.headers);
   headers.set("Cache-Control", "no-store, max-age=0, must-revalidate");
   headers.set("CDN-Cache-Control", "no-store");
+  headers.set("X-TicketDepart-Worker", "edge");
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
@@ -277,7 +280,9 @@ const worker = {
       if (canonicalPath) {
         const canonicalUrl = new URL(request.url);
         canonicalUrl.pathname = canonicalPath;
-        return Response.redirect(canonicalUrl.toString(), 301);
+        const redirect = Response.redirect(canonicalUrl.toString(), 301);
+        redirect.headers.set("X-TicketDepart-Worker", "edge");
+        return redirect;
       }
 
       const normalizedPath = normalizeRequestPath(pathname);
