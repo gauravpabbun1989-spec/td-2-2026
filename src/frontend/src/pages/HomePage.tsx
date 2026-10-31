@@ -45,13 +45,13 @@ function DeferredFlightSearch() {
   }, []);
 
   return (
-    <div ref={containerRef} role="region" aria-label="Flight search" className="min-h-[420px]">
+    <section ref={containerRef} aria-label="Flight search" className="min-h-[420px]">
       {shouldLoad ? (
         <Suspense fallback={<div className="mx-auto max-w-6xl px-5 py-12 text-sm text-muted-foreground">Loading flight search…</div>}>
           <FlightSearchPage embedded />
         </Suspense>
       ) : null}
-    </div>
+    </section>
   );
 }
 
