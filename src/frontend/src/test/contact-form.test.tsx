@@ -72,6 +72,7 @@ async function openContactForm() {
 
 /** Fills every required field for a round trip, including return date/cabin. */
 async function fillValidForm(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(screen.getByText(/add trip preferences \(optional\)/i));
   await user.type(screen.getByLabelText(/full name/i), "Jordan Ellis");
   await user.type(screen.getByLabelText(/^phone$/i), "3105550142");
   await user.type(screen.getByLabelText(/^email$/i), "jordan@example.com");
@@ -93,48 +94,34 @@ describe("TripRequestForm", () => {
     submitTripRequest.mockReset();
   });
 
-  it("exposes all eleven callback fields", async () => {
+  it("keeps the primary callback form short and makes trip preferences optional", async () => {
     await openContactForm();
 
     for (const label of [
       /full name/i,
       /^phone$/i,
       /^email$/i,
-      /trip type/i,
+      /preferred callback time/i,
       /flying from/i,
       /flying to/i,
       /departure date/i,
       /return date/i,
       /travelers/i,
-      /cabin/i,
       /trip details \(optional\)/i,
     ]) {
       expect(screen.getByLabelText(label)).toBeInTheDocument();
     }
 
-    // Departure and return are separate date inputs, not one free-text field.
-    expect(screen.getByLabelText(/departure date/i)).toHaveAttribute(
-      "type",
-      "date",
-    );
-    expect(screen.getByLabelText(/return date/i)).toHaveAttribute(
-      "type",
-      "date",
-    );
+    expect(screen.getByLabelText(/preferred callback time/i)).toHaveValue("Any time");
+    const preferences = screen.getByText(/add trip preferences \(optional\)/i).closest("details");
+    expect(preferences).not.toBeNull();
+    expect(preferences).not.toHaveAttribute("open");
+    expect(within(preferences as HTMLElement).getByLabelText(/trip type \(optional\)/i)).toBeInTheDocument();
+    expect(within(preferences as HTMLElement).getByLabelText(/cabin \(optional\)/i)).toBeInTheDocument();
 
-    // Cabin offers the five accepted options.
-    const cabin = screen.getByLabelText(/cabin/i);
-    for (const option of [
-      "Economy",
-      "Premium Economy",
-      "Business",
-      "First",
-      "No preference",
-    ]) {
-      expect(
-        within(cabin).getByRole("option", { name: option }),
-      ).toBeInTheDocument();
-    }
+    await userEvent.setup().click(screen.getByText(/add trip preferences \(optional\)/i));
+    expect(screen.getByLabelText(/trip type \(optional\)/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/cabin \(optional\)/i)).toBeInTheDocument();
   });
 
   it("shows inline errors and does not submit when required fields are empty", async () => {
@@ -179,7 +166,8 @@ describe("TripRequestForm", () => {
       cabin: Cabin.business,
     });
     expect(input.travelers).toBe(2n);
-    expect(input.details).toBeUndefined();
+    expect(input.details).toContain("Preferred callback window: Any time (local time)");
+    expect(input.details).toContain("Visitor time zone:");
 
     // The confirmation replaces the form and prominently shows the phone
     // number as a tappable tel: link.
@@ -207,6 +195,7 @@ describe("TripRequestForm", () => {
     const user = userEvent.setup();
     await openContactForm();
 
+    await user.click(screen.getByText(/add trip preferences \(optional\)/i));
     await user.type(screen.getByLabelText(/full name/i), "Jordan Ellis");
     await user.type(screen.getByLabelText(/^phone$/i), "3105550142");
     await user.type(screen.getByLabelText(/^email$/i), "jordan@example.com");
@@ -236,6 +225,7 @@ describe("TripRequestForm", () => {
   it("requires a return date for a round trip", async () => {
     const user = userEvent.setup();
     await openContactForm();
+    await user.click(screen.getByText(/add trip preferences \(optional\)/i));
 
     await user.type(screen.getByLabelText(/full name/i), "Jordan Ellis");
     await user.type(screen.getByLabelText(/^phone$/i), "3105550142");
@@ -258,28 +248,26 @@ describe("TripRequestForm", () => {
     expect(submitTripRequest).not.toHaveBeenCalled();
   });
 
-  it("requires a cabin preference to be chosen", async () => {
+  it("submits a callback request without choosing trip type or cabin", async () => {
+    submitTripRequest.mockImplementation(async (input) => okResult(input));
     const user = userEvent.setup();
     await openContactForm();
 
     await user.type(screen.getByLabelText(/full name/i), "Jordan Ellis");
     await user.type(screen.getByLabelText(/^phone$/i), "3105550142");
     await user.type(screen.getByLabelText(/^email$/i), "jordan@example.com");
-    await user.selectOptions(
-      screen.getByLabelText(/trip type/i),
-      TripType.oneWay,
-    );
     await user.type(screen.getByLabelText(/flying from/i), "Los Angeles (LAX)");
     await user.type(screen.getByLabelText(/flying to/i), "Tokyo (HND)");
     await user.type(screen.getByLabelText(/departure date/i), "2026-03-14");
-    await user.clear(screen.getByLabelText(/travelers/i));
-    await user.type(screen.getByLabelText(/travelers/i), "1");
     await user.click(screen.getByRole("button", { name: /send my request/i }));
 
-    expect(
-      await screen.findByText(/choose a cabin preference/i),
-    ).toBeInTheDocument();
-    expect(submitTripRequest).not.toHaveBeenCalled();
+    expect(await screen.findByText(/request received/i)).toBeInTheDocument();
+    const input = submitTripRequest.mock.calls[0][0];
+    expect(input.tripType).toBe(TripType.other);
+    expect(input.cabin).toBe(Cabin.noPreference);
+    expect(input.travelers).toBe(1n);
+    expect(input.details).toContain("Preferred callback window: Any time (local time)");
+    expect(input.details).toContain("Visitor time zone:");
   });
 
   it("rejects a phone number with fewer than 7 digits", async () => {
@@ -312,29 +300,6 @@ describe("TripRequestForm", () => {
     expect(submitTripRequest).not.toHaveBeenCalled();
   });
 
-  it("requires a trip type to be chosen", async () => {
-    const user = userEvent.setup();
-    await openContactForm();
-
-    // Fill every other required field but leave the trip-type select on its
-    // disabled placeholder, so only that validation branch can fire.
-    await user.type(screen.getByLabelText(/full name/i), "Jordan Ellis");
-    await user.type(screen.getByLabelText(/^phone$/i), "3105550142");
-    await user.type(screen.getByLabelText(/^email$/i), "jordan@example.com");
-    await user.type(screen.getByLabelText(/flying from/i), "Los Angeles (LAX)");
-    await user.type(screen.getByLabelText(/flying to/i), "Tokyo (HND)");
-    await user.type(screen.getByLabelText(/departure date/i), "2026-03-14");
-    await user.clear(screen.getByLabelText(/travelers/i));
-    await user.type(screen.getByLabelText(/travelers/i), "2");
-    await user.selectOptions(screen.getByLabelText(/cabin/i), Cabin.economy);
-    await user.click(screen.getByRole("button", { name: /send my request/i }));
-
-    expect(
-      await screen.findByText(/choose the type of trip you are planning/i),
-    ).toBeInTheDocument();
-    expect(submitTripRequest).not.toHaveBeenCalled();
-  });
-
   it("returns to an empty form after choosing to submit another request", async () => {
     submitTripRequest.mockImplementation(async (input) => okResult(input));
     const user = userEvent.setup();
@@ -352,6 +317,7 @@ describe("TripRequestForm", () => {
     expect(screen.getByLabelText(/^email$/i)).toHaveValue("");
     expect(screen.getByLabelText(/departure date/i)).toHaveValue("");
     expect(screen.getByLabelText(/return date/i)).toHaveValue("");
+    expect(screen.getByLabelText(/preferred callback time/i)).toHaveValue("Any time");
     expect(
       screen.getByRole("button", { name: /send my request/i }),
     ).toBeInTheDocument();
