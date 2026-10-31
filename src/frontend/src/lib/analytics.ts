@@ -54,13 +54,27 @@ export function isAnalyticsTestReferrer(referrer: string) {
   }
 }
 
-function isAnalyticsTestSession() {
-  if (typeof window === "undefined") return false;
+export function isAnalyticsTestSession(
+  search?: string,
+  referrer?: string,
+) {
+  if (typeof window === "undefined" && search === undefined && referrer === undefined) {
+    return false;
+  }
 
-  // Only an explicit opt-out query suppresses analytics. Do not persist
-  // Tag Assistant/referrer detection in sessionStorage: that can silence
-  // every later real phone click in the same tab after a QA session.
-  return new URLSearchParams(window.location.search).get("td_analytics_debug") === "1";
+  // Suppress only identifiable QA/preview sessions. Do not persist this
+  // decision in sessionStorage: a later real visitor action in the same tab
+  // must not inherit a previous Tag Assistant preview exclusion.
+  const currentSearch = search ?? window.location.search;
+  const currentReferrer = referrer ?? document.referrer;
+  const params = new URLSearchParams(currentSearch);
+
+  return (
+    params.get("td_analytics_debug") === "1" ||
+    params.has("gtm_debug") ||
+    params.has("gtm_preview") ||
+    isAnalyticsTestReferrer(currentReferrer)
+  );
 }
 
 const LANDING_PAGE_KEY = "ticketdepart_landing_page";
