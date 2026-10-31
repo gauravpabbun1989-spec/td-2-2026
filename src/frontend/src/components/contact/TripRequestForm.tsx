@@ -30,7 +30,8 @@ type FieldName =
   | "returnDate"
   | "travelers"
   | "cabin"
-  | "details";
+  | "details"
+  | "callbackWindow";
 
 type FormValues = Record<FieldName, string>;
 
@@ -45,9 +46,10 @@ const EMPTY_FORM: FormValues = {
   destination: "",
   departureDate: "",
   returnDate: "",
-  travelers: "",
+  travelers: "1",
   cabin: "",
   details: "",
+  callbackWindow: "",
 };
 
 const TRIP_TYPE_OPTIONS: readonly { value: TripType; label: string }[] = [
@@ -83,6 +85,21 @@ const ROUND_TRIP_TYPES = new Set<string>([
 ]);
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+const CALLBACK_WINDOW_OPTIONS = [
+  { value: "Any time", label: "Any time" },
+  { value: "Morning", label: "Morning" },
+  { value: "Afternoon", label: "Afternoon" },
+  { value: "Evening", label: "Evening" },
+] as const;
+
+function getLocalTimeZone() {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || "your local time";
+  } catch {
+    return "your local time";
+  }
+}
 
 /** Maps a backend SubmitError variant to the field it belongs to. */
 const ERROR_FIELD: Record<SubmitError, FieldName> = {
@@ -121,9 +138,6 @@ function validate(values: FormValues): FieldErrors {
   if (!EMAIL_PATTERN.test(values.email.trim())) {
     errors.email = "Enter a valid email address, like you@example.com.";
   }
-  if (!TRIP_TYPE_VALUES.has(values.tripType)) {
-    errors.tripType = "Choose the type of trip you are planning.";
-  }
   if (values.origin.trim().length < 2) {
     errors.origin = "Enter your departure city or airport.";
   }
@@ -146,9 +160,6 @@ function validate(values: FormValues): FieldErrors {
   const travelers = Number.parseInt(values.travelers, 10);
   if (!Number.isFinite(travelers) || travelers < 1) {
     errors.travelers = "Enter at least one traveler.";
-  }
-  if (!CABIN_VALUES.has(values.cabin)) {
-    errors.cabin = "Choose a cabin preference.";
   }
 
   return errors;
@@ -225,6 +236,8 @@ export function TripRequestForm() {
         `Travelers: ${values.travelers}`,
         `Cabin: ${values.cabin}`,
         `Trip details: ${values.details || "None"}`,
+        `Preferred callback window: ${values.callbackWindow || "Any time"} (local time)`,
+        `Visitor time zone: ${getLocalTimeZone()}`,
       ].join("\
 "),
     );
@@ -235,19 +248,23 @@ export function TripRequestForm() {
     mutationFn: async (input: FormValues) => {
       if (!actor) throw new Error("Backend is not ready");
       const travelers = Number.parseInt(input.travelers, 10);
-      const details = input.details.trim();
+      const details = [
+        input.details.trim(),
+        `Preferred callback window: ${input.callbackWindow || "Any time"} (local time)`,
+        `Visitor time zone: ${getLocalTimeZone()}`,
+      ].filter(Boolean).join("\n");
       const departureDate = input.departureDate;
       const returnDate = input.returnDate;
       return actor.submitTripRequest({
         name: input.name.trim(),
         phone: input.phone.trim(),
         email: input.email.trim(),
-        tripType: input.tripType as TripType,
+        tripType: (input.tripType || TripType.other) as TripType,
         origin: input.origin.trim(),
         destination: input.destination.trim(),
         departureDate,
         travelers: BigInt(travelers),
-        cabin: input.cabin as Cabin,
+        cabin: (input.cabin || Cabin.noPreference) as Cabin,
         ...(returnDate ? { returnDate } : {}),
         ...(details ? { details } : {}),
       });
@@ -441,25 +458,20 @@ export function TripRequestForm() {
           />
         </Field>
 
-        <Field id="tripType" label="Trip type" error={errors.tripType}>
+        <Field
+          id="callbackWindow"
+          label="Preferred callback time (optional)"
+          hint={`Times use your device's local time zone: ${getLocalTimeZone()}.`}
+        >
           <select
-            id="tripType"
-            name="tripType"
-            value={values.tripType}
+            id="callbackWindow"
+            name="callbackWindow"
+            value={values.callbackWindow}
             onChange={handleChange}
-            aria-invalid={errors.tripType ? true : undefined}
-            aria-describedby={errors.tripType ? "tripType-error" : undefined}
-            className={cn(
-              selectClasses,
-              !values.tripType && "text-muted-foreground/70",
-              errors.tripType && "border-destructive",
-            )}
-            data-ocid="contact.tripType.select"
+            className={selectClasses}
+            data-ocid="contact.callbackWindow.select"
           >
-            <option value="" disabled>
-              Select a trip type
-            </option>
-            {TRIP_TYPE_OPTIONS.map((option) => (
+            {CALLBACK_WINDOW_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
@@ -467,31 +479,48 @@ export function TripRequestForm() {
           </select>
         </Field>
 
-        <Field id="cabin" label="Cabin" error={errors.cabin}>
-          <select
-            id="cabin"
-            name="cabin"
-            value={values.cabin}
-            onChange={handleChange}
-            aria-invalid={errors.cabin ? true : undefined}
-            aria-describedby={errors.cabin ? "cabin-error" : undefined}
-            className={cn(
-              selectClasses,
-              !values.cabin && "text-muted-foreground/70",
-              errors.cabin && "border-destructive",
-            )}
-            data-ocid="contact.cabin.select"
-          >
-            <option value="" disabled>
-              Select a cabin
-            </option>
-            {CABIN_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <details className="sm:col-span-2 rounded-xl border border-border bg-muted/30 p-4">
+          <summary className="cursor-pointer text-sm font-semibold text-foreground">
+            Add trip preferences (optional)
+          </summary>
+          <div className="mt-4 grid gap-5 sm:grid-cols-2">
+            <Field id="tripType" label="Trip type (optional)">
+              <select
+                id="tripType"
+                name="tripType"
+                value={values.tripType}
+                onChange={handleChange}
+                className={selectClasses}
+                data-ocid="contact.tripType.select"
+              >
+                <option value="">Not sure yet</option>
+                {TRIP_TYPE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+
+            <Field id="cabin" label="Cabin (optional)">
+              <select
+                id="cabin"
+                name="cabin"
+                value={values.cabin}
+                onChange={handleChange}
+                className={selectClasses}
+                data-ocid="contact.cabin.select"
+              >
+                <option value="">No preference</option>
+                {CABIN_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          </div>
+        </details>
 
         <Field id="origin" label="Flying from" error={errors.origin}>
           <input
