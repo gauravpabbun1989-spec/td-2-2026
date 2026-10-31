@@ -1,7 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = process.cwd();
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const root = path.resolve(scriptDir, "..");
 const publicDir = path.join(root, "public");
 const distDir = path.join(root, "dist");
 const sourceSitemapPath = path.join(publicDir, "sitemap.xml");
@@ -288,6 +290,25 @@ for (const phrase of ["Prepare your trip details", "Compare the full itinerary",
 }
 assert(!phoneGuideText.includes("Travelers searching how to book a flight by phone may also need"), "phone-booking guide must not contain a keyword-stuffed service list");
 assert(phoneGuideText.length >= 1600, `phone-booking guide static content is too thin: ${phoneGuideText.length} characters`);
+
+const assetsDir = path.join(distDir, "assets");
+const phoneGuideBundles = fs.readdirSync(assetsDir).filter((name) =>
+  /^HowToBookFlightByPhonePage-[A-Za-z0-9_-]+\\.js$/.test(name),
+);
+assert(
+  phoneGuideBundles.length === 1,
+  `expected one built phone-guide JavaScript bundle, found ${phoneGuideBundles.length}`,
+);
+const phoneGuideBundle = read(path.join(assetsDir, phoneGuideBundles[0]));
+assert(
+  phoneGuideBundle.includes("Compare the full trip cost") &&
+    phoneGuideBundle.includes("Economy fare comparison"),
+  "built phone-guide JavaScript bundle is stale or missing the updated economy-first copy",
+);
+assert(
+  !phoneGuideBundle.includes("Travelers searching how to book a flight by phone may also need"),
+  "built phone-guide JavaScript bundle still contains the old keyword-stuffed service list",
+);
 
 // Every sitemap description must be complete, bounded, and must not repeat the public phone number.
 for (const url of locs) {
