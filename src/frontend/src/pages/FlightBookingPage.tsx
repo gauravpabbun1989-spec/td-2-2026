@@ -680,7 +680,7 @@ export function FlightBookingPage() {
       <Section tone="paper" ocid="flight_booking.disclosure">
         <div className="mx-auto max-w-3xl rounded-2xl border border-border bg-muted/60 p-6 sm:p-8">
           <h2 className="label-board text-muted-foreground">
-            Independent agency disclosure
+            Travel planning support
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             {SITE.disclosure}
