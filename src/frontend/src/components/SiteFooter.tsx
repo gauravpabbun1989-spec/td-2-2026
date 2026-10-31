@@ -34,7 +34,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h2 className="label-board text-white/45">Contact</h2>
+            <h2 className="label-board text-white/65">Contact</h2>
             <ul className="mt-4 space-y-3 text-sm">
               <li><a href={SITE.emailHref} data-ocid="footer.email_link" className="flex gap-2.5 text-white/70 hover:text-accent"><Mail className="mt-0.5 size-4 shrink-0" aria-hidden="true" /><span className="break-all">{SITE.email}</span></a></li>
               <li className="flex gap-2.5 text-white/70"><MapPin className="mt-0.5 size-4 shrink-0" aria-hidden="true" /><address className="not-italic">{ADDRESS_LINE}</address></li>
@@ -43,13 +43,13 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h2 className="label-board text-white/45">Explore</h2>
+            <h2 className="label-board text-white/65">Explore</h2>
             <ul className="mt-4 space-y-2.5 text-sm">
               {NAV_ITEMS.map((item) => (
                 <li key={item.to}><Link to={item.to} data-ocid={`footer.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`} className="text-white/70 transition-smooth hover:text-accent">{item.label}</Link></li>
               ))}
             </ul>
-            <h2 className="label-board mt-6 text-white/45">Legal</h2>
+            <h2 className="label-board mt-6 text-white/65">Legal</h2>
             <ul className="mt-4 space-y-2.5 text-sm">
               {LEGAL_ITEMS.map((item) => (
                 <li key={item.to}><Link to={item.to} data-ocid={`footer.link.${item.label.toLowerCase().replace(/\s+/g, "_")}`} className="text-white/70 transition-smooth hover:text-accent">{item.label}</Link></li>
@@ -62,7 +62,7 @@ export function SiteFooter() {
         <section aria-label="More flight guides" className="mt-10 border-t border-white/10 pt-8">
           <div className="grid gap-8 md:grid-cols-2">
             <div>
-              <h2 className="label-board text-white/45">Airline booking guides</h2>
+              <h2 className="label-board text-white/65">Airline booking guides</h2>
               <ul className="mt-4 grid grid-cols-2 gap-x-5 gap-y-2 text-sm">
                 {AIRLINE_ITEMS.map((item) => (
                   <li key={item.to}>
@@ -74,7 +74,7 @@ export function SiteFooter() {
               </ul>
             </div>
             <div>
-              <h2 className="label-board text-white/45">U.S. departure guides</h2>
+              <h2 className="label-board text-white/65">U.S. departure guides</h2>
               <ul className="mt-4 grid grid-cols-2 gap-x-5 gap-y-2 text-sm">
                 {[
                   ["New York", "/flights-from-new-york/"],
@@ -108,11 +108,11 @@ export function SiteFooter() {
         </section>
 
         <div className="mt-12 border-t border-white/10 pt-5">
-          <p className="text-[9px] leading-4 text-white/35">
+          <p className="text-[9px] leading-4 text-white/60">
             TicketDepart is an independent travel agency and is not affiliated with any airline. Quotes are not tickets; fares, fees, ticketing, and change or refund eligibility depend on the confirmed booking terms.{" "}
             <Link to="/disclaimer/" className="underline underline-offset-2 hover:text-white/60">Disclaimer</Link>
           </p>
-          <div className="mt-4 flex flex-col gap-2 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-4 flex flex-col gap-2 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
             <p>© {year} {SITE.legalName}. All rights reserved.</p>
           </div>
         </div>
