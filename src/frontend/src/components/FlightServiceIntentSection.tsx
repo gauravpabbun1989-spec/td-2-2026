@@ -32,36 +32,20 @@ export function FlightServiceIntentSection({
   // layout remains the same; the wording reflects the service intent.
   const topics = [
     [
-      airline ? `${airline} Changes` : "Flight Changes",
-      `Review possible date, time, airport, or routing changes to an existing ${subject}. Eligibility and fare differences depend on the ticket and provider rules.`,
+      airline ? `${airline} Flight Booking` : "New Flight Booking",
+      `Discuss dates, routing, traveler details, cabin preference, and the complete fare for a new ${subject} before authorizing payment.`,
     ],
     [
-      airline ? `${airline} Cancellation` : "Flight Cancellation",
-      `Discuss cancellation timing, refund or credit possibilities, deadlines, and the effect on the existing ${subject} before authorizing a request.`,
+      airline ? `${airline} Changes` : "Change an Existing Flight",
+      `Review the ticket's change rules, deadlines, possible fare differences, and available alternatives for your existing ${subject}.`,
     ],
     [
-      airline ? `${airline} Rebooking` : "Flight Rebooking",
-      `Compare replacement dates and routes for an existing ${subject}; options depend on ticket terms and current availability.`,
+      airline ? `${airline} Cancellation` : "Cancellation Options",
+      `Check the cancellation deadline, possible refund or credit, and any applicable fees before authorizing a request for your ${subject}.`,
     ],
     [
-      airline ? `${airline} Rescheduling` : "Flight Rescheduling",
-      "Discuss alternative travel dates and schedules and confirm any fare difference or ticket restriction before a change is made.",
-    ],
-    [
-      airline ? `${airline} Changes by Phone` : "Flight Changes by Phone",
-      `A specialist can review the booking details and explain possible next steps for ${subject} changes before you decide how to proceed.`,
-    ],
-    [
-      airline ? `${airline} Cancellation Assistance` : "Flight Cancellation Assistance",
-      "Review the ticket rules, cancellation deadline, and possible refund or credit outcome before authorizing cancellation.",
-    ],
-    [
-      airline ? `${airline} Flight Booking` : "Flight Booking by Phone",
-      "Discuss dates, routing, travelers, cabin preferences, baggage questions, and fare conditions for a new reservation before authorizing a booking.",
-    ],
-    [
-      airline ? `${airline} Rebooking by Phone` : "Rebooking by Phone",
-      "Discuss replacement dates, routing, connection options, and availability for an existing reservation.",
+      airline ? `${airline} Rebooking` : "Rebook a Flight",
+      `Compare replacement dates and routes for your ${subject}; options depend on the original ticket terms and current availability.`,
     ],
   ] as const;
 
