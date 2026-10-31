@@ -144,7 +144,7 @@ jobs:
           const fs = require('node:fs');
           const html = fs.readFileSync('/tmp/not-found.html', 'utf8');
           const headers = fs.readFileSync('/tmp/not-found.headers', 'utf8');
-          if (!/x-ticketdepart-worker:\\s*edge/i.test(headers)) {
+          if (!/x-ticketdepart-worker:\s*edge/i.test(headers)) {
             console.error('FAIL unknown route was not handled by the production Worker');
             process.exit(1);
           }
@@ -166,13 +166,17 @@ jobs:
             "https://ticketdepart.com/flights-from-new-york/null"
           do
             output="$(mktemp)"
-            status="$(curl --location --silent --show-error --output "$output" --write-out '%{http_code}' "$url")"
+            status="$(curl --location --silent --show-error --dump-header "$output.headers" --output "$output" --write-out '%{http_code}' "$url")"
             if [ "$status" != "404" ]; then
               echo "FAIL $url returned HTTP $status; expected 404"
               exit 1
             fi
             if ! grep -Fqi 'noindex, nofollow' "$output"; then
               echo "FAIL $url did not return the branded noindex 404 document"
+              exit 1
+            fi
+            if ! grep -Eqi '^x-ticketdepart-worker:[[:space:]]*edge' "$output.headers"; then
+              echo "FAIL $url was not handled by the production Worker"
               exit 1
             fi
             echo "PASS $url returns HTTP 404 with noindex"
