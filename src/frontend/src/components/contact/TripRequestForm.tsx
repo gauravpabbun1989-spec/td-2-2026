@@ -70,14 +70,6 @@ const CABIN_OPTIONS: readonly { value: Cabin; label: string }[] = [
   { value: Cabin.noPreference, label: "No preference" },
 ];
 
-const TRIP_TYPE_VALUES = new Set<string>(
-  TRIP_TYPE_OPTIONS.map((option) => option.value),
-);
-
-const CABIN_VALUES = new Set<string>(
-  CABIN_OPTIONS.map((option) => option.value),
-);
-
 /** Trip types that require a return date. */
 const ROUND_TRIP_TYPES = new Set<string>([
   TripType.roundTrip,
