@@ -72,6 +72,7 @@ async function openContactForm() {
 
 /** Fills every required field for a round trip, including return date/cabin. */
 async function fillValidForm(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(screen.getByText(/add trip preferences \(optional\)/i));
   await user.type(screen.getByLabelText(/full name/i), "Jordan Ellis");
   await user.type(screen.getByLabelText(/^phone$/i), "3105550142");
   await user.type(screen.getByLabelText(/^email$/i), "jordan@example.com");
@@ -93,48 +94,32 @@ describe("TripRequestForm", () => {
     submitTripRequest.mockReset();
   });
 
-  it("exposes all eleven callback fields", async () => {
+  it("keeps the primary callback form short and makes trip preferences optional", async () => {
     await openContactForm();
 
     for (const label of [
       /full name/i,
       /^phone$/i,
       /^email$/i,
-      /trip type/i,
+      /preferred callback time/i,
       /flying from/i,
       /flying to/i,
       /departure date/i,
       /return date/i,
       /travelers/i,
-      /cabin/i,
       /trip details \(optional\)/i,
     ]) {
       expect(screen.getByLabelText(label)).toBeInTheDocument();
     }
 
-    // Departure and return are separate date inputs, not one free-text field.
-    expect(screen.getByLabelText(/departure date/i)).toHaveAttribute(
-      "type",
-      "date",
-    );
-    expect(screen.getByLabelText(/return date/i)).toHaveAttribute(
-      "type",
-      "date",
-    );
+    expect(screen.getByLabelText(/preferred callback time/i)).toHaveValue("Any time");
+    expect(screen.getByText(/add trip preferences \(optional\)/i)).toBeInTheDocument();
+    expect(screen.queryByLabelText(/trip type/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/cabin/i)).not.toBeInTheDocument();
 
-    // Cabin offers the five accepted options.
-    const cabin = screen.getByLabelText(/cabin/i);
-    for (const option of [
-      "Economy",
-      "Premium Economy",
-      "Business",
-      "First",
-      "No preference",
-    ]) {
-      expect(
-        within(cabin).getByRole("option", { name: option }),
-      ).toBeInTheDocument();
-    }
+    await userEvent.setup().click(screen.getByText(/add trip preferences \(optional\)/i));
+    expect(screen.getByLabelText(/trip type \(optional\)/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/cabin \(optional\)/i)).toBeInTheDocument();
   });
 
   it("shows inline errors and does not submit when required fields are empty", async () => {
@@ -207,6 +192,7 @@ describe("TripRequestForm", () => {
     const user = userEvent.setup();
     await openContactForm();
 
+    await user.click(screen.getByText(/add trip preferences \(optional\)/i));
     await user.type(screen.getByLabelText(/full name/i), "Jordan Ellis");
     await user.type(screen.getByLabelText(/^phone$/i), "3105550142");
     await user.type(screen.getByLabelText(/^email$/i), "jordan@example.com");
