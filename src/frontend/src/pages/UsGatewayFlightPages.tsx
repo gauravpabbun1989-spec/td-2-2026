@@ -21,6 +21,7 @@ type GatewayPage = {
   description: string;
   intro: string;
   routes: string;
+  planningContext?: string;
   faqs: readonly { question: string; answer: string }[];
 };
 
@@ -37,6 +38,8 @@ const PAGES: readonly GatewayPage[] = [
       "Flying from New York can mean choosing between JFK, LaGuardia, and Newark, with different ground-transport needs and schedules. Share your destination, dates, traveler count, and airport flexibility so a specialist can discuss practical domestic or international itineraries.",
     routes:
       "Discuss domestic trips across the U.S., transatlantic travel, Caribbean routes, and other international itineraries departing from the New York area.",
+    planningContext:
+      "New York has three major commercial airports, but JFK, LaGuardia (LGA), and Newark (EWR) serve different schedules and destinations. Start by checking the airport code on every outbound and return segment. If an itinerary arrives at one airport and departs from another, allow for the transfer across the New York area and compare its time and cost with a single-airport itinerary. For international trips, compare the full journey to the final destination, including the arrival airport, local arrival time, baggage rules, and any onward connection. Share whether you can use more than one airport and whether your dates are flexible; that helps narrow practical economy options without assuming that a nearby airport will always be cheaper.",
     faqs: [
       {
         question: "Can you help compare JFK, LGA, and Newark?",
@@ -87,6 +90,8 @@ const PAGES: readonly GatewayPage[] = [
       "Chicago travelers can have different routing choices depending on whether O'Hare or Midway works better for the trip. Discuss your destination, timing, and airport flexibility with a specialist.",
     routes:
       "Review domestic itineraries and international options from the Chicago area, including trips where connection time, airport choice, or cabin matters.",
+    planningContext:
+      "Chicago departures commonly involve O'Hare (ORD) or Midway (MDW), and the better fit depends on the destination, carrier, schedule, and ground journey to the airport. Confirm the airport code for every segment rather than relying on the city name alone. If a connection is involved, compare the layover length, terminal or airport changes, and whether the itinerary is issued as one ticket. For a London or other long-haul trip, compare local arrival time, total travel time, baggage allowance, and the fare's change and cancellation terms. Include airport transport in the total trip comparison; a lower airfare may not be the more practical economy choice.",
     faqs: [
       {
         question: "Can you compare O'Hare and Midway?",
@@ -212,6 +217,8 @@ const PAGES: readonly GatewayPage[] = [
       "San Francisco is a major gateway for U.S. and international travel. Share your destination, dates, cabin preference, and connection needs and review practical itinerary considerations.",
     routes:
       "Discuss domestic travel and international routes to Europe, Asia, Canada, Mexico, and other destinations, for your requested route and dates.",
+    planningContext:
+      "San Francisco International (SFO) is the main international gateway, while Oakland (OAK) and San Jose (SJC) may be alternatives for some domestic itineraries. Compare another Bay Area airport only when its schedule and ground-transfer time make sense for your destination. For Tokyo and other long-haul routes, check whether the itinerary arrives at Haneda (HND) or Narita (NRT), because the onward journey into the Tokyo area can differ. Compare the local arrival date, connection time, baggage allowance, and fare conditions alongside the ticket price. If dates are flexible, give the full date range rather than assuming one departure day is best.",
     faqs: [
       {
         question: "Can you help with international flights from SFO?",
@@ -341,7 +348,7 @@ function GatewayFlightPage({ page }: { page: GatewayPage }) {
         </div>
       </Section>
 
-      <PageContentExpansion subject={`flights from ${page.city}`} intro={page.intro} points={[["Airport choices", `Departure airports: ${page.airports}`],["Route options", page.routes],["Dates and flexibility", "Discuss the dates and schedule priorities that matter to your trip."],["Connections", "Compare nonstop and connecting options when both are available."]]} />
+      <PageContentExpansion subject={`flights from ${page.city}`} intro={page.intro} context={page.planningContext} points={[["Airport choices", `Departure airports: ${page.airports}`],["Route options", page.routes],["Dates and flexibility", "Discuss the dates and schedule priorities that matter to your trip."],["Connections", "Compare nonstop and connecting options when both are available."]]} />
 
       <Section tone="paper" ocid={`${id}.cta`}>
         <div className="mx-auto max-w-3xl text-center">
