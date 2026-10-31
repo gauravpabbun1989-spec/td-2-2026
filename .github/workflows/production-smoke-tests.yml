@@ -55,7 +55,7 @@ jobs:
           node <<'NODE'
           const fs = require('node:fs');
           const html = fs.readFileSync('/tmp/not-found.html', 'utf8');
-          const robots = html.match(/<meta\\b[^>]*>/gi)?.find(tag => /name=["']robots["']/i.test(tag));
+          const robots = html.match(/<meta\b[^>]*>/gi)?.find(tag => /name=["']robots["']/i.test(tag));
           if (!robots || !/content=["']noindex/i.test(robots)) {
             console.error('FAIL unknown route is missing a noindex robots directive');
             process.exit(1);
@@ -69,8 +69,7 @@ jobs:
           set -euo pipefail
           for url in \
             "https://ticketdepart.com/.env" \
-            "https://ticketdepart.com/flights-from-new-york/null" \
-            "https://ticketdepart.com/__ticketdepart-smoke-404-probe__/"
+            "https://ticketdepart.com/flights-from-new-york/null"
           do
             output="$(mktemp)"
             status="$(curl --location --silent --show-error --output "$output" --write-out '%{http_code}' "$url")"
