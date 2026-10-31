@@ -8,37 +8,6 @@
     "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page",
-    "run_worker_first": [
-      "/*/null*",
-      "/null*",
-      "/%*",
-      "/.env*",
-      "/*/.env*",
-      "/.git*",
-      "/*/.git*",
-      "/.hg*",
-      "/*/.hg*",
-      "/.svn*",
-      "/*/.svn*",
-      "/.ssh*",
-      "/*/.ssh*",
-      "/.aws*",
-      "/*/.aws*",
-      "/.dockerenv",
-      "/wp-*",
-      "/xmlrpc.php",
-      "/*.php",
-      "/*.sql",
-      "/*.pem",
-      "/*.key",
-      "/api/*",
-      "/proc/*",
-      "/etc/*",
-      "/var/*",
-      "/debug/*",
-      "/ssl/*",
-      "/flight-booking-assistance",
-      "/flights-from-new-york/"
-    ]
+    "run_worker_first": true
   }
 }
