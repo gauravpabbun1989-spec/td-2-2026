@@ -93,17 +93,17 @@ const FAQS = [
   {
     question: "How do I book an American Airlines flight by phone?",
     answer:
-      "Call TicketDepart with your departure and destination, travel dates, traveler count, and cabin preference if known. A specialist can discuss available American Airlines itinerary options and the applicable booking terms. TicketDepart is an independent travel agency, not American Airlines official customer service.",
+      "Call TicketDepart with your departure and destination, travel dates, traveler count, and cabin preference if known. A specialist can discuss American Airlines itinerary options and the applicable booking terms.",
   },
   {
-    question: "Is TicketDepart affiliated with American Airlines?",
+    question: "Can I get help planning an American Airlines flight?",
     answer:
-      "No. TicketDepart is an independent travel agency. We are not affiliated with, endorsed by, or sponsored by American Airlines, and we are not American's official customer service. American Airlines and all related names and marks belong to their respective owners and are used for identification only.",
+      "Yes. A TicketDepart specialist can discuss your route, dates, cabin preference, connections, and available American Airlines itinerary options.",
   },
   {
     question: "Can you book American Airlines flights on my behalf?",
     answer:
-      "Yes. Our specialists search, price, and book American-operated and American-marketed flights for our clients. We are a third-party agency, not the airline.",
+      "Yes. Our specialists can review American Airlines itinerary options, explain applicable booking terms, and help arrange a reservation based on your trip details.",
   },
   {
     question: "What is the difference between Main Cabin and Main Cabin Extra?",
@@ -241,14 +241,10 @@ export function AmericanAirlinesPage() {
           />
           <div>
             <h2 className="font-display text-lg font-semibold">
-              Independent agency disclosure
+              Travel planning support
             </h2>
             <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-              TicketDepart is an independent travel agency. We are not
-              affiliated with, endorsed by, or sponsored by American Airlines,
-              and we are not American Airlines' official customer service.
-              American Airlines and all related names and marks belong to their
-              respective owners and are used here for identification only.
+              A TicketDepart specialist can help you review American Airlines route options, cabin choices, connections, and applicable booking terms.
             </p>
             <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
               We do not link out to airline booking websites. Every booking and
