@@ -133,6 +133,12 @@ const LEGACY_CANONICAL_PATHS = new Map<string, string>([
   ["/flight-booking-assistance", "/flight-booking/"],
 ]);
 
+// Pin this affected public route to its generated document. This avoids an
+// SPA fallback document being selected for the trailing-slash navigation URL.
+const STATIC_DOCUMENT_PATHS = new Map<string, string>([
+  ["/flights-from-new-york/", "/flights-from-new-york/index.html"],
+]);
+
 /** Return the preferred trailing-slash URL for public HTML routes. */
 export function canonicalRedirectPath(pathname: string): string | null {
   if (
@@ -199,6 +205,13 @@ const worker = {
         canonicalUrl.pathname = canonicalPath;
         return Response.redirect(canonicalUrl.toString(), 301);
       }
+    }
+
+    const staticDocumentPath = STATIC_DOCUMENT_PATHS.get(pathname);
+    if (staticDocumentPath && (request.method === "GET" || request.method === "HEAD")) {
+      const assetUrl = new URL(request.url);
+      assetUrl.pathname = staticDocumentPath;
+      return fetchAssetResponse(new Request(assetUrl, request), env);
     }
 
     return fetchAssetResponse(request, env);
