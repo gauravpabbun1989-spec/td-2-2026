@@ -19,6 +19,7 @@ const ROUTES = [
     path: "/american-airlines",
     heading: /american airlines flight booking and reservation assistance/i,
   },
+  { path: "/flights-from-new-york/", heading: /flights from new york/i },
   { path: "/contact", heading: /talk to a real travel specialist/i },
   { path: "/privacy", heading: /^privacy policy$/i },
   { path: "/terms", heading: /^terms of service$/i },
