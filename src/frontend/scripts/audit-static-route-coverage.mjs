@@ -67,7 +67,7 @@ assert(!analyticsSource.includes('trackEvent("phone_cta_impression"'), "CTA visi
 assert(!popupSource.includes('trackEvent("call_now_popup_impression"'), "popup visibility must not emit an impression event");
 
 const locs = extractLocs(builtSitemap);
-assert(locs.length === 48, `expected 48 URLs after excluding business-class, group, and corporate pages from the economy-first sitemap; found ${locs.length}`);
+assert(locs.length === 52, `expected 52 URLs after excluding business-class, group, and corporate pages from the economy-first sitemap; found ${locs.length}`);
 assert(new Set(locs).size === locs.length, "built sitemap contains duplicate URLs");
 assert(!locs.some((url) => new URL(url).pathname === "/flights-new-york-to-london/"), "known low-performing New York–London route URL must remain out of the curated sitemap until it is intentionally re-evaluated");
 assert(!locs.some((url) => new URL(url).pathname.replace(/\/+$/, "") === "/flight-search-results"), "non-indexable flight search results route must not be in the sitemap");
