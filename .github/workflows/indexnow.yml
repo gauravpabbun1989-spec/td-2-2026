@@ -2,6 +2,10 @@ name: Submit live sitemap URLs to IndexNow
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Deploy Cloudflare Production"]
+    types: [completed]
+    branches: [main]
 
 permissions:
   contents: read
@@ -12,13 +16,18 @@ concurrency:
 
 jobs:
   submit-sitemap:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Check out the deployed commit
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || 'main' }}
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24.18.0
+      - name: Validate the local IndexNow key and canonical sitemap
+        run: node scripts/indexnow-validate.mjs
       - name: Submit URLs from the live sitemap
         run: node scripts/indexnow.mjs
