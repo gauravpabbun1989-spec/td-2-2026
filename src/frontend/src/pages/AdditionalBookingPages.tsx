@@ -86,7 +86,7 @@ const PAGES: readonly PageConfig[] = [
       "Need business class flights? Call TicketDepart to discuss U.S. departure airports, international routes, cabin options, connections, baggage, and fare rules with an independent travel specialist.",
     heading: "Business class flight booking by phone",
     intro:
-      "Discuss your route, dates, preferred U.S. departure airport, cabin, connection times, and arrival schedule with a TicketDepart travel specialist. We can help you review available business-class itineraries and the fare conditions before you decide. TicketDepart is an independent travel agency, not an airline.",
+      "Discuss your route, dates, preferred U.S. departure airport, cabin, connection times, and arrival schedule with a TicketDepart travel specialist. We can help you review available business-class itineraries and the fare conditions before you decide. A TicketDepart specialist can help you compare business-class itineraries and understand the fare conditions before you decide.",
     service: "Business class flight booking assistance",
     items: [
       [
@@ -920,7 +920,7 @@ function AdditionalBookingPage({ page }: { page: PageConfig }) {
                 Airline-specific U.S. booking help
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                If you already know the airline you want to travel on, use the matching guide. TicketDepart is an independent travel agency and is not the official customer service for any airline.
+                If you already have an airline in mind, explore its guide for route information, cabin options, and help planning your trip.
               </p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
                 {[
