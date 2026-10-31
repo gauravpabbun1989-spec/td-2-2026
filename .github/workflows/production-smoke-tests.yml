@@ -52,8 +52,13 @@ jobs:
             echo "FAIL /404/ returned HTTP $status; expected 404"
             exit 1
           fi
-          grep -Eiq '<meta[^>]*name=["']robots["'][^>]*content=["']noindex' /tmp/not-found.html || {
-            echo "FAIL /404/ is missing a noindex robots directive"
-            exit 1
+          node <<'NODE'
+          const fs = require('node:fs');
+          const html = fs.readFileSync('/tmp/not-found.html', 'utf8');
+          const robots = html.match(/<meta\b[^>]*>/gi)?.find(tag => /name=["']robots["']/i.test(tag));
+          if (!robots || !/content=["']noindex/i.test(robots)) {
+            console.error('FAIL /404/ is missing a noindex robots directive');
+            process.exit(1);
           }
-          echo "PASS /404/ returns HTTP 404 with noindex"
+          console.log('PASS /404/ returns HTTP 404 with noindex');
+          NODE
