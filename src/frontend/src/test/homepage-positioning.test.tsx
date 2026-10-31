@@ -23,9 +23,17 @@ describe("economy-first homepage positioning", () => {
     expect(
       screen.queryByText("Is TicketDepart an airline?"),
     ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText(/independent travel agency|not affiliated with, endorsed by/i),
-    ).not.toBeInTheDocument();
+    const faqSection = document.querySelector('[data-ocid="home.faq_section"]');
+    if (!faqSection) throw new Error("Homepage FAQ section was not rendered");
+    expect(faqSection).not.toHaveTextContent(
+      /independent travel agency|not affiliated with, endorsed by/i,
+    );
+
+    const footer = document.querySelector('[data-ocid="site.footer"]');
+    if (!footer) throw new Error("Site footer was not rendered");
+    expect(footer).toHaveTextContent(
+      /independent travel agency and is not affiliated with any airline/i,
+    );
   });
 
   it("makes economy the first service on the main flight-booking page", async () => {
