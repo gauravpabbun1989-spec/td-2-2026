@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: ticketdepart-production-smoke
@@ -22,7 +23,29 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Confirm the deployment job actually ran
+        id: deployment_check
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOY_RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_EVENT_NAME" != "workflow_run" ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          conclusion="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${DEPLOY_RUN_ID}/jobs?per_page=100" --jq '.jobs[] | select(.name == "Build and deploy production Worker") | .steps[] | select(.name == "Deploy Cloudflare Worker to production") | .conclusion' | tail -n 1)"
+          if [ "$conclusion" = "success" ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "A production deployment completed; run all smoke checks."
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "The deploy step conclusion was '${conclusion:-missing}'; skip smoke checks."
+          fi
+
       - name: Check New York landing page
+        if: always() && steps.deployment_check.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -43,13 +66,38 @@ jobs:
           if (checks.some(([, ok]) => !ok)) process.exit(1);
           NODE
 
-      - name: Confirm the not-found route returns HTTP 404 and noindex
+      - name: Check the economy-first phone-booking guide
+        if: always() && steps.deployment_check.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail
-          status="$(curl --location --silent --show-error --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/404/")"
+          url="https://ticketdepart.com/how-to-book-a-flight-by-phone/"
+          status="$(curl --location --silent --show-error --output /tmp/phone-guide.html --write-out '%{http_code}' "$url")"
+          test "$status" = "200"
+          node <<'NODE'
+          const fs = require('node:fs');
+          const html = fs.readFileSync('/tmp/phone-guide.html', 'utf8');
+          const checks = [
+            ['phone guide title', /<title>[^<]*How to Book a Flight by Phone/i.test(html)],
+            ['indexable robots meta', /<meta[^>]*name=["']robots["'][^>]*content=["']index,\s*follow/i.test(html) || /<meta[^>]*content=["']index,\s*follow["'][^>]*name=["']robots/i.test(html)],
+            ['self-referencing canonical', /<link[^>]*rel=["']canonical["'][^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) || /<link[^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) && /<link[^>]*rel=["']canonical/i.test(html)],
+            ['economy fare comparison content', /Economy fare comparison/i.test(html)],
+            ['full trip cost content', /Compare the full trip cost/i.test(html)],
+            ['changes and refunds content', /Changes, cancellations, and refunds/i.test(html)],
+            ['production phone CTA', /tel:\+18332250511/.test(html)],
+          ];
+          for (const [name, ok] of checks) console.log((ok ? 'PASS ' : 'FAIL ') + name);
+          if (checks.some(([, ok]) => !ok)) process.exit(1);
+          NODE
+
+      - name: Confirm an unknown route returns HTTP 404 and noindex
+        if: always() && steps.deployment_check.outputs.should_run == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="$(curl --location --silent --show-error --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/__ticketdepart_404_smoke_test_20261101__/")"
           if [ "$status" != "404" ]; then
-            echo "FAIL /404/ returned HTTP $status; expected 404"
+            echo "FAIL unknown route returned HTTP $status; expected 404"
             exit 1
           fi
           node <<'NODE'
@@ -57,13 +105,14 @@ jobs:
           const html = fs.readFileSync('/tmp/not-found.html', 'utf8');
           const robots = html.match(/<meta\b[^>]*>/gi)?.find(tag => /name=["']robots["']/i.test(tag));
           if (!robots || !/content=["']noindex/i.test(robots)) {
-            console.error('FAIL /404/ is missing a noindex robots directive');
+            console.error('FAIL unknown route is missing a noindex robots directive');
             process.exit(1);
           }
-          console.log('PASS /404/ returns HTTP 404 with noindex');
+          console.log('PASS unknown route returns HTTP 404 with noindex');
           NODE
 
       - name: Confirm security probes and malformed routes return HTTP 404
+        if: always() && steps.deployment_check.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail
