@@ -192,7 +192,7 @@ const AIRLINES: readonly AirlinePage[] = [
     ],
     faqs: [
       { question: "Can I get help planning a {AIRLINE} flight?", answer: "Yes. A TicketDepart travel specialist can discuss routes, dates, cabin options, connections, and booking terms for your trip." },
-      { question: "How can I speak with a Qatar Airways reservation specialist by phone?", answer: "You can connect with TicketDepart for independent travel assistance. A specialist can discuss your Qatar Airways route, dates, travelers, cabin preferences, and available booking options. TicketDepart is not Qatar Airways official customer service." },
+      { question: "How can I speak with a Qatar Airways reservation specialist by phone?", answer: "Call TicketDepart to discuss your Qatar Airways route, dates, travelers, cabin preferences, and available booking options with a travel specialist." },
       { question: "Can you help with a Qatar Airways change?", answer: "We can review the existing reservation and discuss possible changes or rebooking. Exact eligibility and cost depend on the ticket and availability." },
       { question: "Can you help with international connections?", answer: "Yes. We can discuss the complete routing and connection considerations, while travelers remain responsible for confirming current entry and transit requirements." },
     ],
