@@ -45,7 +45,6 @@ const PAGES: CountryPage[] = [
       ["Can I book a flight from the USA to Italy by phone?", "Yes. A TicketDepart specialist can discuss U.S. departure airports, Italian destinations, dates, cabins, connections, and available booking options."],
       ["Can you help change a USA to Italy flight?", "We can review the reservation and discuss possible changes or rebooking. Eligibility and costs depend on the ticket rules, airline policy, and how the ticket was issued."],
       ["Which Italian airports can I discuss?", "Common international gateways include Rome Fiumicino and Milan Malpensa, with other airports such as Venice, Naples, and Florence depending on the itinerary."],
-      ["Can a travel specialist help with this destination?","Yes. A TicketDepart specialist can discuss routes, dates, airport choices, connections, and booking options for your trip."],
     ],
   },
   {
@@ -71,7 +70,6 @@ const PAGES: CountryPage[] = [
       ["Can I book USA to France flights by phone?", "Yes. You can discuss route, dates, U.S. departure city, French arrival airport, cabin, and itinerary options with a specialist."],
       ["Can you help reschedule a flight to France?", "We can review the ticket and discuss available replacement options. Exact eligibility and costs depend on the ticket terms and airline rules."],
       ["What is the main Paris gateway?", "Paris Charles de Gaulle (CDG) is the major international gateway. Paris Orly (ORY) is another airport to consider depending on the itinerary."],
-      ["Can a travel specialist help with this destination?","Yes. A TicketDepart specialist can discuss routes, dates, airport choices, connections, and booking options for your trip."],
     ],
   },
   {
@@ -97,7 +95,6 @@ const PAGES: CountryPage[] = [
       ["Can I book a flight from the USA to Germany by phone?", "Yes. A specialist can discuss your route, dates, departure airport, destination airport, cabin, and available itinerary options."],
       ["Can you help change a Lufthansa flight?", "Ticket-specific assistance can be discussed, but eligibility and costs depend on how the ticket was issued, its fare rules, airline policy."],
       ["Which German airports are useful for international travel?", "Frankfurt (FRA) and Munich (MUC) are major international gateways; Berlin, Düsseldorf, and Hamburg can also be relevant depending on the trip."],
-      ["Can a travel specialist help with this destination?","Yes. A TicketDepart specialist can discuss routes, dates, airport choices, connections, and booking options for your trip."],
     ],
   },
   {
@@ -123,7 +120,6 @@ const PAGES: CountryPage[] = [
       ["Can I book USA to Spain flights by phone?", "Yes. Discuss your U.S. departure city, Spanish destination, dates, travelers, cabin, and connection preferences with a specialist."],
       ["Can you help change a flight to Spain?", "We can review the reservation and discuss possible changes or rebooking. Exact outcomes depend on the ticket and airline rules."],
       ["Which Spanish airports should I consider?", "Madrid-Barajas and Barcelona-El Prat are major international gateways, with Málaga, Palma de Mallorca, and Valencia useful for specific trips."],
-      ["Can a travel specialist help with this destination?","Yes. A TicketDepart specialist can discuss routes, dates, airport choices, connections, and booking options for your trip."],
     ],
   },
   {
@@ -149,7 +145,6 @@ const PAGES: CountryPage[] = [
       ["Can I book a USA to Japan flight by phone?", "Yes. A specialist can discuss U.S. departure airports, Japanese destinations, dates, travelers, cabin, and itinerary options."],
       ["Should I compare Haneda and Narita?", "Yes. Airport choice can affect ground transportation and schedule convenience. Discuss both when the available itineraries make that practical."],
       ["Can you help change an ANA or Japan Airlines itinerary?", "We can discuss possible changes or rebooking, subject to ticket rules, how the reservation was issued, airline policy."],
-      ["Can a travel specialist help with this destination?","Yes. A TicketDepart specialist can discuss routes, dates, airport choices, connections, and booking options for your trip."],
     ],
   },
   {
@@ -201,7 +196,6 @@ const PAGES: CountryPage[] = [
       ["Can I book USA to Brazil flights by phone?", "Yes. A specialist can discuss your U.S. departure, Brazilian destination, dates, travelers, cabin, and available itinerary options."],
       ["Can you help change a Brazil flight?", "We can review the ticket and discuss possible changes or rebooking. Exact eligibility and cost depend on ticket rules."],
       ["What is Brazil's major international gateway?", "São Paulo Guarulhos (GRU) is a major international gateway, while Rio de Janeiro Galeão (GIG) is also important for international itineraries."],
-      ["Can a travel specialist help with this destination?","Yes. A TicketDepart specialist can discuss routes, dates, airport choices, connections, and booking options for your trip."],
     ],
   },
   {
@@ -227,7 +221,6 @@ const PAGES: CountryPage[] = [
       ["Can I book a USA to Colombia flight by phone?", "Yes. Discuss your U.S. departure, Colombian destination, dates, traveler count, cabin, and itinerary preferences with a specialist."],
       ["Can you help change an Avianca flight?", "We can discuss possible reservation changes or rebooking, subject to the ticket rules, how it was issued, airline policy."],
       ["Which Colombian airport is the main international gateway?", "Bogotá El Dorado (BOG) is the principal international gateway, with Medellín, Cartagena, Cali, and Barranquilla serving other travel needs."],
-      ["Can a travel specialist help with this destination?","Yes. A TicketDepart specialist can discuss routes, dates, airport choices, connections, and booking options for your trip."],
     ],
   },
   {
@@ -279,7 +272,6 @@ const PAGES: CountryPage[] = [
       ["Can I book a USA to Switzerland flight by phone?", "Yes. Discuss your U.S. departure, Swiss destination, dates, cabin, travelers, and connection preferences with a specialist."],
       ["Can you help change a SWISS flight?", "We can review the reservation and discuss possible changes or rebooking, subject to ticket rules, airline policy, and how the ticket was issued."],
       ["Which Swiss airports are useful for international travel?", "Zurich (ZRH) is the primary international gateway, while Geneva (GVA) is important for western Switzerland and other specific itineraries."],
-      ["Can a travel specialist help with this destination?","Yes. A TicketDepart specialist can discuss routes, dates, airport choices, connections, and booking options for your trip."],
     ],
   },
   {
