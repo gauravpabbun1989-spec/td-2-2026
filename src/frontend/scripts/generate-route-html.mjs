@@ -918,6 +918,8 @@ function makeListingDescription(value) {
   const phoneSuffix = ` Call ${PHONE_DISPLAY}.`;
   const withoutPhone = RETIRED_PHONE_PATTERNS
     .reduce((text, pattern) => text.replace(pattern, ""), normalized)
+    .replaceAll(`Call ${PHONE_DISPLAY}`, "")
+    .replaceAll(PHONE_DISPLAY, "")
     .replace(/\s+([.,;:])/g, "$1")
     .replace(/\.\s*[,;:]/g, ".")
     .replace(/\s+/g, " ")
