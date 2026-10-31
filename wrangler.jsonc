@@ -3,6 +3,7 @@
   "name": "ticket-depart2",
   "main": "./src/frontend/src/worker.ts",
   "compatibility_date": "2026-09-21",
+  "compatibility_flags": ["assets_navigation_has_no_effect"],
   "assets": {
     "directory": "./src/frontend/dist",
     "binding": "ASSETS",
