@@ -62,3 +62,25 @@ jobs:
           }
           console.log('PASS /404/ returns HTTP 404 with noindex');
           NODE
+
+      - name: Confirm security probes and malformed routes return HTTP 404
+        shell: bash
+        run: |
+          set -euo pipefail
+          for url in \
+            "https://ticketdepart.com/.env" \
+            "https://ticketdepart.com/flights-from-new-york/null"
+          do
+            output="$(mktemp)"
+            status="$(curl --location --silent --show-error --output "$output" --write-out '%{http_code}' "$url")"
+            if [ "$status" != "404" ]; then
+              echo "FAIL $url returned HTTP $status; expected 404"
+              exit 1
+            fi
+            if ! grep -Fqi 'noindex, nofollow' "$output"; then
+              echo "FAIL $url did not return the branded noindex 404 document"
+              exit 1
+            fi
+            echo "PASS $url returns HTTP 404 with noindex"
+            rm -f "$output"
+          done
