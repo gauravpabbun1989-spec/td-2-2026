@@ -43,11 +43,11 @@ jobs:
           if (checks.some(([, ok]) => !ok)) process.exit(1);
           NODE
 
-      - name: Confirm the not-found route returns HTTP 404 and noindex
+      - name: Confirm an unknown route returns HTTP 404 and noindex
         shell: bash
         run: |
           set -euo pipefail
-          status="$(curl --location --silent --show-error --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/404/")"
+          status="$(curl --location --silent --show-error --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/__ticketdepart_404_smoke_test_20261101__/")"
           if [ "$status" != "404" ]; then
             echo "FAIL /404/ returned HTTP $status; expected 404"
             exit 1
