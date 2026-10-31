@@ -84,7 +84,7 @@ const DisclaimerPage = lazyPage(() => import("@/pages/DisclaimerPage").then(({ D
 // landing page available as a narrowly-scoped fallback without weakening 404s.
 function RootNotFound() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const normalizedPath = pathname.replace(/\\/+$/, "");
+  const normalizedPath = pathname.replace(/\/+$/, "");
 
   if (normalizedPath === "/flights-from-new-york") {
     return <FlightsFromNewYorkPage />;
