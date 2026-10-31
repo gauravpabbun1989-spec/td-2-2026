@@ -6,7 +6,7 @@ import { renderRoute } from "@/test/render-route";
 describe("economy-first homepage positioning", () => {
   it("leads with individual economy travelers rather than group or corporate travel", async () => {
     renderRoute("/");
-    await screen.findByRole("heading", { level: 1, name: /Need a Flight\\?/i });
+    await screen.findByRole("heading", { level: 1, name: /Need a Flight\?/i });
 
     const hero = document.querySelector('[data-ocid="home.hero_section"]');
     if (!hero) throw new Error("Homepage hero was not rendered");
@@ -32,7 +32,7 @@ describe("economy-first homepage positioning", () => {
     renderRoute("/flight-booking");
     await screen.findByRole("heading", {
       level: 1,
-      name: /flight booking assistance by phone for u\\.s\\. travelers/i,
+      name: /flight booking assistance by phone for u\.s\. travelers/i,
     });
 
     expect(screen.getByText("Economy flight booking")).toBeInTheDocument();
