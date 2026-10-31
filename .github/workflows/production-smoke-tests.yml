@@ -69,7 +69,8 @@ jobs:
           set -euo pipefail
           for url in \
             "https://ticketdepart.com/.env" \
-            "https://ticketdepart.com/flights-from-new-york/null"
+            "https://ticketdepart.com/flights-from-new-york/null" \
+            "https://ticketdepart.com/__ticketdepart-smoke-404-probe__/"
           do
             output="$(mktemp)"
             status="$(curl --location --silent --show-error --output "$output" --write-out '%{http_code}' "$url")"
