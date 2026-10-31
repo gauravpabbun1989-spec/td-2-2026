@@ -68,14 +68,14 @@ describe("static route HTML uses the full airline names", () => {
     expect(html).toContain(
       '<meta name="description" content="24/7 economy-first flight booking help with TicketDepart. Compare routes, dates, baggage, and fare rules. Call +1-833-225-0511." />',
     );
-    expect((html.match(/\\+1-833-225-0511/g) ?? []).length).toBe(1);
+    expect((html.split("+1-833-225-0511").length - 1)).toBe(1);
   });
 
   it("includes the current phone number exactly once in generated SEO descriptions", () => {
     for (const route of ["/", "/flights-from-chicago", "/united-airlines"] as const) {
       const html = readGenerated(route);
       const description = html.match(/<meta name="description" content="([^"]+)"/i)?.[1] ?? "";
-      expect((description.match(/\\+1-833-225-0511/g) ?? []).length).toBe(1);
+      expect((description.split("+1-833-225-0511").length - 1)).toBe(1);
     }
   });
 
