@@ -42,6 +42,14 @@ for (const [label, config] of [
     config.assets?.not_found_handling === "404-page",
     `${label} Wrangler config must return a real 404 response for unknown routes`,
   );
+  assert(
+    config.assets?.run_worker_first === true,
+    `${label} Wrangler config must use run_worker_first so Worker logic and 404 fallback work together`,
+  );
+  assert(
+    !config.compatibility_flags?.includes("assets_navigation_has_no_effect"),
+    `${label} Wrangler config must not disable asset-first navigation fallback behavior`,
+  );
 }
 
 const notFoundHtmlPath = path.join(distDir, "404.html");
