@@ -134,6 +134,19 @@ describe("Cloudflare edge route protection", () => {
     expect(canonicalRedirectPath("/not-a-real-route")).toBeNull();
   });
 
+  it("serves the phone-booking guide from its exact generated HTML document", async () => {
+    const { env, fetch } = createEnv();
+    const request = new Request("https://ticketdepart.com/how-to-book-a-flight-by-phone/");
+
+    const response = await worker.fetch(request, env);
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("x-ticketdepart-worker")).toBe("edge");
+    expect(fetch).toHaveBeenCalledTimes(1);
+    const assetUrl = new URL(fetch.mock.calls[0][0].url);
+    expect(assetUrl.pathname).toBe("/how-to-book-a-flight-by-phone/index.html");
+  });
+
   it("serves the New York landing page from its exact generated HTML document", async () => {
     const { env, fetch } = createEnv();
     const request = new Request("https://ticketdepart.com/flights-from-new-york/?source=gsc");
