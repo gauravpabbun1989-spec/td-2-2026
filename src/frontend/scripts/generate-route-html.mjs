@@ -44,12 +44,12 @@ const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8").replace
 // after scripts; an early style preload prevents the page painting unstyled
 // while that later link is encountered. Keep the original stylesheet link so
 // normal CSS application and caching behavior remain unchanged.
-const stylesheetHref = source.match(/<link\\b(?=[^>]*\\brel=["']stylesheet["'])[^>]*\\bhref=["']([^"']+)["'][^>]*>/i)?.[1];
-if (stylesheetHref && !/<link\\b(?=[^>]*\\brel=["']preload["'])[^>]*\\bas=["']style["']/i.test(source)) {
-  const stylesheetTag = source.match(/<link\\b(?=[^>]*\\brel=["']stylesheet["'])[^>]*>/i)?.[0] ?? "";
-  const crossorigin = /\\bcrossorigin(?:=["'][^"']*["'])?/i.test(stylesheetTag) ? " crossorigin" : "";
+const stylesheetHref = source.match(/<link\b(?=[^>]*\brel=["']stylesheet["'])[^>]*\bhref=["']([^"']+)["'][^>]*>/i)?.[1];
+if (stylesheetHref && !/<link\b(?=[^>]*\brel=["']preload["'])[^>]*\bas=["']style["']/i.test(source)) {
+  const stylesheetTag = source.match(/<link\b(?=[^>]*\brel=["']stylesheet["'])[^>]*>/i)?.[0] ?? "";
+  const crossorigin = /\bcrossorigin(?:=["'][^"']*["'])?/i.test(stylesheetTag) ? " crossorigin" : "";
   const preloadTag = `<link rel="preload" as="style" href="${stylesheetHref}"${crossorigin} />`;
-  source = source.replace(/<head\\b[^>]*>/i, (head) => head + "\\n    " + preloadTag);
+  source = source.replace(/<head\b[^>]*>/i, (head) => head + "\n    " + preloadTag);
 }
 
 const routes = {
