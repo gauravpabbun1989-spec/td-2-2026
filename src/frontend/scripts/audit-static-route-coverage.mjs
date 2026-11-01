@@ -283,7 +283,7 @@ assert(phoneGuideText.includes("Compare the full trip cost"), "phone-booking gui
 
 const generatorSource = read(path.join(root, "scripts/generate-route-html.mjs"));
 const generatedRouteDefinitions = generatorSource.split("const STATIC_SEO_CONTENT")[0];
-const generatedRoutePaths = [...generatedRouteDefinitions.matchAll(/^\s*"([^"]+)":\s*\\{/gm)].map((match) => match[1]);
+const generatedRoutePaths = [...generatedRouteDefinitions.matchAll(/^\s*"([^"]+)":\s*\{/gm)].map((match) => match[1]);
 const appSource = read(path.join(root, "src/App.tsx"));
 const appRoutePaths = [...appSource.matchAll(/path:\s*["']([^"']+)["']/g)].map((match) => match[1]);
 for (const route of appRoutePaths) {
