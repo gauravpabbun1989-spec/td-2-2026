@@ -24,7 +24,20 @@ const RETIRED_PHONE_PATTERNS = phoneConfig.legacy.map((phone) => {
 });
 
 const distDir = path.resolve("dist");
-const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8");
+// Move Vite's blocking stylesheet links ahead of synchronous inline scripts.
+// Some hosting/import layers append generated asset tags late in <head>; starting
+// CSS early prevents the static route content flashing as unstyled plain text.
+const source = fs.readFileSync(path.join(distDir, "index.html"), "utf8").replace(
+  /(<head\\b[^>]*>)([\\s\\S]*?)(<\\/head>)/i,
+  (document, openHead, headContent, closeHead) => {
+    const stylesheetLinks = headContent.match(/<link\\b(?=[^>]*\\brel=["']stylesheet["'])[^>]*>/gi) ?? [];
+    if (stylesheetLinks.length === 0) return document;
+    const remainingHead = headContent.replace(/<link\\b(?=[^>]*\\brel=["']stylesheet["'])[^>]*>/gi, "");
+    const firstScript = remainingHead.search(/<script\\b/i);
+    const insertionPoint = firstScript === -1 ? 0 : firstScript;
+    return openHead + remainingHead.slice(0, insertionPoint) + stylesheetLinks.join("\\n") + remainingHead.slice(insertionPoint) + closeHead;
+  },
+);
 
 const routes = {
   "/": {
