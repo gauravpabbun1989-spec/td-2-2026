@@ -50,10 +50,10 @@ describe("Cloudflare edge route protection", () => {
     const response = await worker.fetch(request, env);
 
     expect(response.status).toBe(404);
-    expect(await response.text()).toBe("custom not found");
+    expect(await response.text()).toContain("This page has departed");
     expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow");
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(new URL(fetch.mock.calls[0][0].url).pathname).toBe("/404.html");
+    expect(response.headers.get("x-ticketdepart-worker")).toBe("edge");
+    expect(fetch).not.toHaveBeenCalled();
   });
 
   it("returns a real 404 for unknown HTML routes with or without a trailing slash", async () => {
@@ -65,10 +65,10 @@ describe("Cloudflare edge route protection", () => {
       );
 
       expect(response.status).toBe(404);
-      expect(await response.text()).toBe("custom not found");
+      expect(await response.text()).toContain("This page has departed");
       expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow");
-      expect(fetch).toHaveBeenCalledTimes(1);
-      expect(new URL(fetch.mock.calls[0][0].url).pathname).toBe("/404.html");
+      expect(response.headers.get("x-ticketdepart-worker")).toBe("edge");
+      expect(fetch).not.toHaveBeenCalled();
     }
   });
 
@@ -93,7 +93,8 @@ describe("Cloudflare edge route protection", () => {
     );
 
     expect(response.status).toBe(404);
-    expect(await response.text()).toBe("custom not found");
+    expect(await response.text()).toContain("This page has departed");
+    expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow");
   });
 
   it("normalizes public route URLs to their trailing-slash canonical", async () => {
@@ -132,6 +133,19 @@ describe("Cloudflare edge route protection", () => {
     expect(canonicalRedirectPath("/assets/app.js")).toBeNull();
     expect(canonicalRedirectPath("/contact/")).toBeNull();
     expect(canonicalRedirectPath("/not-a-real-route")).toBeNull();
+  });
+
+  it("serves the phone-booking guide from its exact generated HTML document", async () => {
+    const { env, fetch } = createEnv();
+    const request = new Request("https://ticketdepart.com/how-to-book-a-flight-by-phone/");
+
+    const response = await worker.fetch(request, env);
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("x-ticketdepart-worker")).toBe("edge");
+    expect(fetch).toHaveBeenCalledTimes(1);
+    const assetUrl = new URL(fetch.mock.calls[0][0].url);
+    expect(assetUrl.pathname).toBe("/how-to-book-a-flight-by-phone/index.html");
   });
 
   it("serves the New York landing page from its exact generated HTML document", async () => {
@@ -191,5 +205,6 @@ describe("Cloudflare edge route protection", () => {
 
     expect(response.status).toBe(404);
     expect(await response.text()).toBe("");
+    expect(response.headers.get("x-robots-tag")).toBe("noindex, nofollow");
   });
 });

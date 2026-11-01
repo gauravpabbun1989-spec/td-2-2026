@@ -208,6 +208,7 @@ const LEGACY_CANONICAL_PATHS = new Map<string, string>([
 // SPA fallback document being selected for the trailing-slash navigation URL.
 const STATIC_DOCUMENT_PATHS = new Map<string, string>([
   ["/flights-from-new-york/", "/flights-from-new-york/index.html"],
+  ["/how-to-book-a-flight-by-phone/", "/how-to-book-a-flight-by-phone/index.html"],
 ]);
 
 /** Return the preferred trailing-slash URL for public HTML routes. */
@@ -227,23 +228,37 @@ export function canonicalRedirectPath(pathname: string): string | null {
   return KNOWN_HTML_ROUTE_PATHS.has(normalizedPath) ? `${normalizedPath}/` : null;
 }
 
-async function notFoundResponse(request: Request, env: Env) {
-  const notFoundUrl = new URL("/404.html", request.url);
-  const notFoundAsset = await env.ASSETS.fetch(
-    new Request(notFoundUrl, { method: "GET" }),
-  );
-  const headers = new Headers(notFoundAsset.headers);
-  headers.set("Cache-Control", "no-store");
-  headers.set("X-Content-Type-Options", "nosniff");
-  headers.set("X-Robots-Tag", "noindex, nofollow");
-  if (!headers.has("Content-Type")) {
-    headers.set("Content-Type", "text/html; charset=utf-8");
-  }
-
-  return new Response(request.method === "HEAD" ? null : notFoundAsset.body, {
+function notFoundResponse(request: Request) {
+  const html = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Page Not Found | TicketDepart</title>
+  <meta name="description" content="This TicketDepart page could not be found. Return to flight booking or contact a travel specialist.">
+</head>
+<body>
+  <main>
+    <h1>This page has departed</h1>
+    <p>The page you were looking for could not be found. Check the address or return to TicketDepart.</p>
+    <p><a href="tel:+1-833-225-0511">Call +1-833-225-0511 — available 24/7</a></p>
+    <p><a href="/">Back to TicketDepart home</a></p>
+    <p><a href="/flight-booking/">Flight booking assistance</a></p>
+    <p><a href="/contact/">Contact a travel specialist</a></p>
+  </main>
+</body>
+</html>`;
+  return new Response(request.method === "HEAD" ? null : html, {
     status: 404,
     statusText: "Not Found",
-    headers,
+    headers: {
+      "Cache-Control": "no-store",
+      "Content-Type": "text/html; charset=utf-8",
+      "X-Content-Type-Options": "nosniff",
+      "X-Robots-Tag": "noindex, nofollow",
+      "X-TicketDepart-Worker": "edge",
+    },
   });
 }
 
@@ -257,6 +272,7 @@ async function fetchAssetResponse(request: Request, env: Env): Promise<Response>
   const headers = new Headers(response.headers);
   headers.set("Cache-Control", "no-store, max-age=0, must-revalidate");
   headers.set("CDN-Cache-Control", "no-store");
+  headers.set("X-TicketDepart-Worker", "edge");
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
@@ -269,7 +285,7 @@ const worker = {
     const { pathname } = new URL(request.url);
 
     if (isRejectedRequestPath(pathname)) {
-      return notFoundResponse(request, env);
+      return notFoundResponse(request);
     }
 
     if (request.method === "GET" || request.method === "HEAD") {
@@ -277,7 +293,13 @@ const worker = {
       if (canonicalPath) {
         const canonicalUrl = new URL(request.url);
         canonicalUrl.pathname = canonicalPath;
-        return Response.redirect(canonicalUrl.toString(), 301);
+        return new Response(null, {
+          status: 301,
+          headers: {
+            Location: canonicalUrl.toString(),
+            "X-TicketDepart-Worker": "edge",
+          },
+        });
       }
 
       const normalizedPath = normalizeRequestPath(pathname);
@@ -285,7 +307,7 @@ const worker = {
         isPotentialHtmlRoute(pathname) &&
         !KNOWN_HTML_ROUTE_PATHS.has(normalizedPath)
       ) {
-        return notFoundResponse(request, env);
+        return notFoundResponse(request);
       }
     }
 
