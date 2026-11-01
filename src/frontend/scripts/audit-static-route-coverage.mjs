@@ -39,6 +39,10 @@ for (const [label, config] of [
   ["root", rootWrangler],
 ]) {
   assert(
+    config.cache?.enabled === false,
+    `${label} Wrangler config must bypass the Worker response cache so route validation executes on every request`,
+  );
+  assert(
     config.assets?.not_found_handling === "404-page",
     `${label} Wrangler config must return a real 404 response for unknown routes`,
   );
