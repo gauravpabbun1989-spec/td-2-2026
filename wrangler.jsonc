@@ -10,6 +10,9 @@
       "zone_name": "ticketdepart.com"
     }
   ],
+  "cache": {
+    "enabled": false
+  },
   "assets": {
     "directory": "./src/frontend/dist",
     "binding": "ASSETS",
