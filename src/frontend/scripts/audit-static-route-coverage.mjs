@@ -43,8 +43,8 @@ for (const [label, config] of [
     `${label} Wrangler config must return a real 404 response for unknown routes`,
   );
   assert(
-    config.assets?.run_worker_first === true,
-    `${label} Wrangler config must run the Worker before every request for explicit route validation`,
+    (config.assets?.run_worker_first === true || (Array.isArray(config.assets?.run_worker_first) && config.assets.run_worker_first.includes("/*"))),
+    `${label} Wrangler config must run the Worker before every request for explicit route validation (true or ["/*"]),`,
   );
   assert(
     config.compatibility_flags?.includes("assets_navigation_has_no_effect"),
