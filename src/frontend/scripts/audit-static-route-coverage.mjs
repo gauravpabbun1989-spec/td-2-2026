@@ -306,20 +306,21 @@ assert(phoneGuideText.includes("Compare the full trip cost"), "phone-booking gui
 
 
 const generatorSource = read(path.join(root, "scripts/generate-route-html.mjs"));
-const workerSource = read(path.join(root, "src/worker.ts"));
 const generatedRouteDefinitions = generatorSource.split("const STATIC_SEO_CONTENT")[0];
-const generatedRoutePaths = [...generatedRouteDefinitions.matchAll(/^\s*"([^"]+)":\s*\{/gm)].map((match) => match[1]);
-const workerRouteBlock = workerSource.match(/const KNOWN_HTML_ROUTE_PATHS = new Set<string>\(\[([\s\S]*?)\]\);/);
-assert(workerRouteBlock, "Worker HTML route allowlist is missing");
-const workerRoutePaths = [...workerRouteBlock[1].matchAll(/"([^"]+)"/g)].map((match) => match[1]);
-for (const route of generatedRoutePaths) {
-  assert(workerRoutePaths.includes(route), `Worker HTML route allowlist is missing generated route ${route}`);
-}
-assert(workerRoutePaths.includes("/404.html"), "Worker HTML route allowlist must permit the branded 404 document");
+const generatedRoutePaths = [...generatedRouteDefinitions.matchAll(/^\\s*"([^"]+)":\\s*\\{/gm)].map((match) => match[1]);
 const appSource = read(path.join(root, "src/App.tsx"));
-const appRoutePaths = [...appSource.matchAll(/path:\s*["']([^"']+)["']/g)].map((match) => match[1]);
+const appRoutePaths = [...appSource.matchAll(/path:\\s*["']([^"']+)["']/g)].map((match) => match[1]);
 for (const route of appRoutePaths) {
-  assert(workerRoutePaths.includes(route), `Worker HTML route allowlist is missing App.tsx route ${route}`);
+  const routeFile = route === "/" ? path.join(distDir, "index.html") : path.join(distDir, route.slice(1), "index.html");
+  assert(fs.existsSync(routeFile), `Caffeine static build is missing the App.tsx route document ${route}`);
+}
+const notFoundFile = path.join(distDir, "404.html");
+assert(fs.existsSync(notFoundFile), "Caffeine static build is missing the branded 404.html document");
+const notFoundHtml = read(notFoundFile);
+assert(/<meta\\s+name=["']robots["']\\s+content=["']noindex,\\s*nofollow["']/i.test(notFoundHtml), "branded 404 document must remain noindex, nofollow");
+for (const route of generatedRoutePaths) {
+  const routeFile = route === "/" ? path.join(distDir, "index.html") : path.join(distDir, route.slice(1), "index.html");
+  assert(fs.existsSync(routeFile), `Caffeine static build is missing generated SEO route ${route}`);
 }
 
 const assetsDir = path.join(distDir, "assets");
