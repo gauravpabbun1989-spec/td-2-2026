@@ -112,6 +112,7 @@ function auditOnce() {
   assert(buildWorkflow.includes("pnpm --dir src/frontend check"), "frontend check missing from CI");
   assert(buildWorkflow.includes("pnpm --dir src/frontend test"), "frontend tests missing from CI");
   assert(buildWorkflow.includes("pnpm --dir src/frontend build"), "frontend build missing from CI");
+  assert(buildWorkflow.includes("wrangler@4.156.0 deploy --dry-run --config wrangler.jsonc"), "Cloudflare Worker dry-run build missing from PR CI");
   assert(buildWorkflow.includes("pnpm test:backend"), "backend integration tests missing from CI");
 
   assert(site.includes('phoneDisplay: "+1-833-225-0511"'), "canonical phone display does not match the updated number");

@@ -24,6 +24,8 @@ jobs:
       - run: pnpm --dir src/frontend check
       - run: pnpm --dir src/frontend test
       - run: pnpm --dir src/frontend build
+      - name: Build Cloudflare Worker (dry run)
+        run: pnpm dlx wrangler@4.156.0 deploy --dry-run --config wrangler.jsonc
       - run: npm install -g ic-mops
       - run: mops check
       - run: mops build
