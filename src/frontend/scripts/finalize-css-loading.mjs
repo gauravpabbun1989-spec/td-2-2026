@@ -79,11 +79,11 @@ if (updated === 0) {
       const links = cssFiles.map((cssFile) => {
         const href = "/" + path.relative(distDir, cssFile).split(path.sep).join("/");
         return '<link rel="stylesheet" href="' + href + '" />';
-      }).join("\\n    ");
-      html = html.replace(/<head\\b[^>]*>/i, (head) => head + "\\n    " + links);
+      }).join("\n    ");
+      html = html.replace(/<head\b[^>]*>/i, (head) => head + "\n    " + links);
       const cssHref = "/" + path.relative(distDir, cssFiles[0]).split(path.sep).join("/");
       const preload = '<link rel="preload" as="style" href="' + cssHref + '" />';
-      html = html.replace(/<head\\b[^>]*>/i, (head) => head + "\\n    " + preload);
+      html = html.replace(/<head\b[^>]*>/i, (head) => head + "\n    " + preload);
       fs.writeFileSync(file, html);
       updated++;
     }
