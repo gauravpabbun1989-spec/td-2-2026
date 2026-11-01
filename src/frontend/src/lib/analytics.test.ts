@@ -13,6 +13,7 @@ describe("analytics suspicious-path filtering", () => {
     "/wp-admin/install.php",
     "/api/env",
     "/server.key",
+    "/**/",
   ])("filters scanner/probe path %s, including encoded variants", (path) => {
     expect(isSuspiciousPath(path)).toBe(true);
   });
