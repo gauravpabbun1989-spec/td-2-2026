@@ -1025,7 +1025,7 @@ function routeHtml(route, meta) {
   </ul></section>
 </main>`;
 
-  return html.replace(/<div id="root"(?:\s+style="visibility:hidden")?><\/div>/i, `<div id="root" style="visibility:hidden">${fallback}</div>`);
+  return html.replace(/<div id="root"(?:\s+style="visibility:hidden")?><\/div>/i, `<div id="root">${fallback}</div>`);
 }
 
 for (const [route, meta] of Object.entries(routes)) {
