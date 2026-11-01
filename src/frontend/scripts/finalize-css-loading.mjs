@@ -61,4 +61,4 @@ for (const file of files) {
 if (updated === 0) {
   throw new Error("No generated HTML documents contained a stylesheet link to optimize.");
 }
-console.log(\`Optimized stylesheet priority in \${updated} generated HTML documents.\`);
+console.log("Optimized stylesheet priority in " + updated + " generated HTML documents.");
