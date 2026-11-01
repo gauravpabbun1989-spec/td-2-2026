@@ -32,30 +32,6 @@ assert(builtRobots.includes("User-agent: *"), "robots.txt is missing a wildcard 
 assert(builtRobots.includes("Allow: /"), "robots.txt does not allow public crawling");
 assert(builtRobots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "robots.txt sitemap URL is incorrect");
 
-const frontendWrangler = JSON.parse(read(path.join(root, "wrangler.jsonc")));
-const rootWrangler = JSON.parse(read(path.resolve(root, "..", "..", "wrangler.jsonc")));
-for (const [label, config] of [
-  ["frontend", frontendWrangler],
-  ["root", rootWrangler],
-]) {
-  assert(
-    config.cache?.enabled === false,
-    `${label} Wrangler config must bypass the Worker response cache so route validation executes on every request`,
-  );
-  assert(
-    config.assets?.not_found_handling === "404-page",
-    `${label} Wrangler config must return a real 404 response for unknown routes`,
-  );
-  assert(
-    (config.assets?.run_worker_first === true || (Array.isArray(config.assets?.run_worker_first) && config.assets.run_worker_first.includes("/*"))),
-    `${label} Wrangler config must run the Worker before every request for explicit route validation (true or ["/*"]),`,
-  );
-  assert(
-    config.compatibility_flags?.includes("assets_navigation_has_no_effect"),
-    `${label} Wrangler config must run the Worker first for navigation route validation`,
-  );
-}
-
 const notFoundHtmlPath = path.join(distDir, "404.html");
 assert(fs.existsSync(notFoundHtmlPath), "missing custom 404.html in built assets");
 const notFoundHtml = read(notFoundHtmlPath);
@@ -306,20 +282,17 @@ assert(phoneGuideText.includes("Compare the full trip cost"), "phone-booking gui
 
 
 const generatorSource = read(path.join(root, "scripts/generate-route-html.mjs"));
-const workerSource = read(path.join(root, "src/worker.ts"));
 const generatedRouteDefinitions = generatorSource.split("const STATIC_SEO_CONTENT")[0];
 const generatedRoutePaths = [...generatedRouteDefinitions.matchAll(/^\s*"([^"]+)":\s*\{/gm)].map((match) => match[1]);
-const workerRouteBlock = workerSource.match(/const KNOWN_HTML_ROUTE_PATHS = new Set<string>\(\[([\s\S]*?)\]\);/);
-assert(workerRouteBlock, "Worker HTML route allowlist is missing");
-const workerRoutePaths = [...workerRouteBlock[1].matchAll(/"([^"]+)"/g)].map((match) => match[1]);
-for (const route of generatedRoutePaths) {
-  assert(workerRoutePaths.includes(route), `Worker HTML route allowlist is missing generated route ${route}`);
-}
-assert(workerRoutePaths.includes("/404.html"), "Worker HTML route allowlist must permit the branded 404 document");
 const appSource = read(path.join(root, "src/App.tsx"));
 const appRoutePaths = [...appSource.matchAll(/path:\s*["']([^"']+)["']/g)].map((match) => match[1]);
 for (const route of appRoutePaths) {
-  assert(workerRoutePaths.includes(route), `Worker HTML route allowlist is missing App.tsx route ${route}`);
+  const routeFile = route === "/" ? path.join(distDir, "index.html") : path.join(distDir, route.slice(1), "index.html");
+  assert(fs.existsSync(routeFile), `Caffeine static build is missing the App.tsx route document ${route}`);
+}
+for (const route of generatedRoutePaths) {
+  const routeFile = route === "/" ? path.join(distDir, "index.html") : path.join(distDir, route.slice(1), "index.html");
+  assert(fs.existsSync(routeFile), `Caffeine static build is missing generated SEO route ${route}`);
 }
 
 const assetsDir = path.join(distDir, "assets");

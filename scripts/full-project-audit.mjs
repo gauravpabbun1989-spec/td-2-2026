@@ -98,21 +98,17 @@ function auditOnce() {
   const backendCaffeine = read("src/backend/caffeine.toml");
   const netlify = read("netlify.toml");
   const buildWorkflow = read(".github/workflows/build.yml");
-  const wrangler = read("wrangler.jsonc");
 
-  assert(caffeine.includes('type = "assets"'), "frontend is not configured as an assets project");
-  assert(wrangler.includes('"not_found_handling": "404-page"'), "Cloudflare assets must return a real HTTP 404 for unknown routes");
-  const wranglerConfig = JSON.parse(wrangler);
-  assert(wranglerConfig.assets?.run_worker_first === true, "Cloudflare must run the Worker before every asset request so unknown routes and probes can be rejected");
-  assert(wrangler.includes("assets_navigation_has_no_effect"), "Cloudflare must run the Worker first for navigation so unknown HTML routes can be rejected explicitly");
-  assert(caffeine.includes('out = "dist"'), "frontend output is not dist");
+  assert(caffeine.includes('type = "assets"'), "frontend is not configured as a Caffeine assets project");
+  assert(caffeine.includes('commands = ["pnpm build"]') && caffeine.includes('out = "dist"'), "Caffeine frontend build must publish the Vite dist directory");
   assert(backendCaffeine.includes('type = "motoko"'), "backend is not configured as Motoko");
   assert(netlify.includes('publish = "netlify/api-public"'), "Netlify publish directory mismatch");assert(netlify.includes('functions = "netlify/functions"'), "Netlify functions directory mismatch");assert(netlify.includes('from = "/api/flight-search"') && netlify.includes('to = "/.netlify/functions/flight-search"'), "Netlify flight-search redirect missing");assert(netlify.includes('from = "/api/flight-autocomplete"') && netlify.includes('to = "/.netlify/functions/flight-autocomplete"'), "Netlify autocomplete redirect missing");
   assert(buildWorkflow.includes("pnpm --dir src/frontend typecheck"), "typecheck missing from CI");
   assert(buildWorkflow.includes("pnpm --dir src/frontend check"), "frontend check missing from CI");
   assert(buildWorkflow.includes("pnpm --dir src/frontend test"), "frontend tests missing from CI");
   assert(buildWorkflow.includes("pnpm --dir src/frontend build"), "frontend build missing from CI");
-  assert(buildWorkflow.includes("wrangler@4.156.0 deploy --dry-run --config wrangler.jsonc"), "Cloudflare Worker dry-run build missing from PR CI");
+  assert(!buildWorkflow.includes("wrangler") && !buildWorkflow.includes("Cloudflare"), "main-site CI must not treat Cloudflare as the production host");
+  assert(!existsSync(join(ROOT, ".github/workflows/deploy-cloudflare-production.yml")), "main-site Cloudflare production deployment must remain disabled while Caffeine controls DNS and hosting");
   assert(buildWorkflow.includes("pnpm test:backend"), "backend integration tests missing from CI");
 
   assert(site.includes('phoneDisplay: "+1-833-225-0511"'), "canonical phone display does not match the updated number");
