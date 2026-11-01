@@ -148,7 +148,8 @@ export function isSuspiciousPath(path = getCleanPagePath()) {
     "/webpack.config.js", "/debug/default/view", "/app_dev.php/_profiler/open",
     "/test_phpinfo5.php", "/serverless.yaml", "/ssl/server.key",
     "/proc/self/environ", "/var/run/secrets/kubernetes.io/serviceaccount/token",
-    "/userfiles"
+    "/userfiles",
+    "/**"
   ]);
 
   if (normalized.startsWith("//")) return true;
