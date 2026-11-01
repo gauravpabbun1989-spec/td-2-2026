@@ -14,36 +14,35 @@ function walk(dir) {
 function optimizeHead(html, file) {
   let changed = false;
   const output = html.replace(
-    /(<head\\b[^>]*>)([\\s\\S]*?)(<\\/head>)/i,
+    /(<head\b[^>]*>)([\s\S]*?)(<\/head>)/i,
     (_document, openHead, headContent, closeHead) => {
       const stylesheets = headContent.match(
-        /<link\\b(?=[^>]*\\brel=["']stylesheet["'])[^>]*>/gi,
+        /<link\b(?=[^>]*\brel=["']stylesheet["'])[^>]*>/gi,
       ) ?? [];
       if (stylesheets.length === 0) return openHead + headContent + closeHead;
 
       const remaining = headContent.replace(
-        /<link\\b(?=[^>]*\\brel=["']stylesheet["'])[^>]*>/gi,
+        /<link\b(?=[^>]*\brel=["']stylesheet["'])[^>]*>/gi,
         "",
       );
-      const firstScript = remaining.search(/<script\\b/i);
+      const firstScript = remaining.search(/<script\b/i);
       const insertionPoint = firstScript < 0 ? 0 : firstScript;
-      const earlyStylesheets = stylesheets.join("\\n    ");
       let head = remaining.slice(0, insertionPoint)
-        + earlyStylesheets
-        + "\\n    "
+        + stylesheets.join("\n    ")
+        + "\n    "
         + remaining.slice(insertionPoint);
 
       const stylesheet = stylesheets[0];
-      const href = stylesheet.match(/\\bhref=["']([^"']+)["']/i)?.[1];
-      const hasPreload = /<link\\b(?=[^>]*\\brel=["']preload["'])(?=[^>]*\\bas=["']style["'])[^>]*>/i.test(head);
+      const href = stylesheet.match(/\bhref=["']([^"']+)["']/i)?.[1];
+      const hasPreload = /<link\b(?=[^>]*\brel=["']preload["'])(?=[^>]*\bas=["']style["'])[^>]*>/i.test(head);
       if (href && !hasPreload) {
-        const crossorigin = stylesheet.match(/\\bcrossorigin(?:=["'][^"']*["'])?/i)?.[0];
-        const integrity = stylesheet.match(/\\bintegrity=["']([^"']+)["']/i)?.[0];
+        const crossorigin = stylesheet.match(/\bcrossorigin(?:=["'][^"']*["'])?/i)?.[0];
+        const integrity = stylesheet.match(/\bintegrity=["']([^"']+)["']/i)?.[0];
         const preload = '<link rel="preload" as="style" href="' + href + '"'
           + (crossorigin ? " " + crossorigin : "")
           + (integrity ? " " + integrity : "")
           + " />";
-        head = "\\n    " + preload + "\\n    " + head;
+        head = "\n    " + preload + "\n    " + head;
       }
       changed = true;
       return openHead + head + closeHead;
@@ -62,4 +61,4 @@ for (const file of files) {
 if (updated === 0) {
   throw new Error("No generated HTML documents contained a stylesheet link to optimize.");
 }
-console.log(`Optimized stylesheet priority in ${updated} generated HTML documents.`);
+console.log(\`Optimized stylesheet priority in \${updated} generated HTML documents.\`);
