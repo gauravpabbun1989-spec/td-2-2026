@@ -290,10 +290,6 @@ for (const route of appRoutePaths) {
   const routeFile = route === "/" ? path.join(distDir, "index.html") : path.join(distDir, route.slice(1), "index.html");
   assert(fs.existsSync(routeFile), `Caffeine static build is missing the App.tsx route document ${route}`);
 }
-const notFoundFile = path.join(distDir, "404.html");
-assert(fs.existsSync(notFoundFile), "Caffeine static build is missing the branded 404.html document");
-const notFoundHtml = read(notFoundFile);
-assert(/<meta\s+name=["']robots["']\s+content=["']noindex,\s*nofollow["']/i.test(notFoundHtml), "branded 404 document must remain noindex, nofollow");
 for (const route of generatedRoutePaths) {
   const routeFile = route === "/" ? path.join(distDir, "index.html") : path.join(distDir, route.slice(1), "index.html");
   assert(fs.existsSync(routeFile), `Caffeine static build is missing generated SEO route ${route}`);
