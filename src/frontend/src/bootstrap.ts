@@ -10,13 +10,6 @@ declare global {
 
 const root = document.getElementById("root");
 
-// SEO route HTML contains a static fallback inside #root. Hide and clear it
-// immediately before loading React so it cannot flash as unstyled page content.
-if (root) {
-  root.style.visibility = "hidden";
-  root.replaceChildren();
-}
-
 if (window.isKnownProbePath?.()) {
   document.title = "404 — Page Not Found | TicketDepart";
   if (root) {
@@ -24,6 +17,7 @@ if (window.isKnownProbePath?.()) {
       '<main style="min-height:100vh;display:grid;place-content:center;padding:24px;box-sizing:border-box;font:16px Arial,sans-serif;color:#18233d;background:#fbfaf6"><h1 style="margin:0 0 12px">Page not found</h1><p style="margin:0">The requested page is unavailable.</p></main>';
   }
 } else {
-  // Dynamic import is compiled by Vite into a production asset chunk.
+  // Keep the server-rendered/static route content visible while the app chunk loads.
+  // React replaces this fallback when createRoot renders, avoiding a blank first paint.
   void import("./main");
 }
