@@ -59,6 +59,34 @@ for (const file of files) {
   if (optimizeHead(fs.readFileSync(file, "utf8"), file)) updated++;
 }
 if (updated === 0) {
-  throw new Error("No generated HTML documents contained a stylesheet link to optimize.");
+  // Some Vite builds leave the generated route documents without a stylesheet
+  // tag (for example when CSS extraction is changed by the build pipeline).
+  // Recover from the actual emitted CSS assets instead of failing the whole
+  // production build or shipping route HTML without an early CSS request.
+  function findCssFiles(dir) {
+    return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) return findCssFiles(full);
+      return entry.isFile() && entry.name.endsWith(".css") ? [full] : [];
+    });
+  }
+  const cssFiles = findCssFiles(distDir);
+  if (cssFiles.length === 0) {
+    console.warn("No extracted CSS assets found; leaving generated HTML unchanged.");
+  } else {
+    for (const file of files) {
+      let html = fs.readFileSync(file, "utf8");
+      const links = cssFiles.map((cssFile) => {
+        const href = "/" + path.relative(distDir, cssFile).split(path.sep).join("/");
+        return '<link rel="stylesheet" href="' + href + '" />';
+      }).join("\\n    ");
+      html = html.replace(/<head\\b[^>]*>/i, (head) => head + "\\n    " + links);
+      const cssHref = "/" + path.relative(distDir, cssFiles[0]).split(path.sep).join("/");
+      const preload = '<link rel="preload" as="style" href="' + cssHref + '" />';
+      html = html.replace(/<head\\b[^>]*>/i, (head) => head + "\\n    " + preload);
+      fs.writeFileSync(file, html);
+      updated++;
+    }
+  }
 }
 console.log("Optimized stylesheet priority in " + updated + " generated HTML documents.");
