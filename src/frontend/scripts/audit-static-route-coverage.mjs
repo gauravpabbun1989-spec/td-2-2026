@@ -118,6 +118,13 @@ for (const route of ["/group-flight-booking", "/corporate-flight-booking"]) {
 }
 
 const homeHtml = read(path.join(distDir, "index.html"));
+const inlineStyleStart = homeHtml.indexOf('<style id="ticketdepart-inline-css">');
+const inlineStyleEnd = homeHtml.indexOf("</style>", inlineStyleStart);
+const homeInlineCss = inlineStyleStart >= 0 && inlineStyleEnd > inlineStyleStart
+  ? homeHtml.slice(inlineStyleStart, inlineStyleEnd)
+  : "";
+assert(homeHtml.includes('class="ticketdepart-static-fallback"'), "homepage static fallback must use the styled first-paint wrapper");
+assert(homeInlineCss.includes("#root > .ticketdepart-static-fallback"), "homepage inline CSS must include first-paint fallback presentation");
 const homeDescription = homeHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
 assert(homeDescription.includes("24/7") && homeDescription.includes("TicketDepart"), "built homepage meta description is missing expected service details");
 assert(!/855[\s().-]*544[\s().-]*9001/.test(homeHtml), "old public phone number remains in built homepage HTML");

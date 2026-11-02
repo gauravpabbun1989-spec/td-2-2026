@@ -42,9 +42,9 @@ let processed = 0;
 for (const file of walk(distDir)) {
   let html = fs.readFileSync(file, "utf8");
 
-  // Keep generated SEO fallback content hidden until React has rendered.
-  // main.tsx reveals #root after its first render; stripping this style here
-  // caused static page content to flash before the application loaded.
+  // Keep generated SEO fallback content in the initial document so the page
+  // remains useful before React mounts. Its first-paint presentation is added
+  // by finalize-css-loading.mjs after this document has been generated.
 
   html = html.replace(/<title>([\s\S]*?)<\/title>/i, (_, value) =>
     `<title>${trimTitle(value.replace(/<[^>]+>/g, ""))}</title>`
