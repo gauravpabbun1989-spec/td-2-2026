@@ -1,4 +1,6 @@
 import { fileURLToPath, URL } from "url";
+import fs from "node:fs";
+import path from "node:path";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import environment from "vite-plugin-environment";
@@ -9,6 +11,50 @@ const ii_url =
     : `https://id.ai/authorize`;
 
 process.env.II_URL = process.env.II_URL || ii_url;
+
+function preloadMainEntry() {
+  return {
+    name: "ticketdepart-preload-main-entry",
+    apply: "build",
+    enforce: "post",
+    writeBundle(options, bundle) {
+      const main = Object.values(bundle).find(
+        (item) =>
+          item.type === "chunk" &&
+          item.facadeModuleId?.replace(/\\/g, "/").endsWith("/src/main.tsx"),
+      );
+      const htmlAsset = bundle["index.html"];
+
+      if (!main || !htmlAsset || htmlAsset.type !== "asset") {
+        throw new Error(
+          "Could not safely identify the emitted main application chunk and index.html.",
+        );
+      }
+
+      const outputDir = options.dir
+        ? path.resolve(options.dir)
+        : fileURLToPath(new URL("./dist", import.meta.url));
+      const htmlPath = path.join(outputDir, htmlAsset.fileName);
+      const html = fs.readFileSync(htmlPath, "utf8");
+      const preloadLink =
+        '<link rel="modulepreload" crossorigin href="/' +
+        main.fileName.replace(/^\\/+/, "") +
+        '">';
+
+      if (!html.includes(preloadLink)) {
+        if (!/<head\\b[^>]*>/i.test(html)) {
+          throw new Error("Cannot add the main-entry preload: index.html has no <head>.");
+        }
+
+        const updatedHtml = html.replace(
+          /<head\\b[^>]*>/i,
+          (head) => head + "\\n" + preloadLink + "\\n",
+        );
+        fs.writeFileSync(htmlPath, updatedHtml);
+      }
+    },
+  };
+}
 
 export default defineConfig({
   logLevel: "error",
@@ -34,6 +80,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    preloadMainEntry(),
     environment("all", { prefix: "CANISTER_" }),
     environment("all", { prefix: "DFX_" }),
     environment(["II_URL"]),
@@ -50,6 +97,6 @@ export default defineConfig({
         replacement: fileURLToPath(new URL("./src", import.meta.url)),
       },
     ],
-    dedupe: ["@icp-sdk/core"]
+    dedupe: ["@icp-sdk/core"],
   },
 });
