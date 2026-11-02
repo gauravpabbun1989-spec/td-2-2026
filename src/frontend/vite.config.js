@@ -18,26 +18,41 @@ function preloadMainEntry() {
     apply: "build",
     enforce: "post",
     writeBundle(options, bundle) {
-      const main = Object.values(bundle).find(
+      const normalizeModulePath = (value) =>
+        value?.split(String.fromCharCode(92)).join("/").split("?")[0] ?? "";
+      const chunks = Object.values(bundle).filter((item) => item.type === "chunk");
+      const main = chunks.find(
         (item) =>
-          item.type === "chunk" &&
-          item.facadeModuleId
-            ?.split(String.fromCharCode(92))
-            .join("/")
-            .endsWith("/src/main.tsx"),
+          item.name === "main" ||
+          normalizeModulePath(item.facadeModuleId).endsWith("/src/main.tsx"),
       );
-      const htmlAsset = bundle["index.html"];
-
-      if (!main || !htmlAsset || htmlAsset.type !== "asset") {
-        throw new Error(
-          "Could not safely identify the emitted main application chunk and index.html.",
-        );
-      }
 
       const outputDir = options.dir
         ? path.resolve(options.dir)
         : fileURLToPath(new URL("./dist", import.meta.url));
-      const htmlPath = path.join(outputDir, htmlAsset.fileName);
+      const htmlPath = path.join(outputDir, "index.html");
+
+      if (!main || !fs.existsSync(htmlPath)) {
+        const chunkSummary = chunks.map((item) => ({
+          fileName: item.fileName,
+          name: item.name,
+          facadeModuleId: item.facadeModuleId,
+        }));
+        throw new Error(
+          "Could not safely identify the main application chunk or emitted index.html. " +
+            JSON.stringify({
+              foundMainChunk: Boolean(main),
+              foundIndexHtml: fs.existsSync(htmlPath),
+              chunks: chunkSummary,
+            }),
+        );
+      }
+
+      const mainPath = path.join(outputDir, main.fileName);
+      if (!fs.existsSync(mainPath)) {
+        throw new Error("Main application chunk was not written: " + main.fileName);
+      }
+
       const html = fs.readFileSync(htmlPath, "utf8");
       const preloadLink =
         '<link rel="modulepreload" crossorigin href="/' +
@@ -60,6 +75,13 @@ function preloadMainEntry() {
           html.slice(headEnd + 1);
         fs.writeFileSync(htmlPath, updatedHtml);
       }
+
+      const verifiedHtml = fs.readFileSync(htmlPath, "utf8");
+      if (!verifiedHtml.includes(preloadLink)) {
+        throw new Error("Main application preload link was not written to index.html.");
+      }
+
+      console.log("TicketDepart main application preload verified: " + main.fileName);
     },
   };
 }
