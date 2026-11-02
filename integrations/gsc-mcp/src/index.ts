@@ -201,7 +201,9 @@ async function pkceChallenge(verifier: string): Promise<string> {
 export default new OAuthProvider({
   apiRoute: "/mcp",
   apiHandler: async (request: Request, env: Env, ctx: ExecutionContext) => {
-    const handler = createMcpHandler(() => createGscMcpServer(env));
+    const handler = createMcpHandler(() => createGscMcpServer(env), {
+      authContext: { props: (ctx as unknown as { props?: unknown }).props, authInfo: (ctx as unknown as { auth?: unknown }).auth } as never,
+    });
     return handler(request, env, ctx);
   },
   defaultHandler,
