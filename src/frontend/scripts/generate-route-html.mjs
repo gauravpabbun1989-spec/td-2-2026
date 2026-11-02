@@ -1042,7 +1042,7 @@ function routeHtml(route, meta) {
   <header class="td-fallback-header">
     <a class="td-fallback-brand" href="/" aria-label="TicketDepart home"><span class="td-fallback-mark" aria-hidden="true">✈</span><span>TicketDepart</span></a>
     <div class="td-fallback-header-actions">
-      <a class="td-fallback-header-call" href="${PHONE_HREF}" aria-label="Call TicketDepart at ${PHONE_DISPLAY}"><span aria-hidden="true">☎</span><span>Call</span></a>
+      <a class="td-fallback-header-call" href="${PHONE_HREF}" aria-label="Call TicketDepart at ${PHONE_DISPLAY}"><span aria-hidden="true">☎</span><span>Call</span><span class="td-fallback-header-number">${PHONE_DISPLAY}</span></a>
       <a class="td-fallback-menu" href="#td-fallback-links" aria-label="Jump to site links"><span aria-hidden="true">☰</span></a>
     </div>
   </header>
