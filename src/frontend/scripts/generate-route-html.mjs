@@ -1038,17 +1038,45 @@ function routeHtml(route, meta) {
     .map(([heading, text]) => `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(text)}</p></section>`)
     .join("");
   const homeGuideLink = route === "/" ? `<section><h2>Affordable economy flight booking</h2><p><a href="/cheap-flight-booking-by-phone/">Cheap economy flights by phone</a></p><p><a href="/how-to-book-a-flight-by-phone/">How to book a flight by phone</a></p></section>` : "";
-  const fallback = `<main class="ticketdepart-static-fallback"><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="${PHONE_HREF}">Call ${PHONE_DISPLAY}</a> — available 24/7.</p>${homeGuideLink}
-  ${sectionHtml}
-  ${semanticContent}
-  <section><h2>Related flight booking help</h2><ul>
-    ${(RELATED_ROUTE_RULES[route] ?? ["/flight-booking", "/book-a-flight-by-phone", "/international-flight-booking", "/contact"])
-      .filter((relatedRoute, index, all) => relatedRoute !== route && all.indexOf(relatedRoute) === index && routes[relatedRoute])
-      .slice(0, 6)
-      .map((relatedRoute) => `<li><a href="${relatedRoute}/">${escapeHtml(routeLabel(relatedRoute))}</a></li>`)
-      .join("")}
-    <li><a href="/contact/">Contact a travel specialist</a></li>
-  </ul></section>
+  const fallback = `<main class="ticketdepart-static-fallback">
+  <header class="td-fallback-header">
+    <a class="td-fallback-brand" href="/" aria-label="TicketDepart home"><span class="td-fallback-mark" aria-hidden="true">✈</span><span>TicketDepart</span></a>
+    <a class="td-fallback-header-call" href="${PHONE_HREF}">Call ${PHONE_DISPLAY}</a>
+  </header>
+  <section class="td-fallback-hero" aria-labelledby="td-fallback-heading">
+    <div class="td-fallback-copy">
+      <p class="td-fallback-eyebrow">24/7 Flight Booking Assistance</p>
+      <h1 id="td-fallback-heading">Need a Flight? <span>Call Now to Get Started.</span></h1>
+      <p class="td-fallback-description">${safeText}</p>
+      <div class="td-fallback-actions">
+        <a class="td-fallback-primary" href="${PHONE_HREF}">Call Now · ${PHONE_DISPLAY}</a>
+        <a class="td-fallback-secondary" href="/flight-search/">Search flights</a>
+      </div>
+      <p class="td-fallback-disclosure">TicketDepart is an independent travel assistance service, not an airline.</p>
+    </div>
+    <div class="td-fallback-visual">
+      <img src="/assets/generated/hero-flight.dim_1600x1100.jpg" alt="Commercial aircraft flying through a bright blue sky" width="1600" height="1100" fetchpriority="high" />
+    </div>
+  </section>
+  <section class="td-fallback-benefits" aria-label="Travel assistance highlights">
+    <article><span aria-hidden="true">◎</span><div><strong>Domestic &amp; international</strong><small>Flights from the USA and Canada</small></div></article>
+    <article><span aria-hidden="true">✈</span><div><strong>Affordable economy options</strong><small>Compare dates, routes and total trip cost</small></div></article>
+    <article><span aria-hidden="true">◷</span><div><strong>Real specialists 24/7</strong><small>Human help when you need it</small></div></article>
+  </section>
+  <div class="td-fallback-editorial">
+    <section><h2>Flight booking help, made clearer</h2><p>${safeText}</p></section>
+    ${homeGuideLink}
+    ${sectionHtml}
+    ${semanticContent}
+    <section class="td-fallback-related"><h2>Related flight booking help</h2><ul>
+      ${(RELATED_ROUTE_RULES[route] ?? ["/flight-booking", "/book-a-flight-by-phone", "/international-flight-booking", "/contact"])
+        .filter((relatedRoute, index, all) => relatedRoute !== route && all.indexOf(relatedRoute) === index && routes[relatedRoute])
+        .slice(0, 6)
+        .map((relatedRoute) => `<li><a href="${relatedRoute}/">${escapeHtml(routeLabel(relatedRoute))}</a></li>`)
+        .join("")}
+      <li><a href="/contact/">Contact a travel specialist</a></li>
+    </ul></section>
+  </div>
 </main>`;
 
   return html.replace(/<div id="root"(?:\s+style="visibility:hidden")?><\/div>/i, `<div id="root">${fallback}</div>`);
