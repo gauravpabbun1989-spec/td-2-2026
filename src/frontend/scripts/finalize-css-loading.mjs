@@ -148,39 +148,44 @@ const staticFallbackCss = String.raw`
 `;
 
 const enhancedFallbackCss = String.raw`
-/* Branded, responsive first paint while the interactive React app starts. */
+/* Responsive first paint mirrors the React header, hero, actions and mobile call bar. */
 #root > .ticketdepart-home-fallback {
+  box-sizing: border-box;
   width: 100%;
   max-width: none;
   min-height: 100vh;
   margin: 0;
-  padding: 0 0 3rem;
+  padding: 0 0 calc(5.5rem + env(safe-area-inset-bottom));
   overflow: hidden;
   background: #fbfaf6;
   color: #172b4d;
   font-family: "DM Sans", Arial, sans-serif;
 }
 #root > .ticketdepart-home-fallback .td-fallback-header {
-  position: relative;
-  z-index: 2;
+  position: sticky;
+  top: 0;
+  z-index: 50;
   display: flex;
-  width: min(100%, 1280px);
-  min-height: 72px;
+  width: 100%;
+  min-height: 68px;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  margin: 0 auto;
-  padding: 0 clamp(1rem, 4vw, 2.5rem);
-  border-bottom: 1px solid rgba(23, 54, 95, .1);
-  background: rgba(255,255,255,.96);
+  gap: .5rem;
+  margin: 0;
+  padding: 0 1rem;
+  border-bottom: 1px solid rgba(23,54,95,.1);
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 4px 24px -18px rgba(8,24,48,.35);
+  backdrop-filter: blur(18px);
 }
 #root > .ticketdepart-home-fallback .td-fallback-brand {
   display: inline-flex;
+  min-width: 0;
   align-items: center;
-  gap: .7rem;
+  gap: .75rem;
   color: #172b4d;
   font-family: "Space Grotesk", Arial, sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.18rem;
   font-weight: 800;
   letter-spacing: -.04em;
   text-decoration: none;
@@ -189,124 +194,204 @@ const enhancedFallbackCss = String.raw`
   display: grid;
   width: 2.5rem;
   height: 2.5rem;
+  flex: 0 0 2.5rem;
   place-items: center;
-  border-radius: .8rem;
-  background: #17365f;
+  border-radius: 1rem;
+  background: linear-gradient(135deg,#17365f,#102846);
   color: #fff;
-  font-size: 1.35rem;
+  font-size: 1.2rem;
+}
+#root > .ticketdepart-home-fallback .td-fallback-header-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: .5rem;
 }
 #root > .ticketdepart-home-fallback .td-fallback-header-call,
-#root > .ticketdepart-home-fallback .td-fallback-primary {
+#root > .ticketdepart-home-fallback .td-fallback-menu {
   display: inline-flex;
-  min-height: 2.8rem;
+  min-height: 2.5rem;
   align-items: center;
   justify-content: center;
-  padding: .7rem 1.1rem;
-  border: 0;
+  gap: .4rem;
   border-radius: 999px;
+  text-decoration: none;
+}
+#root > .ticketdepart-home-fallback .td-fallback-header-call {
+  padding: .5rem .85rem;
   background: #b94f08;
   color: #fff;
-  font-size: .9rem;
-  font-weight: 750;
-  line-height: 1.2;
-  text-align: center;
-  text-decoration: none;
+  font-size: .78rem;
+  font-weight: 800;
+}
+#root > .ticketdepart-home-fallback .td-fallback-menu {
+  width: 2.5rem;
+  border: 1px solid #e3eaf0;
+  background: #fff;
+  color: #172b4d;
+  font-size: 1.3rem;
+  line-height: 1;
 }
 #root > .ticketdepart-home-fallback .td-fallback-hero {
   position: relative;
-  display: grid;
-  width: min(100%, 1280px);
-  min-height: 480px;
-  grid-template-columns: minmax(0, 1.08fr) minmax(260px, .92fr);
-  align-items: center;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  margin: 0 auto;
-  padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 4vw, 2.5rem);
+  display: block;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 3rem 1.25rem 2.5rem;
+  overflow: hidden;
   isolation: isolate;
+  background: #e9f7ff;
 }
-#root > .ticketdepart-home-fallback .td-fallback-copy { position: relative; z-index: 1; min-width: 0; }
-#root > .ticketdepart-home-fallback .td-fallback-eyebrow {
-  margin: 0 0 .8rem;
-  color: #a75b25;
-  font-size: .75rem;
-  font-weight: 800;
-  letter-spacing: .16em;
-  line-height: 1.4;
-  text-transform: uppercase;
+#root > .ticketdepart-home-fallback .td-fallback-hero::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(90deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.91) 32%,rgba(255,255,255,.65) 68%,rgba(255,255,255,.3) 100%);
+  content: "";
+}
+#root > .ticketdepart-home-fallback .td-fallback-copy {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 44rem;
+  min-width: 0;
+  margin: 0 auto;
 }
 #root > .ticketdepart-home-fallback .td-fallback-hero h1 {
-  max-width: 13ch;
-  margin: 0;
+  max-width: 12ch;
+  margin: 1.25rem 0 0;
   color: #0b3155;
   font-family: "Space Grotesk", Arial, sans-serif;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-size: clamp(2.75rem,10vw,3.25rem);
   font-weight: 750;
   letter-spacing: -.055em;
-  line-height: 1.03;
+  line-height: 1.02;
 }
 #root > .ticketdepart-home-fallback .td-fallback-hero h1 span { color: #087fc1; }
 #root > .ticketdepart-home-fallback .td-fallback-description {
-  max-width: 58ch;
+  max-width: 36rem;
   margin: 1.25rem 0 0;
-  color: #536078;
-  font-size: clamp(.98rem, 1.5vw, 1.08rem);
-  line-height: 1.7;
-}
-#root > .ticketdepart-home-fallback .td-fallback-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .75rem;
-  margin-top: 1.5rem;
-}
-#root > .ticketdepart-home-fallback .td-fallback-primary { min-height: 3.5rem; padding: .9rem 1.4rem; box-shadow: 0 10px 24px -12px rgba(0,0,0,.35); }
-#root > .ticketdepart-home-fallback .td-fallback-secondary {
-  display: inline-flex;
-  min-height: 3.5rem;
-  align-items: center;
-  justify-content: center;
-  padding: .9rem 1.4rem;
-  border: 1px solid #c9dced;
-  border-radius: 999px;
-  background: #fff;
-  color: #17436b;
-  font-weight: 700;
-  text-decoration: none;
-}
-#root > .ticketdepart-home-fallback .td-fallback-disclosure {
-  margin: 1.25rem 0 0;
-  color: #68758a;
-  font-size: .76rem;
-  line-height: 1.5;
+  color: #334155;
+  font-size: 1rem;
+  line-height: 1.75;
 }
 #root > .ticketdepart-home-fallback .td-fallback-visual {
-  position: relative;
+  position: absolute;
+  z-index: -2;
+  inset: 0;
   min-width: 0;
-  height: 340px;
+  height: auto;
   overflow: hidden;
-  border-radius: 2rem;
-  background: linear-gradient(135deg,#eaf8ff,#cfefff);
-  box-shadow: 0 24px 60px -30px rgba(20,74,120,.45);
+  border-radius: 0;
+  background: #e9f7ff;
+  box-shadow: none;
 }
 #root > .ticketdepart-home-fallback .td-fallback-visual img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 58% center;
+  object-position: 64% center;
+}
+#root > .ticketdepart-home-fallback .td-fallback-actions {
+  display: grid;
+  grid-template-columns: minmax(0,1fr);
+  gap: .75rem;
+  margin-top: 1.75rem;
+}
+#root > .ticketdepart-home-fallback .td-fallback-primary {
+  display: grid;
+  min-width: 0;
+  min-height: 4rem;
+  grid-template-columns: auto minmax(0,1fr);
+  grid-template-rows: auto auto;
+  align-items: center;
+  justify-content: center;
+  column-gap: .6rem;
+  padding: .8rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: #b94f08;
+  color: #fff;
+  box-shadow: 0 10px 26px -14px rgba(8,24,48,.55);
+  text-align: center;
+  text-decoration: none;
+}
+#root > .ticketdepart-home-fallback .td-fallback-phone-icon {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  font-size: 1rem;
+}
+#root > .ticketdepart-home-fallback .td-fallback-primary-label {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 1rem;
+  font-weight: 750;
+  line-height: 1.2;
+}
+#root > .ticketdepart-home-fallback .td-fallback-primary-number {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: .88rem;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+#root > .ticketdepart-home-fallback .td-fallback-secondary {
+  display: inline-flex;
+  min-width: 0;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .75rem 1.25rem;
+  border: 1px solid #c9dced;
+  border-radius: 999px;
+  background: rgba(255,255,255,.94);
+  color: #17436b;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+#root > .ticketdepart-home-fallback .td-fallback-search {
+  border-color: #087fc1;
+  background: #087fc1;
+  color: #fff;
+}
+#root > .ticketdepart-home-fallback .td-fallback-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem 1.15rem;
+  margin-top: 1.5rem;
+  color: #334155;
+  font-size: .82rem;
+  font-weight: 700;
+}
+#root > .ticketdepart-home-fallback .td-fallback-points span {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+}
+#root > .ticketdepart-home-fallback .td-fallback-points b {
+  color: #059669;
+  font-size: 1rem;
 }
 #root > .ticketdepart-home-fallback .td-fallback-benefits {
   display: grid;
-  width: min(calc(100% - 2rem), 1200px);
-  grid-template-columns: repeat(3,minmax(0,1fr));
-  gap: .75rem;
+  width: calc(100% - 2rem);
+  max-width: 1200px;
+  grid-template-columns: minmax(0,1fr);
+  gap: .55rem;
   margin: 0 auto;
+  padding-top: .25rem;
 }
 #root > .ticketdepart-home-fallback .td-fallback-benefits article {
   display: flex;
   min-width: 0;
   align-items: center;
   gap: .85rem;
-  padding: 1.1rem;
+  padding: .85rem;
   border: 1px solid #e0eaf2;
   border-radius: 1rem;
   background: #fff;
@@ -326,9 +411,99 @@ const enhancedFallbackCss = String.raw`
 #root > .ticketdepart-home-fallback .td-fallback-benefits small { display: block; }
 #root > .ticketdepart-home-fallback .td-fallback-benefits strong { color: #172b4d; font-size: .88rem; line-height: 1.35; }
 #root > .ticketdepart-home-fallback .td-fallback-benefits small { margin-top: .25rem; color: #68758a; font-size: .75rem; line-height: 1.4; }
+#root > .ticketdepart-home-fallback .td-fallback-quick-links {
+  display: grid;
+  width: calc(100% - 2rem);
+  max-width: 1200px;
+  grid-template-columns: minmax(0,1fr);
+  gap: .65rem;
+  margin: 1.25rem auto 0;
+}
+#root > .ticketdepart-home-fallback .td-fallback-quick-links a {
+  display: flex;
+  min-height: 2.9rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  padding: .7rem 1rem;
+  border: 1px solid #e0eaf2;
+  border-radius: .8rem;
+  background: rgba(255,255,255,.94);
+  color: #172b4d;
+  font-size: .88rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+#root > .ticketdepart-home-fallback .td-fallback-quick-links a span { color: #087fc1; }
+#root > .ticketdepart-home-fallback .td-fallback-disclosure {
+  width: calc(100% - 2rem);
+  max-width: 1200px;
+  margin: 1rem auto 0;
+  color: #68758a;
+  font-size: .75rem;
+  line-height: 1.6;
+}
+#root > .ticketdepart-home-fallback .td-fallback-start {
+  margin-top: 1.5rem;
+  padding: 2.5rem 1.25rem;
+  border-top: 1px solid #e3eaf0;
+  border-bottom: 1px solid #e3eaf0;
+  background: #fff;
+}
+#root > .ticketdepart-home-fallback .td-fallback-start > div {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#root > .ticketdepart-home-fallback .td-fallback-start-eyebrow {
+  margin: 0;
+  color: #a75b25;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+#root > .ticketdepart-home-fallback .td-fallback-start h2 {
+  margin: .5rem 0 0;
+  color: #172b4d;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+#root > .ticketdepart-home-fallback .td-fallback-start p:not(.td-fallback-start-eyebrow) {
+  margin: .5rem 0 0;
+  color: #536078;
+  font-size: .9rem;
+  line-height: 1.7;
+}
+#root > .ticketdepart-home-fallback .td-fallback-start-actions {
+  display: grid;
+  grid-template-columns: minmax(0,1fr);
+  gap: .5rem;
+  margin-top: 1rem;
+}
+#root > .ticketdepart-home-fallback .td-fallback-start-actions a {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: .6rem .8rem;
+  border: 1px solid #e3eaf0;
+  border-radius: 999px;
+  background: #fff;
+  color: #17365f;
+  font-size: .82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+#root > .ticketdepart-home-fallback .td-fallback-start-actions a:first-child {
+  border-color: #b94f08;
+  background: #b94f08;
+  color: #fff;
+}
 #root > .ticketdepart-home-fallback .td-fallback-editorial {
   width: min(calc(100% - 2rem), 1200px);
   margin: 2.5rem auto 0;
+  padding-bottom: 2rem;
 }
 #root > .ticketdepart-home-fallback .td-fallback-editorial section {
   max-width: none;
@@ -349,27 +524,80 @@ const enhancedFallbackCss = String.raw`
 #root > .ticketdepart-home-fallback .td-fallback-editorial p { color: #536078; font-size: .95rem; line-height: 1.7; }
 #root > .ticketdepart-home-fallback .td-fallback-editorial ul { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,17rem),1fr)); gap: .5rem 1.5rem; }
 #root > .ticketdepart-home-fallback .td-fallback-editorial li { border-bottom: 1px solid #e8ebef; }
-@media (max-width: 760px) {
-  #root > .ticketdepart-home-fallback .td-fallback-header { min-height: 64px; padding-inline: 1rem; }
-  #root > .ticketdepart-home-fallback .td-fallback-header-call { min-height: 2.5rem; padding: .6rem .85rem; font-size: .78rem; }
-  #root > .ticketdepart-home-fallback .td-fallback-hero {
-    min-height: 0;
-    grid-template-columns: minmax(0,1fr);
-    gap: 1.25rem;
-    padding: 2rem 1.15rem 1.5rem;
-    background: linear-gradient(180deg,rgba(255,255,255,.95),rgba(239,249,255,.94));
+#root > .ticketdepart-home-fallback .td-fallback-mobile-callbar {
+  position: fixed;
+  z-index: 70;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: .75rem 1rem calc(.75rem + env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(255,255,255,.1);
+  background: rgba(7,26,53,.97);
+  box-shadow: 0 -12px 40px -20px rgba(0,0,0,.5);
+  backdrop-filter: blur(18px);
+}
+#root > .ticketdepart-home-fallback .td-fallback-mobile-callbar > a {
+  display: flex;
+  width: 100%;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .65rem .75rem;
+  border-radius: 999px;
+  background: #b94f08;
+  color: #fff;
+  font-size: .76rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+}
+#root > .ticketdepart-home-fallback .td-fallback-mobile-callbar strong { font-size: .75rem; font-variant-numeric: tabular-nums; }
+#root > .ticketdepart-home-fallback .td-fallback-related { padding-bottom: 1rem; }
+@media (min-width: 640px) {
+  #root > .ticketdepart-home-fallback .td-fallback-header { min-height: 72px; padding-inline: 2rem; }
+  #root > .ticketdepart-home-fallback .td-fallback-header-call { min-height: 2.75rem; padding-inline: 1rem; font-size: .875rem; }
+  #root > .ticketdepart-home-fallback .td-fallback-header-call::after {
+    content: " \${PHONE_DISPLAY}";
   }
-  #root > .ticketdepart-home-fallback .td-fallback-hero h1 { max-width: 12ch; font-size: clamp(2.35rem,10vw,3.15rem); }
-  #root > .ticketdepart-home-fallback .td-fallback-description { margin-top: 1rem; font-size: .95rem; line-height: 1.6; }
-  #root > .ticketdepart-home-fallback .td-fallback-actions { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: .55rem; margin-top: 1.15rem; }
-  #root > .ticketdepart-home-fallback .td-fallback-primary,
-  #root > .ticketdepart-home-fallback .td-fallback-secondary { min-width: 0; min-height: 3.1rem; padding: .7rem .6rem; font-size: .82rem; }
-  #root > .ticketdepart-home-fallback .td-fallback-disclosure { margin-top: .9rem; font-size: .7rem; }
-  #root > .ticketdepart-home-fallback .td-fallback-visual { height: 170px; border-radius: 1.1rem; }
-  #root > .ticketdepart-home-fallback .td-fallback-benefits { grid-template-columns: minmax(0,1fr); gap: .55rem; margin-top: .25rem; }
-  #root > .ticketdepart-home-fallback .td-fallback-benefits article { padding: .8rem; }
-  #root > .ticketdepart-home-fallback .td-fallback-editorial { margin-top: 1.5rem; }
-  #root > .ticketdepart-home-fallback .td-fallback-editorial section { padding: 1rem; }
+  #root > .ticketdepart-home-fallback .td-fallback-menu { display: none; }
+  #root > .ticketdepart-home-fallback .td-fallback-hero {
+    display: grid;
+    min-height: 560px;
+    grid-template-columns: minmax(0,1fr) minmax(0,.9fr);
+    align-items: center;
+    gap: 2.5rem;
+    padding: 4rem 2rem;
+  }
+  #root > .ticketdepart-home-fallback .td-fallback-hero h1 { max-width: 13ch; font-size: clamp(3rem,5vw,4rem); }
+  #root > .ticketdepart-home-fallback .td-fallback-description { font-size: 1.08rem; }
+  #root > .ticketdepart-home-fallback .td-fallback-actions { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  #root > .ticketdepart-home-fallback .td-fallback-primary { grid-column: 1 / -1; }
+  #root > .ticketdepart-home-fallback .td-fallback-points { gap: .75rem 1.25rem; font-size: .875rem; }
+  #root > .ticketdepart-home-fallback .td-fallback-benefits { grid-template-columns: repeat(3,minmax(0,1fr)); gap: .75rem; }
+  #root > .ticketdepart-home-fallback .td-fallback-benefits article { padding: 1.1rem; }
+  #root > .ticketdepart-home-fallback .td-fallback-quick-links { grid-template-columns: repeat(2,minmax(0,1fr)); gap: .75rem; margin-top: 1.25rem; }
+  #root > .ticketdepart-home-fallback .td-fallback-disclosure { font-size: .8rem; }
+  #root > .ticketdepart-home-fallback .td-fallback-start-actions { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  #root > .ticketdepart-home-fallback .td-fallback-mobile-callbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 5rem;
+    padding: .75rem 2rem;
+  }
+  #root > .ticketdepart-home-fallback .td-fallback-mobile-callbar::before {
+    margin-right: auto;
+    color: rgba(255,255,255,.8);
+    content: "Travel specialists available 24/7";
+    font-size: .85rem;
+    font-weight: 600;
+  }
+  #root > .ticketdepart-home-fallback .td-fallback-mobile-callbar > a { width: auto; min-width: 17rem; font-size: .875rem; }
+}
+@media (min-width: 1024px) {
+  #root > .ticketdepart-home-fallback .td-fallback-hero { gap: 3rem; padding-inline: 2.5rem; }
 }
 `;
 
