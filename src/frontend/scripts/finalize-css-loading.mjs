@@ -562,9 +562,6 @@ const enhancedFallbackCss = String.raw`
   #root > .ticketdepart-home-fallback .td-fallback-header-call { min-height: 2.75rem; padding-inline: 1rem; font-size: .875rem; }
   #root > .ticketdepart-home-fallback .td-fallback-header-number { display: inline; }
 
-  #root > .ticketdepart-home-fallback .td-fallback-header-call::after {
-    content: " \${PHONE_DISPLAY}";
-  }
   #root > .ticketdepart-home-fallback .td-fallback-menu { display: none; }
   #root > .ticketdepart-home-fallback .td-fallback-hero {
     display: grid;
@@ -603,7 +600,7 @@ const enhancedFallbackCss = String.raw`
 @media (min-width: 1024px) {
   #root > .ticketdepart-home-fallback .td-fallback-hero { gap: 3rem; padding-inline: 2.5rem; }
 }
-`
+`;
 
 const inlineCss = cssFiles
   .map((file) => fs.readFileSync(file, "utf8"))
