@@ -611,10 +611,12 @@ const enhancedFallbackCss = String.raw`
 }
 `;
 
-const inlineCss = cssFiles
-  .map((file) => fs.readFileSync(file, "utf8"))
+// Inline only the small styles needed by the static first-paint fallback.
+ // The full application stylesheet remains an early, preloaded external asset;
+ // duplicating it inside every generated HTML document bloats navigation and
+ // forces the browser to parse the same CSS twice before the app can paint.
+const inlineCss = [staticFallbackCss, enhancedFallbackCss]
   .join("\n")
-  .concat("\n", staticFallbackCss, "\n", enhancedFallbackCss)
   .replace(/<\/style/gi, "<\\/style");
 const inlineStyleTag = '<style id="ticketdepart-inline-css">' + inlineCss + "</style>";
 
