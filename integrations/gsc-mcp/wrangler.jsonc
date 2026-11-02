@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ticketdepart-gsc-mcp",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-02",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV",
+      "id": "REPLACE_WITH_KV_NAMESPACE_ID"
+    }
+  ],
+  "vars": {
+    "MCP_RESOURCE_URL": "https://ticketdepart-gsc-mcp.REPLACE_WITH_WORKERS_SUBDOMAIN.workers.dev/mcp",
+    "GOOGLE_REDIRECT_URI": "https://ticketdepart-gsc-mcp.REPLACE_WITH_WORKERS_SUBDOMAIN.workers.dev/google/callback"
+  }
+}
