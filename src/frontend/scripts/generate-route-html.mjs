@@ -1041,27 +1041,53 @@ function routeHtml(route, meta) {
   const homepageFallback = `<main class="ticketdepart-static-fallback ticketdepart-home-fallback">
   <header class="td-fallback-header">
     <a class="td-fallback-brand" href="/" aria-label="TicketDepart home"><span class="td-fallback-mark" aria-hidden="true">✈</span><span>TicketDepart</span></a>
-    <a class="td-fallback-header-call" href="${PHONE_HREF}">Call ${PHONE_DISPLAY}</a>
+    <div class="td-fallback-header-actions">
+      <a class="td-fallback-header-call" href="${PHONE_HREF}" aria-label="Call TicketDepart at ${PHONE_DISPLAY}"><span aria-hidden="true">☎</span><span>Call</span></a>
+      <a class="td-fallback-menu" href="#td-fallback-links" aria-label="Jump to site links"><span aria-hidden="true">☰</span></a>
+    </div>
   </header>
   <section class="td-fallback-hero" aria-labelledby="td-fallback-heading">
-    <div class="td-fallback-copy">
-      <p class="td-fallback-eyebrow">24/7 Flight Booking Assistance</p>
-      <h1 id="td-fallback-heading">Need a Flight? <span>Call Now to Get Started.</span></h1>
-      <p class="td-fallback-description">Call ${PHONE_DISPLAY} for 24/7 flight booking assistance. Compare affordable economy options for domestic and international trips, including flexible dates, nearby airports, baggage costs, and fare conditions.</p>
-      <div class="td-fallback-actions">
-        <a class="td-fallback-primary" href="${PHONE_HREF}">Call Now · ${PHONE_DISPLAY}</a>
-        <a class="td-fallback-secondary" href="/flight-search/">Search flights</a>
-      </div>
-      <p class="td-fallback-disclosure">TicketDepart is an independent travel assistance service, not an airline.</p>
+    <div class="td-fallback-visual" aria-hidden="true">
+      <img src="/assets/generated/hero-flight.dim_1600x1100.jpg" alt="" width="1600" height="1100" fetchpriority="high" />
     </div>
-    <div class="td-fallback-visual">
-      <img src="/assets/generated/hero-flight.dim_1600x1100.jpg" alt="Commercial aircraft flying through a bright blue sky" width="1600" height="1100" fetchpriority="high" />
+    <div class="td-fallback-copy">
+      <h1 id="td-fallback-heading">Need a Flight? <span>Call Now to Get Started.</span></h1>
+      <p class="td-fallback-description">Call ${PHONE_DISPLAY} now for 24/7 flight booking assistance. Compare affordable economy options for domestic and international trips, including flexible dates, nearby airports, baggage costs, flight changes, and fare conditions.</p>
+      <div class="td-fallback-actions">
+        <a class="td-fallback-primary" href="${PHONE_HREF}" aria-label="Call Now to Book Your Flight: ${PHONE_DISPLAY}"><span class="td-fallback-phone-icon" aria-hidden="true">☎</span><span class="td-fallback-primary-label">Call Now to Book Your Flight</span><span class="td-fallback-primary-number">${PHONE_DISPLAY}</span></a>
+        <a class="td-fallback-secondary td-fallback-search" href="/flight-search/"><span>Search flights</span><span aria-hidden="true">→</span></a>
+        <a class="td-fallback-secondary" href="/contact/"><span>Request a callback</span><span aria-hidden="true">→</span></a>
+      </div>
+      <div class="td-fallback-points" aria-label="Service highlights">
+        <span><b aria-hidden="true">✓</b>Available 24/7</span>
+        <span><b aria-hidden="true">✓</b>Booking or reservation help</span>
+        <span><b aria-hidden="true">✓</b>Economy fares for individual travelers</span>
+      </div>
     </div>
   </section>
   <section class="td-fallback-benefits" aria-label="Travel assistance highlights">
     <article><span aria-hidden="true">◎</span><div><strong>Domestic &amp; international</strong><small>Flights from the USA and Canada</small></div></article>
     <article><span aria-hidden="true">✈</span><div><strong>Affordable economy options</strong><small>Compare dates, routes and total trip cost</small></div></article>
     <article><span aria-hidden="true">◷</span><div><strong>Real specialists 24/7</strong><small>Human help when you need it</small></div></article>
+  </section>
+  <div class="td-fallback-quick-links" id="td-fallback-links">
+    <a href="/flight-booking/">Book a flight <span aria-hidden="true">→</span></a>
+    <a href="/flight-change-assistance/">Change a flight <span aria-hidden="true">→</span></a>
+    <a href="/flight-cancellation-assistance/">Cancel a flight <span aria-hidden="true">→</span></a>
+    <a href="/airline-reservation-assistance/">Airline reservation help <span aria-hidden="true">→</span></a>
+  </div>
+  <p class="td-fallback-disclosure">A TicketDepart specialist can help you review available routes, travel dates, baggage details, and fare conditions so you can understand your options before deciding.</p>
+  <section class="td-fallback-start" aria-labelledby="td-fallback-start-heading">
+    <div>
+      <p class="td-fallback-start-eyebrow">Choose your next step</p>
+      <h2 id="td-fallback-start-heading">Ready to book your flight?</h2>
+      <p>Call now to discuss your route, dates, and flight questions with a travel specialist and take the next step toward booking.</p>
+      <div class="td-fallback-start-actions">
+        <a href="${PHONE_HREF}">Call Now to Book Your Flight</a>
+        <a href="/contact/">Request a callback</a>
+        <a href="/flight-booking/">See booking help</a>
+      </div>
+    </div>
   </section>
   <div class="td-fallback-editorial">
     <section><h2>Flight booking help, made clearer</h2><p>${safeText}</p></section>
@@ -1076,6 +1102,9 @@ function routeHtml(route, meta) {
         .join("")}
       <li><a href="/contact/">Contact a travel specialist</a></li>
     </ul></section>
+  </div>
+  <div class="td-fallback-mobile-callbar">
+    <a href="${PHONE_HREF}" aria-label="Call TicketDepart at ${PHONE_DISPLAY}"><span aria-hidden="true">☎</span><span>Call Now to Book Your Flight</span><strong>${PHONE_DISPLAY}</strong></a>
   </div>
 </main>`;
   const routeFallback = `<main class="ticketdepart-static-fallback"><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="${PHONE_HREF}">Call ${PHONE_DISPLAY}</a> — available 24/7.</p>${homeGuideLink}
