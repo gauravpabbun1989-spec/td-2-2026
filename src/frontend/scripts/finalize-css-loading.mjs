@@ -224,6 +224,8 @@ const enhancedFallbackCss = String.raw`
   font-size: .78rem;
   font-weight: 800;
 }
+#root > .ticketdepart-home-fallback .td-fallback-header-number { display: none; }
+
 #root > .ticketdepart-home-fallback .td-fallback-menu {
   width: 2.5rem;
   border: 1px solid #e3eaf0;
@@ -558,6 +560,8 @@ const enhancedFallbackCss = String.raw`
 @media (min-width: 640px) {
   #root > .ticketdepart-home-fallback .td-fallback-header { min-height: 72px; padding-inline: 2rem; }
   #root > .ticketdepart-home-fallback .td-fallback-header-call { min-height: 2.75rem; padding-inline: 1rem; font-size: .875rem; }
+  #root > .ticketdepart-home-fallback .td-fallback-header-number { display: inline; }
+
   #root > .ticketdepart-home-fallback .td-fallback-header-call::after {
     content: " \${PHONE_DISPLAY}";
   }
@@ -599,7 +603,7 @@ const enhancedFallbackCss = String.raw`
 @media (min-width: 1024px) {
   #root > .ticketdepart-home-fallback .td-fallback-hero { gap: 3rem; padding-inline: 2.5rem; }
 }
-`;
+`
 
 const inlineCss = cssFiles
   .map((file) => fs.readFileSync(file, "utf8"))
