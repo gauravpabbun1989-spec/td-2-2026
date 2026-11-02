@@ -156,7 +156,6 @@ const enhancedFallbackCss = String.raw`
   min-height: 100vh;
   margin: 0;
   padding: 0 0 calc(5.5rem + env(safe-area-inset-bottom));
-  overflow: hidden;
   background: #fbfaf6;
   color: #172b4d;
   font-family: "DM Sans", Arial, sans-serif;
@@ -539,12 +538,14 @@ const enhancedFallbackCss = String.raw`
   backdrop-filter: blur(18px);
 }
 #root > .ticketdepart-home-fallback .td-fallback-mobile-callbar > a {
-  display: flex;
+  display: grid;
   width: 100%;
   min-height: 3rem;
+  grid-template-columns: auto minmax(0,1fr);
+  grid-template-rows: auto auto;
   align-items: center;
   justify-content: center;
-  gap: .5rem;
+  column-gap: .5rem;
   padding: .65rem .75rem;
   border-radius: 999px;
   background: #b94f08;
@@ -555,7 +556,9 @@ const enhancedFallbackCss = String.raw`
   text-align: center;
   text-decoration: none;
 }
-#root > .ticketdepart-home-fallback .td-fallback-mobile-callbar strong { font-size: .75rem; font-variant-numeric: tabular-nums; }
+#root > .ticketdepart-home-fallback .td-fallback-mobile-callbar > a span:first-child { grid-column: 1; grid-row: 1 / span 2; }
+#root > .ticketdepart-home-fallback .td-fallback-mobile-callbar > a span:nth-child(2) { grid-column: 2; grid-row: 1; }
+#root > .ticketdepart-home-fallback .td-fallback-mobile-callbar strong { grid-column: 2; grid-row: 2; font-size: .75rem; font-variant-numeric: tabular-nums; }
 #root > .ticketdepart-home-fallback .td-fallback-related { padding-bottom: 1rem; }
 @media (min-width: 640px) {
   #root > .ticketdepart-home-fallback .td-fallback-header { min-height: 72px; padding-inline: 2rem; }
@@ -595,7 +598,7 @@ const enhancedFallbackCss = String.raw`
     font-size: .85rem;
     font-weight: 600;
   }
-  #root > .ticketdepart-home-fallback .td-fallback-mobile-callbar > a { width: auto; min-width: 17rem; font-size: .875rem; }
+  #root > .ticketdepart-home-fallback .td-fallback-mobile-callbar > a { display: flex; width: auto; min-width: 17rem; font-size: .875rem; }
 }
 @media (min-width: 1024px) {
   #root > .ticketdepart-home-fallback .td-fallback-hero { gap: 3rem; padding-inline: 2.5rem; }
