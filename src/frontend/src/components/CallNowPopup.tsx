@@ -1,6 +1,6 @@
 import { CallCta } from "@/components/CallCta";
 import { trackEvent } from "@/lib/analytics";
-import { Clock3, Headset, X } from "lucide-react";
+import { Headset, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouterState } from "@tanstack/react-router";
@@ -67,30 +67,20 @@ export function CallNowPopup() {
           </div>
           <p className="relative mt-5 text-xs font-bold uppercase tracking-[0.18em] text-white/75">TicketDepart · Flight assistance</p>
           <h2 id="call-now-popup-title" className="relative mt-2 text-balance text-2xl font-bold leading-tight sm:text-3xl">
-            Ready to Book Your Flight? Call Now
+            Travel assistance, 24/7
           </h2>
           <p id="call-now-popup-description" className="relative mt-3 text-sm leading-6 text-white/85">
-            Discuss your route, dates, cabin, and fare conditions with a travel specialist before deciding.
+            Call now for a specialist.
           </p>
         </div>
 
         <div className="px-6 pb-6 pt-5 sm:px-8 sm:pb-7">
-          <div className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
-            <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-              <Clock3 aria-hidden="true" className="size-5" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-sm font-semibold text-foreground">Travel assistance, 24/7</p>
-              <p className="mt-0.5 text-xs leading-5 text-muted-foreground">Call now to speak with a travel specialist.</p>
-            </div>
-          </div>
-
           <CallCta
             size="lg"
             showNumber
             ctaLocation="call_now_popup"
             ocid="call_now_popup.call_button"
-            className="mt-5 flex min-h-14 w-full rounded-2xl"
+            className="mt-1 flex min-h-14 w-full rounded-2xl"
           />
         </div>
       </dialog>

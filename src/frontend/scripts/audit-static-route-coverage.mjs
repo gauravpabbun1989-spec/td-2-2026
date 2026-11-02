@@ -127,6 +127,11 @@ assert(homeHtml.includes('class="ticketdepart-static-fallback ticketdepart-home-
 assert(homeHtml.includes('class="td-fallback-header"'), "homepage first paint must include the branded responsive header");
 assert(homeHtml.includes('class="td-fallback-hero"'), "homepage first paint must include the designed hero section");
 assert(homeHtml.includes('class="td-fallback-primary"'), "homepage first paint must include the primary call action");
+assert(homeHtml.includes('class="td-fallback-mobile-callbar"'), "homepage first paint must include the fixed mobile call bar");
+assert(homeHtml.includes('href="/contact/"') && homeHtml.includes("Request a callback"), "homepage first paint must include the callback action");
+assert(homeHtml.includes("flight changes") && homeHtml.includes("Economy fares for individual travelers"), "homepage first paint copy must stay aligned with the React hero");
+assert(popupSource.includes("Travel assistance, 24/7") && popupSource.includes("Call now for a specialist."), "call popup must use the approved assistance copy");
+assert(!popupSource.includes("Ready to Book Your Flight? Call Now") && !popupSource.includes("Discuss your route, dates, cabin"), "call popup still contains retired heading or explanatory copy");
 assert(homeInlineCss.includes(".td-fallback-hero"), "homepage inline CSS must style the designed first-paint hero");
 assert(homeInlineCss.includes(".td-fallback-benefits"), "homepage inline CSS must style the first-paint benefit cards");
 assert(homeInlineCss.includes("#root > .ticketdepart-static-fallback"), "homepage inline CSS must include first-paint fallback presentation");
