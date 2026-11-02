@@ -1047,7 +1047,7 @@ function routeHtml(route, meta) {
     <div class="td-fallback-copy">
       <p class="td-fallback-eyebrow">24/7 Flight Booking Assistance</p>
       <h1 id="td-fallback-heading">Need a Flight? <span>Call Now to Get Started.</span></h1>
-      <p class="td-fallback-description">${safeText}</p>
+      <p class="td-fallback-description">Call ${PHONE_DISPLAY} for 24/7 flight booking assistance. Compare affordable economy options for domestic and international trips, including flexible dates, nearby airports, baggage costs, and fare conditions.</p>
       <div class="td-fallback-actions">
         <a class="td-fallback-primary" href="${PHONE_HREF}">Call Now · ${PHONE_DISPLAY}</a>
         <a class="td-fallback-secondary" href="/flight-search/">Search flights</a>
