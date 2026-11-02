@@ -243,6 +243,7 @@ const enhancedFallbackCss = String.raw`
   overflow: hidden;
   isolation: isolate;
   background: #e9f7ff;
+  border-top: 0;
 }
 #root > .ticketdepart-home-fallback .td-fallback-hero::before {
   position: absolute;
@@ -386,6 +387,7 @@ const enhancedFallbackCss = String.raw`
   gap: .55rem;
   margin: 0 auto;
   padding-top: .25rem;
+  border-top: 0;
 }
 #root > .ticketdepart-home-fallback .td-fallback-benefits article {
   display: flex;
@@ -442,9 +444,13 @@ const enhancedFallbackCss = String.raw`
   margin: 1rem auto 0;
   color: #68758a;
   font-size: .75rem;
+  font-weight: 400;
+  letter-spacing: normal;
   line-height: 1.6;
+  text-transform: none;
 }
 #root > .ticketdepart-home-fallback .td-fallback-start {
+  max-width: none;
   margin-top: 1.5rem;
   padding: 2.5rem 1.25rem;
   border-top: 1px solid #e3eaf0;
