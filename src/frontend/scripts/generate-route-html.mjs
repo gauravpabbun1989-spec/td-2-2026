@@ -1038,7 +1038,7 @@ function routeHtml(route, meta) {
     .map(([heading, text]) => `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(text)}</p></section>`)
     .join("");
   const homeGuideLink = route === "/" ? `<section><h2>Affordable economy flight booking</h2><p><a href="/cheap-flight-booking-by-phone/">Cheap economy flights by phone</a></p><p><a href="/how-to-book-a-flight-by-phone/">How to book a flight by phone</a></p></section>` : "";
-  const homepageFallback = `<main class="ticketdepart-static-fallback ticketdepart-home-fallback">
+  const fallback = `<main class="ticketdepart-static-fallback">
   <header class="td-fallback-header">
     <a class="td-fallback-brand" href="/" aria-label="TicketDepart home"><span class="td-fallback-mark" aria-hidden="true">✈</span><span>TicketDepart</span></a>
     <a class="td-fallback-header-call" href="${PHONE_HREF}">Call ${PHONE_DISPLAY}</a>
@@ -1047,7 +1047,7 @@ function routeHtml(route, meta) {
     <div class="td-fallback-copy">
       <p class="td-fallback-eyebrow">24/7 Flight Booking Assistance</p>
       <h1 id="td-fallback-heading">Need a Flight? <span>Call Now to Get Started.</span></h1>
-      <p class="td-fallback-description">Call ${PHONE_DISPLAY} for 24/7 flight booking assistance. Compare affordable economy options for domestic and international trips, including flexible dates, nearby airports, baggage costs, and fare conditions.</p>
+      <p class="td-fallback-description">${safeText}</p>
       <div class="td-fallback-actions">
         <a class="td-fallback-primary" href="${PHONE_HREF}">Call Now · ${PHONE_DISPLAY}</a>
         <a class="td-fallback-secondary" href="/flight-search/">Search flights</a>
@@ -1078,19 +1078,6 @@ function routeHtml(route, meta) {
     </ul></section>
   </div>
 </main>`;
-  const routeFallback = `<main class="ticketdepart-static-fallback"><nav aria-label="Breadcrumb"><a href="/">TicketDepart</a> / ${safeHeading}</nav><p><strong>${escapeHtml(staticContent.eyebrow)}</strong></p><h1>${safeHeading}</h1><p>${safeText}</p><p><a href="${PHONE_HREF}">Call ${PHONE_DISPLAY}</a> — available 24/7.</p>${homeGuideLink}
-  ${sectionHtml}
-  ${semanticContent}
-  <section><h2>Related flight booking help</h2><ul>
-    ${(RELATED_ROUTE_RULES[route] ?? ["/flight-booking", "/book-a-flight-by-phone", "/international-flight-booking", "/contact"])
-      .filter((relatedRoute, index, all) => relatedRoute !== route && all.indexOf(relatedRoute) === index && routes[relatedRoute])
-      .slice(0, 6)
-      .map((relatedRoute) => `<li><a href="${relatedRoute}/">${escapeHtml(routeLabel(relatedRoute))}</a></li>`)
-      .join("")}
-    <li><a href="/contact/">Contact a travel specialist</a></li>
-  </ul></section>
-</main>`;
-  const fallback = route === "/" ? homepageFallback : routeFallback;
 
   return html.replace(/<div id="root"(?:\s+style="visibility:hidden")?><\/div>/i, `<div id="root">${fallback}</div>`);
 }
