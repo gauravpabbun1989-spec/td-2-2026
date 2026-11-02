@@ -1038,7 +1038,7 @@ function routeHtml(route, meta) {
     .map(([heading, text]) => `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(text)}</p></section>`)
     .join("");
   const homeGuideLink = route === "/" ? `<section><h2>Affordable economy flight booking</h2><p><a href="/cheap-flight-booking-by-phone/">Cheap economy flights by phone</a></p><p><a href="/how-to-book-a-flight-by-phone/">How to book a flight by phone</a></p></section>` : "";
-  const homepageFallback = `<main class="ticketdepart-static-fallback">
+  const homepageFallback = `<main class="ticketdepart-static-fallback ticketdepart-home-fallback">
   <header class="td-fallback-header">
     <a class="td-fallback-brand" href="/" aria-label="TicketDepart home"><span class="td-fallback-mark" aria-hidden="true">✈</span><span>TicketDepart</span></a>
     <a class="td-fallback-header-call" href="${PHONE_HREF}">Call ${PHONE_DISPLAY}</a>
