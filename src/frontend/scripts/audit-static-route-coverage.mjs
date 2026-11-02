@@ -123,7 +123,12 @@ const inlineStyleEnd = homeHtml.indexOf("</style>", inlineStyleStart);
 const homeInlineCss = inlineStyleStart >= 0 && inlineStyleEnd > inlineStyleStart
   ? homeHtml.slice(inlineStyleStart, inlineStyleEnd)
   : "";
-assert(homeHtml.includes('class="ticketdepart-static-fallback"'), "homepage static fallback must use the styled first-paint wrapper");
+assert(homeHtml.includes('class="ticketdepart-static-fallback ticketdepart-home-fallback"'), "homepage static fallback must use the scoped designed first-paint wrapper");
+assert(homeHtml.includes('class="td-fallback-header"'), "homepage first paint must include the branded responsive header");
+assert(homeHtml.includes('class="td-fallback-hero"'), "homepage first paint must include the designed hero section");
+assert(homeHtml.includes('class="td-fallback-primary"'), "homepage first paint must include the primary call action");
+assert(homeInlineCss.includes(".td-fallback-hero"), "homepage inline CSS must style the designed first-paint hero");
+assert(homeInlineCss.includes(".td-fallback-benefits"), "homepage inline CSS must style the first-paint benefit cards");
 assert(homeInlineCss.includes("#root > .ticketdepart-static-fallback"), "homepage inline CSS must include first-paint fallback presentation");
 const homeDescription = homeHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
 assert(homeDescription.includes("24/7") && homeDescription.includes("TicketDepart"), "built homepage meta description is missing expected service details");
