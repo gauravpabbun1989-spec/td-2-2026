@@ -21,7 +21,10 @@ function preloadMainEntry() {
       const main = Object.values(bundle).find(
         (item) =>
           item.type === "chunk" &&
-          item.facadeModuleId?.replace(/\\/g, "/").endsWith("/src/main.tsx"),
+          item.facadeModuleId
+            ?.split(String.fromCharCode(92))
+            .join("/")
+            .endsWith("/src/main.tsx"),
       );
       const htmlAsset = bundle["index.html"];
 
@@ -38,18 +41,23 @@ function preloadMainEntry() {
       const html = fs.readFileSync(htmlPath, "utf8");
       const preloadLink =
         '<link rel="modulepreload" crossorigin href="/' +
-        main.fileName.replace(/^\\/+/, "") +
+        main.fileName +
         '">';
 
       if (!html.includes(preloadLink)) {
-        if (!/<head\\b[^>]*>/i.test(html)) {
-          throw new Error("Cannot add the main-entry preload: index.html has no <head>.");
+        const headStart = html.toLowerCase().indexOf("<head");
+        const headEnd = html.indexOf(">", headStart);
+
+        if (headStart < 0 || headEnd < 0) {
+          throw new Error("Cannot add the main-entry preload: index.html has no valid <head>.");
         }
 
-        const updatedHtml = html.replace(
-          /<head\\b[^>]*>/i,
-          (head) => head + "\\n" + preloadLink + "\\n",
-        );
+        const updatedHtml =
+          html.slice(0, headEnd + 1) +
+          "\n" +
+          preloadLink +
+          "\n" +
+          html.slice(headEnd + 1);
         fs.writeFileSync(htmlPath, updatedHtml);
       }
     },
