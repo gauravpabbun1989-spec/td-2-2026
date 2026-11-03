@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Performance: critical hero image is preloaded; non-critical analytics is idle-loaded. -->
+    <!-- Performance: preload the LCP hero image and lower the priority of analytics. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Make Flight Booking Easy | 24/7 Booking Assistance</title>
     <meta
@@ -29,7 +29,7 @@
     <link rel="preload" href="/assets/fonts/SpaceGrotesk.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/DMSans.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E"></script>
+    <script async fetchpriority="low" src="https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};

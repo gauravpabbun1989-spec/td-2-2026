@@ -60,7 +60,7 @@ const FlightsLosAngelesToTokyoPage = lazyPage(() => import("@/pages/RouteFlightP
 const FlightsLosAngelesToLondonPage = lazyPage(() => import("@/pages/RouteFlightPages").then(({ FlightsLosAngelesToLondonPage }) => ({ default: FlightsLosAngelesToLondonPage })));
 const FlightsSanFranciscoToTokyoPage = lazyPage(() => import("@/pages/RouteFlightPages").then(({ FlightsSanFranciscoToTokyoPage }) => ({ default: FlightsSanFranciscoToTokyoPage })));
 
-import { AmericanAirlinesPage } from "@/pages/airlines/AmericanAirlinesPage";
+const AmericanAirlinesPage = lazyPage(() => import("@/pages/airlines/AmericanAirlinesPage").then(({ AmericanAirlinesPage }) => ({ default: AmericanAirlinesPage })));
 const AirCanadaPage = lazyPage(() => import("@/pages/airlines/AdditionalAirlinePages").then(({ AirCanadaPage }) => ({ default: AirCanadaPage })));
 const AlaskaAirlinesPage = lazyPage(() => import("@/pages/airlines/AdditionalAirlinePages").then(({ AlaskaAirlinesPage }) => ({ default: AlaskaAirlinesPage })));
 const BritishAirwaysPage = lazyPage(() => import("@/pages/airlines/AdditionalAirlinePages").then(({ BritishAirwaysPage }) => ({ default: BritishAirwaysPage })));
