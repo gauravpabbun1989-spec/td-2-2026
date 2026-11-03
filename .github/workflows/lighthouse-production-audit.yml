@@ -13,12 +13,14 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  lighthouse:
+  lighthouse-mobile:
     name: Lighthouse mobile audit
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Audit key production routes
+      - uses: actions/checkout@v4
+
+      - name: Audit key production routes (mobile)
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
@@ -29,5 +31,33 @@ jobs:
             https://ticketdepart.com/book-a-flight-by-phone
             https://ticketdepart.com/flight-booking-assistance
           runs: 3
+          artifactName: lighthouse-results-mobile
           uploadArtifacts: true
           temporaryPublicStorage: true
+        env:
+          LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
+
+  lighthouse-desktop:
+    name: Lighthouse desktop audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Audit key production routes (desktop)
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://ticketdepart.com/
+            https://ticketdepart.com/flight-booking
+            https://ticketdepart.com/flight-search
+            https://ticketdepart.com/flight-search-results
+            https://ticketdepart.com/book-a-flight-by-phone
+            https://ticketdepart.com/flight-booking-assistance
+          configPath: .github/lighthouse.desktop.json
+          runs: 3
+          artifactName: lighthouse-results-desktop
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+        env:
+          LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
