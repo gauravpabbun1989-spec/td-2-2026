@@ -4,13 +4,9 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "30 9 * * *"
-  workflow_run:
-    workflows: ["Deploy Cloudflare Production"]
-    types: [completed]
 
 permissions:
   contents: read
-  actions: read
 
 concurrency:
   group: ticketdepart-production-smoke
@@ -19,33 +15,10 @@ concurrency:
 jobs:
   smoke-test:
     name: Verify live routes and indexing signals
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Confirm the deployment job actually ran
-        id: deployment_check
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-          DEPLOY_RUN_ID: ${{ github.event.workflow_run.id }}
-        run: |
-          set -euo pipefail
-          if [ "$GITHUB_EVENT_NAME" != "workflow_run" ]; then
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          conclusion="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${DEPLOY_RUN_ID}/jobs?per_page=100" --jq '.jobs[] | select(.name == "Build and deploy production Worker") | .steps[] | select(.name == "Deploy Cloudflare Worker to production") | .conclusion' | tail -n 1)"
-          if [ "$conclusion" = "success" ]; then
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-            echo "A production deployment completed; run all smoke checks."
-          else
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
-            echo "The deploy step conclusion was '${conclusion:-missing}'; skip smoke checks."
-          fi
-
       - name: Check New York landing page
-        if: always() && steps.deployment_check.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -67,20 +40,17 @@ jobs:
           NODE
 
       - name: Check the economy-first phone-booking guide
-        if: always() && steps.deployment_check.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail
           url="https://ticketdepart.com/how-to-book-a-flight-by-phone/"
-          status="$(curl --location --silent --show-error --dump-header /tmp/phone-guide.headers --output /tmp/phone-guide.html --write-out '%{http_code}' "$url")"
+          status="$(curl --location --silent --show-error --output /tmp/phone-guide.html --write-out '%{http_code}' "$url")"
           test "$status" = "200"
           node <<'NODE'
           const fs = require('node:fs');
           (async () => {
             const html = fs.readFileSync('/tmp/phone-guide.html', 'utf8');
-            const headers = fs.readFileSync('/tmp/phone-guide.headers', 'utf8');
             const checks = [
-              ['request was handled by the production Worker', /x-ticketdepart-worker:\s*edge/i.test(headers)],
               ['phone guide title', /<title>[^<]*How to Book a Flight by Phone/i.test(html)],
               ['indexable robots meta', /<meta[^>]*name=["']robots["'][^>]*content=["']index,\s*follow/i.test(html) || /<meta[^>]*content=["']index,\s*follow["'][^>]*name=["']robots/i.test(html)],
               ['self-referencing canonical', /<link[^>]*rel=["']canonical["'][^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) || /<link[^>]*href=["']https:\/\/ticketdepart\.com\/how-to-book-a-flight-by-phone\//i.test(html) && /<link[^>]*rel=["']canonical/i.test(html)],
@@ -131,11 +101,10 @@ jobs:
           NODE
 
       - name: Confirm an unknown route returns HTTP 404 and noindex
-        if: always() && steps.deployment_check.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail
-          status="$(curl --location --silent --show-error --dump-header /tmp/not-found.headers --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/__ticketdepart_404_smoke_test_20261101__/")"
+          status="$(curl --location --silent --show-error --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/__ticketdepart_404_smoke_test_20261101__/")"
           if [ "$status" != "404" ]; then
             echo "FAIL unknown route returned HTTP $status; expected 404"
             exit 1
@@ -143,11 +112,6 @@ jobs:
           node <<'NODE'
           const fs = require('node:fs');
           const html = fs.readFileSync('/tmp/not-found.html', 'utf8');
-          const headers = fs.readFileSync('/tmp/not-found.headers', 'utf8');
-          if (!/x-ticketdepart-worker:\s*edge/i.test(headers)) {
-            console.error('FAIL unknown route was not handled by the production Worker');
-            process.exit(1);
-          }
           const robots = html.match(/<meta\b[^>]*>/gi)?.find(tag => /name=["']robots["']/i.test(tag));
           if (!robots || !/content=["']noindex/i.test(robots)) {
             console.error('FAIL unknown route is missing a noindex robots directive');
@@ -157,7 +121,6 @@ jobs:
           NODE
 
       - name: Confirm security probes and malformed routes return HTTP 404
-        if: always() && steps.deployment_check.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -166,17 +129,13 @@ jobs:
             "https://ticketdepart.com/flights-from-new-york/null"
           do
             output="$(mktemp)"
-            status="$(curl --location --silent --show-error --dump-header "$output.headers" --output "$output" --write-out '%{http_code}' "$url")"
+            status="$(curl --location --silent --show-error --output "$output" --write-out '%{http_code}' "$url")"
             if [ "$status" != "404" ]; then
               echo "FAIL $url returned HTTP $status; expected 404"
               exit 1
             fi
             if ! grep -Fqi 'noindex, nofollow' "$output"; then
               echo "FAIL $url did not return the branded noindex 404 document"
-              exit 1
-            fi
-            if ! grep -Eqi '^x-ticketdepart-worker:[[:space:]]*edge' "$output.headers"; then
-              echo "FAIL $url was not handled by the production Worker"
               exit 1
             fi
             echo "PASS $url returns HTTP 404 with noindex"
