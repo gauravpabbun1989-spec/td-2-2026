@@ -29,7 +29,6 @@
     <link rel="preload" href="/assets/fonts/SpaceGrotesk.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/DMSans.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
@@ -118,6 +117,21 @@
       if (isProductionAnalyticsHost && !isKnownProbePath()) {
         window.gtag("js", new Date());
         window.gtag("config", "G-4WC5K9Q31E");
+        // Queue analytics immediately, but download the large Google tag after the first render.
+        // Phone-click events remain queued in dataLayer if a visitor acts before the tag loads.
+        const loadGoogleTag = () => {
+          if (document.querySelector('script[data-ticketdepart-ga4="true"]')) return;
+          const script = document.createElement("script");
+          script.async = true;
+          script.dataset.ticketdepartGa4 = "true";
+          script.src = "https://www.googletagmanager.com/gtag/js?id=G-4WC5K9Q31E";
+          document.head.appendChild(script);
+        };
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(loadGoogleTag, { timeout: 2500 });
+        } else {
+          window.setTimeout(loadGoogleTag, 1500);
+        }
       }
     </script>
     <script type="application/ld+json">
