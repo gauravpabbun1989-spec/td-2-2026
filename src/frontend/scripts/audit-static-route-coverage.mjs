@@ -139,6 +139,7 @@ const homeDescription = homeHtml.match(/<meta\s+name="description"\s+content="([
 assert(homeDescription.includes("24/7") && homeDescription.includes("TicketDepart"), "built homepage meta description is missing expected service details");
 assert(!/855[\s().-]*544[\s().-]*9001/.test(homeHtml), "old public phone number remains in built homepage HTML");
 assert(/href="\/how-to-book-a-flight-by-phone\/"/i.test(homeHtml), "homepage is missing a crawlable link to the phone-booking guide");
+assert(!/href=["\'][^"\']*\/(?:business-class-flight-booking|corporate-flight-booking|group-flight-booking)\/?["\']/i.test(homeHtml), "homepage must not link to business-class, corporate, or group pages excluded from organic targeting");
 
 const contactHtml = read(path.join(distDir, "contact", "index.html"));
 const contactDescription = contactHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
