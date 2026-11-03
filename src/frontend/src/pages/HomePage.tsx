@@ -80,7 +80,6 @@ const FLIGHT_GUIDE_GROUPS: FlightGuideGroup[] = [
                 ["Chicago to London", "/flights-chicago-to-london/"], ["Miami to Cancun", "/flights-miami-to-cancun/"],
                 ["San Francisco to Tokyo", "/flights-san-francisco-to-tokyo/"],
               ]],
-              ["Optional cabin", [["Business class flight booking", "/business-class-flight-booking/"]]],
               ["Site and support", [
                 ["Contact", "/contact/"], ["Privacy policy", "/privacy/"], ["Terms of service", "/terms/"],
               ]],
