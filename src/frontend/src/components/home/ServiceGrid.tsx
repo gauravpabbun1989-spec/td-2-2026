@@ -4,12 +4,12 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, CalendarClock, CalendarX, Globe2, PawPrint, Plane, Route } from "lucide-react";
 
 const SERVICES = [
-  { icon: Plane, title: "Affordable flight booking by phone", href: "/cheap-flight-booking-by-phone/", description: "Compare economy fares, nearby dates, route options, and the full trip cost before booking." },
+  { icon: Plane, title: "Cheap flight tickets & booking by phone", href: "/cheap-flight-booking-by-phone/", description: "Compare affordable economy flight tickets, flexible dates, nearby airports, route options, and the full trip cost before booking." },
   { icon: Globe2, title: "International flight booking", href: "/international-flight-booking/", description: "Review routes, connections, ticket conditions, and fare rules for domestic and international trips." },
   { icon: CalendarClock, title: "Last-minute flights", href: "/last-minute-flight-booking/", description: "Check available dates, departure times, connection windows, and ticketing details for urgent trips." },
   { icon: PawPrint, title: "Pet flight booking", href: "/pet-flight-booking/", description: "Discuss airline pet policies, carrier requirements, route restrictions, and documentation before booking." },
-  { icon: CalendarX, title: "Flight cancellation help", href: "/flight-cancellation-assistance/", description: "Review refund eligibility, travel credits, deadlines, and ticket conditions before requesting cancellation." },
-  { icon: CalendarClock, title: "Changes & rebooking", href: "/flight-change-assistance/", description: "Understand available options and ticket rules when your travel plans change." },
+  { icon: CalendarX, title: "Flight cancellation help", href: "/flight-cancellation-assistance/", description: "Review flight cancellation rules, possible refunds or travel credits, deadlines, and ticket conditions before requesting cancellation." },
+  { icon: CalendarClock, title: "Flight changes & rebooking", href: "/flight-change-assistance/", description: "Get help understanding how to change a flight reservation, compare date or route alternatives, and review fare differences and ticket rules." },
 ] as const;
 
 export function ServiceGrid() {
