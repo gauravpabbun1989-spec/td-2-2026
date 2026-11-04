@@ -20,9 +20,14 @@ export const HOME_FAQS = [
       "A multi-city itinerary has more than one stopover or direction change — for example, flying into one city and out of another, or visiting several cities in sequence. We sequence the segments so the routing and pricing work together.",
   },
   {
-    question: "Can you book group travel?",
+    question: "Can you help book a flight with a pet?",
     answer:
-      "Yes. We handle family groups, sports teams, church and community groups, and corporate travel. Call with your traveler count and dates and we will work through seating and coordination.",
+      "A specialist can discuss your route, pet type, airline pet policies, carrier requirements, and documentation questions. Pet acceptance, capacity, and fees depend on the airline, aircraft, route, and applicable rules.",
+  },
+  {
+    question: "Can you help book a flight with an infant?",
+    answer:
+      "Yes. Discuss the infant's age, lap-infant or separate-seat arrangements, bassinet requests, and itinerary details. Airline rules and availability must be confirmed for the specific flight.",
   },
   {
     question: "What if my plans change after booking?",
