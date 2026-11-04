@@ -1076,7 +1076,7 @@ function routeHtml(route, meta) {
     <a href="/flight-cancellation-assistance/">Cancel a flight <span aria-hidden="true">→</span></a>
     <a href="/airline-reservation-assistance/">Airline reservation help <span aria-hidden="true">→</span></a>
   </div>
-  <p class="td-fallback-disclosure">TicketDepart is an independent travel assistance service, not an airline. A specialist can help you compare available routes, travel dates, itinerary details, and fare conditions before you decide.</p>
+  <p class="td-fallback-disclosure">A TicketDepart specialist can help you compare available routes, travel dates, itinerary details, and fare conditions before you decide.</p>
   <section class="td-fallback-start" aria-labelledby="td-fallback-start-heading">
     <div>
       <p class="td-fallback-start-eyebrow">Choose your next step</p>
