@@ -55,9 +55,9 @@ if (stylesheetHref && !/<link\b(?=[^>]*\brel=["']preload["'])[^>]*\bas=["']style
 const routes = {
   "/": {
     title: "Make Flight Booking Easy | 24/7 Booking Assistance",
-    description: "Call +1-833-225-0511 for 24/7 economy-first flight booking help with TicketDepart. Compare routes, dates, baggage, and fare rules.",
+    description: "Call +1-833-225-0511 for 24/7 economy flight booking help. Discuss routes, flexible dates, changes, cancellations, and pet or infant travel.",
     heading: "Need a Flight? Call Now to Get Started.",
-    text: "TicketDepart helps travelers departing from the United States and Canada discuss affordable economy flights to destinations worldwide. Call +1-833-225-0511 for 24/7 help with routes, travel dates, nearby airports, nonstop and connecting itineraries, baggage costs, and fare questions. Compare the full trip cost, including taxes, checked bags, seat fees, connection time, and airport transfers. Have your departure city, destination, travel dates, and traveler count ready; cabin class is optional. Before deciding, review the complete itinerary, total price, baggage allowance, connection details, and the fare rules for changes or cancellations. Our travel specialists can help you compare available options and understand any disclosed agency service fee before you authorize payment. Explore our guides to affordable flights, international flight booking, last-minute travel planning, booking by phone, flight changes, cancellations, refunds, and rebooking.",
+    text: "TicketDepart is an independent travel assistance service helping travelers departing from the United States and Canada compare economy flights to destinations worldwide. Call +1-833-225-0511 for 24/7 help with routes, flexible travel dates, nonstop and connecting itineraries, flight changes, cancellations, and pet or infant travel questions. Have your departure city, destination, travel dates, and traveler count ready; cabin class is optional. Before deciding, review the complete itinerary, total price, connection details, ticket conditions, and any disclosed agency service fee. Explore our guides to affordable flights, international flight booking, last-minute travel planning, booking by phone, flight changes, cancellations, refunds, pet travel, and family travel.",
   },
   "/flight-search": {
     title: "Search Flights | Flight Schedule Search | TicketDepart",
@@ -1037,7 +1037,7 @@ function routeHtml(route, meta) {
   const sectionHtml = staticContent.sections
     .map(([heading, text]) => `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(text)}</p></section>`)
     .join("");
-  const homeGuideLink = route === "/" ? `<section><h2>Affordable economy flight booking</h2><p><a href="/cheap-flight-booking-by-phone/">Cheap economy flights by phone</a></p><p><a href="/how-to-book-a-flight-by-phone/">How to book a flight by phone</a></p></section>` : "";
+  const homeGuideLink = route === "/" ? `<section><h2>Priority flight assistance</h2><p><a href="/cheap-flight-booking-by-phone/">Cheap economy flights by phone</a></p><p><a href="/pet-flight-booking/">Pet flight booking</a></p><p><a href="/flight-cancellation-assistance/">Flight cancellation help</a></p><p><a href="/how-to-book-a-flight-by-phone/">How to book a flight by phone</a></p></section>` : "";
   const homepageFallback = `<main class="ticketdepart-static-fallback ticketdepart-home-fallback">
   <header class="td-fallback-header">
     <a class="td-fallback-brand" href="/" aria-label="TicketDepart home"><span class="td-fallback-mark" aria-hidden="true">✈</span><span>TicketDepart</span></a>
@@ -1052,7 +1052,7 @@ function routeHtml(route, meta) {
     </div>
     <div class="td-fallback-copy">
       <h1 id="td-fallback-heading">Need a Flight? <span>Call Now to Get Started.</span></h1>
-      <p class="td-fallback-description">Call ${PHONE_DISPLAY} now for 24/7 flight booking assistance. Compare affordable economy options for domestic and international trips, including flexible dates, nearby airports, baggage costs, flight changes, and fare conditions.</p>
+      <p class="td-fallback-description">Call ${PHONE_DISPLAY} for 24/7 economy flight booking assistance. Discuss domestic and international routes, flexible dates, flight changes, cancellations, and pet or infant travel with a specialist.</p>
       <div class="td-fallback-actions">
         <a class="td-fallback-primary" href="${PHONE_HREF}" aria-label="Call Now to Book Your Flight: ${PHONE_DISPLAY}"><span class="td-fallback-phone-icon" aria-hidden="true">☎</span><span class="td-fallback-primary-label">Call Now to Book Your Flight</span><span class="td-fallback-primary-number">${PHONE_DISPLAY}</span></a>
         <a class="td-fallback-secondary td-fallback-search" href="/flight-search/"><span>Search flights</span><span aria-hidden="true">→</span></a>
@@ -1076,7 +1076,7 @@ function routeHtml(route, meta) {
     <a href="/flight-cancellation-assistance/">Cancel a flight <span aria-hidden="true">→</span></a>
     <a href="/airline-reservation-assistance/">Airline reservation help <span aria-hidden="true">→</span></a>
   </div>
-  <p class="td-fallback-disclosure">A TicketDepart specialist can help you review available routes, travel dates, baggage details, and fare conditions so you can understand your options before deciding.</p>
+  <p class="td-fallback-disclosure">TicketDepart is an independent travel assistance service, not an airline. A specialist can help you compare available routes, travel dates, itinerary details, and fare conditions before you decide.</p>
   <section class="td-fallback-start" aria-labelledby="td-fallback-start-heading">
     <div>
       <p class="td-fallback-start-eyebrow">Choose your next step</p>
