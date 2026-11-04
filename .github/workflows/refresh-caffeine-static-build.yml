@@ -1,0 +1,55 @@
+name: Refresh Caffeine static build
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "src/frontend/dist/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: caffeine-static-build-main
+  cancel-in-progress: false
+
+jobs:
+  build-and-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.18.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --dir src/frontend build
+      - name: Open a pull request with refreshed Caffeine files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          branch="automation/caffeine-static-build"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add -f src/frontend/dist
+          if git diff --cached --quiet; then
+            echo "Generated Caffeine static files are already current."
+            exit 0
+          fi
+          git commit -m "build: refresh Caffeine static output"
+          git push --force origin "$branch"
+          existing_pr=$(gh pr list --base main --head "$branch" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$existing_pr" ]; then
+            gh pr edit "$existing_pr" --title "Refresh Caffeine static build output" --body "Regenerate the committed src/frontend/dist output from the latest main source so Caffeine imports the current homepage, sitemap, route metadata, 404 page, and redirect rules. Build completed successfully in the automation workflow."
+          else
+            gh pr create --base main --head "$branch" --title "Refresh Caffeine static build output" --body "Regenerate the committed src/frontend/dist output from the latest main source so Caffeine imports the current homepage, sitemap, route metadata, 404 page, and redirect rules. Build completed successfully in the automation workflow."
+          fi
