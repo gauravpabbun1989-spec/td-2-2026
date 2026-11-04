@@ -114,7 +114,7 @@ export function HomePage() {
       <div className="home-deferred-content">
       <section className="relative overflow-hidden border-b border-border bg-card px-5 py-10 sm:px-8 sm:py-14">
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div><p className="label-board text-accent">Start with a conversation</p><h2 className="mt-2 max-w-3xl text-balance text-2xl font-semibold sm:text-3xl">Call now and get help with your flight plans.</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">Get help reviewing routes, travel dates, baggage, and fare details. Call now to discuss your options.</p></div>
+          <div><p className="label-board text-accent">Start with a conversation</p><h2 className="mt-2 max-w-3xl text-balance text-2xl font-semibold sm:text-3xl">Call now and get help with your flight plans.</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">Get help reviewing routes, travel dates, ticket conditions, and next steps. Call now to discuss your options.</p></div>
           <Link to="/book-a-flight-by-phone/" className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-subtle hover:bg-primary/90">Explore phone booking <span aria-hidden="true" className="ml-2">→</span></Link>
         </div>
       </section>
@@ -123,7 +123,7 @@ export function HomePage() {
         <div className="mx-auto max-w-6xl">
           <p className="label-board text-accent">Where we serve</p>
           <h2 className="mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl">Flight assistance for travelers across the USA, Canada, Mexico & UK.</h2>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">English-speaking travelers can get help exploring domestic, international, last-minute, and flexible flight options, with support for routes, dates, baggage, and fare conditions.</p>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">English-speaking travelers can get help exploring domestic, international, last-minute, and flexible flight options, with support for routes, dates, changes, cancellations, and fare conditions.</p>
           <div className="mt-7 flex flex-wrap gap-2">{["USA","Canada","Mexico","UK"].map(m=><span key={m} className="rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold shadow-subtle">{m}</span>)}</div>
         </div>
       </section>
@@ -137,7 +137,7 @@ export function HomePage() {
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 {[
                   ["Compare economy routes", "Talk through nonstop, connecting, and alternate-airport options."],
-                  ["Check the full fare", "Clarify baggage costs, fare rules, and change conditions before paying."],
+                  ["Check the full fare", "Clarify ticket conditions, fare rules, and change or cancellation terms before paying."],
                   ["Plan urgent trips", "Discuss last-minute departures, same-day options, and practical connections."],
                 ].map(([title, description]) => (
                   <div key={title} className="rounded-2xl border border-border bg-background p-4">
@@ -161,7 +161,7 @@ export function HomePage() {
         <div className="mx-auto max-w-6xl">
           <p className="label-board text-accent">Popular international routes</p>
           <h2 id="regional-flights-heading" className="mt-3 max-w-3xl text-balance text-3xl font-semibold sm:text-4xl">Planning travel between the USA and another country?</h2>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">Start with a focused guide for common international travel markets. Compare routing, airports, dates, cabins, baggage, and fare conditions before you book.</p>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground">Start with a focused guide for common international travel markets. Compare routes, airports, dates, connection options, and fare conditions before you book.</p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
               ["USA to Canada flights", "/flights-usa-to-canada/"],
@@ -195,10 +195,10 @@ export function HomePage() {
         <div className="mx-auto max-w-6xl">
           <p className="label-board text-accent">Before you book</p>
           <h2 id="before-you-pay-heading" className="mt-3 max-w-4xl text-balance text-3xl font-semibold sm:text-4xl">Check the details that can change the real cost of a flight.</h2>
-          <p className="mt-5 max-w-4xl text-base leading-7 text-muted-foreground">A fare is only one part of the decision. Before paying, confirm the full price, baggage allowance, connection times, cabin, ticket restrictions, and the terms for changes or cancellation. Options and prices vary by route, travel dates, and booking provider.</p>
+          <p className="mt-5 max-w-4xl text-base leading-7 text-muted-foreground">A fare is only one part of the decision. Before paying, confirm the full price, connection times, seat-selection costs, ticket restrictions, and the terms for changes or cancellation. Options and prices vary by route, travel dates, and booking provider.</p>
           <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              ["Total trip cost", "Check taxes, baggage, and any separately charged services."],
+              ["Total trip cost", "Check taxes, seat-selection fees, and any separately charged services."],
               ["Connections", "Review layover length, airport changes, and arrival times."],
               ["Ticket conditions", "Ask which changes, cancellations, or refunds are permitted."],
               ["Traveler details", "Confirm passenger names and document requirements before purchase."],
