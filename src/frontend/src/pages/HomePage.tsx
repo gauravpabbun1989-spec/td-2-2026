@@ -62,7 +62,7 @@ const FLIGHT_GUIDE_GROUPS: FlightGuideGroup[] = [
                 ["Flight booking", "/flight-booking/"], ["Flight search", "/flight-search/"], ["Book a flight by phone", "/book-a-flight-by-phone/"], ["How to book by phone", "/how-to-book-a-flight-by-phone/"],
                 ["International flight booking", "/international-flight-booking/"], ["Last-minute flight booking", "/last-minute-flight-booking/"], ["Multi-city flight booking", "/multi-city-flight-booking/"], 
                 ["Cheap flight booking by phone", "/cheap-flight-booking-by-phone/"], ["Same-day flight booking", "/same-day-flight-booking/"],
-                ["Family flight booking", "/family-flight-booking/"], ["Pet flight booking", "/pet-flight-booking/"], ["Infant flight booking", "/infant-flight-booking/"],
+                ["Family flight booking", "/family-flight-booking/"], ["Pet flight booking", "/pet-flight-booking/"],
                 ["Flight change assistance", "/flight-change-assistance/"], ["Flight cancellation assistance", "/flight-cancellation-assistance/"], ["Airline reservation assistance", "/airline-reservation-assistance/"], 
               ]],
               ["Airlines", [
