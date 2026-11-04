@@ -1,2 +1,0 @@
-# Static route directories and files take precedence. Send only unmatched paths to the branded 404 with a real HTTP 404 status.
-/* /404.html 404
