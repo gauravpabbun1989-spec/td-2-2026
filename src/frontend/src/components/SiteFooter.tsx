@@ -93,8 +93,13 @@ export function SiteFooter() {
                   </li>
                 ))}
                 <li>
-                  <Link to="/baggage-assistance/" className="text-white/70 transition-smooth hover:text-accent">
-                    Baggage assistance
+                  <Link to="/pet-flight-booking/" className="text-white/70 transition-smooth hover:text-accent">
+                    Pet flight booking
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/flight-cancellation-assistance/" className="text-white/70 transition-smooth hover:text-accent">
+                    Flight cancellation help
                   </Link>
                 </li>
                 <li>
@@ -109,7 +114,7 @@ export function SiteFooter() {
 
         <div className="mt-12 border-t border-white/10 pt-5">
           <p className="text-[9px] leading-4 text-white/60">
-            TicketDepart is an independent travel agency and is not affiliated with any airline. Quotes are not tickets; fares, fees, ticketing, and change or refund eligibility depend on the confirmed booking terms.{" "}
+            TicketDepart is an independent travel assistance service, not an airline, and is not affiliated with any airline. Quotes are not tickets; fares, fees, ticketing, and change or refund eligibility depend on the confirmed booking terms.{" "}
             <Link to="/disclaimer/" className="underline underline-offset-2 hover:text-white/60">Disclaimer</Link>
           </p>
           <div className="mt-4 flex flex-col gap-2 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
