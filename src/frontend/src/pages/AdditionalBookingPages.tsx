@@ -27,10 +27,10 @@ type PageConfig = {
 const PAGES: readonly PageConfig[] = [
   {
     path: "/cheap-flight-booking-by-phone",
-    title: "Cheap Economy Flights by Phone | TicketDepart",
+    title: "Cheap Flight Tickets by Phone | TicketDepart",
     description:
-      "Compare affordable economy flight tickets and cheap flight options from the USA and Canada. Discuss booking flights by phone, flexible dates, nearby airports, baggage costs, and fare rules. Call +1-833-225-0511.",
-    heading: "Cheap flight booking help by phone",
+      "Cheap flight tickets from the USA and Canada. Compare economy fares, flexible dates, nearby airports, baggage costs, and fare rules. Call +1-833-225-0511.",
+    heading: "Cheap flight tickets and economy booking help by phone",
     intro:
       "Looking for cheap flights, affordable airline tickets, or a practical way to book flight tickets? A small change in travel date, airport, cabin, or routing can affect the fare. Call to discuss economy flight options, flexible dates, nearby airports, and the full trip cost before deciding.",
     service: "Affordable flight booking assistance",
@@ -62,9 +62,9 @@ const PAGES: readonly PageConfig[] = [
     ],
     faqs: [
       {
-        question: "Can you help me find a cheaper flight?",
+        question: "Can you help me find cheap flight tickets?",
         answer:
-          "Call to discuss cheap flight options, affordable flight tickets, flexible dates, nearby airports, routes, and economy fares that may fit your trip. Compare the complete trip cost rather than the headline price alone.",
+          "Call to discuss cheap flight tickets, affordable airline tickets, flexible dates, nearby airports, routes, and economy fares that may fit your trip. Compare the complete trip cost rather than the headline price alone.",
       },
       {
         question: "Can changing my departure airport lower the fare?",
@@ -445,12 +445,12 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/flight-change-assistance/",
-    title: "Flight Change Assistance by Phone | TicketDepart",
+    title: "Change a Flight by Phone | TicketDepart",
     description:
-      "Need to change a flight? Discuss date, time, route, fare difference, and airline change rules with a TicketDepart travel specialist.",
-    heading: "Flight change assistance by phone",
+      "Need to change a flight? Review dates, routes, fare differences, ticket restrictions, and airline rules by phone. Call +1-833-225-0511.",
+    heading: "Change a flight with phone assistance",
     intro:
-      "Need to change a flight or change a flight reservation? Before modifying an existing ticket, review its current fare rules, any fare difference or change charge, and practical alternatives. A specialist can help you understand the options available for your itinerary.",
+      "Need to change a flight or change a plane ticket? Before modifying an existing ticket, review its current fare rules, any fare difference or change charge, and practical alternatives. A specialist can help you understand the options available for your itinerary.",
     service: "Flight change assistance",
     items: [
       [
@@ -498,12 +498,12 @@ const PAGES: readonly PageConfig[] = [
   },
   {
     path: "/flight-cancellation-assistance",
-    title: "Flight Cancellation Assistance by Phone | TicketDepart",
+    title: "Cancel a Flight by Phone | TicketDepart",
     description:
-      "Need to cancel a flight? Discuss cancellation rules, refunds, credits, deadlines, and replacement travel options with a TicketDepart specialist.",
-    heading: "Flight cancellation assistance by phone",
+      "Need to cancel a flight? Review refund eligibility, travel credits, deadlines, and cancellation rules by phone. Call +1-833-225-0511.",
+    heading: "Cancel a flight and review refund options",
     intro:
-      "Need to cancel a flight or review flight cancellation options? Refunds, travel credits, and deadlines depend on the ticket, fare rules, airline policy, and timing. A specialist can help you review the applicable options before you request a cancellation.",
+      "Need to cancel a flight, request a flight ticket refund, or rebook after cancelling? Refunds, travel credits, and deadlines depend on the ticket, fare rules, airline policy, and timing. A specialist can help you review the applicable options before you request a cancellation.",
     service: "Flight cancellation assistance",
     items: [
       [
@@ -538,7 +538,7 @@ const PAGES: readonly PageConfig[] = [
           "Yes. We can review the ticket details and discuss the cancellation options and applicable terms before anything is processed.",
       },
       {
-        question: "Will I get a refund?",
+        question: "Can I cancel a flight and get a refund?",
         answer:
           "Not necessarily. Refund eligibility depends on the ticket, fare conditions, airline rules, applicable law, and timing.",
       },
