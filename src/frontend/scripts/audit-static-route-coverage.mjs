@@ -34,6 +34,15 @@ assert(builtRobots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "r
 
 const notFoundHtmlPath = path.join(distDir, "404.html");
 assert(fs.existsSync(notFoundHtmlPath), "missing custom 404.html in built assets");
+const redirectsPath = path.join(publicDir, "_redirects");
+const builtRedirectsPath = path.join(distDir, "_redirects");
+assert(fs.existsSync(redirectsPath), "missing public/_redirects real-404 routing configuration");
+assert(fs.existsSync(builtRedirectsPath), "missing built _redirects routing configuration");
+const redirects = read(redirectsPath).trim();
+const builtRedirects = read(builtRedirectsPath).trim();
+assert(builtRedirects === redirects, "built _redirects differs from public/_redirects");
+assert(redirects.split(/\\r?\\n/).some((line) => /^\\/\\*\\s+\\/404\\.html\\s+404\\s*$/.test(line)), "unmatched paths must serve the branded 404.html with HTTP 404");
+assert(!redirects.split(/\\r?\\n/).some((line) => /^\\/\\*\\s+\\/index\\.html\\s+200\\s*$/.test(line)), "do not rewrite unknown paths to the SPA shell with HTTP 200");
 const notFoundHtml = read(notFoundHtmlPath);
 assert(/<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']/i.test(notFoundHtml), "404.html must be noindex, nofollow");
 assert(/<h1>This page has departed<\/h1>/i.test(notFoundHtml), "404.html is missing its recovery heading");
