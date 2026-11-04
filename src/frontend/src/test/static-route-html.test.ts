@@ -70,6 +70,10 @@ describe("static route HTML uses the full airline names", () => {
     );
     const description = html.match(/<meta name="description" content="([^"]+)"/i)?.[1] ?? "";
     expect(description.split("+1-833-225-0511").length - 1).toBe(1);
+    expect(html).toContain("pet or infant travel with a specialist");
+    expect(html).toContain("Priority flight assistance");
+    expect(html).not.toContain("baggage costs");
+    expect(html).not.toContain("baggage details");
   });
 
   it("includes the current phone number exactly once in generated SEO descriptions", () => {
