@@ -32,8 +32,10 @@ describe("economy-first homepage positioning", () => {
     const footer = document.querySelector('[data-ocid="site.footer"]');
     if (!footer) throw new Error("Site footer was not rendered");
     expect(footer).toHaveTextContent(
-      /independent travel agency and is not affiliated with any airline/i,
+      /independent travel assistance service, not an airline/i,
     );
+    expect(footer).not.toHaveTextContent(/baggage assistance/i);
+    expect(footer).toHaveTextContent(/pet flight booking/i);
   });
 
   it("makes economy the first service on the main flight-booking page", async () => {
