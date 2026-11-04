@@ -118,7 +118,7 @@ const routes = {
   },
   "/cheap-flight-booking-by-phone": {
     title: "Cheap Flight Tickets by Phone | TicketDepart",
-    description: "Cheap flight tickets from the USA and Canada. Compare economy fares, flexible dates, nearby airports, baggage costs, and fare rules. Call +1-833-225-0511.",
+    description: "Compare cheap economy flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules. Call +1-833-225-0511.",
     heading: "Cheap flight tickets and economy booking help by phone",
     text: "Looking for cheap flights, affordable airline tickets, or a practical way to book flight tickets? Compare economy fares from the USA and Canada, flexible travel dates, nearby airports, nonstop and connecting routes, baggage costs, seat-selection fees, and the full trip price. Flexible dates can broaden the available options, but no fare or saving is guaranteed. TicketDepart can discuss affordable economy flight booking by phone for domestic and international routes. Confirm the final fare, ticketing status, baggage allowance, change and cancellation terms, and any disclosed service fee before authorizing payment."
   },
