@@ -41,7 +41,7 @@ const builtRedirectsPath = path.join(distDir, "_redirects");
 assert(!fs.existsSync(builtRedirectsPath), "do not ship _redirects: Cloudflare rejects 404 as a redirect status; use assets.not_found_handling=404-page");
 const workerConfigPath = path.resolve(root, "../../wrangler.jsonc");
 const workerConfig = read(workerConfigPath);
-assert(/"not_found_handling"\\s*:\\s*"404-page"/.test(workerConfig), "root wrangler.jsonc must use assets.not_found_handling=404-page to serve the branded 404.html with HTTP 404");
+assert(/"not_found_handling"\s*:\s*"404-page"/.test(workerConfig), "root wrangler.jsonc must use assets.not_found_handling=404-page to serve the branded 404.html with HTTP 404");
 const notFoundHtml = read(notFoundHtmlPath);
 assert(/<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']/i.test(notFoundHtml), "404.html must be noindex, nofollow");
 assert(/<h1>This page has departed<\/h1>/i.test(notFoundHtml), "404.html is missing its recovery heading");
