@@ -27,7 +27,7 @@ export function DisclosureBlock() {
               Clear flight options, with helpful human support
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Tell us where and when you want to fly. A TicketDepart specialist can help you review available routes, travel dates, baggage details, and fare conditions so you can understand your options before deciding.
+              Tell us where and when you want to fly. A TicketDepart specialist can help you compare available routes, travel dates, itinerary details, and fare conditions before you decide.
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
               We explain the details that matter, including applicable restrictions and fees, in plain language. You stay in control of the decision and can ask questions before moving forward with a booking.

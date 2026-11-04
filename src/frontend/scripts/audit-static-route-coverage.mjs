@@ -34,6 +34,15 @@ assert(builtRobots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "r
 
 const notFoundHtmlPath = path.join(distDir, "404.html");
 assert(fs.existsSync(notFoundHtmlPath), "missing custom 404.html in built assets");
+const redirectsPath = path.join(publicDir, "_redirects");
+const builtRedirectsPath = path.join(distDir, "_redirects");
+assert(fs.existsSync(redirectsPath), "missing public/_redirects real-404 routing configuration");
+assert(fs.existsSync(builtRedirectsPath), "missing built _redirects routing configuration");
+const redirects = read(redirectsPath).trim();
+const builtRedirects = read(builtRedirectsPath).trim();
+assert(builtRedirects === redirects, "built _redirects differs from public/_redirects");
+assert(redirects.split(String.fromCharCode(10)).some((line) => line.trim() === "/* /404.html 404"), "unmatched paths must serve the branded 404.html with HTTP 404");
+assert(!redirects.split(String.fromCharCode(10)).some((line) => line.trim() === "/* /index.html 200"), "do not rewrite unknown paths to the SPA shell with HTTP 200");
 const notFoundHtml = read(notFoundHtmlPath);
 assert(/<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']/i.test(notFoundHtml), "404.html must be noindex, nofollow");
 assert(/<h1>This page has departed<\/h1>/i.test(notFoundHtml), "404.html is missing its recovery heading");
@@ -55,7 +64,8 @@ assert(!analyticsSource.includes('trackEvent("phone_cta_impression"'), "CTA visi
 assert(!popupSource.includes('trackEvent("call_now_popup_impression"'), "popup visibility must not emit an impression event");
 
 const locs = extractLocs(builtSitemap);
-assert(locs.length === 52, `expected 52 URLs after excluding business-class, group, and corporate pages from the economy-first sitemap; found ${locs.length}`);
+assert(locs.length === 51, `expected 51 URLs after excluding business-class, group, corporate, and low-priority baggage pages from the economy-first sitemap; found ${locs.length}`);
+assert(!locs.some((url) => new URL(url).pathname.replace(/\/+$/, "") === "/baggage-assistance"), "baggage assistance must not be a primary organic target in the curated sitemap");
 assert(new Set(locs).size === locs.length, "built sitemap contains duplicate URLs");
 assert(!locs.some((url) => new URL(url).pathname === "/flights-new-york-to-london/"), "known low-performing New York–London route URL must remain out of the curated sitemap until it is intentionally re-evaluated");
 assert(!locs.some((url) => new URL(url).pathname.replace(/\/+$/, "") === "/flight-search-results"), "non-indexable flight search results route must not be in the sitemap");
@@ -136,7 +146,7 @@ assert(homeInlineCss.includes(".td-fallback-hero"), "homepage inline CSS must st
 assert(homeInlineCss.includes(".td-fallback-benefits"), "homepage inline CSS must style the first-paint benefit cards");
 assert(homeInlineCss.includes("#root > .ticketdepart-static-fallback"), "homepage inline CSS must include first-paint fallback presentation");
 const homeDescription = homeHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
-assert(homeDescription.includes("24/7") && homeDescription.includes("TicketDepart"), "built homepage meta description is missing expected service details");
+assert(homeDescription.includes("24/7") && homeDescription.includes("pet or infant travel") && homeDescription.includes("+1-833-225-0511"), "built homepage meta description is missing expected service details");
 assert(!/855[\s().-]*544[\s().-]*9001/.test(homeHtml), "old public phone number remains in built homepage HTML");
 assert(/href="\/how-to-book-a-flight-by-phone\/"/i.test(homeHtml), "homepage is missing a crawlable link to the phone-booking guide");
 

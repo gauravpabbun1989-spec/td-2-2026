@@ -65,7 +65,7 @@ const PUBLIC_ROUTES = [
 ] as const;
 
 // Keep the route covered by route-level tests, but omit it from the curated sitemap.
-const SITEMAP_ROUTES = PUBLIC_ROUTES.filter((path) => !["/flights-new-york-to-london", "/group-flight-booking", "/corporate-flight-booking", "/business-class-flight-booking"].includes(path));
+const SITEMAP_ROUTES = PUBLIC_ROUTES.filter((path) => !["/flights-new-york-to-london", "/group-flight-booking", "/corporate-flight-booking", "/business-class-flight-booking", "/baggage-assistance"].includes(path));
 
 const ALL_APP_PATHS = new Set([...PUBLIC_ROUTES, "/disclaimer", "/flight-search-results", "/admin/leads"]);
 

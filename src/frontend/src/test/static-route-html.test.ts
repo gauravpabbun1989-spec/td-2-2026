@@ -66,10 +66,14 @@ describe("static route HTML uses the full airline names", () => {
   it("includes the current phone number in the homepage SEO description", () => {
     const html = readGenerated("/");
     expect(html).toContain(
-      '<meta name="description" content="24/7 economy-first flight booking help with TicketDepart. Compare routes, dates, baggage, and fare rules. Call +1-833-225-0511." />',
+      '<meta name="description" content="24/7 economy flight booking help. Discuss routes, flexible dates, changes, cancellations, and pet or infant travel. Call +1-833-225-0511." />',
     );
     const description = html.match(/<meta name="description" content="([^"]+)"/i)?.[1] ?? "";
     expect(description.split("+1-833-225-0511").length - 1).toBe(1);
+    expect(html).toContain("pet or infant travel with a specialist");
+    expect(html).toContain("Priority flight assistance");
+    expect(html).not.toContain("baggage costs");
+    expect(html).not.toContain("baggage details");
   });
 
   it("includes the current phone number exactly once in generated SEO descriptions", () => {

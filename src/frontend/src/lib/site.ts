@@ -9,7 +9,7 @@ export const SITE = {
   legalName: "TicketDepart Travel",
   tagline: "24/7 Flight Booking Assistance",
   description:
-    "Flight booking assistance for domestic and international trips, with help from a real specialist by phone.",
+    "Independent travel assistance for travelers comparing economy flights, routes, dates, ticket changes, cancellations, and special travel needs.",
   phoneDisplay: "+1-833-225-0511",
   phoneHref: "tel:+18332250511",
   email: "support@ticketdestinations.com",
@@ -24,7 +24,7 @@ export const SITE = {
   hours: "Travel specialists available 24/7",
   ctaLabel: "Call Now to Book Your Flight",
   disclosure:
-    "A TicketDepart specialist can help you review available routes, travel dates, baggage details, and fare conditions so you can understand your options before deciding.",
+    "A TicketDepart specialist can help you review available routes, travel dates, itinerary details, ticket conditions, and applicable fees so you can understand your options before deciding.",
 } as const;
 
 export const ADDRESS_LINE = `${SITE.address.street}, ${SITE.address.city}, ${SITE.address.region} ${SITE.address.postalCode}`;

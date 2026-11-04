@@ -5,7 +5,7 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const STEPS = [
   ["01", "Tell us about your trip", "Share your route, dates, travelers, cabin preferences, and anything that matters."],
-  ["02", "We compare the options", "Understand routing, fare details, baggage, and practical choices with a specialist."],
+  ["02", "We compare the options", "Understand routing, ticket conditions, and practical choices with a specialist."],
   ["03", "You choose what works", "You stay in control. Details are explained before booking or payment is authorized."],
   ["04", "We help after booking", "Questions, seats, changes, or rebooking needs can be discussed afterward."],
 ] as const;
