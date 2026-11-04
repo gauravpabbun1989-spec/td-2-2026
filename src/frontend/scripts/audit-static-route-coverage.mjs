@@ -146,7 +146,7 @@ assert(homeInlineCss.includes(".td-fallback-hero"), "homepage inline CSS must st
 assert(homeInlineCss.includes(".td-fallback-benefits"), "homepage inline CSS must style the first-paint benefit cards");
 assert(homeInlineCss.includes("#root > .ticketdepart-static-fallback"), "homepage inline CSS must include first-paint fallback presentation");
 const homeDescription = homeHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
-assert(homeDescription.includes("24/7") && homeDescription.includes("TicketDepart"), "built homepage meta description is missing expected service details");
+assert(homeDescription.includes("24/7") && homeDescription.includes("pet or infant travel") && homeDescription.includes("+1-833-225-0511"), "built homepage meta description is missing expected service details");
 assert(!/855[\s().-]*544[\s().-]*9001/.test(homeHtml), "old public phone number remains in built homepage HTML");
 assert(/href="\/how-to-book-a-flight-by-phone\/"/i.test(homeHtml), "homepage is missing a crawlable link to the phone-booking guide");
 
