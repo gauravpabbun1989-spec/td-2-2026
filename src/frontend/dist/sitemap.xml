@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ticketdepart.com/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 <url>
     <loc>https://ticketdepart.com/flight-booking/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -176,12 +176,6 @@
     <priority>0.9</priority>
   </url>
 <url>
-    <loc>https://ticketdepart.com/baggage-assistance/</loc>
-    <lastmod>2026-10-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-<url>
     <loc>https://ticketdepart.com/flight-change-assistance/</loc>
     <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
@@ -225,7 +219,7 @@
   </url>
 <url>
     <loc>https://ticketdepart.com/flights-from-new-york/</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -237,7 +231,7 @@
   </url>
 <url>
     <loc>https://ticketdepart.com/flights-from-chicago/</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -267,7 +261,7 @@
   </url>
 <url>
     <loc>https://ticketdepart.com/flights-from-san-francisco/</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -284,8 +278,32 @@
     <priority>0.8</priority>
   </url>
 <url>
+    <loc>https://ticketdepart.com/flights-new-york-to-paris/</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+<url>
+    <loc>https://ticketdepart.com/flights-new-york-to-dubai/</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+<url>
+    <loc>https://ticketdepart.com/flights-chicago-to-london/</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+<url>
+    <loc>https://ticketdepart.com/flights-miami-to-cancun/</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+<url>
     <loc>https://ticketdepart.com/flights-san-francisco-to-tokyo/</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/clean-dist.mjs && vite build && pnpm copy:env && node scripts/ensure-static-seo-assets.mjs && node scripts/generate-route-html.mjs && node scripts/harden-static-route-html.mjs && node scripts/finalize-css-loading.mjs && node scripts/audit-static-route-coverage.mjs",
+    "build": "node scripts/clean-dist.mjs && vite build && pnpm copy:env && node scripts/ensure-static-seo-assets.mjs && node scripts/generate-route-html.mjs && node scripts/harden-static-route-html.mjs && node scripts/finalize-css-loading.mjs && node scripts/audit-static-route-coverage.mjs && npx --yes --package=wrangler@4.157.0 wrangler --version",
     "copy:env": "cp env.json dist/",
     "typecheck": "tsc --noEmit",
     "check": "biome check src",
