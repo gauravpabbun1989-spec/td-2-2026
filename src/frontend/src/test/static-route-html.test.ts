@@ -66,7 +66,7 @@ describe("static route HTML uses the full airline names", () => {
   it("includes the current phone number in the homepage SEO description", () => {
     const html = readGenerated("/");
     expect(html).toContain(
-      '<meta name="description" content="Call +1-833-225-0511 for 24/7 economy flight booking help. Discuss routes, flexible dates, changes, cancellations, and pet or infant travel." />',
+      '<meta name="description" content="24/7 economy flight booking help. Discuss routes, flexible dates, changes, cancellations, and pet or infant travel. Call +1-833-225-0511." />',
     );
     const description = html.match(/<meta name="description" content="([^"]+)"/i)?.[1] ?? "";
     expect(description.split("+1-833-225-0511").length - 1).toBe(1);
