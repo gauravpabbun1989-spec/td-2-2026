@@ -15,18 +15,18 @@ const PAGE_PATH = "/book-a-flight-by-phone/";
 const PAGE_TITLE =
   "Book a Flight by Phone | 24/7 Booking Help";
 const PAGE_DESCRIPTION =
-  "Affordable domestic and international economy options, flexible dates, nearby airports, baggage, and fare rules. Call +1-833-225-0511.";
+  "Book flight tickets by phone with economy-first help for domestic and international routes. Discuss affordable airline tickets, flexible dates, nearby airports, baggage, and fare rules. Call +1-833-225-0511.";
 
 const FAQS = [
   {
     question: "Can I book a flight by phone with TicketDepart?",
     answer:
-      "Yes. Call TicketDepart to discuss your trip, review flight options, ask questions, and get help with the booking process.",
+      "Yes. Call TicketDepart to discuss your trip, compare available flight tickets, ask questions about airline tickets and fare conditions, and get help with the booking process.",
   },
   {
     question: "What flights can I book by phone?",
     answer:
-      "We can discuss domestic and international trips, one-way and round-trip itineraries, and help you work through the booking steps for your trip.",
+      "We can discuss domestic and international flight booking, one-way and round-trip airline tickets, economy options, and the booking steps for your trip.",
   },
   {
     question: "Can I ask about the total price before paying?",
@@ -112,7 +112,7 @@ export function BookAFlightByPhonePage() {
             Book an affordable flight by phone with a travel specialist
           </h1>
           <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Tell us where you want to fly and when you want to travel. A specialist can help you discuss available economy options, flexible dates, nearby airports, connections, baggage costs, and fare rules so you can compare the full trip cost before deciding.
+            Need help booking a flight by phone? Tell us where you want to fly and when you want to travel. A specialist can discuss flight tickets, available economy options, flexible dates, nearby airports, connections, baggage costs, and fare rules so you can compare the full trip cost before deciding.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <CallCta size="lg" ocid="book_flight_phone.call_button" />
