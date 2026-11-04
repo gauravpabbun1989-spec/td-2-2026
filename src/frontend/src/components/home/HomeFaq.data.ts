@@ -2,7 +2,7 @@ export const HOME_FAQS = [
   {
     question: "What can TicketDepart help me with?",
     answer:
-      "A travel specialist can help you compare domestic and international flight options, review routes and travel dates, discuss baggage and fare conditions, and explore available next steps for your trip.",
+      "A travel specialist can help you compare domestic and international flight options, review routes and travel dates, compare economy options, discuss fare conditions, and explore available next steps for your trip.",
   },
   {
     question: "How much does it cost to call?",
