@@ -1130,6 +1130,16 @@ for (const [route, meta] of Object.entries(routes)) {
   fs.writeFileSync(path.join(dir, "index.html"), routeHtml(route, meta));
 }
 
+// Keep the legacy baggage guide directly accessible even though it is no longer
+// a primary organic target and is intentionally omitted from sitemap.xml.
+const baggageRoute = "/baggage-assistance";
+const baggageMeta = routes[baggageRoute];
+if (baggageMeta) {
+  const baggageDir = path.join(distDir, baggageRoute.slice(1));
+  fs.mkdirSync(baggageDir, { recursive: true });
+  fs.writeFileSync(path.join(baggageDir, "index.html"), routeHtml(baggageRoute, baggageMeta));
+}
+
 // The legacy alias is intentionally excluded from the sitemap, but it must
 // still have a static document for direct visits and consistent canonical and
 // Open Graph metadata. Keep this explicit write as a guard against route-list
