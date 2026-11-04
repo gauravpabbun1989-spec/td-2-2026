@@ -1133,7 +1133,12 @@ for (const [route, meta] of Object.entries(routes)) {
 // Keep the legacy baggage guide directly accessible even though it is no longer
 // a primary organic target and is intentionally omitted from sitemap.xml.
 const baggageRoute = "/baggage-assistance";
-const baggageMeta = routes[baggageRoute];
+const baggageMeta = routes[baggageRoute] ?? {
+  title: "Flight Baggage Assistance by Phone | TicketDepart",
+  description: "Get help understanding carry-on limits, checked bags, excess baggage, special items, and airline baggage rules.",
+  heading: "Flight baggage assistance by phone",
+  text: "Discuss carry-on, checked, excess, special-item, pet, infant, and multi-airline baggage questions for your itinerary.",
+};
 if (baggageMeta) {
   const baggageDir = path.join(distDir, baggageRoute.slice(1));
   fs.mkdirSync(baggageDir, { recursive: true });
