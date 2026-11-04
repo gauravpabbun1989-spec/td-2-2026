@@ -1,14 +1,14 @@
 import { Section, SectionHeading } from "@/components/Section";
 import { AIRLINE_ITEMS } from "@/lib/site";
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, CalendarClock, Globe2, Plane, Route } from "lucide-react";
+import { ArrowUpRight, CalendarClock, CalendarX, Globe2, PawPrint, Plane, Route } from "lucide-react";
 
 const SERVICES = [
   { icon: Plane, title: "Affordable flight booking by phone", href: "/cheap-flight-booking-by-phone/", description: "Compare economy fares, nearby dates, baggage allowances, and the full trip cost before booking." },
   { icon: Globe2, title: "International flight booking", href: "/international-flight-booking/", description: "Review routes, connections, baggage, and fare rules for domestic and international trips." },
   { icon: CalendarClock, title: "Last-minute flights", href: "/last-minute-flight-booking/", description: "Check available dates, departure times, connection windows, and ticketing details for urgent trips." },
-  { icon: Plane, title: "Same-day flight booking", href: "/same-day-flight-booking/", description: "Review departure timing, airport access, connection risks, and current ticketing availability." },
-  { icon: Route, title: "Multi-city itineraries", href: "/multi-city-flight-booking/", description: "Compare the complete itinerary, connection details, and fare conditions across multiple stops." },
+  { icon: PawPrint, title: "Pet flight booking", href: "/pet-flight-booking/", description: "Discuss airline pet policies, carrier requirements, route restrictions, and documentation before booking." },
+  { icon: CalendarX, title: "Flight cancellation help", href: "/flight-cancellation-assistance/", description: "Review refund eligibility, travel credits, deadlines, and ticket conditions before requesting cancellation." },
   { icon: CalendarClock, title: "Changes & rebooking", href: "/flight-change-assistance/", description: "Understand available options and ticket rules when your travel plans change." },
 ] as const;
 
