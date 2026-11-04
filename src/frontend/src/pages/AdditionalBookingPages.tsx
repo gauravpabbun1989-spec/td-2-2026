@@ -29,10 +29,10 @@ const PAGES: readonly PageConfig[] = [
     path: "/cheap-flight-booking-by-phone",
     title: "Cheap Economy Flights by Phone | TicketDepart",
     description:
-      "Compare cheap economy flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules. Call +1-833-225-0511.",
+      "Compare affordable economy flight tickets and cheap flight options from the USA and Canada. Discuss booking flights by phone, flexible dates, nearby airports, baggage costs, and fare rules. Call +1-833-225-0511.",
     heading: "Cheap flight booking help by phone",
     intro:
-      "A small change in travel date, airport, cabin, or routing can affect the fare. Tell us what you are trying to balance and a specialist can review available options with you.",
+      "Looking for cheap flights, affordable airline tickets, or a practical way to book flight tickets? A small change in travel date, airport, cabin, or routing can affect the fare. Call to discuss economy flight options, flexible dates, nearby airports, and the full trip cost before deciding.",
     service: "Affordable flight booking assistance",
     items: [
       [
@@ -64,7 +64,7 @@ const PAGES: readonly PageConfig[] = [
       {
         question: "Can you help me find a cheaper flight?",
         answer:
-          "Call now to discuss fares, dates, nearby airports, routes, and economy options that may fit your trip.",
+          "Call to discuss cheap flight options, affordable flight tickets, flexible dates, nearby airports, routes, and economy fares that may fit your trip. Compare the complete trip cost rather than the headline price alone.",
       },
       {
         question: "Can changing my departure airport lower the fare?",
@@ -300,7 +300,7 @@ const PAGES: readonly PageConfig[] = [
       "Plan flights with a pet by phone. Discuss cabin or checked-pet questions, carrier requirements, pet documentation, airports, connections, and booking details with a travel specialist.",
     heading: "Pet flight booking assistance by phone",
     intro:
-      "Traveling with a dog, cat, or another permitted pet can add extra booking details. A specialist can help you organize the questions to ask and review the itinerary, while airline and government requirements should always be confirmed for the specific trip.",
+      "Looking for pet-friendly flights or help booking a flight with a dog or cat? Pet travel can add airline, carrier, route, and documentation requirements. A specialist can help you organize the booking questions and review the itinerary; confirm current pet acceptance and government requirements for your specific trip.",
     service: "Pet flight booking assistance",
     items: [
       [
@@ -350,7 +350,7 @@ const PAGES: readonly PageConfig[] = [
       "Book flights with an infant by phone. Discuss infant traveler details, seating questions, bassinet requests, baggage, connections, and airline requirements with a travel specialist.",
     heading: "Infant flight booking assistance by phone",
     intro:
-      "Flying with an infant can require details beyond a standard adult booking. Discuss the infant's age, itinerary, seating needs, baggage questions, and any airline-specific requirements before you confirm travel.",
+      "Flying with an infant can require details beyond a standard adult booking. Discuss infant flight tickets, the infant's age, itinerary, lap-infant or separate-seat options, bassinet requests, baggage questions, and airline-specific requirements before confirming travel.",
     service: "Infant flight booking assistance",
     items: [
       [
@@ -450,7 +450,7 @@ const PAGES: readonly PageConfig[] = [
       "Need to change a flight? Discuss date, time, route, fare difference, and airline change rules with a TicketDepart travel specialist.",
     heading: "Flight change assistance by phone",
     intro:
-      "Before changing an existing ticket, review the current fare rules and the practical alternatives. A specialist can help you understand the options available for your itinerary.",
+      "Need to change a flight or change a flight reservation? Before modifying an existing ticket, review its current fare rules, any fare difference or change charge, and practical alternatives. A specialist can help you understand the options available for your itinerary.",
     service: "Flight change assistance",
     items: [
       [
@@ -503,7 +503,7 @@ const PAGES: readonly PageConfig[] = [
       "Need to cancel a flight? Discuss cancellation rules, refunds, credits, deadlines, and replacement travel options with a TicketDepart specialist.",
     heading: "Flight cancellation assistance by phone",
     intro:
-      "Cancellation outcomes depend on the ticket, fare rules, airline policy, and timing. A specialist can help you review the applicable options before you request a cancellation.",
+      "Need to cancel a flight or review flight cancellation options? Refunds, travel credits, and deadlines depend on the ticket, fare rules, airline policy, and timing. A specialist can help you review the applicable options before you request a cancellation.",
     service: "Flight cancellation assistance",
     items: [
       [
