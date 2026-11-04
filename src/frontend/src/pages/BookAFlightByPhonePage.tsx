@@ -13,9 +13,9 @@ import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 
 const PAGE_PATH = "/book-a-flight-by-phone/";
 const PAGE_TITLE =
-  "Book a Flight by Phone | 24/7 Booking Help";
+  "Book Flight Tickets by Phone | 24/7 Booking Help";
 const PAGE_DESCRIPTION =
-  "Book flight tickets by phone with economy-first help for domestic and international routes. Discuss affordable airline tickets, flexible dates, nearby airports, baggage, and fare rules. Call +1-833-225-0511.";
+  "Book flight tickets by phone for U.S. and international trips. Compare economy fares, dates, nearby airports, baggage, and fare rules. Call +1-833-225-0511.";
 
 const FAQS = [
   {
