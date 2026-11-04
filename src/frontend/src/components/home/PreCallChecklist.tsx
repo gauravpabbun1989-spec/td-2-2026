@@ -24,9 +24,9 @@ const CHECKLIST = [
       "Tickets must match the passport exactly. Have the full legal names in front of you.",
   },
   {
-    title: "Baggage needs",
+    title: "Pet or infant travel",
     detail:
-      "Checked bags, carry-on only, or sports and oversized equipment you need to bring.",
+      "Pet type and carrier details, or an infant's age and lap-infant or separate-seat preference.",
   },
   {
     title: "Seating and cabin preferences",
