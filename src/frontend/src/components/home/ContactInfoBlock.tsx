@@ -16,7 +16,7 @@ export function ContactInfoBlock() {
               Helpful flight guidance, without the pressure.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-7 text-white/70">
-              Speak with a travel specialist about your route, dates, cabin, baggage, changes, or other booking questions. You stay in control of the decision.
+              Speak with a travel specialist about your route, dates, flight changes, cancellations, seat preferences, or pet and infant travel questions. You stay in control of the decision.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <CallCta size="lg" ocid="home.contact_call_button" />
