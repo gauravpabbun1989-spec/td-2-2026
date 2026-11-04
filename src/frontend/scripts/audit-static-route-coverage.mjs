@@ -34,15 +34,14 @@ assert(builtRobots.includes("Sitemap: https://ticketdepart.com/sitemap.xml"), "r
 
 const notFoundHtmlPath = path.join(distDir, "404.html");
 assert(fs.existsSync(notFoundHtmlPath), "missing custom 404.html in built assets");
-const redirectsPath = path.join(publicDir, "_redirects");
+// Cloudflare Workers static assets do not accept HTTP 404 as a _redirects
+// status. Use the native asset 404-page mode so unknown URLs receive the
+// branded document with a real HTTP 404 response, without an invalid redirect.
 const builtRedirectsPath = path.join(distDir, "_redirects");
-assert(fs.existsSync(redirectsPath), "missing public/_redirects real-404 routing configuration");
-assert(fs.existsSync(builtRedirectsPath), "missing built _redirects routing configuration");
-const redirects = read(redirectsPath).trim();
-const builtRedirects = read(builtRedirectsPath).trim();
-assert(builtRedirects === redirects, "built _redirects differs from public/_redirects");
-assert(redirects.split(String.fromCharCode(10)).some((line) => line.trim() === "/* /404.html 404"), "unmatched paths must serve the branded 404.html with HTTP 404");
-assert(!redirects.split(String.fromCharCode(10)).some((line) => line.trim() === "/* /index.html 200"), "do not rewrite unknown paths to the SPA shell with HTTP 200");
+assert(!fs.existsSync(builtRedirectsPath), "do not ship _redirects: Cloudflare rejects 404 as a redirect status; use assets.not_found_handling=404-page");
+const workerConfigPath = path.resolve(root, "../../wrangler.jsonc");
+const workerConfig = read(workerConfigPath);
+assert(/"not_found_handling"\\s*:\\s*"404-page"/.test(workerConfig), "root wrangler.jsonc must use assets.not_found_handling=404-page to serve the branded 404.html with HTTP 404");
 const notFoundHtml = read(notFoundHtmlPath);
 assert(/<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']/i.test(notFoundHtml), "404.html must be noindex, nofollow");
 assert(/<h1>This page has departed<\/h1>/i.test(notFoundHtml), "404.html is missing its recovery heading");
