@@ -24,7 +24,7 @@ import {
 const PAGE_PATH = "/flight-booking/";
 const PAGE_TITLE = "Flight Booking Assistance by Phone | TicketDepart";
 const PAGE_DESCRIPTION =
-  "Get economy-first U.S. and international flight booking help. Compare dates, routes, baggage, and fare rules 24/7. Call +1-833-225-0511.";
+  "Get economy-first U.S. and international flight booking help. Compare dates, routes, baggage, and fare rules 24/7. Call +1-877-788-8010.";
 
 const BREADCRUMBS = [
   { name: "Home", path: "/" },

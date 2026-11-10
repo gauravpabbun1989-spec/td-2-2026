@@ -42,7 +42,7 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-slate-700 sm:text-lg sm:leading-8">
-            Call +1-833-225-0511 for 24/7 economy flight booking assistance. Discuss domestic and international routes, flexible dates, flight changes, cancellations, and pet or infant travel with a specialist.
+            Call +1-877-788-8010 for 24/7 economy flight booking assistance. Discuss domestic and international routes, flexible dates, flight changes, cancellations, and pet or infant travel with a specialist.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-2">

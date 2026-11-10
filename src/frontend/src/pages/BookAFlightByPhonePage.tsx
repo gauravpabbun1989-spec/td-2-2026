@@ -15,7 +15,7 @@ const PAGE_PATH = "/book-a-flight-by-phone/";
 const PAGE_TITLE =
   "Book Flight Tickets by Phone | 24/7 Booking Help";
 const PAGE_DESCRIPTION =
-  "Book flight tickets by phone for U.S. and international trips. Compare economy fares, dates, nearby airports, baggage, and fare rules. Call +1-833-225-0511.";
+  "Book flight tickets by phone for U.S. and international trips. Compare economy fares, dates, nearby airports, baggage, and fare rules. Call +1-877-788-8010.";
 
 const FAQS = [
   {

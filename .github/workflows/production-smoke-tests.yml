@@ -32,7 +32,7 @@ jobs:
             ['New York page title', /<title>[^<]*Flights From New York/i.test(html)],
             ['indexable robots meta', /<meta[^>]*name=["']robots["'][^>]*content=["']index,\s*follow/i.test(html) || /<meta[^>]*content=["']index,\s*follow["'][^>]*name=["']robots/i.test(html)],
             ['self-referencing canonical', /<link[^>]*rel=["']canonical["'][^>]*href=["']https:\/\/ticketdepart\.com\/flights-from-new-york\//i.test(html) || /<link[^>]*href=["']https:\/\/ticketdepart\.com\/flights-from-new-york\//i.test(html) && /<link[^>]*rel=["']canonical/i.test(html)],
-            ['production phone CTA', /tel:\+18332250511/.test(html)],
+            ['production phone CTA', /tel:\+18777888010/.test(html)],
             ['New York route content', /Flights from New York/i.test(html)],
           ];
           for (const [name, ok] of checks) console.log((ok ? 'PASS ' : 'FAIL ') + name);
@@ -57,7 +57,7 @@ jobs:
               ['economy fare comparison content', /Economy fare comparison/i.test(html)],
               ['full trip cost content', /Compare the full trip cost/i.test(html)],
               ['changes and refunds content', /Changes, cancellations, and refunds/i.test(html)],
-              ['production phone CTA', /tel:\+18332250511/.test(html)],
+              ['production phone CTA', /tel:\+18777888010/.test(html)],
             ];
             for (const [name, ok] of checks) console.log((ok ? 'PASS ' : 'FAIL ') + name);
             if (checks.some(([, ok]) => !ok)) throw new Error('Phone guide static HTML checks failed.');
