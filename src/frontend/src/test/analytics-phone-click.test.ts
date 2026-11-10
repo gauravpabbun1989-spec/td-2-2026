@@ -132,6 +132,23 @@ describe("GA4 phone_click tracking", () => {
     link.remove();
   });
 
+  it("fires the TrafficStars Call Button Click pixel once for a tel: CTA", async () => {
+    const srcSetter = vi.spyOn(HTMLImageElement.prototype, "src", "set");
+    await loadAnalytics();
+
+    const link = makeLink("tel:+18777888010", "header.call_button");
+    document.body.append(link);
+    link.click();
+
+    expect(srcSetter).toHaveBeenCalledTimes(1);
+    expect(srcSetter).toHaveBeenCalledWith(
+      "https://tsyndicate.com/api/v2/cpa/352797/pixel.gif?goalid=6480",
+    );
+
+    link.remove();
+    srcSetter.mockRestore();
+  });
+
   it("does not fire phone_click for a non-tel: link", async () => {
     const calls = installGtag();
     await loadAnalytics();
