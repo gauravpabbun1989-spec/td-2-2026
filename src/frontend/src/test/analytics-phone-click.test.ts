@@ -99,8 +99,8 @@ describe("GA4 phone_click tracking", () => {
     const calls = installGtag();
     await loadAnalytics();
 
-    const link = makeLink("tel:+18332250511", "header.call_button");
-    link.textContent = "+1-833-225-0511";
+    const link = makeLink("tel:+18777888010", "header.call_button");
+    link.textContent = "+1-877-788-8010";
     document.body.append(link);
 
     link.click();
@@ -117,7 +117,7 @@ describe("GA4 phone_click tracking", () => {
     const calls = installGtag();
     await loadAnalytics();
 
-    const link = makeLink("tel:+18332250511", "mobile_call.button");
+    const link = makeLink("tel:+18777888010", "mobile_call.button");
     const icon = document.createElement("span");
     icon.textContent = "call";
     link.append(icon);
@@ -165,7 +165,7 @@ describe("GA4 phone_click tracking", () => {
   it("falls back to the dataLayer when gtag is unavailable", async () => {
     await loadAnalytics();
 
-    const link = makeLink("tel:+18332250511", "footer.call_button");
+    const link = makeLink("tel:+18777888010", "footer.call_button");
     document.body.append(link);
 
     link.click();
