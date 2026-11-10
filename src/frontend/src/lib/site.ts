@@ -10,8 +10,8 @@ export const SITE = {
   tagline: "24/7 Flight Booking Assistance",
   description:
     "Independent travel assistance for travelers comparing economy flights, routes, dates, ticket changes, cancellations, and special travel needs.",
-  phoneDisplay: "+1-833-225-0511",
-  phoneHref: "tel:+18332250511",
+  phoneDisplay: "+1-877-788-8010",
+  phoneHref: "tel:+18777888010",
   email: "support@ticketdestinations.com",
   emailHref: "mailto:support@ticketdestinations.com",
   address: {
