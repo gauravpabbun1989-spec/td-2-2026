@@ -8,8 +8,5 @@
       "binding": "OAUTH_KV",
       "id": "f93a8d363707435d8bcc92b672ea92e0"
     }
-  ],
-  "vars": {
-    "GITHUB_CLIENT_ID": "Ov23liscmiA9otgikf45"
-  }
+  ]
 }
