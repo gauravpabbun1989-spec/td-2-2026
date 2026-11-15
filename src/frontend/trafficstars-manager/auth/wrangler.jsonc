@@ -1,0 +1,12 @@
+{
+  "name": "trafficstars-auth",
+  "main": "worker.ts",
+  "compatibility_date": "2026-11-15",
+  "workers_dev": true,
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV",
+      "id": "f93a8d363707435d8bcc92b672ea92e0"
+    }
+  ]
+}
