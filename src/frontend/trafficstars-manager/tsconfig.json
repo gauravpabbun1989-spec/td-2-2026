@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": [
+      "ESNext"
+    ],
+    "types": [
+      "@cloudflare/workers-types"
+    ],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": false,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "./node-buffer-shim.d.ts",
+    "./mcp/worker.ts",
+    "./shared/trafficstars-api.ts",
+    "./auth/worker.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
