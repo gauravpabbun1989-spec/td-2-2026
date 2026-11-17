@@ -1,11 +1,10 @@
 {
-  "display": "+1-877-788-8010",
-  "tel": "+18777888010",
+  "display": "+1-833-225-0511",
+  "tel": "+18332250511",
   "legacy": [
-    "+1-833-225-0511",
-    "+18332250511",
-    "+1-888-958-0280",
-    "+18889580280"
+    "+1-877-788-8010",
+    "+18777888010",
+    "+1 877-788-8010"
   ],
   "instruction": "This is the canonical phone-number source. Update display, tel, and legacy values here, then run `pnpm phone:replace` from src/frontend. The script updates tracked text files in the current checkout, excluding this config and lock/binary/build/vendor directories. To propagate the change to other branches, merge this commit into those branches and run the script there; branches are independent until synced."
 }
