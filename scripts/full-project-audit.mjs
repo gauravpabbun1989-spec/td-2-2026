@@ -111,8 +111,8 @@ function auditOnce() {
   assert(!existsSync(join(ROOT, ".github/workflows/deploy-cloudflare-production.yml")), "main-site Cloudflare production deployment must remain disabled while Caffeine controls DNS and hosting");
   assert(buildWorkflow.includes("pnpm test:backend"), "backend integration tests missing from CI");
 
-  assert(site.includes('phoneDisplay: "+1-877-788-8010"'), "canonical phone display does not match the updated number");
-  assert(site.includes('phoneHref: "tel:+18777888010"'), "canonical phone href does not match the updated number");
+  assert(site.includes('phoneDisplay: "+1-833-225-0511"'), "canonical phone display does not match the updated number");
+  assert(site.includes('phoneHref: "tel:+18332250511"'), "canonical phone href does not match the updated number");
   assert(seo.includes("index, follow") && seo.includes("noindex, nofollow"), "SEO indexability control missing");
 
   assert(robots.includes("User-agent: *"), "robots user-agent missing");
