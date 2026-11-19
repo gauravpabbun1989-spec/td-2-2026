@@ -1,0 +1,73 @@
+name: TrafficStars Free Plan Bridge
+
+on:
+  push:
+    branches:
+      - fix/trafficstars-free-bridge
+    paths:
+      - src/frontend/trafficstars-manager/bridge/command.json
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: trafficstars-bridge-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out bridge branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/trafficstars-free-bridge
+          fetch-depth: 0
+
+      - name: Validate command
+        run: |
+          node -e 'const fs=require("fs"); const p="src/frontend/trafficstars-manager/bridge/command.json"; const s=fs.readFileSync(p,"utf8"); if(s.length>30000) throw new Error("Command is too large"); const x=JSON.parse(s); if(typeof x.action!=="string") throw new Error("Missing action");'
+
+      - name: Execute through Cloudflare bridge
+        env:
+          OIDC_REQUEST_URL: ${{ env.ACTIONS_ID_TOKEN_REQUEST_URL }}
+          OIDC_REQUEST_TOKEN: ${{ env.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}
+        run: |
+          set -euo pipefail
+          TOKEN_URL="${OIDC_REQUEST_URL}&audience=ticketdepart-trafficstars-bridge"
+          OIDC_TOKEN="$(curl --fail --silent --show-error -H "Authorization: Bearer ${OIDC_REQUEST_TOKEN}" "${TOKEN_URL}" | jq -r '.value')"
+          if [ -z "${OIDC_TOKEN}" ] || [ "${OIDC_TOKEN}" = "null" ]; then
+            echo "GitHub OIDC token was not issued"
+            exit 1
+          fi
+          jq --arg commit_sha "${GITHUB_SHA}" --arg run_id "${GITHUB_RUN_ID}" '. + {commit_sha: $commit_sha, run_id: $run_id}' src/frontend/trafficstars-manager/bridge/command.json > payload.json
+          HTTP_CODE="$(curl --silent --show-error -o result.json -w "%{http_code}" \
+            -X POST "https://trafficstars-mcp.gaurav-pabbun.workers.dev/bridge/execute" \
+            -H "Authorization: Bearer ${OIDC_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data-binary @payload.json)"
+          echo "TrafficStars bridge HTTP status: ${HTTP_CODE}"
+          cat result.json
+          test "${HTTP_CODE}" = "200"
+
+      - name: Save result to a separate branch
+        if: always() && hashFiles('result.json') != ''
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin trafficstars-bridge-results || true
+          if git show-ref --verify --quiet refs/remotes/origin/trafficstars-bridge-results; then
+            git checkout -B trafficstars-bridge-results origin/trafficstars-bridge-results
+          else
+            git checkout --orphan trafficstars-bridge-results
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p results
+          cp result.json results/latest.json
+          cp result.json "results/${GITHUB_SHA}.json"
+          git add results
+          git commit -m "Record TrafficStars bridge result ${GITHUB_SHA}" || exit 0
+          git push origin trafficstars-bridge-results
