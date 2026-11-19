@@ -1,6 +1,4 @@
 {
-  "action": "pause_campaigns",
-  "campaign_ids": [
-    1653463
-  ]
+  "action": "get_campaign_details",
+  "campaign_id": 1653463
 }
