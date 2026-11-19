@@ -1,4 +1,6 @@
 {
-  "action": "list_campaigns",
-  "filters": {}
+  "action": "pause_campaigns",
+  "campaign_ids": [
+    1653463
+  ]
 }
