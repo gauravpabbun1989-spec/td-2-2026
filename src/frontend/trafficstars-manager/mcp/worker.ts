@@ -16,6 +16,9 @@ import {
   getCampaignDetails,
   getCampaignStatistics,
   listCampaigns,
+  pauseCampaigns,
+  runCampaigns,
+  updateCampaign,
   type CampaignStatisticsRequest,
   type TrafficStarsEnv,
 } from "../shared/trafficstars-api";
@@ -114,6 +117,255 @@ async function runTool(operation: () => Promise<unknown>) {
     return toolResult(await operation());
   } catch (error) {
     return toolError();
+  }
+}
+
+const BRIDGE_REPOSITORY = "gauravpabbun/ticket-depart2";
+const BRIDGE_REPOSITORY_ID = "1377390909";
+const BRIDGE_OWNER_ID = "102061504";
+const BRIDGE_BRANCH = "refs/heads/fix/trafficstars-free-bridge";
+const BRIDGE_AUDIENCE = "ticketdepart-trafficstars-bridge";
+const BRIDGE_WORKFLOW_REF = `${BRIDGE_REPOSITORY}/.github/workflows/trafficstars-bridge.yml@${BRIDGE_BRANCH}`;
+
+let githubJwksCache: JsonWebKey[] | undefined;
+let githubJwksExpiresAt = 0;
+
+function decodeJwtPart(value: string): Uint8Array {
+  const normalized = value.replace(/-/g, "+").replace(/_/g, "/");
+  const binary = atob(normalized + "=".repeat((4 - normalized.length % 4) % 4));
+  return Uint8Array.from(binary, (character) => character.charCodeAt(0));
+}
+
+function parseJwtPart<T>(value: string): T {
+  return JSON.parse(new TextDecoder().decode(decodeJwtPart(value))) as T;
+}
+
+async function getGithubSigningKeys(): Promise<JsonWebKey[]> {
+  if (githubJwksCache && githubJwksExpiresAt > Date.now()) {
+    return githubJwksCache;
+  }
+
+  const discoveryResponse = await fetch(
+    "https://token.actions.githubusercontent.com/.well-known/openid-configuration",
+    { signal: AbortSignal.timeout(8000) },
+  );
+  if (!discoveryResponse.ok) throw new Error("GitHub OIDC discovery unavailable");
+  const discovery = await discoveryResponse.json() as { jwks_uri?: string };
+  if (typeof discovery.jwks_uri !== "string") throw new Error("GitHub OIDC keys unavailable");
+
+  const keysResponse = await fetch(discovery.jwks_uri, {
+    signal: AbortSignal.timeout(8000),
+  });
+  if (!keysResponse.ok) throw new Error("GitHub OIDC keys unavailable");
+  const keys = await keysResponse.json() as { keys?: JsonWebKey[] };
+  if (!Array.isArray(keys.keys) || keys.keys.length === 0) {
+    throw new Error("GitHub OIDC keys unavailable");
+  }
+
+  githubJwksCache = keys.keys;
+  githubJwksExpiresAt = Date.now() + 10 * 60 * 1000;
+  return keys.keys;
+}
+
+async function verifyGithubBridgeToken(token: string): Promise<Record<string, unknown>> {
+  const parts = token.split(".");
+  if (parts.length !== 3) throw new Error("Invalid identity token");
+
+  const header = parseJwtPart<{ alg?: string; kid?: string }>(parts[0]);
+  const claims = parseJwtPart<Record<string, unknown>>(parts[1]);
+  if (header.alg !== "RS256" || typeof header.kid !== "string") {
+    throw new Error("Unsupported identity token");
+  }
+
+  const keys = await getGithubSigningKeys();
+  const jwk = keys.find((item) => item.kid === header.kid);
+  if (!jwk) throw new Error("Unknown identity key");
+
+  const key = await crypto.subtle.importKey(
+    "jwk",
+    jwk,
+    { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+    false,
+    ["verify"],
+  );
+  const valid = await crypto.subtle.verify(
+    "RSASSA-PKCS1-v1_5",
+    key,
+    decodeJwtPart(parts[2]),
+    new TextEncoder().encode(`${parts[0]}.${parts[1]}`),
+  );
+  if (!valid) throw new Error("Invalid identity signature");
+
+  const now = Math.floor(Date.now() / 1000);
+  const audience = Array.isArray(claims.aud) ? claims.aud : [claims.aud];
+  if (
+    claims.iss !== "https://token.actions.githubusercontent.com" ||
+    !audience.includes(BRIDGE_AUDIENCE) ||
+    typeof claims.exp !== "number" ||
+    claims.exp <= now ||
+    (typeof claims.nbf === "number" && claims.nbf > now + 30) ||
+    claims.repository !== BRIDGE_REPOSITORY ||
+    String(claims.repository_id) !== BRIDGE_REPOSITORY_ID ||
+    String(claims.repository_owner_id) !== BRIDGE_OWNER_ID ||
+    String(claims.actor_id) !== BRIDGE_OWNER_ID ||
+    claims.ref !== BRIDGE_BRANCH ||
+    claims.event_name !== "push" ||
+    claims.workflow_ref !== BRIDGE_WORKFLOW_REF ||
+    String(claims.run_attempt) !== "1"
+  ) {
+    throw new Error("Workflow identity is not authorized");
+  }
+
+  return claims;
+}
+
+function validCampaignIds(value: unknown): value is number[] {
+  return Array.isArray(value) &&
+    value.length > 0 &&
+    value.length <= 100 &&
+    value.every((id) => Number.isSafeInteger(id) && id > 0);
+}
+
+async function handleBridge(request: Request, env: Env): Promise<Response> {
+  if (request.method !== "POST") {
+    return Response.json({ error: "method_not_allowed" }, { status: 405 });
+  }
+
+  const authorization = request.headers.get("Authorization") ?? "";
+  const match = authorization.match(/^Bearer\s+(.+)$/i);
+  if (!match) return Response.json({ error: "unauthorized" }, { status: 401 });
+
+  let claims: Record<string, unknown>;
+  try {
+    claims = await verifyGithubBridgeToken(match[1]);
+  } catch {
+    return Response.json({ error: "unauthorized" }, { status: 401 });
+  }
+
+  const rawBody = await request.text();
+  if (rawBody.length > 32_000) {
+    return Response.json({ error: "request_too_large" }, { status: 413 });
+  }
+
+  let input: Record<string, unknown>;
+  try {
+    const parsed: unknown = JSON.parse(rawBody);
+    if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+      throw new Error("Invalid request");
+    }
+    input = parsed as Record<string, unknown>;
+  } catch {
+    return Response.json({ error: "invalid_json" }, { status: 400 });
+  }
+
+  if (
+    typeof input.action !== "string" ||
+    input.commit_sha !== claims.sha ||
+    String(input.run_id) !== String(claims.run_id)
+  ) {
+    return Response.json({ error: "command_identity_mismatch" }, { status: 403 });
+  }
+
+  try {
+    let result: unknown;
+
+    switch (input.action) {
+      case "health":
+        result = {
+          connected: true,
+          repository: BRIDGE_REPOSITORY,
+          workflow: "trafficstars-bridge",
+        };
+        break;
+
+      case "get_balance":
+        result = await getAccountBalance(env);
+        break;
+
+      case "list_campaigns": {
+        const filters = input.filters;
+        if (
+          filters !== undefined &&
+          (typeof filters !== "object" || filters === null || Array.isArray(filters))
+        ) throw new Error("Invalid filters");
+        result = await listCampaigns(
+          env,
+          (filters ?? {}) as Record<string, string | number | boolean>,
+        );
+        break;
+      }
+
+      case "get_campaign_details":
+        if (!Number.isSafeInteger(input.campaign_id) || Number(input.campaign_id) <= 0) {
+          throw new Error("Invalid campaign_id");
+        }
+        result = await getCampaignDetails(env, Number(input.campaign_id));
+        break;
+
+      case "get_campaign_statistics": {
+        const stats = input.statistics;
+        if (typeof stats !== "object" || stats === null || Array.isArray(stats)) {
+          throw new Error("Invalid statistics request");
+        }
+        result = await getCampaignStatistics(env, stats as CampaignStatisticsRequest);
+        break;
+      }
+
+      case "pause_campaigns":
+        if (!validCampaignIds(input.campaign_ids)) throw new Error("Invalid campaign_ids");
+        result = await pauseCampaigns(env, input.campaign_ids);
+        break;
+
+      case "run_campaigns":
+        if (
+          !validCampaignIds(input.campaign_ids) ||
+          input.tracking_verified !== true ||
+          input.approval !== "I approve activating the listed TrafficStars campaigns and the resulting spend."
+        ) {
+          throw new Error("Campaign activation requires verified tracking and explicit spend approval");
+        }
+        result = await runCampaigns(env, input.campaign_ids);
+        break;
+
+      case "update_campaign": {
+        if (!Number.isSafeInteger(input.campaign_id) || Number(input.campaign_id) <= 0) {
+          throw new Error("Invalid campaign_id");
+        }
+        if (
+          typeof input.changes !== "object" ||
+          input.changes === null ||
+          Array.isArray(input.changes)
+        ) throw new Error("Invalid changes");
+
+        const changes = input.changes as Record<string, unknown>;
+        const budgetFields = ["price", "max_daily", "total_budget", "use_total_budget", "test_period_budget"];
+        if (
+          budgetFields.some((field) => Object.hasOwn(changes, field)) &&
+          input.approval !== "I approve the requested TrafficStars budget or bid change."
+        ) {
+          throw new Error("Budget and bid changes require explicit approval");
+        }
+        result = await updateCampaign(env, Number(input.campaign_id), changes);
+        break;
+      }
+
+      default:
+        throw new Error("Unsupported action");
+    }
+
+    return Response.json({
+      ok: true,
+      action: input.action,
+      commit_sha: claims.sha,
+      run_id: claims.run_id,
+      result: sanitize(result),
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "TrafficStars operation failed";
+    return Response.json(
+      { ok: false, action: input.action, error: message.slice(0, 300) },
+      { status: 400 },
+    );
   }
 }
 
@@ -350,7 +602,7 @@ const resourceServer = new OAuthResourceServer<Env, unknown>({
 
       const handler = createMcpHandler(
         () => createServer(env),
-        { legacy: "reject" },
+        { legacy: "stateless" },
       );
 
       return handler.fetch(request);

@@ -310,6 +310,103 @@ export async function getCampaignDetails(
   );
 }
 
+const CAMPAIGN_UPDATE_FIELDS = new Set([
+  "name", "countries", "geo_targets", "categories", "exclude_categories",
+  "keywords", "browsers", "browser_versions", "oses", "os_versions",
+  "devices", "device_brands", "device_models", "languages", "carriers",
+  "enabled_applications", "disabled_applications", "max_daily", "price",
+  "pricing_model", "total_budget", "use_total_budget", "weight",
+  "traffic_type", "traffic_source_type", "network_traffic_type",
+  "enabled_subids", "disabled_subids", "spots", "exclude_spots",
+  "push_format_option", "ad_format_options", "push_subscription_interval",
+  "test_period", "test_period_budget", "schedule_start_time",
+  "schedule_end_time", "schedule_timezone", "hours_targeting",
+  "hours_retargeting", "disable_rtb", "price_rtb", "disable_rtb",
+]);
+
+function validateCampaignIds(ids: number[]): void {
+  if (
+    !Array.isArray(ids) ||
+    ids.length < 1 ||
+    ids.length > 100 ||
+    ids.some((id) => !Number.isSafeInteger(id) || id <= 0)
+  ) {
+    throw new Error("campaign_ids must contain 1 to 100 positive integers");
+  }
+}
+
+export async function pauseCampaigns(
+  env: TrafficStarsEnv,
+  campaignIds: number[],
+): Promise<unknown> {
+  validateCampaignIds(campaignIds);
+  return request(env, "pause campaigns", "/v2/campaigns/pause", {
+    method: "PUT",
+    body: JSON.stringify({ campaign_ids: campaignIds }),
+  });
+}
+
+export async function runCampaigns(
+  env: TrafficStarsEnv,
+  campaignIds: number[],
+): Promise<unknown> {
+  validateCampaignIds(campaignIds);
+  return request(env, "run campaigns", "/v2/campaigns/run", {
+    method: "PUT",
+    body: JSON.stringify({ campaign_ids: campaignIds }),
+  });
+}
+
+export async function updateCampaign(
+  env: TrafficStarsEnv,
+  campaignId: number,
+  changes: Record<string, unknown>,
+): Promise<unknown> {
+  if (!Number.isSafeInteger(campaignId) || campaignId <= 0) {
+    throw new Error("campaignId must be a positive integer");
+  }
+  const entries = Object.entries(changes);
+  if (entries.length < 1 || entries.length > 30) {
+    throw new Error("changes must contain between 1 and 30 fields");
+  }
+
+  for (const [key, value] of entries) {
+    if (!CAMPAIGN_UPDATE_FIELDS.has(key)) {
+      throw new Error(`Unsupported campaign update field: ${key}`);
+    }
+    if (
+      value === null ||
+      typeof value === "undefined" ||
+      (typeof value === "number" && !Number.isFinite(value)) ||
+      (typeof value === "string" && value.length > 2000)
+    ) {
+      throw new Error(`Invalid value for campaign field: ${key}`);
+    }
+    if (Array.isArray(value)) {
+      if (
+        value.length > 1000 ||
+        value.some((item) =>
+          typeof item !== "string" &&
+          !(typeof item === "number" && Number.isSafeInteger(item))
+        )
+      ) {
+        throw new Error(`Invalid array for campaign field: ${key}`);
+      }
+    } else if (
+      typeof value !== "string" &&
+      typeof value !== "number" &&
+      typeof value !== "boolean"
+    ) {
+      throw new Error(`Invalid value for campaign field: ${key}`);
+    }
+  }
+
+  return request(env, "update campaign", `/v1.1/campaigns/${campaignId}`, {
+    method: "PATCH",
+    body: JSON.stringify(changes),
+  });
+}
+
 export async function getCampaignStatistics(
   env: TrafficStarsEnv,
   input: CampaignStatisticsRequest,
