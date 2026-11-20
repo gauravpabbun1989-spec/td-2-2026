@@ -16,6 +16,8 @@ interface Env {
 const AUTH_ISSUER = "https://trafficstars-auth.gaurav-pabbun.workers.dev";
 const MCP_RESOURCE = "https://trafficstars-mcp.gaurav-pabbun.workers.dev/mcp";
 const READ_SCOPE = "trafficstars:read";
+const MANAGE_SCOPE = "trafficstars:manage";
+const AUTHORIZED_SCOPES = [READ_SCOPE, MANAGE_SCOPE];
 const EMAIL_CALLBACK = `${AUTH_ISSUER}/email/callback`;
 const EMAIL_FROM = "TrafficStars Manager <onboarding@resend.dev>";
 const LOGIN_TTL_SECONDS = 600;
@@ -23,7 +25,7 @@ const LOGIN_TTL_SECONDS = 600;
 const authorizationServer = new OAuthAuthorizationServer<Env>({
   issuer: AUTH_ISSUER,
   resources: [MCP_RESOURCE],
-  scopesSupported: [READ_SCOPE],
+  scopesSupported: AUTHORIZED_SCOPES,
   disallowPublicClientRegistration: true,
 });
 
@@ -74,7 +76,7 @@ function oauthErrorRedirect(
 }
 
 function isAllowedScope(scopes: string[]): boolean {
-  return scopes.includes(READ_SCOPE) && scopes.every((scope) => scope === READ_SCOPE);
+  return scopes.includes(READ_SCOPE) && scopes.includes(MANAGE_SCOPE) && scopes.every((scope) => AUTHORIZED_SCOPES.includes(scope));
 }
 
 function base64Url(bytes: Uint8Array): string {
@@ -128,7 +130,7 @@ async function authorize(request: Request, env: Env): Promise<Response> {
     try {
       const authRequest = await oauth.parseAuthRequest(request);
       if (!isAllowedScope(authRequest.scope)) {
-        return oauthErrorRedirect(authRequest, "invalid_scope", "Only read-only TrafficStars access is supported.");
+        return oauthErrorRedirect(authRequest, "invalid_scope", "Read and campaign-management access is required.");
       }
 
       const description = await oauth.describeConsent(authRequest);
@@ -139,7 +141,7 @@ async function authorize(request: Request, env: Env): Promise<Response> {
           <h1>Authorize TrafficStars Manager</h1>
           <p><strong>Application:</strong> ${htmlEscape(description.clientName)}</p>
           <p><strong>Redirect destination:</strong> ${htmlEscape(description.redirectHost)}</p>
-          <p>This application requests read-only access to your configured TrafficStars account:</p>
+          <p>This application requests permission to view account data and edit or manage campaigns in your configured TrafficStars account. Campaign activation and budget changes still require separate explicit approval.</p>
           <ul>${scopes}</ul>
           <form method="post" action="/authorize">
             <input type="hidden" name="handle" value="${htmlEscape(consent.handle)}">
@@ -178,7 +180,7 @@ async function authorize(request: Request, env: Env): Promise<Response> {
       }
       if (!env.RESEND_API_KEY) return localError("Email sign-in is not configured yet.", 503);
 
-      const approved = await oauth.approveConsent(request, handle, { scope: [READ_SCOPE] });
+      const approved = await oauth.approveConsent(request, handle, { scope: AUTHORIZED_SCOPES });
       const upstream = await oauth.beginUpstream(approved.request, {
         data: { email: approvedEmail } satisfies UpstreamData,
         headers: approved.headers,
@@ -251,7 +253,7 @@ async function emailCallback(request: Request, env: Env): Promise<Response> {
       request: resumed.request,
       userId: `email-${userHash}`,
       metadata: { provider: "email" },
-      scope: [READ_SCOPE],
+      scope: AUTHORIZED_SCOPES,
       props: { email: storedEmail },
     });
     return redirectWithHeaders(result.redirectTo, resumed.headers);
