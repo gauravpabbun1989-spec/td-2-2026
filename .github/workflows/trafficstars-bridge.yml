@@ -1,6 +1,7 @@
 name: TrafficStars Free Plan Bridge
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - fix/trafficstars-free-bridge
