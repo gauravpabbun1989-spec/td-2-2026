@@ -215,7 +215,7 @@ async function verifyGithubBridgeToken(token: string): Promise<Record<string, un
     String(claims.repository_owner_id) !== BRIDGE_OWNER_ID ||
     String(claims.actor_id) !== BRIDGE_OWNER_ID ||
     claims.ref !== BRIDGE_BRANCH ||
-    claims.event_name !== "push" ||
+    !(["push", "workflow_dispatch"].includes(String(claims.event_name))) ||
     claims.workflow_ref !== BRIDGE_WORKFLOW_REF ||
     String(claims.run_attempt) !== "1"
   ) {
