@@ -132,18 +132,19 @@ describe("GA4 phone_click tracking", () => {
     link.remove();
   });
 
-  it("fires the TrafficStars Call Button Click pixel once for a tel: CTA", async () => {
+  it("does not send a TrafficStars conversion pixel for a tel: CTA", async () => {
     const srcSetter = vi.spyOn(HTMLImageElement.prototype, "src", "set");
+    const calls = installGtag();
     await loadAnalytics();
 
     const link = makeLink("tel:+18777888010", "header.call_button");
     document.body.append(link);
     link.click();
 
-    expect(srcSetter).toHaveBeenCalledTimes(1);
-    expect(srcSetter).toHaveBeenCalledWith(
-      "https://tsyndicate.com/api/v2/cpa/352797/pixel.gif?goalid=6480",
-    );
+    // A phone-link click is intent only. TrafficStars Goal 6487 is reserved
+    // for verified accepted calls reported by the call-tracking backend.
+    expect(srcSetter).not.toHaveBeenCalled();
+    expect(phoneClickCalls(calls)).toHaveLength(1);
 
     link.remove();
     srcSetter.mockRestore();

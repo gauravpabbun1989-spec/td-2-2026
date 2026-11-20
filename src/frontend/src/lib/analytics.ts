@@ -306,16 +306,6 @@ export function trackEvent(
   win.dataLayer.push(["event", eventName, eventParams]);
 }
 
-/**
- * Fire the TrafficStars Call Button Click goal only after a real tel: CTA click.
- * This is a click-intent pixel, not evidence that a phone call connected.
- */
-function fireTrafficStarsCallButtonPixel() {
-  if (typeof window === "undefined" || isAnalyticsTestSession()) return;
-  const pixel = new Image();
-  pixel.src = "https://tsyndicate.com/api/v2/cpa/352797/pixel.gif?goalid=6480";
-}
-
 function emitPhoneClick(location: string, link?: Element | null) {
   const ctaText = link?.textContent?.replace(/\s+/g, " ").trim();
 
@@ -463,7 +453,8 @@ if (typeof document !== "undefined") {
     const last = recentEmits.get(location);
     if (last !== undefined && Date.now() - last < DEDUPE_WINDOW_MS) return;
 
-    fireTrafficStarsCallButtonPixel();
+    // A tel: click is intent only. Never send a TrafficStars conversion here.
+    // Goal 6487 is reserved for verified accepted calls from the call-tracking backend.
     emitPhoneClick(location, link);
   });
 }
