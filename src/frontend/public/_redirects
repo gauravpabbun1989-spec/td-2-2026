@@ -1,0 +1,2 @@
+# Serve existing files and generated clean URLs normally; use a real 404 for every unmatched path.
+/* /404.html 404
