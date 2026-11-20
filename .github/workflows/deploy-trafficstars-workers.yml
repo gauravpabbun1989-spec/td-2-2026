@@ -1,6 +1,18 @@
 name: Deploy TrafficStars Workers
 
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "src/frontend/trafficstars-manager/**"
+      - ".github/workflows/deploy-trafficstars-workers.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "src/frontend/trafficstars-manager/**"
+      - ".github/workflows/deploy-trafficstars-workers.yml"
   workflow_dispatch:
 
 permissions:
@@ -43,6 +55,13 @@ jobs:
       - name: Install workspace dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate types from both Worker configurations
+        run: >-
+          pnpm dlx wrangler@4.157.0 types
+          src/frontend/trafficstars-manager/worker-configuration.d.ts
+          --config src/frontend/trafficstars-manager/mcp/wrangler.jsonc
+          --config src/frontend/trafficstars-manager/auth/wrangler.jsonc
+
       - name: Validate TrafficStars TypeScript
         run: pnpm --dir src/frontend exec tsc --noEmit -p trafficstars-manager/tsconfig.json
 
@@ -56,12 +75,14 @@ jobs:
           pnpm dlx wrangler@4.157.0 deploy --dry-run --config src/frontend/trafficstars-manager/mcp/wrangler.jsonc
 
       - name: Deploy TrafficStars authorization Worker
+        if: github.event_name != 'pull_request'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: "5421346b1bf08e0583cb670e97887719"
         run: pnpm dlx wrangler@4.157.0 deploy --config src/frontend/trafficstars-manager/auth/wrangler.jsonc
 
       - name: Deploy TrafficStars MCP Worker
+        if: github.event_name != 'pull_request'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: "5421346b1bf08e0583cb670e97887719"
@@ -70,6 +91,11 @@ jobs:
       - name: Report deployment scope
         if: success()
         run: |
-          echo "Deployed only trafficstars-auth and trafficstars-mcp."
-          echo "The website Worker ticket-depart2 was not targeted."
-          echo "No TrafficStars campaign actions were performed."
+          echo "Validated the TrafficStars authorization and MCP Workers."
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            echo "Pull request validation only; no production Worker was deployed."
+          else
+            echo "Deployed only trafficstars-auth and trafficstars-mcp."
+            echo "The website Worker ticket-depart2 was not targeted."
+            echo "No TrafficStars campaign actions were performed."
+          fi
