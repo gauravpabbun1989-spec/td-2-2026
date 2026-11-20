@@ -252,11 +252,25 @@ export async function getAccountBalance(env: TrafficStarsEnv): Promise<unknown> 
 }
 
 export async function getAccountSession(env: TrafficStarsEnv): Promise<unknown> {
-  return request(
-    env,
-    "account session information",
-    "/v1/auth/info",
+  // TrafficStars does not expose a working /v1/auth/info endpoint. Session
+  // health is determined from the same OAuth refresh operation every API
+  // request already performs. Return safe metadata only, never token values.
+  await obtainAccessToken(env);
+
+  if (!cachedToken || cachedToken.expiresAt <= Date.now()) {
+    throw new TrafficStarsApiError("authentication session was not established");
+  }
+
+  const expiresIn = Math.max(
+    0,
+    Math.floor((cachedToken.expiresAt - Date.now()) / 1000),
   );
+
+  return {
+    status: "authenticated",
+    expires_at: new Date(cachedToken.expiresAt).toISOString(),
+    expires_in: expiresIn,
+  };
 }
 
 export async function listCampaigns(
