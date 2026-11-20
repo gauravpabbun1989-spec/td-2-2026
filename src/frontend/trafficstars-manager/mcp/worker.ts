@@ -339,7 +339,7 @@ async function handleBridge(request: Request, env: Env): Promise<Response> {
         ) throw new Error("Invalid changes");
 
         const changes = input.changes as Record<string, unknown>;
-        const budgetFields = ["price", "max_daily", "total_budget", "use_total_budget", "test_period_budget"];
+        const budgetFields = ["price", "price_rtb", "pricing_model", "max_daily", "total_budget", "use_total_budget", "test_period_budget"];
         if (
           budgetFields.some((field) => Object.hasOwn(changes, field)) &&
           input.approval !== "I approve the requested TrafficStars budget or bid change."
@@ -614,7 +614,7 @@ function createServer(env: Env, canManage: boolean): McpServer {
       changes: z.record(z.unknown()).refine((value) => Object.keys(value).length >= 1 && Object.keys(value).length <= 30, "Provide 1 to 30 campaign fields."),
       approval: z.string().optional(),
     }).strict(),
-    annotations: { readOnlyHint: false, destructiveHint: false },
+    annotations: { readOnlyHint: false, destructiveHint: true },
   }, async ({ campaignId, changes, approval }) => {
     if (!canManage) return toolError("Management authorization is required. Reconnect and approve trafficstars:manage.");
     return runTool(async () => {
