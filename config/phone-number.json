@@ -1,11 +1,6 @@
 {
   "display": "+1-877-788-8010",
   "tel": "+18777888010",
-  "legacy": [
-    "+1-833-225-0511",
-    "+18332250511",
-    "+1-888-958-0280",
-    "+18889580280"
-  ],
-  "instruction": "This is the canonical phone-number source. Update display, tel, and legacy values here, then run `pnpm phone:replace` from src/frontend. The script updates tracked text files in the current checkout, excluding this config and lock/binary/build/vendor directories. To propagate the change to other branches, merge this commit into those branches and run the script there; branches are independent until synced."
+  "legacy": [],
+  "instruction": "This is the canonical TicketDepart phone-number source. The only active number is +1-877-788-8010 (tel:+18777888010). Keep every customer-facing display and tel: link on these values. Do not retain previously used phone numbers in this config or in active site content. For a future number change, update this file, run the phone replacement script, and verify the full tracked-source audit before deployment."
 }

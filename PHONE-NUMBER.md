@@ -1,15 +1,18 @@
-# Central phone-number control
+# Canonical TicketDepart phone number
+
+**Current number everywhere:** `+1-877-788-8010`
+
+**Canonical telephone link:** `tel:+18777888010`
 
 **Single source of truth:** `config/phone-number.json`
 
-When the business phone number changes:
+All customer-facing pages, buttons, popups, headers, footers, structured data, static HTML, and generated assets must use this number. Do not leave previous business phone numbers in active source, configuration, or published build output.
+
+## Updating the number in the future
+
 1. Update `display` and `tel` in `config/phone-number.json`.
-2. Put every previous display format in `legacy` (for example, both `+1-800-555-0100` and `+18005550100` if both formats exist in the repository).
-3. From `src/frontend`, run `pnpm phone:replace`.
-4. Review the diff and run the build, tests, and phone-number audit before deployment.
+2. From `src/frontend`, run `pnpm phone:replace` to synchronize tracked text files in the checkout.
+3. Review the diff and run the build, tests, and phone-number audit before deployment.
+4. Confirm that the current number is consistent in source files and generated static output.
 
-The sync script replaces legacy formats in tracked-style text files in the current checkout. It skips build output, dependencies, lockfiles, binary files, and its own config. Review its diff before committing.
-
-## Branch behavior
-
-Git branches are separate snapshots. The central config and command become available on a branch after this change is merged or cherry-picked into that branch. After that, running `pnpm phone:replace` on the branch synchronizes its text files. A change to one branch cannot automatically rewrite every remote branch unless a separate branch-sync automation is configured and authorized; do not assume an unmerged branch has received the change.
+Git branches are separate snapshots. Merge or cherry-pick this change into other branches before treating them as synchronized. After any future number change, run the replacement and audit on each branch before it is merged or deployed.
