@@ -1,4 +1,10 @@
 {
-  "action": "get_campaign_details",
-  "campaign_id": 1653463
+  "action": "get_campaign_statistics",
+  "statistics": {
+    "date_from": "2026-11-10",
+    "date_to": "2026-11-20",
+    "group_by": "date",
+    "campaigns": [1653463],
+    "countries": ["US", "CA"]
+  }
 }
