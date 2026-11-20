@@ -667,6 +667,12 @@ export default {
 
     if (hostRejected) return hostRejected;
 
+    // The automation bridge is a separate machine-to-machine route protected
+    // by the repository-scoped GitHub Actions OIDC token validated above.
+    if (new URL(request.url).pathname === "/bridge/execute") {
+      return handleBridge(request, env);
+    }
+
     const originRejected = originValidationResponse(request, [MCP_HOST]);
 
     if (originRejected) return originRejected;
