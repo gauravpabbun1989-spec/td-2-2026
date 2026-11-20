@@ -1,3 +1,3 @@
 {
-  "action": "get_balance"
+  "action": "get_account_session"
 }
