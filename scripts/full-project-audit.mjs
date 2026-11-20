@@ -4,6 +4,7 @@ import { join, relative } from "node:path";
 const ROOT = process.cwd();
 const FRONTEND = join(ROOT, "src/frontend");
 const DIST = join(FRONTEND, "dist");
+const CAFFEINE_DIST = join(FRONTEND, "dist-caffeine");
 
 const PUBLIC_ROUTES = [
   "/",
@@ -103,7 +104,25 @@ function auditOnce() {
   const buildWorkflow = read(".github/workflows/build.yml");
 
   assert(caffeine.includes('type = "assets"'), "frontend is not configured as a Caffeine assets project");
-  assert(caffeine.includes('commands = ["pnpm build"]') && caffeine.includes('out = "dist"'), "Caffeine frontend build must publish the Vite dist directory");
+  assert(caffeine.includes('commands = ["pnpm build"]') && caffeine.includes('out = "dist-caffeine"'), "Caffeine frontend must publish the provider-specific dist-caffeine directory");
+  assert(
+    !existsSync(join(DIST, "_redirects")),
+    "shared Cloudflare dist must not contain Caffeine-specific _redirects rules",
+  );
+  assert(
+    existsSync(join(CAFFEINE_DIST, "_redirects")) &&
+      read("src/frontend/dist-caffeine/_redirects").trim() === "/* /404.html 404",
+    "Caffeine output must contain the explicit HTTP 404 fallback rule",
+  );
+  assert(
+    existsSync(join(CAFFEINE_DIST, "404.html")) &&
+      read("src/frontend/dist-caffeine/404.html") === read("src/frontend/dist/404.html"),
+    "Caffeine output must include the same branded 404 document as Cloudflare dist",
+  );
+  assert(
+    Buffer.byteLength(read("src/frontend/dist-caffeine/404.html"), "utf8") < 1_900_000,
+    "Caffeine 404 document must remain a single-chunk asset smaller than 1.9 MB",
+  );
   assert(backendCaffeine.includes('type = "motoko"'), "backend is not configured as Motoko");
   assert(netlify.includes('publish = "netlify/api-public"'), "Netlify publish directory mismatch");assert(netlify.includes('functions = "netlify/functions"'), "Netlify functions directory mismatch");assert(netlify.includes('from = "/api/flight-search"') && netlify.includes('to = "/.netlify/functions/flight-search"'), "Netlify flight-search redirect missing");assert(netlify.includes('from = "/api/flight-autocomplete"') && netlify.includes('to = "/.netlify/functions/flight-autocomplete"'), "Netlify autocomplete redirect missing");
   assert(buildWorkflow.includes("pnpm --dir src/frontend typecheck"), "typecheck missing from CI");
@@ -145,7 +164,9 @@ function auditOnce() {
   for (const path of PUBLIC_ROUTES) {
     assert(app.includes(`path: "${path}"`), `production route missing from App.tsx: ${path}`);
     const distPath = path === "/" ? join(DIST, "index.html") : join(DIST, path.slice(1), "index.html");
-    assert(existsSync(distPath), `built route missing: ${path}`);
+    assert(existsSync(distPath), `built route missing from Cloudflare dist: ${path}`);
+    const caffeineDistPath = path === "/" ? join(CAFFEINE_DIST, "index.html") : join(CAFFEINE_DIST, path.slice(1), "index.html");
+    assert(existsSync(caffeineDistPath), `built route missing from Caffeine dist: ${path}`);
   }
 
   assert(app.includes('path: "/admin/leads"'), "admin route missing");
