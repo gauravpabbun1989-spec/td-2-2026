@@ -120,7 +120,7 @@ function auditOnce() {
   );
   assert(
     existsSync(join(DIST, "_redirects")) &&
-      read("_redirects") === caffeineRedirects,
+      read("src/frontend/dist/_redirects").trim() === caffeineRedirects,
     "Vite build must copy the Caffeine 404 routing rule into dist",
   );
   assert(
