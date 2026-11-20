@@ -1,6 +1,17 @@
 {
-  "action": "list_campaign_banners",
-  "campaign_id": 1653463,
-  "page": 1,
-  "size": 100
+  "action": "get_campaign_statistics",
+  "statistics": {
+    "date_from": "2026-11-07",
+    "date_to": "2026-11-21",
+    "group_by": "campaign",
+    "campaigns": [
+      1653463,
+      1652187,
+      1652186,
+      1651361,
+      1651360,
+      1650713,
+      1650712
+    ]
+  }
 }
