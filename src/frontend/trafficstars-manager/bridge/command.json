@@ -1,3 +1,4 @@
 {
-    "action": "get_balance"
+    "action": "list_campaigns",
+    "filters": {}
 }
