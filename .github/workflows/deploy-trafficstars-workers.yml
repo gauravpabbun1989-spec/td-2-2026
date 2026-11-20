@@ -1,0 +1,75 @@
+name: Deploy TrafficStars Workers
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trafficstars-workers-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Validate and deploy TrafficStars Workers only
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Require Cloudflare deployment credential
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN}" ]; then
+            echo "::error::Repository Actions secret CLOUDFLARE_API_TOKEN is missing."
+            exit 1
+          fi
+          echo "Cloudflare deployment credential is present."
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install workspace dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate TrafficStars TypeScript
+        run: pnpm exec tsc --noEmit -p src/frontend/trafficstars-manager/tsconfig.json
+
+      - name: Validate both Worker bundles without deploying
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: "5421346b1bf08e0583cb670e97887719"
+        run: |
+          set -euo pipefail
+          pnpm dlx wrangler@4.157.0 deploy --dry-run --config src/frontend/trafficstars-manager/auth/wrangler.jsonc
+          pnpm dlx wrangler@4.157.0 deploy --dry-run --config src/frontend/trafficstars-manager/mcp/wrangler.jsonc
+
+      - name: Deploy TrafficStars authorization Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: "5421346b1bf08e0583cb670e97887719"
+        run: pnpm dlx wrangler@4.157.0 deploy --config src/frontend/trafficstars-manager/auth/wrangler.jsonc
+
+      - name: Deploy TrafficStars MCP Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: "5421346b1bf08e0583cb670e97887719"
+        run: pnpm dlx wrangler@4.157.0 deploy --config src/frontend/trafficstars-manager/mcp/wrangler.jsonc
+
+      - name: Report deployment scope
+        if: success()
+        run: |
+          echo "Deployed only trafficstars-auth and trafficstars-mcp."
+          echo "The website Worker ticket-depart2 was not targeted."
+          echo "No TrafficStars campaign actions were performed."
