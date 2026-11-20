@@ -44,7 +44,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Validate TrafficStars TypeScript
-        run: pnpm exec tsc --noEmit -p src/frontend/trafficstars-manager/tsconfig.json
+        run: pnpm --dir src/frontend exec tsc --noEmit -p trafficstars-manager/tsconfig.json
 
       - name: Validate both Worker bundles without deploying
         env:
