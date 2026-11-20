@@ -318,7 +318,7 @@ export async function updateCampaignBannerClickUrl(
     `/v1.1/banners/${bannerId}`,
     {
       method: "PATCH",
-      body: JSON.stringify({ url: destinationUrl }),
+      body: JSON.stringify({ urls: [{ id: 6274440, url: destinationUrl }] }),
     },
   );
 }
