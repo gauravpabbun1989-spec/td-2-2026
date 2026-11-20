@@ -1,13 +1,4 @@
 {
-  "action": "get_campaign_statistics",
-  "statistics": {
-    "date_from": "2026-11-13",
-    "date_to": "2026-11-20",
-    "group_by": "campaign",
-    "campaigns": [
-      1653463,
-      1651361,
-      1651360
-    ]
-  }
+  "action": "get_campaign_details",
+  "campaign_id": 1653463
 }
