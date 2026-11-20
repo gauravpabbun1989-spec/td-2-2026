@@ -1,1 +1,1 @@
-{"ok":true,"action":"health","commit_sha":"4d83c42ff2fc4c32102f24fed3bae0a79e02f719","run_id":"44732990842","result":{"connected":true,"repository":"gauravpabbun/ticket-depart2","workflow":"trafficstars-bridge"}}
+{"ok":false,"action":"list_campaigns","error":"TrafficStars API request failed: campaign list (HTTP 400)"}
