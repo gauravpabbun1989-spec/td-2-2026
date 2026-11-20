@@ -116,14 +116,16 @@ describe("GA4 phone_click payload contract", () => {
     window.history.replaceState({}, "", "/?click_id=td-click-123");
     const { analytics } = await loadAnalytics();
 
+    // Capture occurs when the browser records the phone-intent action.
+    analytics.trackPhoneClick("header.call_button");
     expect(window.sessionStorage.getItem("ticketdepart_trafficstars_click_id")).toBe("td-click-123");
 
     window.history.replaceState({}, "", "/flight-booking");
-    analytics.trackPhoneClick("header.call_button");
+    analytics.trackPhoneClick("footer.call_button");
 
     const events = phoneClickCalls(calls);
-    expect(events).toHaveLength(1);
-    expect(events[0][2]).toMatchObject({
+    expect(events).toHaveLength(2);
+    expect(events[1][2]).toMatchObject({
       trafficstars_click_id: "td-click-123",
       conversion_stage: "phone_click",
     });
