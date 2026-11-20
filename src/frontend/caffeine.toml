@@ -6,7 +6,7 @@ type = "assets"
 
 [build]
 commands = ["pnpm build"]
-out = "dist"
+out = "dist-caffeine"
 
 [check]
 commands = ["pnpm typecheck", "pnpm check"]
