@@ -1,11 +1,3 @@
 {
-  "action": "get_campaign_statistics",
-  "statistics": {
-    "date_from": "2026-11-07",
-    "date_to": "2026-11-21",
-    "group_by": "spot",
-    "campaigns": [
-      1651361
-    ]
-  }
+  "action": "get_balance"
 }
