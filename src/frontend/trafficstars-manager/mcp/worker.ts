@@ -288,6 +288,12 @@ async function handleBridge(request: Request, env: Env): Promise<Response> {
         result = await getAccountBalance(env);
         break;
 
+      case "get_account_session":
+        // Return only the same allowlisted metadata as the MCP session tool.
+        // Never return access tokens, refresh tokens or API credentials.
+        result = safeSessionMetadata(await getAccountSession(env));
+        break;
+
       case "list_campaigns": {
         const filters = input.filters;
         if (
