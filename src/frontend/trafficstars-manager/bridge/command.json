@@ -1,7 +1,7 @@
 {
-  "action": "update_campaign_banner_click_url",
+  "action": "list_campaign_banners",
   "campaign_id": 1653463,
-  "banner_id": 8369514,
-  "destination_url": "https://ticketdepart.com/?click_id={click_id}",
-  "approval": "I approve correcting the malformed click_id URL on TicketDepart banner 8369514 while campaign 1653463 remains paused."
+  "page": 1,
+  "size": 100,
+  "request_tag": "final-campaign-banner-verification"
 }
