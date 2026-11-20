@@ -1,3 +1,6 @@
 {
-  "action": "health"
+  "action": "list_campaigns",
+  "filters": {
+    "order": "desc"
+  }
 }
