@@ -78,7 +78,14 @@ describe("per-route metadata", () => {
     await screen.findAllByRole("heading", { level: 1 });
     const description = metaContent('meta[name="description"]') ?? "";
     expect(description.length).toBeLessThanOrEqual(155);
-    expect((description.match(/(?:\+?1[\s().-]*)?888[\s().-]*958[\s().-]*0280/g) ?? []).length).toBeLessThanOrEqual(1);
+    const phoneMatches =
+      description.match(
+        /(?:\+?1[\s().-]*)?(?:800|833|844|855|866|877|888)[\s().-]*\d{3}[\s().-]*\d{4}/g,
+      ) ?? [];
+    expect(phoneMatches.length).toBeLessThanOrEqual(1);
+    expect(
+      phoneMatches.every((phone) => phone.replace(/\D/g, "") === "18777888010"),
+    ).toBe(true);
     expect(description).not.toMatch(/Call \+1-877-788-8010\. Call/i);
   });
 
