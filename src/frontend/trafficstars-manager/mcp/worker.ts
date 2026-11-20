@@ -128,7 +128,9 @@ const BRIDGE_BRANCH = "refs/heads/fix/trafficstars-free-bridge";
 const BRIDGE_AUDIENCE = "ticketdepart-trafficstars-bridge";
 const BRIDGE_WORKFLOW_REF = `${BRIDGE_REPOSITORY}/.github/workflows/trafficstars-bridge.yml@${BRIDGE_BRANCH}`;
 
-let githubJwksCache: JsonWebKey[] | undefined;
+type GithubSigningJwk = JsonWebKey & { kid?: string };
+
+let githubJwksCache: GithubSigningJwk[] | undefined;
 let githubJwksExpiresAt = 0;
 
 function decodeJwtPart(value: string): Uint8Array {
@@ -141,7 +143,7 @@ function parseJwtPart<T>(value: string): T {
   return JSON.parse(new TextDecoder().decode(decodeJwtPart(value))) as T;
 }
 
-async function getGithubSigningKeys(): Promise<JsonWebKey[]> {
+async function getGithubSigningKeys(): Promise<GithubSigningJwk[]> {
   if (githubJwksCache && githubJwksExpiresAt > Date.now()) {
     return githubJwksCache;
   }
@@ -158,7 +160,7 @@ async function getGithubSigningKeys(): Promise<JsonWebKey[]> {
     signal: AbortSignal.timeout(8000),
   });
   if (!keysResponse.ok) throw new Error("GitHub OIDC keys unavailable");
-  const keys = await keysResponse.json() as { keys?: JsonWebKey[] };
+  const keys = await keysResponse.json() as { keys?: GithubSigningJwk[] };
   if (!Array.isArray(keys.keys) || keys.keys.length === 0) {
     throw new Error("GitHub OIDC keys unavailable");
   }
@@ -611,7 +613,7 @@ function createServer(env: Env, canManage: boolean): McpServer {
     description: "Edit allowlisted campaign settings. Bid, payout, daily/total budget, and test-period budget changes require the exact explicit approval phrase. Requires trafficstars:manage.",
     inputSchema: z.object({
       campaignId: z.number().int().positive(),
-      changes: z.record(z.unknown()).refine((value) => Object.keys(value).length >= 1 && Object.keys(value).length <= 30, "Provide 1 to 30 campaign fields."),
+      changes: z.record(z.string(), z.unknown()).refine((value) => Object.keys(value).length >= 1 && Object.keys(value).length <= 30, "Provide 1 to 30 campaign fields."),
       approval: z.string().optional(),
     }).strict(),
     annotations: { readOnlyHint: false, destructiveHint: true },
