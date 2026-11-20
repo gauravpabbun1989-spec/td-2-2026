@@ -366,7 +366,7 @@ async function googleCallback(request, env) {
         provider: "google",
         email
       },
-      scope: [READ_SCOPE],
+      scope: [READ_SCOPE, MANAGE_SCOPE],
       props: {
         googleSub: profile.sub,
         email
