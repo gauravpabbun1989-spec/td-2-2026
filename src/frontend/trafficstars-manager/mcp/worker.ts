@@ -9,6 +9,7 @@ import {
   type OAuthResourceTokenValidation,
 } from "@cloudflare/workers-oauth-provider";
 import { z } from "zod";
+import { campaignChangesSchema } from "./schemas";
 
 import {
   getAccountBalance,
@@ -400,20 +401,6 @@ async function handleBridge(request: Request, env: Env): Promise<Response> {
     );
   }
 }
-
-const campaignChangeValueSchema = z.union([
-  z.string().max(2_000),
-  z.number().finite(),
-  z.boolean(),
-  z.array(z.union([z.string().max(2_000), z.number().int().safe()])).max(1_000),
-]);
-
-const campaignChangesSchema = z
-  .record(z.string(), campaignChangeValueSchema)
-  .refine(
-    (value) => Object.keys(value).length >= 1 && Object.keys(value).length <= 30,
-    "Provide 1 to 30 campaign fields.",
-  );
 
 function createServer(env: Env, canManage: boolean): McpServer {
   const server = new McpServer({
