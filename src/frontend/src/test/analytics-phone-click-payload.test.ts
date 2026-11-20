@@ -78,6 +78,8 @@ describe("GA4 phone_click payload contract", () => {
     // and avoids the lint rule against `delete` on globals.
     (window as WindowWithAnalytics).gtag = undefined;
     (window as WindowWithAnalytics).dataLayer = undefined;
+    window.sessionStorage.removeItem("ticketdepart_trafficstars_click_id");
+    window.history.replaceState({}, "", "/");
   });
 
   afterEach(() => {
