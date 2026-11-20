@@ -10,15 +10,19 @@ This bridge lets an authorized GitHub-connected ChatGPT session operate the Traf
 4. The Worker validates the JWT signature and restricts the repository, repository ID, owner, actor, branch, workflow, event, and first run attempt.
 5. The result is written to branch `trafficstars-bridge-results`, file `results/latest.json`.
 
+For a manual run, open **Actions → TrafficStars Free Plan Bridge → Run workflow** and select the fixed branch `fix/trafficstars-free-bridge`. Do not run it against `main` or another branch: the OIDC verifier intentionally accepts only the fixed bridge branch and repository owner.
+
 No TrafficStars API key or long-lived Cloudflare credential is stored in GitHub or in command files.
 
 ## Supported commands
 
 - `health`
 - `get_balance`
+- `get_account_session` (safe status/expiry metadata only; no tokens)
 - `list_campaigns` (optional `filters`)
 - `get_campaign_details` (`campaign_id`)
 - `get_campaign_statistics` (`statistics`)
+- `list_campaign_banners` (`campaign_id`, optional `page` / `size`)
 - `pause_campaigns` (`campaign_ids`)
 - `run_campaigns` (`campaign_ids`, `tracking_verified: true`, and exact spend approval)
 - `update_campaign` (`campaign_id`, allowlisted `changes`)
@@ -32,7 +36,7 @@ No TrafficStars API key or long-lived Cloudflare credential is stored in GitHub 
 
 ## Operational notes
 
-- The workflow is restricted to pushes that change `command.json` on the bridge branch.
+- Push-triggered runs are restricted to changes to `command.json` on the bridge branch. Manual runs are also restricted by the same OIDC repository, owner, workflow and branch checks.
 - The Worker rejects workflow reruns (run attempt greater than one); submit a fresh command commit to retry.
 - Read results from `trafficstars-bridge-results:results/latest.json`.
 - The bridge does not automatically start campaigns. Tracking and spend approval must be checked separately.
