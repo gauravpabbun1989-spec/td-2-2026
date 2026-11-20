@@ -389,13 +389,13 @@ describe("TripRequestForm", () => {
     // A failed notification email does not block the stored-lead confirmation.
     expect(await screen.findByText(/request received/i)).toBeInTheDocument();
 
-    // The email outcome is reported honestly: a failed send is surfaced as an
-    // alert rather than silently claiming the confirmation email went out.
+    // A failed internal notification is surfaced as an alert; the stored lead remains confirmed.
     const emailFailed = document.querySelector(
       '[data-ocid="contact.email_failed_state"]',
     );
     expect(emailFailed).not.toBeNull();
     expect(emailFailed).toHaveAttribute("role", "alert");
+    expect(emailFailed).toHaveTextContent(/could not send an email notification to our team/i);
     expect(
       document.querySelector('[data-ocid="contact.email_sent_state"]'),
     ).toBeNull();
@@ -417,7 +417,8 @@ describe("TripRequestForm", () => {
       '[data-ocid="contact.email_sent_state"]',
     );
     expect(emailSent).not.toBeNull();
-    expect(emailSent).toHaveTextContent(/confirmation email is on its way/i);
+    expect(emailSent).toHaveTextContent(/our team has been notified by email/i);
+    expect(emailSent).not.toHaveTextContent(/confirmation email/i);
     expect(
       document.querySelector('[data-ocid="contact.email_failed_state"]'),
     ).toBeNull();

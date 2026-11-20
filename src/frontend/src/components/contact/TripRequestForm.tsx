@@ -347,7 +347,7 @@ export function TripRequestForm() {
             data-ocid="contact.email_sent_state"
             className="mt-4 rounded-lg border border-success/30 bg-success/5 px-4 py-3 text-sm font-medium text-success"
           >
-            A confirmation email is on its way to the address you provided.
+            Our team has been notified by email. A specialist will follow up using the contact details you provided.
           </p>
         ) : emailStatus?.__kind__ === "failed" ? (
           <p
@@ -355,9 +355,9 @@ export function TripRequestForm() {
             data-ocid="contact.email_failed_state"
             className="mt-4 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-medium text-destructive"
           >
-            Your request was received, but we could not send the confirmation
-            email just now. Please keep this page or call us to confirm your
-            trip.
+            Your request was saved, but we could not send an email notification
+            to our team just now. Please call us to make sure your request is
+            followed up.
           </p>
         ) : null}
 
