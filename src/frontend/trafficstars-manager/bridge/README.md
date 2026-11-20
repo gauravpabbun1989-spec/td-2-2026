@@ -36,3 +36,8 @@ No TrafficStars API key or long-lived Cloudflare credential is stored in GitHub 
 - The Worker rejects workflow reruns (run attempt greater than one); submit a fresh command commit to retry.
 - Read results from `trafficstars-bridge-results:results/latest.json`.
 - The bridge does not automatically start campaigns. Tracking and spend approval must be checked separately.
+
+
+## Read-only bridge actions
+
+The private GitHub OIDC bridge supports `get_account_session` for safe session diagnostics. It returns only allowlisted status/expiry metadata and never returns access tokens, refresh tokens, or API credentials. The other read-only diagnostic actions include `get_balance`, `list_campaigns`, `get_campaign_details`, `get_campaign_statistics`, and `list_campaign_banners`.
