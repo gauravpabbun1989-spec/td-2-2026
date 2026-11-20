@@ -27,6 +27,7 @@ const MCP_HOST = "trafficstars-mcp.gaurav-pabbun.workers.dev";
 const MCP_RESOURCE = `https://${MCP_HOST}/mcp`;
 const AUTH_ISSUER = "https://trafficstars-auth.gaurav-pabbun.workers.dev";
 const READ_SCOPE = "trafficstars:read";
+const MANAGE_SCOPE = "trafficstars:manage";
 
 interface AuthorizationBinding {
   validateToken(
@@ -102,12 +103,12 @@ function toolResult(value: unknown) {
   };
 }
 
-function toolError() {
+function toolError(message = "TrafficStars operation failed. Check the input and try again.") {
   return {
     isError: true,
     content: [{
       type: "text" as const,
-      text: "TrafficStars operation failed. Check the input and try again.",
+      text: message,
     }],
   };
 }
@@ -338,7 +339,7 @@ async function handleBridge(request: Request, env: Env): Promise<Response> {
         ) throw new Error("Invalid changes");
 
         const changes = input.changes as Record<string, unknown>;
-        const budgetFields = ["price", "max_daily", "total_budget", "use_total_budget", "test_period_budget"];
+        const budgetFields = ["price", "price_rtb", "pricing_model", "max_daily", "total_budget", "use_total_budget", "test_period_budget"];
         if (
           budgetFields.some((field) => Object.hasOwn(changes, field)) &&
           input.approval !== "I approve the requested TrafficStars budget or bid change."
@@ -369,7 +370,7 @@ async function handleBridge(request: Request, env: Env): Promise<Response> {
   }
 }
 
-function createServer(env: Env): McpServer {
+function createServer(env: Env, canManage: boolean): McpServer {
   const server = new McpServer({
     name: "TrafficStars Manager - TicketDepart",
     version: "1.0.0",
@@ -578,7 +579,55 @@ function createServer(env: Env): McpServer {
       }),
   );
 
+  server.registerTool("pause_campaigns", {
+    title: "Pause TrafficStars campaigns",
+    description: "Pause one or more campaigns. Requires trafficstars:manage authorization. This changes campaign delivery but does not create spend.",
+    inputSchema: z.object({ campaignIds: z.array(z.number().int().positive()).min(1).max(100) }).strict(),
+    annotations: { readOnlyHint: false, destructiveHint: true },
+  }, async ({ campaignIds }) => {
+    if (!canManage) return toolError("Management authorization is required. Reconnect and approve trafficstars:manage.");
+    return runTool(() => pauseCampaigns(env, campaignIds));
+  });
+
+  server.registerTool("run_campaigns", {
+    title: "Activate TrafficStars campaigns",
+    description: "Activate campaigns only after tracking is verified and the user explicitly approves the resulting spend. Requires the exact approval phrase.",
+    inputSchema: z.object({
+      campaignIds: z.array(z.number().int().positive()).min(1).max(100),
+      trackingVerified: z.literal(true),
+      approval: z.literal("I approve activating the listed TrafficStars campaigns and the resulting spend."),
+    }).strict(),
+    annotations: { readOnlyHint: false, destructiveHint: true },
+  }, async ({ campaignIds, trackingVerified }) => {
+    if (!canManage) return toolError("Management authorization is required. Reconnect and approve trafficstars:manage.");
+    return runTool(async () => {
+      if (trackingVerified !== true) throw new Error("Tracking must be verified before activation.");
+      return runCampaigns(env, campaignIds);
+    });
+  });
+
+  server.registerTool("update_campaign", {
+    title: "Edit a TrafficStars campaign",
+    description: "Edit allowlisted campaign settings. Bid, payout, daily/total budget, and test-period budget changes require the exact explicit approval phrase. Requires trafficstars:manage.",
+    inputSchema: z.object({
+      campaignId: z.number().int().positive(),
+      changes: z.record(z.unknown()).refine((value) => Object.keys(value).length >= 1 && Object.keys(value).length <= 30, "Provide 1 to 30 campaign fields."),
+      approval: z.string().optional(),
+    }).strict(),
+    annotations: { readOnlyHint: false, destructiveHint: true },
+  }, async ({ campaignId, changes, approval }) => {
+    if (!canManage) return toolError("Management authorization is required. Reconnect and approve trafficstars:manage.");
+    return runTool(async () => {
+      const budgetFields = ["price", "price_rtb", "pricing_model", "max_daily", "total_budget", "use_total_budget", "test_period_budget"];
+      if (budgetFields.some((field) => Object.hasOwn(changes, field)) && approval !== "I approve the requested TrafficStars budget or bid change.") {
+        throw new Error("Budget and bid changes require explicit user approval.");
+      }
+      return updateCampaign(env, campaignId, changes);
+    });
+  });
+
   return server;
+
 }
 
 const resourceServer = new OAuthResourceServer<Env, unknown>({
@@ -588,12 +637,12 @@ const resourceServer = new OAuthResourceServer<Env, unknown>({
     bearer_methods_supported: ["header"],
     resource_name: "TrafficStars Manager - TicketDepart",
   },
-  requiredScopes: [READ_SCOPE],
+  requiredScopes: [READ_SCOPE, MANAGE_SCOPE],
   validateToken: (env) => (resource, token) =>
     env.AUTH_SERVER.validateToken(resource, token),
   handler: {
     async fetch(request: Request, env: Env, ctx): Promise<Response> {
-      if (!ctx.auth.scope.includes(READ_SCOPE)) {
+      if (!ctx.auth.scope.includes(READ_SCOPE) || !ctx.auth.scope.includes(MANAGE_SCOPE)) {
         return Response.json(
           { error: "insufficient_scope" },
           { status: 403 },
@@ -601,7 +650,7 @@ const resourceServer = new OAuthResourceServer<Env, unknown>({
       }
 
       const handler = createMcpHandler(
-        () => createServer(env),
+        () => createServer(env, ctx.auth.scope.includes(MANAGE_SCOPE)),
         { legacy: "stateless" },
       );
 
