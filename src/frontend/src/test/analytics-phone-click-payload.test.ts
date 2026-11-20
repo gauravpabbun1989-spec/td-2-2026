@@ -78,6 +78,8 @@ describe("GA4 phone_click payload contract", () => {
     // and avoids the lint rule against `delete` on globals.
     (window as WindowWithAnalytics).gtag = undefined;
     (window as WindowWithAnalytics).dataLayer = undefined;
+    window.sessionStorage.removeItem("ticketdepart_trafficstars_click_id");
+    window.history.replaceState({}, "", "/");
   });
 
   afterEach(() => {
@@ -108,6 +110,39 @@ describe("GA4 phone_click payload contract", () => {
     });
 
     link.remove();
+  });
+
+
+  it("retains a valid TrafficStars click ID across same-session navigation for phone intent", async () => {
+    const calls = installGtag();
+    window.history.replaceState({}, "", "/?click_id=td-click-123");
+    const { analytics } = await loadAnalytics();
+
+    // Capture occurs when the browser records the phone-intent action.
+    analytics.trackPhoneClick("header.call_button");
+    expect(window.sessionStorage.getItem("ticketdepart_trafficstars_click_id")).toBe("td-click-123");
+
+    window.history.replaceState({}, "", "/flight-booking");
+    analytics.trackPhoneClick("footer.call_button");
+
+    const events = phoneClickCalls(calls);
+    expect(events).toHaveLength(2);
+    expect(events[1][2]).toMatchObject({
+      trafficstars_click_id: "td-click-123",
+      conversion_stage: "phone_click",
+    });
+  });
+
+  it("ignores an unresolved click ID macro", async () => {
+    const calls = installGtag();
+    window.history.replaceState({}, "", "/?click_id=%7Bclick_id%7D");
+    const { analytics } = await loadAnalytics();
+
+    analytics.trackPhoneClick("header.call_button");
+
+    const events = phoneClickCalls(calls);
+    expect(events).toHaveLength(1);
+    expect(events[0][2]).not.toHaveProperty("trafficstars_click_id");
   });
 
   it("derives cta_location from aria-label when data-ocid is absent", async () => {
