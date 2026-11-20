@@ -1,5 +1,7 @@
 {
-  "action": "get_campaign_details",
+  "action": "list_campaign_banners",
   "campaign_id": 1653463,
-  "request_tag": "inspect-landing-tracking"
+  "page": 1,
+  "size": 100,
+  "request_tag": "campaign-1653463-banner-inspection"
 }
