@@ -78,6 +78,7 @@ export function isAnalyticsTestSession(
 }
 
 const LANDING_PAGE_KEY = "ticketdepart_landing_page";
+const TRAFFICSTARS_CLICK_ID_KEY = "ticketdepart_trafficstars_click_id";
 const FUNNEL_ENTRY_KEY = "ticketdepart_funnel_entry_sent";
 const ENGAGEMENT_EVENT_DELAY_MS = 10_000;
 const SCROLL_THRESHOLDS = [25, 50, 75, 90] as const;
@@ -176,6 +177,42 @@ function getLandingPage() {
     return current;
   } catch {
     return getCleanPagePath();
+  }
+}
+
+
+function normalizeTrafficStarsClickId(value: string | null): string | undefined {
+  if (!value) return undefined;
+  const normalized = value.trim();
+  return /^[A-Za-z0-9._~-]{1,200}$/.test(normalized) ? normalized : undefined;
+}
+
+/**
+ * Retain the TrafficStars click ID for the current browser session. This is
+ * intent attribution only: it is not proof of a connected or accepted call.
+ */
+function getTrafficStarsClickId(): string | undefined {
+  if (typeof window === "undefined") return undefined;
+
+  const incoming = normalizeTrafficStarsClickId(
+    new URLSearchParams(window.location.search).get("click_id"),
+  );
+
+  if (incoming) {
+    try {
+      window.sessionStorage.setItem(TRAFFICSTARS_CLICK_ID_KEY, incoming);
+    } catch {
+      // Private browsing or storage restrictions must not block phone clicks.
+    }
+    return incoming;
+  }
+
+  try {
+    return normalizeTrafficStarsClickId(
+      window.sessionStorage.getItem(TRAFFICSTARS_CLICK_ID_KEY),
+    );
+  } catch {
+    return undefined;
   }
 }
 
@@ -310,9 +347,11 @@ function emitPhoneClick(location: string, link?: Element | null) {
   const ctaText = link?.textContent?.replace(/\s+/g, " ").trim();
 
   recentEmits.set(location, Date.now());
+  const trafficStarsClickId = getTrafficStarsClickId();
 
   trackEvent("phone_click", {
     conversion_stage: "phone_click",
+    ...(trafficStarsClickId ? { trafficstars_click_id: trafficStarsClickId } : {}),
     intent_family: getIntentFamily(),
     cta_route: getCleanPagePath(),
     cta_location: location,
