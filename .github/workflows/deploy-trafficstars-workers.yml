@@ -1,6 +1,11 @@
 name: Deploy TrafficStars Workers
 
 on:
+  push:
+    branches:
+      - ops/trafficstars-worker-rollout-20261120
+    paths:
+      - .github/workflows/deploy-trafficstars-workers.yml
   workflow_dispatch:
 
 permissions:
