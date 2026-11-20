@@ -95,6 +95,8 @@ function auditOnce() {
   const notFoundPage = read("src/frontend/src/pages/NotFoundPage.tsx");
   const bookByPhonePage = read("src/frontend/src/pages/BookAFlightByPhonePage.tsx");
   const phoneConfig = JSON.parse(read("config/phone-number.json"));
+  const caffeineRedirects = read("src/frontend/public/_redirects").trim();
+  const notFoundHtml = read("src/frontend/public/404.html");
   const robots = read("src/frontend/public/robots.txt");
   const sitemap = read("src/frontend/public/sitemap.xml");
   const caffeine = read("src/frontend/caffeine.toml");
@@ -104,6 +106,27 @@ function auditOnce() {
 
   assert(caffeine.includes('type = "assets"'), "frontend is not configured as a Caffeine assets project");
   assert(caffeine.includes('commands = ["pnpm build"]') && caffeine.includes('out = "dist"'), "Caffeine frontend build must publish the Vite dist directory");
+  assert(
+    caffeineRedirects === "/* /404.html 404",
+    "Caffeine must serve the branded 404 document with HTTP 404 for unmatched paths",
+  );
+  assert(
+    notFoundHtml.includes('<meta name="robots" content="noindex, nofollow"'),
+    "custom 404 document must remain noindex",
+  );
+  assert(
+    Buffer.byteLength(notFoundHtml, "utf8") < 1_900_000,
+    "custom Caffeine 404 document must remain a single-chunk asset under 1.9 MB",
+  );
+  assert(
+    existsSync(join(DIST, "_redirects")) &&
+      read("_redirects") === caffeineRedirects,
+    "Vite build must copy the Caffeine 404 routing rule into dist",
+  );
+  assert(
+    existsSync(join(DIST, "404.html")),
+    "Vite build must publish the branded Caffeine 404 document",
+  );
   assert(backendCaffeine.includes('type = "motoko"'), "backend is not configured as Motoko");
   assert(netlify.includes('publish = "netlify/api-public"'), "Netlify publish directory mismatch");assert(netlify.includes('functions = "netlify/functions"'), "Netlify functions directory mismatch");assert(netlify.includes('from = "/api/flight-search"') && netlify.includes('to = "/.netlify/functions/flight-search"'), "Netlify flight-search redirect missing");assert(netlify.includes('from = "/api/flight-autocomplete"') && netlify.includes('to = "/.netlify/functions/flight-autocomplete"'), "Netlify autocomplete redirect missing");
   assert(buildWorkflow.includes("pnpm --dir src/frontend typecheck"), "typecheck missing from CI");
