@@ -52,5 +52,5 @@ jobs:
           if [ -n "$existing_pr" ]; then
             gh pr edit "$existing_pr" --title "Refresh Caffeine static build output" --body "Regenerate the committed src/frontend/dist and src/frontend/dist-caffeine outputs from the latest main source. Caffeine imports dist-caffeine (including its HTTP 404 rule); Cloudflare continues using the clean dist output. Build completed successfully in the automation workflow."
           else
-            gh pr create --base main --head "$branch" --title "Refresh Caffeine static build output" --body "Regenerate the committed src/frontend/dist output from the latest main source so Caffeine imports the current homepage, sitemap, route metadata, 404 page, and redirect rules. Build completed successfully in the automation workflow."
+            gh pr create --base main --head "$branch" --title "Refresh Caffeine static build output" --body "Regenerate the committed src/frontend/dist and src/frontend/dist-caffeine outputs from the latest main source. Caffeine imports dist-caffeine (including its HTTP 404 rule); Cloudflare continues using the clean dist output. Build completed successfully in the automation workflow."
           fi
