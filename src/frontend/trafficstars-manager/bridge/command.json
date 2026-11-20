@@ -1,4 +1,5 @@
 {
-  "action": "list_campaigns",
-  "request_tag": "post-route-fix-20261120"
+  "action": "get_campaign_details",
+  "campaign_id": 1653463,
+  "request_tag": "inspect-landing-tracking"
 }
