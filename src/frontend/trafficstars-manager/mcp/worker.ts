@@ -16,6 +16,7 @@ import {
   getCampaignDetails,
   getCampaignStatistics,
   listCampaigns,
+  listCampaignBanners,
   pauseCampaigns,
   runCampaigns,
   updateCampaign,
@@ -295,6 +296,16 @@ async function handleBridge(request: Request, env: Env): Promise<Response> {
           env,
           (filters ?? {}) as Record<string, string | number | boolean>,
         );
+        break;
+      }
+
+      case "list_campaign_banners": {
+        if (!Number.isSafeInteger(input.campaign_id) || Number(input.campaign_id) <= 0) {
+          throw new Error("Invalid campaign_id");
+        }
+        const page = input.page === undefined ? 1 : Number(input.page);
+        const size = input.size === undefined ? 100 : Number(input.size);
+        result = await listCampaignBanners(env, Number(input.campaign_id), page, size);
         break;
       }
 

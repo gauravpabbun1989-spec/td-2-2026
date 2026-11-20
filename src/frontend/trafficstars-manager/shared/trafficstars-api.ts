@@ -295,6 +295,36 @@ export async function listCampaigns(
   );
 }
 
+
+export async function listCampaignBanners(
+  env: TrafficStarsEnv,
+  campaignId: number,
+  page = 1,
+  size = 100,
+): Promise<unknown> {
+  if (!Number.isSafeInteger(campaignId) || campaignId <= 0) {
+    throw new Error("campaignId must be a positive integer");
+  }
+  if (!Number.isSafeInteger(page) || page < 1 || page > 1000) {
+    throw new Error("page must be an integer between 1 and 1000");
+  }
+  if (!Number.isSafeInteger(size) || size < 1 || size > 100) {
+    throw new Error("size must be an integer between 1 and 100");
+  }
+
+  const params = new URLSearchParams({
+    campaign_id: String(campaignId),
+    page: String(page),
+    size: String(size),
+  });
+
+  return request(
+    env,
+    "campaign banners",
+    `/v2/banners?${params.toString()}`,
+  );
+}
+
 export async function getCampaignDetails(
   env: TrafficStarsEnv,
   campaignId: number,
