@@ -401,6 +401,20 @@ async function handleBridge(request: Request, env: Env): Promise<Response> {
   }
 }
 
+const campaignChangeValueSchema = z.union([
+  z.string().max(2_000),
+  z.number().finite(),
+  z.boolean(),
+  z.array(z.union([z.string().max(2_000), z.number().int().safe()])).max(1_000),
+]);
+
+const campaignChangesSchema = z
+  .record(z.string(), campaignChangeValueSchema)
+  .refine(
+    (value) => Object.keys(value).length >= 1 && Object.keys(value).length <= 30,
+    "Provide 1 to 30 campaign fields.",
+  );
+
 function createServer(env: Env, canManage: boolean): McpServer {
   const server = new McpServer({
     name: "TrafficStars Manager - TicketDepart",
@@ -642,7 +656,7 @@ function createServer(env: Env, canManage: boolean): McpServer {
     description: "Edit allowlisted campaign settings. Bid, payout, daily/total budget, and test-period budget changes require the exact explicit approval phrase. Requires trafficstars:manage.",
     inputSchema: z.object({
       campaignId: z.number().int().positive(),
-      changes: z.record(z.string(), z.unknown()).refine((value) => Object.keys(value).length >= 1 && Object.keys(value).length <= 30, "Provide 1 to 30 campaign fields."),
+      changes: campaignChangesSchema,
       approval: z.string().optional(),
     }).strict(),
     annotations: { readOnlyHint: false, destructiveHint: true },
