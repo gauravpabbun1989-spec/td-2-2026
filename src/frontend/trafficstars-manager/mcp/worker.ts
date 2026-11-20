@@ -9,6 +9,7 @@ import {
   type OAuthResourceTokenValidation,
 } from "@cloudflare/workers-oauth-provider";
 import { z } from "zod";
+import { campaignChangesSchema } from "./schemas";
 
 import {
   getAccountBalance,
@@ -642,7 +643,7 @@ function createServer(env: Env, canManage: boolean): McpServer {
     description: "Edit allowlisted campaign settings. Bid, payout, daily/total budget, and test-period budget changes require the exact explicit approval phrase. Requires trafficstars:manage.",
     inputSchema: z.object({
       campaignId: z.number().int().positive(),
-      changes: z.record(z.string(), z.unknown()).refine((value) => Object.keys(value).length >= 1 && Object.keys(value).length <= 30, "Provide 1 to 30 campaign fields."),
+      changes: campaignChangesSchema,
       approval: z.string().optional(),
     }).strict(),
     annotations: { readOnlyHint: false, destructiveHint: true },
