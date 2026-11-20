@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: trafficstars-workers-production
@@ -44,6 +44,22 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+
+      - name: Add missing Cloudflare Worker type definitions
+        run: pnpm --dir src/frontend add -D -E @cloudflare/workers-types@5.20261119.1
+
+      - name: Persist generated dependency lockfile to rollout branch
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/frontend/package.json pnpm-lock.yaml
+          if git diff --cached --quiet; then
+            echo "Cloudflare Workers types dependency is already recorded."
+          else
+            git commit -m "Add Cloudflare Workers runtime type dependency"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
 
       - name: Install workspace dependencies
         run: pnpm install --frozen-lockfile
