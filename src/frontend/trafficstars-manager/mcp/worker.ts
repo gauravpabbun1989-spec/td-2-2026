@@ -17,6 +17,7 @@ import {
   getCampaignStatistics,
   listCampaigns,
   listCampaignBanners,
+  updateCampaignBannerClickUrl,
   pauseCampaigns,
   runCampaigns,
   updateCampaign,
@@ -295,6 +296,23 @@ async function handleBridge(request: Request, env: Env): Promise<Response> {
         result = await listCampaigns(
           env,
           (filters ?? {}) as Record<string, string | number | boolean>,
+        );
+        break;
+      }
+
+      case "update_campaign_banner_click_url": {
+        if (
+          Number(input.campaign_id) !== 1653463 ||
+          Number(input.banner_id) !== 8369514 ||
+          input.destination_url !== "https://ticketdepart.com/?click_id={click_id}" ||
+          input.approval !== "I approve correcting the malformed click_id URL on TicketDepart banner 8369514 while campaign 1653463 remains paused."
+        ) {
+          throw new Error("This narrowly-scoped banner URL correction requires the exact target and explicit approval");
+        }
+        result = await updateCampaignBannerClickUrl(
+          env,
+          Number(input.banner_id),
+          String(input.destination_url),
         );
         break;
       }

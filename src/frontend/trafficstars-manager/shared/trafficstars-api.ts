@@ -296,6 +296,33 @@ export async function listCampaigns(
 }
 
 
+
+const APPROVED_PUSH_CLICK_URL = "https://ticketdepart.com/?click_id={click_id}";
+const APPROVED_CLICK_ID_BANNER_ID = 8369514;
+
+export async function updateCampaignBannerClickUrl(
+  env: TrafficStarsEnv,
+  bannerId: number,
+  destinationUrl: string,
+): Promise<unknown> {
+  if (bannerId !== APPROVED_CLICK_ID_BANNER_ID) {
+    throw new Error("Only the identified TicketDepart banner can be updated");
+  }
+  if (destinationUrl !== APPROVED_PUSH_CLICK_URL) {
+    throw new Error("Destination URL must be the approved TicketDepart click_id URL");
+  }
+
+  return request(
+    env,
+    "update banner destination URL",
+    `/v1.1/banners/${bannerId}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ url: destinationUrl }),
+    },
+  );
+}
+
 export async function listCampaignBanners(
   env: TrafficStarsEnv,
   campaignId: number,
