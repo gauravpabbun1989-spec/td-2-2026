@@ -1,3 +1,4 @@
 {
-  "action": "list_campaigns"
+  "action": "get_campaign_details",
+  "campaign_id": 1653463
 }
