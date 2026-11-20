@@ -1,6 +1,8 @@
 name: Production smoke tests
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: "30 9 * * *"
@@ -103,44 +105,45 @@ jobs:
           });
           NODE
 
-      - name: Confirm an unknown route returns HTTP 404 and noindex
+      - name: Collect all unknown-route and security-probe results
         shell: bash
         run: |
-          set -euo pipefail
-          status="$(curl --location --silent --show-error --output /tmp/not-found.html --write-out '%{http_code}' "https://ticketdepart.com/__ticketdepart_404_smoke_test_20261101__/")"
-          if [ "$status" != "404" ]; then
-            echo "FAIL unknown route returned HTTP $status; expected 404"
+          set -uo pipefail
+          failures=0
+          check_path() {
+            label="$1"
+            path="$2"
+            output="$(mktemp)"
+            status="$(curl --location --silent --show-error --max-time 20 --output "$output" --write-out '%{http_code}' "https://ticketdepart.com${path}" 2>/dev/null || true)"
+            robots_ok=0
+            if [ -s "$output" ] && grep -Eqi '<meta[^>]*name=.robots.' "$output" && grep -Eqi '<meta[^>]*content=.noindex' "$output"; then
+              robots_ok=1
+            fi
+            if [ "$status" = "404" ] && [ "$robots_ok" = "1" ]; then
+              echo "PASS $label returned HTTP 404 with noindex"
+            else
+              echo "FAIL $label returned HTTP ${status:-000}; expected HTTP 404 with noindex (robots_noindex=$robots_ok)"
+              failures=$((failures + 1))
+            fi
+            rm -f "$output"
+          }
+
+          # Continue after each failure so one routing defect does not hide the
+          # status of the remaining probe paths.
+          check_path "unknown route" "/__ticketdepart_404_smoke_test_20261120__/"
+          check_path "dot-env probe" "/.env"
+          check_path "dot-env traversal probe" "/api/uploads/../../../.env"
+          check_path "proc environ probe" "/api/proc/self/environ"
+          check_path "proc cmdline probe" "/proc/self/cmdline"
+          check_path "Vite filesystem probe" "/@fs/app/.env"
+          check_path "Git config probe" "/.git/config"
+          check_path "rclone config probe" "/rclone.conf"
+          check_path "WordPress admin probe" "/wp-admin/install.php"
+          check_path "API console probe" "/api/console/api_server"
+          check_path "malformed null route" "/flights-from-new-york/null"
+
+          if [ "$failures" -gt 0 ]; then
+            echo "FAIL $failures of 11 blocked-path checks did not return a branded noindex HTTP 404."
             exit 1
           fi
-          node <<'NODE'
-          const fs = require('node:fs');
-          const html = fs.readFileSync('/tmp/not-found.html', 'utf8');
-          const robots = html.match(/<meta\b[^>]*>/gi)?.find(tag => /name=["']robots["']/i.test(tag));
-          if (!robots || !/content=["']noindex/i.test(robots)) {
-            console.error('FAIL unknown route is missing a noindex robots directive');
-            process.exit(1);
-          }
-          console.log('PASS unknown route returns HTTP 404 with noindex');
-          NODE
-
-      - name: Confirm security probes and malformed routes return HTTP 404
-        shell: bash
-        run: |
-          set -euo pipefail
-          for url in \
-            "https://ticketdepart.com/.env" \
-            "https://ticketdepart.com/flights-from-new-york/null"
-          do
-            output="$(mktemp)"
-            status="$(curl --location --silent --show-error --output "$output" --write-out '%{http_code}' "$url")"
-            if [ "$status" != "404" ]; then
-              echo "FAIL $url returned HTTP $status; expected 404"
-              exit 1
-            fi
-            if ! grep -Fqi 'noindex, nofollow' "$output"; then
-              echo "FAIL $url did not return the branded noindex 404 document"
-              exit 1
-            fi
-            echo "PASS $url returns HTTP 404 with noindex"
-            rm -f "$output"
-          done
+          echo "PASS all 11 unknown/security-probe/malformed paths returned branded noindex HTTP 404."
