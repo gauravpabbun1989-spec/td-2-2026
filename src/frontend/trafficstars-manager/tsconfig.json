@@ -7,7 +7,7 @@
       "ESNext"
     ],
     "types": [
-      "@cloudflare/workers-types"
+      "./worker-configuration.d.ts"
     ],
     "strict": true,
     "noEmit": true,
