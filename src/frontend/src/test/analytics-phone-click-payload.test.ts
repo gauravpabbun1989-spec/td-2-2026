@@ -110,6 +110,37 @@ describe("GA4 phone_click payload contract", () => {
     link.remove();
   });
 
+
+  it("retains a valid TrafficStars click ID across same-session navigation for phone intent", async () => {
+    const calls = installGtag();
+    window.history.replaceState({}, "", "/?click_id=td-click-123");
+    const { analytics } = await loadAnalytics();
+
+    expect(window.sessionStorage.getItem("ticketdepart_trafficstars_click_id")).toBe("td-click-123");
+
+    window.history.replaceState({}, "", "/flight-booking");
+    analytics.trackPhoneClick("header.call_button");
+
+    const events = phoneClickCalls(calls);
+    expect(events).toHaveLength(1);
+    expect(events[0][2]).toMatchObject({
+      trafficstars_click_id: "td-click-123",
+      conversion_stage: "phone_click",
+    });
+  });
+
+  it("ignores an unresolved click ID macro", async () => {
+    const calls = installGtag();
+    window.history.replaceState({}, "", "/?click_id=%7Bclick_id%7D");
+    const { analytics } = await loadAnalytics();
+
+    analytics.trackPhoneClick("header.call_button");
+
+    const events = phoneClickCalls(calls);
+    expect(events).toHaveLength(1);
+    expect(events[0][2]).not.toHaveProperty("trafficstars_click_id");
+  });
+
   it("derives cta_location from aria-label when data-ocid is absent", async () => {
     const calls = installGtag();
     await loadAnalytics();
