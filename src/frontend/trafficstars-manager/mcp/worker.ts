@@ -618,7 +618,7 @@ function createServer(env: Env, canManage: boolean): McpServer {
   }, async ({ campaignId, changes, approval }) => {
     if (!canManage) return toolError("Management authorization is required. Reconnect and approve trafficstars:manage.");
     return runTool(async () => {
-      const budgetFields = ["price", "max_daily", "total_budget", "use_total_budget", "test_period_budget"];
+      const budgetFields = ["price", "price_rtb", "pricing_model", "max_daily", "total_budget", "use_total_budget", "test_period_budget"];
       if (budgetFields.some((field) => Object.hasOwn(changes, field)) && approval !== "I approve the requested TrafficStars budget or bid change.") {
         throw new Error("Budget and bid changes require explicit user approval.");
       }
