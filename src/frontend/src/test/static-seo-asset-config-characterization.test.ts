@@ -48,6 +48,7 @@ describe("characterization: .ic-assets.json5 asset-serving behavior", () => {
     expect(RULES.map((rule) => rule.match)).toEqual([
       "sitemap.xml",
       "robots.txt",
+      "index.html",
       "**/*",
     ]);
   });
@@ -66,12 +67,16 @@ describe("characterization: .ic-assets.json5 asset-serving behavior", () => {
     expect(rule?.enable_aliasing).toBe(false);
   });
 
+  it("explicitly disables SPA aliasing on index.html", () => {
+    expect(ruleFor("index.html")?.enable_aliasing).toBe(false);
+  });
+
   it("disables SPA aliasing on all unmatched paths with the global rule", () => {
     expect(ruleFor("**/*")?.enable_aliasing).toBe(false);
   });
 
   it("keeps every exact-path rule pointing at a real public file", () => {
-    for (const rule of RULES.filter((entry) => entry.match !== "**/*")) {
+    for (const rule of RULES.filter((entry) => entry.match !== "**/*" && entry.match !== "index.html")) {
       expect(rule.match, "every exact rule must name a path").toBeTruthy();
       expect(() => readPublicFile(rule.match as string)).not.toThrow();
     }
@@ -79,7 +84,7 @@ describe("characterization: .ic-assets.json5 asset-serving behavior", () => {
 
   it("does not declare unsupported exact-path rules", () => {
     const exactRules = RULES
-      .filter((rule) => rule.match !== "**/*")
+      .filter((rule) => rule.match !== "**/*" && rule.match !== "index.html")
       .map((rule) => rule.match);
     expect(exactRules).toEqual([...GOVERNED_FILES]);
   });
