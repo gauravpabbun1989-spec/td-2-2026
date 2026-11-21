@@ -30,6 +30,9 @@ class FakeD1 {
         if (sql.startsWith("SELECT call_uuid FROM call_ringing_events")) {
           return (db.ringingEvents.get(String(values[0])) || null) as T | null;
         }
+        if (sql.startsWith("SELECT call_uuid,click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events")) {
+          return (db.ringingEvents.get(String(values[0])) || null) as T | null;
+        }
         if (sql.startsWith("SELECT click_id, attribution_status FROM inbound_calls")) {
           const row = db.calls.get(String(values[0]));
           return row ? ({ click_id: row.click_id, attribution_status: row.attribution_status } as T) : null;
@@ -62,7 +65,10 @@ class FakeD1 {
           const [uuid, destination, agent, ringingAt, goalId] = values;
           if (!db.ringingEvents.has(String(uuid))) db.ringingEvents.set(String(uuid), {
             call_uuid: uuid, destination, agent_extension: agent, ringing_at: ringingAt,
-            goal_id: goalId, event_type: "call_ringing",
+            goal_id: goalId, event_type: "call_ringing", click_id: null,
+            attribution_status: sql.includes("'ambiguous'") ? "ambiguous" : "unmatched",
+            attribution_method: sql.includes("time_window_multiple_clicks") ? "time_window_multiple_clicks" : "no_intent_in_time_window",
+            matched_intent_id: null,
           });
         } else if (sql.startsWith("INSERT INTO call_intents")) {
           const [intentId, clickId, createdAt, pagePath, ctaLocation] = values;
@@ -102,6 +108,27 @@ class FakeD1 {
         const [from, through] = values;
         for (const row of this.intents.values()) {
           if (row.status === "open" && row.created_at >= String(from) && row.created_at <= String(through)) row.status = "ambiguous";
+        }
+      } else if (sql.startsWith("INSERT INTO call_ringing_events")) {
+        const [uuid, destination, agent, ringingAt, goalId, intentId, matchedUuid] = values;
+        if (sql.includes("SELECT ?,?,?,?,?")) {
+          const intent = this.intents.get(String(intentId));
+          const reserved = intent?.status === "candidate" && intent.matched_call_uuid === String(matchedUuid);
+          this.ringingEvents.set(String(uuid), {
+            call_uuid: uuid, destination, agent_extension: agent, ringing_at: ringingAt,
+            goal_id: goalId, event_type: "call_ringing",
+            click_id: reserved ? intent?.click_id : null,
+            attribution_status: reserved ? "candidate" : "unmatched",
+            attribution_method: reserved ? "unique_intent_time_window" : "intent_reservation_lost",
+            matched_intent_id: reserved ? intentId : null,
+          });
+        } else {
+          this.ringingEvents.set(String(uuid), {
+            call_uuid: uuid, destination, agent_extension: agent, ringing_at: ringingAt,
+            goal_id: goalId, event_type: "call_ringing", click_id: null,
+            attribution_status: "ambiguous",
+            attribution_method: "time_window_multiple_clicks", matched_intent_id: null,
+          });
         }
       } else if (sql.startsWith("INSERT INTO inbound_calls")) {
         const callUuid = String(values[0]);
@@ -211,7 +238,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     expect(first.status).toBe(202);
     expect(await first.json()).toMatchObject({
       conversion_event: "call_ringing", goal_id: "6487", recorded: true,
-      duplicate: false, postback_sent: false, attribution: "not_verified",
+      duplicate: false, postback_sent: false, attribution: "unmatched", click_id: null,
     });
 
     const retry = await send();
@@ -220,6 +247,62 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     expect(db.ringingEvents.size).toBe(1);
     expect(db.ringingEvents.get(callUuid)).toMatchObject({
       goal_id: "6487", event_type: "call_ringing", ringing_at: payload.ringing_at,
+      attribution_status: "unmatched", click_id: null,
+    });
+  });
+
+  it("links a ringing UUID to the sole click ID in the conservative time window", async () => {
+    const db = new FakeD1();
+    db.intents.set("intent-ring-1", {
+      intent_id: "intent-ring-1", click_id: "traffic-click-1",
+      created_at: "2026-11-21T16:41:30.000Z", status: "open",
+    });
+    const response = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
+      method: "POST",
+      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+      body: JSON.stringify({
+        call_uuid: callUuid, destination: "1030605", agent_extension: "1001",
+        ringing_at: "2026-11-21T16:42:10.000Z",
+      }),
+    }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
+    expect(response.status).toBe(202);
+    expect(await response.json()).toMatchObject({
+      click_id: "traffic-click-1", attribution: "candidate",
+      attribution_method: "unique_intent_time_window", postback_sent: false,
+    });
+    expect(db.ringingEvents.get(callUuid)).toMatchObject({
+      click_id: "traffic-click-1", attribution_status: "candidate",
+      matched_intent_id: "intent-ring-1",
+    });
+    expect(db.intents.get("intent-ring-1")).toMatchObject({
+      status: "candidate", matched_call_uuid: callUuid,
+    });
+  });
+
+  it("leaves ringing attribution ambiguous when multiple click IDs are in the time window", async () => {
+    const db = new FakeD1();
+    db.intents.set("intent-ring-1", {
+      intent_id: "intent-ring-1", click_id: "traffic-click-1",
+      created_at: "2026-11-21T16:41:30.000Z", status: "open",
+    });
+    db.intents.set("intent-ring-2", {
+      intent_id: "intent-ring-2", click_id: "traffic-click-2",
+      created_at: "2026-11-21T16:41:50.000Z", status: "open",
+    });
+    const response = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
+      method: "POST",
+      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+      body: JSON.stringify({
+        call_uuid: callUuid, destination: "1030605", agent_extension: "1001",
+        ringing_at: "2026-11-21T16:42:10.000Z",
+      }),
+    }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
+    expect(await response.json()).toMatchObject({
+      click_id: null, attribution: "ambiguous",
+      attribution_method: "time_window_multiple_clicks", postback_sent: false,
+    });
+    expect(db.ringingEvents.get(callUuid)).toMatchObject({
+      click_id: null, attribution_status: "ambiguous",
     });
   });
 
