@@ -99,7 +99,7 @@ class FakeD1 {
           const [uuid, destination, agent, created, answered, hangup, billsec, intentId, matchedUuid] = values;
           const intent = this.intents.get(String(intentId));
           const reserved = intent?.status === "candidate" && intent.matched_call_uuid === String(matchedUuid);
-          this.calls.set(uuid, {
+          this.calls.set(String(uuid), {
             call_uuid: uuid, click_id: reserved ? intent?.click_id : null, destination,
             agent_extension: agent, created_at: created, answered_at: answered, hangup_at: hangup,
             billsec, attribution_status: reserved ? "candidate" : "unmatched",
