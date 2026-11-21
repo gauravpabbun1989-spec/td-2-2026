@@ -183,6 +183,68 @@ async function correlateAndStoreCall(env: CallTrackerEnv, call: InboundCall) {
 }
 
 
+
+async function correlateAndStoreRingingEvent(
+  env: CallTrackerEnv,
+  input: { call_uuid: string; destination: string; agent_extension: string; ringing_at: string },
+) {
+  const existing = await env.DB.prepare(
+    "SELECT call_uuid,click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events WHERE call_uuid=?",
+  ).bind(input.call_uuid).first<{
+    call_uuid: string; click_id: string | null; attribution_status: string;
+    attribution_method: string | null; matched_intent_id: string | null;
+  }>();
+
+  if (existing) return { ...existing, duplicate: true };
+
+  const ringTime = Date.parse(input.ringing_at);
+  const from = new Date(ringTime - INTENT_MATCH_LOOKBACK_MS).toISOString();
+  const through = new Date(ringTime + INTENT_MATCH_FUTURE_SKEW_MS).toISOString();
+  const result = await env.DB.prepare(
+    "SELECT intent_id,click_id,created_at FROM call_intents WHERE status='open' AND created_at>=? AND created_at<=? ORDER BY created_at ASC LIMIT ?",
+  ).bind(from, through, MAX_INTENT_CANDIDATES + 1).all<IntentCandidate>();
+  const candidates = result.results || [];
+
+  if (candidates.length === 0) {
+    await env.DB.prepare(
+      "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) VALUES (?,?,?,?,?,'call_ringing',NULL,'unmatched','no_intent_in_time_window',NULL) ON CONFLICT(call_uuid) DO NOTHING",
+    ).bind(input.call_uuid,input.destination,input.agent_extension,input.ringing_at,GOAL_ID).run();
+  } else {
+    const clickIds = new Set(candidates.map((candidate) => candidate.click_id));
+    if (candidates.length > MAX_INTENT_CANDIDATES || clickIds.size !== 1) {
+      await env.DB.batch([
+        env.DB.prepare(
+          "UPDATE call_intents SET status='ambiguous' WHERE status='open' AND created_at>=? AND created_at<=?",
+        ).bind(from, through),
+        env.DB.prepare(
+          "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) VALUES (?,?,?,?,?,'call_ringing',NULL,'ambiguous','time_window_multiple_clicks',NULL) ON CONFLICT(call_uuid) DO NOTHING",
+        ).bind(input.call_uuid,input.destination,input.agent_extension,input.ringing_at,GOAL_ID),
+      ]);
+    } else {
+      const nearest = candidates.reduce((best, current) =>
+        Math.abs(Date.parse(current.created_at) - ringTime) <
+        Math.abs(Date.parse(best.created_at) - ringTime) ? current : best,
+      );
+      await env.DB.batch([
+        env.DB.prepare(
+          "UPDATE call_intents SET status='candidate',matched_call_uuid=? WHERE intent_id=? AND status='open' AND matched_call_uuid IS NULL",
+        ).bind(input.call_uuid,nearest.intent_id),
+        env.DB.prepare(
+          "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) SELECT ?,?,?,?,?,'call_ringing',matched.click_id,CASE WHEN matched.intent_id IS NULL THEN 'unmatched' ELSE 'candidate' END,CASE WHEN matched.intent_id IS NULL THEN 'intent_reservation_lost' ELSE 'unique_intent_time_window' END,matched.intent_id FROM (SELECT 1) AS seed LEFT JOIN (SELECT intent_id,click_id FROM call_intents WHERE intent_id=? AND matched_call_uuid=? AND status='candidate') AS matched ON 1=1 ON CONFLICT(call_uuid) DO NOTHING",
+        ).bind(input.call_uuid,input.destination,input.agent_extension,input.ringing_at,GOAL_ID,nearest.intent_id,input.call_uuid),
+      ]);
+    }
+  }
+
+  const stored = await env.DB.prepare(
+    "SELECT call_uuid,click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events WHERE call_uuid=?",
+  ).bind(input.call_uuid).first<{
+    call_uuid: string; click_id: string | null; attribution_status: string;
+    attribution_method: string | null; matched_intent_id: string | null;
+  }>();
+  return { ...stored, duplicate: false };
+}
+
 export default {
   async fetch(request: Request, env: CallTrackerEnv): Promise<Response> {
     const url = new URL(request.url);
@@ -442,35 +504,26 @@ export default {
         return json({ error: "invalid_ringing_timestamp" }, 400);
       }
 
-      const priorEvent = await env.DB.prepare(
-        "SELECT call_uuid FROM call_ringing_events WHERE call_uuid=?",
-      )
-        .bind(callUuid)
-        .first<{ call_uuid: string }>();
-      await env.DB.prepare(
-        "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type) VALUES (?,?,?,?,?,'call_ringing') ON CONFLICT(call_uuid) DO NOTHING",
-      )
-        .bind(callUuid, destination, agentExtension, ringingAt, GOAL_ID)
-        .run();
-
-      // A ring event is the configured conversion milestone. It is stored
-      // idempotently by FreeSWITCH UUID. This endpoint intentionally does not
-      // emit a TrafficStars postback until click attribution is verified.
-      const stored = await env.DB.prepare(
-        "SELECT call_uuid FROM call_ringing_events WHERE call_uuid=?",
-      )
-        .bind(callUuid)
-        .first<{ call_uuid: string }>();
+      // Store the ringing event and conservatively reserve one matching click intent.
+      // A candidate is not verified attribution and never triggers a postback.
+      const stored = await correlateAndStoreRingingEvent(env, {
+        call_uuid: callUuid,
+        destination,
+        agent_extension: agentExtension,
+        ringing_at: ringingAt,
+      });
 
       return json({
         ok: true,
         conversion_event: "call_ringing",
         goal_id: GOAL_ID,
         call_uuid: callUuid,
-        recorded: Boolean(stored),
-        duplicate: Boolean(priorEvent),
+        recorded: Boolean(stored?.call_uuid),
+        duplicate: Boolean(stored?.duplicate),
+        click_id: stored?.click_id || null,
+        attribution: stored?.attribution_status || "unmatched",
+        attribution_method: stored?.attribution_method || null,
         postback_sent: false,
-        attribution: "not_verified",
       }, 202);
     }
 
