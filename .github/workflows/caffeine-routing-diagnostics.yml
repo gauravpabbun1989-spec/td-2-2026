@@ -1,6 +1,10 @@
 name: Caffeine live canister routing diagnostics
 
 on:
+  push:
+    branches: [diagnose/caffeine-live-canister-routing]
+    paths:
+      - ".github/workflows/caffeine-routing-diagnostics.yml"
   pull_request:
     branches: [main]
     paths:
