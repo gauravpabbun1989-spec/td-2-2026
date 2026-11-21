@@ -343,11 +343,33 @@ export function trackEvent(
   win.dataLayer.push(["event", eventName, eventParams]);
 }
 
+function recordTrafficStarsCallIntent(clickId: string, location: string) {
+  try {
+    if (!navigator.sendBeacon || !window.crypto?.randomUUID) return;
+    const payload = {
+      intent_id: window.crypto.randomUUID(),
+      click_id: clickId,
+      page_path: getCleanPagePath(),
+      cta_location: location,
+      created_at: new Date().toISOString(),
+    };
+    navigator.sendBeacon(
+      "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/intent",
+      new Blob([JSON.stringify(payload)], { type: "text/plain" }),
+    );
+  } catch {
+    // Intent telemetry must never block the caller's phone action.
+  }
+}
+
 function emitPhoneClick(location: string, link?: Element | null) {
   const ctaText = link?.textContent?.replace(/\s+/g, " ").trim();
 
   recentEmits.set(location, Date.now());
   const trafficStarsClickId = getTrafficStarsClickId();
+  if (trafficStarsClickId) {
+    recordTrafficStarsCallIntent(trafficStarsClickId, location);
+  }
 
   trackEvent("phone_click", {
     conversion_stage: "phone_click",
