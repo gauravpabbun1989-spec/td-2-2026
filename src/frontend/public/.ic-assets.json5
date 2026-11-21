@@ -14,6 +14,10 @@
     "enable_aliasing": false
   },
   {
+    "match": "index.html",
+    "enable_aliasing": false
+  },
+  {
     "match": "**/*",
     "enable_aliasing": false
   }
