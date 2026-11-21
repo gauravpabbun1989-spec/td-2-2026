@@ -48,12 +48,13 @@ jobs:
           dns_txt="$(dig +short TXT _canister-id.ticketdepart.com | tr -d '"' | tail -1 || true)"
           printf '%s\n' "[DNS] _canister-id.ticketdepart.com=${dns_txt:-missing}"
 
-          home_id="$(inspect_response "custom-domain-home" "https://ticketdepart.com/" "$work/home.headers" "$work/home.body" | tail -1)"
-          inspect_response "custom-domain-probe" "https://ticketdepart.com$probe" "$work/probe.headers" "$work/probe.body" >/dev/null
+          inspect_response "custom-domain-home" "https://ticketdepart.com/" "$work/home.headers" "$work/home.body" | tee "$work/home.result"
+          home_id="$(tail -1 "$work/home.result")"
+          inspect_response "custom-domain-probe" "https://ticketdepart.com$probe" "$work/probe.headers" "$work/probe.body"
 
           if [ -n "$home_id" ]; then
-            printf '%s\n' "[IDENTITY] direct-canister-host=https://$home_id.icp.net"
-            inspect_response "direct-canister-probe" "https://$home_id.icp.net$probe" "$work/direct.headers" "$work/direct.body" >/dev/null
+            printf '%s\\n' "[IDENTITY] direct-canister-host=https://$home_id.icp.net"
+            inspect_response "direct-canister-probe" "https://$home_id.icp.net$probe" "$work/direct.headers" "$work/direct.body"
             if [ -n "$dns_txt" ] && [ "$dns_txt" != "$home_id" ]; then
               printf '%s\n' "[WARNING] DNS TXT canister ID and HTTP canister ID do not match."
             fi
