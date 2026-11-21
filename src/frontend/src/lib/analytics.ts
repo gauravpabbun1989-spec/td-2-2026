@@ -227,12 +227,28 @@ function getTrafficStarsClickId(): string | undefined {
   }
 
   try {
-    return normalizeTrafficStarsClickId(
+    const sessionClickId = normalizeTrafficStarsClickId(
       window.sessionStorage.getItem(TRAFFICSTARS_CLICK_ID_KEY),
     );
+    if (sessionClickId) return sessionClickId;
   } catch {
-    return undefined;
+    // Fall through to the durable click record if session storage is unavailable.
   }
+
+  // main.tsx also persists the landing click in localStorage. Reuse that
+  // validated record when a browser clears sessionStorage during navigation.
+  try {
+    const stored = window.localStorage.getItem("ticketdepart_traffic_click");
+    if (stored) {
+      const record = JSON.parse(stored) as { clickId?: string; expiresAt?: number };
+      if (record.expiresAt && record.expiresAt > Date.now()) {
+        return normalizeTrafficStarsClickId(record.clickId ?? null);
+      }
+    }
+  } catch {
+    // Storage restrictions must never block a phone call.
+  }
+  return undefined;
 }
 
 function getTrafficStarsClickedAt(): string {
@@ -383,11 +399,20 @@ export function trackEvent(
   win.dataLayer.push(["event", eventName, eventParams]);
 }
 
-function recordTrafficStarsCallIntent(clickId: string, location: string) {
+function createCallIntentId(): string {
   try {
-    if (!navigator.sendBeacon || !window.crypto?.randomUUID) return;
+    if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+  } catch {
+    // Use the non-cryptographic fallback below on restricted browsers.
+  }
+  return `intent-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 14)}`;
+}
+
+function recordTrafficStarsCallIntent(clickId: string, location: string) {
+  const endpoint = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/intent";
+  try {
     const payload = {
-      intent_id: window.crypto.randomUUID(),
+      intent_id: createCallIntentId(),
       click_id: clickId,
       clicked_at: getTrafficStarsClickedAt(),
       banner_id: getTrafficStarsBannerId(),
@@ -396,10 +421,34 @@ function recordTrafficStarsCallIntent(clickId: string, location: string) {
       cta_location: location,
       created_at: new Date().toISOString(),
     };
-    navigator.sendBeacon(
-      "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/intent",
-      new Blob([JSON.stringify(payload)], { type: "text/plain" }),
-    );
+    const body = JSON.stringify(payload);
+
+    // A keepalive fetch is the primary path: it survives the immediate tel:
+    // navigation and works even when sendBeacon is unavailable. text/plain is
+    // a CORS-safelisted content type accepted by the Worker without preflight.
+    if (typeof fetch === "function") {
+      void fetch(endpoint, {
+        method: "POST",
+        mode: "no-cors",
+        credentials: "omit",
+        keepalive: true,
+        headers: { "Content-Type": "text/plain;charset=UTF-8" },
+        body,
+      }).catch(() => {
+        try {
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(endpoint, new Blob([body], { type: "text/plain" }));
+          }
+        } catch {
+          // Intent telemetry must never block the caller's phone action.
+        }
+      });
+      return;
+    }
+
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(endpoint, new Blob([body], { type: "text/plain" }));
+    }
   } catch {
     // Intent telemetry must never block the caller's phone action.
   }

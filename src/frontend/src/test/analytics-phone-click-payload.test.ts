@@ -81,6 +81,7 @@ describe("GA4 phone_click payload contract", () => {
     window.sessionStorage.removeItem("ticketdepart_trafficstars_click_id");
     window.sessionStorage.removeItem("ticketdepart_trafficstars_clicked_at");
     window.sessionStorage.removeItem("ticketdepart_trafficstars_banner_id");
+    window.localStorage.removeItem("ticketdepart_traffic_click");
     window.history.replaceState({}, "", "/");
   });
 
@@ -138,6 +139,45 @@ describe("GA4 phone_click payload contract", () => {
       trafficstars_click_id: "td-click-123",
       conversion_stage: "phone_click",
     });
+  });
+
+  it("sends a durable call-intent request after the landing URL has been cleaned", async () => {
+    const calls = installGtag();
+    const fetchMock = vi.fn().mockResolvedValue({ type: "opaque" });
+    vi.stubGlobal("fetch", fetchMock);
+    window.history.replaceState({}, "", "/?click_id=td-click-456&banner_id=8369514");
+    const { analytics } = await loadAnalytics();
+
+    // Simulate a browser/session transition where sessionStorage was cleared
+    // but main.tsx's durable landing-click record remains.
+    window.sessionStorage.removeItem("ticketdepart_trafficstars_click_id");
+    window.sessionStorage.removeItem("ticketdepart_trafficstars_clicked_at");
+    window.sessionStorage.removeItem("ticketdepart_trafficstars_banner_id");
+    window.localStorage.setItem("ticketdepart_traffic_click", JSON.stringify({
+      clickId: "td-click-456",
+      expiresAt: Date.now() + 60_000,
+    }));
+    window.history.replaceState({}, "", "/flight-change/");
+    analytics.trackPhoneClick("header.call_button");
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe("https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/intent");
+    expect(init).toMatchObject({
+      method: "POST",
+      mode: "no-cors",
+      credentials: "omit",
+      keepalive: true,
+    });
+    expect(init.headers).toMatchObject({ "Content-Type": "text/plain;charset=UTF-8" });
+    const payload = JSON.parse(String(init.body));
+    expect(payload).toMatchObject({
+      click_id: "td-click-456",
+      page_path: "/flight-change",
+      cta_location: "header",
+    });
+    expect(payload.intent_id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[4-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
+    expect(calls.filter((call) => call[0] === "event" && call[1] === "phone_click")).toHaveLength(1);
   });
 
   it("ignores an unresolved click ID macro", async () => {
