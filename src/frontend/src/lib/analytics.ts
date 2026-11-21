@@ -79,6 +79,8 @@ export function isAnalyticsTestSession(
 
 const LANDING_PAGE_KEY = "ticketdepart_landing_page";
 const TRAFFICSTARS_CLICK_ID_KEY = "ticketdepart_trafficstars_click_id";
+const TRAFFICSTARS_CLICKED_AT_KEY = "ticketdepart_trafficstars_clicked_at";
+const TRAFFICSTARS_BANNER_ID_KEY = "ticketdepart_trafficstars_banner_id";
 const FUNNEL_ENTRY_KEY = "ticketdepart_funnel_entry_sent";
 const ENGAGEMENT_EVENT_DELAY_MS = 10_000;
 const SCROLL_THRESHOLDS = [25, 50, 75, 90] as const;
@@ -194,15 +196,32 @@ function normalizeTrafficStarsClickId(value: string | null): string | undefined 
 function getTrafficStarsClickId(): string | undefined {
   if (typeof window === "undefined") return undefined;
 
-  const incoming = normalizeTrafficStarsClickId(
-    new URLSearchParams(window.location.search).get("click_id"),
-  );
+  const params = new URLSearchParams(window.location.search);
+  const incoming = normalizeTrafficStarsClickId(params.get("click_id"));
 
   if (incoming) {
     try {
-      window.sessionStorage.setItem(TRAFFICSTARS_CLICK_ID_KEY, incoming);
+      const previous = window.sessionStorage.getItem(TRAFFICSTARS_CLICK_ID_KEY);
+      if (previous !== incoming) {
+        window.sessionStorage.setItem(TRAFFICSTARS_CLICK_ID_KEY, incoming);
+        window.sessionStorage.setItem(
+          TRAFFICSTARS_CLICKED_AT_KEY,
+          new Date().toISOString(),
+        );
+        window.sessionStorage.removeItem(TRAFFICSTARS_BANNER_ID_KEY);
+      } else if (!window.sessionStorage.getItem(TRAFFICSTARS_CLICKED_AT_KEY)) {
+        window.sessionStorage.setItem(
+          TRAFFICSTARS_CLICKED_AT_KEY,
+          new Date().toISOString(),
+        );
+      }
+
+      const bannerId = normalizeTrafficStarsClickId(params.get("banner_id"));
+      if (bannerId) {
+        window.sessionStorage.setItem(TRAFFICSTARS_BANNER_ID_KEY, bannerId);
+      }
     } catch {
-      // Private browsing or storage restrictions must not block phone clicks.
+      // Storage restrictions must not block phone calls.
     }
     return incoming;
   }
@@ -210,6 +229,27 @@ function getTrafficStarsClickId(): string | undefined {
   try {
     return normalizeTrafficStarsClickId(
       window.sessionStorage.getItem(TRAFFICSTARS_CLICK_ID_KEY),
+    );
+  } catch {
+    return undefined;
+  }
+}
+
+function getTrafficStarsClickedAt(): string {
+  try {
+    const stored = window.sessionStorage.getItem(TRAFFICSTARS_CLICKED_AT_KEY);
+    return stored && !Number.isNaN(Date.parse(stored))
+      ? stored
+      : new Date().toISOString();
+  } catch {
+    return new Date().toISOString();
+  }
+}
+
+function getTrafficStarsBannerId(): string | undefined {
+  try {
+    return normalizeTrafficStarsClickId(
+      window.sessionStorage.getItem(TRAFFICSTARS_BANNER_ID_KEY),
     );
   } catch {
     return undefined;
@@ -349,6 +389,9 @@ function recordTrafficStarsCallIntent(clickId: string, location: string) {
     const payload = {
       intent_id: window.crypto.randomUUID(),
       click_id: clickId,
+      clicked_at: getTrafficStarsClickedAt(),
+      banner_id: getTrafficStarsBannerId(),
+      landing_path: getLandingPage(),
       page_path: getCleanPagePath(),
       cta_location: location,
       created_at: new Date().toISOString(),
@@ -444,6 +487,9 @@ export function trackLeadSubmit(location = "contact_form") {
  */
 
 if (typeof document !== "undefined") {
+  // Capture TrafficStars click metadata on the landing page before SPA navigation.
+  getTrafficStarsClickId();
+
   try {
     const current = getCleanPagePath();
     if (!window.sessionStorage.getItem(LANDING_PAGE_KEY)) {
