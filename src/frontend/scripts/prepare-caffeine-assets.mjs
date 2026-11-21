@@ -18,6 +18,13 @@ assert(
   !fs.existsSync(path.join(cloudflareDist, "_redirects")),
   "Cloudflare dist must not contain a Caffeine-specific _redirects file",
 );
+// Vite may copy dotfiles from public/ into dist. The legacy canister config is
+// Caffeine-only metadata, so remove it from the Cloudflare artifact explicitly.
+fs.rmSync(path.join(cloudflareDist, ".ic-assets.json5"), { force: true });
+assert(
+  !fs.existsSync(path.join(cloudflareDist, ".ic-assets.json5")),
+  "Cloudflare dist must not contain the Caffeine-only legacy asset-canister config",
+);
 assert(
   fs.existsSync(sourceLegacyConfig),
   "Missing public/.ic-assets.json5; legacy asset-canister routing configuration must be maintained as a frontend source asset",
