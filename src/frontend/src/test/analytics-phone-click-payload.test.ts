@@ -176,7 +176,7 @@ describe("GA4 phone_click payload contract", () => {
       page_path: "/flight-change",
       cta_location: "header",
     });
-    expect(payload.intent_id).toMatch(/^intent-/);
+    expect(payload.intent_id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[4-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
     expect(calls.filter((call) => call[0] === "event" && call[1] === "phone_click")).toHaveLength(1);
   });
 
