@@ -12,6 +12,7 @@ class FakeD1 {
   clicks = new Map<string, ClickRow>();
   intents = new Map<string, IntentRow>();
   calls = new Map<string, CallRow>();
+  ringingEvents = new Map<string, CallRow>();
   statements: string[] = [];
 
   prepare(sql: string) {
@@ -25,6 +26,9 @@ class FakeD1 {
         db.statements.push(sql);
         if (sql.startsWith("SELECT click_id, expires_at FROM traffic_clicks")) {
           return (db.clicks.get(String(values[0])) || null) as T | null;
+        }
+        if (sql.startsWith("SELECT call_uuid FROM call_ringing_events")) {
+          return (db.ringingEvents.get(String(values[0])) || null) as T | null;
         }
         if (sql.startsWith("SELECT click_id, attribution_status FROM inbound_calls")) {
           const row = db.calls.get(String(values[0]));
@@ -54,6 +58,12 @@ class FakeD1 {
           const [clickId, , , , , , , expiresAt] = values;
           const id = String(clickId);
           if (!db.clicks.has(id)) db.clicks.set(id, { click_id: id, expires_at: String(expiresAt) });
+        } else if (sql.startsWith("INSERT INTO call_ringing_events")) {
+          const [uuid, destination, agent, ringingAt, goalId] = values;
+          if (!db.ringingEvents.has(String(uuid))) db.ringingEvents.set(String(uuid), {
+            call_uuid: uuid, destination, agent_extension: agent, ringing_at: ringingAt,
+            goal_id: goalId, event_type: "call_ringing",
+          });
         } else if (sql.startsWith("INSERT INTO call_intents")) {
           const [intentId, clickId, createdAt, pagePath, ctaLocation] = values;
           if (!db.intents.has(String(intentId))) db.intents.set(String(intentId), {
@@ -178,6 +188,54 @@ describe("call-tracker /intent click registration", () => {
     }), makeEnv(db));
     expect(response.status).toBe(404);
     expect(db.intents.size).toBe(0);
+  });
+});
+
+
+describe("call-tracker FreeSWITCH ringing conversion", () => {
+  it("records the first ringing event as Goal 6487 and ignores duplicate UUIDs", async () => {
+    const db = new FakeD1();
+    const payload = {
+      call_uuid: callUuid,
+      destination: "1030605",
+      agent_extension: "1001",
+      ringing_at: "2026-11-21T16:42:10.000Z",
+    };
+    const send = () => worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
+      method: "POST",
+      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+      body: JSON.stringify(payload),
+    }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
+
+    const first = await send();
+    expect(first.status).toBe(202);
+    expect(await first.json()).toMatchObject({
+      conversion_event: "call_ringing", goal_id: "6487", recorded: true,
+      duplicate: false, postback_sent: false, attribution: "not_verified",
+    });
+
+    const retry = await send();
+    expect(retry.status).toBe(202);
+    expect(await retry.json()).toMatchObject({ recorded: true, duplicate: true });
+    expect(db.ringingEvents.size).toBe(1);
+    expect(db.ringingEvents.get(callUuid)).toMatchObject({
+      goal_id: "6487", event_type: "call_ringing", ringing_at: payload.ringing_at,
+    });
+  });
+
+  it("rejects ringing events for an unexpected DID or extension", async () => {
+    const db = new FakeD1();
+    const response = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
+      method: "POST",
+      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+      body: JSON.stringify({
+        call_uuid: callUuid, destination: "9999999", agent_extension: "1001",
+        ringing_at: "2026-11-21T16:42:10.000Z",
+      }),
+    }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
+    expect(response.status).toBe(400);
+    expect(await response.json()).toMatchObject({ error: "invalid_call_route" });
+    expect(db.ringingEvents.size).toBe(0);
   });
 });
 
