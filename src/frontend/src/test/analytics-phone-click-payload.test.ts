@@ -79,6 +79,8 @@ describe("GA4 phone_click payload contract", () => {
     (window as WindowWithAnalytics).gtag = undefined;
     (window as WindowWithAnalytics).dataLayer = undefined;
     window.sessionStorage.removeItem("ticketdepart_trafficstars_click_id");
+    window.sessionStorage.removeItem("ticketdepart_trafficstars_clicked_at");
+    window.sessionStorage.removeItem("ticketdepart_trafficstars_banner_id");
     window.history.replaceState({}, "", "/");
   });
 
@@ -115,18 +117,23 @@ describe("GA4 phone_click payload contract", () => {
 
   it("retains a valid TrafficStars click ID across same-session navigation for phone intent", async () => {
     const calls = installGtag();
-    window.history.replaceState({}, "", "/?click_id=td-click-123");
+    window.history.replaceState({}, "", "/?click_id=td-click-123&banner_id=8369514");
     const { analytics } = await loadAnalytics();
 
     // Capture occurs when the browser records the phone-intent action.
     analytics.trackPhoneClick("header.call_button");
     expect(window.sessionStorage.getItem("ticketdepart_trafficstars_click_id")).toBe("td-click-123");
+    const clickedAt = window.sessionStorage.getItem("ticketdepart_trafficstars_clicked_at");
+    expect(clickedAt).toBeTruthy();
+    expect(Number.isNaN(Date.parse(clickedAt || ""))).toBe(false);
+    expect(window.sessionStorage.getItem("ticketdepart_trafficstars_banner_id")).toBe("8369514");
 
     window.history.replaceState({}, "", "/flight-booking");
     analytics.trackPhoneClick("footer.call_button");
 
     const events = phoneClickCalls(calls);
     expect(events).toHaveLength(2);
+    expect(window.sessionStorage.getItem("ticketdepart_trafficstars_clicked_at")).toBe(clickedAt);
     expect(events[1][2]).toMatchObject({
       trafficstars_click_id: "td-click-123",
       conversion_stage: "phone_click",
