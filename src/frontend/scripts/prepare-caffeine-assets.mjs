@@ -33,11 +33,12 @@ assert(
 const legacyConfig = JSON.parse(fs.readFileSync(sourceLegacyConfig, "utf8"));
 const ruleByMatch = new Map(legacyConfig.map((rule) => [rule.match, rule]));
 assert(
-  legacyConfig.length === 3 &&
+  legacyConfig.length === 4 &&
     legacyConfig[0].match === "sitemap.xml" &&
     legacyConfig[1].match === "robots.txt" &&
-    legacyConfig[2].match === "**/*",
-  "public/.ic-assets.json5 must contain the two exact SEO-file rules followed by a global fallback rule",
+    legacyConfig[2].match === "index.html" &&
+    legacyConfig[3].match === "**/*",
+  "public/.ic-assets.json5 must contain the two exact SEO-file rules, an explicit index.html alias rule, and a final global rule",
 );
 assert(
   ruleByMatch.get("sitemap.xml")?.headers?.["Content-Type"] === "application/xml; charset=utf-8" &&
@@ -50,8 +51,12 @@ assert(
   "robots.txt must retain its plain-text Content-Type and disable SPA aliasing",
 );
 assert(
+  ruleByMatch.get("index.html")?.enable_aliasing === false,
+  "index.html must explicitly disable SPA aliasing so unmatched requests cannot resolve to the app shell",
+);
+assert(
   ruleByMatch.get("**/*")?.enable_aliasing === false,
-  "the global asset rule must disable the index.html SPA alias for unknown paths",
+  "the global asset rule must disable SPA aliasing for every asset",
 );
 
 const notFoundHtml = fs.readFileSync(path.join(cloudflareDist, "404.html"), "utf8");
