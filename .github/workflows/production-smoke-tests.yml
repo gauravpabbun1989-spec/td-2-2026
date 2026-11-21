@@ -122,13 +122,17 @@ jobs:
             output="$(mktemp)"
             status="$(curl --location --silent --show-error --max-time 20 --output "$output" --write-out '%{http_code}' "https://ticketdepart.com${path}" 2>/dev/null || true)"
             robots_ok=0
+            branded_ok=0
             if [ -s "$output" ] && grep -Eqi '<meta[^>]*name=.robots.' "$output" && grep -Eqi '<meta[^>]*content=.noindex' "$output"; then
               robots_ok=1
             fi
-            if [ "$status" = "404" ] && [ "$robots_ok" = "1" ]; then
-              echo "PASS $label returned HTTP 404 with noindex"
+            if [ -s "$output" ] && grep -Fqi 'This page has departed' "$output"; then
+              branded_ok=1
+            fi
+            if [ "$status" = "404" ] && [ "$robots_ok" = "1" ] && [ "$branded_ok" = "1" ]; then
+              echo "PASS $label returned the branded HTTP 404 with noindex"
             else
-              echo "FAIL $label returned HTTP ${status:-000}; expected HTTP 404 with noindex (robots_noindex=$robots_ok)"
+              echo "FAIL $label returned HTTP ${status:-000}; expected branded HTTP 404 with noindex (robots_noindex=$robots_ok branded_404=$branded_ok)"
               failures=$((failures + 1))
             fi
             rm -f "$output"
