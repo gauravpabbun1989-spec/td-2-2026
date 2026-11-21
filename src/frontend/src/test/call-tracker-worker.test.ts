@@ -30,6 +30,9 @@ class FakeD1 {
         if (sql.startsWith("SELECT call_uuid FROM call_ringing_events")) {
           return (db.ringingEvents.get(String(values[0])) || null) as T | null;
         }
+        if (sql.startsWith("SELECT call_uuid,click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events")) {
+          return (db.ringingEvents.get(String(values[0])) || null) as T | null;
+        }
         if (sql.startsWith("SELECT click_id, attribution_status FROM inbound_calls")) {
           const row = db.calls.get(String(values[0]));
           return row ? ({ click_id: row.click_id, attribution_status: row.attribution_status } as T) : null;
