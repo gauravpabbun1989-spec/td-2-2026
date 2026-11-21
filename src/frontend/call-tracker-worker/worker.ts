@@ -412,6 +412,63 @@ export default {
       });
     }
 
+    if (request.method === "POST" && url.pathname === "/v1/calls/ringing") {
+      if (!(await auth(request, env.CALL_INGEST_SECRET))) {
+        return json({ error: "unauthorized" }, 401);
+      }
+
+      const raw = await request.text();
+      if (raw.length > 8192) return json({ error: "payload_too_large" }, 413);
+
+      let body: Record<string, unknown>;
+      try {
+        body = JSON.parse(raw);
+      } catch {
+        return json({ error: "invalid_json" }, 400);
+      }
+
+      const callUuid = String(body.call_uuid || "");
+      const destination = String(body.destination || "");
+      const agentExtension = String(body.agent_extension || "");
+      const ringingAt = body.ringing_at;
+
+      if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(callUuid)) {
+        return json({ error: "invalid_call_uuid" }, 400);
+      }
+      if (destination !== "1030605" || agentExtension !== "1001") {
+        return json({ error: "invalid_call_route" }, 400);
+      }
+      if (!validTime(ringingAt)) {
+        return json({ error: "invalid_ringing_timestamp" }, 400);
+      }
+
+      const inserted = await env.DB.prepare(
+        "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type) VALUES (?,?,?,?,?,'call_ringing') ON CONFLICT(call_uuid) DO NOTHING",
+      )
+        .bind(callUuid, destination, agentExtension, ringingAt, GOAL_ID)
+        .run();
+
+      // A ring event is the configured conversion milestone. It is stored
+      // idempotently by FreeSWITCH UUID. This endpoint intentionally does not
+      // emit a TrafficStars postback until click attribution is verified.
+      const stored = await env.DB.prepare(
+        "SELECT call_uuid FROM call_ringing_events WHERE call_uuid=?",
+      )
+        .bind(callUuid)
+        .first<{ call_uuid: string }>();
+
+      return json({
+        ok: true,
+        conversion_event: "call_ringing",
+        goal_id: GOAL_ID,
+        call_uuid: callUuid,
+        recorded: Boolean(stored),
+        duplicate: !inserted,
+        postback_sent: false,
+        attribution: "not_verified",
+      }, 202);
+    }
+
     if (request.method === "POST" && url.pathname === "/v1/calls/accepted") {
       if (!(await auth(request, env.INGEST_SECRET))) {
         return json({ error: "unauthorized" }, 401);
