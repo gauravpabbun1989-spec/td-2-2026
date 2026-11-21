@@ -51,6 +51,10 @@ jobs:
           inspect_response "custom-domain-home" "https://ticketdepart.com/" "$work/home.headers" "$work/home.body" | tee "$work/home.result"
           home_id="$(tail -1 "$work/home.result")"
           inspect_response "custom-domain-probe" "https://ticketdepart.com$probe" "$work/probe.headers" "$work/probe.body"
+          # The legacy asset canister serves _redirects as a normal asset;
+          # the certified-assets canister consumes it as configuration.
+          inspect_response "custom-domain-redirects-file" "https://ticketdepart.com/_redirects" "$work/redirects.headers" "$work/redirects.body"
+          inspect_response "custom-domain-404-file" "https://ticketdepart.com/404.html" "$work/404.headers" "$work/404.body"
 
           if [ -n "$home_id" ]; then
             printf '%s\n' "[IDENTITY] direct-canister-host=https://$home_id.icp.net"
