@@ -36,10 +36,11 @@ jobs:
             location="$(grep -i '^location:' "$headers" | tail -1 | sed -E 's/^[^:]+:[[:space:]]*//; s/\r$//' || true)"
             sha="$(sha256sum "$body" | awk '{print $1}')"
             title="$(grep -Eio '<title[^>]*>[^<]+' "$body" | head -1 | sed -E 's/<title[^>]*>//I' || true)"
-            robots="$(grep -Eio '<meta[^>]*name=["'"']robots["'"'][^>]*>' "$body" | head -1 || true)"
+            robots="$(grep -Eio '<meta[^>]*robots[^>]*>' "$body" | head -1 || true)"
+            noindex="$(grep -Eqi '<meta[^>]*noindex' "$body" && echo yes || echo no)"
             branded="$(grep -Fqi 'This page has departed' "$body" && echo yes || echo no)"
             printf '%s\n' "[$label] status=$status canister_id=${canister:-missing} server=${server:-missing} content_type=${content_type:-missing}"
-            printf '%s\n' "[$label] location=${location:-none} body_sha256=$sha title=${title:-none} branded_404=$branded"
+            printf '%s\n' "[$label] location=${location:-none} body_sha256=$sha title=${title:-none} branded_404=$branded noindex=$noindex"
             printf '%s\n' "[$label] robots_meta=${robots:-none}"
             printf '%s\n' "$canister"
           }
