@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ticketdepart-call-tracker",
+  "main": "./worker.ts",
+  "compatibility_date": "2026-11-21",
+  "workers_dev": true,
+  "account_id": "5421346b1bf08e0583cb670e97887719",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ticketdepart-call-tracking",
+      "database_id": "38237e67-7562-4480-a849-95b70d5ee338"
+    }
+  ]
+}
