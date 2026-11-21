@@ -1,5 +1,19 @@
 [
   {
+    "match": "sitemap.xml",
+    "headers": {
+      "Content-Type": "application/xml; charset=utf-8"
+    },
+    "enable_aliasing": false
+  },
+  {
+    "match": "robots.txt",
+    "headers": {
+      "Content-Type": "text/plain"
+    },
+    "enable_aliasing": false
+  },
+  {
     "match": "**/*",
     "enable_aliasing": false
   }
