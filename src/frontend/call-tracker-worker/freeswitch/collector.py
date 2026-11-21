@@ -90,20 +90,34 @@ def send_pending_ringing(db):
 
 
 def queue_ringing_event(db, event_data):
-    if event_data.get("Event-Name") != "CHANNEL_PROGRESS":
+    # Inbound calls to the agent extension ring on the external leg. FreeSWITCH
+    # reports this as CHANNEL_CALLSTATE with Channel-Call-State=RINGING.
+    inbound_ring = (
+        event_data.get("Event-Name") == "CHANNEL_CALLSTATE"
+        and event_data.get("Channel-Call-State") == "RINGING"
+        and event_data.get("Call-Direction") == "inbound"
+        and event_data.get("Caller-Destination-Number") == "1001"
+        and event_data.get("Channel-Name", "").startswith("sofia/external/")
+    )
+
+    # Retain support for the previously handled bridged/internal progress event.
+    bridged_ring = (
+        event_data.get("Event-Name") == "CHANNEL_PROGRESS"
+        and event_data.get("Call-Direction") == "outbound"
+        and event_data.get("Other-Leg-Direction") == "inbound"
+        and event_data.get("Caller-Destination-Number") == "1001"
+        and event_data.get("variable_dialed_extension") == "1001"
+        and event_data.get("Channel-Name", "").startswith("sofia/internal/1001@")
+    )
+    if not (inbound_ring or bridged_ring):
         return
-    if event_data.get("Call-Direction") != "outbound":
-        return
-    if event_data.get("Other-Leg-Direction") != "inbound":
-        return
-    if event_data.get("Caller-Destination-Number") != "1001":
-        return
-    if event_data.get("variable_dialed_extension") != "1001":
-        return
-    if not event_data.get("Channel-Name", "").startswith("sofia/internal/1001@"):
-        return
+
+    uuid_value = (
+        event_data.get("Unique-ID", "")
+        if inbound_ring else event_data.get("variable_call_uuid", "")
+    )
     try:
-        original_uuid = str(uuid.UUID(event_data.get("variable_call_uuid", "")))
+        original_uuid = str(uuid.UUID(uuid_value))
     except (ValueError, TypeError, AttributeError):
         return
     try:
