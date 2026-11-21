@@ -53,7 +53,7 @@ jobs:
           inspect_response "custom-domain-probe" "https://ticketdepart.com$probe" "$work/probe.headers" "$work/probe.body"
 
           if [ -n "$home_id" ]; then
-            printf '%s\\n' "[IDENTITY] direct-canister-host=https://$home_id.icp.net"
+            printf '%s\n' "[IDENTITY] direct-canister-host=https://$home_id.icp.net"
             inspect_response "direct-canister-probe" "https://$home_id.icp.net$probe" "$work/direct.headers" "$work/direct.body"
             if [ -n "$dns_txt" ] && [ "$dns_txt" != "$home_id" ]; then
               printf '%s\n' "[WARNING] DNS TXT canister ID and HTTP canister ID do not match."
