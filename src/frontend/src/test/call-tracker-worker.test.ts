@@ -144,7 +144,7 @@ class FakeD1 {
             matched_intent_id: reserved ? intentId : null,
           });
         } else {
-          const [uuid, destination, agent, created, answered, hangup, billsec] = values;
+          const [, destination, agent, created, answered, hangup, billsec] = values;
           this.calls.set(callUuid, {
             call_uuid: callUuid, click_id: null, destination, agent_extension: agent,
             created_at: created, answered_at: answered, hangup_at: hangup, billsec,
