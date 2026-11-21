@@ -12,3 +12,18 @@ ALTER TABLE inbound_calls ADD COLUMN attribution_method TEXT;
 ALTER TABLE inbound_calls ADD COLUMN matched_intent_id TEXT;
 CREATE INDEX IF NOT EXISTS idx_inbound_calls_attribution_status
   ON inbound_calls(attribution_status, created_record_at);
+
+-- Record the first FreeSWITCH ringing event as the configured TrafficStars goal.
+-- One row per FreeSWITCH UUID prevents retries and repeated ring notifications
+-- from creating duplicate conversion events.
+CREATE TABLE IF NOT EXISTS call_ringing_events (
+  call_uuid TEXT PRIMARY KEY,
+  destination TEXT NOT NULL,
+  agent_extension TEXT NOT NULL,
+  ringing_at TEXT NOT NULL,
+  goal_id TEXT NOT NULL DEFAULT '6487',
+  event_type TEXT NOT NULL DEFAULT 'call_ringing',
+  created_record_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_call_ringing_events_ringing_at
+  ON call_ringing_events(ringing_at);
