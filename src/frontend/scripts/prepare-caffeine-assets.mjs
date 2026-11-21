@@ -31,16 +31,32 @@ assert(
 );
 
 const legacyConfig = JSON.parse(fs.readFileSync(sourceLegacyConfig, "utf8"));
+const ruleByMatch = new Map(legacyConfig.map((rule) => [rule.match, rule]));
 assert(
-  legacyConfig.length === 1 &&
-    legacyConfig[0].match === "**/*" &&
-    legacyConfig[0].enable_aliasing === false,
-  "public/.ic-assets.json5 must disable the index.html SPA alias for every requested path",
+  legacyConfig.length === 3 &&
+    legacyConfig[0].match === "sitemap.xml" &&
+    legacyConfig[1].match === "robots.txt" &&
+    legacyConfig[2].match === "**/*",
+  "public/.ic-assets.json5 must contain the two exact SEO-file rules followed by a global fallback rule",
+);
+assert(
+  ruleByMatch.get("sitemap.xml")?.headers?.["Content-Type"] === "application/xml; charset=utf-8" &&
+    ruleByMatch.get("sitemap.xml")?.enable_aliasing === false,
+  "sitemap.xml must retain its XML Content-Type and disable SPA aliasing",
+);
+assert(
+  ruleByMatch.get("robots.txt")?.headers?.["Content-Type"] === "text/plain" &&
+    ruleByMatch.get("robots.txt")?.enable_aliasing === false,
+  "robots.txt must retain its plain-text Content-Type and disable SPA aliasing",
+);
+assert(
+  ruleByMatch.get("**/*")?.enable_aliasing === false,
+  "the global asset rule must disable the index.html SPA alias for unknown paths",
 );
 
 const notFoundHtml = fs.readFileSync(path.join(cloudflareDist, "404.html"), "utf8");
 assert(
-  /<meta\\s+name=["']robots["']\\s+content=["']noindex, nofollow["']/i.test(notFoundHtml),
+  /<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']/i.test(notFoundHtml),
   "Caffeine 404 page must remain noindex, nofollow",
 );
 assert(
