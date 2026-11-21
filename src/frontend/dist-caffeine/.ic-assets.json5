@@ -1,0 +1,6 @@
+[
+  {
+    "match": "**/*",
+    "enable_aliasing": false
+  }
+]
