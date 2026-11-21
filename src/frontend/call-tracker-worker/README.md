@@ -39,6 +39,6 @@ Unanswered calls, voicemail, and test calls must not count as accepted calls. Qu
 
 ## Migration and deployment
 
-Apply migrations in order to the existing D1 database: `0002_intent_call_correlation.sql`, then `0003_ringing_click_attribution.sql`, before deploying the updated Worker. This PR changes source and tests only; it does not run migrations, deploy the Worker, change FreeSWITCH, or send TrafficStars postbacks.
+Apply migrations in order to the existing D1 database: `0002_intent_call_correlation.sql`, `0003_ringing_click_attribution.sql`, then `0004_trafficstars_postback_status.sql`. The production deploy workflow applies pending remote migrations before deploying the Worker. Postback sending remains gated by `TRAFFICSTARS_POSTBACK_ENABLED` and the `TRAFFICSTARS_POSTBACK_KEY` secret; do not enable the campaign until the secret is rotated/configured and a real click-to-ring test confirms a uniquely attributed event and successful postback.
 
 The GitHub Actions workflow validates the Worker bundle and focused tests.

@@ -14,6 +14,8 @@ export interface CallTrackerEnv {
   DB: D1Database;
   CALL_INGEST_SECRET?: string;
   INGEST_SECRET?: string;
+  TRAFFICSTARS_POSTBACK_KEY?: string;
+  TRAFFICSTARS_POSTBACK_ENABLED?: string;
 }
 
 const GOAL_ID = "6487";
@@ -243,6 +245,70 @@ async function correlateAndStoreRingingEvent(
     attribution_method: string | null; matched_intent_id: string | null;
   }>();
   return { ...stored, duplicate: false };
+}
+
+
+type RingingPostbackResult = {
+  sent: boolean;
+  status: "sent" | "failed" | "disabled" | "unattributed" | "already_sent";
+};
+
+/**
+ * Report the configured conversion at the first FreeSWITCH ring event.
+ * A stable call UUID is used as lead_code so retries are deduplicated by
+ * TrafficStars' clickid + lead_code uniqueness rule. Ring events are not
+ * accepted/connected calls, so value and price remain zero (no payout claim).
+ */
+async function sendRingingPostback(
+  env: CallTrackerEnv,
+  event: {
+    call_uuid: string;
+    click_id: string | null;
+    attribution_status: string;
+  },
+): Promise<RingingPostbackResult> {
+  if (event.attribution_status !== "candidate" || !event.click_id) {
+    return { sent: false, status: "unattributed" };
+  }
+  if (env.TRAFFICSTARS_POSTBACK_ENABLED !== "true" || !env.TRAFFICSTARS_POSTBACK_KEY) {
+    return { sent: false, status: "disabled" };
+  }
+
+  const prior = await env.DB.prepare(
+    "SELECT postback_status FROM call_ringing_events WHERE call_uuid=?",
+  ).bind(event.call_uuid).first<{ postback_status: string }>();
+  if (prior?.postback_status === "sent") {
+    return { sent: false, status: "already_sent" };
+  }
+
+  const endpoint = new URL("https://tsyndicate.com/api/v1/cpa/action");
+  endpoint.search = new URLSearchParams({
+    value: "0",
+    price: "0",
+    lead_code: event.call_uuid,
+    clickid: event.click_id,
+    key: env.TRAFFICSTARS_POSTBACK_KEY,
+    goalid: GOAL_ID,
+  }).toString();
+
+  const attemptedAt = new Date().toISOString();
+  try {
+    const response = await fetch(endpoint.toString(), { method: "GET" });
+    await env.DB.prepare(
+      "UPDATE call_ringing_events SET postback_status=?,postback_attempted_at=?,postback_http_status=? WHERE call_uuid=?",
+    ).bind(
+      response.ok ? "sent" : "failed",
+      attemptedAt,
+      response.status,
+      event.call_uuid,
+    ).run();
+    return { sent: response.ok, status: response.ok ? "sent" : "failed" };
+  } catch {
+    await env.DB.prepare(
+      "UPDATE call_ringing_events SET postback_status='failed',postback_attempted_at=?,postback_http_status=NULL WHERE call_uuid=?",
+    ).bind(attemptedAt, event.call_uuid).run();
+    return { sent: false, status: "failed" };
+  }
 }
 
 export default {
@@ -504,14 +570,21 @@ export default {
         return json({ error: "invalid_ringing_timestamp" }, 400);
       }
 
-      // Store the ringing event and conservatively reserve one matching click intent.
-      // A candidate is not verified attribution and never triggers a postback.
+      // Store the first ring event and conservatively reserve one matching click intent.
+      // A unique time-window candidate is reported as the configured ring conversion.
       const stored = await correlateAndStoreRingingEvent(env, {
         call_uuid: callUuid,
         destination,
         agent_extension: agentExtension,
         ringing_at: ringingAt,
       });
+      const postback = stored?.call_uuid
+        ? await sendRingingPostback(env, {
+            call_uuid: stored.call_uuid,
+            click_id: stored.click_id || null,
+            attribution_status: stored.attribution_status || "unmatched",
+          })
+        : { sent: false, status: "failed" as const };
 
       return json({
         ok: true,
@@ -523,7 +596,8 @@ export default {
         click_id: stored?.click_id || null,
         attribution: stored?.attribution_status || "unmatched",
         attribution_method: stored?.attribution_method || null,
-        postback_sent: false,
+        postback_sent: postback.sent,
+        postback_status: postback.status,
       }, 202);
     }
 
