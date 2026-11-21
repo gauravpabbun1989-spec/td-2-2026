@@ -442,7 +442,12 @@ export default {
         return json({ error: "invalid_ringing_timestamp" }, 400);
       }
 
-      const inserted = await env.DB.prepare(
+      const priorEvent = await env.DB.prepare(
+        "SELECT call_uuid FROM call_ringing_events WHERE call_uuid=?",
+      )
+        .bind(callUuid)
+        .first<{ call_uuid: string }>();
+      await env.DB.prepare(
         "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type) VALUES (?,?,?,?,?,'call_ringing') ON CONFLICT(call_uuid) DO NOTHING",
       )
         .bind(callUuid, destination, agentExtension, ringingAt, GOAL_ID)
@@ -463,7 +468,7 @@ export default {
         goal_id: GOAL_ID,
         call_uuid: callUuid,
         recorded: Boolean(stored),
-        duplicate: !inserted,
+        duplicate: Boolean(priorEvent),
         postback_sent: false,
         attribution: "not_verified",
       }, 202);
