@@ -1,6 +1,7 @@
 interface D1Statement {
   bind(...values: unknown[]): D1Statement;
   first<T = Record<string, unknown>>(): Promise<T | null>;
+  all<T = Record<string, unknown>>(): Promise<{ results: T[] }>;
   run(): Promise<unknown>;
 }
 
@@ -47,6 +48,140 @@ const validTime = (value: unknown): value is string =>
   typeof value === "string" &&
   value.length <= 40 &&
   !Number.isNaN(Date.parse(value));
+
+const INTENT_MATCH_LOOKBACK_MS = 10 * 60 * 1000;
+const INTENT_MATCH_FUTURE_SKEW_MS = 30 * 1000;
+const MAX_INTENT_CANDIDATES = 100;
+
+type IntentCandidate = {
+  intent_id: string;
+  click_id: string;
+  created_at: string;
+};
+
+type InboundCall = {
+  call_uuid: string;
+  destination: string;
+  agent_extension: string;
+  created_at: string;
+  answered_at: string | null;
+  hangup_at: string;
+  billsec: number;
+};
+
+function bindCall(statement: D1Statement, call: InboundCall) {
+  return statement.bind(
+    call.call_uuid,
+    call.destination,
+    call.agent_extension,
+    call.created_at,
+    call.answered_at,
+    call.hangup_at,
+    call.billsec,
+  );
+}
+
+async function storeUnmatchedCall(env: CallTrackerEnv, call: InboundCall) {
+  await bindCall(
+    env.DB.prepare(
+      "INSERT INTO inbound_calls (call_uuid,click_id,caller_hash,destination,agent_extension,created_at,answered_at,hangup_at,billsec,attribution_status,attribution_method,matched_intent_id) VALUES (?,NULL,NULL,?,?,?,?,?,?,'unmatched',NULL,NULL) ON CONFLICT(call_uuid) DO UPDATE SET destination=excluded.destination,agent_extension=excluded.agent_extension,created_at=excluded.created_at,answered_at=excluded.answered_at,hangup_at=excluded.hangup_at,billsec=excluded.billsec",
+    ),
+    call,
+  ).run();
+}
+
+async function correlateAndStoreCall(env: CallTrackerEnv, call: InboundCall) {
+  const existing = await env.DB.prepare(
+    "SELECT click_id, attribution_status FROM inbound_calls WHERE call_uuid=?",
+  )
+    .bind(call.call_uuid)
+    .first<{ click_id: string | null; attribution_status: string }>();
+
+  // Sync retries must not rematch an existing call or overwrite its decision.
+  if (existing) {
+    await env.DB.prepare(
+      "UPDATE inbound_calls SET destination=?,agent_extension=?,created_at=?,answered_at=?,hangup_at=?,billsec=? WHERE call_uuid=?",
+    )
+      .bind(
+        call.destination,
+        call.agent_extension,
+        call.created_at,
+        call.answered_at,
+        call.hangup_at,
+        call.billsec,
+        call.call_uuid,
+      )
+      .run();
+    return existing.attribution_status;
+  }
+
+  const callTime = Date.parse(call.created_at);
+  const from = new Date(callTime - INTENT_MATCH_LOOKBACK_MS).toISOString();
+  const through = new Date(callTime + INTENT_MATCH_FUTURE_SKEW_MS).toISOString();
+  const result = await env.DB.prepare(
+    "SELECT intent_id,click_id,created_at FROM call_intents WHERE status='open' AND created_at>=? AND created_at<=? ORDER BY created_at ASC LIMIT ?",
+  )
+    .bind(from, through, MAX_INTENT_CANDIDATES + 1)
+    .all<IntentCandidate>();
+  const candidates = result.results || [];
+
+  if (candidates.length === 0) {
+    await storeUnmatchedCall(env, call);
+    return "unmatched";
+  }
+
+  const clickIds = new Set(candidates.map((candidate) => candidate.click_id));
+  if (candidates.length > MAX_INTENT_CANDIDATES || clickIds.size !== 1) {
+    await env.DB.batch([
+      env.DB.prepare(
+        "UPDATE call_intents SET status='ambiguous' WHERE status='open' AND created_at>=? AND created_at<=?",
+      ).bind(from, through),
+      bindCall(
+        env.DB.prepare(
+          "INSERT INTO inbound_calls (call_uuid,click_id,caller_hash,destination,agent_extension,created_at,answered_at,hangup_at,billsec,attribution_status,attribution_method,matched_intent_id) VALUES (?,NULL,NULL,?,?,?,?,?,?,'ambiguous','time_window_multiple_clicks',NULL) ON CONFLICT(call_uuid) DO NOTHING",
+        ),
+        call,
+      ),
+    ]);
+    return "ambiguous";
+  }
+
+  const nearest = candidates.reduce((best, current) =>
+    Math.abs(Date.parse(current.created_at) - callTime) <
+    Math.abs(Date.parse(best.created_at) - callTime)
+      ? current
+      : best,
+  );
+
+  // The conditional reservation and insert run in one D1 transaction. The
+  // click ID is copied only if this call successfully reserves that intent.
+  await env.DB.batch([
+    env.DB.prepare(
+      "UPDATE call_intents SET status='candidate',matched_call_uuid=? WHERE intent_id=? AND status='open' AND matched_call_uuid IS NULL",
+    ).bind(call.call_uuid, nearest.intent_id),
+    env.DB.prepare(
+      "INSERT INTO inbound_calls (call_uuid,click_id,caller_hash,destination,agent_extension,created_at,answered_at,hangup_at,billsec,attribution_status,attribution_method,matched_intent_id) SELECT ?,matched.click_id,NULL,?,?,?,?,?,?,'candidate','unique_intent_time_window',matched.intent_id FROM (SELECT 1) AS seed LEFT JOIN (SELECT intent_id,click_id FROM call_intents WHERE intent_id=? AND matched_call_uuid=? AND status='candidate') AS matched ON 1=1 WHERE 1 ON CONFLICT(call_uuid) DO NOTHING",
+    ).bind(
+      call.call_uuid,
+      call.destination,
+      call.agent_extension,
+      call.created_at,
+      call.answered_at,
+      call.hangup_at,
+      call.billsec,
+      nearest.intent_id,
+      call.call_uuid,
+    ),
+  ]);
+
+  const stored = await env.DB.prepare(
+    "SELECT attribution_status FROM inbound_calls WHERE call_uuid=?",
+  )
+    .bind(call.call_uuid)
+    .first<{ attribution_status: string }>();
+  return stored?.attribution_status || "unmatched";
+}
+
 
 export default {
   async fetch(request: Request, env: CallTrackerEnv): Promise<Response> {
@@ -247,26 +382,32 @@ export default {
         }
       }
 
-      const statements = rows.map((call) =>
-        env.DB.prepare(
-          "INSERT INTO inbound_calls (call_uuid,click_id,caller_hash,destination,agent_extension,created_at,answered_at,hangup_at,billsec) VALUES (?,NULL,NULL,?,?,?,?,?,?) ON CONFLICT(call_uuid) DO UPDATE SET destination=excluded.destination,agent_extension=excluded.agent_extension,created_at=excluded.created_at,answered_at=excluded.answered_at,hangup_at=excluded.hangup_at,billsec=excluded.billsec",
-        ).bind(
-          call.call_uuid,
-          call.destination,
-          call.agent_extension,
-          call.created_at,
-          call.answered_at,
-          call.hangup_at,
-          call.billsec,
-        ),
-      );
-      await env.DB.batch(statements);
+      let correlated = 0;
+      let ambiguous = 0;
+      let unmatched = 0;
+      for (const row of rows) {
+        const status = await correlateAndStoreCall(env, {
+          call_uuid: String(row.call_uuid),
+          destination: String(row.destination),
+          agent_extension: String(row.agent_extension),
+          created_at: String(row.created_at),
+          answered_at: row.answered_at as string | null,
+          hangup_at: String(row.hangup_at),
+          billsec: Number(row.billsec),
+        });
+        if (status === "candidate") correlated += 1;
+        else if (status === "ambiguous") ambiguous += 1;
+        else unmatched += 1;
+      }
 
       return json({
         ok: true,
         received: rows.length,
         stored: true,
-        attribution: "not_established",
+        attribution: "candidate_only_time_window",
+        correlated_candidates: correlated,
+        ambiguous,
+        unmatched,
         conversions_created: 0,
       });
     }
