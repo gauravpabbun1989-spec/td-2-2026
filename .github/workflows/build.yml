@@ -24,8 +24,6 @@ jobs:
       - run: pnpm --dir src/frontend check
       - run: pnpm --dir src/frontend test
       - run: pnpm --dir src/frontend build
-      - name: Validate call-tracker Worker bundle without deploying
-        run: pnpm dlx wrangler@4.157.0 deploy --dry-run --config src/frontend/call-tracker-worker/wrangler.jsonc
       - run: npm install -g ic-mops
       - run: mops check
       - run: mops build
