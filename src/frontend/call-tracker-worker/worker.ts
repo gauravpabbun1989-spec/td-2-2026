@@ -230,7 +230,7 @@ async function correlateAndStoreRingingEvent(
           "UPDATE call_intents SET status='candidate',matched_call_uuid=? WHERE intent_id=? AND status='open' AND matched_call_uuid IS NULL",
         ).bind(input.call_uuid,nearest.intent_id),
         env.DB.prepare(
-          "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) SELECT ?,?,?,?,?,'call_ringing',matched.click_id,CASE WHEN matched.intent_id IS NULL THEN 'unmatched' ELSE 'candidate' END,CASE WHEN matched.intent_id IS NULL THEN 'intent_reservation_lost' ELSE 'unique_intent_time_window' END,matched.intent_id FROM (SELECT 1) AS seed LEFT JOIN (SELECT intent_id,click_id FROM call_intents WHERE intent_id=? AND matched_call_uuid=? AND status='candidate') AS matched ON 1=1 ON CONFLICT(call_uuid) DO NOTHING",
+          "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) SELECT ?,?,?,?,?,'call_ringing',matched.click_id,CASE WHEN matched.intent_id IS NULL THEN 'unmatched' ELSE 'candidate' END,CASE WHEN matched.intent_id IS NULL THEN 'intent_reservation_lost' ELSE 'unique_intent_time_window' END,matched.intent_id FROM (SELECT 1) AS seed LEFT JOIN (SELECT intent_id,click_id FROM call_intents WHERE intent_id=? AND matched_call_uuid=? AND status='candidate') AS matched ON 1=1 WHERE 1 ON CONFLICT(call_uuid) DO NOTHING",
         ).bind(input.call_uuid,input.destination,input.agent_extension,input.ringing_at,GOAL_ID,nearest.intent_id,input.call_uuid),
       ]);
     }
