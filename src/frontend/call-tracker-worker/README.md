@@ -14,14 +14,12 @@ The Wrangler configuration binds the existing D1 database `ticketdepart-call-tra
 
 The browser records a TrafficStars click and a phone-call intent. The single-DID PSTN route (DID `1030605` to agent extension `1001`) does not transport the browser click ID. No caller-number or SIP-header value currently joins those two records.
 
-The Worker therefore uses a deliberately conservative *candidate* match:
-- Look back 10 minutes from the FreeSWITCH call's `created_at`, allowing 30 seconds of clock skew into the future.
-- Match only when the open intents in that interval contain exactly one distinct TrafficStars click ID.
-- If multiple click IDs are present, mark the intents ambiguous and leave the call unlinked. If there are no intents, leave it unmatched.
-- Reserve the selected intent to one FreeSWITCH call UUID. Repeated syncs do not rematch an existing call.
-- Candidate matches are explicitly labeled `candidate` with method `unique_intent_time_window`; they are not verified attribution.
-
-This is best-effort correlation, not proof that a caller came from that click. It may miss calls when no intent beacon arrives, and a coincidental unrelated call can still fall in the interval. Do not treat candidates as accepted-call conversions without a separate verification step.
+The Worker uses conservative *candidate* matching in two places:
+- Completed-call sync looks back 10 minutes from the FreeSWITCH call's `created_at`, allowing 30 seconds of future clock skew.
+- The ringing endpoint looks back 10 minutes from `ringing_at`, with the same 30-second skew allowance, so the intent is correlated at the user's configured ringing milestone.
+- A match is made only when the time window contains exactly one distinct TrafficStars click ID. Multiple distinct IDs are marked `ambiguous`; no intent is `unmatched`.
+- The nearest intent is reserved to one FreeSWITCH call UUID. Retries do not rematch an existing ringing event.
+- Matches are labeled `candidate` with method `unique_intent_time_window`; they are not verified attribution.
 
 ## Ringing conversion event
 
@@ -31,9 +29,9 @@ FreeSWITCH must notify `POST /v1/calls/ringing` as soon as the inbound call is a
 - `agent_extension` (`1001`)
 - `ringing_at` (ISO timestamp)
 
-The Worker stores one `call_ringing_events` row per call UUID with Goal ID `6487`. Repeated notifications are idempotent. Calls that reach FreeSWITCH but never ring are not recorded as conversions; unanswered/missed calls that did ring are recorded.
+The Worker stores one `call_ringing_events` row per call UUID with Goal ID `6487`. Repeated notifications are idempotent. Calls that reach FreeSWITCH but never ring are not recorded as ringing events; unanswered/missed calls that did ring are recorded.
 
-This endpoint records the conversion event but deliberately does not send a TrafficStars postback yet. The existing time-window click match is only a candidate and can misattribute unrelated calls. A safe postback requires verified click attribution. The local FreeSWITCH event listener still needs to be configured to call this endpoint on the real ringing event; this PR does not alter the live server or deploy the Worker.
+At ring time, the Worker stores the matched click ID and attribution status/method on the same ringing row. A `candidate` is still best-effort time-window attribution, not proof that the caller came from that ad click. The local FreeSWITCH event listener is already configured to call this endpoint on the real ringing event. This PR changes Worker source and tests only; it does not alter the live server or deploy the Worker.
 
 ## Qualification and postbacks
 
