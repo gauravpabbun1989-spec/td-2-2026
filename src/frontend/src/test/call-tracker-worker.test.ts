@@ -77,7 +77,7 @@ class FakeD1 {
             page_path: String(pagePath), cta_location: String(ctaLocation), status: "open",
           });
         } else if (sql.startsWith("INSERT INTO inbound_calls")) {
-          const [, destination, agent, created, answered, hangup, billsec] = values;
+          const [uuid, destination, agent, created, answered, hangup, billsec] = values;
           db.calls.set(String(uuid), {
             call_uuid: uuid, click_id: null, destination, agent_extension: agent, created_at: created,
             answered_at: answered, hangup_at: hangup, billsec, attribution_status: "unmatched",
