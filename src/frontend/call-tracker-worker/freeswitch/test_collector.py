@@ -72,6 +72,43 @@ class RingingDetectorTests(unittest.TestCase):
         ).fetchone()[0], 0)
         send.assert_not_called()
 
+    def test_inbound_callstate_ringing_queues_unique_id(self):
+        event = {
+            "Event-Name": "CHANNEL_CALLSTATE",
+            "Channel-Call-State": "RINGING",
+            "Call-Direction": "inbound",
+            "Caller-Destination-Number": "1001",
+            "Channel-Name": "sofia/external/provider-call",
+            "Unique-ID": "bf83751d-59ed-4b69-adfd-9120879da0b0",
+            "Event-Date-Timestamp": "1795305281000000",
+        }
+        with patch.object(collector, "send_pending_ringing") as send:
+            collector.queue_ringing_event(self.db, event)
+            collector.queue_ringing_event(self.db, event)
+        rows = self.db.execute(
+            "SELECT call_uuid, status FROM ringing_notifications"
+        ).fetchall()
+        self.assertEqual(rows, [
+            ("bf83751d-59ed-4b69-adfd-9120879da0b0", "pending")
+        ])
+        self.assertEqual(send.call_count, 2)
+
+    def test_inbound_non_ringing_state_is_ignored(self):
+        event = {
+            "Event-Name": "CHANNEL_CALLSTATE",
+            "Channel-Call-State": "HANGUP",
+            "Call-Direction": "inbound",
+            "Caller-Destination-Number": "1001",
+            "Channel-Name": "sofia/external/provider-call",
+            "Unique-ID": "bf83751d-59ed-4b69-adfd-9120879da0b0",
+        }
+        with patch.object(collector, "send_pending_ringing") as send:
+            collector.queue_ringing_event(self.db, event)
+        self.assertEqual(self.db.execute(
+            "SELECT COUNT(*) FROM ringing_notifications"
+        ).fetchone()[0], 0)
+        send.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()
