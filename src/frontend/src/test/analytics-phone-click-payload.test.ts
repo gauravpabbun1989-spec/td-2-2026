@@ -173,7 +173,7 @@ describe("GA4 phone_click payload contract", () => {
     const payload = JSON.parse(String(init.body));
     expect(payload).toMatchObject({
       click_id: "td-click-456",
-      page_path: "/flight-change/",
+      page_path: "/flight-change",
       cta_location: "header",
     });
     expect(payload.intent_id).toMatch(/^intent-/);
