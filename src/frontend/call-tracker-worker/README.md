@@ -41,6 +41,6 @@ Unanswered calls, voicemail, and test calls must not count as accepted calls. Qu
 
 ## Migration and deployment
 
-Apply `migrations/0002_intent_call_correlation.sql` to the existing D1 database before deploying the updated Worker. This PR only adds the migration file and Worker code; it does not run the migration, deploy the Worker, change FreeSWITCH, or send TrafficStars postbacks.
+Apply migrations in order to the existing D1 database: `0002_intent_call_correlation.sql`, then `0003_ringing_click_attribution.sql`, before deploying the updated Worker. This PR changes source and tests only; it does not run migrations, deploy the Worker, change FreeSWITCH, or send TrafficStars postbacks.
 
 The GitHub Actions workflow validates the Worker bundle and focused tests.
