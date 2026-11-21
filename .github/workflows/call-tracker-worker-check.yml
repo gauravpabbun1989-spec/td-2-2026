@@ -9,6 +9,7 @@ on:
       - "src/frontend/src/test/analytics-phone-click-payload.test.ts"
       - "src/frontend/src/test/call-tracker-worker.test.ts"
       - ".github/workflows/call-tracker-worker-check.yml"
+      - ".github/workflows/deploy-call-tracker-worker.yml"
   push:
     branches: [main]
     paths:
@@ -17,6 +18,7 @@ on:
       - "src/frontend/src/test/analytics-phone-click-payload.test.ts"
       - "src/frontend/src/test/call-tracker-worker.test.ts"
       - ".github/workflows/call-tracker-worker-check.yml"
+      - ".github/workflows/deploy-call-tracker-worker.yml"
 
 permissions:
   contents: read
