@@ -279,7 +279,7 @@ function getStoredDtmfToken(): string | undefined {
   try {
     const token = window.sessionStorage.getItem(TRAFFICSTARS_DTMF_TOKEN_KEY) || "";
     const expires = Date.parse(window.sessionStorage.getItem(TRAFFICSTARS_DTMF_TOKEN_EXPIRY_KEY) || "");
-    return /^\\d{8}$/.test(token) && expires > Date.now() ? token : undefined;
+    return /^\d{8}$/.test(token) && expires > Date.now() ? token : undefined;
   } catch {
     return undefined;
   }
@@ -306,7 +306,7 @@ async function prepareTrafficStarsDialToken() {
     );
     if (!response.ok) return;
     const result = await response.json() as { token?: unknown; expires_at?: unknown };
-    if (typeof result.token !== "string" || !/^\\d{8}$/.test(result.token) ||
+    if (typeof result.token !== "string" || !/^\d{8}$/.test(result.token) ||
         typeof result.expires_at !== "string" || Date.parse(result.expires_at) <= Date.now()) return;
     window.sessionStorage.setItem(TRAFFICSTARS_DTMF_TOKEN_KEY, result.token);
     window.sessionStorage.setItem(TRAFFICSTARS_DTMF_TOKEN_EXPIRY_KEY, result.expires_at);
