@@ -51,16 +51,6 @@ const validTime = (value: unknown): value is string =>
   value.length <= 40 &&
   !Number.isNaN(Date.parse(value));
 
-const INTENT_MATCH_LOOKBACK_MS = 10 * 60 * 1000;
-const INTENT_MATCH_FUTURE_SKEW_MS = 30 * 1000;
-const MAX_INTENT_CANDIDATES = 100;
-
-type IntentCandidate = {
-  intent_id: string;
-  click_id: string;
-  created_at: string;
-};
-
 type InboundCall = {
   call_uuid: string;
   destination: string;
@@ -94,94 +84,24 @@ async function storeUnmatchedCall(env: CallTrackerEnv, call: InboundCall) {
 
 async function correlateAndStoreCall(env: CallTrackerEnv, call: InboundCall) {
   const existing = await env.DB.prepare(
-    "SELECT click_id, attribution_status FROM inbound_calls WHERE call_uuid=?",
-  )
-    .bind(call.call_uuid)
-    .first<{ click_id: string | null; attribution_status: string }>();
+    "SELECT attribution_status FROM inbound_calls WHERE call_uuid=?",
+  ).bind(call.call_uuid).first<{ attribution_status: string }>();
 
-  // Sync retries must not rematch an existing call or overwrite its decision.
   if (existing) {
     await env.DB.prepare(
       "UPDATE inbound_calls SET destination=?,agent_extension=?,created_at=?,answered_at=?,hangup_at=?,billsec=? WHERE call_uuid=?",
-    )
-      .bind(
-        call.destination,
-        call.agent_extension,
-        call.created_at,
-        call.answered_at,
-        call.hangup_at,
-        call.billsec,
-        call.call_uuid,
-      )
-      .run();
+    ).bind(
+      call.destination, call.agent_extension, call.created_at,
+      call.answered_at, call.hangup_at, call.billsec, call.call_uuid,
+    ).run();
     return existing.attribution_status;
   }
 
-  const callTime = Date.parse(call.created_at);
-  const from = new Date(callTime - INTENT_MATCH_LOOKBACK_MS).toISOString();
-  const through = new Date(callTime + INTENT_MATCH_FUTURE_SKEW_MS).toISOString();
-  const result = await env.DB.prepare(
-    "SELECT intent_id,click_id,created_at FROM call_intents WHERE status='open' AND created_at>=? AND created_at<=? ORDER BY created_at ASC LIMIT ?",
-  )
-    .bind(from, through, MAX_INTENT_CANDIDATES + 1)
-    .all<IntentCandidate>();
-  const candidates = result.results || [];
-
-  if (candidates.length === 0) {
-    await storeUnmatchedCall(env, call);
-    return "unmatched";
-  }
-
-  const clickIds = new Set(candidates.map((candidate) => candidate.click_id));
-  if (candidates.length > MAX_INTENT_CANDIDATES || clickIds.size !== 1) {
-    await env.DB.batch([
-      env.DB.prepare(
-        "UPDATE call_intents SET status='ambiguous' WHERE status='open' AND created_at>=? AND created_at<=?",
-      ).bind(from, through),
-      bindCall(
-        env.DB.prepare(
-          "INSERT INTO inbound_calls (call_uuid,click_id,caller_hash,destination,agent_extension,created_at,answered_at,hangup_at,billsec,attribution_status,attribution_method,matched_intent_id) VALUES (?,NULL,NULL,?,?,?,?,?,?,'ambiguous','time_window_multiple_clicks',NULL) ON CONFLICT(call_uuid) DO NOTHING",
-        ),
-        call,
-      ),
-    ]);
-    return "ambiguous";
-  }
-
-  const nearest = candidates.reduce((best, current) =>
-    Math.abs(Date.parse(current.created_at) - callTime) <
-    Math.abs(Date.parse(best.created_at) - callTime)
-      ? current
-      : best,
-  );
-
-  // The conditional reservation and insert run in one D1 transaction. The
-  // click ID is copied only if this call successfully reserves that intent.
-  await env.DB.batch([
-    env.DB.prepare(
-      "UPDATE call_intents SET status='candidate',matched_call_uuid=? WHERE intent_id=? AND status='open' AND matched_call_uuid IS NULL",
-    ).bind(call.call_uuid, nearest.intent_id),
-    env.DB.prepare(
-      "INSERT INTO inbound_calls (call_uuid,click_id,caller_hash,destination,agent_extension,created_at,answered_at,hangup_at,billsec,attribution_status,attribution_method,matched_intent_id) SELECT ?,matched.click_id,NULL,?,?,?,?,?,?,'candidate','unique_intent_time_window',matched.intent_id FROM (SELECT 1) AS seed LEFT JOIN (SELECT intent_id,click_id FROM call_intents WHERE intent_id=? AND matched_call_uuid=? AND status='candidate') AS matched ON 1=1 WHERE 1 ON CONFLICT(call_uuid) DO NOTHING",
-    ).bind(
-      call.call_uuid,
-      call.destination,
-      call.agent_extension,
-      call.created_at,
-      call.answered_at,
-      call.hangup_at,
-      call.billsec,
-      nearest.intent_id,
-      call.call_uuid,
-    ),
-  ]);
-
-  const stored = await env.DB.prepare(
-    "SELECT attribution_status FROM inbound_calls WHERE call_uuid=?",
-  )
-    .bind(call.call_uuid)
-    .first<{ attribution_status: string }>();
-  return stored?.attribution_status || "unmatched";
+  // A website intent is not proof that this PSTN call came from that visitor.
+  // Until a verified call-session identifier is transported into FreeSWITCH,
+  // retain the call as unattributed and never infer its source from timestamps.
+  await storeUnmatchedCall(env, call);
+  return "unmatched";
 }
 
 
@@ -199,44 +119,14 @@ async function correlateAndStoreRingingEvent(
 
   if (existing) return { ...existing, duplicate: true };
 
-  const ringTime = Date.parse(input.ringing_at);
-  const from = new Date(ringTime - INTENT_MATCH_LOOKBACK_MS).toISOString();
-  const through = new Date(ringTime + INTENT_MATCH_FUTURE_SKEW_MS).toISOString();
-  const result = await env.DB.prepare(
-    "SELECT intent_id,click_id,created_at FROM call_intents WHERE status='open' AND created_at>=? AND created_at<=? ORDER BY created_at ASC LIMIT ?",
-  ).bind(from, through, MAX_INTENT_CANDIDATES + 1).all<IntentCandidate>();
-  const candidates = result.results || [];
-
-  if (candidates.length === 0) {
-    await env.DB.prepare(
-      "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) VALUES (?,?,?,?,?,'call_ringing',NULL,'unmatched','no_intent_in_time_window',NULL) ON CONFLICT(call_uuid) DO NOTHING",
-    ).bind(input.call_uuid,input.destination,input.agent_extension,input.ringing_at,GOAL_ID).run();
-  } else {
-    const clickIds = new Set(candidates.map((candidate) => candidate.click_id));
-    if (candidates.length > MAX_INTENT_CANDIDATES || clickIds.size !== 1) {
-      await env.DB.batch([
-        env.DB.prepare(
-          "UPDATE call_intents SET status='ambiguous' WHERE status='open' AND created_at>=? AND created_at<=?",
-        ).bind(from, through),
-        env.DB.prepare(
-          "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) VALUES (?,?,?,?,?,'call_ringing',NULL,'ambiguous','time_window_multiple_clicks',NULL) ON CONFLICT(call_uuid) DO NOTHING",
-        ).bind(input.call_uuid,input.destination,input.agent_extension,input.ringing_at,GOAL_ID),
-      ]);
-    } else {
-      const nearest = candidates.reduce((best, current) =>
-        Math.abs(Date.parse(current.created_at) - ringTime) <
-        Math.abs(Date.parse(best.created_at) - ringTime) ? current : best,
-      );
-      await env.DB.batch([
-        env.DB.prepare(
-          "UPDATE call_intents SET status='candidate',matched_call_uuid=? WHERE intent_id=? AND status='open' AND matched_call_uuid IS NULL",
-        ).bind(input.call_uuid,nearest.intent_id),
-        env.DB.prepare(
-          "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) SELECT ?,?,?,?,?,'call_ringing',matched.click_id,CASE WHEN matched.intent_id IS NULL THEN 'unmatched' ELSE 'candidate' END,CASE WHEN matched.intent_id IS NULL THEN 'intent_reservation_lost' ELSE 'unique_intent_time_window' END,matched.intent_id FROM (SELECT 1) AS seed LEFT JOIN (SELECT intent_id,click_id FROM call_intents WHERE intent_id=? AND matched_call_uuid=? AND status='candidate') AS matched ON 1=1 WHERE 1 ON CONFLICT(call_uuid) DO NOTHING",
-        ).bind(input.call_uuid,input.destination,input.agent_extension,input.ringing_at,GOAL_ID,nearest.intent_id,input.call_uuid),
-      ]);
-    }
-  }
+  // Record every real FreeSWITCH ring, but fail closed on attribution.
+  // The shared toll-free PSTN route does not carry the browser click ID.
+  await env.DB.prepare(
+    "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) VALUES (?,?,?,?,?,'call_ringing',NULL,'unmatched','no_verified_click_transport',NULL) ON CONFLICT(call_uuid) DO NOTHING",
+  ).bind(
+    input.call_uuid, input.destination, input.agent_extension,
+    input.ringing_at, GOAL_ID,
+  ).run();
 
   const stored = await env.DB.prepare(
     "SELECT call_uuid,click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events WHERE call_uuid=?",
@@ -257,9 +147,9 @@ const POSTBACK_RETRY_BASE_MS = 60 * 1000;
 
 async function sendRingingPostback(
   env: CallTrackerEnv,
-  event: { call_uuid: string; click_id: string | null; attribution_status: string },
+  event: { call_uuid: string; click_id: string | null; attribution_status: string; attribution_method?: string | null },
 ): Promise<RingingPostbackResult> {
-  if (event.attribution_status !== "candidate" || !event.click_id) return { sent: false, status: "unattributed" };
+  if (event.attribution_status !== "verified" || event.attribution_method !== "signed_call_session" || !event.click_id) return { sent: false, status: "unattributed" };
   if (env.TRAFFICSTARS_POSTBACK_ENABLED !== "true" || !env.TRAFFICSTARS_POSTBACK_KEY) return { sent: false, status: "disabled" };
   const prior = await env.DB.prepare(
     "SELECT postback_status,postback_attempt_count FROM call_ringing_events WHERE call_uuid=?",
@@ -303,9 +193,9 @@ async function sendRingingPostback(
 async function retryFailedPostbacks(env: CallTrackerEnv) {
   if (env.TRAFFICSTARS_POSTBACK_ENABLED !== "true" || !env.TRAFFICSTARS_POSTBACK_KEY) return { checked: 0, sent: 0, failed: 0 };
   const due = await env.DB.prepare(
-    "SELECT call_uuid,click_id,attribution_status FROM call_ringing_events WHERE postback_status='failed' AND postback_next_retry_at IS NOT NULL AND postback_next_retry_at<=? AND postback_attempt_count<? ORDER BY postback_next_retry_at ASC LIMIT 25",
+    "SELECT call_uuid,click_id,attribution_status,attribution_method FROM call_ringing_events WHERE postback_status='failed' AND postback_next_retry_at IS NOT NULL AND postback_next_retry_at<=? AND postback_attempt_count<? ORDER BY postback_next_retry_at ASC LIMIT 25",
   ).bind(new Date().toISOString(), MAX_POSTBACK_ATTEMPTS).all<{
-    call_uuid: string; click_id: string | null; attribution_status: string;
+    call_uuid: string; click_id: string | null; attribution_status: string; attribution_method: string | null;
   }>();
   let sent = 0;
   let failed = 0;

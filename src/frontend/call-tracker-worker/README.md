@@ -12,15 +12,12 @@ The Wrangler configuration binds the existing D1 database `ticketdepart-call-tra
 
 Do not rotate or replace the existing TrafficStars postback key as part of routine deployment.
 
-## Click-to-call correlation
+## Click-to-call correlation and attribution safety
 
-The browser records a TrafficStars click and a phone-call intent. The single-DID PSTN route (DID `1030605` to agent extension `1001`) does not transport the browser click ID. No caller-number or SIP-header value currently joins those two records.
+The website can record a TrafficStars click ID and a phone-call intent. The shared toll-free PSTN route forwards calls to FreeSWITCH destination `1030605`, then extension `1001`; that route does not, by itself, transport the browser click ID. Calls from every source can therefore be recorded at FreeSWITCH, but the call's source cannot be proven from the destination or timestamps.
 
-The Worker uses conservative *candidate* matching:
-- The ringing endpoint looks back 10 minutes from `ringing_at`, allowing 30 seconds of future clock skew.
-- A match is made only when the time window contains exactly one distinct TrafficStars click ID. Multiple distinct IDs are marked `ambiguous`; no intent is `unmatched`.
-- The nearest intent is reserved to one FreeSWITCH call UUID. Retries do not rematch an existing ringing event.
-- Matches are labeled `candidate` with method `unique_intent_time_window`; this is best-effort time-window attribution, not proof that a caller came from that ad click.
+**Fail-closed rule:** time-window correlation is disabled. A nearby website intent is not proof that the caller came from that click. All calls are retained as `unmatched` with no click ID until a verified call-session identifier is carried into FreeSWITCH and linked to the exact FreeSWITCH call UUID. Do not re-enable timestamp-based matching.
+
 
 ## Conversion milestone: first real ring
 
@@ -36,9 +33,9 @@ The Worker stores one `call_ringing_events` row per call UUID with Goal ID `6487
 
 ## TrafficStars postback delivery
 
-Postbacks are gated by `TRAFFICSTARS_POSTBACK_ENABLED=true` and the already-configured `TRAFFICSTARS_POSTBACK_KEY`. Keep the feature disabled until a real click-to-ring test has verified the event and attribution and the user explicitly approves enabling it.
+Postbacks are gated by `TRAFFICSTARS_POSTBACK_ENABLED=true` and the already-configured `TRAFFICSTARS_POSTBACK_KEY`. Keep the feature disabled until the signed call-session transport is implemented, verified through an approved real call, and the user explicitly approves enabling it. Do not create test calls or test conversions.
 
-When enabled, only a uniquely matched `candidate` event can send Goal `6487`. The FreeSWITCH call UUID is the stable `lead_code` on every attempt. HTTP 408, 429, 5xx, and network failures are retried by the once-per-minute scheduled Worker with exponential backoff (maximum six attempts). Permanent 4xx rejections are recorded without retry. A successful 2xx response is recorded as sent. No postback is sent for unmatched or ambiguous calls.
+When enabled, only an event marked `verified` with attribution method `signed_call_session` and a non-empty click ID can send Goal `6487`. The FreeSWITCH call UUID is the stable `lead_code` on every attempt. Legacy `candidate` events produced by timestamp matching are not eligible. HTTP 408, 429, 5xx, and network failures are retried by the once-per-minute scheduled Worker with exponential backoff (maximum six attempts). Permanent 4xx rejections are recorded without retry. A successful 2xx response is recorded as sent. No postback is sent for unmatched or ambiguous calls.
 
 The retry schedule does not enable postbacks. Events recorded while postbacks are disabled remain `not_sent`; enabling the flag is a separate, explicit production decision.
 
