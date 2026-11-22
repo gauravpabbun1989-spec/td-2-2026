@@ -51,14 +51,17 @@ def send_pending_ringing(db):
         print("Ringing notifier: CALL_INGEST_SECRET unavailable", flush=True)
         return
     rows = db.execute("""
-        SELECT call_uuid, ringing_at FROM ringing_notifications
+        SELECT call_uuid, ringing_at, tracking_token FROM ringing_notifications
         WHERE status = 'pending' ORDER BY created_at LIMIT 20
     """).fetchall()
-    for call_uuid, ringing_at in rows:
-        payload = json.dumps({
+    for call_uuid, ringing_at, tracking_token in rows:
+        payload_data = {
             "call_uuid": call_uuid, "destination": "1030605",
             "agent_extension": "1001", "ringing_at": ringing_at,
-        }).encode()
+        }
+        if tracking_token:
+            payload_data["tracking_token"] = tracking_token
+        payload = json.dumps(payload_data).encode()
         request = urllib.request.Request(
             RINGING_ENDPOINT, data=payload,
             headers={
@@ -74,7 +77,8 @@ def send_pending_ringing(db):
                     raise RuntimeError("Worker did not confirm ringing event")
             db.execute("""
                 UPDATE ringing_notifications
-                SET status='sent', attempts=attempts+1, last_error=NULL
+                SET status='sent', attempts=attempts+1, last_error=NULL,
+                    tracking_token=NULL
                 WHERE call_uuid=?
             """, (call_uuid,))
             db.commit()
@@ -127,11 +131,14 @@ def queue_ringing_event(db, event_data):
         ).isoformat(timespec="seconds")
     except (ValueError, TypeError, OverflowError):
         ringing_at = utc_now()
+    tracking_token = event_data.get("variable_td_tracking_token", "")
+    if not (isinstance(tracking_token, str) and tracking_token.isdigit() and len(tracking_token) == 8):
+        tracking_token = None
     db.execute("""
         INSERT OR IGNORE INTO ringing_notifications
-            (call_uuid, ringing_at, status, attempts)
-        VALUES (?, ?, 'pending', 0)
-    """, (original_uuid, ringing_at))
+            (call_uuid, ringing_at, tracking_token, status, attempts)
+        VALUES (?, ?, ?, 'pending', 0)
+    """, (original_uuid, ringing_at, tracking_token))
     db.commit()
     send_pending_ringing(db)
 
@@ -160,6 +167,9 @@ def open_database():
             event_name TEXT, uuid TEXT, details TEXT
         )
     """)
+    columns = {row[1] for row in db.execute("PRAGMA table_info(ringing_notifications)")}
+    if "tracking_token" not in columns:
+        db.execute("ALTER TABLE ringing_notifications ADD COLUMN tracking_token TEXT")
     db.commit()
     return db
 
