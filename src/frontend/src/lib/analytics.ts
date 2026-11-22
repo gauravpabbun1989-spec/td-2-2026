@@ -272,6 +272,61 @@ function getTrafficStarsBannerId(): string | undefined {
   }
 }
 
+const TRAFFICSTARS_DTMF_TOKEN_KEY = "ticketdepart_trafficstars_dtmf_token";
+const TRAFFICSTARS_DTMF_TOKEN_EXPIRY_KEY = "ticketdepart_trafficstars_dtmf_token_expires";
+
+function getStoredDtmfToken(): string | undefined {
+  try {
+    const token = window.sessionStorage.getItem(TRAFFICSTARS_DTMF_TOKEN_KEY) || "";
+    const expires = Date.parse(window.sessionStorage.getItem(TRAFFICSTARS_DTMF_TOKEN_EXPIRY_KEY) || "");
+    return /^\\d{8}$/.test(token) && expires > Date.now() ? token : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+async function prepareTrafficStarsDialToken() {
+  const clickId = getTrafficStarsClickId();
+  if (!clickId || typeof fetch !== "function") return;
+  try {
+    const response = await fetch(
+      "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/v1/call-token",
+      {
+        method: "POST",
+        mode: "cors",
+        credentials: "omit",
+        headers: { "Content-Type": "text/plain;charset=UTF-8" },
+        body: JSON.stringify({
+          click_id: clickId,
+          clicked_at: getTrafficStarsClickedAt(),
+          banner_id: getTrafficStarsBannerId(),
+          landing_path: getLandingPage(),
+        }),
+      },
+    );
+    if (!response.ok) return;
+    const result = await response.json() as { token?: unknown; expires_at?: unknown };
+    if (typeof result.token !== "string" || !/^\\d{8}$/.test(result.token) ||
+        typeof result.expires_at !== "string" || Date.parse(result.expires_at) <= Date.now()) return;
+    window.sessionStorage.setItem(TRAFFICSTARS_DTMF_TOKEN_KEY, result.token);
+    window.sessionStorage.setItem(TRAFFICSTARS_DTMF_TOKEN_EXPIRY_KEY, result.expires_at);
+  } catch {
+    // Token prefetch must never block or delay the native phone action.
+  }
+}
+
+function appendDtmfTokenToPhoneLink(link: Element | null) {
+  const token = getStoredDtmfToken();
+  if (!token || !link) return;
+  const anchor = link as HTMLAnchorElement;
+  const original = anchor.getAttribute("data-td-original-href") || anchor.getAttribute("href") || "";
+  if (!/^tel:/i.test(original)) return;
+  const phoneNumber = original.slice(4).split(/[;,]/, 1)[0];
+  if (!phoneNumber) return;
+  anchor.setAttribute("data-td-original-href", original);
+  anchor.setAttribute("href", `tel:${phoneNumber},${token}`);
+}
+
 function getIntentFamily(path = getCleanPagePath()) {
   if (/airlines|airline-reservation/i.test(path)) return "airline";
   if (/flight-(change|cancellation|booking-assistance|booking)|book-a-flight|international-flight|last-minute-flight|multi-city|group-flight|business-class|same-day|family-flight|pet-flight|infant-flight|baggage/i.test(path)) return "booking_service";
@@ -538,6 +593,7 @@ export function trackLeadSubmit(location = "contact_form") {
 if (typeof document !== "undefined") {
   // Capture TrafficStars click metadata on the landing page before SPA navigation.
   getTrafficStarsClickId();
+  void prepareTrafficStarsDialToken();
 
   try {
     const current = getCleanPagePath();
@@ -608,6 +664,10 @@ if (typeof document !== "undefined") {
 
     const last = recentEmits.get(location);
     if (last !== undefined && Date.now() - last < DEDUPE_WINDOW_MS) return;
+
+    // Add the prefetched one-time DTMF token before the browser launches the native dialer.
+    // If prefetch failed or the token expired, the original phone link remains unchanged.
+    appendDtmfTokenToPhoneLink(link);
 
     // A tel: click is intent only. Never send a TrafficStars conversion here.
     // Goal 6487 is reserved for verified accepted calls from the call-tracking backend.
