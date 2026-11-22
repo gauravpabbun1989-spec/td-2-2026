@@ -45,6 +45,12 @@ The retry schedule does not enable postbacks. Events recorded while postbacks ar
 
 The separate completed-call sync and `/v1/calls/accepted` endpoint are not the configured conversion milestone. Do not report accepted-call qualification or payout from a ringing event.
 
+## Deployment gate
+
+This change is not production-ready until the FreeSWITCH route for DID `1030605` is updated to answer the inbound leg, collect the eight DTMF digits, export `td_tracking_token` to the agent bridge, and then preserve the existing transfer to `1001`. Confirm the prompt WAV exists on the VPS before applying that route. The currently installed public route still transfers directly to `1001`, so it does not yet collect or forward a token.
+
+Do not deploy only the Worker or website portion and assume calls are attributable. The website and Worker can be deployed with fail-closed behavior, but verified DTMF attribution will remain unavailable until the FreeSWITCH route and collector are updated together. The production D1 migration, Worker deployment, website deployment, and live dialplan update are separate approval gates. A real call is required to verify actual post-dial behavior; automated tests cannot establish Android/iOS dialer compatibility.
+
 ## Migrations and deployment
 
 Apply additive migrations in order to the existing D1 database:
