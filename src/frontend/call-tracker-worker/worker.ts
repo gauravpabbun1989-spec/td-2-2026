@@ -259,7 +259,11 @@ export default {
     env: CallTrackerEnv,
     context: { waitUntil(promise: Promise<unknown>): void },
   ) {
-    context.waitUntil(retryFailedPostbacks(env));
+    context.waitUntil(Promise.all([
+      retryFailedPostbacks(env),
+      env.DB.prepare("DELETE FROM call_tracking_tokens WHERE expires_at<=?")
+        .bind(new Date().toISOString()).run(),
+    ]));
   },
   async fetch(request: Request, env: CallTrackerEnv): Promise<Response> {
     const url = new URL(request.url);
