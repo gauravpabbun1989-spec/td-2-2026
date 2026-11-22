@@ -46,7 +46,10 @@ jobs:
         run: pnpm --dir src/frontend typecheck
 
       - name: Run call-tracker tests
-        run: pnpm --dir src/frontend exec vitest run --environment jsdom src/test/analytics-phone-click-payload.test.ts src/test/call-tracker-worker.test.ts
+        run: pnpm --dir src/frontend exec vitest run --environment jsdom src/test/analytics-phone-click-payload.test.ts src/test/call-tracker-worker.test.ts src/test/call-tracker-dtmf.test.ts
+
+      - name: Run FreeSWITCH collector tests
+        run: python -m unittest discover -s src/frontend/call-tracker-worker/freeswitch -p "test_*.py"
 
       - name: Validate Worker bundle (no deployment)
         run: pnpm dlx wrangler@4.157.0 deploy --dry-run --config src/frontend/call-tracker-worker/wrangler.jsonc
