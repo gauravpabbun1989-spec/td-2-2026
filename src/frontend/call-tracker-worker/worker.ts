@@ -51,16 +51,6 @@ const validTime = (value: unknown): value is string =>
   value.length <= 40 &&
   !Number.isNaN(Date.parse(value));
 
-const INTENT_MATCH_LOOKBACK_MS = 10 * 60 * 1000;
-const INTENT_MATCH_FUTURE_SKEW_MS = 30 * 1000;
-const MAX_INTENT_CANDIDATES = 100;
-
-type IntentCandidate = {
-  intent_id: string;
-  click_id: string;
-  created_at: string;
-};
-
 type InboundCall = {
   call_uuid: string;
   destination: string;
