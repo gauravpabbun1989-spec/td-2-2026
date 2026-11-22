@@ -289,6 +289,55 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     expect(db.intents.get("intent-ring-1")?.status).toBe("open");
   });
 
+  it("sends a postback only for a verified signed call session and preserves TrafficStars campaign pricing", async () => {
+    const db = new FakeD1();
+    db.ringingEvents.set(callUuid, {
+      call_uuid: callUuid,
+      destination: "1030605",
+      agent_extension: "1001",
+      ringing_at: "2026-11-21T16:42:10.000Z",
+      goal_id: "6487",
+      click_id: "traffic-click-verified",
+      attribution_status: "verified",
+      attribution_method: "signed_call_session",
+      matched_intent_id: "intent-signed-1",
+      postback_status: "not_sent",
+      postback_attempt_count: 0,
+    });
+    const fetchMock = vi.fn().mockResolvedValue(new Response("ok", { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+    try {
+      const response = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
+        method: "POST",
+        headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+        body: JSON.stringify({
+          call_uuid: callUuid, destination: "1030605", agent_extension: "1001",
+          ringing_at: "2026-11-21T16:42:10.000Z",
+        }),
+      }), {
+        DB: db as unknown as CallTrackerEnv["DB"],
+        CALL_INGEST_SECRET: "test-secret",
+        TRAFFICSTARS_POSTBACK_ENABLED: "true",
+        TRAFFICSTARS_POSTBACK_KEY: "test-postback-key",
+      });
+
+      expect(response.status).toBe(202);
+      expect(await response.json()).toMatchObject({ attribution: "verified", attribution_method: "signed_call_session", postback_sent: true, postback_status: "sent" });
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      const postbackUrl = new URL(String(fetchMock.mock.calls[0][0]));
+      expect(postbackUrl.origin + postbackUrl.pathname).toBe("https://tsyndicate.com/api/v1/cpa/action");
+      expect(postbackUrl.searchParams.get("clickid")).toBe("traffic-click-verified");
+      expect(postbackUrl.searchParams.get("goalid")).toBe("6487");
+      expect(postbackUrl.searchParams.get("lead_code")).toBe(callUuid);
+      expect(postbackUrl.searchParams.get("key")).toBe("test-postback-key");
+      expect(postbackUrl.searchParams.has("price")).toBe(false);
+      expect(postbackUrl.searchParams.has("value")).toBe(false);
+      expect(db.ringingEvents.get(callUuid)).toMatchObject({ postback_status: "sent", postback_attempt_count: 1 });
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("retries due failed postbacks on the scheduled handler with the same call UUID", async () => {
     const db = new FakeD1();
     db.ringingEvents.set(callUuid, { call_uuid: callUuid, click_id: "traffic-click-retry", attribution_status: "candidate", attribution_method: "unique_intent_time_window", postback_status: "failed", postback_attempt_count: 1, postback_next_retry_at: "2020-01-01T00:00:00.000Z" });

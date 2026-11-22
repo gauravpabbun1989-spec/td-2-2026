@@ -159,7 +159,7 @@ async function sendRingingPostback(
   if (attempt > MAX_POSTBACK_ATTEMPTS) return { sent: false, status: "failed" };
   const endpoint = new URL("https://tsyndicate.com/api/v1/cpa/action");
   endpoint.search = new URLSearchParams({
-    value: "0", price: "0", lead_code: event.call_uuid,
+    lead_code: event.call_uuid,
     clickid: event.click_id, key: env.TRAFFICSTARS_POSTBACK_KEY, goalid: GOAL_ID,
   }).toString();
   const attemptedAt = new Date().toISOString();
@@ -486,6 +486,7 @@ export default {
             call_uuid: stored.call_uuid,
             click_id: stored.click_id || null,
             attribution_status: stored.attribution_status || "unmatched",
+            attribution_method: stored.attribution_method || null,
           })
         : { sent: false, status: "failed" as const };
 
