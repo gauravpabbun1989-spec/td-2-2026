@@ -332,6 +332,20 @@ function appendDtmfTokenToPhoneLink(link: Element | null): boolean {
   return true;
 }
 
+function attachAndRotateDtmfToken(link: Element | null) {
+  if (!link) return;
+  const tokenAttached = appendDtmfTokenToPhoneLink(link);
+  if (tokenAttached) {
+    try {
+      window.sessionStorage.removeItem(TRAFFICSTARS_DTMF_TOKEN_KEY);
+      window.sessionStorage.removeItem(TRAFFICSTARS_DTMF_TOKEN_EXPIRY_KEY);
+    } catch {
+      // A consumed one-time token must not block the phone action.
+    }
+  }
+  void prepareTrafficStarsDialToken();
+}
+
 function getIntentFamily(path = getCleanPagePath()) {
   if (/airlines|airline-reservation/i.test(path)) return "airline";
   if (/flight-(change|cancellation|booking-assistance|booking)|book-a-flight|international-flight|last-minute-flight|multi-city|group-flight|business-class|same-day|family-flight|pet-flight|infant-flight|baggage/i.test(path)) return "booking_service";
@@ -537,6 +551,12 @@ export function trackPhoneClick(location: string, event?: Event) {
   if (event && handledClicks.has(event)) return;
   if (event) handledClicks.add(event);
 
+  if (event) {
+    const target = event.target as Element | null;
+    const phoneLink = target?.closest?.('a[href^="tel:"]') || null;
+    attachAndRotateDtmfToken(phoneLink);
+  }
+
   const normalizedLocation = normalizeCtaLocation(location);
   const last = recentEmits.get(normalizedLocation);
   if (last !== undefined && Date.now() - last < DEDUPE_WINDOW_MS) return;
@@ -672,17 +692,7 @@ if (typeof document !== "undefined") {
 
     // Add the prefetched one-time DTMF token before the browser launches the native dialer.
     // If prefetch failed or the token expired, the original phone link remains unchanged.
-    const tokenAttached = appendDtmfTokenToPhoneLink(link);
-    if (tokenAttached) {
-      try {
-        window.sessionStorage.removeItem(TRAFFICSTARS_DTMF_TOKEN_KEY);
-        window.sessionStorage.removeItem(TRAFFICSTARS_DTMF_TOKEN_EXPIRY_KEY);
-      } catch {
-        // A consumed one-time token must not block the phone action.
-      }
-    }
-    // Prefetch a fresh one-time token for a possible subsequent call attempt.
-    void prepareTrafficStarsDialToken();
+    attachAndRotateDtmfToken(link);
 
     // A tel: click is intent only. Never send a TrafficStars conversion here.
     // Goal 6487 is reserved for verified accepted calls from the call-tracking backend.
