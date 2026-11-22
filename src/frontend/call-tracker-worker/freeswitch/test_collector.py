@@ -15,13 +15,14 @@ class RingingDetectorTests(unittest.TestCase):
         self.db = sqlite3.connect(":memory:")
         self.db.execute("""
             CREATE TABLE ringing_notifications (
-                call_uuid TEXT PRIMARY KEY, ringing_at TEXT NOT NULL,
+                call_uuid TEXT PRIMARY KEY, ringing_at TEXT NOT NULL, tracking_token TEXT,
                 status TEXT NOT NULL DEFAULT 'pending',
                 attempts INTEGER NOT NULL DEFAULT 0, last_error TEXT,
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
         """)
         self.event = {
+            "variable_td_tracking_token": "12345678",
             "Event-Name": "CHANNEL_PROGRESS",
             "Call-Direction": "outbound",
             "Other-Leg-Direction": "inbound",
