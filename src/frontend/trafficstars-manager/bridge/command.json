@@ -1,6 +1,4 @@
 {
-  "action": "list_campaign_banners",
-  "campaign_id": 1653463,
-  "page": 1,
-  "size": 100
+  "action": "get_campaign_details",
+  "campaign_id": 1653463
 }
