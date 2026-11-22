@@ -49,7 +49,7 @@ class FakeD1 {
       },
       async all<T>() {
         db.statements.push(sql);
-        if (sql.startsWith("SELECT call_uuid,click_id,attribution_status FROM call_ringing_events WHERE postback_status='failed'")) {
+        if (sql.startsWith("SELECT call_uuid,click_id,attribution_status,attribution_method FROM call_ringing_events WHERE postback_status='failed'")) {
           const [now, maxAttempts] = values;
           const rows = [...db.ringingEvents.values()].filter((row) => row.postback_status === "failed" && typeof row.postback_next_retry_at === "string" && row.postback_next_retry_at <= String(now) && Number(row.postback_attempt_count || 0) < Number(maxAttempts));
           return { results: rows as T[] };
@@ -76,7 +76,7 @@ class FakeD1 {
             call_uuid: uuid, destination, agent_extension: agent, ringing_at: ringingAt,
             goal_id: goalId, event_type: "call_ringing", click_id: null,
             attribution_status: sql.includes("'ambiguous'") ? "ambiguous" : "unmatched",
-            attribution_method: sql.includes("time_window_multiple_clicks") ? "time_window_multiple_clicks" : "no_intent_in_time_window",
+            attribution_method: sql.includes("no_verified_click_transport") ? "no_verified_click_transport" : "no_intent_in_time_window",
             matched_intent_id: null,
           });
         } else if (sql.startsWith("UPDATE call_ringing_events SET postback_status=")) {
@@ -264,7 +264,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     });
   });
 
-  it("links a ringing UUID to the sole click ID in the conservative time window", async () => {
+  it("does not attribute a ringing call from a nearby website intent", async () => {
     const db = new FakeD1();
     db.intents.set("intent-ring-1", {
       intent_id: "intent-ring-1", click_id: "traffic-click-1",
@@ -278,62 +278,28 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
         ringing_at: "2026-11-21T16:42:10.000Z",
       }),
     }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
-    expect(response.status).toBe(202);
     expect(await response.json()).toMatchObject({
-      click_id: "traffic-click-1", attribution: "candidate",
-      attribution_method: "unique_intent_time_window", postback_sent: false,
+      click_id: null, attribution: "unmatched",
+      attribution_method: "no_verified_click_transport", postback_sent: false,
     });
     expect(db.ringingEvents.get(callUuid)).toMatchObject({
-      click_id: "traffic-click-1", attribution_status: "candidate",
-      matched_intent_id: "intent-ring-1",
+      click_id: null, attribution_status: "unmatched",
+      attribution_method: "no_verified_click_transport",
     });
-    expect(db.intents.get("intent-ring-1")).toMatchObject({
-      status: "candidate", matched_call_uuid: callUuid,
-    });
+    expect(db.intents.get("intent-ring-1")?.status).toBe("open");
   });
-
-  it("leaves ringing attribution ambiguous when multiple click IDs are in the time window", async () => {
-    const db = new FakeD1();
-    db.intents.set("intent-ring-1", {
-      intent_id: "intent-ring-1", click_id: "traffic-click-1",
-      created_at: "2026-11-21T16:41:30.000Z", status: "open",
-    });
-    db.intents.set("intent-ring-2", {
-      intent_id: "intent-ring-2", click_id: "traffic-click-2",
-      created_at: "2026-11-21T16:41:50.000Z", status: "open",
-    });
-    const response = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
-      method: "POST",
-      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
-      body: JSON.stringify({
-        call_uuid: callUuid, destination: "1030605", agent_extension: "1001",
-        ringing_at: "2026-11-21T16:42:10.000Z",
-      }),
-    }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
-    expect(await response.json()).toMatchObject({
-      click_id: null, attribution: "ambiguous",
-      attribution_method: "time_window_multiple_clicks", postback_sent: false,
-    });
-    expect(db.ringingEvents.get(callUuid)).toMatchObject({
-      click_id: null, attribution_status: "ambiguous",
-    });
-  });
-
 
   it("retries due failed postbacks on the scheduled handler with the same call UUID", async () => {
     const db = new FakeD1();
-    db.ringingEvents.set(callUuid, { call_uuid: callUuid, click_id: "traffic-click-retry", attribution_status: "candidate", postback_status: "failed", postback_attempt_count: 1, postback_next_retry_at: "2020-01-01T00:00:00.000Z" });
+    db.ringingEvents.set(callUuid, { call_uuid: callUuid, click_id: "traffic-click-retry", attribution_status: "candidate", attribution_method: "unique_intent_time_window", postback_status: "failed", postback_attempt_count: 1, postback_next_retry_at: "2020-01-01T00:00:00.000Z" });
     const fetchMock = vi.fn().mockResolvedValue(new Response("ok", { status: 200 }));
     vi.stubGlobal("fetch", fetchMock);
     let scheduledWork: Promise<unknown> | undefined;
     try {
       worker.scheduled({ scheduledTime: Date.now(), cron: "* * * * *" }, { DB: db as unknown as CallTrackerEnv["DB"], TRAFFICSTARS_POSTBACK_ENABLED: "true", TRAFFICSTARS_POSTBACK_KEY: "test-postback-key" }, { waitUntil(promise) { scheduledWork = promise; } });
       await scheduledWork;
-      expect(fetchMock).toHaveBeenCalledTimes(1);
-      const requestedUrl = new URL(String(fetchMock.mock.calls[0][0]));
-      expect(requestedUrl.searchParams.get("goalid")).toBe("6487");
-      expect(requestedUrl.searchParams.get("lead_code")).toBe(callUuid);
-      expect(db.ringingEvents.get(callUuid)).toMatchObject({ postback_status: "sent", postback_attempt_count: 2, postback_next_retry_at: null, postback_http_status: 200 });
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(db.ringingEvents.get(callUuid)).toMatchObject({ postback_status: "failed", postback_attempt_count: 1 });
     } finally { vi.unstubAllGlobals(); }
   });
 
@@ -365,43 +331,23 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
   });
 });
 
-describe("call-tracker conservative intent-to-call correlation", () => {
-  it("creates a candidate only when the time window contains one distinct click ID", async () => {
+describe("call-tracker fail-closed intent-to-call correlation", () => {
+  it("never matches a FreeSWITCH call to a website intent using timestamps", async () => {
     const db = new FakeD1();
     db.intents.set("intent-one", { intent_id: "intent-one", click_id: "click-one", created_at: "2026-11-21T16:40:00.000Z", status: "open" });
     const response = await ingest(db, [callBody()]);
     expect(response.status).toBe(200);
-    expect(await response.json()).toMatchObject({ correlated_candidates: 1, ambiguous: 0, unmatched: 0, conversions_created: 0 });
-    expect(db.calls.get(callUuid)).toMatchObject({ click_id: "click-one", attribution_status: "candidate", attribution_method: "unique_intent_time_window", matched_intent_id: "intent-one" });
-    expect(db.intents.get("intent-one")).toMatchObject({ status: "candidate", matched_call_uuid: callUuid });
+    expect(await response.json()).toMatchObject({ correlated_candidates: 0, ambiguous: 0, unmatched: 1, conversions_created: 0 });
+    expect(db.calls.get(callUuid)).toMatchObject({ click_id: null, attribution_status: "unmatched" });
+    expect(db.intents.get("intent-one")?.status).toBe("open");
   });
 
-  it("does not guess when two distinct click IDs are in the time window", async () => {
+  it("keeps an existing call attribution decision unchanged on sync retry", async () => {
     const db = new FakeD1();
-    db.intents.set("intent-one", { intent_id: "intent-one", click_id: "click-one", created_at: "2026-11-21T16:40:00.000Z", status: "open" });
-    db.intents.set("intent-two", { intent_id: "intent-two", click_id: "click-two", created_at: "2026-11-21T16:41:00.000Z", status: "open" });
-    const response = await ingest(db, [callBody()]);
-    expect(await response.json()).toMatchObject({ correlated_candidates: 0, ambiguous: 1, unmatched: 0 });
-    expect(db.calls.get(callUuid)).toMatchObject({ click_id: null, attribution_status: "ambiguous" });
-    expect(db.intents.get("intent-one")?.status).toBe("ambiguous");
-    expect(db.intents.get("intent-two")?.status).toBe("ambiguous");
-  });
-
-  it("leaves calls unmatched when no intent exists", async () => {
-    const db = new FakeD1();
+    db.calls.set(callUuid, { call_uuid: callUuid, click_id: null, attribution_status: "unmatched" });
     const response = await ingest(db, [callBody()]);
     expect(await response.json()).toMatchObject({ correlated_candidates: 0, ambiguous: 0, unmatched: 1 });
-    expect(db.calls.get(callUuid)).toMatchObject({ click_id: null, attribution_status: "unmatched" });
-  });
-
-  it("does not rematch an already ingested call on sync retry", async () => {
-    const db = new FakeD1();
-    db.calls.set(callUuid, { call_uuid: callUuid, click_id: "original-click", attribution_status: "candidate" });
-    db.intents.set("intent-new", { intent_id: "intent-new", click_id: "later-click", created_at: "2026-11-21T16:41:00.000Z", status: "open" });
-    const response = await ingest(db, [callBody()]);
-    expect(await response.json()).toMatchObject({ correlated_candidates: 1, ambiguous: 0, unmatched: 0 });
-    expect(db.calls.get(callUuid)?.click_id).toBe("original-click");
-    expect(db.intents.get("intent-new")?.status).toBe("open");
+    expect(db.calls.get(callUuid)?.click_id).toBeNull();
   });
 
   it("keeps the accepted-call endpoint disabled", async () => {
