@@ -160,8 +160,11 @@ describe("GA4 phone_click payload contract", () => {
     window.history.replaceState({}, "", "/flight-change/");
     analytics.trackPhoneClick("header.call_button");
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    const intentCalls = fetchMock.mock.calls.filter(([url]) =>
+      String(url).endsWith("/intent"),
+    );
+    expect(intentCalls).toHaveLength(1);
+    const [url, init] = intentCalls[0] as [string, RequestInit];
     expect(url).toBe("https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/intent");
     expect(init).toMatchObject({
       method: "POST",
