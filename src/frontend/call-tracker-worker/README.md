@@ -14,9 +14,13 @@ Do not rotate or replace the existing TrafficStars postback key as part of routi
 
 ## Click-to-call correlation and attribution safety
 
-The website can record a TrafficStars click ID and a phone-call intent. The shared toll-free PSTN route forwards calls to FreeSWITCH destination `1030605`, then extension `1001`; that route does not, by itself, transport the browser click ID. Calls from every source can therefore be recorded at FreeSWITCH, but the call's source cannot be proven from the destination or timestamps.
+The website can record a TrafficStars click ID and phone-call intent. For a click-attributed visit, it prefetches an eight-digit, one-time DTMF token from `POST /v1/call-token` and appends it as post-dial digits to the existing `tel:` link. The Worker stores only the SHA-256 token hash, click ID, creation time, and 30-minute expiry. The website does not delay or block the native dialer if token prefetch fails.
 
-**Fail-closed rule:** time-window correlation is disabled. A nearby website intent is not proof that the caller came from that click. All calls are retained as `unmatched` with no click ID until a verified call-session identifier is carried into FreeSWITCH and linked to the exact FreeSWITCH call UUID. Do not re-enable timestamp-based matching.
+The FreeSWITCH inbound route must answer the caller, collect the eight digits with `play_and_get_digits`, export `td_tracking_token` to the bridged agent leg, and then continue to extension `1001`. The collector forwards that token with the first agent-ringing event. The Worker consumes the token once and binds it to the exact FreeSWITCH call UUID. A valid token is recorded as `verified` with attribution method `one_time_dtmf_token`.
+
+**Dialer limitation:** Android and iOS dialers do not all handle post-dial pauses and DTMF identically. A call without a transmitted or manually entered token must still reach the agent, but remains `unmatched`. Do not claim complete attribution until the FreeSWITCH route is configured and an approved real call confirms token delivery.
+
+**Fail-closed rule:** time-window correlation remains disabled. A nearby website intent is not proof that the caller came from that click. Never infer a click ID from caller number, destination, or timestamps.
 
 
 ## Conversion milestone: first real ring
