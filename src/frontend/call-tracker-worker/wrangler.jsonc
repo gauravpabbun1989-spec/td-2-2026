@@ -11,5 +11,8 @@
       "database_name": "ticketdepart-call-tracking",
       "database_id": "38237e67-7562-4480-a849-95b70d5ee338"
     }
-  ]
+  ],
+  "triggers": {
+    "crons": ["* * * * *"]
+  }
 }

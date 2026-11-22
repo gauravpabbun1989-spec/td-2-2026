@@ -250,68 +250,81 @@ async function correlateAndStoreRingingEvent(
 
 type RingingPostbackResult = {
   sent: boolean;
-  status: "sent" | "failed" | "disabled" | "unattributed" | "already_sent";
+  status: "sent" | "failed" | "disabled" | "unattributed" | "already_sent" | "rejected";
 };
+const MAX_POSTBACK_ATTEMPTS = 6;
+const POSTBACK_RETRY_BASE_MS = 60 * 1000;
 
-/**
- * Report the configured conversion at the first FreeSWITCH ring event.
- * A stable call UUID is used as lead_code so retries are deduplicated by
- * TrafficStars' clickid + lead_code uniqueness rule. Ring events are not
- * accepted/connected calls, so value and price remain zero (no payout claim).
- */
 async function sendRingingPostback(
   env: CallTrackerEnv,
-  event: {
-    call_uuid: string;
-    click_id: string | null;
-    attribution_status: string;
-  },
+  event: { call_uuid: string; click_id: string | null; attribution_status: string },
 ): Promise<RingingPostbackResult> {
-  if (event.attribution_status !== "candidate" || !event.click_id) {
-    return { sent: false, status: "unattributed" };
-  }
-  if (env.TRAFFICSTARS_POSTBACK_ENABLED !== "true" || !env.TRAFFICSTARS_POSTBACK_KEY) {
-    return { sent: false, status: "disabled" };
-  }
-
+  if (event.attribution_status !== "candidate" || !event.click_id) return { sent: false, status: "unattributed" };
+  if (env.TRAFFICSTARS_POSTBACK_ENABLED !== "true" || !env.TRAFFICSTARS_POSTBACK_KEY) return { sent: false, status: "disabled" };
   const prior = await env.DB.prepare(
-    "SELECT postback_status FROM call_ringing_events WHERE call_uuid=?",
-  ).bind(event.call_uuid).first<{ postback_status: string }>();
-  if (prior?.postback_status === "sent") {
-    return { sent: false, status: "already_sent" };
-  }
-
+    "SELECT postback_status,postback_attempt_count FROM call_ringing_events WHERE call_uuid=?",
+  ).bind(event.call_uuid).first<{ postback_status: string; postback_attempt_count: number }>();
+  if (prior?.postback_status === "sent") return { sent: false, status: "already_sent" };
+  const attempt = Number(prior?.postback_attempt_count || 0) + 1;
+  if (attempt > MAX_POSTBACK_ATTEMPTS) return { sent: false, status: "failed" };
   const endpoint = new URL("https://tsyndicate.com/api/v1/cpa/action");
   endpoint.search = new URLSearchParams({
-    value: "0",
-    price: "0",
-    lead_code: event.call_uuid,
-    clickid: event.click_id,
-    key: env.TRAFFICSTARS_POSTBACK_KEY,
-    goalid: GOAL_ID,
+    value: "0", price: "0", lead_code: event.call_uuid,
+    clickid: event.click_id, key: env.TRAFFICSTARS_POSTBACK_KEY, goalid: GOAL_ID,
   }).toString();
-
   const attemptedAt = new Date().toISOString();
+  const persist = async (status: "sent" | "failed" | "rejected", httpStatus: number | null, error: string | null) => {
+    const retryAt = status === "failed" && attempt < MAX_POSTBACK_ATTEMPTS
+      ? new Date(Date.now() + POSTBACK_RETRY_BASE_MS * 2 ** (attempt - 1)).toISOString()
+      : null;
+    await env.DB.prepare(
+      "UPDATE call_ringing_events SET postback_status=?,postback_attempt_count=?,postback_attempted_at=?,postback_http_status=?,postback_next_retry_at=?,postback_last_error=? WHERE call_uuid=?",
+    ).bind(status, attempt, attemptedAt, httpStatus, retryAt, error, event.call_uuid).run();
+  };
   try {
     const response = await fetch(endpoint.toString(), { method: "GET" });
-    await env.DB.prepare(
-      "UPDATE call_ringing_events SET postback_status=?,postback_attempted_at=?,postback_http_status=? WHERE call_uuid=?",
-    ).bind(
-      response.ok ? "sent" : "failed",
-      attemptedAt,
+    if (response.ok) {
+      await persist("sent", response.status, null);
+      return { sent: true, status: "sent" };
+    }
+    const retryable = response.status === 408 || response.status === 429 || response.status >= 500;
+    await persist(
+      retryable ? "failed" : "rejected",
       response.status,
-      event.call_uuid,
-    ).run();
-    return { sent: response.ok, status: response.ok ? "sent" : "failed" };
+      retryable ? `TrafficStars HTTP ${response.status}` : `TrafficStars rejected postback (HTTP ${response.status})`,
+    );
+    return { sent: false, status: retryable ? "failed" : "rejected" };
   } catch {
-    await env.DB.prepare(
-      "UPDATE call_ringing_events SET postback_status='failed',postback_attempted_at=?,postback_http_status=NULL WHERE call_uuid=?",
-    ).bind(attemptedAt, event.call_uuid).run();
+    await persist("failed", null, "TrafficStars request failed before an HTTP response");
     return { sent: false, status: "failed" };
   }
 }
 
+async function retryFailedPostbacks(env: CallTrackerEnv) {
+  if (env.TRAFFICSTARS_POSTBACK_ENABLED !== "true" || !env.TRAFFICSTARS_POSTBACK_KEY) return { checked: 0, sent: 0, failed: 0 };
+  const due = await env.DB.prepare(
+    "SELECT call_uuid,click_id,attribution_status FROM call_ringing_events WHERE postback_status='failed' AND postback_next_retry_at IS NOT NULL AND postback_next_retry_at<=? AND postback_attempt_count<? ORDER BY postback_next_retry_at ASC LIMIT 25",
+  ).bind(new Date().toISOString(), MAX_POSTBACK_ATTEMPTS).all<{
+    call_uuid: string; click_id: string | null; attribution_status: string;
+  }>();
+  let sent = 0;
+  let failed = 0;
+  for (const event of due.results || []) {
+    const result = await sendRingingPostback(env, event);
+    if (result.sent) sent += 1;
+    else if (result.status === "failed") failed += 1;
+  }
+  return { checked: due.results?.length || 0, sent, failed };
+}
+
 export default {
+  async scheduled(
+    _controller: { scheduledTime: number; cron: string },
+    env: CallTrackerEnv,
+    context: { waitUntil(promise: Promise<unknown>): void },
+  ) {
+    context.waitUntil(retryFailedPostbacks(env));
+  },
   async fetch(request: Request, env: CallTrackerEnv): Promise<Response> {
     const url = new URL(request.url);
 

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import worker, { type CallTrackerEnv } from "../../call-tracker-worker/worker";
 
 type ClickRow = { click_id: string; expires_at: string };
@@ -27,6 +27,10 @@ class FakeD1 {
         if (sql.startsWith("SELECT click_id, expires_at FROM traffic_clicks")) {
           return (db.clicks.get(String(values[0])) || null) as T | null;
         }
+        if (sql.startsWith("SELECT postback_status,postback_attempt_count FROM call_ringing_events")) {
+          const row = db.ringingEvents.get(String(values[0]));
+          return row ? ({ postback_status: row.postback_status, postback_attempt_count: row.postback_attempt_count || 0 } as T) : null;
+        }
         if (sql.startsWith("SELECT call_uuid FROM call_ringing_events")) {
           return (db.ringingEvents.get(String(values[0])) || null) as T | null;
         }
@@ -45,6 +49,11 @@ class FakeD1 {
       },
       async all<T>() {
         db.statements.push(sql);
+        if (sql.startsWith("SELECT call_uuid,click_id,attribution_status FROM call_ringing_events WHERE postback_status='failed'")) {
+          const [now, maxAttempts] = values;
+          const rows = [...db.ringingEvents.values()].filter((row) => row.postback_status === "failed" && typeof row.postback_next_retry_at === "string" && row.postback_next_retry_at <= String(now) && Number(row.postback_attempt_count || 0) < Number(maxAttempts));
+          return { results: rows as T[] };
+        }
         if (sql.startsWith("SELECT intent_id,click_id,created_at FROM call_intents")) {
           const [from, through, limit] = values;
           const rows = [...db.intents.values()]
@@ -70,6 +79,10 @@ class FakeD1 {
             attribution_method: sql.includes("time_window_multiple_clicks") ? "time_window_multiple_clicks" : "no_intent_in_time_window",
             matched_intent_id: null,
           });
+        } else if (sql.startsWith("UPDATE call_ringing_events SET postback_status=")) {
+          const [status, attempts, attemptedAt, httpStatus, retryAt, lastError, uuid] = values;
+          const row = db.ringingEvents.get(String(uuid));
+          if (row) Object.assign(row, { postback_status: status, postback_attempt_count: attempts, postback_attempted_at: attemptedAt, postback_http_status: httpStatus, postback_next_retry_at: retryAt, postback_last_error: lastError });
         } else if (sql.startsWith("INSERT INTO call_intents")) {
           const [intentId, clickId, createdAt, pagePath, ctaLocation] = values;
           if (!db.intents.has(String(intentId))) db.intents.set(String(intentId), {
@@ -304,6 +317,36 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     expect(db.ringingEvents.get(callUuid)).toMatchObject({
       click_id: null, attribution_status: "ambiguous",
     });
+  });
+
+
+  it("retries due failed postbacks on the scheduled handler with the same call UUID", async () => {
+    const db = new FakeD1();
+    db.ringingEvents.set(callUuid, { call_uuid: callUuid, click_id: "traffic-click-retry", attribution_status: "candidate", postback_status: "failed", postback_attempt_count: 1, postback_next_retry_at: "2020-01-01T00:00:00.000Z" });
+    const fetchMock = vi.fn().mockResolvedValue(new Response("ok", { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+    let scheduledWork: Promise<unknown> | undefined;
+    try {
+      worker.scheduled({ scheduledTime: Date.now(), cron: "* * * * *" }, { DB: db as unknown as CallTrackerEnv["DB"], TRAFFICSTARS_POSTBACK_ENABLED: "true", TRAFFICSTARS_POSTBACK_KEY: "test-postback-key" }, { waitUntil(promise) { scheduledWork = promise; } });
+      await scheduledWork;
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      const requestedUrl = new URL(String(fetchMock.mock.calls[0][0]));
+      expect(requestedUrl.searchParams.get("goalid")).toBe("6487");
+      expect(requestedUrl.searchParams.get("lead_code")).toBe(callUuid);
+      expect(db.ringingEvents.get(callUuid)).toMatchObject({ postback_status: "sent", postback_attempt_count: 2, postback_next_retry_at: null, postback_http_status: 200 });
+    } finally { vi.unstubAllGlobals(); }
+  });
+
+  it("does not run scheduled postbacks while the feature flag is disabled", async () => {
+    const db = new FakeD1();
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    let scheduledWork: Promise<unknown> | undefined;
+    try {
+      worker.scheduled({ scheduledTime: Date.now(), cron: "* * * * *" }, { DB: db as unknown as CallTrackerEnv["DB"], TRAFFICSTARS_POSTBACK_KEY: "existing-key" }, { waitUntil(promise) { scheduledWork = promise; } });
+      await scheduledWork;
+      expect(fetchMock).not.toHaveBeenCalled();
+    } finally { vi.unstubAllGlobals(); }
   });
 
   it("rejects ringing events for an unexpected DID or extension", async () => {

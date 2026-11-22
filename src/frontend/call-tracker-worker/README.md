@@ -10,35 +10,46 @@ The Wrangler configuration binds the existing D1 database `ticketdepart-call-tra
 - `INGEST_SECRET`
 - `TRAFFICSTARS_POSTBACK_KEY`
 
+Do not rotate or replace the existing TrafficStars postback key as part of routine deployment.
+
 ## Click-to-call correlation
 
 The browser records a TrafficStars click and a phone-call intent. The single-DID PSTN route (DID `1030605` to agent extension `1001`) does not transport the browser click ID. No caller-number or SIP-header value currently joins those two records.
 
-The Worker uses conservative *candidate* matching in two places:
-- Completed-call sync looks back 10 minutes from the FreeSWITCH call's `created_at`, allowing 30 seconds of future clock skew.
-- The ringing endpoint looks back 10 minutes from `ringing_at`, with the same 30-second skew allowance, so the intent is correlated at the user's configured ringing milestone.
+The Worker uses conservative *candidate* matching:
+- The ringing endpoint looks back 10 minutes from `ringing_at`, allowing 30 seconds of future clock skew.
 - A match is made only when the time window contains exactly one distinct TrafficStars click ID. Multiple distinct IDs are marked `ambiguous`; no intent is `unmatched`.
 - The nearest intent is reserved to one FreeSWITCH call UUID. Retries do not rematch an existing ringing event.
-- Matches are labeled `candidate` with method `unique_intent_time_window`; they are not verified attribution.
+- Matches are labeled `candidate` with method `unique_intent_time_window`; this is best-effort time-window attribution, not proof that a caller came from that ad click.
 
-## Ringing conversion event
+## Conversion milestone: first real ring
 
-FreeSWITCH must notify `POST /v1/calls/ringing` as soon as the inbound call is actually offered/ringing on extension `1001`. The request uses the existing `CALL_INGEST_SECRET` bearer authentication and contains only:
+The configured conversion milestone is the first real inbound ring offered by FreeSWITCH to extension `1001`. A missed or unanswered call counts if it actually rang at FreeSWITCH. Answering the call is not required for this ring conversion.
+
+FreeSWITCH sends `POST /v1/calls/ringing` using the existing `CALL_INGEST_SECRET` bearer authentication and:
 - `call_uuid` (FreeSWITCH UUID)
 - `destination` (`1030605`)
 - `agent_extension` (`1001`)
 - `ringing_at` (ISO timestamp)
 
-The Worker stores one `call_ringing_events` row per call UUID with Goal ID `6487`. Repeated notifications are idempotent. Calls that reach FreeSWITCH but never ring are not recorded as ringing events; unanswered/missed calls that did ring are recorded.
+The Worker stores one `call_ringing_events` row per call UUID with Goal ID `6487`. Repeated notifications are idempotent. Calls that reach FreeSWITCH but never ring are not ringing conversions.
 
-At ring time, the Worker stores the matched click ID and attribution status/method on the same ringing row. A `candidate` is still best-effort time-window attribution, not proof that the caller came from that ad click. The local FreeSWITCH event listener is already configured to call this endpoint on the real ringing event. This PR changes Worker source and tests only; it does not alter the live server or deploy the Worker.
+## TrafficStars postback delivery
 
-## Qualification and postbacks
+Postbacks are gated by `TRAFFICSTARS_POSTBACK_ENABLED=true` and the already-configured `TRAFFICSTARS_POSTBACK_KEY`. Keep the feature disabled until a real click-to-ring test has verified the event and attribution and the user explicitly approves enabling it.
 
-Unanswered calls, voicemail, and test calls must not count as accepted calls. Qualification must use the actual answered agent leg and billable duration. No numeric minimum duration has been approved yet, so this Worker does not mark calls accepted. The `/v1/calls/accepted` endpoint continues to return HTTP 409. No accepted-call conversion rows or TrafficStars postbacks are created. The separate ringing event is recorded as described above.
+When enabled, only a uniquely matched `candidate` event can send Goal `6487`. The FreeSWITCH call UUID is the stable `lead_code` on every attempt. HTTP 408, 429, 5xx, and network failures are retried by the once-per-minute scheduled Worker with exponential backoff (maximum six attempts). Permanent 4xx rejections are recorded without retry. A successful 2xx response is recorded as sent. No postback is sent for unmatched or ambiguous calls.
 
-## Migration and deployment
+The retry schedule does not enable postbacks. Events recorded while postbacks are disabled remain `not_sent`; enabling the flag is a separate, explicit production decision.
 
-Apply migrations in order to the existing D1 database: `0002_intent_call_correlation.sql`, `0003_ringing_click_attribution.sql`, then `0004_trafficstars_postback_status.sql`. The production deploy workflow applies pending remote migrations before deploying the Worker. Postback sending remains gated by `TRAFFICSTARS_POSTBACK_ENABLED` and the `TRAFFICSTARS_POSTBACK_KEY` secret; do not enable the campaign until the secret is rotated/configured and a real click-to-ring test confirms a uniquely attributed event and successful postback.
+The separate completed-call sync and `/v1/calls/accepted` endpoint are not the configured conversion milestone. Do not report accepted-call qualification or payout from a ringing event.
 
-The GitHub Actions workflow validates the Worker bundle and focused tests.
+## Migrations and deployment
+
+Apply additive migrations in order to the existing D1 database:
+1. `0002_intent_call_correlation.sql`
+2. `0003_ringing_click_attribution.sql`
+3. `0004_trafficstars_postback_status.sql`
+4. `0005_postback_retry_schedule.sql`
+
+The production deploy workflow applies pending remote migrations before deploying only `ticketdepart-call-tracker`. The scheduled retry handler runs once per minute. It does not send anything while the postback feature flag is disabled.
