@@ -40,10 +40,10 @@ class RingingDetectorTests(unittest.TestCase):
         with patch.object(collector, "send_pending_ringing") as send:
             collector.queue_ringing_event(self.db, self.event)
         row = self.db.execute(
-            "SELECT call_uuid, status FROM ringing_notifications"
+            "SELECT call_uuid, status, tracking_token FROM ringing_notifications"
         ).fetchone()
         self.assertEqual(row, (
-            "9ec7c8dc-d189-49ab-85f3-84cd165fe3c5", "pending"
+            "9ec7c8dc-d189-49ab-85f3-84cd165fe3c5", "pending", "12345678"
         ))
         send.assert_called_once_with(self.db)
 
