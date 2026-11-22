@@ -141,6 +141,27 @@ describe("one-time DTMF call attribution", () => {
     });
   });
 
+  it("does not attribute an expired token", async () => {
+    const db = new DtmfFakeD1();
+    db.clicks.set("traffic-click-1", {
+      click_id: "traffic-click-1",
+      expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+    });
+    const issued = await issueToken(db);
+    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(issued.token));
+    const hash = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+    const row = db.tokens.get(hash);
+    if (!row) throw new Error("issued token was not stored");
+    row.expires_at = new Date(Date.now() - 1000).toISOString();
+
+    const response = await ring(db, callUuid, issued.token);
+    expect(await response.json()).toMatchObject({
+      attribution: "unmatched",
+      attribution_method: "invalid_expired_or_reused_dtmf_token",
+      click_id: null,
+    });
+  });
+
   it("rejects token issuance from unapproved origins", async () => {
     const response = await worker.fetch(new Request("https://tracker.example/v1/call-token", {
       method: "POST",
