@@ -253,10 +253,14 @@ def main():
                     event_data.get("Hangup-Cause"), event_data.get("variable_duration"),
                     event_data.get("variable_billsec"), event_name,
                 ))
+                # The one-time DTMF token is needed only for the pending Worker
+                # delivery. Do not retain it in the general event-history table.
+                safe_event_data = dict(event_data)
+                safe_event_data.pop("variable_td_tracking_token", None)
                 db.execute("""
                     INSERT INTO call_events(event_time, event_name, uuid, details)
                     VALUES (?, ?, ?, ?)
-                """, (stamp, event_name, call_uuid, json.dumps(event_data)))
+                """, (stamp, event_name, call_uuid, json.dumps(safe_event_data)))
                 db.commit()
                 print("Saved " + event_name + " for call " + call_uuid, flush=True)
                 queue_ringing_event(db, event_data)
