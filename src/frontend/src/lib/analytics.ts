@@ -315,16 +315,21 @@ async function prepareTrafficStarsDialToken() {
   }
 }
 
-function appendDtmfTokenToPhoneLink(link: Element | null) {
-  const token = getStoredDtmfToken();
-  if (!token || !link) return;
+function appendDtmfTokenToPhoneLink(link: Element | null): boolean {
+  if (!link) return false;
   const anchor = link as HTMLAnchorElement;
   const original = anchor.getAttribute("data-td-original-href") || anchor.getAttribute("href") || "";
-  if (!/^tel:/i.test(original)) return;
+  if (!/^tel:/i.test(original)) return false;
+  const token = getStoredDtmfToken();
+  if (!token) {
+    if (anchor.hasAttribute("data-td-original-href")) anchor.setAttribute("href", original);
+    return false;
+  }
   const phoneNumber = original.slice(4).split(/[;,]/, 1)[0];
-  if (!phoneNumber) return;
+  if (!phoneNumber) return false;
   anchor.setAttribute("data-td-original-href", original);
   anchor.setAttribute("href", `tel:${phoneNumber},${token}`);
+  return true;
 }
 
 function getIntentFamily(path = getCleanPagePath()) {
@@ -667,7 +672,17 @@ if (typeof document !== "undefined") {
 
     // Add the prefetched one-time DTMF token before the browser launches the native dialer.
     // If prefetch failed or the token expired, the original phone link remains unchanged.
-    appendDtmfTokenToPhoneLink(link);
+    const tokenAttached = appendDtmfTokenToPhoneLink(link);
+    if (tokenAttached) {
+      try {
+        window.sessionStorage.removeItem(TRAFFICSTARS_DTMF_TOKEN_KEY);
+        window.sessionStorage.removeItem(TRAFFICSTARS_DTMF_TOKEN_EXPIRY_KEY);
+      } catch {
+        // A consumed one-time token must not block the phone action.
+      }
+    }
+    // Prefetch a fresh one-time token for a possible subsequent call attempt.
+    void prepareTrafficStarsDialToken();
 
     // A tel: click is intent only. Never send a TrafficStars conversion here.
     // Goal 6487 is reserved for verified accepted calls from the call-tracking backend.
