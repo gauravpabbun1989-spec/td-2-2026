@@ -33,6 +33,8 @@ The Worker stores one `call_ringing_events` row per call UUID with Goal ID `6487
 
 ## TrafficStars postback delivery
 
+The sender uses TrafficStars' `/api/v2/cpa/action` endpoint, which is required for the platform's S2S Test validation. It sends `clickid`, `goalid=6487`, the FreeSWITCH UUID as `lead_code`, and the existing account key. It omits `value` and `price`: this campaign uses its configured $15 CPA price, and no separate revenue value is being reported.
+
 Postbacks are gated by `TRAFFICSTARS_POSTBACK_ENABLED=true` and the already-configured `TRAFFICSTARS_POSTBACK_KEY`. Keep the feature disabled until the signed call-session transport is implemented, verified through an approved real call, and the user explicitly approves enabling it. Do not create test calls or test conversions.
 
 When enabled, only an event marked `verified` with attribution method `signed_call_session` and a non-empty click ID can send Goal `6487`. The FreeSWITCH call UUID is the stable `lead_code` on every attempt. Legacy `candidate` events produced by timestamp matching are not eligible. HTTP 408, 429, 5xx, and network failures are retried by the once-per-minute scheduled Worker with exponential backoff (maximum six attempts). Permanent 4xx rejections are recorded without retry. A successful 2xx response is recorded as sent. No postback is sent for unmatched or ambiguous calls.
