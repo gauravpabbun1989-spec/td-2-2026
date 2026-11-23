@@ -15,13 +15,14 @@ class RingingDetectorTests(unittest.TestCase):
         self.db = sqlite3.connect(":memory:")
         self.db.execute("""
             CREATE TABLE ringing_notifications (
-                call_uuid TEXT PRIMARY KEY, ringing_at TEXT NOT NULL,
+                call_uuid TEXT PRIMARY KEY, ringing_at TEXT NOT NULL, tracking_token TEXT,
                 status TEXT NOT NULL DEFAULT 'pending',
                 attempts INTEGER NOT NULL DEFAULT 0, last_error TEXT,
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
         """)
         self.event = {
+            "variable_td_tracking_token": "12345678",
             "Event-Name": "CHANNEL_PROGRESS",
             "Call-Direction": "outbound",
             "Other-Leg-Direction": "inbound",
@@ -39,10 +40,10 @@ class RingingDetectorTests(unittest.TestCase):
         with patch.object(collector, "send_pending_ringing") as send:
             collector.queue_ringing_event(self.db, self.event)
         row = self.db.execute(
-            "SELECT call_uuid, status FROM ringing_notifications"
+            "SELECT call_uuid, status, tracking_token FROM ringing_notifications"
         ).fetchone()
         self.assertEqual(row, (
-            "9ec7c8dc-d189-49ab-85f3-84cd165fe3c5", "pending"
+            "9ec7c8dc-d189-49ab-85f3-84cd165fe3c5", "pending", "12345678"
         ))
         send.assert_called_once_with(self.db)
 

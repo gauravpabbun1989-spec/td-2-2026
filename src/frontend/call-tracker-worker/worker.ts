@@ -21,6 +21,8 @@ export interface CallTrackerEnv {
 const GOAL_ID = "6487";
 const CAMPAIGN_ID = "1653463";
 const CLICK_TTL_MS = 90 * 24 * 60 * 60 * 1000;
+const CALL_TOKEN_TTL_MS = 30 * 60 * 1000;
+const CALL_TOKEN_ORIGINS = new Set(["https://ticketdepart.com", "https://www.ticketdepart.com"]);
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), {
@@ -44,6 +46,31 @@ async function auth(request: Request, secret?: string): Promise<boolean> {
     difference |= supplied[index] ^ expected[index];
   }
   return difference === 0;
+}
+
+function corsJson(request: Request, data: unknown, status = 200) {
+  const origin = request.headers.get("origin") || "";
+  if (!CALL_TOKEN_ORIGINS.has(origin)) return json({ error: "origin_not_allowed" }, 403);
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+      "access-control-allow-origin": origin,
+      "vary": "Origin",
+    },
+  });
+}
+
+async function hashCallToken(token: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
+  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+function createCallToken(): string {
+  const value = new Uint32Array(1);
+  crypto.getRandomValues(value);
+  return String(10_000_000 + (value[0] % 90_000_000));
 }
 
 const validTime = (value: unknown): value is string =>
@@ -108,7 +135,7 @@ async function correlateAndStoreCall(env: CallTrackerEnv, call: InboundCall) {
 
 async function correlateAndStoreRingingEvent(
   env: CallTrackerEnv,
-  input: { call_uuid: string; destination: string; agent_extension: string; ringing_at: string },
+  input: { call_uuid: string; destination: string; agent_extension: string; ringing_at: string; tracking_token: string | null },
 ) {
   const existing = await env.DB.prepare(
     "SELECT call_uuid,click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events WHERE call_uuid=?",
@@ -116,18 +143,37 @@ async function correlateAndStoreRingingEvent(
     call_uuid: string; click_id: string | null; attribution_status: string;
     attribution_method: string | null; matched_intent_id: string | null;
   }>();
-
   if (existing) return { ...existing, duplicate: true };
 
-  // Record every real FreeSWITCH ring, but fail closed on attribution.
-  // The shared toll-free PSTN route does not carry the browser click ID.
-  await env.DB.prepare(
-    "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) VALUES (?,?,?,?,?,'call_ringing',NULL,'unmatched','no_verified_click_transport',NULL) ON CONFLICT(call_uuid) DO NOTHING",
-  ).bind(
-    input.call_uuid, input.destination, input.agent_extension,
-    input.ringing_at, GOAL_ID,
-  ).run();
+  let clickId: string | null = null;
+  let attributionStatus = "unmatched";
+  let attributionMethod = "no_verified_dtmf_token";
+  if (input.tracking_token) {
+    const tokenHash = await hashCallToken(input.tracking_token);
+    const now = new Date().toISOString();
+    let consumed = await env.DB.prepare(
+      "UPDATE call_tracking_tokens SET consumed_at=?,consumed_call_uuid=? WHERE token_hash=? AND consumed_at IS NULL AND expires_at>? RETURNING click_id",
+    ).bind(now, input.call_uuid, tokenHash, now).first<{ click_id: string }>();
+    if (!consumed) {
+      consumed = await env.DB.prepare(
+        "SELECT click_id FROM call_tracking_tokens WHERE token_hash=? AND consumed_call_uuid=? AND consumed_at IS NOT NULL",
+      ).bind(tokenHash, input.call_uuid).first<{ click_id: string }>();
+    }
+    if (consumed?.click_id) {
+      clickId = consumed.click_id;
+      attributionStatus = "verified";
+      attributionMethod = "one_time_dtmf_token";
+    } else {
+      attributionMethod = "invalid_expired_or_reused_dtmf_token";
+    }
+  }
 
+  await env.DB.prepare(
+    "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) VALUES (?,?,?,?,?,'call_ringing',?,?,?,NULL) ON CONFLICT(call_uuid) DO NOTHING",
+  ).bind(
+    input.call_uuid, input.destination, input.agent_extension, input.ringing_at,
+    GOAL_ID, clickId, attributionStatus, attributionMethod,
+  ).run();
   const stored = await env.DB.prepare(
     "SELECT call_uuid,click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events WHERE call_uuid=?",
   ).bind(input.call_uuid).first<{
@@ -149,7 +195,7 @@ async function sendRingingPostback(
   env: CallTrackerEnv,
   event: { call_uuid: string; click_id: string | null; attribution_status: string; attribution_method?: string | null },
 ): Promise<RingingPostbackResult> {
-  if (event.attribution_status !== "verified" || event.attribution_method !== "signed_call_session" || !event.click_id) return { sent: false, status: "unattributed" };
+  if (event.attribution_status !== "verified" || !["signed_call_session", "one_time_dtmf_token"].includes(String(event.attribution_method || "")) || !event.click_id) return { sent: false, status: "unattributed" };
   if (env.TRAFFICSTARS_POSTBACK_ENABLED !== "true" || !env.TRAFFICSTARS_POSTBACK_KEY) return { sent: false, status: "disabled" };
   const prior = await env.DB.prepare(
     "SELECT postback_status,postback_attempt_count FROM call_ringing_events WHERE call_uuid=?",
@@ -213,7 +259,11 @@ export default {
     env: CallTrackerEnv,
     context: { waitUntil(promise: Promise<unknown>): void },
   ) {
-    context.waitUntil(retryFailedPostbacks(env));
+    context.waitUntil(Promise.all([
+      retryFailedPostbacks(env),
+      env.DB.prepare("DELETE FROM call_tracking_tokens WHERE expires_at<=?")
+        .bind(new Date().toISOString()).run(),
+    ]));
   },
   async fetch(request: Request, env: CallTrackerEnv): Promise<Response> {
     const url = new URL(request.url);
@@ -225,6 +275,51 @@ export default {
         goal_id: GOAL_ID,
         database: Boolean(env.DB),
       });
+    }
+
+    if (request.method === "POST" && url.pathname === "/v1/call-token") {
+      if (!CALL_TOKEN_ORIGINS.has(request.headers.get("origin") || "")) {
+        return json({ error: "origin_not_allowed" }, 403);
+      }
+      let body: Record<string, unknown>;
+      try { body = JSON.parse(await request.text()); }
+      catch { return corsJson(request, { error: "invalid_json" }, 400); }
+      const clickId = String(body.click_id || "").trim();
+      if (!/^[A-Za-z0-9._~-]{1,200}$/.test(clickId)) {
+        return corsJson(request, { error: "invalid_click_id" }, 400);
+      }
+      const now = new Date();
+      const nowIso = now.toISOString();
+      const existingClick = await env.DB.prepare(
+        "SELECT click_id,expires_at FROM traffic_clicks WHERE click_id=?",
+      ).bind(clickId).first<{ click_id: string; expires_at: string }>();
+      if (existingClick) {
+        if (!validTime(existingClick.expires_at) || Date.parse(existingClick.expires_at) <= now.getTime()) {
+          return corsJson(request, { error: "unknown_or_expired_click_id" }, 404);
+        }
+      } else {
+        const suppliedClickTime = validTime(body.clicked_at) ? new Date(String(body.clicked_at)) : now;
+        if (suppliedClickTime.getTime() > now.getTime() + 5 * 60 * 1000 ||
+            suppliedClickTime.getTime() < now.getTime() - CLICK_TTL_MS) {
+          return corsJson(request, { error: "invalid_clicked_at" }, 400);
+        }
+        const rawPath = String(body.landing_path || "/").slice(0, 512);
+        const landingPath = rawPath.startsWith("/") ? rawPath : "/";
+        await env.DB.prepare(
+          "INSERT INTO traffic_clicks (click_id,campaign_id,creative_id,site_id,country_code,landing_path,clicked_at,expires_at) VALUES (?,?,?,?,?,?,?,?) ON CONFLICT(click_id) DO NOTHING",
+        ).bind(
+          clickId, CAMPAIGN_ID, String(body.banner_id || "").slice(0, 80) || null,
+          "ticketdepart.com", null, landingPath, suppliedClickTime.toISOString(),
+          new Date(suppliedClickTime.getTime() + CLICK_TTL_MS).toISOString(),
+        ).run();
+      }
+      const token = createCallToken();
+      const tokenHash = await hashCallToken(token);
+      const expiresAt = new Date(now.getTime() + CALL_TOKEN_TTL_MS).toISOString();
+      await env.DB.prepare(
+        "INSERT INTO call_tracking_tokens (token_hash,click_id,created_at,expires_at) VALUES (?,?,?,?)",
+      ).bind(tokenHash, clickId, nowIso, expiresAt).run();
+      return corsJson(request, { ok: true, token, expires_at: expiresAt, token_ttl_seconds: CALL_TOKEN_TTL_MS / 1000 }, 201);
     }
 
     if (request.method === "GET" && url.pathname === "/click") {
@@ -462,6 +557,10 @@ export default {
       const destination = String(body.destination || "");
       const agentExtension = String(body.agent_extension || "");
       const ringingAt = body.ringing_at;
+      const trackingToken = body.tracking_token == null ? null : String(body.tracking_token);
+      if (trackingToken !== null && !/^\d{8}$/.test(trackingToken)) {
+        return json({ error: "invalid_tracking_token" }, 400);
+      }
 
       if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(callUuid)) {
         return json({ error: "invalid_call_uuid" }, 400);
@@ -480,6 +579,7 @@ export default {
         destination,
         agent_extension: agentExtension,
         ringing_at: ringingAt,
+        tracking_token: trackingToken,
       });
       const postback = stored?.call_uuid
         ? await sendRingingPostback(env, {
