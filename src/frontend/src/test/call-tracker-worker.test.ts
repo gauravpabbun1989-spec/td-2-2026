@@ -348,3 +348,62 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
       worker.scheduled({ scheduledTime: Date.now(), cron: "* * * * *" }, { DB: db as unknown as CallTrackerEnv["DB"], TRAFFICSTARS_POSTBACK_ENABLED: "true", TRAFFICSTARS_POSTBACK_KEY: "test-postback-key" }, { waitUntil(promise) { scheduledWork = promise; } });
       await scheduledWork;
       expect(fetchMock).not.toHaveBeenCalled();
+      expect(db.ringingEvents.get(callUuid)).toMatchObject({ postback_status: "failed", postback_attempt_count: 1 });
+    } finally { vi.unstubAllGlobals(); }
+  });
+
+  it("does not run scheduled postbacks while the feature flag is disabled", async () => {
+    const db = new FakeD1();
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    let scheduledWork: Promise<unknown> | undefined;
+    try {
+      worker.scheduled({ scheduledTime: Date.now(), cron: "* * * * *" }, { DB: db as unknown as CallTrackerEnv["DB"], TRAFFICSTARS_POSTBACK_KEY: "existing-key" }, { waitUntil(promise) { scheduledWork = promise; } });
+      await scheduledWork;
+      expect(fetchMock).not.toHaveBeenCalled();
+    } finally { vi.unstubAllGlobals(); }
+  });
+
+  it("rejects ringing events for an unexpected DID or extension", async () => {
+    const db = new FakeD1();
+    const response = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
+      method: "POST",
+      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+      body: JSON.stringify({
+        call_uuid: callUuid, destination: "9999999", agent_extension: "1001",
+        ringing_at: "2026-11-21T16:42:10.000Z",
+      }),
+    }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
+    expect(response.status).toBe(400);
+    expect(await response.json()).toMatchObject({ error: "invalid_call_route" });
+    expect(db.ringingEvents.size).toBe(0);
+  });
+});
+
+describe("call-tracker fail-closed intent-to-call correlation", () => {
+  it("never matches a FreeSWITCH call to a website intent using timestamps", async () => {
+    const db = new FakeD1();
+    db.intents.set("intent-one", { intent_id: "intent-one", click_id: "click-one", created_at: "2026-11-21T16:40:00.000Z", status: "open" });
+    const response = await ingest(db, [callBody()]);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ correlated_candidates: 0, ambiguous: 0, unmatched: 1, conversions_created: 0 });
+    expect(db.calls.get(callUuid)).toMatchObject({ click_id: null, attribution_status: "unmatched" });
+    expect(db.intents.get("intent-one")?.status).toBe("open");
+  });
+
+  it("keeps an existing call attribution decision unchanged on sync retry", async () => {
+    const db = new FakeD1();
+    db.calls.set(callUuid, { call_uuid: callUuid, click_id: null, attribution_status: "unmatched" });
+    const response = await ingest(db, [callBody()]);
+    expect(await response.json()).toMatchObject({ correlated_candidates: 0, ambiguous: 0, unmatched: 1 });
+    expect(db.calls.get(callUuid)?.click_id).toBeNull();
+  });
+
+  it("keeps the accepted-call endpoint disabled", async () => {
+    const response = await worker.fetch(new Request("https://tracker.example/v1/calls/accepted", {
+      method: "POST", headers: { authorization: "Bearer test-secret" }, body: "{}",
+    }), { DB: new FakeD1() as unknown as CallTrackerEnv["DB"], INGEST_SECRET: "test-secret" });
+    expect(response.status).toBe(409);
+    expect(await response.json()).toMatchObject({ error: "attribution_not_verified" });
+  });
+});
