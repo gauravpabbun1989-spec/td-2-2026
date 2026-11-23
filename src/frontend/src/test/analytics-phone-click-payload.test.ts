@@ -160,11 +160,8 @@ describe("GA4 phone_click payload contract", () => {
     window.history.replaceState({}, "", "/flight-change/");
     analytics.trackPhoneClick("header.call_button");
 
-    const intentCalls = fetchMock.mock.calls.filter(([url]) =>
-      String(url).endsWith("/intent"),
-    );
-    expect(intentCalls).toHaveLength(1);
-    const [url, init] = intentCalls[0] as [string, RequestInit];
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(url).toBe("https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/intent");
     expect(init).toMatchObject({
       method: "POST",
@@ -181,32 +178,6 @@ describe("GA4 phone_click payload contract", () => {
     });
     expect(payload.intent_id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[4-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
     expect(calls.filter((call) => call[0] === "event" && call[1] === "phone_click")).toHaveLength(1);
-  });
-
-  it("appends a prefetched one-time DTMF token to a React-handled tel link", async () => {
-    window.history.replaceState({}, "", "/?click_id=td-click-dtmf-1");
-    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(
-      new Response(JSON.stringify({
-        ok: true,
-        token: "12345678",
-        expires_at: new Date(Date.now() + 60_000).toISOString(),
-      }), { status: 201, headers: { "content-type": "application/json" } }),
-    ));
-    vi.stubGlobal("fetch", fetchMock);
-    const { analytics } = await loadAnalytics();
-
-    await vi.waitFor(() => {
-      expect(window.sessionStorage.getItem("ticketdepart_trafficstars_dtmf_token")).toBe("12345678");
-    });
-
-    const link = makeLink("tel:+18777888010");
-    link.addEventListener("click", (event) => analytics.trackPhoneClick("header.call_button", event));
-    document.body.append(link);
-    link.click();
-
-    expect(link.getAttribute("href")).toBe("tel:+18777888010,12345678");
-    expect(window.sessionStorage.getItem("ticketdepart_trafficstars_dtmf_token")).toBeNull();
-    link.remove();
   });
 
   it("ignores an unresolved click ID macro", async () => {
