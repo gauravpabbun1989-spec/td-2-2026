@@ -71,12 +71,12 @@ class FakeD1 {
           const id = String(clickId);
           if (!db.clicks.has(id)) db.clicks.set(id, { click_id: id, expires_at: String(expiresAt) });
         } else if (sql.startsWith("INSERT INTO call_ringing_events")) {
-          const [uuid, destination, agent, ringingAt, goalId, clickId, attributionStatus, attributionMethod] = values;
+          const [uuid, destination, agent, ringingAt, goalId] = values;
           if (!db.ringingEvents.has(String(uuid))) db.ringingEvents.set(String(uuid), {
             call_uuid: uuid, destination, agent_extension: agent, ringing_at: ringingAt,
-            goal_id: goalId, event_type: "call_ringing", click_id: clickId,
-            attribution_status: attributionStatus,
-            attribution_method: attributionMethod,
+            goal_id: goalId, event_type: "call_ringing", click_id: null,
+            attribution_status: sql.includes("'ambiguous'") ? "ambiguous" : "unmatched",
+            attribution_method: sql.includes("no_verified_click_transport") ? "no_verified_click_transport" : "no_intent_in_time_window",
             matched_intent_id: null,
           });
         } else if (sql.startsWith("UPDATE call_ringing_events SET postback_status=")) {
@@ -280,11 +280,11 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
     expect(await response.json()).toMatchObject({
       click_id: null, attribution: "unmatched",
-      attribution_method: "no_verified_dtmf_token", postback_sent: false,
+      attribution_method: "no_verified_click_transport", postback_sent: false,
     });
     expect(db.ringingEvents.get(callUuid)).toMatchObject({
       click_id: null, attribution_status: "unmatched",
-      attribution_method: "no_verified_dtmf_token",
+      attribution_method: "no_verified_click_transport",
     });
     expect(db.intents.get("intent-ring-1")?.status).toBe("open");
   });
