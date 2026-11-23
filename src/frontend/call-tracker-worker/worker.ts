@@ -157,7 +157,7 @@ async function sendRingingPostback(
   if (prior?.postback_status === "sent") return { sent: false, status: "already_sent" };
   const attempt = Number(prior?.postback_attempt_count || 0) + 1;
   if (attempt > MAX_POSTBACK_ATTEMPTS) return { sent: false, status: "failed" };
-  const endpoint = new URL("https://tsyndicate.com/api/v2/cpa/action");
+  const endpoint = new URL("https://tsyndicate.com/api/v1/cpa/action");
   endpoint.search = new URLSearchParams({
     lead_code: event.call_uuid,
     clickid: event.click_id, key: env.TRAFFICSTARS_POSTBACK_KEY, goalid: GOAL_ID,
