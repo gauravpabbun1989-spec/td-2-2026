@@ -130,7 +130,13 @@ function auditOnce() {
   assert(buildWorkflow.includes("pnpm --dir src/frontend test"), "frontend tests missing from CI");
   assert(buildWorkflow.includes("pnpm --dir src/frontend build"), "frontend build missing from CI");
   assert(!buildWorkflow.includes("wrangler") && !buildWorkflow.includes("Cloudflare"), "main-site CI must not treat Cloudflare as the production host");
-  assert(!existsSync(join(ROOT, ".github/workflows/deploy-cloudflare-production.yml")), "main-site Cloudflare production deployment must remain disabled while Caffeine controls DNS and hosting");
+  assert(
+    existsSync(join(ROOT, ".github/workflows/deploy-cloudflare-website.yml")) &&
+      read(".github/workflows/deploy-cloudflare-website.yml").includes("Deploy only ticket-depart2 website Worker") &&
+      read(".github/workflows/deploy-cloudflare-website.yml").includes("wrangler.jsonc"),
+    "Cloudflare website deployment must target the existing ticket-depart2 Worker",
+  );
+  assert(!existsSync(join(ROOT, ".github/workflows/deploy-cloudflare-production.yml")), "legacy Cloudflare production deployment workflow must remain absent");
   assert(buildWorkflow.includes("pnpm test:backend"), "backend integration tests missing from CI");
 
   assert(site.includes('phoneDisplay: "+1-888-564-9049"'), "canonical phone display does not match the updated number");
