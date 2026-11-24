@@ -179,7 +179,7 @@ const callUuid = "a4fc0bfd-0aac-42c3-a7b7-139323d45675";
 const callAt = "2026-11-21T16:42:15.000Z";
 function callBody(uuid = callUuid) {
   return {
-    call_uuid: uuid, destination: "1030605", agent_extension: "1001",
+    call_uuid: uuid, destination: "+1-888-564-9049", agent_extension: "1001",
     created_at: callAt, answered_at: callAt, hangup_at: "2026-11-21T16:42:30.000Z", billsec: 15,
   };
 }
@@ -237,7 +237,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     const db = new FakeD1();
     const payload = {
       call_uuid: callUuid,
-      destination: "1030605",
+      destination: "+1-888-564-9049",
       agent_extension: "1001",
       ringing_at: "2026-11-21T16:42:10.000Z",
     };
@@ -274,7 +274,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
       method: "POST",
       headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
       body: JSON.stringify({
-        call_uuid: callUuid, destination: "1030605", agent_extension: "1001",
+        call_uuid: callUuid, destination: "+1-888-564-9049", agent_extension: "1001",
         ringing_at: "2026-11-21T16:42:10.000Z",
       }),
     }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
@@ -293,7 +293,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     const db = new FakeD1();
     db.ringingEvents.set(callUuid, {
       call_uuid: callUuid,
-      destination: "1030605",
+      destination: "+1-888-564-9049",
       agent_extension: "1001",
       ringing_at: "2026-11-21T16:42:10.000Z",
       goal_id: "6487",
@@ -311,7 +311,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
         method: "POST",
         headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
         body: JSON.stringify({
-          call_uuid: callUuid, destination: "1030605", agent_extension: "1001",
+          call_uuid: callUuid, destination: "+1-888-564-9049", agent_extension: "1001",
           ringing_at: "2026-11-21T16:42:10.000Z",
         }),
       }), {
