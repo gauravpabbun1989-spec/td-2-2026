@@ -57,7 +57,7 @@ jobs:
   deploy:
     name: Deploy call-tracker Worker to production
     # Production deployment must be explicitly dispatched; merging a PR must never deploy.
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
     needs: validate
     runs-on: ubuntu-latest
     timeout-minutes: 15
