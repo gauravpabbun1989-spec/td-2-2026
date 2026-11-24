@@ -56,7 +56,7 @@ jobs:
 
   deploy:
     name: Deploy call-tracker Worker to production
-    # Production deployment must be explicitly dispatched; merging a PR must never deploy.
+    # PRs only validate. A merge to main deploys only after this workflow's own validation succeeds; manual dispatch remains supported.
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
     needs: validate
     runs-on: ubuntu-latest
