@@ -186,7 +186,7 @@ describe("TripRequestForm", () => {
     );
     expect(confirmation).not.toBeNull();
     expect(confirmation).toHaveTextContent(
-      "Need help faster? Call a Travel Specialist: +1-877-788-8010",
+      "Need help faster? Call a Travel Specialist: +1-888-564-9049",
     );
   });
 
