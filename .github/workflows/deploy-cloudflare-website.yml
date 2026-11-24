@@ -1,0 +1,50 @@
+name: Deploy Cloudflare website Worker
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ticketdepart-website-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.18.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build website assets
+        run: pnpm --dir src/frontend build
+      - name: Require Cloudflare deployment credential
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN}" ]; then
+            echo "::error::GitHub Actions secret CLOUDFLARE_API_TOKEN is missing."
+            exit 1
+          fi
+      - name: Deploy only ticket-depart2 website Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: "5421346b1bf08e0583cb670e97887719"
+        run: pnpm dlx wrangler@4.157.0 deploy --config wrangler.jsonc
+      - name: Verify production toll-free CTA
+        run: |
+          set -euo pipefail
+          html="$(curl --fail --silent --show-error https://ticketdepart.com/)"
+          echo "$html" | grep -q '+1-888-564-9049'
+          echo "Production homepage contains the canonical TicketDepart toll-free number."
