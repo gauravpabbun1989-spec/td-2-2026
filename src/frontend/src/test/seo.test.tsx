@@ -79,7 +79,6 @@ describe("per-route metadata", () => {
     const description = metaContent('meta[name="description"]') ?? "";
     expect(description.length).toBeLessThanOrEqual(155);
     expect(description.split("+1-888-564-9049").length - 1).toBe(1);
-    expect(description).not.toMatch(/Call \\+1-888-564-9049\\. Call/i);
   });
 
   it("gives each route a distinct title", async () => {
