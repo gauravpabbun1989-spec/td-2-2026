@@ -2,5 +2,5 @@
   "display": "+1-888-564-9049",
   "tel": "+18885649049",
   "legacy": [],
-  "instruction": "Canonical TicketDepart customer-facing number: +1-888-564-9049 (tel:+18885649049). Keep all customer-facing displays, tel links, structured data, static HTML and generated assets synchronized. Internal Telxio SIP registration credentials are separate from the public DID and must not be changed unless Telxio explicitly changes those credentials."
+  "instruction": "This is the canonical TicketDepart customer-facing phone number: +1-888-564-9049 (tel:+18885649049). Keep all displays, tel links, structured data, static HTML and generated assets synchronized. Telxio SIP registration credentials are separate internal authentication settings; do not replace the internal SIP username 1030605 unless Telxio changes that credential."
 }
