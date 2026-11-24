@@ -325,7 +325,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
       expect(await response.json()).toMatchObject({ attribution: "verified", attribution_method: "signed_call_session", postback_sent: true, postback_status: "sent" });
       expect(fetchMock).toHaveBeenCalledTimes(1);
       const postbackUrl = new URL(String(fetchMock.mock.calls[0][0]));
-      expect(postbackUrl.origin + postbackUrl.pathname).toBe("https://tsyndicate.com/api/v1/cpa/action");
+      expect(postbackUrl.origin + postbackUrl.pathname).toBe("https://tsyndicate.com/api/v2/cpa/action");
       expect(postbackUrl.searchParams.get("clickid")).toBe("traffic-click-verified");
       expect(postbackUrl.searchParams.get("goalid")).toBe("6487");
       expect(postbackUrl.searchParams.get("lead_code")).toBe(callUuid);
