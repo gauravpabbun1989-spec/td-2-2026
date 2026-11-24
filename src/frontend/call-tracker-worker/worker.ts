@@ -16,6 +16,7 @@ export interface CallTrackerEnv {
   INGEST_SECRET?: string;
   TRAFFICSTARS_POSTBACK_KEY?: string;
   TRAFFICSTARS_POSTBACK_ENABLED?: string;
+  TELXIO_WEBHOOK_TOKEN?: string;
 }
 
 const GOAL_ID = "6487";
@@ -217,6 +218,55 @@ export default {
   },
   async fetch(request: Request, env: CallTrackerEnv): Promise<Response> {
     const url = new URL(request.url);
+
+    // Telxio provider webhook intake. The URL path contains a high-entropy token
+    // because provider webhook products do not always support custom auth headers.
+    // This endpoint records provider events only; it never creates call conversions.
+    const telxioPrefix = "/webhook/telxio/";
+    if (request.method === "POST" && url.pathname.startsWith(telxioPrefix)) {
+      const suppliedToken = url.pathname.slice(telxioPrefix.length);
+      const expectedToken = env.TELXIO_WEBHOOK_TOKEN || "";
+      const supplied = new TextEncoder().encode(suppliedToken);
+      const expected = new TextEncoder().encode(expectedToken);
+      let difference = supplied.length ^ expected.length;
+      const length = Math.max(supplied.length, expected.length);
+      for (let index = 0; index < length; index += 1) {
+        difference |= (supplied[index] || 0) ^ (expected[index] || 0);
+      }
+      if (!expectedToken || difference !== 0) return json({ error: "unauthorized" }, 401);
+      const raw = await request.text();
+      if (raw.length > 32768) return json({ error: "payload_too_large" }, 413);
+      let payload: Record<string, unknown>;
+      try {
+        const parsed: unknown = JSON.parse(raw);
+        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return json({ error: "invalid_payload" }, 400);
+        payload = parsed as Record<string, unknown>;
+      } catch {
+        return json({ error: "invalid_json" }, 400);
+      }
+      const pick = (...values: unknown[]) => {
+        const found = values.find(value => typeof value === "string" || typeof value === "number");
+        return found === undefined ? null : String(found).slice(0, 200);
+      };
+      const eventType = pick(payload.event_type, payload.eventType, payload.event, payload.type, payload.status) || "unknown";
+      const providerCallId = pick(payload.call_id, payload.callId, payload.call_uuid, payload.uuid, payload.id);
+      const providerEventId = pick(payload.event_id, payload.eventId, payload.webhook_id) ||
+        Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(raw))))
+          .map(byte => byte.toString(16).padStart(2, "0")).join("");
+      const caller = pick(payload.caller_number, payload.caller, payload.from, payload.ani, payload.phone_number);
+      const called = pick(payload.called_number, payload.destination, payload.to, payload.did, payload.dnis);
+      const eventTime = pick(payload.event_at, payload.timestamp, payload.created_at, payload.time);
+      const callerHash = caller
+        ? Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(caller))))
+            .map(byte => byte.toString(16).padStart(2, "0")).join("")
+        : null;
+      const payloadHash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(raw))))
+        .map(byte => byte.toString(16).padStart(2, "0")).join("");
+      await env.DB.prepare(
+        "INSERT INTO telxio_webhook_events (provider_event_id,event_type,provider_call_id,caller_number_hash,called_number,event_at,received_at,payload_sha256) VALUES (?,?,?,?,?,?,?,?) ON CONFLICT(provider_event_id) DO NOTHING",
+      ).bind(providerEventId, eventType, providerCallId, callerHash, called, eventTime, new Date().toISOString(), payloadHash).run();
+      return json({ ok: true, accepted: true, duplicate_safe: true, conversion_created: false }, 202);
+    }
 
     if (request.method === "GET" && url.pathname === "/health") {
       return json({
