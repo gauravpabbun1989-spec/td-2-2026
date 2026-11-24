@@ -46,6 +46,11 @@ async function auth(request: Request, secret?: string): Promise<boolean> {
   return difference === 0;
 }
 
+const isTicketDepartDid = (value: string): boolean => {
+  const digits = value.replace(/\\D/g, "");
+  return digits === "18885649049" || digits === "8885649049";
+};
+
 const validTime = (value: unknown): value is string =>
   typeof value === "string" &&
   value.length <= 40 &&
@@ -392,7 +397,7 @@ export default {
           return json({ error: "invalid_call_uuid" }, 400);
         }
         if (
-          call.destination !== "1030605" ||
+          !isTicketDepartDid(call.destination) ||
           call.agent_extension !== "1001"
         ) {
           return json({ error: "invalid_call_route" }, 400);
@@ -466,7 +471,7 @@ export default {
       if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(callUuid)) {
         return json({ error: "invalid_call_uuid" }, 400);
       }
-      if (destination !== "1030605" || agentExtension !== "1001") {
+      if (!isTicketDepartDid(destination) || agentExtension !== "1001") {
         return json({ error: "invalid_call_route" }, 400);
       }
       if (!validTime(ringingAt)) {
