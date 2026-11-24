@@ -1,7 +1,7 @@
 <include>
   <extension name="ticketdepart_primary_toll_free_inbound">
     <!-- Public DID +1-888-564-9049; 1030605 remains the Telxio SIP-side alias. -->
-    <condition field="destination_number" expression="^(?:1030605|\\+?1?8885649049)$">
+    <condition field="destination_number" expression="^(?:1030605|\+?1?8885649049)$">
       <action application="transfer" data="1001 XML default"/>
     </condition>
   </extension>
