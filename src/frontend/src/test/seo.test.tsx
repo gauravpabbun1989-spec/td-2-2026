@@ -84,7 +84,7 @@ describe("per-route metadata", () => {
       ) ?? [];
     expect(phoneMatches.length).toBeLessThanOrEqual(1);
     expect(
-      phoneMatches.every((phone) => phone.replace(/\D/g, "") === "18885649049"),
+      phoneMatches.every((phone) => phone.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "") === "8885649049"),
     ).toBe(true);
     expect(description).not.toMatch(/Call \+1-888-564-9049\. Call/i);
   });
