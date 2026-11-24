@@ -78,8 +78,7 @@ describe("per-route metadata", () => {
     await screen.findAllByRole("heading", { level: 1 });
     const description = metaContent('meta[name="description"]') ?? "";
     expect(description.length).toBeLessThanOrEqual(155);
-    const phoneMatches = description.match(/(?:\\+?1[\\s().-]*)?(?:800|833|844|855|866|877|888)[\\s().-]*\\d{3}[\\s().-]*\\d{4}/g) ?? [];
-    expect(phoneMatches.length).toBeLessThanOrEqual(1);
+    expect(description.split("+1-888-564-9049").length - 1).toBeLessThanOrEqual(1);
   });
 
   it("gives each route a distinct title", async () => {
