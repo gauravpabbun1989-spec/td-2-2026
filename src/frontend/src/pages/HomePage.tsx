@@ -16,7 +16,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 const HOME_TITLE = "Make Flight Booking Easy | 24/7 Booking Assistance";
-const HOME_DESCRIPTION = "Call +1-877-788-8010 for 24/7 economy flight booking help. Discuss routes, flexible dates, changes, cancellations, and pet or infant travel.";
+const HOME_DESCRIPTION = "Call +1-888-564-9049 for 24/7 economy flight booking help. Discuss routes, flexible dates, changes, cancellations, and pet or infant travel.";
 
 const HOME_IMAGE = absoluteUrl("/assets/generated/hero-flight.dim_1600x1100.jpg");
 
