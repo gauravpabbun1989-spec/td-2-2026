@@ -92,7 +92,7 @@ describe("GA4 phone_click exactly-once contract", () => {
     const calls = installGtag();
     const { analytics } = await loadAnalytics();
 
-    const link = makeLink("tel:+18777888010", "header.call_button");
+    const link = makeLink("tel:+18885649049", "header.call_button");
     document.body.append(link);
 
     // A component handler on the anchor runs before the document-level
@@ -116,7 +116,7 @@ describe("GA4 phone_click exactly-once contract", () => {
     const calls = installGtag();
     const { analytics } = await loadAnalytics();
 
-    const link = makeLink("tel:+18777888010", "footer.call_button");
+    const link = makeLink("tel:+18885649049", "footer.call_button");
     document.body.append(link);
 
     // A capture-phase handler on `document` runs before the module's
@@ -140,7 +140,7 @@ describe("GA4 phone_click exactly-once contract", () => {
     const calls = installGtag();
     const { analytics } = await loadAnalytics();
 
-    const link = makeLink("tel:+18777888010", "mobile_call.button");
+    const link = makeLink("tel:+18885649049", "mobile_call.button");
     document.body.append(link);
 
     // No event is passed, so the WeakSet cannot help. The component handler
@@ -164,7 +164,7 @@ describe("GA4 phone_click exactly-once contract", () => {
     const calls = installGtag();
     const { analytics } = await loadAnalytics();
 
-    const link = makeLink("tel:+18777888010", "contact.success.call_link");
+    const link = makeLink("tel:+18885649049", "contact.success.call_link");
     document.body.append(link);
 
     // Capture-phase handler runs first and calls without an event; the
@@ -188,7 +188,7 @@ describe("GA4 phone_click exactly-once contract", () => {
     const calls = installGtag();
     await loadAnalytics();
 
-    const link = makeLink("tel:+18777888010", "header.call_button");
+    const link = makeLink("tel:+18885649049", "header.call_button");
     document.body.append(link);
 
     link.click();
