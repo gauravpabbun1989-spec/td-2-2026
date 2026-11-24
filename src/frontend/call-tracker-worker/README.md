@@ -52,3 +52,8 @@ Apply additive migrations in order to the existing D1 database:
 4. `0005_postback_retry_schedule.sql`
 
 The production deploy workflow applies pending remote migrations before deploying only `ticketdepart-call-tracker`. The scheduled retry handler runs once per minute. It does not send anything while the postback feature flag is disabled.
+
+
+## Telxio provider webhook intake
+
+The authenticated provider intake route is `POST /webhook/telxio/{token}`. Configure the Worker secret `TELXIO_WEBHOOK_TOKEN` with a long random value and use that exact value as the final URL path segment in Telxio. The route accepts JSON objects up to 32 KiB, extracts common event/call identifiers, hashes caller numbers and the full payload, and stores a deduplicated event record using migration `0006_telxio_webhook_events.sql`. It does not retain raw payloads or plaintext caller numbers and it never creates a conversion. The provider's actual sample payload and event configuration must be reviewed before connecting these records to FreeSWITCH call UUIDs or ClickFlare attribution.
