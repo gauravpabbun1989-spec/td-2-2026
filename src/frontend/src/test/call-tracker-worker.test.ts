@@ -364,6 +364,20 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     } finally { vi.unstubAllGlobals(); }
   });
 
+  it("accepts the Telxio internal SIP alias while recording the canonical public DID separately", async () => {
+    const db = new FakeD1();
+    const response = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
+      method: "POST",
+      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+      body: JSON.stringify({
+        call_uuid: "bd5a41e2-8e85-4a0a-965a-561f4cae1bcb", destination: "1030605",
+        agent_extension: "1001", ringing_at: "2026-11-21T16:42:10.000Z",
+      }),
+    }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
+    expect(response.status).toBe(202);
+    expect(await response.json()).toMatchObject({ ok: true, goal_id: "6487", recorded: true });
+  });
+
   it("rejects ringing events for an unexpected DID or extension", async () => {
     const db = new FakeD1();
     const response = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
