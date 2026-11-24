@@ -397,6 +397,7 @@ export default {
           return json({ error: "invalid_call_uuid" }, 400);
         }
         if (
+          typeof call.destination !== "string" ||
           !isTicketDepartDid(call.destination) ||
           call.agent_extension !== "1001"
         ) {
