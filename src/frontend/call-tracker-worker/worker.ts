@@ -47,7 +47,7 @@ async function auth(request: Request, secret?: string): Promise<boolean> {
 }
 
 const isTicketDepartDid = (value: string): boolean => {
-  const digits = value.replace(/\\D/g, "");
+  const digits = value.replace(/\D/g, "");
   return digits === "18885649049" || digits === "8885649049";
 };
 
