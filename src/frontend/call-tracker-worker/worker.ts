@@ -228,7 +228,7 @@ export default {
     // provider webhook forms may not let us configure custom authorization headers.
     // This records metadata only; it does not create ClickFlare or TrafficStars conversions.
     const telxioPrefix = "/webhook/telxio/";
-    if (request.method === "POST" && url.pathname.startsWith(telxioPrefix)) {
+    if ((request.method === "POST" || request.method === "GET") && url.pathname.startsWith(telxioPrefix)) {
       const suppliedToken = url.pathname.slice(telxioPrefix.length);
       const expectedToken = env.TELXIO_WEBHOOK_TOKEN || "";
       const supplied = new TextEncoder().encode(suppliedToken);
@@ -239,28 +239,45 @@ export default {
         difference |= (supplied[index] || 0) ^ (expected[index] || 0);
       }
       if (!expectedToken || difference !== 0) return json({ error: "unauthorized" }, 401);
-      const raw = await request.text();
-      if (raw.length > 32768) return json({ error: "payload_too_large" }, 413);
+
+      let raw = "";
       let payload: Record<string, unknown>;
-      try {
-        const parsed: unknown = JSON.parse(raw);
-        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return json({ error: "invalid_payload" }, 400);
-        payload = parsed as Record<string, unknown>;
-      } catch {
-        return json({ error: "invalid_json" }, 400);
+      if (request.method === "GET") {
+        raw = url.searchParams.toString();
+        payload = Object.fromEntries(url.searchParams.entries());
+      } else {
+        const contentType = (request.headers.get("content-type") || "").toLowerCase();
+        const formRequest = contentType.includes("multipart/form-data") ? request.clone() : null;
+        raw = await request.text();
+        if (raw.length > 32768) return json({ error: "payload_too_large" }, 413);
+        try {
+          if (contentType.includes("application/x-www-form-urlencoded")) {
+            payload = Object.fromEntries(new URLSearchParams(raw).entries());
+          } else if (formRequest) {
+            const form = await formRequest.formData();
+            payload = Object.fromEntries(Array.from(form.entries()).map(([key, value]) => [key, typeof value === "string" ? value : value.name]));
+          } else {
+            const parsed: unknown = JSON.parse(raw);
+            if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return json({ error: "invalid_payload" }, 400);
+            payload = parsed as Record<string, unknown>;
+          }
+        } catch {
+          return json({ error: "invalid_payload" }, 400);
+        }
       }
+      if (raw.length > 32768) return json({ error: "payload_too_large" }, 413);
       const pick = (...values: unknown[]) => {
         const found = values.find(value => typeof value === "string" || typeof value === "number");
         return found === undefined ? null : String(found).slice(0, 200);
       };
-      const eventType = pick(payload.event_type, payload.eventType, payload.event, payload.type, payload.status) || "unknown";
-      const providerCallId = pick(payload.call_id, payload.callId, payload.call_uuid, payload.uuid);
-      const providerEventId = pick(payload.event_id, payload.eventId, payload.webhook_id) ||
+      const eventType = pick(payload.event_type, payload.eventType, payload.event, payload.type, payload.status, payload.EventType) || "unknown";
+      const providerCallId = pick(payload.call_id, payload.callId, payload.call_uuid, payload.uuid, payload.uniqueid, payload.unique_id, payload.callid, payload.CallUUID);
+      const providerEventId = pick(payload.event_id, payload.eventId, payload.webhook_id, payload.EventID) ||
         Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(raw))))
           .map(byte => byte.toString(16).padStart(2, "0")).join("");
-      const caller = pick(payload.caller_number, payload.caller, payload.from, payload.ani, payload.phone_number);
-      const called = pick(payload.called_number, payload.destination, payload.to, payload.did, payload.dnis);
-      const eventTime = pick(payload.event_at, payload.timestamp, payload.created_at, payload.time);
+      const caller = pick(payload.caller_number, payload.caller, payload.from, payload.ani, payload.phone_number, payload.callerid, payload.caller_id_number, payload.CallerID);
+      const called = pick(payload.called_number, payload.destination, payload.to, payload.did, payload.dnis, payload.called, payload.called_number, payload.DID);
+      const eventTime = pick(payload.event_at, payload.timestamp, payload.created_at, payload.time, payload.datetime, payload.CallStart);
       const callerHash = caller
         ? Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(caller))))
             .map(byte => byte.toString(16).padStart(2, "0")).join("")
