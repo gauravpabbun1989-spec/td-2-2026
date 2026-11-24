@@ -14,7 +14,7 @@ Do not rotate or replace the existing TrafficStars postback key as part of routi
 
 ## Click-to-call correlation and attribution safety
 
-The website can record a TrafficStars click ID and a phone-call intent. The shared toll-free PSTN route forwards calls to FreeSWITCH destination `+1-888-564-9049`, then extension `1001`; that route does not, by itself, transport the browser click ID. Calls from every source can therefore be recorded at FreeSWITCH, but the call's source cannot be proven from the destination or timestamps.
+The website can record a TrafficStars click ID and a phone-call intent. The shared toll-free PSTN route forwards calls to FreeSWITCH destination `+1-888-564-9049` (public DID; SIP side may present internal alias `1030605`), then extension `1001`; that route does not, by itself, transport the browser click ID. Calls from every source can therefore be recorded at FreeSWITCH, but the call's source cannot be proven from the destination or timestamps.
 
 **Fail-closed rule:** time-window correlation is disabled. A nearby website intent is not proof that the caller came from that click. All calls are retained as `unmatched` with no click ID until a verified call-session identifier is carried into FreeSWITCH and linked to the exact FreeSWITCH call UUID. Do not re-enable timestamp-based matching.
 
@@ -25,7 +25,7 @@ The configured conversion milestone is the first real inbound ring offered by Fr
 
 FreeSWITCH sends `POST /v1/calls/ringing` using the existing `CALL_INGEST_SECRET` bearer authentication and:
 - `call_uuid` (FreeSWITCH UUID)
-- `destination` (`+1-888-564-9049`)
+- `destination` (`+1-888-564-9049` (public DID; SIP side may present internal alias `1030605`))
 - `agent_extension` (`1001`)
 - `ringing_at` (ISO timestamp)
 
@@ -52,3 +52,10 @@ Apply additive migrations in order to the existing D1 database:
 4. `0005_postback_retry_schedule.sql`
 
 The production deploy workflow applies pending remote migrations before deploying only `ticketdepart-call-tracker`. The scheduled retry handler runs once per minute. It does not send anything while the postback feature flag is disabled.
+
+
+## Telxio Call Info webhook
+
+The authenticated provider endpoint is `POST /webhook/telxio/{token}`. The Cloudflare Worker secret `TELXIO_WEBHOOK_TOKEN` must be set to a long random value, and the same value must be the final URL path segment configured in Telxio. The endpoint accepts JSON objects up to 32 KiB, stores deduplicated provider event metadata, hashes caller numbers and payloads, and never creates conversions. The provider's actual webhook sample must be reviewed before correlating provider call IDs with FreeSWITCH UUIDs. Do not use timestamp-only matching.
+
+The inbound FreeSWITCH route accepts either Telxio's SIP destination alias `1030605` or the public DID `+1-888-564-9049` (including normalized digit-only forms), and sends the call to extension `1001`.
