@@ -46,4 +46,29 @@ describe("Telxio webhook intake", () => {
     const array = await worker.fetch(new Request("https://tracker.example/webhook/telxio/right", { method: "POST", body: "[]" }), env);
     expect(array.status).toBe(400);
   });
+
+  it("accepts URL-encoded provider callbacks", async () => {
+    let stored: unknown[] | undefined;
+    const db = { prepare: (sql: string) => ({ bind: (...values: unknown[]) => ({ run: async () => { expect(sql).toContain("INSERT INTO telxio_webhook_events"); stored = values; return {}; } }) }) };
+    const body = new URLSearchParams({ event_id: "evt-form-1", call_id: "telxio-call-2", did: "18885649049", caller: "+15551234567" }).toString();
+    const response = await worker.fetch(new Request("https://tracker.example/webhook/telxio/right", {
+      method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" }, body,
+    }), { DB: db as unknown as CallTrackerEnv["DB"], TELXIO_WEBHOOK_TOKEN: "right" });
+    expect(response.status).toBe(202);
+    expect(stored?.[0]).toBe("evt-form-1");
+    expect(stored?.[2]).toBe("telxio-call-2");
+    expect(stored?.[4]).toBe("18885649049");
+  });
+
+  it("accepts query-string Call Info callbacks", async () => {
+    let stored: unknown[] | undefined;
+    const db = { prepare: (sql: string) => ({ bind: (...values: unknown[]) => ({ run: async () => { expect(sql).toContain("INSERT INTO telxio_webhook_events"); stored = values; return {}; } }) }) };
+    const response = await worker.fetch(new Request("https://tracker.example/webhook/telxio/right?event_id=evt-get-1&callid=telxio-call-3&dnis=18885649049", { method: "GET" }), {
+      DB: db as unknown as CallTrackerEnv["DB"], TELXIO_WEBHOOK_TOKEN: "right",
+    });
+    expect(response.status).toBe(202);
+    expect(stored?.[0]).toBe("evt-get-1");
+    expect(stored?.[2]).toBe("telxio-call-3");
+    expect(stored?.[4]).toBe("18885649049");
+  });
 });
