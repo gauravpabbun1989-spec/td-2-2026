@@ -137,7 +137,7 @@ function auditOnce() {
   assert(site.includes('phoneHref: "tel:+18885649049"'), "canonical phone href does not match the updated number");
   assert(
     phoneConfig.display === "+1-888-564-9049" &&
-      phoneConfig.tel === "+18777888010" &&
+      phoneConfig.tel === "+18885649049" &&
       Array.isArray(phoneConfig.legacy) &&
       phoneConfig.legacy.length === 0,
     "canonical phone config must contain only +1-888-564-9049",
