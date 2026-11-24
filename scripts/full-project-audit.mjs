@@ -133,14 +133,14 @@ function auditOnce() {
   assert(!existsSync(join(ROOT, ".github/workflows/deploy-cloudflare-production.yml")), "main-site Cloudflare production deployment must remain disabled while Caffeine controls DNS and hosting");
   assert(buildWorkflow.includes("pnpm test:backend"), "backend integration tests missing from CI");
 
-  assert(site.includes('phoneDisplay: "+1-877-788-8010"'), "canonical phone display does not match the updated number");
-  assert(site.includes('phoneHref: "tel:+18777888010"'), "canonical phone href does not match the updated number");
+  assert(site.includes('phoneDisplay: "+1-888-564-9049"'), "canonical phone display does not match the updated number");
+  assert(site.includes('phoneHref: "tel:+18885649049"'), "canonical phone href does not match the updated number");
   assert(
-    phoneConfig.display === "+1-877-788-8010" &&
+    phoneConfig.display === "+1-888-564-9049" &&
       phoneConfig.tel === "+18777888010" &&
       Array.isArray(phoneConfig.legacy) &&
       phoneConfig.legacy.length === 0,
-    "canonical phone config must contain only +1-877-788-8010",
+    "canonical phone config must contain only +1-888-564-9049",
   );
   assert(
     notFoundPage.includes("${SITE.phoneDisplay}"),
