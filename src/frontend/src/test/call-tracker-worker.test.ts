@@ -315,7 +315,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
     expect(await response.json()).toMatchObject({
       click_id: null, attribution: "unmatched",
-      attribution_method: "no_verified_click_transport", postback_sent: false,
+      attribution_method: "no_active_did_assignment", postback_sent: false,
     });
     expect(db.ringingEvents.get(callUuid)).toMatchObject({
       click_id: null, attribution_status: "unmatched",
