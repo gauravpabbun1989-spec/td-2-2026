@@ -81,11 +81,13 @@ export function SiteHeader() {
 
         <div className="flex shrink-0 items-center gap-2">
           <a
-            href={phone.href}
-            aria-label={`Call TicketDepart at ${phone.display}`}
+            href={phone.ready ? phone.href : undefined}
+            aria-label={phone.ready ? `Call TicketDepart at ${phone.ready ? phone.display : "Preparing…"}` : "Preparing call number"}
+            aria-disabled={!phone.ready}
+            aria-busy={!phone.ready}
             data-ocid="header.call_button"
             data-cta-location="header"
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-accent px-3 text-xs font-bold tracking-tight text-accent-foreground shadow-subtle transition-smooth hover:scale-[1.02] hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:gap-2 sm:px-4 sm:text-sm"
+            className={`inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-accent px-3 text-xs font-bold tracking-tight text-accent-foreground shadow-subtle transition-smooth hover:scale-[1.02] hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:gap-2 sm:px-4 sm:text-sm ${!phone.ready ? "pointer-events-none opacity-70" : ""}`}
           >
             <Phone aria-hidden="true" className="size-3.5 shrink-0 sm:size-4" />
             <span>Call</span>
