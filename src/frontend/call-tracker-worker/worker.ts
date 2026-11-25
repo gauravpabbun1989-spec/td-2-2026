@@ -423,7 +423,7 @@ export default {
         "SELECT click_id, expires_at, clickflare_click_id FROM traffic_clicks WHERE click_id=?",
       )
         .bind(clickId)
-        .first<{ click_id: string; expires_at: string }>();
+        .first<{ click_id: string; expires_at: string; clickflare_click_id: string | null }>();
 
       let clickRegistered = false;
       if (existingClick) {
