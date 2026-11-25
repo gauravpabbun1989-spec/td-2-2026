@@ -1,9 +1,9 @@
 import { SITE } from "@/lib/site";
-import { useDniPhoneNumber } from "@/lib/dni";
+import { useCallTrackingPhoneNumber } from "@/lib/dni";
 import { Phone } from "lucide-react";
 
 export function MobileCallBar() {
-  const phone = useDniPhoneNumber();
+  const phone = useCallTrackingPhoneNumber();
   return (
     <div
       data-ocid="mobile_call.bar"
