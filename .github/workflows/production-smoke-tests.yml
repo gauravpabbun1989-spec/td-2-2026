@@ -1,10 +1,8 @@
 name: Production smoke tests
 
+# This workflow probes the live Caffeine site. Run it manually after the merged
+# frontend changes have been imported into Caffeine; PR source is not production.
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: "30 9 * * *"

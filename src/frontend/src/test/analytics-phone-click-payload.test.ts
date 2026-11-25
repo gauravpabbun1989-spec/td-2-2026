@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import phoneConfig from "../../phone-config.json";
 
 /**
  * Characterization baseline for the parts of the GA4 `phone_click` contract in
@@ -98,7 +99,7 @@ describe("GA4 phone_click payload contract", () => {
     const calls = installGtag();
     await loadAnalytics();
 
-    const link = makeLink("tel:+18885649049");
+    const link = makeLink(phoneConfig.href);
     link.setAttribute("data-ocid", "header.call_button");
     document.body.append(link);
 
@@ -196,7 +197,7 @@ describe("GA4 phone_click payload contract", () => {
     const calls = installGtag();
     await loadAnalytics();
 
-    const link = makeLink("tel:+18885649049");
+    const link = makeLink(phoneConfig.href);
     link.setAttribute("aria-label", "Speak with a Travel Specialist");
     document.body.append(link);
 
@@ -215,7 +216,7 @@ describe("GA4 phone_click payload contract", () => {
     const calls = installGtag();
     await loadAnalytics();
 
-    const link = makeLink("tel:+18885649049");
+    const link = makeLink(phoneConfig.href);
     document.body.append(link);
 
     link.click();
@@ -232,7 +233,7 @@ describe("GA4 phone_click payload contract", () => {
     (window as WindowWithAnalytics).dataLayer = [];
     await loadAnalytics();
 
-    const link = makeLink("tel:+18885649049");
+    const link = makeLink(phoneConfig.href);
     link.setAttribute("data-ocid", "footer.call_button");
     document.body.append(link);
 

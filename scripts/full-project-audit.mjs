@@ -96,6 +96,7 @@ function auditOnce() {
   const notFoundPage = read("src/frontend/src/pages/NotFoundPage.tsx");
   const bookByPhonePage = read("src/frontend/src/pages/BookAFlightByPhonePage.tsx");
   const phoneConfig = JSON.parse(read("config/phone-number.json"));
+  const frontendPhoneConfig = JSON.parse(read("src/frontend/phone-config.json"));
   const robots = read("src/frontend/public/robots.txt");
   const sitemap = read("src/frontend/public/sitemap.xml");
   const caffeine = read("src/frontend/caffeine.toml");
@@ -139,14 +140,19 @@ function auditOnce() {
   assert(!existsSync(join(ROOT, ".github/workflows/deploy-cloudflare-production.yml")), "legacy Cloudflare production deployment workflow must remain absent");
   assert(buildWorkflow.includes("pnpm test:backend"), "backend integration tests missing from CI");
 
-  assert(site.includes('phoneDisplay: "+1-888-564-9049"'), "canonical phone display does not match the updated number");
-  assert(site.includes('phoneHref: "tel:+18885649049"'), "canonical phone href does not match the updated number");
+  assert(site.includes('import phoneConfig from "../../phone-config.json"'), "site must import the frontend phone config");
+  assert(site.includes("phoneDisplay: phoneConfig.display"), "site phone display must use the phone config");
+  assert(site.includes("phoneHref: phoneConfig.href"), "site phone href must use the phone config");
+  assert(frontendPhoneConfig.display === phoneConfig.display, "frontend phone display does not match canonical phone config");
+  assert(frontendPhoneConfig.href === `tel:${phoneConfig.tel}`, "frontend phone href does not match canonical phone config");
   assert(
-    phoneConfig.display === "+1-888-564-9049" &&
-      phoneConfig.tel === "+18885649049" &&
+    typeof phoneConfig.display === "string" &&
+      /^\+1-\d{3}-\d{3}-\d{4}$/.test(phoneConfig.display) &&
+      typeof phoneConfig.tel === "string" &&
+      /^\+1\d{10}$/.test(phoneConfig.tel) &&
       Array.isArray(phoneConfig.legacy) &&
-      phoneConfig.legacy.length === 0,
-    "canonical phone config must contain only +1-888-564-9049",
+      phoneConfig.legacy.every((number) => typeof number === "string" && number !== phoneConfig.display),
+    "canonical phone config must contain a valid primary number and explicit legacy routes",
   );
   assert(
     notFoundPage.includes("${SITE.phoneDisplay}"),
@@ -197,9 +203,12 @@ function auditOnce() {
     const text = readFileSync(file, "utf8");
     const tollFreePattern = /(?<!\d)(?:\+?1[\s().-]*)?(?:800|833|844|855|866|877|888)[\s().-]*\d{3}[\s().-]*\d{4}(?!\d)/g;
     const canonicalDigits = phoneConfig.tel.replace(/\D/g, "");
+    const legacyDigits = phoneConfig.legacy.map((number) => number.replace(/\D/g, ""));
     const allowedPhoneDigits = new Set([
       canonicalDigits,
       canonicalDigits.startsWith("1") ? canonicalDigits.slice(1) : canonicalDigits,
+      ...legacyDigits,
+      ...legacyDigits.map((digits) => digits.startsWith("1") ? digits.slice(1) : digits),
     ]);
     for (const match of text.matchAll(tollFreePattern)) {
       const digits = match[0].replace(/\D/g, "");

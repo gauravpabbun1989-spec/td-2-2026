@@ -10,6 +10,7 @@ import {
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import phoneConfig from "../../phone-config.json";
 
 /**
  * Cover for the static route HTML generator (`scripts/generate-route-html.mjs`).
@@ -66,10 +67,10 @@ describe("static route HTML uses the full airline names", () => {
   it("includes the current phone number in the homepage SEO description", () => {
     const html = readGenerated("/");
     expect(html).toContain(
-      '<meta name="description" content="24/7 economy flight booking help. Discuss routes, flexible dates, changes, cancellations, and pet or infant travel. Call +1-888-564-9049." />',
+      `<meta name="description" content="24/7 economy flight booking help. Discuss routes, flexible dates, changes, cancellations, and pet or infant travel. Call ${phoneConfig.display}." />`,
     );
     const description = html.match(/<meta name="description" content="([^"]+)"/i)?.[1] ?? "";
-    expect(description.split("+1-888-564-9049").length - 1).toBe(1);
+    expect(description.split(phoneConfig.display).length - 1).toBe(1);
     expect(html).toContain("pet or infant travel with a specialist");
     expect(html).toContain("Priority flight assistance");
     expect(html).not.toContain("baggage costs");
@@ -80,7 +81,7 @@ describe("static route HTML uses the full airline names", () => {
     for (const route of ["/", "/flights-from-chicago", "/united-airlines"] as const) {
       const html = readGenerated(route);
       const description = html.match(/<meta name="description" content="([^"]+)"/i)?.[1] ?? "";
-      expect((description.split("+1-888-564-9049").length - 1)).toBe(1);
+      expect((description.split(phoneConfig.display).length - 1)).toBe(1);
     }
   });
 
@@ -142,7 +143,7 @@ describe("static route HTML uses the full airline names", () => {
       expect(html).not.toContain("Related flight booking assistance:");
       expect(html).not.toContain("Before confirming travel, review the departure and arrival airports");
       expect(html).toContain("<h1>");
-      expect(html).toContain("tel:+18885649049");
+      expect(html).toContain(phoneConfig.href);
     }
   });
 

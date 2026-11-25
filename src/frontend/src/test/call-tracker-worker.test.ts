@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import worker, { type CallTrackerEnv } from "../../call-tracker-worker/worker";
 
-type ClickRow = { click_id: string; expires_at: string };
+type ClickRow = { click_id: string; expires_at: string; clickflare_click_id?: string | null };
 type IntentRow = {
   intent_id: string; click_id: string; created_at: string; page_path?: string;
   cta_location?: string; status: string; matched_call_uuid?: string | null;
@@ -13,6 +13,9 @@ class FakeD1 {
   intents = new Map<string, IntentRow>();
   calls = new Map<string, CallRow>();
   ringingEvents = new Map<string, CallRow>();
+  trackingDids = new Set<string>();
+  didAssignments = new Map<string, CallRow>();
+  clickflareConversions = new Map<string, CallRow>();
   statements: string[] = [];
 
   prepare(sql: string) {
@@ -24,14 +27,39 @@ class FakeD1 {
       bind(...args: unknown[]) { values = args; return statement; },
       async first<T>() {
         db.statements.push(sql);
+        if (sql.startsWith("SELECT click_id,expires_at,clickflare_click_id FROM traffic_clicks") || sql.startsWith("SELECT click_id, expires_at, clickflare_click_id FROM traffic_clicks")) {
+          return (db.clicks.get(String(values[0])) || null) as T | null;
+        }
         if (sql.startsWith("SELECT click_id, expires_at FROM traffic_clicks")) {
           return (db.clicks.get(String(values[0])) || null) as T | null;
         }
-        if (sql.startsWith("SELECT postback_status,postback_attempt_count FROM call_ringing_events")) {
+        if (sql.startsWith("SELECT did FROM tracking_dids WHERE did=?")) {
+          const did = String(values[0]);
+          return (db.trackingDids.has(did) ? { did } : null) as T | null;
+        }
+        if (sql.startsWith("SELECT assignment_id,did,expires_at FROM did_assignments WHERE trafficstars_click_id")) {
+          const row = [...db.didAssignments.values()].find((item) => item.trafficstars_click_id === values[0] && item.clickflare_click_id === values[1] && item.status === "active" && String(item.expires_at) > String(values[2]));
+          return (row || null) as T | null;
+        }
+        if (sql.startsWith("SELECT d.did FROM tracking_dids d")) {
+          const did = [...db.trackingDids].find((candidate) => ![...db.didAssignments.values()].some((item) => item.did === candidate && item.status === "active"));
+          return (did ? { did } : null) as T | null;
+        }
+        if (sql.startsWith("SELECT assignment_id,trafficstars_click_id,clickflare_click_id FROM did_assignments WHERE did=?")) {
+          const row = [...db.didAssignments.values()].find((item) => item.did === values[0] && item.status === "active" && String(item.assigned_at) <= String(values[1]) && String(item.expires_at) >= String(values[2]));
+          return (row || null) as T | null;
+        }
+        if (sql.startsWith("SELECT postback_status,postback_attempt_count,postback_next_retry_at FROM call_ringing_events")) {
           const row = db.ringingEvents.get(String(values[0]));
-          return row ? ({ postback_status: row.postback_status, postback_attempt_count: row.postback_attempt_count || 0 } as T) : null;
+          return row ? ({ postback_status: row.postback_status, postback_attempt_count: row.postback_attempt_count || 0, postback_next_retry_at: row.postback_next_retry_at || null } as T) : null;
+        }
+        if (sql.startsWith("SELECT status,attempt_count,next_retry_at FROM clickflare_conversions")) {
+          return (db.clickflareConversions.get(String(values[0])) || null) as T | null;
         }
         if (sql.startsWith("SELECT call_uuid FROM call_ringing_events")) {
+          return (db.ringingEvents.get(String(values[0])) || null) as T | null;
+        }
+        if (sql.startsWith("SELECT call_uuid,click_id,clickflare_click_id,did_assignment_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events")) {
           return (db.ringingEvents.get(String(values[0])) || null) as T | null;
         }
         if (sql.startsWith("SELECT call_uuid,click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events")) {
@@ -67,17 +95,44 @@ class FakeD1 {
       async run() {
         db.statements.push(sql);
         if (sql.startsWith("INSERT INTO traffic_clicks")) {
-          const [clickId, , , , , , , expiresAt] = values;
+          const [clickId, , , , , , , expiresAt, clickFlareId] = values;
           const id = String(clickId);
-          if (!db.clicks.has(id)) db.clicks.set(id, { click_id: id, expires_at: String(expiresAt) });
+          if (!db.clicks.has(id)) db.clicks.set(id, { click_id: id, expires_at: String(expiresAt), clickflare_click_id: clickFlareId ? String(clickFlareId) : null });
+        } else if (sql.startsWith("UPDATE traffic_clicks SET clickflare_click_id")) {
+          const [clickFlareId, clickId] = values;
+          const row = db.clicks.get(String(clickId));
+          if (row) row.clickflare_click_id = String(clickFlareId);
+        } else if (sql.startsWith("UPDATE did_assignments SET status='expired'")) {
+          const now = String(values[0]);
+          for (const row of db.didAssignments.values()) if (row.status === "active" && String(row.expires_at) <= now) row.status = "expired";
+        } else if (sql.startsWith("INSERT INTO clickflare_conversions")) {
+          const [conversionId, callUuid, clickFlareId, payout, conversionType] = values;
+          if (!db.clickflareConversions.has(String(callUuid))) {
+            db.clickflareConversions.set(String(callUuid), {
+              conversion_id: conversionId, call_uuid: callUuid, clickflare_click_id: clickFlareId,
+              payout, conversion_type: conversionType, status: "pending", attempt_count: 0,
+            });
+          }
+        } else if (sql.startsWith("UPDATE clickflare_conversions SET")) {
+          const [status, attempts, httpStatus, error, retryAt, sentState, sentAt, callUuid] = values;
+          const row = db.clickflareConversions.get(String(callUuid));
+          if (row) Object.assign(row, {
+            status, attempt_count: attempts, last_http_status: httpStatus,
+            last_error: error, next_retry_at: retryAt,
+            sent_at: sentState === "sent" ? sentAt : row.sent_at,
+          });
+        } else if (sql.startsWith("INSERT INTO did_assignments")) {
+          const [assignmentId, did, trafficstarsClickId, clickflareClickId, assignedAt, expiresAt] = values;
+          db.didAssignments.set(String(assignmentId), { assignment_id: assignmentId, did, trafficstars_click_id: trafficstarsClickId, clickflare_click_id: clickflareClickId, assigned_at: assignedAt, expires_at: expiresAt, status: "active" });
         } else if (sql.startsWith("INSERT INTO call_ringing_events")) {
-          const [uuid, destination, agent, ringingAt, goalId] = values;
+          const [uuid, destination, agent, ringingAt, goalId, clickId, attributionStatus, attributionMethod, intentId, clickFlareId, assignmentId] = values;
           if (!db.ringingEvents.has(String(uuid))) db.ringingEvents.set(String(uuid), {
             call_uuid: uuid, destination, agent_extension: agent, ringing_at: ringingAt,
-            goal_id: goalId, event_type: "call_ringing", click_id: null,
-            attribution_status: sql.includes("'ambiguous'") ? "ambiguous" : "unmatched",
-            attribution_method: sql.includes("no_verified_click_transport") ? "no_verified_click_transport" : "no_intent_in_time_window",
-            matched_intent_id: null,
+            goal_id: goalId, event_type: "call_ringing", click_id: clickId || null,
+            attribution_status: attributionStatus || "unmatched",
+            attribution_method: attributionMethod || "no_active_did_assignment",
+            matched_intent_id: intentId || null, clickflare_click_id: clickFlareId || null,
+            did_assignment_id: assignmentId || null,
           });
         } else if (sql.startsWith("UPDATE call_ringing_events SET postback_status=")) {
           const [status, attempts, attemptedAt, httpStatus, retryAt, lastError, uuid] = values;
@@ -89,6 +144,14 @@ class FakeD1 {
             intent_id: String(intentId), click_id: String(clickId), created_at: String(createdAt),
             page_path: String(pagePath), cta_location: String(ctaLocation), status: "open",
           });
+        } else if (sql.startsWith("INSERT INTO inbound_calls") && sql.includes("'agent_leg_ringing'")) {
+          const [uuid, clickId, destination, agent, created, attributionStatus, attributionMethod, clickFlareId, assignmentId] = values;
+          db.calls.set(String(uuid), {
+            call_uuid: uuid, click_id: clickId, destination, agent_extension: agent, created_at: created,
+            answered_at: null, hangup_at: null, billsec: 0, accepted: 1,
+            acceptance_reason: "agent_leg_ringing", attribution_status: attributionStatus,
+            attribution_method: attributionMethod, clickflare_click_id: clickFlareId, did_assignment_id: assignmentId,
+          });
         } else if (sql.startsWith("INSERT INTO inbound_calls")) {
           const [uuid, destination, agent, created, answered, hangup, billsec] = values;
           db.calls.set(String(uuid), {
@@ -96,6 +159,10 @@ class FakeD1 {
             answered_at: answered, hangup_at: hangup, billsec, attribution_status: "unmatched",
             attribution_method: null, matched_intent_id: null,
           });
+        } else if (sql.startsWith("UPDATE inbound_calls SET answered_at=COALESCE")) {
+          const [answeredAt, uuid] = values;
+          const row = db.calls.get(String(uuid));
+          if (row) row.answered_at = row.answered_at || answeredAt;
         } else if (sql.startsWith("UPDATE inbound_calls SET")) {
           const [destination, agent, created, answered, hangup, billsec, uuid] = values;
           const row = db.calls.get(String(uuid));
@@ -280,11 +347,11 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
     expect(await response.json()).toMatchObject({
       click_id: null, attribution: "unmatched",
-      attribution_method: "no_verified_click_transport", postback_sent: false,
+      attribution_method: "no_active_did_assignment", postback_sent: false,
     });
     expect(db.ringingEvents.get(callUuid)).toMatchObject({
       click_id: null, attribution_status: "unmatched",
-      attribution_method: "no_verified_click_transport",
+      attribution_method: "no_active_did_assignment",
     });
     expect(db.intents.get("intent-ring-1")?.status).toBe("open");
   });
@@ -419,5 +486,127 @@ describe("call-tracker fail-closed intent-to-call correlation", () => {
     }), { DB: new FakeD1() as unknown as CallTrackerEnv["DB"], INGEST_SECRET: "test-secret" });
     expect(response.status).toBe(409);
     expect(await response.json()).toMatchObject({ error: "attribution_not_verified" });
+  });
+});
+
+
+describe("call-tracker DNI DID assignment", () => {
+  it("assigns a provisioned DID to both paid click identifiers and reuses it idempotently", async () => {
+    const db = new FakeD1();
+    const expires = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+    db.clicks.set("traffic-click-dni", {
+      click_id: "traffic-click-dni",
+      expires_at: expires,
+      clickflare_click_id: "cf-click-dni",
+    });
+    db.trackingDids.add("12025550123");
+    const request = () => worker.fetch(new Request("https://tracker.example/dni/assign", {
+      method: "POST",
+      headers: { "content-type": "text/plain" },
+      body: JSON.stringify({ click_id: "traffic-click-dni", clickflare_click_id: "cf-click-dni" }),
+    }), makeEnv(db));
+
+    const first = await request();
+    expect(first.status).toBe(201);
+    const assigned = await first.json() as { did: string; assignment_id: string };
+    expect(assigned.did).toBe("12025550123");
+    expect(db.didAssignments.get(assigned.assignment_id)).toMatchObject({
+      did: "12025550123",
+      trafficstars_click_id: "traffic-click-dni",
+      clickflare_click_id: "cf-click-dni",
+      status: "active",
+    });
+
+    const retry = await request();
+    expect(retry.status).toBe(200);
+    expect(await retry.json()).toMatchObject({ did: "12025550123", assignment_id: assigned.assignment_id });
+    expect(db.didAssignments.size).toBe(1);
+
+    const ringing = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
+      method: "POST",
+      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+      body: JSON.stringify({
+        call_uuid: "d6baf5d7-c2e7-4f37-9cc9-6f0e37e01b89",
+        destination: "+1-202-555-0123",
+        agent_extension: "1001",
+        ringing_at: new Date().toISOString().replace("Z", "+00:00"),
+      }),
+    }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
+    expect(ringing.status).toBe(202);
+    expect(await ringing.json()).toMatchObject({
+      click_id: "traffic-click-dni",
+      clickflare_click_id: "cf-click-dni",
+      attribution: "verified",
+      attribution_method: "dni_did",
+      clickflare_postback_status: "disabled",
+    });
+  });
+
+  it("sends one ClickFlare conversion for a verified DNI ring and deduplicates by call UUID", async () => {
+    const db = new FakeD1();
+    const expires = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+    db.clicks.set("traffic-click-cf", {
+      click_id: "traffic-click-cf",
+      expires_at: expires,
+      clickflare_click_id: "cf-click-cf",
+    });
+    db.trackingDids.add("12025550124");
+    const assignmentResponse = await worker.fetch(new Request("https://tracker.example/dni/assign", {
+      method: "POST",
+      headers: { "content-type": "text/plain" },
+      body: JSON.stringify({ click_id: "traffic-click-cf", clickflare_click_id: "cf-click-cf" }),
+    }), makeEnv(db));
+    expect(assignmentResponse.status).toBe(201);
+
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("ok", { status: 200 }));
+    try {
+      const callUuid = "e5d7b3a4-2c8e-4d5e-9a01-123456789abc";
+      const ringRequest = () => worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
+        method: "POST",
+        headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+        body: JSON.stringify({
+          call_uuid: callUuid,
+          destination: "+1-202-555-0124",
+          agent_extension: "1001",
+          ringing_at: new Date().toISOString(),
+        }),
+      }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret", TRAFFICSTARS_POSTBACK_ENABLED: "true", TRAFFICSTARS_POSTBACK_KEY: "test-key", CLICKFLARE_POSTBACK_ENABLED: "true" });
+
+      const first = await ringRequest();
+      expect(first.status).toBe(202);
+      expect(await first.json()).toMatchObject({ attribution: "verified", postback_sent: false, postback_status: "unattributed", clickflare_postback_sent: true, clickflare_postback_status: "sent" });
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      const sentUrl = new URL(String(fetchMock.mock.calls[0][0]));
+      expect(sentUrl.origin + sentUrl.pathname).toBe("https://globalvisitlog.com/cf/cv");
+      expect(sentUrl.searchParams.get("click_id")).toBe("cf-click-cf");
+      expect(sentUrl.searchParams.get("payout")).toBe("15");
+      expect(sentUrl.searchParams.get("txid")).toBe(callUuid);
+      expect(sentUrl.searchParams.get("ct")).toBe("call");
+      expect(db.clickflareConversions.get(callUuid)).toMatchObject({ status: "sent", attempt_count: 1 });
+
+      const duplicate = await ringRequest();
+      expect(duplicate.status).toBe(202);
+      expect(await duplicate.json()).toMatchObject({ duplicate: true, clickflare_postback_status: "already_sent" });
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    } finally {
+      fetchMock.mockRestore();
+    }
+  });
+
+  it("does not create ClickFlare conversions when the DNI attribution is unmatched", async () => {
+    const db = new FakeD1();
+    const response = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
+      method: "POST",
+      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+      body: JSON.stringify({
+        call_uuid: "4d7c2a1f-2e4a-4f3e-a5d8-1a2b3c4d5e6f",
+        destination: "1030605",
+        agent_extension: "1001",
+        ringing_at: new Date().toISOString(),
+      }),
+    }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret", CLICKFLARE_POSTBACK_ENABLED: "true" });
+    expect(response.status).toBe(202);
+    expect(await response.json()).toMatchObject({ attribution: "unmatched", clickflare_postback_status: "unattributed" });
+    expect(db.clickflareConversions.size).toBe(0);
   });
 });

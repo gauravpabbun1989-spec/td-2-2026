@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/site";
+import { useDniPhoneNumber } from "@/lib/dni";
 import { cn } from "@/lib/utils";
 import { Phone } from "lucide-react";
 
@@ -32,15 +33,19 @@ export function CallCta({
   ctaLocation,
   showNumber = true,
 }: CallCtaProps) {
+  const phone = useDniPhoneNumber();
   return (
     <a
-      href={SITE.phoneHref}
+      href={phone.ready ? phone.href : undefined}
       data-ocid={ocid}
       data-cta-location={ctaLocation}
-      aria-label={`${SITE.ctaLabel}: ${SITE.phoneDisplay}`}
+      aria-label={phone.ready ? `${SITE.ctaLabel}: ${phone.display}` : "Preparing call number"}
+      aria-disabled={!phone.ready}
+      aria-busy={!phone.ready}
       className={cn(
         "inline-flex min-w-0 items-center justify-center rounded-full font-semibold leading-tight tracking-tight text-center transition-smooth",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        !phone.ready && "pointer-events-none opacity-70",
         sizeClasses[size],
         variantClasses[variant],
         className,
@@ -56,7 +61,7 @@ export function CallCta({
         <span className="block w-full">{SITE.ctaLabel}</span>
         {showNumber ? (
           <span aria-hidden="true" className="block w-full text-sm font-semibold tabular-nums">
-            {SITE.phoneDisplay}
+            {phone.ready ? phone.display : "Preparing call number…"}
           </span>
         ) : null}
       </span>

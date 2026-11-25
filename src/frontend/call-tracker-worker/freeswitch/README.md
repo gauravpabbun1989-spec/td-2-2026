@@ -1,10 +1,21 @@
 # FreeSWITCH collector
 
-Source-controlled copy of the production FreeSWITCH ESL collector.
+Source-controlled copy of the production FreeSWITCH ESL collector and TicketDepart inbound dialplan.
 
-## Inbound toll-free routing
+## Inbound routing
 
-The tracked dialplan include is `01_ticketdepart_inbound.xml`. It accepts only the primary public DID +1-888-564-9049 (E.164/national digit form) and transfers matching inbound calls to extension `1001` in the default context. The Telxio SIP registration username/auth username is a separate provider credential and is still configured as `1030605`; do not change it unless Telxio issues replacement SIP credentials. `1030605` is not accepted as an inbound destination number.
+The tracked dialplan include is `01_ticketdepart_inbound.xml`. It is scoped to the registered `telxio` SIP gateway and routes the current public DID `+1-877-788-8010` plus the provider-side inbound alias `1030605` to agent extension `1001`. The SIP registration username/auth username remains `1030605`; it is not the public phone number.
+
+If Telxio places each called DID in the SIP Request-URI, add each provisioned tracking DID to this destination allowlist before enabling it in the Cloudflare D1 `tracking_dids` table. If Telxio instead keeps the trunk alias in Request-URI and provides the original DID in a called-party header, the existing `1030605` route is sufficient. Do not route arbitrary toll-free numbers to the agent.
+
+## DNI call correlation
+
+- The visitor's browser receives a tracking DID only after the Worker has stored both the TrafficStars click ID and ClickFlare `cf_click_id` against that DID.
+- The caller dials the displayed number normally. No keypad, code, IVR, or browser-session lookup is used during the call.
+- The collector follows the outbound agent leg to the original inbound UUID, validates its public-context external SIP origin, and extracts the original called DID from `P-Called-Party-ID`, `X-Original-DID`, `X-DNIS`, or equivalent SIP headers before falling back to `Caller-Destination-Number`.
+- The current live Telxio call sample exposes only the trunk alias `1030605` in `Caller-Destination-Number` and does not expose a called-DID SIP header. Telxio must preserve the original called DID in the SIP Request-URI or a called-party header, or provide a separate inbound route/registration per DID, before DNI attribution can be enabled.
+- The Worker resolves the called DID against the active assignment at the agent-1001 ringing timestamp. Only a complete two-ID match is marked verified.
+- The billable event remains agent extension `1001` ringing. Answer and hangup times remain separate events.
 
 ## Runtime assumptions
 
@@ -13,17 +24,9 @@ The tracked dialplan include is `01_ticketdepart_inbound.xml`. It accepts only t
 - SQLite database: `/var/lib/ticketdepart-calltracker/calls.sqlite3`.
 - Install path: `/opt/ticketdepart-calltracker/collector.py`.
 
-## Ringing event behavior
-
-Only a `CHANNEL_PROGRESS` event matching the outbound Sofia leg for inbound caller on extension `1001` is eligible. The original inbound UUID comes from `variable_call_uuid`, is UUID-validated, and is stored in `ringing_notifications` with a primary-key deduplication constraint.
-
-The notifier sends an authenticated JSON request to the existing call-tracker Worker at `/v1/calls/ringing`. It includes a descriptive User-Agent, required by the current workers.dev edge security behavior. A response with HTTP 200/202 and JSON `ok: true` marks the local event sent. Failed events remain pending and are retried at service startup or when another matching progress event arrives.
-
-The Worker stores one event per inbound UUID with Goal ID `6487`. This is internal ringing-event tracking only. TrafficStars postbacks remain disabled; the Worker response must continue to report `postback_sent: false`.
-
 ## Safety
 
-Do not commit secrets, systemd environment files, or live database contents. This source PR does not alter the server, deploy the Worker, or enable TrafficStars postbacks.
+ClickFlare and TrafficStars postbacks stay disabled until real tracking DIDs are provisioned, the DID-to-click mapping is verified, and an end-to-end call test passes. Unmatched calls never generate conversions. Do not commit secrets, systemd environment files, or live database contents.
 
 ## Tests
 
