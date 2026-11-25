@@ -189,7 +189,8 @@ async function sendRingingPostback(
   env: CallTrackerEnv,
   event: { call_uuid: string; click_id: string | null; attribution_status: string; attribution_method?: string | null },
 ): Promise<RingingPostbackResult> {
-  if (event.attribution_status !== "verified" || !["signed_call_session", "dni_did"].includes(event.attribution_method || "") || !event.click_id) return { sent: false, status: "unattributed" };
+  // DNI conversions flow through ClickFlare, whose enabled TrafficStars source postback is the single downstream route. Keep this direct sender for legacy signed-call sessions only.
+  if (event.attribution_status !== "verified" || event.attribution_method !== "signed_call_session" || !event.click_id) return { sent: false, status: "unattributed" };
   if (env.TRAFFICSTARS_POSTBACK_ENABLED !== "true" || !env.TRAFFICSTARS_POSTBACK_KEY) return { sent: false, status: "disabled" };
   const prior = await env.DB.prepare(
     "SELECT postback_status,postback_attempt_count,postback_next_retry_at FROM call_ringing_events WHERE call_uuid=?",
