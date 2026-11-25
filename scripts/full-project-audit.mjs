@@ -143,9 +143,9 @@ function auditOnce() {
   assert(site.includes(`phoneHref: "tel:${phoneConfig.tel}"`), "site phone href does not match canonical phone config");
   assert(
     typeof phoneConfig.display === "string" &&
-      /^\\+1-\\d{3}-\\d{3}-\\d{4}$/.test(phoneConfig.display) &&
+      /^\+1-\d{3}-\d{3}-\d{4}$/.test(phoneConfig.display) &&
       typeof phoneConfig.tel === "string" &&
-      /^\\+1\\d{10}$/.test(phoneConfig.tel) &&
+      /^\+1\d{10}$/.test(phoneConfig.tel) &&
       Array.isArray(phoneConfig.legacy) &&
       phoneConfig.legacy.every((number) => typeof number === "string" && number !== phoneConfig.display),
     "canonical phone config must contain a valid primary number and explicit legacy routes",
@@ -199,7 +199,7 @@ function auditOnce() {
     const text = readFileSync(file, "utf8");
     const tollFreePattern = /(?<!\d)(?:\+?1[\s().-]*)?(?:800|833|844|855|866|877|888)[\s().-]*\d{3}[\s().-]*\d{4}(?!\d)/g;
     const canonicalDigits = phoneConfig.tel.replace(/\D/g, "");
-    const legacyDigits = phoneConfig.legacy.map((number) => number.replace(/\\D/g, ""));
+    const legacyDigits = phoneConfig.legacy.map((number) => number.replace(/\D/g, ""));
     const allowedPhoneDigits = new Set([
       canonicalDigits,
       canonicalDigits.startsWith("1") ? canonicalDigits.slice(1) : canonicalDigits,
