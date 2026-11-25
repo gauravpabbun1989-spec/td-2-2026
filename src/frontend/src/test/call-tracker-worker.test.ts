@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import worker, { type CallTrackerEnv } from "../../call-tracker-worker/worker";
 
-type ClickRow = { click_id: string; expires_at: string };
+type ClickRow = { click_id: string; expires_at: string; clickflare_click_id?: string | null };
 type IntentRow = {
   intent_id: string; click_id: string; created_at: string; page_path?: string;
   cta_location?: string; status: string; matched_call_uuid?: string | null;
@@ -13,6 +13,8 @@ class FakeD1 {
   intents = new Map<string, IntentRow>();
   calls = new Map<string, CallRow>();
   ringingEvents = new Map<string, CallRow>();
+  trackingDids = new Set<string>();
+  didAssignments = new Map<string, CallRow>();
   statements: string[] = [];
 
   prepare(sql: string) {
@@ -24,14 +26,36 @@ class FakeD1 {
       bind(...args: unknown[]) { values = args; return statement; },
       async first<T>() {
         db.statements.push(sql);
+        if (sql.startsWith("SELECT click_id,expires_at,clickflare_click_id FROM traffic_clicks") || sql.startsWith("SELECT click_id, expires_at, clickflare_click_id FROM traffic_clicks")) {
+          return (db.clicks.get(String(values[0])) || null) as T | null;
+        }
         if (sql.startsWith("SELECT click_id, expires_at FROM traffic_clicks")) {
           return (db.clicks.get(String(values[0])) || null) as T | null;
+        }
+        if (sql.startsWith("SELECT did FROM tracking_dids WHERE did=?")) {
+          const did = String(values[0]);
+          return (db.trackingDids.has(did) ? { did } : null) as T | null;
+        }
+        if (sql.startsWith("SELECT assignment_id,did,expires_at FROM did_assignments WHERE trafficstars_click_id")) {
+          const row = [...db.didAssignments.values()].find((item) => item.trafficstars_click_id === values[0] && item.clickflare_click_id === values[1] && item.status === "active" && String(item.expires_at) > String(values[2]));
+          return (row || null) as T | null;
+        }
+        if (sql.startsWith("SELECT d.did FROM tracking_dids d")) {
+          const did = [...db.trackingDids].find((candidate) => ![...db.didAssignments.values()].some((item) => item.did === candidate && item.status === "active"));
+          return (did ? { did } : null) as T | null;
+        }
+        if (sql.startsWith("SELECT assignment_id,trafficstars_click_id,clickflare_click_id FROM did_assignments WHERE did=?")) {
+          const row = [...db.didAssignments.values()].find((item) => item.did === values[0] && item.status === "active" && String(item.assigned_at) <= String(values[1]) && String(item.expires_at) >= String(values[2]));
+          return (row || null) as T | null;
         }
         if (sql.startsWith("SELECT postback_status,postback_attempt_count FROM call_ringing_events")) {
           const row = db.ringingEvents.get(String(values[0]));
           return row ? ({ postback_status: row.postback_status, postback_attempt_count: row.postback_attempt_count || 0 } as T) : null;
         }
         if (sql.startsWith("SELECT call_uuid FROM call_ringing_events")) {
+          return (db.ringingEvents.get(String(values[0])) || null) as T | null;
+        }
+        if (sql.startsWith("SELECT call_uuid,click_id,clickflare_click_id,did_assignment_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events")) {
           return (db.ringingEvents.get(String(values[0])) || null) as T | null;
         }
         if (sql.startsWith("SELECT call_uuid,click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events")) {
@@ -67,17 +91,28 @@ class FakeD1 {
       async run() {
         db.statements.push(sql);
         if (sql.startsWith("INSERT INTO traffic_clicks")) {
-          const [clickId, , , , , , , expiresAt] = values;
+          const [clickId, , , , , , , expiresAt, clickFlareId] = values;
           const id = String(clickId);
-          if (!db.clicks.has(id)) db.clicks.set(id, { click_id: id, expires_at: String(expiresAt) });
+          if (!db.clicks.has(id)) db.clicks.set(id, { click_id: id, expires_at: String(expiresAt), clickflare_click_id: clickFlareId ? String(clickFlareId) : null });
+        } else if (sql.startsWith("UPDATE traffic_clicks SET clickflare_click_id")) {
+          const [clickFlareId, clickId] = values;
+          const row = db.clicks.get(String(clickId));
+          if (row) row.clickflare_click_id = String(clickFlareId);
+        } else if (sql.startsWith("UPDATE did_assignments SET status='expired'")) {
+          const now = String(values[0]);
+          for (const row of db.didAssignments.values()) if (row.status === "active" && String(row.expires_at) <= now) row.status = "expired";
+        } else if (sql.startsWith("INSERT INTO did_assignments")) {
+          const [assignmentId, did, trafficstarsClickId, clickflareClickId, assignedAt, expiresAt] = values;
+          db.didAssignments.set(String(assignmentId), { assignment_id: assignmentId, did, trafficstars_click_id: trafficstarsClickId, clickflare_click_id: clickflareClickId, assigned_at: assignedAt, expires_at: expiresAt, status: "active" });
         } else if (sql.startsWith("INSERT INTO call_ringing_events")) {
-          const [uuid, destination, agent, ringingAt, goalId] = values;
+          const [uuid, destination, agent, ringingAt, goalId, clickId, attributionStatus, attributionMethod, intentId, clickFlareId, assignmentId] = values;
           if (!db.ringingEvents.has(String(uuid))) db.ringingEvents.set(String(uuid), {
             call_uuid: uuid, destination, agent_extension: agent, ringing_at: ringingAt,
-            goal_id: goalId, event_type: "call_ringing", click_id: null,
-            attribution_status: sql.includes("'ambiguous'") ? "ambiguous" : "unmatched",
-            attribution_method: sql.includes("no_verified_click_transport") ? "no_verified_click_transport" : "no_intent_in_time_window",
-            matched_intent_id: null,
+            goal_id: goalId, event_type: "call_ringing", click_id: clickId || null,
+            attribution_status: attributionStatus || "unmatched",
+            attribution_method: attributionMethod || "no_active_did_assignment",
+            matched_intent_id: intentId || null, clickflare_click_id: clickFlareId || null,
+            did_assignment_id: assignmentId || null,
           });
         } else if (sql.startsWith("UPDATE call_ringing_events SET postback_status=")) {
           const [status, attempts, attemptedAt, httpStatus, retryAt, lastError, uuid] = values;
@@ -419,5 +454,40 @@ describe("call-tracker fail-closed intent-to-call correlation", () => {
     }), { DB: new FakeD1() as unknown as CallTrackerEnv["DB"], INGEST_SECRET: "test-secret" });
     expect(response.status).toBe(409);
     expect(await response.json()).toMatchObject({ error: "attribution_not_verified" });
+  });
+});
+
+
+describe("call-tracker DNI DID assignment", () => {
+  it("assigns a provisioned DID to both paid click identifiers and reuses it idempotently", async () => {
+    const db = new FakeD1();
+    const expires = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+    db.clicks.set("traffic-click-dni", {
+      click_id: "traffic-click-dni",
+      expires_at: expires,
+      clickflare_click_id: "cf-click-dni",
+    });
+    db.trackingDids.add("18885550123");
+    const request = () => worker.fetch(new Request("https://tracker.example/dni/assign", {
+      method: "POST",
+      headers: { "content-type": "text/plain" },
+      body: JSON.stringify({ click_id: "traffic-click-dni", clickflare_click_id: "cf-click-dni" }),
+    }), makeEnv(db));
+
+    const first = await request();
+    expect(first.status).toBe(201);
+    const assigned = await first.json() as { did: string; assignment_id: string };
+    expect(assigned.did).toBe("18885550123");
+    expect(db.didAssignments.get(assigned.assignment_id)).toMatchObject({
+      did: "18885550123",
+      trafficstars_click_id: "traffic-click-dni",
+      clickflare_click_id: "cf-click-dni",
+      status: "active",
+    });
+
+    const retry = await request();
+    expect(retry.status).toBe(200);
+    expect(await retry.json()).toMatchObject({ did: "18885550123", assignment_id: assigned.assignment_id });
+    expect(db.didAssignments.size).toBe(1);
   });
 });
