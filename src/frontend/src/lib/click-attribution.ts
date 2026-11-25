@@ -4,6 +4,8 @@ const CLICKFLARE_STORAGE_KEY = "ticketdepart_clickflare_click";
 const CLICK_TTL_MS = 90 * 24 * 60 * 60 * 1000;
 const LEGACY_PAIR_MAX_SKEW_MS = 5 * 60 * 1000;
 
+let memoryAttribution: PaidClickAttribution | null = null;
+
 export type PaidClickAttribution = {
   clickId: string | null;
   clickFlareId: string | null;
@@ -121,7 +123,10 @@ export function capturePaidClickAttribution(search?: string): PaidClickAttributi
         // Access to the persistent storage object itself may be denied.
       }
     }
-    if (!existing) existing = readLegacyPair();
+    if (!existing) {
+      const memoryIsValid = memoryAttribution && memoryAttribution.expiresAt > Date.now();
+      existing = memoryIsValid ? memoryAttribution : readLegacyPair();
+    }
   }
 
   let pair: PaidClickAttribution | null = existing;
@@ -149,8 +154,9 @@ export function capturePaidClickAttribution(search?: string): PaidClickAttributi
     }
   }
 
-  if (pair && (pair.clickId || pair.clickFlareId) && typeof window !== "undefined") {
-    persistPair(pair);
+  if (pair && (pair.clickId || pair.clickFlareId)) {
+    memoryAttribution = pair;
+    if (typeof window !== "undefined") persistPair(pair);
   }
 
   return pair;
