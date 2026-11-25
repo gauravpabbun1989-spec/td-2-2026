@@ -4,7 +4,7 @@ Source-controlled copy of the production FreeSWITCH ESL collector.
 
 ## Inbound toll-free routing
 
-The tracked dialplan include is `01_ticketdepart_inbound.xml`. It accepts the public DID +1-888-564-9049 in E.164/national digit form, plus Telxio's current SIP-side alias `1030605`, and transfers those calls to extension `1001` in the default context. The SIP registration user and auth username remain `1030605`; they are not the public phone number. Keep both patterns until a live inbound event confirms what Telxio presents as `Caller-Destination-Number` after any provider routing change.
+The tracked dialplan include is `01_ticketdepart_inbound.xml`. It accepts only the primary public DID +1-888-564-9049 (E.164/national digit form) and transfers matching inbound calls to extension `1001` in the default context. The Telxio SIP registration username/auth username is a separate provider credential and is still configured as `1030605`; do not change it unless Telxio issues replacement SIP credentials. `1030605` is not accepted as an inbound destination number.
 
 ## Runtime assumptions
 
