@@ -506,9 +506,18 @@ export default {
       if (!available) return json({ error: "dni_pool_unavailable", fallback: true }, 503);
       const assignmentId = crypto.randomUUID();
       const expiresAt = new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString();
-      await env.DB.prepare(
-        "INSERT INTO did_assignments (assignment_id,did,trafficstars_click_id,clickflare_click_id,assigned_at,expires_at,status) VALUES (?,?,?,?,?,?,'active')",
-      ).bind(assignmentId, available.did, clickId, clickFlareId, nowIso, expiresAt).run();
+      if (!/^1?\\d{10,14}$/.test(available.did)) return json({ error: "invalid_tracking_did_configuration", fallback: true }, 503);
+      try {
+        await env.DB.prepare(
+          "INSERT INTO did_assignments (assignment_id,did,trafficstars_click_id,clickflare_click_id,assigned_at,expires_at,status) VALUES (?,?,?,?,?,?,'active')",
+        ).bind(assignmentId, available.did, clickId, clickFlareId, nowIso, expiresAt).run();
+      } catch {
+        const concurrent = await env.DB.prepare(
+          "SELECT assignment_id,did,expires_at FROM did_assignments WHERE trafficstars_click_id=? AND clickflare_click_id=? AND status='active' AND expires_at>? ORDER BY assigned_at DESC LIMIT 1",
+        ).bind(clickId, clickFlareId, nowIso).first<{ assignment_id: string; did: string; expires_at: string }>();
+        if (concurrent) return json({ ok: true, assigned: true, did: concurrent.did, phone_href: "tel:+" + concurrent.did, assignment_id: concurrent.assignment_id, expires_at: concurrent.expires_at, attribution: "dni_did" });
+        return json({ error: "dni_pool_busy", fallback: true }, 503);
+      }
       return json({ ok: true, assigned: true, did: available.did, phone_href: "tel:+" + available.did, assignment_id: assignmentId, expires_at: expiresAt, attribution: "dni_did" }, 201);
     }
 
