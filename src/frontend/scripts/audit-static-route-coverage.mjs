@@ -48,7 +48,7 @@ assert(/"not_found_handling"\s*:\s*"404-page"/.test(workerConfig), "root wrangle
 const notFoundHtml = read(notFoundHtmlPath);
 assert(/<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']/i.test(notFoundHtml), "404.html must be noindex, nofollow");
 assert(/<h1>This page has departed<\/h1>/i.test(notFoundHtml), "404.html is missing its recovery heading");
-assert(notFoundHtml.includes(`href="${phoneConfig.href}"`), "404.html must offer the canonical phone CTA from phone-config.json");
+assert(notFoundHtml.includes(`href="tel:${phoneConfig.tel}"`), "404.html must offer the canonical phone CTA");
 assert(/<meta\s+name="robots"\s+content="noindex, nofollow"/i.test(notFoundHtml), "404.html must remain excluded from indexing");
 assert(!/googletagmanager|G-4WC5K9Q31E/i.test(notFoundHtml), "404.html must not load GA4 or GTM and pollute acquisition analytics");
 const htmlShell = read(path.join(root, "index.html"));
