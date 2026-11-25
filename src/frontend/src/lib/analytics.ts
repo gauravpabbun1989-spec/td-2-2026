@@ -182,25 +182,12 @@ function getLandingPage() {
 }
 
 
-/** Read the current visit's paired paid-click IDs from URL/session/persistent storage. */
-function getClickFlareClickId(): string | undefined {
-  return capturePaidClickAttribution()?.clickFlareId ?? undefined;
-}
-
 /**
  * Retain the TrafficStars click ID from the same captured visit as the
  * ClickFlare ID. The attribution helper rejects stale cross-visit pairs.
  */
 function getTrafficStarsClickId(): string | undefined {
   return capturePaidClickAttribution()?.clickId ?? undefined;
-}
-
-function getTrafficStarsClickedAt(): string {
-  return capturePaidClickAttribution()?.clickedAt || new Date().toISOString();
-}
-
-function getTrafficStarsBannerId(): string | undefined {
-  return capturePaidClickAttribution()?.bannerId ?? undefined;
 }
 
 function getIntentFamily(path = getCleanPagePath()) {
@@ -339,15 +326,18 @@ function createCallIntentId(): string {
   return `intent-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 14)}`;
 }
 
-function recordTrafficStarsCallIntent(clickId: string, location: string) {
+function recordTrafficStarsCallIntent(attribution: PaidClickAttribution, location: string) {
+  const { clickId, clickFlareId } = attribution;
+  // A paid phone intent is valid only when both IDs from the same visit exist.
+  if (!clickId || !clickFlareId) return;
   const endpoint = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/intent";
   try {
     const payload = {
       intent_id: createCallIntentId(),
       click_id: clickId,
-      clickflare_click_id: getClickFlareClickId(),
-      clicked_at: getTrafficStarsClickedAt(),
-      banner_id: getTrafficStarsBannerId(),
+      clickflare_click_id: clickFlareId,
+      clicked_at: attribution.clickedAt,
+      banner_id: attribution.bannerId ?? undefined,
       landing_path: getLandingPage(),
       page_path: getCleanPagePath(),
       cta_location: location,
@@ -390,9 +380,10 @@ function emitPhoneClick(location: string, link?: Element | null) {
   const ctaText = link?.textContent?.replace(/\s+/g, " ").trim();
 
   recentEmits.set(location, Date.now());
-  const trafficStarsClickId = getTrafficStarsClickId();
-  if (trafficStarsClickId) {
-    recordTrafficStarsCallIntent(trafficStarsClickId, location);
+  const paidClickAttribution = capturePaidClickAttribution();
+  const trafficStarsClickId = paidClickAttribution?.clickId ?? undefined;
+  if (paidClickAttribution?.clickId && paidClickAttribution.clickFlareId) {
+    recordTrafficStarsCallIntent(paidClickAttribution, location);
   }
 
   trackEvent("phone_click", {
