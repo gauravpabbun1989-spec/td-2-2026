@@ -2,6 +2,46 @@
 
 This directory is the source-controlled implementation for the existing Cloudflare Worker `ticketdepart-call-tracker`.
 
+## Production call route
+
+- Public toll-free number: `+1-888-564-9049`
+- Telxio / FreeSWITCH inbound alias: `1030605`
+- Agent extension: `1001`
+- No IVR, keypad, extra DID pool, or call-session code is required.
+- The existing direct-dial caller experience is preserved.
+
+The first real ring offered to agent extension `1001` is the call conversion milestone. Answer and hangup timestamps remain separate call details. A call is not converted merely because it reached the FreeSWITCH host; the agent leg must actually ring.
+
+## Single-number click attribution
+
+The site captures and stores both identifiers from the ClickFlare landing URL:
+
+- `click_id`: the original TrafficStars click ID carried as ClickFlare External ID
+- `cf_click_id`: the unique ClickFlare visit ID
+
+When a visitor taps a `tel:` link, the site sends a call-intent event containing both IDs. The Worker uses the following conservative single-number correlation:
+
+1. A call may match only one unclaimed website phone-click intent from the previous ten minutes.
+2. The intent must have a stored ClickFlare ID and original TrafficStars click ID.
+3. No other inbound agent-ring event may have occurred after that intent and before the current ring.
+4. Multiple candidate intents, intervening calls, missing IDs, and unmatched calls are not attributed.
+5. An intent is atomically reserved to one FreeSWITCH call UUID and cannot be reused for another call.
+
+The resulting method is recorded explicitly as `single_number_unique_intent_window` with status `candidate`. This is a unique time-window correlation using the one shared DID, not per-caller DNI or cryptographic proof of caller identity. Calls that cannot be matched uniquely remain unmatched or ambiguous. No synthetic click IDs or timestamp-only guesses are created.
+
+## ClickFlare and TrafficStars S2S
+
+When a unique single-number intent is matched, the Worker sends a ClickFlare S2S conversion to `https://globalvisitlog.com/cf/cv` with:
+
+- ClickFlare `click_id` = the captured `cf_click_id`
+- `payout=15`
+- `txid` = FreeSWITCH call UUID (deduplication key)
+- `ct=call`
+
+ClickFlare then uses the campaign's configured TrafficStars source postback to relay the original External ID back to TrafficStars Goal `6487`. The ClickFlare conversion flag is enabled in Wrangler configuration; duplicate call UUIDs are idempotent and retries retain the same transaction ID.
+
+The separate legacy direct TrafficStars sender remains restricted to verified signed-call sessions; the normal single-number flow uses ClickFlare as the one downstream S2S path.
+
 ## Bindings and secrets
 
 The Wrangler configuration binds the existing D1 database `ticketdepart-call-tracking` as `DB`. Keep these existing values as Cloudflare Worker secrets; do not add them to Git:
@@ -9,53 +49,16 @@ The Wrangler configuration binds the existing D1 database `ticketdepart-call-tra
 - `CALL_INGEST_SECRET`
 - `INGEST_SECRET`
 - `TRAFFICSTARS_POSTBACK_KEY`
+- `TELXIO_WEBHOOK_TOKEN`
 
-Do not rotate or replace the existing TrafficStars postback key as part of routine deployment.
+Do not rotate or replace existing secrets as part of this change. The original TrafficStars postback key remains inside ClickFlare's configured traffic-source integration; no key is committed to this repository.
 
-## Click-to-call correlation and attribution safety
+## Persistence and safety
 
-The website can record a TrafficStars click ID and a phone-call intent. The shared toll-free PSTN route forwards calls to FreeSWITCH destination `+1-888-564-9049` (public DID; SIP side may present internal alias `1030605`), then extension `1001`; that route does not, by itself, transport the browser click ID. Calls from every source can therefore be recorded at FreeSWITCH, but the call's source cannot be proven from the destination or timestamps.
+The Worker stores one ring event per FreeSWITCH call UUID. It keeps the call's attributed IDs, attribution method/status, matched intent, ClickFlare conversion attempts, and postback result in D1. A ClickFlare conversion is emitted only for a unique one-intent/one-ring match or an existing verified DNI assignment. Unmatched and ambiguous calls do not generate conversions.
 
-**Fail-closed rule:** time-window correlation is disabled. A nearby website intent is not proof that the caller came from that click. All calls are retained as `unmatched` with no click ID until a verified call-session identifier is carried into FreeSWITCH and linked to the exact FreeSWITCH call UUID. Do not re-enable timestamp-based matching.
+The call-intent event is intent telemetry, not a conversion. The conversion occurs only on the first actual agent-1001 ringing event. Answered-at, hangup-at, and billsec are stored separately.
 
+## Telxio webhook
 
-## Conversion milestone: first real ring
-
-The configured conversion milestone is the first real inbound ring offered by FreeSWITCH to extension `1001`. A missed or unanswered call counts if it actually rang at FreeSWITCH. Answering the call is not required for this ring conversion.
-
-FreeSWITCH sends `POST /v1/calls/ringing` using the existing `CALL_INGEST_SECRET` bearer authentication and:
-- `call_uuid` (FreeSWITCH UUID)
-- `destination` (`+1-888-564-9049` (public DID; SIP side may present internal alias `1030605`))
-- `agent_extension` (`1001`)
-- `ringing_at` (ISO timestamp)
-
-The Worker stores one `call_ringing_events` row per call UUID with Goal ID `6487`. Repeated notifications are idempotent. Calls that reach FreeSWITCH but never ring are not ringing conversions.
-
-## TrafficStars postback delivery
-
-The sender uses TrafficStars' `/api/v2/cpa/action` endpoint, which is required for the platform's S2S Test validation. It sends `clickid`, `goalid=6487`, the FreeSWITCH UUID as `lead_code`, and the existing account key. It omits `value` and `price`: this campaign uses its configured $15 CPA price, and no separate revenue value is being reported.
-
-Postbacks are gated by `TRAFFICSTARS_POSTBACK_ENABLED=true` and the already-configured `TRAFFICSTARS_POSTBACK_KEY`. Keep the feature disabled until the signed call-session transport is implemented, verified through an approved real call, and the user explicitly approves enabling it. Do not create test calls or test conversions.
-
-When enabled, only an event marked `verified` with attribution method `signed_call_session` and a non-empty click ID can send Goal `6487`. The FreeSWITCH call UUID is the stable `lead_code` on every attempt. Legacy `candidate` events produced by timestamp matching are not eligible. HTTP 408, 429, 5xx, and network failures are retried by the once-per-minute scheduled Worker with exponential backoff (maximum six attempts). Permanent 4xx rejections are recorded without retry. A successful 2xx response is recorded as sent. No postback is sent for unmatched or ambiguous calls.
-
-The retry schedule does not enable postbacks. Events recorded while postbacks are disabled remain `not_sent`; enabling the flag is a separate, explicit production decision.
-
-The separate completed-call sync and `/v1/calls/accepted` endpoint are not the configured conversion milestone. Do not report accepted-call qualification or payout from a ringing event.
-
-## Migrations and deployment
-
-Apply additive migrations in order to the existing D1 database:
-1. `0002_intent_call_correlation.sql`
-2. `0003_ringing_click_attribution.sql`
-3. `0004_trafficstars_postback_status.sql`
-4. `0005_postback_retry_schedule.sql`
-
-The production deploy workflow applies pending remote migrations before deploying only `ticketdepart-call-tracker`. The scheduled retry handler runs once per minute. It does not send anything while the postback feature flag is disabled.
-
-
-## Telxio Call Info webhook
-
-The authenticated provider endpoint is `POST /webhook/telxio/{token}`. The Cloudflare Worker secret `TELXIO_WEBHOOK_TOKEN` must be set to a long random value, and the same value must be the final URL path segment configured in Telxio. The endpoint accepts JSON objects up to 32 KiB, stores deduplicated provider event metadata, hashes caller numbers and payloads, and never creates conversions. The provider's actual webhook sample must be reviewed before correlating provider call IDs with FreeSWITCH UUIDs. Do not use timestamp-only matching.
-
-The inbound FreeSWITCH route accepts either Telxio's SIP destination alias `1030605` or the public DID `+1-888-564-9049` (including normalized digit-only forms), and sends the call to extension `1001`.
+The authenticated provider endpoint is `POST /webhook/telxio/{token}`. It stores deduplicated provider event metadata and never creates conversions. FreeSWITCH remains the canonical source for agent ringing and call UUID correlation.

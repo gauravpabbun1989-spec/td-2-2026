@@ -154,17 +154,77 @@ async function correlateAndStoreRingingEvent(
   ).bind(did, ringingAtIso, ringingAtIso).first<{
     assignment_id: string; trafficstars_click_id: string | null; clickflare_click_id: string | null;
   }>();
-  const verified = Boolean(assignment?.trafficstars_click_id && assignment?.clickflare_click_id);
+
+  let clickId: string | null = null;
+  let clickFlareId: string | null = null;
+  let assignmentId: string | null = null;
+  let matchedIntentId: string | null = null;
+  let attributionStatus = "unmatched";
+  let attributionMethod = "no_recent_click_to_call_intent";
+
+  // Legacy DNI assignments remain supported, but the live single-number
+  // configuration does not require or allocate additional telephone numbers.
+  if (assignment?.trafficstars_click_id && assignment.clickflare_click_id) {
+    clickId = assignment.trafficstars_click_id;
+    clickFlareId = assignment.clickflare_click_id;
+    assignmentId = assignment.assignment_id;
+    attributionStatus = "verified";
+    attributionMethod = "dni_did";
+  } else {
+    // With one shared toll-free DID, the browser click ID cannot be carried
+    // over the PSTN call itself. Match only a single, unclaimed phone-click
+    // intent in the preceding ten minutes, and only if no other inbound ring
+    // happened after that intent. Multiple candidates or intervening calls
+    // are deliberately left ambiguous instead of guessing.
+    const windowStart = new Date(Date.parse(ringingAtIso) - 10 * 60 * 1000).toISOString();
+    const windowEnd = new Date(Date.parse(ringingAtIso) + 10 * 1000).toISOString();
+    const candidates = await env.DB.prepare(
+      "SELECT i.intent_id,i.click_id,i.created_at,t.clickflare_click_id FROM call_intents i INNER JOIN traffic_clicks t ON t.click_id=i.click_id WHERE i.status='open' AND i.matched_call_uuid IS NULL AND i.created_at>=? AND i.created_at<=? AND t.clickflare_click_id IS NOT NULL AND t.clickflare_click_id<>'' ORDER BY i.created_at DESC LIMIT 2",
+    ).bind(windowStart, windowEnd).all<{
+      intent_id: string; click_id: string; created_at: string; clickflare_click_id: string;
+    }>();
+
+    if ((candidates.results || []).length > 1) {
+      attributionStatus = "ambiguous";
+      attributionMethod = "multiple_recent_click_intents";
+    } else if ((candidates.results || []).length === 1) {
+      const candidate = candidates.results[0];
+      const interveningCall = await env.DB.prepare(
+        "SELECT call_uuid FROM call_ringing_events WHERE ringing_at>=? AND ringing_at<? AND call_uuid<>? LIMIT 1",
+      ).bind(candidate.created_at, ringingAtIso, input.call_uuid).first<{ call_uuid: string }>();
+
+      if (interveningCall) {
+        attributionStatus = "ambiguous";
+        attributionMethod = "multiple_calls_after_click_intent";
+      } else {
+        await env.DB.prepare(
+          "UPDATE call_intents SET status='candidate',matched_call_uuid=? WHERE intent_id=? AND status='open' AND matched_call_uuid IS NULL",
+        ).bind(input.call_uuid, candidate.intent_id).run();
+        const reserved = await env.DB.prepare(
+          "SELECT intent_id,click_id,status,matched_call_uuid FROM call_intents WHERE intent_id=?",
+        ).bind(candidate.intent_id).first<{
+          intent_id: string; click_id: string; status: string; matched_call_uuid: string | null;
+        }>();
+
+        if (reserved?.status === "candidate" && reserved.matched_call_uuid === input.call_uuid) {
+          clickId = candidate.click_id;
+          clickFlareId = candidate.clickflare_click_id;
+          matchedIntentId = candidate.intent_id;
+          attributionStatus = "candidate";
+          attributionMethod = "single_number_unique_intent_window";
+        } else {
+          attributionStatus = "ambiguous";
+          attributionMethod = "intent_already_reserved";
+        }
+      }
+    }
+  }
+
   await env.DB.prepare(
     "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id,clickflare_click_id,did_assignment_id) VALUES (?,?,?,?,?,'call_ringing',?,?,?,?,?,?) ON CONFLICT(call_uuid) DO NOTHING",
   ).bind(
     input.call_uuid, input.destination, input.agent_extension, ringingAtIso, GOAL_ID,
-    assignment?.trafficstars_click_id || null,
-    verified ? "verified" : "unmatched",
-    verified ? "dni_did" : "no_active_did_assignment",
-    null,
-    verified ? assignment?.clickflare_click_id || null : null,
-    verified ? assignment?.assignment_id || null : null,
+    clickId, attributionStatus, attributionMethod, matchedIntentId, clickFlareId, assignmentId,
   ).run();
 
   const stored = await env.DB.prepare(
@@ -263,7 +323,10 @@ async function sendClickFlarePostback(
   env: CallTrackerEnv,
   event: { call_uuid: string; clickflare_click_id: string | null; attribution_status: string; attribution_method?: string | null },
 ): Promise<ClickFlarePostbackResult> {
-  if (event.attribution_status !== "verified" || event.attribution_method !== "dni_did" || !event.clickflare_click_id) {
+  const verifiedDni = event.attribution_status === "verified" && event.attribution_method === "dni_did";
+  const uniqueSingleNumberMatch = event.attribution_status === "candidate" &&
+    event.attribution_method === "single_number_unique_intent_window";
+  if ((!verifiedDni && !uniqueSingleNumberMatch) || !event.clickflare_click_id) {
     return { sent: false, status: "unattributed" };
   }
   if (env.CLICKFLARE_POSTBACK_ENABLED !== "true") return { sent: false, status: "disabled" };
@@ -756,11 +819,11 @@ export default {
       });
       const createdAt = validTime(body.created_at) ? body.created_at : ringingAt;
       await env.DB.prepare(
-        "INSERT INTO inbound_calls (call_uuid,click_id,caller_hash,destination,agent_extension,created_at,answered_at,hangup_at,billsec,accepted,acceptance_reason,attribution_status,attribution_method,matched_intent_id,clickflare_click_id,did_assignment_id) VALUES (?,?,NULL,?,?,?,NULL,NULL,0,1,'agent_leg_ringing',?,?,NULL,?,?) ON CONFLICT(call_uuid) DO UPDATE SET click_id=COALESCE(excluded.click_id,inbound_calls.click_id),destination=excluded.destination,agent_extension=excluded.agent_extension,created_at=COALESCE(inbound_calls.created_at,excluded.created_at),accepted=1,acceptance_reason='agent_leg_ringing',attribution_status=excluded.attribution_status,attribution_method=excluded.attribution_method,clickflare_click_id=COALESCE(excluded.clickflare_click_id,inbound_calls.clickflare_click_id),did_assignment_id=COALESCE(excluded.did_assignment_id,inbound_calls.did_assignment_id)",
+        "INSERT INTO inbound_calls (call_uuid,click_id,caller_hash,destination,agent_extension,created_at,answered_at,hangup_at,billsec,accepted,acceptance_reason,attribution_status,attribution_method,matched_intent_id,clickflare_click_id,did_assignment_id) VALUES (?,?,NULL,?,?,?,NULL,NULL,0,1,'agent_leg_ringing',?,?,?,?,?) ON CONFLICT(call_uuid) DO UPDATE SET click_id=COALESCE(excluded.click_id,inbound_calls.click_id),destination=excluded.destination,agent_extension=excluded.agent_extension,created_at=COALESCE(inbound_calls.created_at,excluded.created_at),accepted=1,acceptance_reason='agent_leg_ringing',attribution_status=excluded.attribution_status,attribution_method=excluded.attribution_method,matched_intent_id=COALESCE(excluded.matched_intent_id,inbound_calls.matched_intent_id),clickflare_click_id=COALESCE(excluded.clickflare_click_id,inbound_calls.clickflare_click_id),did_assignment_id=COALESCE(excluded.did_assignment_id,inbound_calls.did_assignment_id)",
       ).bind(
         callUuid, stored?.click_id || null, destination, agentExtension, createdAt,
-        stored?.attribution_status || "unmatched", stored?.attribution_method || "no_active_did_assignment",
-        stored?.clickflare_click_id || null, stored?.did_assignment_id || null,
+        stored?.attribution_status || "unmatched", stored?.attribution_method || "no_recent_click_to_call_intent",
+        stored?.matched_intent_id || null, stored?.clickflare_click_id || null, stored?.did_assignment_id || null,
       ).run();
 
       const postbackEvent = stored?.call_uuid ? {

@@ -35,7 +35,12 @@ try {
     window.localStorage.setItem(CLICK_STORAGE_KEY, JSON.stringify(record));
     const clickFlareId = params.get("cf_click_id");
     if (clickFlareId && /^[A-Za-z0-9._~-]{1,200}$/.test(clickFlareId.trim())) {
-      window.sessionStorage.setItem("ticketdepart_clickflare_click_id", clickFlareId.trim());
+      const normalizedClickFlareId = clickFlareId.trim();
+      window.sessionStorage.setItem("ticketdepart_clickflare_click_id", normalizedClickFlareId);
+      window.localStorage.setItem("ticketdepart_clickflare_click", JSON.stringify({
+        clickFlareId: normalizedClickFlareId,
+        expiresAt: Date.now() + CLICK_TTL_MS,
+      }));
     }
     void recordTrafficClickIfNeeded();
   } else {

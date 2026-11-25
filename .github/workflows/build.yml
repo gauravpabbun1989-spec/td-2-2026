@@ -22,8 +22,8 @@ jobs:
       - run: pnpm --dir src/frontend typecheck
       - run: pnpm --dir src/frontend exec biome check --write --unsafe src
       - run: pnpm --dir src/frontend check
-      - run: pnpm --dir src/frontend test
       - run: pnpm --dir src/frontend build
+      - run: pnpm --dir src/frontend test
       - run: npm install -g ic-mops
       - run: mops check
       - run: mops build

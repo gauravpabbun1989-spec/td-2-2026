@@ -1,5 +1,5 @@
 import { SITE } from "@/lib/site";
-import { useDniPhoneNumber } from "@/lib/dni";
+import { useCallTrackingPhoneNumber } from "@/lib/dni";
 import { cn } from "@/lib/utils";
 import { Phone } from "lucide-react";
 
@@ -33,7 +33,7 @@ export function CallCta({
   ctaLocation,
   showNumber = true,
 }: CallCtaProps) {
-  const phone = useDniPhoneNumber();
+  const phone = useCallTrackingPhoneNumber();
   return (
     <a
       href={phone.ready ? phone.href : undefined}
