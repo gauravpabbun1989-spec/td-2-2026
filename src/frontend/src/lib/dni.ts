@@ -29,8 +29,22 @@ function getClickIds() {
 
   let clickFlareId = normalizeClickId(params.get("cf_click_id"));
   try {
-    if (clickFlareId) window.sessionStorage.setItem(CLICKFLARE_STORAGE_KEY, clickFlareId);
-    else clickFlareId = normalizeClickId(window.sessionStorage.getItem(CLICKFLARE_STORAGE_KEY));
+    if (clickFlareId) {
+      window.sessionStorage.setItem(CLICKFLARE_STORAGE_KEY, clickFlareId);
+      window.localStorage.setItem("ticketdepart_clickflare_click", JSON.stringify({
+        clickFlareId,
+        expiresAt: Date.now() + 90 * 24 * 60 * 60 * 1000,
+      }));
+    } else {
+      clickFlareId = normalizeClickId(window.sessionStorage.getItem(CLICKFLARE_STORAGE_KEY));
+      if (!clickFlareId) {
+        const stored = window.localStorage.getItem("ticketdepart_clickflare_click");
+        if (stored) {
+          const record = JSON.parse(stored) as { clickFlareId?: string; expiresAt?: number };
+          if (record.expiresAt && record.expiresAt > Date.now()) clickFlareId = normalizeClickId(record.clickFlareId || null);
+        }
+      }
+    }
   } catch {
     // The URL remains available for this page view.
   }
