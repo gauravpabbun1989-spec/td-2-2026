@@ -1,0 +1,109 @@
+import { useEffect, useState } from "react";
+import { SITE } from "@/lib/site";
+
+const DNI_ENDPOINT = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/dni/assign";
+const CLICK_STORAGE_KEY = "ticketdepart_traffic_click";
+const CLICKFLARE_STORAGE_KEY = "ticketdepart_clickflare_click_id";
+
+type DniPhone = { href: string; display: string };
+type DniResponse = { ok?: boolean; assigned?: boolean; did?: string };
+
+let cachedPhone: DniPhone | null = null;
+let pendingAssignment: Promise<DniPhone | null> | null = null;
+
+function normalizeClickId(value: string | null): string | null {
+  const normalized = value?.trim() || "";
+  return /^[A-Za-z0-9._~-]{1,200}$/.test(normalized) ? normalized : null;
+}
+
+function formatDid(did: string): string | null {
+  const digits = did.replace(/\D/g, "");
+  if (!/^1?\d{10}$/.test(digits)) return null;
+  const national = digits.length === 11 ? digits.slice(1) : digits;
+  return `+1-${national.slice(0, 3)}-${national.slice(3, 6)}-${national.slice(6)}`;
+}
+
+function getClickIds() {
+  const params = new URLSearchParams(window.location.search);
+  const clickIdFromUrl = normalizeClickId(params.get("click_id"));
+  let clickId = clickIdFromUrl;
+  if (!clickId) {
+    try {
+      const stored = window.localStorage.getItem(CLICK_STORAGE_KEY);
+      if (stored) {
+        const record = JSON.parse(stored) as { clickId?: string; expiresAt?: number };
+        if (record.expiresAt && record.expiresAt > Date.now()) {
+          clickId = normalizeClickId(record.clickId || null);
+        }
+      }
+    } catch {
+      // Tracking must never block a phone call.
+    }
+  }
+
+  const incomingClickFlareId = normalizeClickId(
+    params.get("externalId") || params.get("externalid") ||
+    params.get("external_id") || params.get("cf_click_id"),
+  );
+  let clickFlareId = incomingClickFlareId;
+  try {
+    if (clickFlareId) {
+      window.sessionStorage.setItem(CLICKFLARE_STORAGE_KEY, clickFlareId);
+    } else {
+      clickFlareId = normalizeClickId(window.sessionStorage.getItem(CLICKFLARE_STORAGE_KEY));
+    }
+  } catch {
+    // The current landing URL still supplies the click ID when storage is blocked.
+  }
+  return { clickId, clickFlareId };
+}
+
+async function requestDniAssignment(): Promise<DniPhone | null> {
+  const { clickId, clickFlareId } = getClickIds();
+  if (!clickId || !clickFlareId) return null;
+  try {
+    const response = await fetch(DNI_ENDPOINT, {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
+      body: JSON.stringify({ click_id: clickId, clickflare_click_id: clickFlareId }),
+    });
+    if (!response.ok) return null;
+    const data = await response.json() as DniResponse;
+    if (data.ok !== true || data.assigned !== true || !data.did) return null;
+    const display = formatDid(data.did);
+    if (!display) return null;
+    return { href: `tel:+${data.did.replace(/\D/g, "")}`, display };
+  } catch {
+    return null;
+  }
+}
+
+/** Paid visitors receive a server-assigned DID; direct PSTN calls are attributed by the DID, not browser state. */
+export function useDniPhoneNumber(): DniPhone {
+  const [phone, setPhone] = useState<DniPhone>(cachedPhone || {
+    href: SITE.phoneHref,
+    display: SITE.phoneDisplay,
+  });
+
+  useEffect(() => {
+    if (cachedPhone) {
+      setPhone(cachedPhone);
+      return;
+    }
+    if (!pendingAssignment) {
+      pendingAssignment = requestDniAssignment().then((assigned) => {
+        if (assigned) cachedPhone = assigned;
+        return assigned;
+      });
+    }
+    let active = true;
+    void pendingAssignment.then((assigned) => {
+      if (active && assigned) setPhone(assigned);
+    });
+    return () => { active = false; };
+  }, []);
+
+  return phone;
+}
