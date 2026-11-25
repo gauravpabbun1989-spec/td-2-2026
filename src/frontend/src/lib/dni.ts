@@ -3,7 +3,6 @@ import { capturePaidClickAttribution } from "@/lib/click-attribution";
 
 const TRACKER_BASE_URL = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev";
 const CLICK_ENDPOINT = TRACKER_BASE_URL + "/click";
-const CLICK_ENDPOINT = TRACKER_BASE_URL + "/click";
 
 type CallPhone = { href: string; display: string; ready: true };
 
