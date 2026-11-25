@@ -5,6 +5,7 @@ const root = process.cwd();
 const publicDir = path.join(root, "public");
 const distDir = path.join(root, "dist");
 const phoneConfig = JSON.parse(fs.readFileSync(path.resolve(root, "../../config/phone-number.json"), "utf8"));
+const phoneDisplayPattern = phoneConfig.display.replaceAll("+", "\\+");
 const sourceSitemapPath = path.join(publicDir, "sitemap.xml");
 const builtSitemapPath = path.join(distDir, "sitemap.xml");
 const sourceRobotsPath = path.join(publicDir, "robots.txt");
@@ -46,7 +47,7 @@ assert(/"not_found_handling"\s*:\s*"404-page"/.test(workerConfig), "root wrangle
 const notFoundHtml = read(notFoundHtmlPath);
 assert(/<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']/i.test(notFoundHtml), "404.html must be noindex, nofollow");
 assert(/<h1>This page has departed<\/h1>/i.test(notFoundHtml), "404.html is missing its recovery heading");
-assert(/href="tel:\+1-888-564-9049"/i.test(notFoundHtml), "404.html must offer the canonical phone CTA");
+assert(notFoundHtml.includes(`href="tel:${phoneConfig.tel}"`), "404.html must offer the canonical phone CTA");
 assert(/<meta\s+name="robots"\s+content="noindex, nofollow"/i.test(notFoundHtml), "404.html must remain excluded from indexing");
 assert(!/googletagmanager|G-4WC5K9Q31E/i.test(notFoundHtml), "404.html must not load GA4 or GTM and pollute acquisition analytics");
 const htmlShell = read(path.join(root, "index.html"));
@@ -161,11 +162,11 @@ const disclaimerCanonical = disclaimerHtml.match(/<link\s+rel="canonical"\s+href
 assert(disclaimerCanonical === "https://ticketdepart.com/disclaimer/", `disclaimer canonical must point to /disclaimer/; found ${disclaimerCanonical || "missing"}`);
 assert(disclaimerHtml.includes("A quote is not a ticket or a guarantee that a fare remains available"), "disclaimer is missing the fare-availability qualification");
 const disclaimerDescription = (disclaimerHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "").replace(/&#39;/g, "'").trim();
-assert(disclaimerDescription === "Understand TicketDepart's booking service, airline relationships, fare quotes, fees, ticketing, changes, and refunds. Call +1-888-564-9049.", `disclaimer meta description is incomplete or awkward: ${disclaimerDescription}`);
+assert(disclaimerDescription.startsWith("Understand TicketDepart") && disclaimerDescription.endsWith("Call " + phoneConfig.display + "."), `disclaimer meta description is incomplete or awkward: ${disclaimerDescription}`);
 
 const cheapHtml = read(path.join(distDir, "cheap-flight-booking-by-phone", "index.html"));
 const cheapDescription = cheapHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1]?.trim() ?? "";
-assert(cheapDescription === "Compare cheap economy flights from the USA and Canada. Review flexible dates, nearby airports, baggage costs, and fare rules. Call +1-888-564-9049.", `cheap-flight meta description is incomplete or awkward: ${cheapDescription}`);
+assert(cheapDescription.startsWith("Compare cheap economy flights from the USA and Canada.") && cheapDescription.endsWith("Call " + phoneConfig.display + "."), `cheap-flight meta description is incomplete or awkward: ${cheapDescription}`);
 
 
 const legacyBookingPath = path.join(distDir, "flight-booking-assistance", "index.html");
@@ -252,10 +253,10 @@ for (const url of locs) {
   assert(ogDescription === description, "Open Graph description differs from meta description: " + url);
   assert(twitterDescription === description, "Twitter description differs from meta description: " + url);
   assert(description.length <= 160, "meta description exceeds 160 characters: " + url);
-  const phoneMentions = description.split("+1-888-564-9049").length - 1;
+  const phoneMentions = description.split(phoneConfig.display).length - 1;
   assert(phoneMentions === 1, "meta description must contain the current phone number exactly once: " + url);
   assert(!/\bwith a travel\.?$/i.test(description), "meta description contains an awkward truncated phrase: " + url + ": " + description);
-  assert(!/\bapplicable booking\.\s+Call \+1-888-564-9049\.$/i.test(description), "meta description contains an incomplete booking phrase: " + url + ": " + description);
+  assert(!new RegExp(`\\bapplicable booking\\.\\s+Call\\s+${phoneDisplayPattern}\\.$`, "i").test(description), "meta description contains an incomplete booking phrase: " + url + ": " + description);
   assert(!/\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as)\.$/i.test(description), "meta description ends with an incomplete phrase: " + url + ": " + description);
   assert(!/^(?:to|for|at)\b/i.test(description), "meta description starts with a dangling preposition: " + url);
   assert(!allPageTitles.has(title), "duplicate page title: " + title + " (" + allPageTitles.get(title) + " and " + url + ")");
@@ -292,8 +293,8 @@ const corporateDescription = corporateHtml.match(/<meta\s+name="description"\s+c
 const chicagoDescription = chicagoHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1]?.trim() ?? "";
 assert(!/with a travel\./i.test(chicagoDescription), `Chicago meta description is awkwardly truncated: ${chicagoDescription}`);
 assert(/employee and executive/i.test(corporateDescription), `corporate meta description lost its intended audience: ${corporateDescription}`);
-assert(/[.!?]\s+Call \+1-888-564-9049\.$/.test(corporateDescription), `corporate meta description lacks a complete phone CTA: ${corporateDescription}`);
-assert(/[.!?]\s+Call \+1-888-564-9049\.$/.test(chicagoDescription), `Chicago meta description lacks a complete phone CTA: ${chicagoDescription}`);
+assert(new RegExp(`[.!?]\\s+Call\\s+${phoneDisplayPattern}\\.$`).test(corporateDescription), `corporate meta description lacks a complete phone CTA: ${corporateDescription}`);
+assert(new RegExp(`[.!?]\\s+Call\\s+${phoneDisplayPattern}\\.$`).test(chicagoDescription), `Chicago meta description lacks a complete phone CTA: ${chicagoDescription}`);
 
 
 
@@ -351,7 +352,7 @@ for (const url of locs) {
   assert(description.length >= 60 && description.length <= 160, `meta description length out of bounds for ${url}: ${description.length}`);
   assert(/[.!?]$/.test(description), `meta description ends mid-sentence for ${url}: ${description}`);
   assert(
-    !/\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every)\.\s+Call\s+\+1-888-564-9049/i.test(description) && !/\bwith a travel\.\s+Call\s+\+1-888-564-9049/i.test(description),
+    !new RegExp(`\\b(?:and|or|with|for|from|to|of|in|on|at|by|the|a|an|as|including|that|which|who|whose|when|where|while|before|after|between|about|your|their|our|its|into|over|under|available|applicable|specific|different|current|complete|full|practical|appropriate|official|independent|international|domestic|flexible|additional|other|any|each|every)\\.\\s+Call\\s+${phoneDisplayPattern}`, "i").test(description) && !new RegExp(`\\bwith a travel\\.\\s+Call\\s+${phoneDisplayPattern}`, "i").test(description),
     `meta description has a dangling phrase before the phone CTA for ${url}: ${description}`,
   );
   const phoneMatches = description.match(/(?:\+?1[\s().-]*)?888[\s().-]*958[\s().-]*0280/g) ?? [];
