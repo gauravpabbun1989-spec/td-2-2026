@@ -87,6 +87,30 @@ class RingingDetectorTests(unittest.TestCase):
         )
         self.assertEqual(send.call_count, 2)
 
+    def test_called_party_header_overrides_trunk_registration_alias(self):
+        self.db.execute("DELETE FROM call_events")
+        details = {
+            "Unique-ID": self.inbound_uuid,
+            "Call-Direction": "inbound",
+            "Caller-Destination-Number": "1030605",
+            "Caller-Context": "public",
+            "Channel-Name": "sofia/external/provider-call",
+            "variable_sip_h_P-Called-Party-ID": "<sip:+18777888010@telxio.example>",
+        }
+        self.db.execute(
+            "INSERT INTO call_events(event_time,event_name,uuid,details) VALUES(?,?,?,?)",
+            ("2026-11-25T04:00:00+00:00", "CHANNEL_CREATE", self.inbound_uuid, json.dumps(details)),
+        )
+        self.db.commit()
+        with patch.object(collector, "send_pending_ringing") as send:
+            collector.queue_ringing_event(self.db, self.event)
+        row = self.db.execute(
+            "SELECT destination FROM ringing_notifications WHERE call_uuid=?",
+            (self.inbound_uuid,),
+        ).fetchone()
+        self.assertEqual(row[0], "18777888010")
+        send.assert_called_once_with(self.db)
+
     def test_invalid_inbound_did_is_not_forwarded(self):
         self.db.execute("DELETE FROM call_events")
         self.add_inbound_create("not-a-number")
