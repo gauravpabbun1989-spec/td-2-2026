@@ -86,7 +86,6 @@ describe("GA4 phone_click payload contract", () => {
     window.sessionStorage.removeItem("ticketdepart_clickflare_click_id");
     window.localStorage.removeItem("ticketdepart_traffic_click");
     window.localStorage.removeItem("ticketdepart_clickflare_click");
-    window.sessionStorage.removeItem("ticketdepart_paid_click_attribution_v1");
     window.localStorage.removeItem("ticketdepart_paid_click_attribution_v1");
     window.history.replaceState({}, "", "/");
   });
@@ -162,6 +161,7 @@ describe("GA4 phone_click payload contract", () => {
 
     // Simulate a browser/session transition where sessionStorage was cleared
     // but main.tsx's durable landing-click record remains.
+    window.sessionStorage.removeItem("ticketdepart_paid_click_attribution_v1");
     window.sessionStorage.removeItem("ticketdepart_trafficstars_click_id");
     window.sessionStorage.removeItem("ticketdepart_trafficstars_clicked_at");
     window.sessionStorage.removeItem("ticketdepart_trafficstars_banner_id");
