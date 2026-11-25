@@ -75,14 +75,14 @@ jobs:
           pnpm dlx wrangler@4.157.0 deploy --dry-run --config src/frontend/trafficstars-manager/mcp/wrangler.jsonc
 
       - name: Deploy TrafficStars authorization Worker
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: "5421346b1bf08e0583cb670e97887719"
         run: pnpm dlx wrangler@4.157.0 deploy --config src/frontend/trafficstars-manager/auth/wrangler.jsonc
 
       - name: Deploy TrafficStars MCP Worker
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: "5421346b1bf08e0583cb670e97887719"
@@ -92,10 +92,11 @@ jobs:
         if: success()
         run: |
           echo "Validated the TrafficStars authorization and MCP Workers."
-          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
-            echo "Pull request validation only; no production Worker was deployed."
-          else
-            echo "Deployed only trafficstars-auth and trafficstars-mcp."
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ] && [ "${GITHUB_REF}" = "refs/heads/main" ]; then
+            echo "Manual dispatch from main deployed only trafficstars-auth and trafficstars-mcp."
             echo "The website Worker ticket-depart2 was not targeted."
             echo "No TrafficStars campaign actions were performed."
+          else
+            echo "PR/push validation only; no production Worker was deployed."
+            echo "Production deployment requires manual dispatch from main."
           fi
