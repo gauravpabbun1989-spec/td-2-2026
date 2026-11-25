@@ -39,7 +39,7 @@ export function CallCta({
       href={phone.ready ? phone.href : undefined}
       data-ocid={ocid}
       data-cta-location={ctaLocation}
-      aria-label={phone.ready ? `${SITE.ctaLabel}: ${phone.ready ? phone.display : "Preparing call number…"}` : "Preparing call number"}
+      aria-label={phone.ready ? `${SITE.ctaLabel}: ${phone.display}` : "Preparing call number"}
       aria-disabled={!phone.ready}
       aria-busy={!phone.ready}
       className={cn(
@@ -61,7 +61,7 @@ export function CallCta({
         <span className="block w-full">{SITE.ctaLabel}</span>
         {showNumber ? (
           <span aria-hidden="true" className="block w-full text-sm font-semibold tabular-nums">
-            {phone.display}
+            {phone.ready ? phone.display : "Preparing call number…"}
           </span>
         ) : null}
       </span>
