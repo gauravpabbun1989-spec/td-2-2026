@@ -139,8 +139,11 @@ function auditOnce() {
   assert(!existsSync(join(ROOT, ".github/workflows/deploy-cloudflare-production.yml")), "legacy Cloudflare production deployment workflow must remain absent");
   assert(buildWorkflow.includes("pnpm test:backend"), "backend integration tests missing from CI");
 
-  assert(site.includes(`phoneDisplay: "${phoneConfig.display}"`), "site phone display does not match canonical phone config");
-  assert(site.includes(`phoneHref: "tel:${phoneConfig.tel}"`), "site phone href does not match canonical phone config");
+  assert(site.includes('import phoneConfig from "../../phone-config.json"'), "site must import the frontend phone config");
+  assert(site.includes("phoneDisplay: phoneConfig.display"), "site phone display must use the phone config");
+  assert(site.includes("phoneHref: phoneConfig.href"), "site phone href must use the phone config");
+  assert(frontendPhoneConfig.display === phoneConfig.display, "frontend phone display does not match canonical phone config");
+  assert(frontendPhoneConfig.href === `tel:${phoneConfig.tel}`, "frontend phone href does not match canonical phone config");
   assert(
     typeof phoneConfig.display === "string" &&
       /^\+1-\d{3}-\d{3}-\d{4}$/.test(phoneConfig.display) &&
