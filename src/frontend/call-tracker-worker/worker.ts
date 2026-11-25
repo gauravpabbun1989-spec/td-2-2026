@@ -314,7 +314,7 @@ async function sendClickFlarePostback(
 async function retryFailedClickFlarePostbacks(env: CallTrackerEnv) {
   if (env.CLICKFLARE_POSTBACK_ENABLED !== "true") return { checked: 0, sent: 0, failed: 0 };
   const due = await env.DB.prepare(
-    "SELECT call_uuid,clickflare_click_id,attribution_status,attribution_method FROM clickflare_conversions c JOIN call_ringing_events r USING(call_uuid) WHERE c.status='failed' AND c.next_retry_at IS NOT NULL AND c.next_retry_at<=? AND c.attempt_count<? ORDER BY c.next_retry_at ASC LIMIT 25",
+    "SELECT c.call_uuid,c.clickflare_click_id,r.attribution_status,r.attribution_method FROM clickflare_conversions c JOIN call_ringing_events r USING(call_uuid) WHERE c.status='failed' AND c.next_retry_at IS NOT NULL AND c.next_retry_at<=? AND c.attempt_count<? ORDER BY c.next_retry_at ASC LIMIT 25",
   ).bind(new Date().toISOString(), MAX_POSTBACK_ATTEMPTS).all<{
     call_uuid: string; clickflare_click_id: string; attribution_status: string; attribution_method: string | null;
   }>();
