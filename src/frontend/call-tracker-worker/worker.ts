@@ -70,8 +70,7 @@ function readClickFlareId(value: unknown): string | null {
 }
 
 function getClickFlareId(params: URLSearchParams): string | null {
-  return readClickFlareId(params.get("externalId") || params.get("externalid") ||
-    params.get("external_id") || params.get("cf_click_id"));
+  return readClickFlareId(params.get("cf_click_id"));
 }
 
 const validTime = (value: unknown): value is string =>
