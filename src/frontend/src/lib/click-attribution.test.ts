@@ -77,6 +77,8 @@ describe("paid click ID capture", () => {
   });
 
   it("keeps the visit pair in memory across SPA navigation when both storage writes are blocked", () => {
+    const originalSessionSetItem = window.sessionStorage.setItem;
+    const originalLocalSetItem = window.localStorage.setItem;
     for (const storage of [window.sessionStorage, window.localStorage]) {
       Object.defineProperty(storage, "setItem", {
         configurable: true,
@@ -93,8 +95,14 @@ describe("paid click ID capture", () => {
         clickFlareId: "cf-memory",
       });
     } finally {
-      delete (window.sessionStorage as Storage & { setItem?: Storage["setItem"] }).setItem;
-      delete (window.localStorage as Storage & { setItem?: Storage["setItem"] }).setItem;
+      Object.defineProperty(window.sessionStorage, "setItem", {
+        configurable: true,
+        value: originalSessionSetItem,
+      });
+      Object.defineProperty(window.localStorage, "setItem", {
+        configurable: true,
+        value: originalLocalSetItem,
+      });
     }
   });
 
@@ -110,7 +118,6 @@ describe("paid click ID capture", () => {
       expect(captured).toMatchObject({ clickId: "ts-session", clickFlareId: "cf-session" });
       expect(window.sessionStorage.getItem("ticketdepart_paid_click_attribution_v1")).toContain("cf-session");
     } finally {
-      delete (window.localStorage as Storage & { setItem?: Storage["setItem"] }).setItem;
       Object.defineProperty(window.localStorage, "setItem", {
         configurable: true,
         value: originalSetItem,
