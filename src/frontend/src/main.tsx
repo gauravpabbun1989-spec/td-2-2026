@@ -26,7 +26,7 @@ const CLICK_TTL_MS = 90 * 24 * 60 * 60 * 1000;
 
 try {
   const params = new URLSearchParams(window.location.search);
-  const incomingClickId = params.get("click_id")?.trim();
+  const incomingClickId = (params.get("click_id") || params.get("externalid") || params.get("external_id"))?.trim();
   if (incomingClickId && /^[A-Za-z0-9._~-]{1,200}$/.test(incomingClickId)) {
     const record = {
       clickId: incomingClickId,
@@ -35,10 +35,10 @@ try {
     window.localStorage.setItem(CLICK_STORAGE_KEY, JSON.stringify(record));
     const beacon = new URL(TRAFFIC_TRACKER_URL);
     beacon.searchParams.set("click_id", incomingClickId);
-    const clickFlareId = params.get("externalId") || params.get("externalid") || params.get("external_id") || params.get("cf_click_id");
+    const clickFlareId = params.get("cf_click_id");
     if (clickFlareId && /^[A-Za-z0-9._~-]{1,200}$/.test(clickFlareId.trim())) {
       const normalizedClickFlareId = clickFlareId.trim();
-      beacon.searchParams.set("externalId", normalizedClickFlareId);
+      beacon.searchParams.set("cf_click_id", normalizedClickFlareId);
       window.sessionStorage.setItem("ticketdepart_clickflare_click_id", normalizedClickFlareId);
     }
     beacon.searchParams.set("path", window.location.pathname);
