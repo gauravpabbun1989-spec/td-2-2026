@@ -1,13 +1,6 @@
 name: Deploy Cloudflare website Worker
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "src/frontend/**"
-      - "config/phone-number.json"
-      - "wrangler.jsonc"
-      - "pnpm-lock.yaml"
   workflow_dispatch:
 
 permissions:

@@ -56,8 +56,8 @@ jobs:
 
   deploy:
     name: Deploy call-tracker Worker to production
-    # PRs only validate. A merge to main deploys only after this workflow's own validation succeeds; manual dispatch remains supported.
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    # PRs and pushes validate only; manual dispatch from main deploys after validation succeeds.
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     needs: validate
     runs-on: ubuntu-latest
     timeout-minutes: 15
