@@ -7,6 +7,7 @@ import "./index.css";
 // Registers the document-level tel: click listener exactly once at startup so
 // every phone click fires a single GA4 phone_click event.
 import "./lib/analytics";
+import { recordTrafficClickIfNeeded } from "./lib/dni";
 
 BigInt.prototype.toJSON = function () {
   return this.toString();
@@ -19,8 +20,7 @@ declare global {
 }
 
 // Capture and persist the TrafficStars click ID before the app renders.
-// The pixel-style GET avoids cross-origin response access; no visitor PII is sent.
-const TRAFFIC_TRACKER_URL = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/click";
+// Click recording is shared with the DNI hook so assignment waits for the click row.
 const CLICK_STORAGE_KEY = "ticketdepart_traffic_click";
 const CLICK_TTL_MS = 90 * 24 * 60 * 60 * 1000;
 
@@ -33,20 +33,11 @@ try {
       expiresAt: Date.now() + CLICK_TTL_MS,
     };
     window.localStorage.setItem(CLICK_STORAGE_KEY, JSON.stringify(record));
-    const beacon = new URL(TRAFFIC_TRACKER_URL);
-    beacon.searchParams.set("click_id", incomingClickId);
     const clickFlareId = params.get("cf_click_id");
     if (clickFlareId && /^[A-Za-z0-9._~-]{1,200}$/.test(clickFlareId.trim())) {
-      const normalizedClickFlareId = clickFlareId.trim();
-      beacon.searchParams.set("cf_click_id", normalizedClickFlareId);
-      window.sessionStorage.setItem("ticketdepart_clickflare_click_id", normalizedClickFlareId);
+      window.sessionStorage.setItem("ticketdepart_clickflare_click_id", clickFlareId.trim());
     }
-    beacon.searchParams.set("path", window.location.pathname);
-    const bannerId = params.get("banner_id");
-    if (bannerId) beacon.searchParams.set("banner_id", bannerId);
-    const pixel = new Image();
-    pixel.referrerPolicy = "no-referrer";
-    pixel.src = beacon.toString();
+    void recordTrafficClickIfNeeded();
   } else {
     const stored = window.localStorage.getItem(CLICK_STORAGE_KEY);
     if (stored) {
