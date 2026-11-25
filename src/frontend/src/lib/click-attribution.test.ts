@@ -76,6 +76,28 @@ describe("paid click ID capture", () => {
     });
   });
 
+  it("keeps the visit pair in memory across SPA navigation when both storage writes are blocked", () => {
+    for (const storage of [window.sessionStorage, window.localStorage]) {
+      Object.defineProperty(storage, "setItem", {
+        configurable: true,
+        value: () => { throw new Error("storage blocked"); },
+      });
+    }
+    try {
+      setSearch("?click_id=ts-memory&cf_click_id=cf-memory");
+      capturePaidClickAttribution();
+      setSearch("");
+
+      expect(capturePaidClickAttribution()).toMatchObject({
+        clickId: "ts-memory",
+        clickFlareId: "cf-memory",
+      });
+    } finally {
+      delete (window.sessionStorage as Storage & { setItem?: Storage["setItem"] }).setItem;
+      delete (window.localStorage as Storage & { setItem?: Storage["setItem"] }).setItem;
+    }
+  });
+
   it("keeps the session copy when persistent storage writes are blocked", () => {
     const originalSetItem = window.localStorage.setItem;
     Object.defineProperty(window.localStorage, "setItem", {
