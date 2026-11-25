@@ -79,6 +79,7 @@ export function isAnalyticsTestSession(
 
 const LANDING_PAGE_KEY = "ticketdepart_landing_page";
 const TRAFFICSTARS_CLICK_ID_KEY = "ticketdepart_trafficstars_click_id";
+const CLICKFLARE_CLICK_ID_KEY = "ticketdepart_clickflare_click_id";
 const TRAFFICSTARS_CLICKED_AT_KEY = "ticketdepart_trafficstars_clicked_at";
 const TRAFFICSTARS_BANNER_ID_KEY = "ticketdepart_trafficstars_banner_id";
 const FUNNEL_ENTRY_KEY = "ticketdepart_funnel_entry_sent";
@@ -187,6 +188,24 @@ function normalizeTrafficStarsClickId(value: string | null): string | undefined 
   if (!value) return undefined;
   const normalized = value.trim();
   return /^[A-Za-z0-9._~-]{1,200}$/.test(normalized) ? normalized : undefined;
+}
+
+/** Preserve ClickFlare's unique visit ID so an offline phone event can be posted back to that visit. */
+function getClickFlareClickId(): string | undefined {
+  if (typeof window === "undefined") return undefined;
+  const params = new URLSearchParams(window.location.search);
+  const incoming = normalizeTrafficStarsClickId(params.get("cf_click_id"));
+  if (incoming) {
+    try { window.sessionStorage.setItem(CLICKFLARE_CLICK_ID_KEY, incoming); } catch {
+      // The URL still carries the ID for this page view.
+    }
+    return incoming;
+  }
+  try {
+    return normalizeTrafficStarsClickId(window.sessionStorage.getItem(CLICKFLARE_CLICK_ID_KEY));
+  } catch {
+    return undefined;
+  }
 }
 
 /**
@@ -414,6 +433,7 @@ function recordTrafficStarsCallIntent(clickId: string, location: string) {
     const payload = {
       intent_id: createCallIntentId(),
       click_id: clickId,
+      clickflare_click_id: getClickFlareClickId(),
       clicked_at: getTrafficStarsClickedAt(),
       banner_id: getTrafficStarsBannerId(),
       landing_path: getLandingPage(),
