@@ -16,6 +16,7 @@ export interface CallTrackerEnv {
   INGEST_SECRET?: string;
   TRAFFICSTARS_POSTBACK_KEY?: string;
   TRAFFICSTARS_POSTBACK_ENABLED?: string;
+  CLICKFLARE_POSTBACK_ENABLED?: string;
   TELXIO_WEBHOOK_TOKEN?: string;
 }
 
@@ -245,13 +246,95 @@ async function retryFailedPostbacks(env: CallTrackerEnv) {
   return { checked: due.results?.length || 0, sent, failed };
 }
 
+const CLICKFLARE_POSTBACK_URL = "https://globalvisitlog.com/cf/cv";
+const CALL_PAYOUT_USD = "15";
+const CLICKFLARE_CONVERSION_TYPE = "call";
+
+type ClickFlarePostbackResult = {
+  sent: boolean;
+  status: "sent" | "failed" | "disabled" | "unattributed" | "already_sent" | "rejected";
+};
+
+async function sendClickFlarePostback(
+  env: CallTrackerEnv,
+  event: { call_uuid: string; clickflare_click_id: string | null; attribution_status: string; attribution_method?: string | null },
+): Promise<ClickFlarePostbackResult> {
+  if (event.attribution_status !== "verified" || event.attribution_method !== "dni_did" || !event.clickflare_click_id) {
+    return { sent: false, status: "unattributed" };
+  }
+  if (env.CLICKFLARE_POSTBACK_ENABLED !== "true") return { sent: false, status: "disabled" };
+
+  await env.DB.prepare(
+    "INSERT INTO clickflare_conversions (conversion_id,call_uuid,clickflare_click_id,payout,conversion_type,status) VALUES (?,?,?,?,?,'pending') ON CONFLICT(call_uuid) DO NOTHING",
+  ).bind(crypto.randomUUID(), event.call_uuid, event.clickflare_click_id, CALL_PAYOUT_USD, CLICKFLARE_CONVERSION_TYPE).run();
+
+  const prior = await env.DB.prepare(
+    "SELECT status,attempt_count FROM clickflare_conversions WHERE call_uuid=?",
+  ).bind(event.call_uuid).first<{ status: string; attempt_count: number }>();
+  if (prior?.status === "sent") return { sent: false, status: "already_sent" };
+  const attempt = Number(prior?.attempt_count || 0) + 1;
+  if (attempt > MAX_POSTBACK_ATTEMPTS) return { sent: false, status: "failed" };
+
+  const endpoint = new URL(CLICKFLARE_POSTBACK_URL);
+  endpoint.search = new URLSearchParams({
+    click_id: event.clickflare_click_id,
+    payout: CALL_PAYOUT_USD,
+    txid: event.call_uuid,
+    ct: CLICKFLARE_CONVERSION_TYPE,
+  }).toString();
+  const attemptedAt = new Date().toISOString();
+  const persist = async (status: "sent" | "failed" | "rejected", httpStatus: number | null, error: string | null) => {
+    const retryAt = status === "failed" && attempt < MAX_POSTBACK_ATTEMPTS
+      ? new Date(Date.now() + POSTBACK_RETRY_BASE_MS * 2 ** (attempt - 1)).toISOString()
+      : null;
+    await env.DB.prepare(
+      "UPDATE clickflare_conversions SET status=?,attempt_count=?,last_http_status=?,last_error=?,next_retry_at=?,sent_at=CASE WHEN ?='sent' THEN ? ELSE sent_at END WHERE call_uuid=?",
+    ).bind(status, attempt, httpStatus, error, retryAt, status, attemptedAt, event.call_uuid).run();
+  };
+
+  try {
+    const response = await fetch(endpoint.toString(), { method: "GET" });
+    if (response.ok) {
+      await persist("sent", response.status, null);
+      return { sent: true, status: "sent" };
+    }
+    const retryable = response.status === 408 || response.status === 429 || response.status >= 500;
+    await persist(
+      retryable ? "failed" : "rejected",
+      response.status,
+      retryable ? `ClickFlare HTTP ${response.status}` : `ClickFlare rejected postback (HTTP ${response.status})`,
+    );
+    return { sent: false, status: retryable ? "failed" : "rejected" };
+  } catch {
+    await persist("failed", null, "ClickFlare request failed before an HTTP response");
+    return { sent: false, status: "failed" };
+  }
+}
+
+async function retryFailedClickFlarePostbacks(env: CallTrackerEnv) {
+  if (env.CLICKFLARE_POSTBACK_ENABLED !== "true") return { checked: 0, sent: 0, failed: 0 };
+  const due = await env.DB.prepare(
+    "SELECT call_uuid,clickflare_click_id,attribution_status,attribution_method FROM clickflare_conversions c JOIN call_ringing_events r USING(call_uuid) WHERE c.status='failed' AND c.next_retry_at IS NOT NULL AND c.next_retry_at<=? AND c.attempt_count<? ORDER BY c.next_retry_at ASC LIMIT 25",
+  ).bind(new Date().toISOString(), MAX_POSTBACK_ATTEMPTS).all<{
+    call_uuid: string; clickflare_click_id: string; attribution_status: string; attribution_method: string | null;
+  }>();
+  let sent = 0;
+  let failed = 0;
+  for (const event of due.results || []) {
+    const result = await sendClickFlarePostback(env, event);
+    if (result.sent) sent += 1;
+    else if (result.status === "failed") failed += 1;
+  }
+  return { checked: due.results?.length || 0, sent, failed };
+}
+
 export default {
   async scheduled(
     _controller: { scheduledTime: number; cron: string },
     env: CallTrackerEnv,
     context: { waitUntil(promise: Promise<unknown>): void },
   ) {
-    context.waitUntil(retryFailedPostbacks(env));
+    context.waitUntil(Promise.all([retryFailedPostbacks(env), retryFailedClickFlarePostbacks(env)]));
   },
   async fetch(request: Request, env: CallTrackerEnv): Promise<Response> {
     const url = new URL(request.url);
@@ -629,14 +712,26 @@ export default {
         agent_extension: agentExtension,
         ringing_at: ringingAt,
       });
-      const postback = stored?.call_uuid
-        ? await sendRingingPostback(env, {
-            call_uuid: stored.call_uuid,
-            click_id: stored.click_id || null,
-            attribution_status: stored.attribution_status || "unmatched",
-            attribution_method: stored.attribution_method || null,
-          })
-        : { sent: false, status: "failed" as const };
+      const postbackEvent = stored?.call_uuid ? {
+        call_uuid: stored.call_uuid,
+        attribution_status: stored.attribution_status || "unmatched",
+        attribution_method: stored.attribution_method || null,
+      } : null;
+      const [postback, clickflarePostback] = postbackEvent
+        ? await Promise.all([
+            sendRingingPostback(env, {
+              ...postbackEvent,
+              click_id: stored?.click_id || null,
+            }),
+            sendClickFlarePostback(env, {
+              ...postbackEvent,
+              clickflare_click_id: stored?.clickflare_click_id || null,
+            }),
+          ])
+        : [
+            { sent: false, status: "failed" as const },
+            { sent: false, status: "failed" as const },
+          ];
 
       return json({
         ok: true,
@@ -646,10 +741,13 @@ export default {
         recorded: Boolean(stored?.call_uuid),
         duplicate: Boolean(stored?.duplicate),
         click_id: stored?.click_id || null,
+        clickflare_click_id: stored?.clickflare_click_id || null,
         attribution: stored?.attribution_status || "unmatched",
         attribution_method: stored?.attribution_method || null,
         postback_sent: postback.sent,
         postback_status: postback.status,
+        clickflare_postback_sent: clickflarePostback.sent,
+        clickflare_postback_status: clickflarePostback.status,
       }, 202);
     }
 
