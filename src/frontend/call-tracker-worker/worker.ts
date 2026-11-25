@@ -506,7 +506,7 @@ export default {
       if (!available) return json({ error: "dni_pool_unavailable", fallback: true }, 503);
       const assignmentId = crypto.randomUUID();
       const expiresAt = new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString();
-      if (!/^1?\\d{10,14}$/.test(available.did)) return json({ error: "invalid_tracking_did_configuration", fallback: true }, 503);
+      if (!/^1?\d{10,14}$/.test(available.did)) return json({ error: "invalid_tracking_did_configuration", fallback: true }, 503);
       try {
         await env.DB.prepare(
           "INSERT INTO did_assignments (assignment_id,did,trafficstars_click_id,clickflare_click_id,assigned_at,expires_at,status) VALUES (?,?,?,?,?,?,'active')",
