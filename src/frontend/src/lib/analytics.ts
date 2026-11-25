@@ -6,6 +6,8 @@
  * No PII is sent to GA4.
  */
 
+import { capturePaidClickAttribution } from "@/lib/click-attribution";
+
 const DEDUPE_WINDOW_MS = 250;
 
 const US_TIMEZONES = new Set([
@@ -78,10 +80,6 @@ export function isAnalyticsTestSession(
 }
 
 const LANDING_PAGE_KEY = "ticketdepart_landing_page";
-const TRAFFICSTARS_CLICK_ID_KEY = "ticketdepart_trafficstars_click_id";
-const CLICKFLARE_CLICK_ID_KEY = "ticketdepart_clickflare_click_id";
-const TRAFFICSTARS_CLICKED_AT_KEY = "ticketdepart_trafficstars_clicked_at";
-const TRAFFICSTARS_BANNER_ID_KEY = "ticketdepart_trafficstars_banner_id";
 const FUNNEL_ENTRY_KEY = "ticketdepart_funnel_entry_sent";
 const ENGAGEMENT_EVENT_DELAY_MS = 10_000;
 const SCROLL_THRESHOLDS = [25, 50, 75, 90] as const;
@@ -184,130 +182,25 @@ function getLandingPage() {
 }
 
 
-function normalizeTrafficStarsClickId(value: string | null): string | undefined {
-  if (!value) return undefined;
-  const normalized = value.trim();
-  return /^[A-Za-z0-9._~-]{1,200}$/.test(normalized) ? normalized : undefined;
-}
-
-/** Preserve ClickFlare's unique visit ID so an offline phone event can be posted back to that visit. */
+/** Read the current visit's paired paid-click IDs from URL/session/persistent storage. */
 function getClickFlareClickId(): string | undefined {
-  if (typeof window === "undefined") return undefined;
-  const params = new URLSearchParams(window.location.search);
-  const incoming = normalizeTrafficStarsClickId(params.get("cf_click_id"));
-  if (incoming) {
-    try {
-      window.sessionStorage.setItem(CLICKFLARE_CLICK_ID_KEY, incoming);
-      window.localStorage.setItem("ticketdepart_clickflare_click", JSON.stringify({
-        clickFlareId: incoming,
-        expiresAt: Date.now() + 90 * 24 * 60 * 60 * 1000,
-      }));
-    } catch {
-      // The current landing URL still supplies the ID if storage is blocked.
-    }
-    return incoming;
-  }
-  try {
-    const sessionValue = normalizeTrafficStarsClickId(window.sessionStorage.getItem(CLICKFLARE_CLICK_ID_KEY));
-    if (sessionValue) return sessionValue;
-  } catch {
-    // Fall through to the durable landing-click record.
-  }
-  try {
-    const stored = window.localStorage.getItem("ticketdepart_clickflare_click");
-    if (stored) {
-      const record = JSON.parse(stored) as { clickFlareId?: string; expiresAt?: number };
-      if (record.expiresAt && record.expiresAt > Date.now()) {
-        return normalizeTrafficStarsClickId(record.clickFlareId || null);
-      }
-    }
-  } catch {
-    // Tracking storage must never block the phone action.
-  }
-  return undefined;
+  return capturePaidClickAttribution()?.clickFlareId ?? undefined;
 }
 
 /**
- * Retain the TrafficStars click ID for the current browser session. This is
- * intent attribution only: it is not proof of a connected or accepted call.
+ * Retain the TrafficStars click ID from the same captured visit as the
+ * ClickFlare ID. The attribution helper rejects stale cross-visit pairs.
  */
 function getTrafficStarsClickId(): string | undefined {
-  if (typeof window === "undefined") return undefined;
-
-  const params = new URLSearchParams(window.location.search);
-  const incoming = normalizeTrafficStarsClickId(params.get("click_id"));
-
-  if (incoming) {
-    try {
-      const previous = window.sessionStorage.getItem(TRAFFICSTARS_CLICK_ID_KEY);
-      if (previous !== incoming) {
-        window.sessionStorage.setItem(TRAFFICSTARS_CLICK_ID_KEY, incoming);
-        window.sessionStorage.setItem(
-          TRAFFICSTARS_CLICKED_AT_KEY,
-          new Date().toISOString(),
-        );
-        window.sessionStorage.removeItem(TRAFFICSTARS_BANNER_ID_KEY);
-      } else if (!window.sessionStorage.getItem(TRAFFICSTARS_CLICKED_AT_KEY)) {
-        window.sessionStorage.setItem(
-          TRAFFICSTARS_CLICKED_AT_KEY,
-          new Date().toISOString(),
-        );
-      }
-
-      const bannerId = normalizeTrafficStarsClickId(params.get("banner_id"));
-      if (bannerId) {
-        window.sessionStorage.setItem(TRAFFICSTARS_BANNER_ID_KEY, bannerId);
-      }
-    } catch {
-      // Storage restrictions must not block phone calls.
-    }
-    return incoming;
-  }
-
-  try {
-    const sessionClickId = normalizeTrafficStarsClickId(
-      window.sessionStorage.getItem(TRAFFICSTARS_CLICK_ID_KEY),
-    );
-    if (sessionClickId) return sessionClickId;
-  } catch {
-    // Fall through to the durable click record if session storage is unavailable.
-  }
-
-  // main.tsx also persists the landing click in localStorage. Reuse that
-  // validated record when a browser clears sessionStorage during navigation.
-  try {
-    const stored = window.localStorage.getItem("ticketdepart_traffic_click");
-    if (stored) {
-      const record = JSON.parse(stored) as { clickId?: string; expiresAt?: number };
-      if (record.expiresAt && record.expiresAt > Date.now()) {
-        return normalizeTrafficStarsClickId(record.clickId ?? null);
-      }
-    }
-  } catch {
-    // Storage restrictions must never block a phone call.
-  }
-  return undefined;
+  return capturePaidClickAttribution()?.clickId ?? undefined;
 }
 
 function getTrafficStarsClickedAt(): string {
-  try {
-    const stored = window.sessionStorage.getItem(TRAFFICSTARS_CLICKED_AT_KEY);
-    return stored && !Number.isNaN(Date.parse(stored))
-      ? stored
-      : new Date().toISOString();
-  } catch {
-    return new Date().toISOString();
-  }
+  return capturePaidClickAttribution()?.clickedAt || new Date().toISOString();
 }
 
 function getTrafficStarsBannerId(): string | undefined {
-  try {
-    return normalizeTrafficStarsClickId(
-      window.sessionStorage.getItem(TRAFFICSTARS_BANNER_ID_KEY),
-    );
-  } catch {
-    return undefined;
-  }
+  return capturePaidClickAttribution()?.bannerId ?? undefined;
 }
 
 function getIntentFamily(path = getCleanPagePath()) {

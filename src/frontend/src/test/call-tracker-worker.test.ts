@@ -120,7 +120,13 @@ class FakeD1 {
         if (sql.startsWith("INSERT INTO traffic_clicks")) {
           const [clickId, , , , , , , expiresAt, clickFlareId] = values;
           const id = String(clickId);
-          if (!db.clicks.has(id)) db.clicks.set(id, { click_id: id, expires_at: String(expiresAt), clickflare_click_id: clickFlareId ? String(clickFlareId) : null });
+          const existing = db.clicks.get(id);
+          if (existing) {
+            existing.expires_at = String(expiresAt);
+            if (clickFlareId) existing.clickflare_click_id = String(clickFlareId);
+          } else {
+            db.clicks.set(id, { click_id: id, expires_at: String(expiresAt), clickflare_click_id: clickFlareId ? String(clickFlareId) : null });
+          }
         } else if (sql.startsWith("UPDATE traffic_clicks SET clickflare_click_id")) {
           const [clickFlareId, clickId] = values;
           const row = db.clicks.get(String(clickId));
@@ -287,6 +293,38 @@ async function ingest(db: FakeD1, calls: unknown[]) {
     body: JSON.stringify({ calls }),
   }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
 }
+
+describe("call-tracker /click paired identifier registration", () => {
+  it("stores the TrafficStars click ID and ClickFlare visit ID on the same click row", async () => {
+    const db = new FakeD1();
+    const response = await worker.fetch(new Request(
+      "https://tracker.example/click?click_id=traffic-click-pair&cf_click_id=cf-click-pair&path=%2Fflight-change",
+    ), makeEnv(db));
+
+    expect(response.status).toBe(200);
+    expect(db.clicks.get("traffic-click-pair")).toMatchObject({
+      click_id: "traffic-click-pair",
+      clickflare_click_id: "cf-click-pair",
+    });
+  });
+
+  it("adds the ClickFlare ID when it arrives after the initial TrafficStars click registration", async () => {
+    const db = new FakeD1();
+    const register = (query: string) => worker.fetch(
+      new Request(`https://tracker.example/click?${query}`),
+      makeEnv(db),
+    );
+
+    expect((await register("click_id=traffic-click-late")).status).toBe(200);
+    expect(db.clicks.get("traffic-click-late")?.clickflare_click_id).toBeNull();
+
+    expect((await register("click_id=traffic-click-late&cf_click_id=cf-click-late")).status).toBe(200);
+    expect(db.clicks.get("traffic-click-late")).toMatchObject({
+      click_id: "traffic-click-late",
+      clickflare_click_id: "cf-click-late",
+    });
+  });
+});
 
 describe("call-tracker /intent click registration", () => {
   it("registers a missing click ID before storing its phone intent", async () => {
