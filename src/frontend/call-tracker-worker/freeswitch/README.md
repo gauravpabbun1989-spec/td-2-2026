@@ -4,7 +4,7 @@ Source-controlled copy of the production FreeSWITCH ESL collector and TicketDepa
 
 ## Inbound routing
 
-The tracked dialplan include is `01_ticketdepart_inbound.xml`. It is scoped to the registered `telxio` SIP gateway and routes the current public DID `+1-877-788-8010` plus the provider-side inbound alias `1030605` to agent extension `1001`. The SIP registration username/auth username remains `1030605`; it is not the public phone number.
+The tracked dialplan include is `01_ticketdepart_inbound.xml`. It is scoped to the registered `telxio` SIP gateway and routes the current public DID `+1-888-564-9049` plus the provider-side inbound alias `1030605` to agent extension `1001`. The retired `+1-877-788-8010` number is deliberately excluded. The SIP registration username/auth username remains `1030605`; it is not the public phone number.
 
 If Telxio places each called DID in the SIP Request-URI, add each provisioned tracking DID to this destination allowlist before enabling it in the Cloudflare D1 `tracking_dids` table. If Telxio instead keeps the trunk alias in Request-URI and provides the original DID in a called-party header, the existing `1030605` route is sufficient. Do not route arbitrary toll-free numbers to the agent.
 
@@ -12,10 +12,16 @@ If Telxio places each called DID in the SIP Request-URI, add each provisioned tr
 
 - The visitor's browser receives a tracking DID only after the Worker has stored both the TrafficStars click ID and ClickFlare `cf_click_id` against that DID.
 - The caller dials the displayed number normally. No keypad, code, IVR, or browser-session lookup is used during the call.
-- The collector follows the outbound agent leg to the original inbound UUID, validates its public-context external SIP origin, and extracts the original called DID from `P-Called-Party-ID`, `X-Original-DID`, `X-DNIS`, or equivalent SIP headers before falling back to `Caller-Destination-Number`.
+- The collector follows the outbound agent leg to the original inbound UUID, validates its public-context external SIP origin, and extracts the original called DID from `Caller-RDNIS`, `P-Called-Party-ID`, `X-Original-DID`, `X-DNIS`, or equivalent SIP headers before falling back to `Caller-Destination-Number`.
 - The current live Telxio call sample exposes only the trunk alias `1030605` in `Caller-Destination-Number` and does not expose a called-DID SIP header. Telxio must preserve the original called DID in the SIP Request-URI or a called-party header, or provide a separate inbound route/registration per DID, before DNI attribution can be enabled.
-- The Worker resolves the called DID against the active assignment at the agent-1001 ringing timestamp. Only a complete two-ID match is marked verified.
-- The billable event remains agent extension `1001` ringing. Answer and hangup times remain separate events.
+- The Worker resolves the called DID against the active assignment at the agent-1001 ringing timestamp. Only a complete two-ID match is marked verified. No tracking DIDs are currently provisioned or enabled.
+- The accepted-call event remains the first actual ring offered to agent extension `1001`. Answer, hangup, and final `billsec` are stored separately by the existing one-minute metadata sync. A single-number time-window candidate is never sent as a paid conversion.
+
+## Completed-call metadata sync
+
+`cloudflare_sync.py` is the source-controlled implementation of the existing one-minute sync job. It uploads only calls with a confirmed sent agent-ring event, a completed hangup timestamp, an inbound agent destination, and a SIP Call-ID. It keeps ring-only calls with `billsec=0` as accepted calls; answer and duration remain separate. Known test calls and explicitly classified external-provider calls are excluded. This endpoint updates metadata only and does not create conversions.
+
+The systemd unit and timer templates are in `systemd/`. The timer runs `cloudflare_sync.py --send` once per minute and reads `CALL_INGEST_SECRET` from `/etc/ticketdepart-calltracker/ingest.env`. Run `python3 cloudflare_sync.py` without `--send` for a read-only upload dry run.
 
 ## Runtime assumptions
 
@@ -26,8 +32,8 @@ If Telxio places each called DID in the SIP Request-URI, add each provisioned tr
 
 ## Safety
 
-ClickFlare and TrafficStars postbacks stay disabled until real tracking DIDs are provisioned, the DID-to-click mapping is verified, and an end-to-end call test passes. Unmatched calls never generate conversions. Do not commit secrets, systemd environment files, or live database contents.
+ClickFlare and TrafficStars postbacks stay disabled until real tracking DIDs are provisioned and the DID-to-click mapping is verified. Single-number time-window candidates are review-only and must never be used as conversions. Unmatched calls never generate conversions. Do not commit secrets, systemd environment files, or live database contents.
 
 ## Tests
 
-Run `python3 -m unittest -v test_collector.py` from this directory. Tests use in-memory SQLite and mock the network notifier.
+Run `python3 -m unittest -v test_collector.py test_cloudflare_sync.py` from this directory. Tests use in-memory SQLite/temp databases and mock the network notifier.

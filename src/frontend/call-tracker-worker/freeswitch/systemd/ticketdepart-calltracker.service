@@ -1,0 +1,21 @@
+[Unit]
+Description=TicketDepart Call Tracker
+After=network-online.target freeswitch.service
+Wants=network-online.target
+Requires=freeswitch.service
+
+[Service]
+Type=simple
+User=root
+EnvironmentFile=/etc/ticketdepart-calltracker/ingest.env
+ExecStart=/usr/bin/python3 /opt/ticketdepart-calltracker/collector.py
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/ticketdepart-calltracker
+
+[Install]
+WantedBy=multi-user.target

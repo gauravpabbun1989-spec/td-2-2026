@@ -18,9 +18,9 @@ RINGING_ENDPOINT = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/
 ANSWERED_ENDPOINT = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/v1/calls/answered"
 
 def is_ticketdepart_did(value):
-    raw = str(value or "")
-    digits = "".join(ch for ch in raw if ch.isdigit())
-    return raw == "1030605" or digits in ("18885649049", "8885649049") or 10 <= len(digits) <= 15
+    """Fail closed: accept only the current public DID or Telxio trunk alias."""
+    digits = "".join(ch for ch in str(value or "") if ch.isdigit())
+    return digits in {"1030605", "18885649049", "8885649049"}
 
 
 def utc_now():

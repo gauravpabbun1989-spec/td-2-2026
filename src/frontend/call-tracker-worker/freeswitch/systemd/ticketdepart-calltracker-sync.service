@@ -1,0 +1,15 @@
+[Unit]
+Description=TicketDepart completed-call metadata sync to Cloudflare
+After=network-online.target ticketdepart-calltracker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+EnvironmentFile=/etc/ticketdepart-calltracker/ingest.env
+ExecStart=/usr/bin/python3 /opt/ticketdepart-calltracker/cloudflare_sync.py --send
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/ticketdepart-calltracker

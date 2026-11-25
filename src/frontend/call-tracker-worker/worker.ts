@@ -53,7 +53,7 @@ const normalizeDid = (value: string): string => value.replace(/\D/g, "");
 
 const isTicketDepartDid = (value: string): boolean => {
   const digits = normalizeDid(value);
-  return digits === "18777888010" || digits === "18885649049" || digits === "8885649049" || digits === "1030605";
+  return digits === "18885649049" || digits === "8885649049" || digits === "1030605";
 };
 
 async function isConfiguredTicketDepartDid(env: CallTrackerEnv, value: string): Promise<boolean> {
@@ -323,10 +323,11 @@ async function sendClickFlarePostback(
   env: CallTrackerEnv,
   event: { call_uuid: string; clickflare_click_id: string | null; attribution_status: string; attribution_method?: string | null },
 ): Promise<ClickFlarePostbackResult> {
+  // A timestamp-window candidate is not proof that the PSTN caller is the
+  // browser visitor who clicked. Only a one-to-one, active DID assignment is
+  // verified strongly enough to create a payable ad-network conversion.
   const verifiedDni = event.attribution_status === "verified" && event.attribution_method === "dni_did";
-  const uniqueSingleNumberMatch = event.attribution_status === "candidate" &&
-    event.attribution_method === "single_number_unique_intent_window";
-  if ((!verifiedDni && !uniqueSingleNumberMatch) || !event.clickflare_click_id) {
+  if (!verifiedDni || !event.clickflare_click_id) {
     return { sent: false, status: "unattributed" };
   }
   if (env.CLICKFLARE_POSTBACK_ENABLED !== "true") return { sent: false, status: "disabled" };
@@ -383,7 +384,7 @@ async function sendClickFlarePostback(
 async function retryFailedClickFlarePostbacks(env: CallTrackerEnv) {
   if (env.CLICKFLARE_POSTBACK_ENABLED !== "true") return { checked: 0, sent: 0, failed: 0 };
   const due = await env.DB.prepare(
-    "SELECT c.call_uuid,c.clickflare_click_id,r.attribution_status,r.attribution_method FROM clickflare_conversions c JOIN call_ringing_events r USING(call_uuid) WHERE c.status='failed' AND c.next_retry_at IS NOT NULL AND c.next_retry_at<=? AND c.attempt_count<? ORDER BY c.next_retry_at ASC LIMIT 25",
+    "SELECT c.call_uuid,c.clickflare_click_id,r.attribution_status,r.attribution_method FROM clickflare_conversions c JOIN call_ringing_events r USING(call_uuid) WHERE c.status='failed' AND r.attribution_status='verified' AND r.attribution_method='dni_did' AND c.next_retry_at IS NOT NULL AND c.next_retry_at<=? AND c.attempt_count<? ORDER BY c.next_retry_at ASC LIMIT 25",
   ).bind(new Date().toISOString(), MAX_POSTBACK_ATTEMPTS).all<{
     call_uuid: string; clickflare_click_id: string; attribution_status: string; attribution_method: string | null;
   }>();
@@ -411,7 +412,7 @@ export default {
     // Telxio webhook deliveries are diagnostic-only. The tokenized route is authenticated;
     // the base route remains rate-limited and explicitly unverified for provider compatibility.
     const telxioBasePath = "/webhook/telxio";
-    const telxioPrefix = telxioBasePath + "/";
+    const telxioPrefix = `${telxioBasePath}/`;
     const isTelxioBaseDelivery = url.pathname === telxioBasePath;
     const isTelxioTokenDelivery = url.pathname.startsWith(telxioPrefix);
     if ((request.method === "POST" || request.method === "GET") && (isTelxioBaseDelivery || isTelxioTokenDelivery)) {
@@ -487,7 +488,7 @@ export default {
         const sourceIp = request.headers.get("CF-Connecting-IP") || "unknown";
         const sourceIpHash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(sourceIp))))
           .map(byte => byte.toString(16).padStart(2, "0")).join("");
-        sourceIpPrefix = "unverified:" + sourceIpHash + ":";
+        sourceIpPrefix = `unverified:${sourceIpHash}:`;
         const cutoff = new Date(Date.now() - 60 * 1000).toISOString();
         const recent = await env.DB.prepare(
           "SELECT COUNT(*) AS request_count FROM telxio_webhook_events WHERE substr(provider_event_id,1,?)=? AND received_at>=?",
@@ -561,7 +562,7 @@ export default {
       const prior = await env.DB.prepare(
         "SELECT assignment_id,did,expires_at FROM did_assignments WHERE trafficstars_click_id=? AND clickflare_click_id=? AND status='active' AND expires_at>? ORDER BY assigned_at DESC LIMIT 1",
       ).bind(clickId, clickFlareId, nowIso).first<{ assignment_id: string; did: string; expires_at: string }>();
-      if (prior) return json({ ok: true, assigned: true, did: prior.did, phone_href: "tel:+" + prior.did, assignment_id: prior.assignment_id, expires_at: prior.expires_at, attribution: "dni_did" });
+      if (prior) return json({ ok: true, assigned: true, did: prior.did, phone_href: `tel:+${prior.did}`, assignment_id: prior.assignment_id, expires_at: prior.expires_at, attribution: "dni_did" });
       await env.DB.prepare(
         "UPDATE did_assignments SET status='expired' WHERE status='active' AND expires_at<=?",
       ).bind(nowIso).run();
@@ -580,10 +581,10 @@ export default {
         const concurrent = await env.DB.prepare(
           "SELECT assignment_id,did,expires_at FROM did_assignments WHERE trafficstars_click_id=? AND clickflare_click_id=? AND status='active' AND expires_at>? ORDER BY assigned_at DESC LIMIT 1",
         ).bind(clickId, clickFlareId, nowIso).first<{ assignment_id: string; did: string; expires_at: string }>();
-        if (concurrent) return json({ ok: true, assigned: true, did: concurrent.did, phone_href: "tel:+" + concurrent.did, assignment_id: concurrent.assignment_id, expires_at: concurrent.expires_at, attribution: "dni_did" });
+        if (concurrent) return json({ ok: true, assigned: true, did: concurrent.did, phone_href: `tel:+${concurrent.did}`, assignment_id: concurrent.assignment_id, expires_at: concurrent.expires_at, attribution: "dni_did" });
         return json({ error: "dni_pool_busy", fallback: true }, 503);
       }
-      return json({ ok: true, assigned: true, did: available.did, phone_href: "tel:+" + available.did, assignment_id: assignmentId, expires_at: expiresAt, attribution: "dni_did" }, 201);
+      return json({ ok: true, assigned: true, did: available.did, phone_href: `tel:+${available.did}`, assignment_id: assignmentId, expires_at: expiresAt, attribution: "dni_did" }, 201);
     }
 
     if (request.method === "POST" && url.pathname === "/intent") {
