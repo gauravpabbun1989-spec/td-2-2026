@@ -8,7 +8,7 @@ import {
   webPageSchema,
 } from "@/lib/seo";
 import { SITE } from "@/lib/site";
-import { useDniPhoneNumber } from "@/lib/dni";
+import { useCallTrackingPhoneNumber } from "@/lib/dni";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 
@@ -50,7 +50,7 @@ const CHECKLIST = [
 ] as const;
 
 export function HowToBookFlightByPhonePage() {
-  const phone = useDniPhoneNumber();
+  const phone = useCallTrackingPhoneNumber();
   return (
     <>
       <Seo
