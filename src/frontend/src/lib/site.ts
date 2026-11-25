@@ -1,3 +1,4 @@
+import phoneConfig from "../../phone-config.json";
 /**
  * Single source of truth for business identity, contact details, and
  * navigation. Every page and chrome component reads from here so the
@@ -10,8 +11,8 @@ export const SITE = {
   tagline: "24/7 Flight Booking Assistance",
   description:
     "Independent travel assistance for travelers comparing economy flights, routes, dates, ticket changes, cancellations, and special travel needs.",
-  phoneDisplay: "+1-877-788-8010",
-  phoneHref: "tel:+18777888010",
+  phoneDisplay: phoneConfig.display,
+  phoneHref: phoneConfig.href,
   email: "support@ticketdestinations.com",
   emailHref: "mailto:support@ticketdestinations.com",
   address: {
