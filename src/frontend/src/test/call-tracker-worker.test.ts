@@ -570,11 +570,11 @@ describe("call-tracker DNI DID assignment", () => {
           agent_extension: "1001",
           ringing_at: new Date().toISOString(),
         }),
-      }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret", CLICKFLARE_POSTBACK_ENABLED: "true" });
+      }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret", TRAFFICSTARS_POSTBACK_ENABLED: "true", TRAFFICSTARS_POSTBACK_KEY: "test-key", CLICKFLARE_POSTBACK_ENABLED: "true" });
 
       const first = await ringRequest();
       expect(first.status).toBe(202);
-      expect(await first.json()).toMatchObject({ attribution: "verified", clickflare_postback_sent: true, clickflare_postback_status: "sent" });
+      expect(await first.json()).toMatchObject({ attribution: "verified", postback_sent: false, postback_status: "unattributed", clickflare_postback_sent: true, clickflare_postback_status: "sent" });
       expect(fetchMock).toHaveBeenCalledTimes(1);
       const sentUrl = new URL(String(fetchMock.mock.calls[0][0]));
       expect(sentUrl.origin + sentUrl.pathname).toBe("https://globalvisitlog.com/cf/cv");
