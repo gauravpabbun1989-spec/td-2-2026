@@ -628,7 +628,7 @@ export default {
           return json({ error: "click_attribution_pair_mismatch" }, 409);
         }
         if (!existingClick.clickflare_click_id) {
-          await env.DB.prepare("UPDATE traffic_clicks SET clickflare_click_id=? WHERE click_id=?")
+          await env.DB.prepare("UPDATE traffic_clicks SET clickflare_click_id=? WHERE click_id=? AND (clickflare_click_id IS NULL OR clickflare_click_id='')")
             .bind(clickFlareId, clickId).run();
         }
       } else {
