@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { SITE } from "@/lib/site";
 
-const DNI_ENDPOINT = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/dni/assign";
+const TRACKER_BASE_URL = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev";
+const CLICK_ENDPOINT = TRACKER_BASE_URL + "/click";
+const DNI_ENDPOINT = TRACKER_BASE_URL + "/dni/assign";
 const CLICK_STORAGE_KEY = "ticketdepart_traffic_click";
 const CLICKFLARE_STORAGE_KEY = "ticketdepart_clickflare_click_id";
 
@@ -12,6 +14,7 @@ const fallbackPhone: DniPhone = { href: SITE.phoneHref, display: SITE.phoneDispl
 
 let cachedPhone: DniPhone | null = null;
 let pendingAssignment: Promise<DniPhone | null> | null = null;
+let clickRecordPromise: Promise<boolean> | null = null;
 
 function normalizeClickId(value: string | null): string | null {
   const normalized = value?.trim() || "";
@@ -65,10 +68,40 @@ function hasPaidClickContext(): boolean {
   return Boolean(clickId && clickFlareId);
 }
 
+export function recordTrafficClickIfNeeded(): Promise<boolean> {
+  if (typeof window === "undefined") return Promise.resolve(false);
+  const { clickId, clickFlareId } = getClickIds();
+  if (!clickId) return Promise.resolve(false);
+  if (!clickRecordPromise) {
+    const url = new URL(CLICK_ENDPOINT);
+    url.searchParams.set("click_id", clickId);
+    if (clickFlareId) url.searchParams.set("cf_click_id", clickFlareId);
+    url.searchParams.set("path", window.location.pathname);
+    const bannerId = new URLSearchParams(window.location.search).get("banner_id");
+    if (bannerId) url.searchParams.set("banner_id", bannerId);
+    const attempt = fetch(url.toString(), {
+      method: "GET",
+      mode: "cors",
+      credentials: "omit",
+      cache: "no-store",
+      keepalive: true,
+      referrerPolicy: "no-referrer",
+    }).then((response) => response.ok).catch(() => false);
+    clickRecordPromise = attempt.then((ok) => {
+      if (!ok) clickRecordPromise = null;
+      return ok;
+    });
+  }
+  return clickRecordPromise;
+}
+
 async function requestDniAssignment(): Promise<DniPhone | null> {
   const { clickId, clickFlareId } = getClickIds();
   if (!clickId || !clickFlareId) return null;
   try {
+    let clickRecorded = await recordTrafficClickIfNeeded();
+    if (!clickRecorded) clickRecorded = await recordTrafficClickIfNeeded();
+    if (!clickRecorded) return null;
     const response = await fetch(DNI_ENDPOINT, {
       method: "POST",
       mode: "cors",
