@@ -826,8 +826,8 @@ export default {
         return json({ error: "invalid_ringing_timestamp" }, 400);
       }
 
-      // Store the first ring event and conservatively reserve one matching click intent.
-      // A unique time-window candidate is reported as the configured ring conversion.
+      // Store the first agent-ring event and conservatively reserve one matching click intent.
+      // A time-window candidate remains diagnostic only; paid ClickFlare conversion requires a verified DNI-to-click assignment.
       const stored = await correlateAndStoreRingingEvent(env, {
         call_uuid: callUuid,
         destination,
