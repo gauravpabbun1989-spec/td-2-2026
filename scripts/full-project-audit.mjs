@@ -96,6 +96,7 @@ function auditOnce() {
   const notFoundPage = read("src/frontend/src/pages/NotFoundPage.tsx");
   const bookByPhonePage = read("src/frontend/src/pages/BookAFlightByPhonePage.tsx");
   const phoneConfig = JSON.parse(read("config/phone-number.json"));
+  const frontendPhoneConfig = JSON.parse(read("src/frontend/phone-config.json"));
   const robots = read("src/frontend/public/robots.txt");
   const sitemap = read("src/frontend/public/sitemap.xml");
   const caffeine = read("src/frontend/caffeine.toml");
