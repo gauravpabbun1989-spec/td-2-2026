@@ -6,7 +6,7 @@
  * No PII is sent to GA4.
  */
 
-import { capturePaidClickAttribution } from "@/lib/click-attribution";
+import { capturePaidClickAttribution, type PaidClickAttribution } from "@/lib/click-attribution";
 
 const DEDUPE_WINDOW_MS = 250;
 
