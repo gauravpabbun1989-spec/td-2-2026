@@ -12,7 +12,8 @@ Each additional DNI tracking DID must be added to the destination allowlist in t
 
 - The visitor's browser receives a tracking DID only after the Worker has stored both the TrafficStars click ID and ClickFlare `cf_click_id` against that DID.
 - The caller dials the displayed number normally. No keypad, code, IVR, or browser-session lookup is used during the call.
-- The collector follows the outbound agent leg to the original inbound UUID, validates its public-context external SIP origin, and preserves the original called DID in the ringing and answer notification queues.
+- The collector follows the outbound agent leg to the original inbound UUID, validates its public-context external SIP origin, and extracts the original called DID from `P-Called-Party-ID`, `X-Original-DID`, `X-DNIS`, or equivalent SIP headers before falling back to `Caller-Destination-Number`.
+- The current live Telxio call sample exposes only the trunk alias `1030605` in `Caller-Destination-Number` and does not expose a called-DID SIP header. Telxio must preserve the original called DID in the SIP Request-URI or a called-party header, or provide a separate inbound route/registration per DID, before DNI attribution can be enabled.
 - The Worker resolves the called DID against the active assignment at the agent-1001 ringing timestamp. Only a complete two-ID match is marked verified.
 - The billable event remains agent extension `1001` ringing. Answer and hangup times remain separate events.
 
