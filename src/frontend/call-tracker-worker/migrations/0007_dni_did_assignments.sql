@@ -26,3 +26,21 @@ CREATE TABLE IF NOT EXISTS did_assignments (
 CREATE INDEX IF NOT EXISTS idx_did_assignments_lookup ON did_assignments(did,assigned_at,expires_at);
 CREATE INDEX IF NOT EXISTS idx_did_assignments_clickflare ON did_assignments(clickflare_click_id);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_did_assignments_one_active_did ON did_assignments(did) WHERE status='active';
+
+CREATE TABLE IF NOT EXISTS clickflare_conversions (
+  conversion_id TEXT PRIMARY KEY,
+  call_uuid TEXT NOT NULL UNIQUE,
+  clickflare_click_id TEXT NOT NULL,
+  payout TEXT NOT NULL DEFAULT '15',
+  conversion_type TEXT NOT NULL DEFAULT 'call',
+  status TEXT NOT NULL CHECK(status IN ('pending','sent','failed','rejected')),
+  attempt_count INTEGER NOT NULL DEFAULT 0,
+  last_http_status INTEGER,
+  last_error TEXT,
+  next_retry_at TEXT,
+  sent_at TEXT,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  FOREIGN KEY(call_uuid) REFERENCES call_ringing_events(call_uuid)
+);
+CREATE INDEX IF NOT EXISTS idx_clickflare_conversions_retry
+  ON clickflare_conversions(status,next_retry_at);
