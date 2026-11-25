@@ -39,7 +39,7 @@ class RingingDetectorTests(unittest.TestCase):
             );
         """)
         self.inbound_uuid = "9ec7c8dc-d189-49ab-85f3-84cd165fe3c5"
-        self.did = "18885550123"
+        self.did = "12025550123"
         self.add_inbound_create()
         self.event = {
             "Event-Name": "CHANNEL_CALLSTATE",
