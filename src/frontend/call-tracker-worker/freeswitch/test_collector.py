@@ -117,7 +117,7 @@ class RingingDetectorTests(unittest.TestCase):
             "Unique-ID": self.inbound_uuid,
             "Call-Direction": "inbound",
             "Caller-Destination-Number": "1030605",
-            "Caller-RDNIS": "+1-877-788-8010",
+            "Caller-RDNIS": "+1 (877) 788-8010",
             "Caller-Context": "public",
             "Channel-Name": "sofia/external/provider-call",
         }
