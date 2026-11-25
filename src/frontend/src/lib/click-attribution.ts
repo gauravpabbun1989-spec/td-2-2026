@@ -109,7 +109,19 @@ export function capturePaidClickAttribution(search?: string): PaidClickAttributi
 
   let existing: PaidClickAttribution | null = null;
   if (typeof window !== "undefined") {
-    existing = readPairFromStorage(window.sessionStorage) || readPairFromStorage(window.localStorage) || readLegacyPair();
+    try {
+      existing = readPairFromStorage(window.sessionStorage);
+    } catch {
+      // Access to the session storage object itself may be denied.
+    }
+    if (!existing) {
+      try {
+        existing = readPairFromStorage(window.localStorage);
+      } catch {
+        // Access to the persistent storage object itself may be denied.
+      }
+    }
+    if (!existing) existing = readLegacyPair();
   }
 
   let pair: PaidClickAttribution | null = existing;
