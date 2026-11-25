@@ -712,6 +712,15 @@ export default {
         agent_extension: agentExtension,
         ringing_at: ringingAt,
       });
+      const createdAt = validTime(body.created_at) ? body.created_at : ringingAt;
+      await env.DB.prepare(
+        "INSERT INTO inbound_calls (call_uuid,click_id,caller_hash,destination,agent_extension,created_at,answered_at,hangup_at,billsec,accepted,acceptance_reason,attribution_status,attribution_method,matched_intent_id,clickflare_click_id,did_assignment_id) VALUES (?,?,NULL,?,?,?,NULL,NULL,0,1,'agent_leg_ringing',?,?,NULL,?,?) ON CONFLICT(call_uuid) DO UPDATE SET click_id=COALESCE(excluded.click_id,inbound_calls.click_id),destination=excluded.destination,agent_extension=excluded.agent_extension,created_at=COALESCE(inbound_calls.created_at,excluded.created_at),accepted=1,acceptance_reason='agent_leg_ringing',attribution_status=excluded.attribution_status,attribution_method=excluded.attribution_method,clickflare_click_id=COALESCE(excluded.clickflare_click_id,inbound_calls.clickflare_click_id),did_assignment_id=COALESCE(excluded.did_assignment_id,inbound_calls.did_assignment_id)",
+      ).bind(
+        callUuid, stored?.click_id || null, destination, agentExtension, createdAt,
+        stored?.attribution_status || "unmatched", stored?.attribution_method || "no_active_did_assignment",
+        stored?.clickflare_click_id || null, stored?.did_assignment_id || null,
+      ).run();
+
       const postbackEvent = stored?.call_uuid ? {
         call_uuid: stored.call_uuid,
         attribution_status: stored.attribution_status || "unmatched",
@@ -748,6 +757,46 @@ export default {
         postback_status: postback.status,
         clickflare_postback_sent: clickflarePostback.sent,
         clickflare_postback_status: clickflarePostback.status,
+      }, 202);
+    }
+
+    if (request.method === "POST" && url.pathname === "/v1/calls/answered") {
+      if (!(await auth(request, env.CALL_INGEST_SECRET))) {
+        return json({ error: "unauthorized" }, 401);
+      }
+      const raw = await request.text();
+      if (raw.length > 8192) return json({ error: "payload_too_large" }, 413);
+      let body: Record<string, unknown>;
+      try { body = JSON.parse(raw); } catch { return json({ error: "invalid_json" }, 400); }
+      const callUuid = String(body.call_uuid || "");
+      const destination = String(body.destination || "");
+      const agentExtension = String(body.agent_extension || "");
+      const createdAt = body.created_at;
+      const answeredAt = body.answered_at;
+      if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(callUuid)) {
+        return json({ error: "invalid_call_uuid" }, 400);
+      }
+      if (!(await isConfiguredTicketDepartDid(env, destination)) || agentExtension !== "1001") {
+        return json({ error: "invalid_call_route" }, 400);
+      }
+      if (!validTime(createdAt) || !validTime(answeredAt) || Date.parse(String(answeredAt)) < Date.parse(String(createdAt))) {
+        return json({ error: "invalid_answer_timestamp" }, 400);
+      }
+      const existing = await env.DB.prepare(
+        "SELECT accepted,acceptance_reason,attribution_status FROM inbound_calls WHERE call_uuid=?",
+      ).bind(callUuid).first<{ accepted: number; acceptance_reason: string | null; attribution_status: string }>();
+      if (!existing) return json({ error: "agent_ring_not_recorded", billable: false }, 409);
+      await env.DB.prepare(
+        "UPDATE inbound_calls SET answered_at=COALESCE(answered_at,?) WHERE call_uuid=?",
+      ).bind(answeredAt, callUuid).run();
+      return json({
+        ok: true,
+        event_type: "agent_answered",
+        billable: existing.accepted === 1,
+        billable_reason: existing.acceptance_reason,
+        call_uuid: callUuid,
+        attribution: existing.attribution_status || "unmatched",
+        advertiser_conversion_created: false,
       }, 202);
     }
 
