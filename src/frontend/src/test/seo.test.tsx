@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_SHARE_IMAGE } from "@/lib/seo";
+import { SITE } from "@/lib/site";
 import { renderRoute } from "@/test/render-route";
 
 const ROUTES = [
@@ -78,7 +79,7 @@ describe("per-route metadata", () => {
     await screen.findAllByRole("heading", { level: 1 });
     const description = metaContent('meta[name="description"]') ?? "";
     expect(description.length).toBeLessThanOrEqual(155);
-    expect(description.split("+1-888-564-9049").length - 1).toBeLessThanOrEqual(1);
+    expect(description.split(SITE.phoneDisplay).length - 1).toBeLessThanOrEqual(1);
   });
 
   it("gives each route a distinct title", async () => {
@@ -225,7 +226,7 @@ describe("structured data", () => {
       (node) => node["@type"] === "ContactPoint",
     );
     expect(contactPoint).toBeDefined();
-    expect(contactPoint?.telephone).toBe("+1-888-564-9049");
+    expect(contactPoint?.telephone).toBe(SITE.phoneDisplay);
     expect(contactPoint?.areaServed).toContain("United States");
   });
 
