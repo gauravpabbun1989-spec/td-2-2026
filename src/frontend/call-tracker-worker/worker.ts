@@ -155,7 +155,7 @@ async function correlateAndStoreRingingEvent(
   }>();
   const verified = Boolean(assignment?.trafficstars_click_id && assignment?.clickflare_click_id);
   await env.DB.prepare(
-    "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id,clickflare_click_id,did_assignment_id) VALUES (?,?,?,?,?,'call_ringing',?,?,?,?,?,?,?) ON CONFLICT(call_uuid) DO NOTHING",
+    "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id,clickflare_click_id,did_assignment_id) VALUES (?,?,?,?,?,'call_ringing',?,?,?,?,?,?) ON CONFLICT(call_uuid) DO NOTHING",
   ).bind(
     input.call_uuid, input.destination, input.agent_extension, input.ringing_at, GOAL_ID,
     assignment?.trafficstars_click_id || null,
