@@ -134,7 +134,14 @@ class FakeD1 {
         } else if (sql.startsWith("UPDATE traffic_clicks SET clickflare_click_id")) {
           const [clickFlareId, clickId] = values;
           const row = db.clicks.get(String(clickId));
-          if (row) row.clickflare_click_id = String(clickFlareId);
+          if (
+            row &&
+            (row.clickflare_click_id === undefined ||
+              row.clickflare_click_id === null ||
+              row.clickflare_click_id === "")
+          ) {
+            row.clickflare_click_id = String(clickFlareId);
+          }
         } else if (sql.startsWith("UPDATE call_intents SET status='candidate'")) {
           const [callUuid, intentId] = values;
           const row = db.intents.get(String(intentId));
@@ -378,6 +385,37 @@ describe("call-tracker /intent click registration", () => {
     expect(await response.json()).toMatchObject({ error: "click_attribution_pair_mismatch" });
     expect(db.intents.size).toBe(0);
     expect(db.clicks.get("traffic-click-paired")?.clickflare_click_id).toBe("cf-original-123");
+  });
+
+  it("atomically claims an unpaired click so concurrent intents cannot overwrite the ClickFlare ID", async () => {
+    const db = new FakeD1();
+    db.clicks.set("traffic-click-race", {
+      click_id: "traffic-click-race",
+      expires_at: new Date(Date.now() + 60_000).toISOString(),
+      clickflare_click_id: null,
+    });
+
+    const sendIntent = (intentId: string, clickFlareId: string) =>
+      worker.fetch(new Request("https://tracker.example/intent", {
+        method: "POST",
+        body: JSON.stringify({
+          intent_id: intentId,
+          click_id: "traffic-click-race",
+          clickflare_click_id: clickFlareId,
+        }),
+      }), makeEnv(db));
+
+    const [first, second] = await Promise.all([
+      sendIntent("intent-race-a-123", "cf-race-a"),
+      sendIntent("intent-race-b-123", "cf-race-b"),
+    ]);
+
+    expect(first.status).toBe(202);
+    expect(second.status).toBe(409);
+    expect(db.clicks.get("traffic-click-race")?.clickflare_click_id).toBe("cf-race-a");
+    expect(db.intents.size).toBe(1);
+    expect(db.intents.has("intent-race-a-123")).toBe(true);
+    expect(db.intents.has("intent-race-b-123")).toBe(false);
   });
 
   it("preserves an existing active click record instead of overwriting its timestamp", async () => {
