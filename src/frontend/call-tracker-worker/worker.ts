@@ -53,7 +53,7 @@ const normalizeDid = (value: string): string => value.replace(/\D/g, "");
 
 const isTicketDepartDid = (value: string): boolean => {
   const digits = normalizeDid(value);
-  return digits === "18885649049" || digits === "8885649049" || digits === "1030605";
+  return digits === "18777888010" || digits === "18885649049" || digits === "8885649049" || digits === "1030605";
 };
 
 async function isConfiguredTicketDepartDid(env: CallTrackerEnv, value: string): Promise<boolean> {
