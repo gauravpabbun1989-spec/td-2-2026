@@ -5,8 +5,10 @@ const DNI_ENDPOINT = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.de
 const CLICK_STORAGE_KEY = "ticketdepart_traffic_click";
 const CLICKFLARE_STORAGE_KEY = "ticketdepart_clickflare_click_id";
 
-type DniPhone = { href: string; display: string };
+type DniPhone = { href: string; display: string; ready: boolean };
 type DniResponse = { ok?: boolean; assigned?: boolean; did?: string };
+
+const fallbackPhone: DniPhone = { href: SITE.phoneHref, display: SITE.phoneDisplay, ready: true };
 
 let cachedPhone: DniPhone | null = null;
 let pendingAssignment: Promise<DniPhone | null> | null = null;
@@ -57,6 +59,12 @@ function getClickIds() {
   return { clickId, clickFlareId };
 }
 
+function hasPaidClickContext(): boolean {
+  if (typeof window === "undefined") return false;
+  const { clickId, clickFlareId } = getClickIds();
+  return Boolean(clickId && clickFlareId);
+}
+
 async function requestDniAssignment(): Promise<DniPhone | null> {
   const { clickId, clickFlareId } = getClickIds();
   if (!clickId || !clickFlareId) return null;
@@ -73,7 +81,7 @@ async function requestDniAssignment(): Promise<DniPhone | null> {
     if (data.ok !== true || data.assigned !== true || !data.did) return null;
     const display = formatDid(data.did);
     if (!display) return null;
-    return { href: `tel:+${data.did.replace(/\D/g, "")}`, display };
+    return { href: `tel:+${data.did.replace(/\D/g, "")}`, display, ready: true };
   } catch {
     return null;
   }
@@ -81,14 +89,19 @@ async function requestDniAssignment(): Promise<DniPhone | null> {
 
 /** Paid visitors receive a server-assigned DID; direct PSTN calls are attributed by the DID, not browser state. */
 export function useDniPhoneNumber(): DniPhone {
-  const [phone, setPhone] = useState<DniPhone>(cachedPhone || {
-    href: SITE.phoneHref,
-    display: SITE.phoneDisplay,
-  });
+  const [phone, setPhone] = useState<DniPhone>(() => ({
+    ...fallbackPhone,
+    ready: !hasPaidClickContext(),
+  }));
 
   useEffect(() => {
     if (cachedPhone) {
       setPhone(cachedPhone);
+      return;
+    }
+    const { clickId, clickFlareId } = getClickIds();
+    if (!clickId || !clickFlareId) {
+      setPhone(fallbackPhone);
       return;
     }
     if (!pendingAssignment) {
@@ -99,7 +112,8 @@ export function useDniPhoneNumber(): DniPhone {
     }
     let active = true;
     void pendingAssignment.then((assigned) => {
-      if (active && assigned) setPhone(assigned);
+      if (!active) return;
+      setPhone(assigned || fallbackPhone);
     });
     return () => { active = false; };
   }, []);
