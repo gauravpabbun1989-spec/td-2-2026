@@ -196,16 +196,35 @@ function getClickFlareClickId(): string | undefined {
   const params = new URLSearchParams(window.location.search);
   const incoming = normalizeTrafficStarsClickId(params.get("cf_click_id"));
   if (incoming) {
-    try { window.sessionStorage.setItem(CLICKFLARE_CLICK_ID_KEY, incoming); } catch {
-      // The URL still carries the ID for this page view.
+    try {
+      window.sessionStorage.setItem(CLICKFLARE_CLICK_ID_KEY, incoming);
+      window.localStorage.setItem("ticketdepart_clickflare_click", JSON.stringify({
+        clickFlareId: incoming,
+        expiresAt: Date.now() + 90 * 24 * 60 * 60 * 1000,
+      }));
+    } catch {
+      // The current landing URL still supplies the ID if storage is blocked.
     }
     return incoming;
   }
   try {
-    return normalizeTrafficStarsClickId(window.sessionStorage.getItem(CLICKFLARE_CLICK_ID_KEY));
+    const sessionValue = normalizeTrafficStarsClickId(window.sessionStorage.getItem(CLICKFLARE_CLICK_ID_KEY));
+    if (sessionValue) return sessionValue;
   } catch {
-    return undefined;
+    // Fall through to the durable landing-click record.
   }
+  try {
+    const stored = window.localStorage.getItem("ticketdepart_clickflare_click");
+    if (stored) {
+      const record = JSON.parse(stored) as { clickFlareId?: string; expiresAt?: number };
+      if (record.expiresAt && record.expiresAt > Date.now()) {
+        return normalizeTrafficStarsClickId(record.clickFlareId || null);
+      }
+    }
+  } catch {
+    // Tracking storage must never block the phone action.
+  }
+  return undefined;
 }
 
 /**
