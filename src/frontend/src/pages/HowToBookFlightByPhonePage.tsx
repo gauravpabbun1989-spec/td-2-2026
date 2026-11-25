@@ -8,6 +8,7 @@ import {
   webPageSchema,
 } from "@/lib/seo";
 import { SITE } from "@/lib/site";
+import { useDniPhoneNumber } from "@/lib/dni";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 
@@ -49,6 +50,7 @@ const CHECKLIST = [
 ] as const;
 
 export function HowToBookFlightByPhonePage() {
+  const phone = useDniPhoneNumber();
   return (
     <>
       <Seo
@@ -117,7 +119,7 @@ export function HowToBookFlightByPhonePage() {
 
           <p className="mt-5 flex items-center gap-2 text-sm text-muted-foreground">
             <Phone aria-hidden="true" className="size-4 text-accent" />
-            {SITE.hours} · {SITE.phoneDisplay}
+            {SITE.hours} · {phone.display}
           </p>
         </div>
       </Section>
