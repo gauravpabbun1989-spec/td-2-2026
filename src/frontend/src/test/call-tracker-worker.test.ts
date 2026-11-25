@@ -105,6 +105,22 @@ class FakeD1 {
         } else if (sql.startsWith("UPDATE did_assignments SET status='expired'")) {
           const now = String(values[0]);
           for (const row of db.didAssignments.values()) if (row.status === "active" && String(row.expires_at) <= now) row.status = "expired";
+        } else if (sql.startsWith("INSERT INTO clickflare_conversions")) {
+          const [conversionId, callUuid, clickFlareId, payout, conversionType] = values;
+          if (!db.clickflareConversions.has(String(callUuid))) {
+            db.clickflareConversions.set(String(callUuid), {
+              conversion_id: conversionId, call_uuid: callUuid, clickflare_click_id: clickFlareId,
+              payout, conversion_type: conversionType, status: "pending", attempt_count: 0,
+            });
+          }
+        } else if (sql.startsWith("UPDATE clickflare_conversions SET")) {
+          const [status, attempts, httpStatus, error, retryAt, sentState, sentAt, callUuid] = values;
+          const row = db.clickflareConversions.get(String(callUuid));
+          if (row) Object.assign(row, {
+            status, attempt_count: attempts, last_http_status: httpStatus,
+            last_error: error, next_retry_at: retryAt,
+            sent_at: sentState === "sent" ? sentAt : row.sent_at,
+          });
         } else if (sql.startsWith("INSERT INTO did_assignments")) {
           const [assignmentId, did, trafficstarsClickId, clickflareClickId, assignedAt, expiresAt] = values;
           db.didAssignments.set(String(assignmentId), { assignment_id: assignmentId, did, trafficstars_click_id: trafficstarsClickId, clickflare_click_id: clickflareClickId, assigned_at: assignedAt, expires_at: expiresAt, status: "active" });
@@ -128,6 +144,14 @@ class FakeD1 {
             intent_id: String(intentId), click_id: String(clickId), created_at: String(createdAt),
             page_path: String(pagePath), cta_location: String(ctaLocation), status: "open",
           });
+        } else if (sql.startsWith("INSERT INTO inbound_calls") && sql.includes("'agent_leg_ringing'")) {
+          const [uuid, clickId, destination, agent, created, attributionStatus, attributionMethod, clickFlareId, assignmentId] = values;
+          db.calls.set(String(uuid), {
+            call_uuid: uuid, click_id: clickId, destination, agent_extension: agent, created_at: created,
+            answered_at: null, hangup_at: null, billsec: 0, accepted: 1,
+            acceptance_reason: "agent_leg_ringing", attribution_status: attributionStatus,
+            attribution_method: attributionMethod, clickflare_click_id: clickFlareId, did_assignment_id: assignmentId,
+          });
         } else if (sql.startsWith("INSERT INTO inbound_calls")) {
           const [uuid, destination, agent, created, answered, hangup, billsec] = values;
           db.calls.set(String(uuid), {
@@ -135,6 +159,10 @@ class FakeD1 {
             answered_at: answered, hangup_at: hangup, billsec, attribution_status: "unmatched",
             attribution_method: null, matched_intent_id: null,
           });
+        } else if (sql.startsWith("UPDATE inbound_calls SET answered_at=COALESCE")) {
+          const [answeredAt, uuid] = values;
+          const row = db.calls.get(String(uuid));
+          if (row) row.answered_at = row.answered_at || answeredAt;
         } else if (sql.startsWith("UPDATE inbound_calls SET")) {
           const [destination, agent, created, answered, hangup, billsec, uuid] = values;
           const row = db.calls.get(String(uuid));
