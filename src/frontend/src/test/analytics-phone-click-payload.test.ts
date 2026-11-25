@@ -95,6 +95,7 @@ describe("GA4 phone_click payload contract", () => {
       document.removeEventListener("click", registeredListener);
       registeredListener = undefined;
     }
+    vi.unstubAllGlobals();
     (window as WindowWithAnalytics).gtag = undefined;
     (window as WindowWithAnalytics).dataLayer = undefined;
   });
@@ -121,12 +122,15 @@ describe("GA4 phone_click payload contract", () => {
   });
 
 
-  it("retains a valid TrafficStars click ID across same-session navigation for phone intent", async () => {
+  it("retains a TrafficStars click ID for analytics but never sends an incomplete phone intent", async () => {
     const calls = installGtag();
+    const fetchMock = vi.fn().mockResolvedValue({ type: "opaque" });
+    vi.stubGlobal("fetch", fetchMock);
     window.history.replaceState({}, "", "/?click_id=td-click-123&banner_id=8369514");
     const { analytics } = await loadAnalytics();
 
-    // Capture occurs when the browser records the phone-intent action.
+    // The browser can still measure the phone click, but the paid intent must
+    // not be sent until the matching ClickFlare ID is present.
     analytics.trackPhoneClick("header.call_button");
     const storedAttribution = JSON.parse(
       window.sessionStorage.getItem("ticketdepart_paid_click_attribution_v1") || "null",
@@ -150,6 +154,7 @@ describe("GA4 phone_click payload contract", () => {
       trafficstars_click_id: "td-click-123",
       conversion_stage: "phone_click",
     });
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("sends a durable call-intent request after the landing URL has been cleaned", async () => {
