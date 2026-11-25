@@ -1,12 +1,12 @@
 import { AIRLINE_ITEMS, NAV_ITEMS, SITE } from "@/lib/site";
-import { useDniPhoneNumber } from "@/lib/dni";
+import { useCallTrackingPhoneNumber } from "@/lib/dni";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, BriefcaseBusiness, Globe2, Menu, Phone, PlaneTakeoff, Route, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const phone = useDniPhoneNumber();
+  const phone = useCallTrackingPhoneNumber();
   const menuGroups = [
     {
       title: "Flight Booking",
