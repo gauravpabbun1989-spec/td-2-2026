@@ -343,21 +343,25 @@ export default {
   async fetch(request: Request, env: CallTrackerEnv): Promise<Response> {
     const url = new URL(request.url);
 
-    // Telxio Call Info webhook. The path token is a bearer credential because
-    // provider webhook forms may not let us configure custom authorization headers.
-    // This records metadata only; it does not create ClickFlare or TrafficStars conversions.
-    const telxioPrefix = "/webhook/telxio/";
-    if ((request.method === "POST" || request.method === "GET") && url.pathname.startsWith(telxioPrefix)) {
-      const suppliedToken = url.pathname.slice(telxioPrefix.length);
-      const expectedToken = env.TELXIO_WEBHOOK_TOKEN || "";
-      const supplied = new TextEncoder().encode(suppliedToken);
-      const expected = new TextEncoder().encode(expectedToken);
-      let difference = supplied.length ^ expected.length;
-      const length = Math.max(supplied.length, expected.length);
-      for (let index = 0; index < length; index += 1) {
-        difference |= (supplied[index] || 0) ^ (expected[index] || 0);
+    // Telxio webhook deliveries are diagnostic-only. The tokenized route is authenticated;
+    // the base route remains rate-limited and explicitly unverified for provider compatibility.
+    const telxioBasePath = "/webhook/telxio";
+    const telxioPrefix = telxioBasePath + "/";
+    const isTelxioBaseDelivery = url.pathname === telxioBasePath;
+    const isTelxioTokenDelivery = url.pathname.startsWith(telxioPrefix);
+    if ((request.method === "POST" || request.method === "GET") && (isTelxioBaseDelivery || isTelxioTokenDelivery)) {
+      if (isTelxioTokenDelivery) {
+        const suppliedToken = url.pathname.slice(telxioPrefix.length);
+        const expectedToken = env.TELXIO_WEBHOOK_TOKEN || "";
+        const supplied = new TextEncoder().encode(suppliedToken);
+        const expected = new TextEncoder().encode(expectedToken);
+        let difference = supplied.length ^ expected.length;
+        const length = Math.max(supplied.length, expected.length);
+        for (let index = 0; index < length; index += 1) {
+          difference |= (supplied[index] || 0) ^ (expected[index] || 0);
+        }
+        if (!expectedToken || difference !== 0) return json({ error: "unauthorized" }, 401);
       }
-      if (!expectedToken || difference !== 0) return json({ error: "unauthorized" }, 401);
 
       let raw = "";
       let payload: Record<string, unknown>;
@@ -389,20 +393,43 @@ export default {
         const found = values.find(value => typeof value === "string" || typeof value === "number");
         return found === undefined ? null : String(found).slice(0, 200);
       };
-      const eventType = pick(payload.event_type, payload.eventType, payload.event, payload.type, payload.status, payload.EventType) || "unknown";
-      const providerCallId = pick(payload.call_id, payload.callId, payload.call_uuid, payload.uuid, payload.uniqueid, payload.unique_id, payload.callid, payload.CallUUID);
-      const providerEventId = pick(payload.event_id, payload.eventId, payload.webhook_id, payload.EventID) ||
-        Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(raw))))
-          .map(byte => byte.toString(16).padStart(2, "0")).join("");
-      const caller = pick(payload.caller_number, payload.caller, payload.from, payload.ani, payload.phone_number, payload.callerid, payload.caller_id_number, payload.CallerID);
-      const called = pick(payload.called_number, payload.destination, payload.to, payload.did, payload.dnis, payload.called, payload.called_number, payload.DID);
-      const eventTime = pick(payload.event_at, payload.timestamp, payload.created_at, payload.time, payload.datetime, payload.CallStart);
+      const eventRoot = payload.data && typeof payload.data === "object" ? payload.data as Record<string, unknown> : payload;
+      const eventFields = eventRoot.payload && typeof eventRoot.payload === "object" ? eventRoot.payload as Record<string, unknown> : eventRoot;
+      const eventType = pick(payload.event_type, payload.eventType, payload.event, payload.type, payload.status, payload.EventType,
+        eventRoot.event_type, eventRoot.eventType, eventRoot.EventType, eventFields.event_type, eventFields.eventType, eventFields.EventType,
+        request.headers.get("x-telxio-event-type")) || "unknown";
+      const providerCallId = pick(payload.call_id, payload.callId, payload.call_uuid, payload.uuid, payload.uniqueid, payload.unique_id, payload.callid, payload.CallUUID,
+        eventRoot.call_id, eventRoot.callId, eventRoot.call_uuid, eventRoot.uuid, eventRoot.uniqueid, eventRoot.unique_id, eventRoot.callid, eventRoot.CallUUID, eventRoot.id,
+        eventFields.call_id, eventFields.callId, eventFields.call_uuid, eventFields.uuid, eventFields.uniqueid, eventFields.unique_id, eventFields.callid, eventFields.CallUUID,
+        eventFields.call_control_id, eventFields.call_leg_id);
+      const caller = pick(payload.caller_number, payload.caller, payload.from, payload.ani, payload.phone_number, payload.callerid, payload.caller_id_number, payload.CallerID,
+        eventRoot.from, eventFields.from, eventFields.caller_number, eventFields.caller);
+      const called = pick(payload.called_number, payload.destination, payload.to, payload.did, payload.dnis, payload.called, payload.DID,
+        eventRoot.to, eventFields.to, eventFields.called_number, eventFields.destination, eventFields.did, eventFields.dnis);
+      const eventTime = pick(payload.event_at, payload.timestamp, payload.created_at, payload.time, payload.datetime, payload.CallStart,
+        eventRoot.occurred_at, eventRoot.created_at, eventFields.occurred_at, eventFields.created_at, eventFields.CallStart);
+      const providerEventIdRaw = pick(payload.event_id, payload.eventId, payload.webhook_id, payload.EventID,
+        eventRoot.event_id, eventRoot.eventId, eventRoot.id, eventFields.event_id, eventFields.eventId, eventFields.id);
+      if (isTelxioBaseDelivery && !providerCallId && eventType === "unknown" && !called) return json({ error: "unrecognized_event" }, 400);
       const callerHash = caller
         ? Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(caller))))
             .map(byte => byte.toString(16).padStart(2, "0")).join("")
         : null;
       const payloadHash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(raw))))
         .map(byte => byte.toString(16).padStart(2, "0")).join("");
+      let sourceIpPrefix = "";
+      if (isTelxioBaseDelivery) {
+        const sourceIp = request.headers.get("CF-Connecting-IP") || "unknown";
+        const sourceIpHash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(sourceIp))))
+          .map(byte => byte.toString(16).padStart(2, "0")).join("");
+        sourceIpPrefix = "unverified:" + sourceIpHash + ":";
+        const cutoff = new Date(Date.now() - 60 * 1000).toISOString();
+        const recent = await env.DB.prepare(
+          "SELECT COUNT(*) AS request_count FROM telxio_webhook_events WHERE substr(provider_event_id,1,?)=? AND received_at>=?",
+        ).bind(sourceIpPrefix.length, sourceIpPrefix, cutoff).first<{ request_count: number }>();
+        if (Number(recent?.request_count || 0) >= 30) return json({ error: "rate_limited" }, 429);
+      }
+      const providerEventId = sourceIpPrefix + (providerEventIdRaw || payloadHash);
       await env.DB.prepare(
         "INSERT INTO telxio_webhook_events (provider_event_id,event_type,provider_call_id,caller_number_hash,called_number,event_at,received_at,payload_sha256) VALUES (?,?,?,?,?,?,?,?) ON CONFLICT(provider_event_id) DO NOTHING",
       ).bind(providerEventId, eventType, providerCallId, callerHash, called, eventTime, new Date().toISOString(), payloadHash).run();
