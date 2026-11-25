@@ -29,6 +29,7 @@ const json = (data: unknown, status = 200) =>
     headers: {
       "content-type": "application/json; charset=utf-8",
       "cache-control": "no-store",
+      "access-control-allow-origin": "*",
     },
   });
 
@@ -47,10 +48,31 @@ async function auth(request: Request, secret?: string): Promise<boolean> {
   return difference === 0;
 }
 
+const normalizeDid = (value: string): string => value.replace(/\D/g, "");
+
 const isTicketDepartDid = (value: string): boolean => {
-  const digits = value.replace(/\D/g, "");
+  const digits = normalizeDid(value);
   return digits === "18885649049" || digits === "8885649049" || digits === "1030605";
 };
+
+async function isConfiguredTicketDepartDid(env: CallTrackerEnv, value: string): Promise<boolean> {
+  if (isTicketDepartDid(value)) return true;
+  const did = normalizeDid(value);
+  if (!/^1?\d{10,14}$/.test(did)) return false;
+  const row = await env.DB.prepare("SELECT did FROM tracking_dids WHERE did=? AND enabled=1")
+    .bind(did).first<{ did: string }>();
+  return Boolean(row);
+}
+
+function readClickFlareId(value: unknown): string | null {
+  const id = String(value || "").trim();
+  return /^[A-Za-z0-9._~-]{1,200}$/.test(id) ? id : null;
+}
+
+function getClickFlareId(params: URLSearchParams): string | null {
+  return readClickFlareId(params.get("externalId") || params.get("externalid") ||
+    params.get("external_id") || params.get("cf_click_id"));
+}
 
 const validTime = (value: unknown): value is string =>
   typeof value === "string" &&
@@ -117,27 +139,38 @@ async function correlateAndStoreRingingEvent(
   input: { call_uuid: string; destination: string; agent_extension: string; ringing_at: string },
 ) {
   const existing = await env.DB.prepare(
-    "SELECT call_uuid,click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events WHERE call_uuid=?",
+    "SELECT call_uuid,click_id,clickflare_click_id,did_assignment_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events WHERE call_uuid=?",
   ).bind(input.call_uuid).first<{
-    call_uuid: string; click_id: string | null; attribution_status: string;
+    call_uuid: string; click_id: string | null; clickflare_click_id: string | null;
+    did_assignment_id: string | null; attribution_status: string;
     attribution_method: string | null; matched_intent_id: string | null;
   }>();
-
   if (existing) return { ...existing, duplicate: true };
 
-  // Record every real FreeSWITCH ring, but fail closed on attribution.
-  // The shared toll-free PSTN route does not carry the browser click ID.
+  const did = normalizeDid(input.destination);
+  const assignment = await env.DB.prepare(
+    "SELECT assignment_id,trafficstars_click_id,clickflare_click_id FROM did_assignments WHERE did=? AND status='active' AND assigned_at<=? AND expires_at>=? ORDER BY assigned_at DESC LIMIT 1",
+  ).bind(did, input.ringing_at, input.ringing_at).first<{
+    assignment_id: string; trafficstars_click_id: string | null; clickflare_click_id: string | null;
+  }>();
+  const verified = Boolean(assignment?.trafficstars_click_id && assignment?.clickflare_click_id);
   await env.DB.prepare(
-    "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id) VALUES (?,?,?,?,?,'call_ringing',NULL,'unmatched','no_verified_click_transport',NULL) ON CONFLICT(call_uuid) DO NOTHING",
+    "INSERT INTO call_ringing_events (call_uuid,destination,agent_extension,ringing_at,goal_id,event_type,click_id,attribution_status,attribution_method,matched_intent_id,clickflare_click_id,did_assignment_id) VALUES (?,?,?,?,?,'call_ringing',?,?,?,?,?,?,?) ON CONFLICT(call_uuid) DO NOTHING",
   ).bind(
-    input.call_uuid, input.destination, input.agent_extension,
-    input.ringing_at, GOAL_ID,
+    input.call_uuid, input.destination, input.agent_extension, input.ringing_at, GOAL_ID,
+    assignment?.trafficstars_click_id || null,
+    verified ? "verified" : "unmatched",
+    verified ? "dni_did" : "no_active_did_assignment",
+    null,
+    verified ? assignment?.clickflare_click_id || null : null,
+    verified ? assignment?.assignment_id || null : null,
   ).run();
 
   const stored = await env.DB.prepare(
-    "SELECT call_uuid,click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events WHERE call_uuid=?",
+    "SELECT call_uuid,click_id,clickflare_click_id,did_assignment_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events WHERE call_uuid=?",
   ).bind(input.call_uuid).first<{
-    call_uuid: string; click_id: string | null; attribution_status: string;
+    call_uuid: string; click_id: string | null; clickflare_click_id: string | null;
+    did_assignment_id: string | null; attribution_status: string;
     attribution_method: string | null; matched_intent_id: string | null;
   }>();
   return { ...stored, duplicate: false };
@@ -155,7 +188,7 @@ async function sendRingingPostback(
   env: CallTrackerEnv,
   event: { call_uuid: string; click_id: string | null; attribution_status: string; attribution_method?: string | null },
 ): Promise<RingingPostbackResult> {
-  if (event.attribution_status !== "verified" || event.attribution_method !== "signed_call_session" || !event.click_id) return { sent: false, status: "unattributed" };
+  if (event.attribution_status !== "verified" || !["signed_call_session", "dni_did"].includes(event.attribution_method || "") || !event.click_id) return { sent: false, status: "unattributed" };
   if (env.TRAFFICSTARS_POSTBACK_ENABLED !== "true" || !env.TRAFFICSTARS_POSTBACK_KEY) return { sent: false, status: "disabled" };
   const prior = await env.DB.prepare(
     "SELECT postback_status,postback_attempt_count FROM call_ringing_events WHERE call_uuid=?",
@@ -307,18 +340,14 @@ export default {
 
       const now = new Date();
       const expires = new Date(now.getTime() + CLICK_TTL_MS);
+      const clickFlareId = getClickFlareId(url.searchParams);
       await env.DB.prepare(
-        "INSERT INTO traffic_clicks (click_id,campaign_id,creative_id,site_id,country_code,landing_path,clicked_at,expires_at) VALUES (?,?,?,?,?,?,?,?) ON CONFLICT(click_id) DO UPDATE SET clicked_at=excluded.clicked_at,expires_at=excluded.expires_at",
+        "INSERT INTO traffic_clicks (click_id,campaign_id,creative_id,site_id,country_code,landing_path,clicked_at,expires_at,clickflare_click_id) VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT(click_id) DO UPDATE SET clicked_at=excluded.clicked_at,expires_at=excluded.expires_at,clickflare_click_id=COALESCE(excluded.clickflare_click_id,traffic_clicks.clickflare_click_id)",
       )
         .bind(
-          id,
-          CAMPAIGN_ID,
-          url.searchParams.get("banner_id"),
-          "ticketdepart.com",
-          url.searchParams.get("country"),
-          url.searchParams.get("path") || "/",
-          now.toISOString(),
-          expires.toISOString(),
+          id, CAMPAIGN_ID, url.searchParams.get("banner_id"), "ticketdepart.com",
+          url.searchParams.get("country"), url.searchParams.get("path") || "/",
+          now.toISOString(), expires.toISOString(), clickFlareId,
         )
         .run();
 
@@ -327,6 +356,47 @@ export default {
         click_id: id,
         expires_at: expires.toISOString(),
       });
+    }
+
+    if (request.method === "POST" && url.pathname === "/dni/assign") {
+      const origin = request.headers.get("origin");
+      if (origin && origin !== "https://ticketdepart.com" && origin !== "https://www.ticketdepart.com") {
+        return json({ error: "origin_not_allowed" }, 403);
+      }
+      const raw = await request.text();
+      if (raw.length > 4096) return json({ error: "payload_too_large" }, 413);
+      let body: Record<string, unknown>;
+      try { body = JSON.parse(raw); } catch { return json({ error: "invalid_json" }, 400); }
+      const clickId = String(body.click_id || "").trim();
+      const suppliedClickFlareId = readClickFlareId(body.clickflare_click_id);
+      if (!/^[A-Za-z0-9._~-]{1,200}$/.test(clickId)) return json({ error: "invalid_click_id" }, 400);
+      const click = await env.DB.prepare(
+        "SELECT click_id,expires_at,clickflare_click_id FROM traffic_clicks WHERE click_id=?",
+      ).bind(clickId).first<{ click_id: string; expires_at: string; clickflare_click_id: string | null }>();
+      if (!click || !validTime(click.expires_at) || Date.parse(click.expires_at) < Date.now()) {
+        return json({ error: "unknown_or_expired_click_id" }, 404);
+      }
+      const clickFlareId = suppliedClickFlareId || readClickFlareId(click.clickflare_click_id);
+      if (!clickFlareId) return json({ error: "missing_clickflare_click_id" }, 409);
+      const now = new Date();
+      const nowIso = now.toISOString();
+      const prior = await env.DB.prepare(
+        "SELECT assignment_id,did,expires_at FROM did_assignments WHERE trafficstars_click_id=? AND clickflare_click_id=? AND status='active' AND expires_at>? ORDER BY assigned_at DESC LIMIT 1",
+      ).bind(clickId, clickFlareId, nowIso).first<{ assignment_id: string; did: string; expires_at: string }>();
+      if (prior) return json({ ok: true, assigned: true, did: prior.did, phone_href: "tel:+" + prior.did, assignment_id: prior.assignment_id, expires_at: prior.expires_at, attribution: "dni_did" });
+      await env.DB.prepare(
+        "UPDATE did_assignments SET status='expired' WHERE status='active' AND expires_at<=?",
+      ).bind(nowIso).run();
+      const available = await env.DB.prepare(
+        "SELECT d.did FROM tracking_dids d WHERE d.enabled=1 AND NOT EXISTS (SELECT 1 FROM did_assignments a WHERE a.did=d.did AND a.status='active') ORDER BY d.did LIMIT 1",
+      ).first<{ did: string }>();
+      if (!available) return json({ error: "dni_pool_unavailable", fallback: true }, 503);
+      const assignmentId = crypto.randomUUID();
+      const expiresAt = new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString();
+      await env.DB.prepare(
+        "INSERT INTO did_assignments (assignment_id,did,trafficstars_click_id,clickflare_click_id,assigned_at,expires_at,status) VALUES (?,?,?,?,?,?,'active')",
+      ).bind(assignmentId, available.did, clickId, clickFlareId, nowIso, expiresAt).run();
+      return json({ ok: true, assigned: true, did: available.did, phone_href: "tel:+" + available.did, assignment_id: assignmentId, expires_at: expiresAt, attribution: "dni_did" }, 201);
     }
 
     if (request.method === "POST" && url.pathname === "/intent") {
@@ -338,6 +408,7 @@ export default {
       }
 
       const clickId = String(body.click_id || "").trim();
+      const clickFlareId = readClickFlareId(body.clickflare_click_id);
       const intentId = String(body.intent_id || "").trim();
       if (
         !/^[A-Za-z0-9._~-]{1,200}$/.test(clickId) ||
@@ -349,13 +420,17 @@ export default {
       const now = new Date();
       const nowIso = now.toISOString();
       const existingClick = await env.DB.prepare(
-        "SELECT click_id, expires_at FROM traffic_clicks WHERE click_id=?",
+        "SELECT click_id, expires_at, clickflare_click_id FROM traffic_clicks WHERE click_id=?",
       )
         .bind(clickId)
         .first<{ click_id: string; expires_at: string }>();
 
       let clickRegistered = false;
       if (existingClick) {
+        if (clickFlareId && !existingClick.clickflare_click_id) {
+          await env.DB.prepare("UPDATE traffic_clicks SET clickflare_click_id=? WHERE click_id=?")
+            .bind(clickFlareId, clickId).run();
+        }
         if (
           !validTime(existingClick.expires_at) ||
           Date.parse(existingClick.expires_at) < now.getTime()
@@ -392,7 +467,7 @@ export default {
           String(body.country_code || "").trim().slice(0, 8) || null;
 
         await env.DB.prepare(
-          "INSERT INTO traffic_clicks (click_id,campaign_id,creative_id,site_id,country_code,landing_path,clicked_at,expires_at) VALUES (?,?,?,?,?,?,?,?) ON CONFLICT(click_id) DO NOTHING",
+          "INSERT INTO traffic_clicks (click_id,campaign_id,creative_id,site_id,country_code,landing_path,clicked_at,expires_at,clickflare_click_id) VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT(click_id) DO NOTHING",
         )
           .bind(
             clickId,
@@ -403,6 +478,7 @@ export default {
             landingPath,
             clickedAt,
             expiresAt,
+            clickFlareId,
           )
           .run();
         clickRegistered = true;
@@ -465,7 +541,7 @@ export default {
         }
         if (
           typeof call.destination !== "string" ||
-          !isTicketDepartDid(call.destination) ||
+          !(await isConfiguredTicketDepartDid(env, call.destination)) ||
           call.agent_extension !== "1001"
         ) {
           return json({ error: "invalid_call_route" }, 400);
@@ -539,7 +615,7 @@ export default {
       if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(callUuid)) {
         return json({ error: "invalid_call_uuid" }, 400);
       }
-      if (!isTicketDepartDid(destination) || agentExtension !== "1001") {
+      if (!(await isConfiguredTicketDepartDid(env, destination)) || agentExtension !== "1001") {
         return json({ error: "invalid_call_route" }, 400);
       }
       if (!validTime(ringingAt)) {
