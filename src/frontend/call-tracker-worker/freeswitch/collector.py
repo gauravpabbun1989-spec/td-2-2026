@@ -4,6 +4,7 @@ import socket
 import sqlite3
 import time
 import os
+import re
 import uuid
 import urllib.request
 import urllib.error
@@ -177,6 +178,35 @@ def send_pending_answered(db):
                   ": " + type(exc).__name__, flush=True)
 
 
+def extract_called_did(event_data):
+    """Prefer the original called DID from provider SIP headers over the trunk auth alias."""
+    header_keys = (
+        "variable_sip_h_p_called_party_id",
+        "variable_sip_h_x_original_did",
+        "variable_sip_h_x_dnis",
+        "variable_sip_h_x_called_number",
+        "variable_sip_h_x_called_party_id",
+        "variable_sip_h_diversion",
+        "variable_sip_h_history_info",
+        "variable_sip_req_user",
+        "variable_sip_to_user",
+    )
+    lowered = {str(key).lower(): value for key, value in event_data.items()}
+    for key in header_keys:
+        value = lowered.get(key)
+        if not value:
+            continue
+        match = re.search(r"(?<!\d)(?:\+?1)?\d{10}(?!\d)|(?<!\d)\d{7}(?!\d)", str(value))
+        if match:
+            digits = re.sub(r"\D", "", match.group(0))
+            if is_ticketdepart_did(digits):
+                return digits
+
+    destination = str(event_data.get("Caller-Destination-Number") or "")
+    digits = re.sub(r"\D", "", destination)
+    return digits if is_ticketdepart_did(digits) else None
+
+
 def has_valid_inbound_ticketdepart_origin(db, inbound_uuid):
     rows = db.execute("""
         SELECT details
@@ -203,11 +233,10 @@ def has_valid_inbound_ticketdepart_origin(db, inbound_uuid):
         if (
             original_uuid == inbound_uuid
             and original.get("Call-Direction") == "inbound"
-            and is_ticketdepart_did(original.get("Caller-Destination-Number"))
             and original.get("Caller-Context") == "public"
             and str(original.get("Channel-Name") or "").startswith("sofia/external/")
         ):
-            return str(original.get("Caller-Destination-Number") or "")
+            return extract_called_did(original)
     return None
 
 
