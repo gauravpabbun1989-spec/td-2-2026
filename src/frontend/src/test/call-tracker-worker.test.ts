@@ -499,7 +499,7 @@ describe("call-tracker DNI DID assignment", () => {
       expires_at: expires,
       clickflare_click_id: "cf-click-dni",
     });
-    db.trackingDids.add("18885550123");
+    db.trackingDids.add("12025550123");
     const request = () => worker.fetch(new Request("https://tracker.example/dni/assign", {
       method: "POST",
       headers: { "content-type": "text/plain" },
@@ -509,9 +509,9 @@ describe("call-tracker DNI DID assignment", () => {
     const first = await request();
     expect(first.status).toBe(201);
     const assigned = await first.json() as { did: string; assignment_id: string };
-    expect(assigned.did).toBe("18885550123");
+    expect(assigned.did).toBe("12025550123");
     expect(db.didAssignments.get(assigned.assignment_id)).toMatchObject({
-      did: "18885550123",
+      did: "12025550123",
       trafficstars_click_id: "traffic-click-dni",
       clickflare_click_id: "cf-click-dni",
       status: "active",
@@ -519,7 +519,7 @@ describe("call-tracker DNI DID assignment", () => {
 
     const retry = await request();
     expect(retry.status).toBe(200);
-    expect(await retry.json()).toMatchObject({ did: "18885550123", assignment_id: assigned.assignment_id });
+    expect(await retry.json()).toMatchObject({ did: "12025550123", assignment_id: assigned.assignment_id });
     expect(db.didAssignments.size).toBe(1);
 
     const ringing = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
