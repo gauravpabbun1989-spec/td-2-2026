@@ -18,14 +18,14 @@ export function MobileCallBar() {
           href={phone.ready ? phone.href : undefined}
           data-ocid="mobile_call.button"
           data-cta-location="sticky_mobile"
-          aria-label={phone.ready ? `${SITE.ctaLabel}: ${phone.ready ? phone.display : "Preparing call number…"}` : "Preparing call number"}
+          aria-label={phone.ready ? `${SITE.ctaLabel}: ${phone.display}` : "Preparing call number"}
           aria-disabled={!phone.ready}
           aria-busy={!phone.ready}
           className={`flex min-h-12 w-full shrink-0 flex-wrap items-center justify-center gap-x-2 gap-y-0.5 rounded-full bg-accent px-3 py-2 text-xs font-bold text-accent-foreground shadow-[0_10px_24px_-12px_rgba(0,0,0,0.65)] transition-smooth hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:flex-nowrap sm:gap-2.5 sm:px-5 sm:text-sm sm:w-auto sm:min-w-[17rem] sm:shrink-0 ${!phone.ready ? "pointer-events-none opacity-70" : ""}`}
         >
           <Phone aria-hidden="true" className="size-4 shrink-0" />
           <span className="min-w-0 shrink-0 whitespace-nowrap text-center">{SITE.ctaLabel}</span>
-          <span className="basis-full shrink-0 text-center text-[11px] leading-tight whitespace-nowrap sm:basis-auto sm:text-sm">{phone.display}</span>
+          <span className="basis-full shrink-0 text-center text-[11px] leading-tight whitespace-nowrap sm:basis-auto sm:text-sm">{phone.ready ? phone.display : "Preparing call number…"}</span>
         </a>
       </div>
     </div>
