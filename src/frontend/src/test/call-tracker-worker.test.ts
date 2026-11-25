@@ -493,6 +493,25 @@ describe("call-tracker DNI DID assignment", () => {
     expect(retry.status).toBe(200);
     expect(await retry.json()).toMatchObject({ did: "18885550123", assignment_id: assigned.assignment_id });
     expect(db.didAssignments.size).toBe(1);
+
+    const ringing = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
+      method: "POST",
+      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+      body: JSON.stringify({
+        call_uuid: "d6baf5d7-c2e7-4f37-9cc9-6f0e37e01b89",
+        destination: "+1-888-555-0123",
+        agent_extension: "1001",
+        ringing_at: new Date().toISOString(),
+      }),
+    }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
+    expect(ringing.status).toBe(202);
+    expect(await ringing.json()).toMatchObject({
+      click_id: "traffic-click-dni",
+      clickflare_click_id: "cf-click-dni",
+      attribution: "verified",
+      attribution_method: "dni_did",
+      clickflare_postback_status: "disabled",
+    });
   });
 
   it("sends one ClickFlare conversion for a verified DNI ring and deduplicates by call UUID", async () => {
@@ -561,25 +580,5 @@ describe("call-tracker DNI DID assignment", () => {
     expect(response.status).toBe(202);
     expect(await response.json()).toMatchObject({ attribution: "unmatched", clickflare_postback_status: "unattributed" });
     expect(db.clickflareConversions.size).toBe(0);
-  });
-});
-
-      method: "POST",
-      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
-      body: JSON.stringify({
-        call_uuid: "d6baf5d7-c2e7-4f37-9cc9-6f0e37e01b89",
-        destination: "+1-888-555-0123",
-        agent_extension: "1001",
-        ringing_at: new Date().toISOString(),
-      }),
-    }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
-    expect(ringing.status).toBe(202);
-    expect(await ringing.json()).toMatchObject({
-      click_id: "traffic-click-dni",
-      clickflare_click_id: "cf-click-dni",
-      attribution: "verified",
-      attribution_method: "dni_did",
-      clickflare_postback_status: "disabled",
-    });
   });
 });
