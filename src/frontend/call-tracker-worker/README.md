@@ -19,28 +19,24 @@ The site captures and stores both identifiers from the ClickFlare landing URL:
 - `click_id`: the original TrafficStars click ID carried as ClickFlare External ID
 - `cf_click_id`: the unique ClickFlare visit ID
 
-When a visitor taps a `tel:` link, the site sends a call-intent event containing both IDs. The Worker uses the following conservative single-number correlation:
+When a visitor taps a `tel:` link, the site sends a call-intent event containing both IDs. The Worker may reserve a unique intent within a ten-minute window for diagnostic reporting, but this is only a `candidate` match. It is not proof that the PSTN caller is the browser visitor who tapped the link. The single shared toll-free number carries no click identifier over the phone network.
 
-1. A call may match only one unclaimed website phone-click intent from the previous ten minutes.
-2. The intent must have a stored ClickFlare ID and original TrafficStars click ID.
-3. No other inbound agent-ring event may have occurred after that intent and before the current ring.
-4. Multiple candidate intents, intervening calls, missing IDs, and unmatched calls are not attributed.
-5. An intent is atomically reserved to one FreeSWITCH call UUID and cannot be reused for another call.
-
-The resulting method is recorded explicitly as `single_number_unique_intent_window` with status `candidate`. This is a unique time-window correlation using the one shared DID, not per-caller DNI or cryptographic proof of caller identity. Calls that cannot be matched uniquely remain unmatched or ambiguous. No synthetic click IDs or timestamp-only guesses are created.
+A candidate is therefore **never a paid conversion**. Multiple candidate intents, intervening calls, missing IDs, and unmatched calls remain ambiguous or unmatched. The intent reservation is atomic and cannot be reused. No synthetic click IDs or timestamp-only guesses are created.
 
 ## ClickFlare and TrafficStars S2S
 
-When a unique single-number intent is matched, the Worker sends a ClickFlare S2S conversion to `https://globalvisitlog.com/cf/cv` with:
+ClickFlare S2S conversions are sent only for a verified one-to-one DNI assignment (`attribution_status=verified`, `attribution_method=dni_did`) that carries both the TrafficStars External ID and ClickFlare visit ID. A single-number time-window candidate is excluded from conversion delivery, even when the ClickFlare feature flag is enabled.
+
+The conversion payload, when a verified DID assignment exists, uses:
 
 - ClickFlare `click_id` = the captured `cf_click_id`
 - `payout=15`
 - `txid` = FreeSWITCH call UUID (deduplication key)
 - `ct=call`
 
-ClickFlare then uses the campaign's configured TrafficStars source postback to relay the original External ID back to TrafficStars Goal `6487`. The ClickFlare conversion flag is enabled in Wrangler configuration; duplicate call UUIDs are idempotent and retries retain the same transaction ID.
+ClickFlare then uses the configured TrafficStars source postback to return the original External ID to TrafficStars Goal `6487`. Duplicate call UUIDs are idempotent and retry records use the same transaction ID. The production `CLICKFLARE_POSTBACK_ENABLED` flag remains `false`; the current account has no enabled tracking DID pool, so the single-number configuration must not generate paid conversions.
 
-The separate legacy direct TrafficStars sender remains restricted to verified signed-call sessions; the normal single-number flow uses ClickFlare as the one downstream S2S path.
+The separate legacy direct TrafficStars sender remains restricted to verified signed-call sessions. The normal single-number flow does not send a conversion.
 
 ## Bindings and secrets
 
@@ -55,7 +51,7 @@ Do not rotate or replace existing secrets as part of this change. The original T
 
 ## Persistence and safety
 
-The Worker stores one ring event per FreeSWITCH call UUID. It keeps the call's attributed IDs, attribution method/status, matched intent, ClickFlare conversion attempts, and postback result in D1. A ClickFlare conversion is emitted only for a unique one-intent/one-ring match or an existing verified DNI assignment. Unmatched and ambiguous calls do not generate conversions.
+The Worker stores one ring event per FreeSWITCH call UUID. It keeps the call's attributed IDs, attribution method/status, matched intent, ClickFlare conversion attempts, and postback result in D1. Only a verified DNI assignment can create a ClickFlare conversion. Single-number candidates, unmatched calls, and ambiguous calls never create conversions.
 
 The call-intent event is intent telemetry, not a conversion. The conversion occurs only on the first actual agent-1001 ringing event. Answered-at, hangup-at, and billsec are stored separately.
 

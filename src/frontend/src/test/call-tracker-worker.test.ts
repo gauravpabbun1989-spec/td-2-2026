@@ -562,6 +562,27 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     } finally { vi.unstubAllGlobals(); }
   });
 
+  it("restricts ClickFlare retry queries to verified DNI attribution", async () => {
+    const db = new FakeD1();
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    let scheduledWork: Promise<unknown> | undefined;
+    try {
+      worker.scheduled(
+        { scheduledTime: Date.now(), cron: "* * * * *" },
+        { DB: db as unknown as CallTrackerEnv["DB"], CLICKFLARE_POSTBACK_ENABLED: "true" },
+        { waitUntil(promise) { scheduledWork = promise; } },
+      );
+      await scheduledWork;
+      const query = db.statements.find((statement) => statement.startsWith("SELECT c.call_uuid,c.clickflare_click_id,r.attribution_status,r.attribution_method FROM clickflare_conversions"));
+      expect(query).toContain("r.attribution_status='verified'");
+      expect(query).toContain("r.attribution_method='dni_did'");
+      expect(fetchMock).not.toHaveBeenCalled();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("does not run scheduled postbacks while the feature flag is disabled", async () => {
     const db = new FakeD1();
     const fetchMock = vi.fn();
@@ -594,7 +615,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
       method: "POST",
       headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
       body: JSON.stringify({
-        call_uuid: callUuid, destination: "9999999", agent_extension: "1001",
+        call_uuid: callUuid, destination: "+1-877-788-8010", agent_extension: "1001",
         ringing_at: "2026-11-21T16:42:10.000Z",
       }),
     }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
@@ -736,7 +757,7 @@ describe("call-tracker DNI DID assignment", () => {
     }
   });
 
-  it("matches one recent paid phone intent and sends one ClickFlare S2S conversion", async () => {
+  it("records a unique single-number intent as a candidate but never sends a ClickFlare conversion", async () => {
     const db = new FakeD1();
     db.clicks.set("traffic-click-paid", {
       click_id: "traffic-click-paid",
@@ -762,20 +783,15 @@ describe("call-tracker DNI DID assignment", () => {
       expect(await response.json()).toMatchObject({
         click_id: "traffic-click-paid", clickflare_click_id: "cf-click-paid",
         attribution: "candidate", attribution_method: "single_number_unique_intent_window",
-        clickflare_postback_sent: true, clickflare_postback_status: "sent",
+        clickflare_postback_sent: false, clickflare_postback_status: "unattributed",
       });
       expect(db.intents.get("intent-paid-123")).toMatchObject({ status: "candidate", matched_call_uuid: callUuid });
       expect(db.calls.get(callUuid)).toMatchObject({
         click_id: "traffic-click-paid", clickflare_click_id: "cf-click-paid",
         matched_intent_id: "intent-paid-123", acceptance_reason: "agent_leg_ringing",
       });
-      expect(fetchMock).toHaveBeenCalledTimes(1);
-      const postback = new URL(String(fetchMock.mock.calls[0][0]));
-      expect(postback.origin + postback.pathname).toBe("https://globalvisitlog.com/cf/cv");
-      expect(postback.searchParams.get("click_id")).toBe("cf-click-paid");
-      expect(postback.searchParams.get("payout")).toBe("15");
-      expect(postback.searchParams.get("txid")).toBe(callUuid);
-      expect(postback.searchParams.get("ct")).toBe("call");
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(db.clickflareConversions.size).toBe(0);
     } finally { vi.unstubAllGlobals(); }
   });
 

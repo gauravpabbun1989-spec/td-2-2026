@@ -39,7 +39,7 @@ class RingingDetectorTests(unittest.TestCase):
             );
         """)
         self.inbound_uuid = "9ec7c8dc-d189-49ab-85f3-84cd165fe3c5"
-        self.did = "12025550123"
+        self.did = "1030605"
         self.add_inbound_create()
         self.event = {
             "Event-Name": "CHANNEL_CALLSTATE",
@@ -95,7 +95,7 @@ class RingingDetectorTests(unittest.TestCase):
             "Caller-Destination-Number": "1030605",
             "Caller-Context": "public",
             "Channel-Name": "sofia/external/provider-call",
-            "variable_sip_h_P-Called-Party-ID": "<sip:+18777888010@telxio.example>",
+            "variable_sip_h_P-Called-Party-ID": "<sip:+1 (888) 564-9049@telxio.example>",
         }
         self.db.execute(
             "INSERT INTO call_events(event_time,event_name,uuid,details) VALUES(?,?,?,?)",
@@ -108,7 +108,7 @@ class RingingDetectorTests(unittest.TestCase):
             "SELECT destination FROM ringing_notifications WHERE call_uuid=?",
             (self.inbound_uuid,),
         ).fetchone()
-        self.assertEqual(row[0], "18777888010")
+        self.assertEqual(row[0], "18885649049")
         send.assert_called_once_with(self.db)
 
     def test_rdnis_overrides_trunk_registration_alias(self):
@@ -117,7 +117,7 @@ class RingingDetectorTests(unittest.TestCase):
             "Unique-ID": self.inbound_uuid,
             "Call-Direction": "inbound",
             "Caller-Destination-Number": "1030605",
-            "Caller-RDNIS": "+1 (877) 788-8010",
+            "Caller-RDNIS": "+1 (888) 564-9049",
             "Caller-Context": "public",
             "Channel-Name": "sofia/external/provider-call",
         }
@@ -132,12 +132,46 @@ class RingingDetectorTests(unittest.TestCase):
             "SELECT destination FROM ringing_notifications WHERE call_uuid=?",
             (self.inbound_uuid,),
         ).fetchone()
-        self.assertEqual(row[0], "18777888010")
+        self.assertEqual(row[0], "18885649049")
         send.assert_called_once_with(self.db)
 
     def test_invalid_inbound_did_is_not_forwarded(self):
         self.db.execute("DELETE FROM call_events")
         self.add_inbound_create("not-a-number")
+        with patch.object(collector, "send_pending_ringing") as send:
+            collector.queue_ringing_event(self.db, self.event)
+        self.assertEqual(
+            self.db.execute("SELECT COUNT(*) FROM ringing_notifications").fetchone()[0],
+            0,
+        )
+        send.assert_not_called()
+
+    def test_unrelated_e164_number_is_not_treated_as_ticketdepart_did(self):
+        self.db.execute("DELETE FROM call_events")
+        self.add_inbound_create("+1-202-555-0123")
+        with patch.object(collector, "send_pending_ringing") as send:
+            collector.queue_ringing_event(self.db, self.event)
+        self.assertEqual(
+            self.db.execute("SELECT COUNT(*) FROM ringing_notifications").fetchone()[0],
+            0,
+        )
+        send.assert_not_called()
+
+    def test_current_public_toll_free_number_is_allowed(self):
+        self.db.execute("DELETE FROM call_events")
+        self.add_inbound_create("+1-888-564-9049")
+        with patch.object(collector, "send_pending_ringing") as send:
+            collector.queue_ringing_event(self.db, self.event)
+        row = self.db.execute(
+            "SELECT destination FROM ringing_notifications WHERE call_uuid=?",
+            (self.inbound_uuid,),
+        ).fetchone()
+        self.assertEqual(row[0], "18885649049")
+        send.assert_called_once_with(self.db)
+
+    def test_retired_public_number_is_not_allowed(self):
+        self.db.execute("DELETE FROM call_events")
+        self.add_inbound_create("+1-877-788-8010")
         with patch.object(collector, "send_pending_ringing") as send:
             collector.queue_ringing_event(self.db, self.event)
         self.assertEqual(
