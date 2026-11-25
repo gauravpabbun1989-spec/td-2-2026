@@ -181,17 +181,17 @@ def send_pending_answered(db):
 def extract_called_did(event_data):
     """Prefer the original called DID from provider SIP headers over the trunk auth alias."""
     header_keys = (
-        "variable_sip_h_p_called_party_id",
-        "variable_sip_h_x_original_did",
-        "variable_sip_h_x_dnis",
-        "variable_sip_h_x_called_number",
-        "variable_sip_h_x_called_party_id",
-        "variable_sip_h_diversion",
-        "variable_sip_h_history_info",
-        "variable_sip_req_user",
-        "variable_sip_to_user",
+        "variablesiphpcalledpartyid",
+        "variablesiphxoriginaldid",
+        "variablesiphxdnis",
+        "variablesiphxcallednumber",
+        "variablesiphxcalledpartyid",
+        "variablesiphdiversion",
+        "variablesiphhistoryinfo",
+        "variablesiprequser",
+        "variablesiptouser",
     )
-    lowered = {str(key).lower(): value for key, value in event_data.items()}
+    lowered = {re.sub(r"[^a-z0-9]", "", str(key).lower()): value for key, value in event_data.items()}
     for key in header_keys:
         value = lowered.get(key)
         if not value:
