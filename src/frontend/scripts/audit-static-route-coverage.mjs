@@ -4,6 +4,7 @@ import path from "node:path";
 const root = process.cwd();
 const publicDir = path.join(root, "public");
 const distDir = path.join(root, "dist");
+const phoneConfig = JSON.parse(fs.readFileSync(path.resolve(root, "../../config/phone-number.json"), "utf8"));
 const sourceSitemapPath = path.join(publicDir, "sitemap.xml");
 const builtSitemapPath = path.join(distDir, "sitemap.xml");
 const sourceRobotsPath = path.join(publicDir, "robots.txt");
@@ -145,14 +146,14 @@ assert(homeInlineCss.includes(".td-fallback-hero"), "homepage inline CSS must st
 assert(homeInlineCss.includes(".td-fallback-benefits"), "homepage inline CSS must style the first-paint benefit cards");
 assert(homeInlineCss.includes("#root > .ticketdepart-static-fallback"), "homepage inline CSS must include first-paint fallback presentation");
 const homeDescription = homeHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
-assert(homeDescription.includes("24/7") && homeDescription.includes("pet or infant travel") && homeDescription.includes("+1-888-564-9049"), "built homepage meta description is missing expected service details");
+assert(homeDescription.includes("24/7") && homeDescription.includes("pet or infant travel") && homeDescription.includes(phoneConfig.display), "built homepage meta description is missing expected service details");
 assert(!/855[\s().-]*544[\s().-]*9001/.test(homeHtml), "old public phone number remains in built homepage HTML");
 assert(/href="\/how-to-book-a-flight-by-phone\/"/i.test(homeHtml), "homepage is missing a crawlable link to the phone-booking guide");
 assert(!/href=["\'][^"\']*\/(?:business-class-flight-booking|corporate-flight-booking|group-flight-booking)\/?["\']/i.test(homeHtml), "homepage must not link to business-class, corporate, or group pages excluded from organic targeting");
 
 const contactHtml = read(path.join(distDir, "contact", "index.html"));
 const contactDescription = contactHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] ?? "";
-assert(contactDescription === "Contact TicketDepart about your flight plans and callback requests. Call +1-888-564-9049.", `Contact page static description is stale or awkward: ${contactDescription}`);
+assert(contactDescription === `Contact TicketDepart about your flight plans and callback requests. Call ${phoneConfig.display}.`, `Contact page static description is stale or awkward: ${contactDescription}`);
 const disclaimerHtmlPath = path.join(distDir, "disclaimer", "index.html");
 assert(fs.existsSync(disclaimerHtmlPath), "missing static HTML for /disclaimer");
 const disclaimerHtml = read(disclaimerHtmlPath);
