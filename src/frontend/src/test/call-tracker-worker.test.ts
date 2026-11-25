@@ -344,11 +344,43 @@ describe("call-tracker /intent click registration", () => {
     expect(db.intents.get("intent-12345678")).toMatchObject({ click_id: "traffic-click-123", page_path: "/flight-change", cta_location: "header" });
   });
 
+  it("rejects a phone intent that omits the ClickFlare ID", async () => {
+    const db = new FakeD1();
+    const response = await worker.fetch(new Request("https://tracker.example/intent", {
+      method: "POST",
+      body: JSON.stringify({ intent_id: "intent-no-flare-123", click_id: "traffic-click-no-flare" }),
+    }), makeEnv(db));
+    expect(response.status).toBe(422);
+    expect(await response.json()).toMatchObject({ error: "missing_or_invalid_clickflare_click_id" });
+    expect(db.intents.size).toBe(0);
+    expect(db.clicks.size).toBe(0);
+  });
+
+  it("rejects a ClickFlare ID that conflicts with the stored TrafficStars click pair", async () => {
+    const db = new FakeD1();
+    db.clicks.set("traffic-click-paired", {
+      click_id: "traffic-click-paired",
+      expires_at: new Date(Date.now() + 60_000).toISOString(),
+      clickflare_click_id: "cf-original-123",
+    });
+    const response = await worker.fetch(new Request("https://tracker.example/intent", {
+      method: "POST",
+      body: JSON.stringify({
+        intent_id: "intent-mismatch-123", click_id: "traffic-click-paired",
+        clickflare_click_id: "cf-wrong-123",
+      }),
+    }), makeEnv(db));
+    expect(response.status).toBe(409);
+    expect(await response.json()).toMatchObject({ error: "click_attribution_pair_mismatch" });
+    expect(db.intents.size).toBe(0);
+    expect(db.clicks.get("traffic-click-paired")?.clickflare_click_id).toBe("cf-original-123");
+  });
+
   it("preserves an existing active click record instead of overwriting its timestamp", async () => {
     const db = new FakeD1();
     db.clicks.set("traffic-click-123", { click_id: "traffic-click-123", expires_at: new Date(Date.now() + 60_000).toISOString() });
     const response = await worker.fetch(new Request("https://tracker.example/intent", {
-      method: "POST", body: JSON.stringify({ intent_id: "intent-87654321", click_id: "traffic-click-123", page_path: "/flight-change", cta_location: "footer" }),
+      method: "POST", body: JSON.stringify({ intent_id: "intent-87654321", click_id: "traffic-click-123", clickflare_click_id: "cf-click-123", page_path: "/flight-change", cta_location: "footer" }),
     }), makeEnv(db));
     expect(response.status).toBe(202);
     expect((await response.json()).click_registered).toBe(false);
@@ -360,7 +392,7 @@ describe("call-tracker /intent click registration", () => {
     const db = new FakeD1();
     db.clicks.set("expired-click", { click_id: "expired-click", expires_at: new Date(Date.now() - 60_000).toISOString() });
     const response = await worker.fetch(new Request("https://tracker.example/intent", {
-      method: "POST", body: JSON.stringify({ intent_id: "intent-expired1", click_id: "expired-click", page_path: "/", cta_location: "hero" }),
+      method: "POST", body: JSON.stringify({ intent_id: "intent-expired1", click_id: "expired-click", clickflare_click_id: "cf-expired-123", page_path: "/", cta_location: "hero" }),
     }), makeEnv(db));
     expect(response.status).toBe(404);
     expect(db.intents.size).toBe(0);
