@@ -6,6 +6,7 @@ const publicDir = path.join(root, "public");
 const distDir = path.join(root, "dist");
 const phoneConfig = JSON.parse(fs.readFileSync(path.resolve(root, "../../config/phone-number.json"), "utf8"));
 const phoneDisplayPattern = phoneConfig.display.replaceAll("+", "\\+");
+const retiredPhone = ["+1", "888", "958", "0280"].join("-");
 const sourceSitemapPath = path.join(publicDir, "sitemap.xml");
 const builtSitemapPath = path.join(distDir, "sitemap.xml");
 const sourceRobotsPath = path.join(publicDir, "robots.txt");
