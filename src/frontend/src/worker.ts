@@ -242,7 +242,7 @@ function notFoundResponse(request: Request) {
   <main>
     <h1>This page has departed</h1>
     <p>The page you were looking for could not be found. Check the address or return to TicketDepart.</p>
-    <p><a href="tel:+1-877-788-8010">Call +1-877-788-8010 — available 24/7</a></p>
+    <p><a href="tel:+1-888-564-9049">Call +1-888-564-9049 — available 24/7</a></p>
     <p><a href="/">Back to TicketDepart home</a></p>
     <p><a href="/flight-booking/">Flight booking assistance</a></p>
     <p><a href="/contact/">Contact a travel specialist</a></p>

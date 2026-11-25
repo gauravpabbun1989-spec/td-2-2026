@@ -16,6 +16,7 @@ export interface CallTrackerEnv {
   INGEST_SECRET?: string;
   TRAFFICSTARS_POSTBACK_KEY?: string;
   TRAFFICSTARS_POSTBACK_ENABLED?: string;
+  TELXIO_WEBHOOK_TOKEN?: string;
 }
 
 const GOAL_ID = "6487";
@@ -45,6 +46,11 @@ async function auth(request: Request, secret?: string): Promise<boolean> {
   }
   return difference === 0;
 }
+
+const isTicketDepartDid = (value: string): boolean => {
+  const digits = value.replace(/\D/g, "");
+  return digits === "18885649049" || digits === "8885649049" || digits === "1030605";
+};
 
 const validTime = (value: unknown): value is string =>
   typeof value === "string" &&
@@ -217,6 +223,72 @@ export default {
   },
   async fetch(request: Request, env: CallTrackerEnv): Promise<Response> {
     const url = new URL(request.url);
+
+    // Telxio Call Info webhook. The path token is a bearer credential because
+    // provider webhook forms may not let us configure custom authorization headers.
+    // This records metadata only; it does not create ClickFlare or TrafficStars conversions.
+    const telxioPrefix = "/webhook/telxio/";
+    if ((request.method === "POST" || request.method === "GET") && url.pathname.startsWith(telxioPrefix)) {
+      const suppliedToken = url.pathname.slice(telxioPrefix.length);
+      const expectedToken = env.TELXIO_WEBHOOK_TOKEN || "";
+      const supplied = new TextEncoder().encode(suppliedToken);
+      const expected = new TextEncoder().encode(expectedToken);
+      let difference = supplied.length ^ expected.length;
+      const length = Math.max(supplied.length, expected.length);
+      for (let index = 0; index < length; index += 1) {
+        difference |= (supplied[index] || 0) ^ (expected[index] || 0);
+      }
+      if (!expectedToken || difference !== 0) return json({ error: "unauthorized" }, 401);
+
+      let raw = "";
+      let payload: Record<string, unknown>;
+      if (request.method === "GET") {
+        raw = url.searchParams.toString();
+        payload = Object.fromEntries(url.searchParams.entries());
+      } else {
+        const contentType = (request.headers.get("content-type") || "").toLowerCase();
+        const formRequest = contentType.includes("multipart/form-data") ? request.clone() : null;
+        raw = await request.text();
+        if (raw.length > 32768) return json({ error: "payload_too_large" }, 413);
+        try {
+          if (contentType.includes("application/x-www-form-urlencoded")) {
+            payload = Object.fromEntries(new URLSearchParams(raw).entries());
+          } else if (formRequest) {
+            const form = await formRequest.formData();
+            payload = Object.fromEntries(Array.from(form.entries()).map(([key, value]) => [key, typeof value === "string" ? value : value.name]));
+          } else {
+            const parsed: unknown = JSON.parse(raw);
+            if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return json({ error: "invalid_payload" }, 400);
+            payload = parsed as Record<string, unknown>;
+          }
+        } catch {
+          return json({ error: "invalid_payload" }, 400);
+        }
+      }
+      if (raw.length > 32768) return json({ error: "payload_too_large" }, 413);
+      const pick = (...values: unknown[]) => {
+        const found = values.find(value => typeof value === "string" || typeof value === "number");
+        return found === undefined ? null : String(found).slice(0, 200);
+      };
+      const eventType = pick(payload.event_type, payload.eventType, payload.event, payload.type, payload.status, payload.EventType) || "unknown";
+      const providerCallId = pick(payload.call_id, payload.callId, payload.call_uuid, payload.uuid, payload.uniqueid, payload.unique_id, payload.callid, payload.CallUUID);
+      const providerEventId = pick(payload.event_id, payload.eventId, payload.webhook_id, payload.EventID) ||
+        Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(raw))))
+          .map(byte => byte.toString(16).padStart(2, "0")).join("");
+      const caller = pick(payload.caller_number, payload.caller, payload.from, payload.ani, payload.phone_number, payload.callerid, payload.caller_id_number, payload.CallerID);
+      const called = pick(payload.called_number, payload.destination, payload.to, payload.did, payload.dnis, payload.called, payload.called_number, payload.DID);
+      const eventTime = pick(payload.event_at, payload.timestamp, payload.created_at, payload.time, payload.datetime, payload.CallStart);
+      const callerHash = caller
+        ? Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(caller))))
+            .map(byte => byte.toString(16).padStart(2, "0")).join("")
+        : null;
+      const payloadHash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(raw))))
+        .map(byte => byte.toString(16).padStart(2, "0")).join("");
+      await env.DB.prepare(
+        "INSERT INTO telxio_webhook_events (provider_event_id,event_type,provider_call_id,caller_number_hash,called_number,event_at,received_at,payload_sha256) VALUES (?,?,?,?,?,?,?,?) ON CONFLICT(provider_event_id) DO NOTHING",
+      ).bind(providerEventId, eventType, providerCallId, callerHash, called, eventTime, new Date().toISOString(), payloadHash).run();
+      return json({ ok: true, accepted: true, duplicate_safe: true, conversion_created: false }, 202);
+    }
 
     if (request.method === "GET" && url.pathname === "/health") {
       return json({
@@ -392,7 +464,8 @@ export default {
           return json({ error: "invalid_call_uuid" }, 400);
         }
         if (
-          call.destination !== "1030605" ||
+          typeof call.destination !== "string" ||
+          !isTicketDepartDid(call.destination) ||
           call.agent_extension !== "1001"
         ) {
           return json({ error: "invalid_call_route" }, 400);
@@ -466,7 +539,7 @@ export default {
       if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(callUuid)) {
         return json({ error: "invalid_call_uuid" }, 400);
       }
-      if (destination !== "1030605" || agentExtension !== "1001") {
+      if (!isTicketDepartDid(destination) || agentExtension !== "1001") {
         return json({ error: "invalid_call_route" }, 400);
       }
       if (!validTime(ringingAt)) {

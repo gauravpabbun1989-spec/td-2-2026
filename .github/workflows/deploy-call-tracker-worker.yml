@@ -46,7 +46,7 @@ jobs:
         run: pnpm --dir src/frontend typecheck
 
       - name: Run call-tracker tests
-        run: pnpm --dir src/frontend exec vitest run --environment jsdom src/test/analytics-phone-click-payload.test.ts src/test/call-tracker-worker.test.ts
+        run: pnpm --dir src/frontend exec vitest run --environment jsdom src/test/analytics-phone-click-payload.test.ts src/test/call-tracker-worker.test.ts src/test/telxio-webhook.test.ts
 
       - name: Run FreeSWITCH collector tests
         run: python -m unittest discover -s src/frontend/call-tracker-worker/freeswitch -p 'test_*.py'
@@ -56,8 +56,8 @@ jobs:
 
   deploy:
     name: Deploy call-tracker Worker to production
-    # Production deployment must be explicitly dispatched; merging a PR must never deploy.
-    if: github.event_name == 'workflow_dispatch'
+    # PRs only validate. A merge to main deploys only after this workflow's own validation succeeds; manual dispatch remains supported.
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
     needs: validate
     runs-on: ubuntu-latest
     timeout-minutes: 15

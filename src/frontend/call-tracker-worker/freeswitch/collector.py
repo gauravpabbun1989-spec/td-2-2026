@@ -56,7 +56,7 @@ def send_pending_ringing(db):
     """).fetchall()
     for call_uuid, ringing_at in rows:
         payload = json.dumps({
-            "call_uuid": call_uuid, "destination": "1030605",
+            "call_uuid": call_uuid, "destination": "+1-888-564-9049",
             "agent_extension": "1001", "ringing_at": ringing_at,
         }).encode()
         request = urllib.request.Request(

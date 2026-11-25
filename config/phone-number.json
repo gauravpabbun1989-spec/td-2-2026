@@ -1,6 +1,6 @@
 {
-  "display": "+1-877-788-8010",
-  "tel": "+18777888010",
+  "display": "+1-888-564-9049",
+  "tel": "+18885649049",
   "legacy": [],
-  "instruction": "This is the canonical TicketDepart phone-number source. The only active number is +1-877-788-8010 (tel:+18777888010). Keep every customer-facing display and tel: link on these values. Do not retain previously used phone numbers in this config or in active site content. For a future number change, update this file, run the phone replacement script, and verify the full tracked-source audit before deployment."
+  "instruction": "This is the canonical TicketDepart customer-facing phone number: +1-888-564-9049 (tel:+18885649049). Keep all displays, tel links, structured data, static HTML and generated assets synchronized. Telxio SIP registration credentials are separate internal authentication settings; do not replace the internal SIP username 1030605 unless Telxio changes that credential."
 }
