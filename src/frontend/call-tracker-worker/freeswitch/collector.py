@@ -181,6 +181,7 @@ def send_pending_answered(db):
 def extract_called_did(event_data):
     """Prefer the original called DID from provider SIP headers over the trunk auth alias."""
     header_keys = (
+        "callerrdnis",
         "variablesiphpcalledpartyid",
         "variablesiphxoriginaldid",
         "variablesiphxdnis",
