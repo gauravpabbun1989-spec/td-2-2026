@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""FreeSWITCH ESL collector and idempotent ringing-event notifier."""
 import json
-import os
 import socket
 import sqlite3
 import time
-import urllib.request
+import os
 import uuid
+import urllib.request
+import urllib.error
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from urllib.parse import unquote
@@ -14,11 +14,16 @@ from urllib.parse import unquote
 CONFIG = "/etc/freeswitch/autoload_configs/event_socket.conf.xml"
 DB = "/var/lib/ticketdepart-calltracker/calls.sqlite3"
 RINGING_ENDPOINT = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/v1/calls/ringing"
+ANSWERED_ENDPOINT = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/v1/calls/answered"
+
+def is_ticketdepart_did(value):
+    raw = str(value or "")
+    digits = "".join(ch for ch in raw if ch.isdigit())
+    return raw == "1030605" or digits in ("18885649049", "8885649049") or 10 <= len(digits) <= 15
 
 
 def utc_now():
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
-
 
 def read_frame(stream):
     headers = {}
@@ -33,8 +38,8 @@ def read_frame(stream):
             key, value = line.split(":", 1)
             headers[key.strip().lower()] = value.strip()
     length = int(headers.get("content-length", "0") or 0)
-    return headers, stream.read(length) if length else b""
-
+    body = stream.read(length) if length else b""
+    return headers, body
 
 def parse_event(body):
     result = {}
@@ -50,88 +55,217 @@ def send_pending_ringing(db):
     if not secret:
         print("Ringing notifier: CALL_INGEST_SECRET unavailable", flush=True)
         return
+
     rows = db.execute("""
-        SELECT call_uuid, ringing_at FROM ringing_notifications
-        WHERE status = 'pending' ORDER BY created_at LIMIT 20
+        SELECT r.call_uuid, r.ringing_at, r.destination, c.first_seen
+        FROM ringing_notifications r
+        LEFT JOIN calls c ON c.uuid = r.call_uuid
+        WHERE r.status = 'pending'
+        ORDER BY r.created_at
+        LIMIT 20
     """).fetchall()
-    for call_uuid, ringing_at in rows:
+
+    for call_uuid, ringing_at, destination, created_at in rows:
         payload = json.dumps({
-            "call_uuid": call_uuid, "destination": "+1-888-564-9049",
-            "agent_extension": "1001", "ringing_at": ringing_at,
+            "call_uuid": call_uuid,
+            "destination": destination or "1030605",
+            "agent_extension": "1001",
+            "ringing_at": ringing_at,
+            "created_at": created_at or ringing_at
         }).encode()
+
         request = urllib.request.Request(
-            RINGING_ENDPOINT, data=payload,
+            RINGING_ENDPOINT,
+            data=payload,
             headers={
                 "Authorization": "Bearer " + secret,
                 "Content-Type": "application/json",
-                "User-Agent": "TicketDepart-CallTracker/1.0",
-            }, method="POST",
+                "User-Agent": "TicketDepart-CallTracker/1.0"
+            },
+            method="POST"
         )
+
         try:
             with urllib.request.urlopen(request, timeout=10) as response:
                 result = json.loads(response.read().decode())
                 if response.status not in (200, 202) or result.get("ok") is not True:
                     raise RuntimeError("Worker did not confirm ringing event")
+
             db.execute("""
                 UPDATE ringing_notifications
-                SET status='sent', attempts=attempts+1, last_error=NULL
-                WHERE call_uuid=?
+                SET status = 'sent', attempts = attempts + 1,
+                    last_error = NULL
+                WHERE call_uuid = ?
             """, (call_uuid,))
             db.commit()
             print("Ringing event accepted by Worker for " + call_uuid, flush=True)
+
         except Exception as exc:
             db.execute("""
                 UPDATE ringing_notifications
-                SET attempts=attempts+1, last_error=? WHERE call_uuid=?
+                SET attempts = attempts + 1, last_error = ?
+                WHERE call_uuid = ?
             """, (type(exc).__name__, call_uuid))
             db.commit()
-            print("Ringing delivery pending for " + call_uuid + ": " +
-                  type(exc).__name__, flush=True)
+            print("Ringing delivery pending for " + call_uuid +
+                  ": " + type(exc).__name__, flush=True)
+
+
+
+
+def send_pending_answered(db):
+    secret = os.environ.get("CALL_INGEST_SECRET", "")
+    if not secret:
+        print("Answered-call notifier: CALL_INGEST_SECRET unavailable", flush=True)
+        return
+
+    rows = db.execute("""
+        SELECT call_uuid, answered_at, destination
+        FROM answer_notifications
+        WHERE status = 'pending'
+        ORDER BY created_at
+        LIMIT 20
+    """).fetchall()
+
+    for call_uuid, answered_at, destination in rows:
+        call_row = db.execute(
+            "SELECT first_seen FROM calls WHERE uuid = ?", (call_uuid,)
+        ).fetchone()
+        created_at = (call_row[0] if call_row and call_row[0] else answered_at)
+        payload = json.dumps({
+            "call_uuid": call_uuid,
+            "destination": destination or "1030605",
+            "agent_extension": "1001",
+            "created_at": created_at,
+            "answered_at": answered_at
+        }).encode()
+
+        request = urllib.request.Request(
+            ANSWERED_ENDPOINT,
+            data=payload,
+            headers={
+                "Authorization": "Bearer " + secret,
+                "Content-Type": "application/json",
+                "User-Agent": "TicketDepart-CallTracker/1.0"
+            },
+            method="POST"
+        )
+
+        try:
+            with urllib.request.urlopen(request, timeout=10) as response:
+                result = json.loads(response.read().decode())
+                if response.status not in (200, 202) or result.get("ok") is not True:
+                    raise RuntimeError("Worker did not confirm answered call")
+
+            db.execute("""
+                UPDATE answer_notifications
+                SET status = 'sent', attempts = attempts + 1,
+                    last_error = NULL
+                WHERE call_uuid = ?
+            """, (call_uuid,))
+            db.commit()
+            print("Agent answer timestamp recorded by Worker for " + call_uuid, flush=True)
+
+        except Exception as exc:
+            db.execute("""
+                UPDATE answer_notifications
+                SET attempts = attempts + 1, last_error = ?
+                WHERE call_uuid = ?
+            """, (type(exc).__name__, call_uuid))
+            db.commit()
+            print("Answered-call delivery pending for " + call_uuid +
+                  ": " + type(exc).__name__, flush=True)
+
+
+def has_valid_inbound_ticketdepart_origin(db, inbound_uuid):
+    rows = db.execute("""
+        SELECT details
+        FROM call_events
+        WHERE uuid = ?
+          AND event_name = 'CHANNEL_CREATE'
+        ORDER BY id
+    """, (inbound_uuid,)).fetchall()
+
+    for (raw_details,) in rows:
+        try:
+            original = json.loads(raw_details)
+        except (ValueError, TypeError):
+            continue
+
+        if not isinstance(original, dict):
+            continue
+
+        try:
+            original_uuid = str(uuid.UUID(original.get("Unique-ID", "")))
+        except (ValueError, TypeError, AttributeError):
+            continue
+
+        if (
+            original_uuid == inbound_uuid
+            and original.get("Call-Direction") == "inbound"
+            and is_ticketdepart_did(original.get("Caller-Destination-Number"))
+            and original.get("Caller-Context") == "public"
+            and str(original.get("Channel-Name") or "").startswith("sofia/external/")
+        ):
+            return str(original.get("Caller-Destination-Number") or "")
+    return None
+
+
+def queue_answered_event(db, event_data):
+    """Record answer time from the actual outbound agent-1001 leg."""
+    if event_data.get("Event-Name") != "CHANNEL_ANSWER":
+        return
+    if event_data.get("Call-Direction") != "outbound":
+        return
+    if event_data.get("Answer-State") != "answered":
+        return
+    if event_data.get("Caller-Destination-Number") != "1001":
+        return
+    if event_data.get("variable_sip_to_user") not in (None, "1001"):
+        return
+    parent = event_data.get("variable_originating_leg_uuid") or event_data.get("Channel-Call-UUID") or event_data.get("variable_call_uuid")
+    try:
+        inbound_uuid = str(uuid.UUID(parent or ""))
+    except (ValueError, TypeError, AttributeError):
+        return
+    inbound_did = has_valid_inbound_ticketdepart_origin(db, inbound_uuid)
+    if not inbound_did:
+        return
+    event_timestamp = event_data.get("Event-Date-Timestamp")
+    try:
+        answered_at = datetime.fromtimestamp(int(event_timestamp) / 1000000, timezone.utc).isoformat(timespec="seconds")
+    except (ValueError, TypeError, OverflowError, OSError):
+        answered_at = utc_now()
+    db.execute("""INSERT OR IGNORE INTO answer_notifications (call_uuid, answered_at, destination, status, attempts) VALUES (?, ?, ?, 'pending', 0)""", (inbound_uuid, answered_at, inbound_did))
+    db.commit()
+    send_pending_answered(db)
 
 
 def queue_ringing_event(db, event_data):
-    # Inbound calls to the agent extension ring on the external leg. FreeSWITCH
-    # reports this as CHANNEL_CALLSTATE with Channel-Call-State=RINGING.
-    inbound_ring = (
-        event_data.get("Event-Name") == "CHANNEL_CALLSTATE"
-        and event_data.get("Channel-Call-State") == "RINGING"
-        and event_data.get("Call-Direction") == "inbound"
-        and event_data.get("Caller-Destination-Number") == "1001"
-        and event_data.get("Channel-Name", "").startswith("sofia/external/")
-    )
-
-    # Retain support for the previously handled bridged/internal progress event.
-    bridged_ring = (
-        event_data.get("Event-Name") == "CHANNEL_PROGRESS"
-        and event_data.get("Call-Direction") == "outbound"
-        and event_data.get("Other-Leg-Direction") == "inbound"
-        and event_data.get("Caller-Destination-Number") == "1001"
-        and event_data.get("variable_dialed_extension") == "1001"
-        and event_data.get("Channel-Name", "").startswith("sofia/internal/1001@")
-    )
-    if not (inbound_ring or bridged_ring):
+    """Accept only the outbound agent leg's first RINGING state, correlated to the original inbound DID UUID."""
+    if event_data.get("Event-Name") not in ("CHANNEL_CALLSTATE", "CHANNEL_STATE"):
         return
-
-    uuid_value = (
-        event_data.get("Unique-ID", "")
-        if inbound_ring else event_data.get("variable_call_uuid", "")
-    )
+    if event_data.get("Call-Direction") != "outbound":
+        return
+    if event_data.get("Channel-Call-State") != "RINGING":
+        return
+    if event_data.get("Caller-Destination-Number") != "1001":
+        return
+    parent = event_data.get("variable_originating_leg_uuid") or event_data.get("Channel-Call-UUID") or event_data.get("variable_call_uuid")
     try:
-        original_uuid = str(uuid.UUID(uuid_value))
+        inbound_uuid = str(uuid.UUID(parent or ""))
     except (ValueError, TypeError, AttributeError):
         return
+    inbound_did = has_valid_inbound_ticketdepart_origin(db, inbound_uuid)
+    if not inbound_did:
+        print("Agent ringing rejected: no validated inbound TicketDepart DID CHANNEL_CREATE", flush=True)
+        return
+    event_timestamp = event_data.get("Event-Date-Timestamp")
     try:
-        ringing_at = datetime.fromtimestamp(
-            int(event_data.get("Event-Date-Timestamp")) / 1_000_000,
-            timezone.utc,
-        ).isoformat(timespec="seconds")
-    except (ValueError, TypeError, OverflowError):
+        ringing_at = datetime.fromtimestamp(int(event_timestamp) / 1000000, timezone.utc).isoformat(timespec="seconds")
+    except (ValueError, TypeError, OverflowError, OSError):
         ringing_at = utc_now()
-    db.execute("""
-        INSERT OR IGNORE INTO ringing_notifications
-            (call_uuid, ringing_at, status, attempts)
-        VALUES (?, ?, 'pending', 0)
-    """, (original_uuid, ringing_at))
+    db.execute("""INSERT OR IGNORE INTO ringing_notifications (call_uuid, ringing_at, destination, status, attempts) VALUES (?, ?, ?, 'pending', 0)""", (inbound_uuid, ringing_at, inbound_did))
     db.commit()
     send_pending_ringing(db)
 
@@ -140,79 +274,128 @@ def open_database():
     db = sqlite3.connect(DB, timeout=30)
     db.execute("""
         CREATE TABLE IF NOT EXISTS calls (
-            uuid TEXT PRIMARY KEY, first_seen TEXT, last_seen TEXT,
-            direction TEXT, caller TEXT, destination TEXT, context TEXT,
-            channel TEXT, sip_call_id TEXT, answered_at TEXT, ended_at TEXT,
-            hangup_cause TEXT, duration TEXT, billsec TEXT, last_event TEXT
+            uuid TEXT PRIMARY KEY,
+            first_seen TEXT,
+            last_seen TEXT,
+            direction TEXT,
+            caller TEXT,
+            destination TEXT,
+            context TEXT,
+            channel TEXT,
+            sip_call_id TEXT,
+            answered_at TEXT,
+            ended_at TEXT,
+            hangup_cause TEXT,
+            duration TEXT,
+            billsec TEXT,
+            last_event TEXT
         )
     """)
     db.execute("""
         CREATE TABLE IF NOT EXISTS ringing_notifications (
-            call_uuid TEXT PRIMARY KEY, ringing_at TEXT NOT NULL,
+            call_uuid TEXT PRIMARY KEY,
+            ringing_at TEXT NOT NULL,
+            destination TEXT,
             status TEXT NOT NULL DEFAULT 'pending',
-            attempts INTEGER NOT NULL DEFAULT 0, last_error TEXT,
+            attempts INTEGER NOT NULL DEFAULT 0,
+            last_error TEXT,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS answer_notifications (
+            call_uuid TEXT PRIMARY KEY,
+            answered_at TEXT NOT NULL,
+            destination TEXT,
+            status TEXT NOT NULL DEFAULT 'pending',
+            attempts INTEGER NOT NULL DEFAULT 0,
+            last_error TEXT,
             created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
         )
     """)
     db.execute("""
         CREATE TABLE IF NOT EXISTS call_events (
-            id INTEGER PRIMARY KEY AUTOINCREMENT, event_time TEXT NOT NULL,
-            event_name TEXT, uuid TEXT, details TEXT
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            event_time TEXT NOT NULL,
+            event_name TEXT,
+            uuid TEXT,
+            details TEXT
         )
     """)
+    columns = {row[1] for row in db.execute("PRAGMA table_info(calls)")}
+    for column in ("original_destination", "parent_uuid", "originating_leg_uuid"):
+        if column not in columns:
+            db.execute("ALTER TABLE calls ADD COLUMN " + column + " TEXT")
+    for table, column in (("ringing_notifications", "destination"), ("answer_notifications", "destination")):
+        existing_columns = {row[1] for row in db.execute("PRAGMA table_info(" + table + ")")}
+        if column not in existing_columns:
+            db.execute("ALTER TABLE " + table + " ADD COLUMN " + column + " TEXT")
     db.commit()
     return db
 
-
 def main():
     root = ET.parse(CONFIG).getroot()
-    params = {item.get("name"): item.get("value") for item in root.findall(".//param")}
+    params = {
+        item.get("name"): item.get("value")
+        for item in root.findall(".//param")
+    }
     host = params.get("listen-ip", "127.0.0.1")
     port = int(params.get("listen-port", "8021"))
     password = params.get("password")
+
     if host not in ("127.0.0.1", "::1", "localhost") or not password:
         raise RuntimeError("Event Socket must have a password and loopback-only binding")
+
     db = open_database()
     print("TicketDepart collector starting; database ready", flush=True)
     send_pending_ringing(db)
+    send_pending_answered(db)
+
     while True:
-        sock = stream = None
+        sock = None
+        stream = None
         try:
             sock = socket.create_connection((host, port), timeout=15)
             sock.settimeout(None)
             stream = sock.makefile("rb")
+
             headers, _ = read_frame(stream)
             if not headers or headers.get("content-type") != "auth/request":
                 raise RuntimeError("Unexpected Event Socket greeting")
+
             sock.sendall(("auth " + password + "\n\n").encode())
             headers, _ = read_frame(stream)
             reply = headers.get("reply-text", "") if headers else ""
             if not reply.startswith("+OK"):
                 raise RuntimeError("Event Socket authentication failed")
+
             sock.sendall(
-                b"event plain CHANNEL_CREATE CHANNEL_STATE CHANNEL_CALLSTATE "
-                b"CHANNEL_PROGRESS CHANNEL_PROGRESS_MEDIA CHANNEL_ANSWER "
-                b"CHANNEL_BRIDGE CHANNEL_UNBRIDGE CHANNEL_HANGUP_COMPLETE\n\n"
+                b"event plain CHANNEL_CREATE CHANNEL_STATE CHANNEL_CALLSTATE CHANNEL_PROGRESS CHANNEL_PROGRESS_MEDIA CHANNEL_ANSWER CHANNEL_BRIDGE CHANNEL_UNBRIDGE CHANNEL_HANGUP_COMPLETE\n\n"
             )
             headers, _ = read_frame(stream)
             reply = headers.get("reply-text", "") if headers else ""
             if not reply.startswith("+OK"):
                 raise RuntimeError("Event subscription failed")
+
             print("Connected to FreeSWITCH; listening for call events", flush=True)
+
             while True:
                 headers, body = read_frame(stream)
                 if headers is None:
                     raise RuntimeError("Event Socket disconnected")
                 if headers.get("content-type") != "text/event-plain":
                     continue
+
                 event_data = parse_event(body)
                 event_name = event_data.get("Event-Name", "")
                 call_uuid = event_data.get("Unique-ID")
                 if not call_uuid:
                     continue
+
                 stamp = utc_now()
                 answered_at = stamp if event_name == "CHANNEL_ANSWER" else None
                 ended_at = stamp if event_name == "CHANNEL_HANGUP_COMPLETE" else None
+
                 db.execute("""
                     INSERT INTO calls (
                         uuid, first_seen, last_seen, direction, caller,
@@ -235,14 +418,40 @@ def main():
                         billsec=COALESCE(excluded.billsec, billsec),
                         last_event=excluded.last_event
                 """, (
-                    call_uuid, stamp, stamp, event_data.get("variable_direction"),
+                    call_uuid, stamp, stamp,
+                    event_data.get("variable_direction"),
                     event_data.get("Caller-Caller-ID-Number"),
                     event_data.get("Caller-Destination-Number"),
-                    event_data.get("Caller-Context"), event_data.get("Channel-Name"),
-                    event_data.get("variable_sip_call_id"), answered_at, ended_at,
-                    event_data.get("Hangup-Cause"), event_data.get("variable_duration"),
-                    event_data.get("variable_billsec"), event_name,
+                    event_data.get("Caller-Context"),
+                    event_data.get("Channel-Name"),
+                    event_data.get("variable_sip_call_id"),
+                    answered_at, ended_at,
+                    event_data.get("Hangup-Cause"),
+                    event_data.get("variable_duration"),
+                    event_data.get("variable_billsec"),
+                    event_name
                 ))
+
+                is_original = (
+                    event_name == "CHANNEL_CREATE"
+                    and event_data.get("Call-Direction") == "inbound"
+                    and is_ticketdepart_did(event_data.get("Caller-Destination-Number"))
+                    and event_data.get("Caller-Context") == "public"
+                    and event_data.get("Channel-Name", "").startswith("sofia/external/")
+                )
+                parent_uuid = event_data.get("Channel-Call-UUID") or event_data.get("variable_call_uuid")
+                originating_uuid = event_data.get("variable_originating_leg_uuid") or event_data.get("variable_call_uuid") or event_data.get("Channel-Call-UUID")
+
+                if parent_uuid == call_uuid:
+                    parent_uuid = None
+                if originating_uuid == call_uuid:
+                    originating_uuid = None
+                db.execute(
+                    "UPDATE calls SET original_destination=COALESCE(original_destination, ?), "
+                    "parent_uuid=COALESCE(parent_uuid, ?), "
+                    "originating_leg_uuid=COALESCE(originating_leg_uuid, ?) WHERE uuid=?",
+                    ("+1-888-564-9049" if is_original else None, parent_uuid, originating_uuid, call_uuid)
+                )
                 db.execute("""
                     INSERT INTO call_events(event_time, event_name, uuid, details)
                     VALUES (?, ?, ?, ?)
@@ -250,6 +459,8 @@ def main():
                 db.commit()
                 print("Saved " + event_name + " for call " + call_uuid, flush=True)
                 queue_ringing_event(db, event_data)
+                queue_answered_event(db, event_data)
+
         except Exception as exc:
             print("Collector connection issue: " + str(exc), flush=True)
             time.sleep(5)
@@ -262,6 +473,6 @@ def main():
             except Exception:
                 pass
 
-
 if __name__ == "__main__":
     main()
+[exit 0]
