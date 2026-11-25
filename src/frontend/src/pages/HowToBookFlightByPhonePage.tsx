@@ -119,7 +119,7 @@ export function HowToBookFlightByPhonePage() {
 
           <p className="mt-5 flex items-center gap-2 text-sm text-muted-foreground">
             <Phone aria-hidden="true" className="size-4 text-accent" />
-            {SITE.hours} · {phone.display}
+            {SITE.hours} · {phone.ready ? phone.display : "Preparing call number…"}
           </p>
         </div>
       </Section>
