@@ -527,7 +527,7 @@ describe("call-tracker DNI DID assignment", () => {
       headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
       body: JSON.stringify({
         call_uuid: "d6baf5d7-c2e7-4f37-9cc9-6f0e37e01b89",
-        destination: "+1-888-555-0123",
+        destination: "+1-202-555-0123",
         agent_extension: "1001",
         ringing_at: new Date().toISOString().replace("Z", "+00:00"),
       }),
@@ -550,7 +550,7 @@ describe("call-tracker DNI DID assignment", () => {
       expires_at: expires,
       clickflare_click_id: "cf-click-cf",
     });
-    db.trackingDids.add("18885550124");
+    db.trackingDids.add("12025550124");
     const assignmentResponse = await worker.fetch(new Request("https://tracker.example/dni/assign", {
       method: "POST",
       headers: { "content-type": "text/plain" },
@@ -566,7 +566,7 @@ describe("call-tracker DNI DID assignment", () => {
         headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
         body: JSON.stringify({
           call_uuid: callUuid,
-          destination: "+1-888-555-0124",
+          destination: "+1-202-555-0124",
           agent_extension: "1001",
           ringing_at: new Date().toISOString(),
         }),
