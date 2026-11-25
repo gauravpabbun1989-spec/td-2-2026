@@ -44,3 +44,6 @@ CREATE TABLE IF NOT EXISTS clickflare_conversions (
 );
 CREATE INDEX IF NOT EXISTS idx_clickflare_conversions_retry
   ON clickflare_conversions(status,next_retry_at);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_did_assignments_one_active_click
+  ON did_assignments(trafficstars_click_id,clickflare_click_id) WHERE status='active';
