@@ -529,7 +529,7 @@ describe("call-tracker DNI DID assignment", () => {
         call_uuid: "d6baf5d7-c2e7-4f37-9cc9-6f0e37e01b89",
         destination: "+1-888-555-0123",
         agent_extension: "1001",
-        ringing_at: new Date().toISOString(),
+        ringing_at: new Date().toISOString().replace("Z", "+00:00"),
       }),
     }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
     expect(ringing.status).toBe(202);
