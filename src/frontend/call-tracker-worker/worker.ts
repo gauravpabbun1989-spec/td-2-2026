@@ -606,6 +606,10 @@ export default {
 
       const now = new Date();
       const nowIso = now.toISOString();
+      if (!clickFlareId) {
+        return json({ error: "missing_or_invalid_clickflare_click_id" }, 422);
+      }
+
       const existingClick = await env.DB.prepare(
         "SELECT click_id, expires_at, clickflare_click_id FROM traffic_clicks WHERE click_id=?",
       )
@@ -614,15 +618,18 @@ export default {
 
       let clickRegistered = false;
       if (existingClick) {
-        if (clickFlareId && !existingClick.clickflare_click_id) {
-          await env.DB.prepare("UPDATE traffic_clicks SET clickflare_click_id=? WHERE click_id=?")
-            .bind(clickFlareId, clickId).run();
-        }
         if (
           !validTime(existingClick.expires_at) ||
           Date.parse(existingClick.expires_at) < now.getTime()
         ) {
           return json({ error: "unknown_or_expired_click_id" }, 404);
+        }
+        if (existingClick.clickflare_click_id && existingClick.clickflare_click_id !== clickFlareId) {
+          return json({ error: "click_attribution_pair_mismatch" }, 409);
+        }
+        if (!existingClick.clickflare_click_id) {
+          await env.DB.prepare("UPDATE traffic_clicks SET clickflare_click_id=? WHERE click_id=?")
+            .bind(clickFlareId, clickId).run();
         }
       } else {
         // Older site builds sent /intent without first calling /click. Register
@@ -669,6 +676,15 @@ export default {
           )
           .run();
         clickRegistered = true;
+      }
+
+      // Re-read after insert/update to protect against concurrent registration
+      // of the same TrafficStars click ID with a different ClickFlare ID.
+      const persistedClick = await env.DB.prepare(
+        "SELECT clickflare_click_id FROM traffic_clicks WHERE click_id=?",
+      ).bind(clickId).first<{ clickflare_click_id: string | null }>();
+      if (persistedClick?.clickflare_click_id !== clickFlareId) {
+        return json({ error: "click_attribution_pair_mismatch" }, 409);
       }
 
       const rawPagePath = String(body.page_path || "/").slice(0, 512);
