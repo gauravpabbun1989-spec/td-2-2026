@@ -1,12 +1,14 @@
-import { SITE } from "@/lib/site";
 import { capturePaidClickAttribution } from "@/lib/click-attribution";
+import { SITE } from "@/lib/site";
 
-const TRACKER_BASE_URL = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev";
-const CLICK_ENDPOINT = TRACKER_BASE_URL + "/click";
+const TRACKER_BASE_URL =
+  "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev";
+const CLICK_ENDPOINT = `${TRACKER_BASE_URL}/click`;
 
 type CallPhone = { href: string; display: string; ready: true };
 
-let clickRecordPromise: { key: string; promise: Promise<boolean> } | null = null;
+let clickRecordPromise: { key: string; promise: Promise<boolean> } | null =
+  null;
 
 /** Save the paired paid-click identifiers server-side; no additional phone numbers are allocated. */
 export function recordTrafficClickIfNeeded(): Promise<boolean> {
@@ -31,10 +33,14 @@ export function recordTrafficClickIfNeeded(): Promise<boolean> {
     cache: "no-store",
     keepalive: true,
     referrerPolicy: "no-referrer",
-  }).then((response) => response.ok).catch(() => false).then((ok) => {
-    if (!ok && clickRecordPromise?.key === requestKey) clickRecordPromise = null;
-    return ok;
-  });
+  })
+    .then((response) => response.ok)
+    .catch(() => false)
+    .then((ok) => {
+      if (!ok && clickRecordPromise?.key === requestKey)
+        clickRecordPromise = null;
+      return ok;
+    });
   clickRecordPromise = { key: requestKey, promise };
   return promise;
 }
