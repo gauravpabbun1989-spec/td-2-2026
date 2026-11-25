@@ -197,7 +197,10 @@ def extract_called_did(event_data):
         value = lowered.get(key)
         if not value:
             continue
-        match = re.search(r"(?<!\d)(?:\+?1)?\d{10}(?!\d)|(?<!\d)\d{7}(?!\d)", str(value))
+        match = re.search(
+            r"(?<!\d)(?:\+?1[\s().-]*)?(?:\(\d{3}\)|\d{3})[\s().-]*\d{3}[\s().-]*\d{4}(?!\d)|(?<!\d)\d{7}(?!\d)",
+            str(value),
+        )
         if match:
             digits = re.sub(r"\D", "", match.group(0))
             if is_ticketdepart_did(digits):
