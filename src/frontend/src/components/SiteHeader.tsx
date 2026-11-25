@@ -82,7 +82,7 @@ export function SiteHeader() {
         <div className="flex shrink-0 items-center gap-2">
           <a
             href={phone.ready ? phone.href : undefined}
-            aria-label={phone.ready ? `Call TicketDepart at ${phone.ready ? phone.display : "Preparing…"}` : "Preparing call number"}
+            aria-label={phone.ready ? `Call TicketDepart at ${phone.display}` : "Preparing call number"}
             aria-disabled={!phone.ready}
             aria-busy={!phone.ready}
             data-ocid="header.call_button"
@@ -91,7 +91,7 @@ export function SiteHeader() {
           >
             <Phone aria-hidden="true" className="size-3.5 shrink-0 sm:size-4" />
             <span>Call</span>
-            <span className="hidden whitespace-nowrap sm:inline">{phone.display}</span>
+            <span className="hidden whitespace-nowrap sm:inline">{phone.ready ? phone.display : "Preparing…"}</span>
           </a>
           <button
             type="button"
