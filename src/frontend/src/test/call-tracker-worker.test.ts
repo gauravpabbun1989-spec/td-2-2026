@@ -319,7 +319,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     });
     expect(db.ringingEvents.get(callUuid)).toMatchObject({
       click_id: null, attribution_status: "unmatched",
-      attribution_method: "no_verified_click_transport",
+      attribution_method: "no_active_did_assignment",
     });
     expect(db.intents.get("intent-ring-1")?.status).toBe("open");
   });
