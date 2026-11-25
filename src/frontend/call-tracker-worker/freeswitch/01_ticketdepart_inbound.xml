@@ -1,7 +1,7 @@
 <include>
   <extension name="ticketdepart_telxio_inbound">
     <!-- Keep the TicketDepart route scoped to the registered Telxio gateway. -->
-    <condition field="variable_sip_gateway" expression="^telxio$">
+    <condition field="${sip_gateway}" expression="^telxio$">
       <!-- Current public DID plus the Telxio SIP-side inbound alias. -->
       <condition field="destination_number" expression="^(?:1030605|\+?1?8885649049)$">
         <action application="transfer" data="1001 XML default"/>

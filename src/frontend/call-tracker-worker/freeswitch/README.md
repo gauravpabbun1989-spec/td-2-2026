@@ -4,7 +4,7 @@ Source-controlled copy of the production FreeSWITCH ESL collector and TicketDepa
 
 ## Inbound routing
 
-The tracked dialplan include is `01_ticketdepart_inbound.xml`. It is scoped to the registered `telxio` SIP gateway and routes the current public DID `+1-888-564-9049` plus the provider-side inbound alias `1030605` to agent extension `1001`. The retired `+1-877-788-8010` number is deliberately excluded. The SIP registration username/auth username remains `1030605`; it is not the public phone number.
+The tracked dialplan include is `01_ticketdepart_inbound.xml`. It is scoped to the registered `telxio` SIP gateway and routes the current public DID `+1-888-564-9049` plus the provider-side inbound alias `1030605` to agent extension `1001`. The retired `+1-877-788-8010` number is deliberately excluded. The SIP registration username/auth username remains `1030605`; it is not the public phone number. The gateway condition uses the expanded channel variable `${sip_gateway}`; FreeSWITCH event headers expose the same variable with a `variable_` prefix, but that event-header name is not a dialplan field.
 
 If Telxio places each called DID in the SIP Request-URI, add each provisioned tracking DID to this destination allowlist before enabling it in the Cloudflare D1 `tracking_dids` table. If Telxio instead keeps the trunk alias in Request-URI and provides the original DID in a called-party header, the existing `1030605` route is sufficient. Do not route arbitrary toll-free numbers to the agent.
 
