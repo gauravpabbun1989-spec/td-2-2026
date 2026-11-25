@@ -146,7 +146,7 @@ describe("GA4 phone_click payload contract", () => {
     const calls = installGtag();
     const fetchMock = vi.fn().mockResolvedValue({ type: "opaque" });
     vi.stubGlobal("fetch", fetchMock);
-    window.history.replaceState({}, "", "/?click_id=td-click-456&banner_id=8369514");
+    window.history.replaceState({}, "", "/?click_id=td-click-456&cf_click_id=cf-click-456&banner_id=8369514");
     const { analytics } = await loadAnalytics();
 
     // Simulate a browser/session transition where sessionStorage was cleared
@@ -156,6 +156,10 @@ describe("GA4 phone_click payload contract", () => {
     window.sessionStorage.removeItem("ticketdepart_trafficstars_banner_id");
     window.localStorage.setItem("ticketdepart_traffic_click", JSON.stringify({
       clickId: "td-click-456",
+      expiresAt: Date.now() + 60_000,
+    }));
+    window.localStorage.setItem("ticketdepart_clickflare_click", JSON.stringify({
+      clickFlareId: "cf-click-456",
       expiresAt: Date.now() + 60_000,
     }));
     window.history.replaceState({}, "", "/flight-change/");
@@ -174,6 +178,7 @@ describe("GA4 phone_click payload contract", () => {
     const payload = JSON.parse(String(init.body));
     expect(payload).toMatchObject({
       click_id: "td-click-456",
+      clickflare_click_id: "cf-click-456",
       page_path: "/flight-change",
       cta_location: "header",
     });
