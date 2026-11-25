@@ -33,6 +33,10 @@ class FakeD1 {
         if (sql.startsWith("SELECT click_id, expires_at FROM traffic_clicks")) {
           return (db.clicks.get(String(values[0])) || null) as T | null;
         }
+        if (sql.startsWith("SELECT clickflare_click_id FROM traffic_clicks")) {
+          const row = db.clicks.get(String(values[0]));
+          return (row ? { clickflare_click_id: row.clickflare_click_id ?? null } : null) as T | null;
+        }
         if (sql.startsWith("SELECT did FROM tracking_dids WHERE did=?")) {
           const did = String(values[0]);
           return (db.trackingDids.has(did) ? { did } : null) as T | null;
