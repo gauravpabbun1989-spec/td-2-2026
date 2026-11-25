@@ -8,5 +8,5 @@
       </condition>
     </condition>
   </extension>
-  <!-- Add each provisioned DNI tracking DID to the destination allowlist before enabling it in D1. -->
+  <!-- If the provider places a tracking DID in Request-URI, add it to this allowlist. A called-party header with the trunk alias can use the existing 1030605 route. -->
 </include>
