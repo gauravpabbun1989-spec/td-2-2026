@@ -25,7 +25,7 @@ function formatDid(did: string): string | null {
 
 function getClickIds() {
   const params = new URLSearchParams(window.location.search);
-  const clickIdFromUrl = normalizeClickId(params.get("click_id"));
+  const clickIdFromUrl = normalizeClickId(params.get("click_id") || params.get("externalid") || params.get("external_id"));
   let clickId = clickIdFromUrl;
   if (!clickId) {
     try {
@@ -42,8 +42,7 @@ function getClickIds() {
   }
 
   const incomingClickFlareId = normalizeClickId(
-    params.get("externalId") || params.get("externalid") ||
-    params.get("external_id") || params.get("cf_click_id"),
+    params.get("cf_click_id"),
   );
   let clickFlareId = incomingClickFlareId;
   try {
