@@ -191,9 +191,11 @@ async function sendRingingPostback(
   if (event.attribution_status !== "verified" || !["signed_call_session", "dni_did"].includes(event.attribution_method || "") || !event.click_id) return { sent: false, status: "unattributed" };
   if (env.TRAFFICSTARS_POSTBACK_ENABLED !== "true" || !env.TRAFFICSTARS_POSTBACK_KEY) return { sent: false, status: "disabled" };
   const prior = await env.DB.prepare(
-    "SELECT postback_status,postback_attempt_count FROM call_ringing_events WHERE call_uuid=?",
-  ).bind(event.call_uuid).first<{ postback_status: string; postback_attempt_count: number }>();
+    "SELECT postback_status,postback_attempt_count,postback_next_retry_at FROM call_ringing_events WHERE call_uuid=?",
+  ).bind(event.call_uuid) .first<{ postback_status: string; postback_attempt_count: number; postback_next_retry_at: string | null }>();
   if (prior?.postback_status === "sent") return { sent: false, status: "already_sent" };
+  if (prior?.postback_status === "rejected") return { sent: false, status: "rejected" };
+  if (prior?.postback_status === "failed" && prior.postback_next_retry_at && Date.parse(prior.postback_next_retry_at) > Date.now()) return { sent: false, status: "failed" };
   const attempt = Number(prior?.postback_attempt_count || 0) + 1;
   if (attempt > MAX_POSTBACK_ATTEMPTS) return { sent: false, status: "failed" };
   const endpoint = new URL("https://tsyndicate.com/api/v2/cpa/action");
@@ -269,9 +271,11 @@ async function sendClickFlarePostback(
   ).bind(crypto.randomUUID(), event.call_uuid, event.clickflare_click_id, CALL_PAYOUT_USD, CLICKFLARE_CONVERSION_TYPE).run();
 
   const prior = await env.DB.prepare(
-    "SELECT status,attempt_count FROM clickflare_conversions WHERE call_uuid=?",
-  ).bind(event.call_uuid).first<{ status: string; attempt_count: number }>();
+    "SELECT status,attempt_count,next_retry_at FROM clickflare_conversions WHERE call_uuid=?",
+  ).bind(event.call_uuid) .first<{ status: string; attempt_count: number; next_retry_at: string | null }>();
   if (prior?.status === "sent") return { sent: false, status: "already_sent" };
+  if (prior?.status === "rejected") return { sent: false, status: "rejected" };
+  if (prior?.status === "failed" && prior.next_retry_at && Date.parse(prior.next_retry_at) > Date.now()) return { sent: false, status: "failed" };
   const attempt = Number(prior?.attempt_count || 0) + 1;
   if (attempt > MAX_POSTBACK_ATTEMPTS) return { sent: false, status: "failed" };
 
