@@ -42,6 +42,12 @@ class FakeD1 {
         if (sql.startsWith("SELECT status,attempt_count,next_retry_at FROM clickflare_conversions")) {
           return (db.clickflareConversions.get(String(values[0])) || null) as T | null;
         }
+        if (sql.startsWith("SELECT accepted,acceptance_reason,attribution_status FROM inbound_calls")) {
+          return (db.calls.get(String(values[0])) || null) as T | null;
+        }
+        if (sql.startsWith("SELECT call_uuid,clickflare_click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events")) {
+          return (db.ringingEvents.get(String(values[0])) || null) as T | null;
+        }
         if (sql.startsWith("SELECT call_uuid FROM call_ringing_events WHERE ringing_at>=")) {
           const [from, through, exceptUuid] = values;
           const row = [...db.ringingEvents.values()].find((item) =>
@@ -131,6 +137,10 @@ class FakeD1 {
             row.status = "candidate";
             row.matched_call_uuid = String(callUuid);
           }
+        } else if (sql.startsWith("UPDATE call_intents SET status='converted'")) {
+          const [intentId, callUuid] = values;
+          const row = db.intents.get(String(intentId));
+          if (row?.matched_call_uuid === String(callUuid)) row.status = "converted";
         } else if (sql.startsWith("INSERT INTO clickflare_conversions")) {
           const [conversionId, callUuid, clickFlareId, payout, conversionType] = values;
           if (!db.clickflareConversions.has(String(callUuid))) {
@@ -475,7 +485,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     expect(db.intents.get("intent-ring-1")?.status).toBe("open");
   });
 
-  it("sends a postback only for a verified signed call session and preserves TrafficStars campaign pricing", async () => {
+  it("defers every advertiser postback until the call is answered", async () => {
     const db = new FakeD1();
     db.ringingEvents.set(callUuid, {
       call_uuid: callUuid,
@@ -483,14 +493,13 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
       agent_extension: "1001",
       ringing_at: "2026-11-21T16:42:10.000Z",
       goal_id: "6487",
-      click_id: "traffic-click-verified",
-      attribution_status: "verified",
-      attribution_method: "signed_call_session",
-      matched_intent_id: "intent-signed-1",
-      postback_status: "not_sent",
-      postback_attempt_count: 0,
+      click_id: "traffic-click-ring",
+      clickflare_click_id: "cf-click-ring",
+      attribution_status: "candidate",
+      attribution_method: "single_number_unique_intent_window",
+      matched_intent_id: "intent-ring-123",
     });
-    const fetchMock = vi.fn().mockResolvedValue(new Response("ok", { status: 200 }));
+    const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
     try {
       const response = await worker.fetch(new Request("https://tracker.example/v1/calls/ringing", {
@@ -505,26 +514,24 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
         CALL_INGEST_SECRET: "test-secret",
         TRAFFICSTARS_POSTBACK_ENABLED: "true",
         TRAFFICSTARS_POSTBACK_KEY: "test-postback-key",
+        CLICKFLARE_POSTBACK_ENABLED: "true",
       });
-
       expect(response.status).toBe(202);
-      expect(await response.json()).toMatchObject({ attribution: "verified", attribution_method: "signed_call_session", postback_sent: true, postback_status: "sent" });
-      expect(fetchMock).toHaveBeenCalledTimes(1);
-      const postbackUrl = new URL(String(fetchMock.mock.calls[0][0]));
-      expect(postbackUrl.origin + postbackUrl.pathname).toBe("https://tsyndicate.com/api/v2/cpa/action");
-      expect(postbackUrl.searchParams.get("clickid")).toBe("traffic-click-verified");
-      expect(postbackUrl.searchParams.get("goalid")).toBe("6487");
-      expect(postbackUrl.searchParams.get("lead_code")).toBe(callUuid);
-      expect(postbackUrl.searchParams.get("key")).toBe("test-postback-key");
-      expect(postbackUrl.searchParams.has("price")).toBe(false);
-      expect(postbackUrl.searchParams.has("value")).toBe(false);
-      expect(db.ringingEvents.get(callUuid)).toMatchObject({ postback_status: "sent", postback_attempt_count: 1 });
+      expect(await response.json()).toMatchObject({
+        attribution: "candidate",
+        postback_sent: false,
+        postback_status: "deferred_until_answered",
+        clickflare_postback_sent: false,
+        clickflare_postback_status: "deferred_until_answered",
+      });
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(db.clickflareConversions.size).toBe(0);
     } finally {
       vi.unstubAllGlobals();
     }
   });
 
-  it("retries due failed postbacks on the scheduled handler with the same call UUID", async () => {
+  it("does not retry direct TrafficStars callbacks because delivery is delegated to ClickFlare", async () => {
     const db = new FakeD1();
     db.ringingEvents.set(callUuid, { call_uuid: callUuid, click_id: "traffic-click-retry", attribution_status: "candidate", attribution_method: "unique_intent_time_window", postback_status: "failed", postback_attempt_count: 1, postback_next_retry_at: "2020-01-01T00:00:00.000Z" });
     const fetchMock = vi.fn().mockResolvedValue(new Response("ok", { status: 200 }));
@@ -538,7 +545,7 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     } finally { vi.unstubAllGlobals(); }
   });
 
-  it("restricts ClickFlare retry queries to verified provider click-reference attribution", async () => {
+  it("restricts ClickFlare retries to unique single-number intent attribution", async () => {
     const db = new FakeD1();
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
@@ -551,8 +558,8 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
       );
       await scheduledWork;
       const query = db.statements.find((statement) => statement.startsWith("SELECT c.call_uuid,c.clickflare_click_id,r.attribution_status,r.attribution_method FROM clickflare_conversions"));
-      expect(query).toContain("r.attribution_status='verified'");
-      expect(query).toContain("r.attribution_method='telxio_click_reference'");
+      expect(query).toContain("r.attribution_status='candidate'");
+      expect(query).toContain("r.attribution_method='single_number_unique_intent_window'");
       expect(fetchMock).not.toHaveBeenCalled();
     } finally {
       vi.unstubAllGlobals();
@@ -674,9 +681,9 @@ describe("single public-number safeguards", () => {
         attribution: "unmatched",
         attribution_method: "no_verified_click_transport",
         postback_sent: false,
-        postback_status: "unattributed",
+        postback_status: "deferred_until_answered",
         clickflare_postback_sent: false,
-        clickflare_postback_status: "unattributed",
+        clickflare_postback_status: "deferred_until_answered",
       });
       expect(fetchMock).not.toHaveBeenCalled();
       expect(db.clickflareConversions.size).toBe(0);
@@ -713,7 +720,7 @@ describe("call-tracker single-number intent candidates", () => {
       expect(await response.json()).toMatchObject({
         click_id: "traffic-click-paid", clickflare_click_id: "cf-click-paid",
         attribution: "candidate", attribution_method: "single_number_unique_intent_window",
-        clickflare_postback_sent: false, clickflare_postback_status: "unattributed",
+        clickflare_postback_sent: false, clickflare_postback_status: "deferred_until_answered",
       });
       expect(db.intents.get("intent-paid-123")).toMatchObject({ status: "candidate", matched_call_uuid: callUuid });
       expect(db.calls.get(callUuid)).toMatchObject({
@@ -723,6 +730,67 @@ describe("call-tracker single-number intent candidates", () => {
       expect(fetchMock).not.toHaveBeenCalled();
       expect(db.clickflareConversions.size).toBe(0);
     } finally { vi.unstubAllGlobals(); }
+  });
+
+  it("sends one ClickFlare conversion when the matched call is answered", async () => {
+    const db = new FakeD1();
+    db.calls.set(callUuid, {
+      call_uuid: callUuid, accepted: 1, acceptance_reason: "agent_leg_ringing",
+      attribution_status: "candidate", answered_at: null,
+    });
+    db.ringingEvents.set(callUuid, {
+      call_uuid: callUuid, destination: "+1-888-564-9049", agent_extension: "1001",
+      ringing_at: "2026-11-21T16:42:10.000Z", click_id: "traffic-click-paid",
+      clickflare_click_id: "cf-click-paid", attribution_status: "candidate",
+      attribution_method: "single_number_unique_intent_window", matched_intent_id: "intent-paid-123",
+    });
+    db.intents.set("intent-paid-123", {
+      intent_id: "intent-paid-123", click_id: "traffic-click-paid",
+      created_at: "2026-11-21T16:41:30.000Z", status: "candidate", matched_call_uuid: callUuid,
+    });
+    const fetchMock = vi.fn().mockResolvedValue(new Response("ok", { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const sendAnswer = () => worker.fetch(new Request("https://tracker.example/v1/calls/answered", {
+      method: "POST",
+      headers: { authorization: "Bearer test-secret", "content-type": "application/json" },
+      body: JSON.stringify({
+        call_uuid: callUuid, destination: "+1-888-564-9049", agent_extension: "1001",
+        created_at: "2026-11-21T16:42:00.000Z", answered_at: "2026-11-21T16:42:20.000Z",
+      }),
+    }), {
+      DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret",
+      CLICKFLARE_POSTBACK_ENABLED: "true",
+    });
+    try {
+      const first = await sendAnswer();
+      expect(first.status).toBe(202);
+      expect(await first.json()).toMatchObject({
+        event_type: "agent_answered", conversion_stage: "answered", billable: true,
+        attribution: "candidate", attribution_method: "single_number_unique_intent_window",
+        clickflare_postback_sent: true,
+        trafficstars_postback_status: "delegated_to_clickflare_source_postback",
+        advertiser_conversion_created: true,
+      });
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      const callback = new URL(String(fetchMock.mock.calls[0][0]));
+      expect(callback.origin + callback.pathname).toBe("https://globalvisitlog.com/cf/cv");
+      expect(callback.searchParams.get("click_id")).toBe("cf-click-paid");
+      expect(callback.searchParams.get("payout")).toBe("15");
+      expect(callback.searchParams.get("txid")).toBe(callUuid);
+      expect(callback.searchParams.get("ct")).toBe("call");
+      expect(db.clickflareConversions.get(callUuid)).toMatchObject({ status: "sent", attempt_count: 1 });
+      expect(db.intents.get("intent-paid-123")?.status).toBe("converted");
+
+      const duplicate = await sendAnswer();
+      expect(duplicate.status).toBe(202);
+      expect(await duplicate.json()).toMatchObject({
+        clickflare_postback_sent: false, clickflare_postback_status: "already_sent",
+        advertiser_conversion_created: true,
+      });
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it("does not match when another inbound ring happened after the paid phone intent", async () => {
@@ -786,7 +854,7 @@ describe("call-tracker single-number intent candidates", () => {
       }),
     }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret", CLICKFLARE_POSTBACK_ENABLED: "true" });
     expect(response.status).toBe(202);
-    expect(await response.json()).toMatchObject({ attribution: "unmatched", clickflare_postback_status: "unattributed" });
+    expect(await response.json()).toMatchObject({ attribution: "unmatched", clickflare_postback_status: "deferred_until_answered" });
     expect(db.ringingEvents.get("4d7c2a1f-2e4a-4f3e-a5d8-1a2b3c4d5e6f")).toMatchObject({ destination: "18885649049" });
     expect(db.clickflareConversions.size).toBe(0);
   });

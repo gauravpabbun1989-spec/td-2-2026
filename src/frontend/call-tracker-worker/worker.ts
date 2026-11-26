@@ -303,11 +303,13 @@ async function sendClickFlarePostback(
   env: CallTrackerEnv,
   event: { call_uuid: string; clickflare_click_id: string | null; attribution_status: string; attribution_method?: string | null },
 ): Promise<ClickFlarePostbackResult> {
-  // A shared public number cannot verify a browser click by itself.
-  // Only a provider-supplied per-call click reference may authorize a conversion.
-  const verifiedProviderClickReference =
-    event.attribution_status === "verified" && event.attribution_method === "telxio_click_reference";
-  if (!verifiedProviderClickReference || !event.clickflare_click_id) {
+  // Approved shared-number attribution: only a unique, unclaimed website call intent
+  // reserved to this exact FreeSWITCH call UUID may create a conversion.
+  // Ambiguous and unmatched calls never post back.
+  const uniqueIntentMatch =
+    event.attribution_status === "candidate" &&
+    event.attribution_method === "single_number_unique_intent_window";
+  if (!uniqueIntentMatch || !event.clickflare_click_id) {
     return { sent: false, status: "unattributed" };
   }
   if (env.CLICKFLARE_POSTBACK_ENABLED !== "true") return { sent: false, status: "disabled" };
@@ -364,7 +366,7 @@ async function sendClickFlarePostback(
 async function retryFailedClickFlarePostbacks(env: CallTrackerEnv) {
   if (env.CLICKFLARE_POSTBACK_ENABLED !== "true") return { checked: 0, sent: 0, failed: 0 };
   const due = await env.DB.prepare(
-    "SELECT c.call_uuid,c.clickflare_click_id,r.attribution_status,r.attribution_method FROM clickflare_conversions c JOIN call_ringing_events r USING(call_uuid) WHERE c.status='failed' AND r.attribution_status='verified' AND r.attribution_method='telxio_click_reference' AND c.next_retry_at IS NOT NULL AND c.next_retry_at<=? AND c.attempt_count<? ORDER BY c.next_retry_at ASC LIMIT 25",
+    "SELECT c.call_uuid,c.clickflare_click_id,r.attribution_status,r.attribution_method FROM clickflare_conversions c JOIN call_ringing_events r USING(call_uuid) WHERE c.status='failed' AND r.attribution_status='candidate' AND r.attribution_method='single_number_unique_intent_window' AND c.next_retry_at IS NOT NULL AND c.next_retry_at<=? AND c.attempt_count<? ORDER BY c.next_retry_at ASC LIMIT 25",
   ).bind(new Date().toISOString(), MAX_POSTBACK_ATTEMPTS).all<{
     call_uuid: string; clickflare_click_id: string; attribution_status: string; attribution_method: string | null;
   }>();
@@ -384,7 +386,9 @@ export default {
     env: CallTrackerEnv,
     context: { waitUntil(promise: Promise<unknown>): void },
   ) {
-    context.waitUntil(Promise.all([retryFailedPostbacks(env), retryFailedClickFlarePostbacks(env)]));
+    // TrafficStars delivery is delegated through ClickFlare's configured source postback.
+    // Never send a second, direct TrafficStars callback from this Worker.
+    context.waitUntil(retryFailedClickFlarePostbacks(env));
   },
   async fetch(request: Request, env: CallTrackerEnv): Promise<Response> {
     const url = new URL(request.url);
@@ -780,27 +784,8 @@ export default {
         stored?.matched_intent_id || null, stored?.clickflare_click_id || null, stored?.did_assignment_id || null,
       ).run();
 
-      const postbackEvent = stored?.call_uuid ? {
-        call_uuid: stored.call_uuid,
-        attribution_status: stored.attribution_status || "unmatched",
-        attribution_method: stored.attribution_method || null,
-      } : null;
-      const [postback, clickflarePostback] = postbackEvent
-        ? await Promise.all([
-            sendRingingPostback(env, {
-              ...postbackEvent,
-              click_id: stored?.click_id || null,
-            }),
-            sendClickFlarePostback(env, {
-              ...postbackEvent,
-              clickflare_click_id: stored?.clickflare_click_id || null,
-            }),
-          ])
-        : [
-            { sent: false, status: "failed" as const },
-            { sent: false, status: "failed" as const },
-          ];
-
+      // Ringing is the billable milestone. Conversion delivery is deferred
+      // until this same call UUID is answered.
       return json({
         ok: true,
         conversion_event: "call_ringing",
@@ -812,10 +797,10 @@ export default {
         clickflare_click_id: stored?.clickflare_click_id || null,
         attribution: stored?.attribution_status || "unmatched",
         attribution_method: stored?.attribution_method || null,
-        postback_sent: postback.sent,
-        postback_status: postback.status,
-        clickflare_postback_sent: clickflarePostback.sent,
-        clickflare_postback_status: clickflarePostback.status,
+        postback_sent: false,
+        postback_status: "deferred_until_answered",
+        clickflare_postback_sent: false,
+        clickflare_postback_status: "deferred_until_answered",
       }, 202);
     }
 
@@ -848,14 +833,38 @@ export default {
       await env.DB.prepare(
         "UPDATE inbound_calls SET answered_at=COALESCE(answered_at,?) WHERE call_uuid=?",
       ).bind(answeredAt, callUuid).run();
+
+      const ringEvent = await env.DB.prepare(
+        "SELECT call_uuid,clickflare_click_id,attribution_status,attribution_method,matched_intent_id FROM call_ringing_events WHERE call_uuid=?",
+      ).bind(callUuid).first<{
+        call_uuid: string;
+        clickflare_click_id: string | null;
+        attribution_status: string;
+        attribution_method: string | null;
+        matched_intent_id: string | null;
+      }>();
+      const clickflarePostback = ringEvent
+        ? await sendClickFlarePostback(env, ringEvent)
+        : { sent: false, status: "unattributed" as const };
+      const conversionDelivered = clickflarePostback.sent || clickflarePostback.status === "already_sent";
+      if (conversionDelivered && ringEvent?.matched_intent_id) {
+        await env.DB.prepare(
+          "UPDATE call_intents SET status='converted' WHERE intent_id=? AND matched_call_uuid=?",
+        ).bind(ringEvent.matched_intent_id, callUuid).run();
+      }
       return json({
         ok: true,
         event_type: "agent_answered",
+        conversion_stage: "answered",
         billable: existing.accepted === 1,
         billable_reason: existing.acceptance_reason,
         call_uuid: callUuid,
-        attribution: existing.attribution_status || "unmatched",
-        advertiser_conversion_created: false,
+        attribution: ringEvent?.attribution_status || existing.attribution_status || "unmatched",
+        attribution_method: ringEvent?.attribution_method || null,
+        clickflare_postback_sent: clickflarePostback.sent,
+        clickflare_postback_status: clickflarePostback.status,
+        trafficstars_postback_status: conversionDelivered ? "delegated_to_clickflare_source_postback" : clickflarePostback.status,
+        advertiser_conversion_created: conversionDelivered,
       }, 202);
     }
 
