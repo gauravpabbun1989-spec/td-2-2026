@@ -137,10 +137,10 @@ class FakeD1 {
             row.status = "candidate";
             row.matched_call_uuid = String(callUuid);
           }
-        } else if (sql.startsWith("UPDATE call_intents SET status='converted'")) {
+        } else if (sql.startsWith("UPDATE call_intents SET status='reviewed'")) {
           const [intentId, callUuid] = values;
           const row = db.intents.get(String(intentId));
-          if (row?.matched_call_uuid === String(callUuid)) row.status = "converted";
+          if (row?.matched_call_uuid === String(callUuid)) row.status = "reviewed";
         } else if (sql.startsWith("INSERT INTO clickflare_conversions")) {
           const [conversionId, callUuid, clickFlareId, payout, conversionType] = values;
           if (!db.clickflareConversions.has(String(callUuid))) {
@@ -779,7 +779,7 @@ describe("call-tracker single-number intent candidates", () => {
       expect(callback.searchParams.get("txid")).toBe(callUuid);
       expect(callback.searchParams.get("ct")).toBe("call");
       expect(db.clickflareConversions.get(callUuid)).toMatchObject({ status: "sent", attempt_count: 1 });
-      expect(db.intents.get("intent-paid-123")?.status).toBe("converted");
+      expect(db.intents.get("intent-paid-123")?.status).toBe("reviewed");
 
       const duplicate = await sendAnswer();
       expect(duplicate.status).toBe(202);

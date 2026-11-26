@@ -849,7 +849,7 @@ export default {
       const conversionDelivered = clickflarePostback.sent || clickflarePostback.status === "already_sent";
       if (conversionDelivered && ringEvent?.matched_intent_id) {
         await env.DB.prepare(
-          "UPDATE call_intents SET status='converted' WHERE intent_id=? AND matched_call_uuid=?",
+          "UPDATE call_intents SET status='reviewed' WHERE intent_id=? AND matched_call_uuid=?",
         ).bind(ringEvent.matched_intent_id, callUuid).run();
       }
       return json({

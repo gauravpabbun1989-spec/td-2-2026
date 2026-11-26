@@ -5,7 +5,7 @@
   "compatibility_date": "2026-11-21",
   "workers_dev": true,
   "vars": {
-    "CLICKFLARE_POSTBACK_ENABLED": "false"
+    "CLICKFLARE_POSTBACK_ENABLED": "true"
   },
   "account_id": "5421346b1bf08e0583cb670e97887719",
   "d1_databases": [
