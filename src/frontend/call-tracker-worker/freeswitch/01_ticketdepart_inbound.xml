@@ -1,12 +1,9 @@
 <include>
   <extension name="ticketdepart_telxio_inbound">
-    <!-- Keep the TicketDepart route scoped to the registered Telxio gateway. -->
+    <!-- This Telxio gateway is dedicated to TicketDepart's sole public toll-free number. -->
     <condition field="${sip_gateway}" expression="^telxio$">
-      <!-- Current public DID plus the Telxio SIP-side inbound alias. -->
-      <condition field="destination_number" expression="^(?:1030605|\+?1?8885649049)$">
-        <action application="transfer" data="1001 XML default"/>
-      </condition>
+      <!-- Internal ring-monitor leg; never expose the internal extension to callers. -->
+      <action application="transfer" data="1001 XML default"/>
     </condition>
   </extension>
-  <!-- If the provider places a tracking DID in Request-URI, add it to this allowlist. A called-party header with the trunk alias can use the existing 1030605 route. -->
 </include>

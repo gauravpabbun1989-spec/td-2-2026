@@ -39,7 +39,7 @@ class RingingDetectorTests(unittest.TestCase):
             );
         """)
         self.inbound_uuid = "9ec7c8dc-d189-49ab-85f3-84cd165fe3c5"
-        self.did = "1030605"
+        self.did = "18885649049"
         self.add_inbound_create()
         self.event = {
             "Event-Name": "CHANNEL_CALLSTATE",
@@ -51,7 +51,7 @@ class RingingDetectorTests(unittest.TestCase):
             "Event-Date-Timestamp": "1795286559000000",
         }
 
-    def add_inbound_create(self, did=None):
+    def add_inbound_create(self, did=None, gateway=None):
         details = {
             "Unique-ID": self.inbound_uuid,
             "Call-Direction": "inbound",
@@ -59,6 +59,8 @@ class RingingDetectorTests(unittest.TestCase):
             "Caller-Context": "public",
             "Channel-Name": "sofia/external/provider-call",
         }
+        if gateway:
+            details["variable_sip_gateway"] = gateway
         self.db.execute(
             "INSERT INTO call_events(event_time,event_name,uuid,details) VALUES(?,?,?,?)",
             ("2026-11-25T04:00:00+00:00", "CHANNEL_CREATE", self.inbound_uuid, json.dumps(details)),
@@ -87,12 +89,47 @@ class RingingDetectorTests(unittest.TestCase):
         )
         self.assertEqual(send.call_count, 2)
 
-    def test_called_party_header_overrides_trunk_registration_alias(self):
+
+    def test_telxio_gateway_maps_to_the_single_public_toll_free_number(self):
+        self.db.execute("DELETE FROM call_events")
+        self.add_inbound_create("gw+telxio", gateway="telxio")
+        with patch.object(collector, "send_pending_ringing") as send:
+            collector.queue_ringing_event(self.db, self.event)
+        row = self.db.execute(
+            "SELECT destination FROM ringing_notifications WHERE call_uuid=?",
+            (self.inbound_uuid,),
+        ).fetchone()
+        self.assertEqual(row[0], self.did)
+        send.assert_called_once_with(self.db)
+
+    def test_other_gateway_does_not_inherit_the_ticketdepart_public_number(self):
+        self.db.execute("DELETE FROM call_events")
+        self.add_inbound_create("gateway-registration", gateway="other")
+        with patch.object(collector, "send_pending_ringing") as send:
+            collector.queue_ringing_event(self.db, self.event)
+        self.assertEqual(
+            self.db.execute("SELECT COUNT(*) FROM ringing_notifications").fetchone()[0],
+            0,
+        )
+        send.assert_not_called()
+
+    def test_non_public_internal_target_is_not_forwarded(self):
+        self.db.execute("DELETE FROM call_events")
+        self.add_inbound_create("internal-target")
+        with patch.object(collector, "send_pending_ringing") as send:
+            collector.queue_ringing_event(self.db, self.event)
+        self.assertEqual(
+            self.db.execute("SELECT COUNT(*) FROM ringing_notifications").fetchone()[0],
+            0,
+        )
+        send.assert_not_called()
+
+    def test_called_party_header_overrides_non_public_request_uri(self):
         self.db.execute("DELETE FROM call_events")
         details = {
             "Unique-ID": self.inbound_uuid,
             "Call-Direction": "inbound",
-            "Caller-Destination-Number": "1030605",
+            "Caller-Destination-Number": "internal-target",
             "Caller-Context": "public",
             "Channel-Name": "sofia/external/provider-call",
             "variable_sip_h_P-Called-Party-ID": "<sip:+1 (888) 564-9049@telxio.example>",
@@ -111,12 +148,12 @@ class RingingDetectorTests(unittest.TestCase):
         self.assertEqual(row[0], "18885649049")
         send.assert_called_once_with(self.db)
 
-    def test_rdnis_overrides_trunk_registration_alias(self):
+    def test_rdnis_overrides_non_public_request_uri(self):
         self.db.execute("DELETE FROM call_events")
         details = {
             "Unique-ID": self.inbound_uuid,
             "Call-Direction": "inbound",
-            "Caller-Destination-Number": "1030605",
+            "Caller-Destination-Number": "internal-target",
             "Caller-RDNIS": "+1 (888) 564-9049",
             "Caller-Context": "public",
             "Channel-Name": "sofia/external/provider-call",

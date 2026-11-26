@@ -19,21 +19,20 @@ class InboundDialplanTests(unittest.TestCase):
         self.assertEqual(condition.get("field"), "${sip_gateway}")
         self.assertEqual(condition.get("expression"), "^telxio$")
 
-    def test_only_current_ticketdepart_destinations_route_to_agent_1001(self):
+    def test_only_dedicated_telxio_gateway_routes_to_internal_ring_monitor(self):
         gateway_condition = self.extension.find("./condition")
-        destination_condition = gateway_condition.find("./condition")
-        self.assertIsNotNone(destination_condition)
-        self.assertEqual(destination_condition.get("field"), "destination_number")
-        pattern = destination_condition.get("expression")
-        self.assertTrue(re.fullmatch(pattern, "1030605"))
-        self.assertTrue(re.fullmatch(pattern, "18885649049"))
-        self.assertTrue(re.fullmatch(pattern, "+18885649049"))
-        self.assertFalse(re.fullmatch(pattern, "+18777888010"))
-        actions = destination_condition.findall("./action")
+        self.assertIsNotNone(gateway_condition)
+        self.assertEqual(gateway_condition.get("field"), "${sip_gateway}")
+        pattern = gateway_condition.get("expression")
+        self.assertTrue(re.fullmatch(pattern, "telxio"))
+        self.assertFalse(re.fullmatch(pattern, "other-provider"))
+        self.assertFalse(re.fullmatch(pattern, ""))
+        actions = gateway_condition.findall("./action")
         self.assertEqual(
             [(action.get("application"), action.get("data")) for action in actions],
             [("transfer", "1001 XML default")],
         )
+        self.assertIsNone(gateway_condition.find("./condition"))
 
 
 if __name__ == "__main__":
