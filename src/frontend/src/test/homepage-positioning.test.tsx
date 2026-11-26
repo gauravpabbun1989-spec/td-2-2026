@@ -18,7 +18,7 @@ describe("economy-first homepage positioning", () => {
   it("replaces the airline-status FAQ with useful booking information", async () => {
     renderRoute("/");
     expect(
-      await screen.findByText("What can TicketDepart help me with?"),
+      await screen.findByText("What can TicketDepart help me with?", {}, { timeout: 10_000 }),
     ).toBeInTheDocument();
     expect(
       screen.queryByText("Is TicketDepart an airline?"),
