@@ -4,34 +4,41 @@ Source-controlled copy of the production FreeSWITCH ESL collector and TicketDepa
 
 ## Inbound routing
 
-There is exactly one public TicketDepart DID: `+1-888-564-9049`. Telxio routes that DID into its internal ingress extension `1030605`; agent extension `1001` is the destination behind that ingress extension. `1030605` is **not** a second DID and must never be added to the Cloudflare `tracking_dids` pool. The caller dials only `+1-888-564-9049`.
+There is exactly one public TicketDepart number: **+1-888-564-9049**. The live FreeSWITCH event records show Telxio currently identifies inbound calls by the dedicated SIP gateway (variable_sip_gateway=telxio) and does not deliver the public called number in the INVITE Request-URI or called-party headers.
 
-The tracked dialplan include is `01_ticketdepart_inbound.xml`. It is scoped to the registered `telxio` SIP gateway and preserves the existing transfer from the public DID / Telxio ingress alias to agent extension `1001`. The retired `+1-877-788-8010` number is deliberately excluded. The SIP registration username/auth username remains `1030605`; it is an internal routing identity, not a public phone number. The gateway condition uses the expanded channel variable `${sip_gateway}`; FreeSWITCH event headers expose the same variable with a `variable_` prefix, but that event-header name is not a dialplan field.
+The dialplan therefore matches the Telxio gateway identity only. The collector maps calls from that dedicated gateway to the one configured public toll-free number before sending call metadata to the Worker. The internal account/authentication identifier is not used as a phone number, destination match, or tracking DID.
 
-For call records, the collector canonicalizes both the public DID and the internal alias to the single public DID `18885649049`. This keeps internal routing extensions out of the D1 DID field while preserving the exact route to agent `1001`.
+**Gateway exclusivity is a required invariant:** the Telxio gateway must be attached only to TicketDepart's single toll-free number **+1-888-564-9049**. Do not attach any other public number to this gateway. If another DID is added later, Telxio must provide the called number in SIP signalling or use a separate gateway before it can be routed safely.
 
-## Telxio webhook and call correlation
+The dialplan passes the call into the internal monitored agent leg. The collector watches that leg only to detect its first actual RINGING event, which records that the call landed. The internal extension is not a second public number, is never displayed, and is never dialed by customers. An answer event is recorded separately.
 
-The Telxio webhook is already enabled at the provider. The configured Worker endpoint is `POST /webhook/telxio/{token}`; it stores deduplicated provider event metadata and does not itself create conversions. FreeSWITCH remains the canonical source for the actual agent-1001 ringing event and call UUID.
+No test call was placed or is required for this source change. The live event data used to shape this mapping was read-only.
 
-The current production D1 audit showed no Telxio webhook deliveries received yet. On the next naturally occurring call, verify that the webhook reaches this endpoint and inspect whether its provider call identifier matches a stable FreeSWITCH field such as the SIP Call-ID. Do not generate a test call for this check. A provider call ID can correlate Telxio and FreeSWITCH records, but it only proves paid-click attribution if the provider also supplies a trustworthy link to the originating website click/session. Caller-ID or timestamp proximity alone is not verified attribution.
+## Ring, answer, and completed-call metadata
 
-## Single-number click attribution
+- The first confirmed ring on the internal monitored agent leg is the landed/accepted milestone.
+- The agent answering is a separate timestamp.
+- Hangup and final `billsec` are separate completion fields.
+- A ring-only call remains landed even if nobody answers; its billable duration may be zero.
+- `cloudflare_sync.py` updates metadata only. It does not create advertising conversions.
 
-The site captures both identifiers from the ClickFlare landing URL:
+The collector accepts only an inbound call whose original called number resolves to **+1-888-564-9049**. It does not reinterpret a private extension as the public DID.
 
-- `click_id`: the original TrafficStars click ID carried as ClickFlare External ID
-- `cf_click_id`: the unique ClickFlare visit ID
+## Telxio webhook and click attribution
 
-When a visitor taps a `tel:` link, the site sends a call-intent event containing both IDs. With one shared public DID, neither the internal extension `1030605` nor agent extension `1001` is a unique click identifier. A time-window match can be retained as a diagnostic candidate, but it is not proof that the PSTN caller is the browser visitor who tapped the link.
+The Telxio webhook is already enabled at the provider. The configured Worker endpoint is `POST /webhook/telxio/{token}`; it stores deduplicated provider event metadata and never creates conversions.
 
-There is no active tracking-DID pool in this configuration. Do not create extra caller-facing numbers, IVR prompts, keypad codes, or session codes. The remaining attribution work is to determine whether Telxio's existing webhook carries a provider-supported session/click reference that can be matched to the browser intent. If it does not, this single-number flow cannot honestly claim one-to-one paid-click attribution.
+On the next naturally occurring inbound call, verify webhook delivery and compare the provider call identifier with a stable FreeSWITCH SIP call identifier. A provider call ID alone does not establish which browser click produced the PSTN call. Verified paid-click attribution requires a provider-supported per-call click/session reference that can be linked to the website's TrafficStars click ID and ClickFlare visit ID. Caller ID and timestamp proximity alone are not sufficient.
 
-The accepted-call event remains the first actual ring offered to agent extension `1001`. Answer, hangup, and final `billsec` are stored separately by the existing one-minute metadata sync. A single-number time-window candidate is never sent as a paid conversion.
+## Single-number attribution
+
+The site records the TrafficStars click ID, ClickFlare visit ID, and phone-click intent. With one shared toll-free number, an intent that happens near a ringing event is only a diagnostic candidate. It is not a verified click-to-call match and is never sent as an advertising conversion.
+
+No tracking-number pool, rotating DID allocation, IVR, keypad code, or session code is used. ClickFlare and TrafficStars postbacks remain disabled until a verified per-call click reference is available and the user authorizes enabling them.
 
 ## Completed-call metadata sync
 
-`cloudflare_sync.py` is the source-controlled implementation of the existing one-minute sync job. It uploads only calls with a confirmed sent agent-ring event, a completed hangup timestamp, an inbound agent destination, and a SIP Call-ID. It keeps ring-only calls with `billsec=0` as accepted calls; answer and duration remain separate. Known test calls and explicitly classified external-provider calls are excluded. This endpoint updates metadata only and does not create conversions.
+`cloudflare_sync.py` selects completed inbound calls that have a confirmed agent-ring notification, a completed hangup timestamp, and a SIP Call-ID. It sends the public toll-free number as the call destination and tracks the internal ring event separately. It preserves ring-only calls with `billsec=0` and does not send conversions.
 
 The systemd unit and timer templates are in `systemd/`. The timer runs `cloudflare_sync.py --send` once per minute and reads `CALL_INGEST_SECRET` from `/etc/ticketdepart-calltracker/ingest.env`. Run `python3 cloudflare_sync.py` without `--send` for a read-only upload dry run.
 
@@ -44,8 +51,8 @@ The systemd unit and timer templates are in `systemd/`. The timer runs `cloudfla
 
 ## Safety
 
-ClickFlare and TrafficStars postbacks stay disabled until Telxio webhook fields provide a verified one-to-one link between the public single-DID call and the originating website click. The internal extension `1030605` is not a tracking DID. Single-number time-window candidates are review-only and must never be used as conversions. Unmatched calls never generate conversions. Do not commit secrets, systemd environment files, or live database contents.
+No extra public or tracking number is allocated. Do not commit secrets, systemd environment files, or live database contents.
 
 ## Tests
 
-Run `python3 -m unittest -v test_collector.py test_cloudflare_sync.py` from this directory. Tests use in-memory SQLite/temp databases and mock the network notifier.
+Run `python3 -m unittest -v test_collector.py test_cloudflare_sync.py test_dialplan.py` from this directory. Tests use in-memory SQLite/temp databases and mock the network notifier.

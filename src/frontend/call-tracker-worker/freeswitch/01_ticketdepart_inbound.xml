@@ -1,12 +1,9 @@
 <include>
   <extension name="ticketdepart_telxio_inbound">
-    <!-- Keep the TicketDepart route scoped to the registered Telxio gateway. -->
+    <!-- This Telxio gateway is dedicated to TicketDepart's sole public toll-free number. -->
     <condition field="${sip_gateway}" expression="^telxio$">
-      <!-- One public DID (+1-888-564-9049); 1030605 is its internal Telxio ingress extension, not a second DID. -->
-      <condition field="destination_number" expression="^(?:1030605|\+?1?8885649049)$">
-        <action application="transfer" data="1001 XML default"/>
-      </condition>
+      <!-- Internal ring-monitor leg; never expose the internal extension to callers. -->
+      <action application="transfer" data="1001 XML default"/>
     </condition>
   </extension>
-  <!-- Preserve this single-DID route. 1030605 is an internal ingress extension; 1001 is the agent extension behind it. -->
 </include>

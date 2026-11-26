@@ -23,7 +23,6 @@ export interface CallTrackerEnv {
 const GOAL_ID = "6487";
 const CAMPAIGN_ID = "1653463";
 const PUBLIC_DID = "18885649049";
-const TELXIO_INGRESS_EXTENSION = "1030605";
 const CLICK_TTL_MS = 90 * 24 * 60 * 60 * 1000;
 
 const json = (data: unknown, status = 200) =>
@@ -53,27 +52,13 @@ async function auth(request: Request, secret?: string): Promise<boolean> {
 
 const normalizeDid = (value: string): string => value.replace(/\D/g, "");
 
-const isTicketDepartRouteTarget = (value: string): boolean => {
+const isTicketDepartPublicDid = (value: string): boolean => {
   const digits = normalizeDid(value);
-  // 1030605 is an internal Telxio ingress extension, not a separate public DID.
-  return digits === PUBLIC_DID || digits === "8885649049" || digits === TELXIO_INGRESS_EXTENSION;
+  return digits === PUBLIC_DID || digits === "8885649049";
 };
 
-const canonicalTicketDepartDestination = (value: string): string => {
-  const digits = normalizeDid(value);
-  // Store the single public DID in D1 even when older collectors send the internal alias.
-  if (digits === PUBLIC_DID || digits === "8885649049" || digits === TELXIO_INGRESS_EXTENSION) return PUBLIC_DID;
-  return digits;
-};
-
-async function isConfiguredTicketDepartRouteTarget(env: CallTrackerEnv, value: string): Promise<boolean> {
-  if (isTicketDepartRouteTarget(value)) return true;
-  const did = normalizeDid(value);
-  if (!/^1?\d{10,14}$/.test(did)) return false;
-  const row = await env.DB.prepare("SELECT did FROM tracking_dids WHERE did=? AND enabled=1")
-    .bind(did).first<{ did: string }>();
-  return Boolean(row);
-}
+const canonicalTicketDepartPublicDid = (value: string): string =>
+  isTicketDepartPublicDid(value) ? PUBLIC_DID : "";
 
 function readClickFlareId(value: unknown): string | null {
   const id = String(value || "").trim();
@@ -157,30 +142,15 @@ async function correlateAndStoreRingingEvent(
   }>();
   if (existing) return { ...existing, duplicate: true };
 
-  const did = normalizeDid(input.destination);
   const ringingAtIso = new Date(input.ringing_at).toISOString();
-  const assignment = await env.DB.prepare(
-    "SELECT assignment_id,trafficstars_click_id,clickflare_click_id FROM did_assignments WHERE did=? AND status='active' AND assigned_at<=? AND expires_at>=? ORDER BY assigned_at DESC LIMIT 1",
-  ).bind(did, ringingAtIso, ringingAtIso).first<{
-    assignment_id: string; trafficstars_click_id: string | null; clickflare_click_id: string | null;
-  }>();
-
   let clickId: string | null = null;
   let clickFlareId: string | null = null;
   let assignmentId: string | null = null;
   let matchedIntentId: string | null = null;
   let attributionStatus = "unmatched";
-  let attributionMethod = "no_recent_click_to_call_intent";
+  let attributionMethod = "no_verified_click_transport";
 
-  // Legacy DNI assignments remain supported, but the live single-number
-  // configuration does not require or allocate additional telephone numbers.
-  if (assignment?.trafficstars_click_id && assignment.clickflare_click_id) {
-    clickId = assignment.trafficstars_click_id;
-    clickFlareId = assignment.clickflare_click_id;
-    assignmentId = assignment.assignment_id;
-    attributionStatus = "verified";
-    attributionMethod = "dni_did";
-  } else {
+  {
     // With one shared toll-free DID, the browser click ID cannot be carried
     // over the PSTN call itself. Match only a single, unclaimed phone-click
     // intent in the preceding ten minutes, and only if no other inbound ring
@@ -259,7 +229,7 @@ async function sendRingingPostback(
   env: CallTrackerEnv,
   event: { call_uuid: string; click_id: string | null; attribution_status: string; attribution_method?: string | null },
 ): Promise<RingingPostbackResult> {
-  // DNI conversions flow through ClickFlare, whose enabled TrafficStars source postback is the single downstream route. Keep this direct sender for legacy signed-call sessions only.
+  // The single-number flow never sends direct ad-network postbacks; this path only supports an explicit verified signed-call session.
   if (event.attribution_status !== "verified" || event.attribution_method !== "signed_call_session" || !event.click_id) return { sent: false, status: "unattributed" };
   if (env.TRAFFICSTARS_POSTBACK_ENABLED !== "true" || !env.TRAFFICSTARS_POSTBACK_KEY) return { sent: false, status: "disabled" };
   const prior = await env.DB.prepare(
@@ -333,11 +303,11 @@ async function sendClickFlarePostback(
   env: CallTrackerEnv,
   event: { call_uuid: string; clickflare_click_id: string | null; attribution_status: string; attribution_method?: string | null },
 ): Promise<ClickFlarePostbackResult> {
-  // A timestamp-window candidate is not proof that the PSTN caller is the
-  // browser visitor who clicked. Only a one-to-one, active DID assignment is
-  // verified strongly enough to create a payable ad-network conversion.
-  const verifiedDni = event.attribution_status === "verified" && event.attribution_method === "dni_did";
-  if (!verifiedDni || !event.clickflare_click_id) {
+  // A shared public number cannot verify a browser click by itself.
+  // Only a provider-supplied per-call click reference may authorize a conversion.
+  const verifiedProviderClickReference =
+    event.attribution_status === "verified" && event.attribution_method === "telxio_click_reference";
+  if (!verifiedProviderClickReference || !event.clickflare_click_id) {
     return { sent: false, status: "unattributed" };
   }
   if (env.CLICKFLARE_POSTBACK_ENABLED !== "true") return { sent: false, status: "disabled" };
@@ -394,7 +364,7 @@ async function sendClickFlarePostback(
 async function retryFailedClickFlarePostbacks(env: CallTrackerEnv) {
   if (env.CLICKFLARE_POSTBACK_ENABLED !== "true") return { checked: 0, sent: 0, failed: 0 };
   const due = await env.DB.prepare(
-    "SELECT c.call_uuid,c.clickflare_click_id,r.attribution_status,r.attribution_method FROM clickflare_conversions c JOIN call_ringing_events r USING(call_uuid) WHERE c.status='failed' AND r.attribution_status='verified' AND r.attribution_method='dni_did' AND c.next_retry_at IS NOT NULL AND c.next_retry_at<=? AND c.attempt_count<? ORDER BY c.next_retry_at ASC LIMIT 25",
+    "SELECT c.call_uuid,c.clickflare_click_id,r.attribution_status,r.attribution_method FROM clickflare_conversions c JOIN call_ringing_events r USING(call_uuid) WHERE c.status='failed' AND r.attribution_status='verified' AND r.attribution_method='telxio_click_reference' AND c.next_retry_at IS NOT NULL AND c.next_retry_at<=? AND c.attempt_count<? ORDER BY c.next_retry_at ASC LIMIT 25",
   ).bind(new Date().toISOString(), MAX_POSTBACK_ATTEMPTS).all<{
     call_uuid: string; clickflare_click_id: string; attribution_status: string; attribution_method: string | null;
   }>();
@@ -548,55 +518,11 @@ export default {
     }
 
     if (request.method === "POST" && url.pathname === "/dni/assign") {
-      const origin = request.headers.get("origin");
-      if (origin && origin !== "https://ticketdepart.com" && origin !== "https://www.ticketdepart.com") {
-        return json({ error: "origin_not_allowed" }, 403);
-      }
-      const raw = await request.text();
-      if (raw.length > 4096) return json({ error: "payload_too_large" }, 413);
-      let body: Record<string, unknown>;
-      try { body = JSON.parse(raw); } catch { return json({ error: "invalid_json" }, 400); }
-      const clickId = String(body.click_id || "").trim();
-      const suppliedClickFlareId = readClickFlareId(body.clickflare_click_id);
-      if (!/^[A-Za-z0-9._~-]{1,200}$/.test(clickId)) return json({ error: "invalid_click_id" }, 400);
-      const click = await env.DB.prepare(
-        "SELECT click_id,expires_at,clickflare_click_id FROM traffic_clicks WHERE click_id=?",
-      ).bind(clickId).first<{ click_id: string; expires_at: string; clickflare_click_id: string | null }>();
-      if (!click || !validTime(click.expires_at) || Date.parse(click.expires_at) < Date.now()) {
-        return json({ error: "unknown_or_expired_click_id" }, 404);
-      }
-      const clickFlareId = suppliedClickFlareId || readClickFlareId(click.clickflare_click_id);
-      if (!clickFlareId) return json({ error: "missing_clickflare_click_id" }, 409);
-      const now = new Date();
-      const nowIso = now.toISOString();
-      const prior = await env.DB.prepare(
-        "SELECT assignment_id,did,expires_at FROM did_assignments WHERE trafficstars_click_id=? AND clickflare_click_id=? AND status='active' AND expires_at>? ORDER BY assigned_at DESC LIMIT 1",
-      ).bind(clickId, clickFlareId, nowIso).first<{ assignment_id: string; did: string; expires_at: string }>();
-      if (prior) return json({ ok: true, assigned: true, did: prior.did, phone_href: `tel:+${prior.did}`, assignment_id: prior.assignment_id, expires_at: prior.expires_at, attribution: "dni_did" });
-      await env.DB.prepare(
-        "UPDATE did_assignments SET status='expired' WHERE status='active' AND expires_at<=?",
-      ).bind(nowIso).run();
-      const available = await env.DB.prepare(
-        "SELECT d.did FROM tracking_dids d WHERE d.enabled=1 AND NOT EXISTS (SELECT 1 FROM did_assignments a WHERE a.did=d.did AND a.status='active') ORDER BY d.did LIMIT 1",
-      ).first<{ did: string }>();
-      if (!available) return json({ error: "dni_pool_unavailable", fallback: true }, 503);
-      const assignmentId = crypto.randomUUID();
-      const expiresAt = new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString();
-      if (!/^1?\d{10,14}$/.test(available.did)) return json({ error: "invalid_tracking_did_configuration", fallback: true }, 503);
-      try {
-        await env.DB.prepare(
-          "INSERT INTO did_assignments (assignment_id,did,trafficstars_click_id,clickflare_click_id,assigned_at,expires_at,status) VALUES (?,?,?,?,?,?,'active')",
-        ).bind(assignmentId, available.did, clickId, clickFlareId, nowIso, expiresAt).run();
-      } catch {
-        const concurrent = await env.DB.prepare(
-          "SELECT assignment_id,did,expires_at FROM did_assignments WHERE trafficstars_click_id=? AND clickflare_click_id=? AND status='active' AND expires_at>? ORDER BY assigned_at DESC LIMIT 1",
-        ).bind(clickId, clickFlareId, nowIso).first<{ assignment_id: string; did: string; expires_at: string }>();
-        if (concurrent) return json({ ok: true, assigned: true, did: concurrent.did, phone_href: `tel:+${concurrent.did}`, assignment_id: concurrent.assignment_id, expires_at: concurrent.expires_at, attribution: "dni_did" });
-        return json({ error: "dni_pool_busy", fallback: true }, 503);
-      }
-      return json({ ok: true, assigned: true, did: available.did, phone_href: `tel:+${available.did}`, assignment_id: assignmentId, expires_at: expiresAt, attribution: "dni_did" }, 201);
+      return json({
+        error: "dynamic_number_assignment_disabled",
+        public_number: "+1-888-564-9049",
+      }, 410);
     }
-
     if (request.method === "POST" && url.pathname === "/intent") {
       let body: Record<string, unknown>;
       try {
@@ -755,7 +681,7 @@ export default {
         }
         if (
           typeof call.destination !== "string" ||
-          !(await isConfiguredTicketDepartRouteTarget(env, call.destination)) ||
+          !isTicketDepartPublicDid(call.destination) ||
           call.agent_extension !== "1001"
         ) {
           return json({ error: "invalid_call_route" }, 400);
@@ -782,7 +708,7 @@ export default {
       for (const row of rows) {
         const status = await correlateAndStoreCall(env, {
           call_uuid: String(row.call_uuid),
-          destination: canonicalTicketDepartDestination(String(row.destination)),
+          destination: canonicalTicketDepartPublicDid(String(row.destination)),
           agent_extension: String(row.agent_extension),
           created_at: String(row.created_at),
           answered_at: row.answered_at as string | null,
@@ -823,14 +749,14 @@ export default {
 
       const callUuid = String(body.call_uuid || "");
       const suppliedDestination = String(body.destination || "");
-      const destination = canonicalTicketDepartDestination(suppliedDestination);
+      const destination = canonicalTicketDepartPublicDid(suppliedDestination);
       const agentExtension = String(body.agent_extension || "");
       const ringingAt = body.ringing_at;
 
       if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(callUuid)) {
         return json({ error: "invalid_call_uuid" }, 400);
       }
-      if (!(await isConfiguredTicketDepartRouteTarget(env, suppliedDestination)) || agentExtension !== "1001") {
+      if (!isTicketDepartPublicDid(suppliedDestination) || agentExtension !== "1001") {
         return json({ error: "invalid_call_route" }, 400);
       }
       if (!validTime(ringingAt)) {
@@ -838,7 +764,7 @@ export default {
       }
 
       // Store the first agent-ring event and conservatively reserve one matching click intent.
-      // A time-window candidate remains diagnostic only; paid ClickFlare conversion requires a verified DNI-to-click assignment.
+      // A time-window candidate remains diagnostic only; an ad conversion requires a verified per-call provider click reference.
       const stored = await correlateAndStoreRingingEvent(env, {
         call_uuid: callUuid,
         destination,
@@ -909,7 +835,7 @@ export default {
       if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(callUuid)) {
         return json({ error: "invalid_call_uuid" }, 400);
       }
-      if (!(await isConfiguredTicketDepartRouteTarget(env, destination)) || agentExtension !== "1001") {
+      if (!isTicketDepartPublicDid(destination) || agentExtension !== "1001") {
         return json({ error: "invalid_call_route" }, 400);
       }
       if (!validTime(createdAt) || !validTime(answeredAt) || Date.parse(String(answeredAt)) < Date.parse(String(createdAt))) {

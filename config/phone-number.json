@@ -4,5 +4,5 @@
   "legacy": [
     "+1-877-788-8010"
   ],
-  "instruction": "This is the canonical TicketDepart customer-facing toll-free phone number: +1-888-564-9049 (tel:+18885649049). The previous +1-877-788-8010 number is retained only as a legacy inbound route during cutover. Keep all displays, tel links, structured data, static HTML and generated assets synchronized. Telxio SIP registration credentials are separate internal authentication settings; do not replace the internal SIP username 1030605 unless Telxio changes that credential."
+  "instruction": "This is the only canonical TicketDepart customer-facing toll-free number: +1-888-564-9049 (tel:+18885649049). The legacy array is retained only for source replacement and audit checks; those retired numbers are not active public numbers or inbound call destinations. Keep all customer-facing displays, tel links, structured data, static HTML and generated assets synchronized to the canonical toll-free number. Telxio SIP registration credentials are provider-side authentication settings, not public numbers or inbound routing destinations; preserve them unless Telxio supplies replacement credentials."
 }

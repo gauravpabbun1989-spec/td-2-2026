@@ -17,18 +17,17 @@ DB = "/var/lib/ticketdepart-calltracker/calls.sqlite3"
 RINGING_ENDPOINT = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/v1/calls/ringing"
 ANSWERED_ENDPOINT = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/v1/calls/answered"
 PUBLIC_DID = "18885649049"
-TELXIO_INGRESS_EXTENSION = "1030605"
 AGENT_EXTENSION = "1001"
 
 def canonical_ticketdepart_did(value):
-    """Return the only public DID when the inbound value is that DID or its internal alias."""
+    """Return the canonical toll-free public number, or None for every other destination."""
     digits = "".join(ch for ch in str(value or "") if ch.isdigit())
-    if digits in {PUBLIC_DID, "8885649049", TELXIO_INGRESS_EXTENSION}:
+    if digits in {PUBLIC_DID, "8885649049"}:
         return PUBLIC_DID
     return None
 
-def is_ticketdepart_inbound_target(value):
-    """Accept the one public DID and the Telxio ingress extension used to route it."""
+def is_ticketdepart_public_did(value):
+    """Accept only the published toll-free number as an inbound TicketDepart destination."""
     return canonical_ticketdepart_did(value) is not None
 
 
@@ -188,7 +187,7 @@ def send_pending_answered(db):
 
 
 def extract_called_did(event_data):
-    """Prefer the original called DID from provider SIP headers over the trunk auth alias."""
+    """Resolve the public TicketDepart number from called headers or its dedicated gateway."""
     header_keys = (
         "callerrdnis",
         "variablesiphpcalledpartyid",
@@ -216,7 +215,15 @@ def extract_called_did(event_data):
                 return canonical_did
 
     destination = str(event_data.get("Caller-Destination-Number") or "")
-    return canonical_ticketdepart_did(destination)
+    direct_did = canonical_ticketdepart_did(destination)
+    if direct_did:
+        return direct_did
+
+    # Current Telxio INVITEs identify the dedicated gateway but omit the public
+    # called number. This gateway is reserved for the one configured toll-free DID.
+    if event_data.get("variable_sip_gateway") == "telxio":
+        return PUBLIC_DID
+    return None
 
 
 def has_valid_inbound_ticketdepart_origin(db, inbound_uuid):
@@ -462,7 +469,14 @@ def main():
                     call_uuid, stamp, stamp,
                     event_data.get("variable_direction"),
                     event_data.get("Caller-Caller-ID-Number"),
-                    event_data.get("Caller-Destination-Number"),
+                    (
+                        "+1-888-564-9049"
+                        if event_name == "CHANNEL_CREATE"
+                        and event_data.get("Call-Direction") == "inbound"
+                        and event_data.get("Caller-Context") == "public"
+                        and event_data.get("variable_sip_gateway") == "telxio"
+                        else event_data.get("Caller-Destination-Number")
+                    ),
                     event_data.get("Caller-Context"),
                     event_data.get("Channel-Name"),
                     event_data.get("variable_sip_call_id"),
@@ -476,7 +490,10 @@ def main():
                 is_original = (
                     event_name == "CHANNEL_CREATE"
                     and event_data.get("Call-Direction") == "inbound"
-                    and is_ticketdepart_inbound_target(event_data.get("Caller-Destination-Number"))
+                    and (
+                        is_ticketdepart_public_did(event_data.get("Caller-Destination-Number"))
+                        or event_data.get("variable_sip_gateway") == "telxio"
+                    )
                     and event_data.get("Caller-Context") == "public"
                     and event_data.get("Channel-Name", "").startswith("sofia/external/")
                 )

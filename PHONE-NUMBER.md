@@ -15,4 +15,4 @@ All customer-facing pages, buttons, popups, headers, footers, structured data, s
 3. Review the diff and run the build, tests, and phone-number audit before deployment.
 4. Confirm the current number is consistent in source files and generated static output.
 
-The public DID is +1-888-564-9049. Telxio SIP registration credentials (currently using account identifier 1030605) are separate authentication settings; do not replace them with the public number unless Telxio changes the SIP credentials.
+The public toll-free number is the only customer-facing call destination. Telxio SIP registration credentials are provider-side authentication settings, not phone numbers or inbound routing destinations. Preserve those credentials unless Telxio supplies replacements.
