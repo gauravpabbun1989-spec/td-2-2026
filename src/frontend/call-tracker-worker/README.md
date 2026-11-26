@@ -5,12 +5,12 @@ This directory is the source-controlled implementation for the existing Cloudfla
 ## Production call route
 
 - Public toll-free number: `+1-888-564-9049`
-- Telxio / FreeSWITCH inbound alias: `1030605`
-- Agent extension: `1001`
-- No IVR, keypad, extra DID pool, or call-session code is required.
+- Telxio internal ingress extension: `1030605` (not a DID)
+- Agent extension behind that ingress: `1001`
+- There is exactly one public DID: `+1-888-564-9049`. No extra DID pool, IVR, keypad, or caller session code is in use.
 - The existing direct-dial caller experience is preserved.
 
-The first real ring offered to agent extension `1001` is the call conversion milestone. Answer and hangup timestamps remain separate call details. A call is not converted merely because it reached the FreeSWITCH host; the agent leg must actually ring.
+The first real ring offered to agent extension `1001` is the internal acceptance and billable-call milestone. Answer and hangup timestamps remain separate call details. An advertising conversion is separate: it requires verified click attribution and an explicitly enabled postback. A call is not accepted merely because it reached the FreeSWITCH host; the agent leg must actually ring.
 
 ## Single-number click attribution
 
@@ -57,4 +57,4 @@ The call-intent event is intent telemetry, not a conversion. The conversion occu
 
 ## Telxio webhook
 
-The authenticated provider endpoint is `POST /webhook/telxio/{token}`. It stores deduplicated provider event metadata and never creates conversions. FreeSWITCH remains the canonical source for agent ringing and call UUID correlation.
+The Telxio webhook is already enabled at the provider. The authenticated Worker endpoint is `POST /webhook/telxio/{token}`. It stores deduplicated provider event metadata and never creates conversions. The internal extension `1030605` is a routing step, not a tracking DID. The last production D1 audit showed zero webhook deliveries received; verify delivery and compare the provider call identifier with a stable FreeSWITCH SIP call identifier on the next naturally occurring call. A per-call ID alone does not link a website click unless the provider payload also carries a reliable click/session reference.

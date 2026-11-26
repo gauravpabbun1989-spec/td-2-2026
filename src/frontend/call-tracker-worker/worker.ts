@@ -22,6 +22,8 @@ export interface CallTrackerEnv {
 
 const GOAL_ID = "6487";
 const CAMPAIGN_ID = "1653463";
+const PUBLIC_DID = "18885649049";
+const TELXIO_INGRESS_EXTENSION = "1030605";
 const CLICK_TTL_MS = 90 * 24 * 60 * 60 * 1000;
 
 const json = (data: unknown, status = 200) =>
@@ -51,13 +53,21 @@ async function auth(request: Request, secret?: string): Promise<boolean> {
 
 const normalizeDid = (value: string): string => value.replace(/\D/g, "");
 
-const isTicketDepartDid = (value: string): boolean => {
+const isTicketDepartRouteTarget = (value: string): boolean => {
   const digits = normalizeDid(value);
-  return digits === "18885649049" || digits === "8885649049" || digits === "1030605";
+  // 1030605 is an internal Telxio ingress extension, not a separate public DID.
+  return digits === PUBLIC_DID || digits === "8885649049" || digits === TELXIO_INGRESS_EXTENSION;
 };
 
-async function isConfiguredTicketDepartDid(env: CallTrackerEnv, value: string): Promise<boolean> {
-  if (isTicketDepartDid(value)) return true;
+const canonicalTicketDepartDestination = (value: string): string => {
+  const digits = normalizeDid(value);
+  // Store the single public DID in D1 even when older collectors send the internal alias.
+  if (digits === PUBLIC_DID || digits === "8885649049" || digits === TELXIO_INGRESS_EXTENSION) return PUBLIC_DID;
+  return digits;
+};
+
+async function isConfiguredTicketDepartRouteTarget(env: CallTrackerEnv, value: string): Promise<boolean> {
+  if (isTicketDepartRouteTarget(value)) return true;
   const did = normalizeDid(value);
   if (!/^1?\d{10,14}$/.test(did)) return false;
   const row = await env.DB.prepare("SELECT did FROM tracking_dids WHERE did=? AND enabled=1")
@@ -745,7 +755,7 @@ export default {
         }
         if (
           typeof call.destination !== "string" ||
-          !(await isConfiguredTicketDepartDid(env, call.destination)) ||
+          !(await isConfiguredTicketDepartRouteTarget(env, call.destination)) ||
           call.agent_extension !== "1001"
         ) {
           return json({ error: "invalid_call_route" }, 400);
@@ -772,7 +782,7 @@ export default {
       for (const row of rows) {
         const status = await correlateAndStoreCall(env, {
           call_uuid: String(row.call_uuid),
-          destination: String(row.destination),
+          destination: canonicalTicketDepartDestination(String(row.destination)),
           agent_extension: String(row.agent_extension),
           created_at: String(row.created_at),
           answered_at: row.answered_at as string | null,
@@ -812,14 +822,15 @@ export default {
       }
 
       const callUuid = String(body.call_uuid || "");
-      const destination = String(body.destination || "");
+      const suppliedDestination = String(body.destination || "");
+      const destination = canonicalTicketDepartDestination(suppliedDestination);
       const agentExtension = String(body.agent_extension || "");
       const ringingAt = body.ringing_at;
 
       if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(callUuid)) {
         return json({ error: "invalid_call_uuid" }, 400);
       }
-      if (!(await isConfiguredTicketDepartDid(env, destination)) || agentExtension !== "1001") {
+      if (!(await isConfiguredTicketDepartRouteTarget(env, suppliedDestination)) || agentExtension !== "1001") {
         return json({ error: "invalid_call_route" }, 400);
       }
       if (!validTime(ringingAt)) {
@@ -898,7 +909,7 @@ export default {
       if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(callUuid)) {
         return json({ error: "invalid_call_uuid" }, 400);
       }
-      if (!(await isConfiguredTicketDepartDid(env, destination)) || agentExtension !== "1001") {
+      if (!(await isConfiguredTicketDepartRouteTarget(env, destination)) || agentExtension !== "1001") {
         return json({ error: "invalid_call_route" }, 400);
       }
       if (!validTime(createdAt) || !validTime(answeredAt) || Date.parse(String(answeredAt)) < Date.parse(String(createdAt))) {

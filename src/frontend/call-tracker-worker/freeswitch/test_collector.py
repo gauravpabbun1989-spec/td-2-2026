@@ -39,7 +39,8 @@ class RingingDetectorTests(unittest.TestCase):
             );
         """)
         self.inbound_uuid = "9ec7c8dc-d189-49ab-85f3-84cd165fe3c5"
-        self.did = "1030605"
+        self.did = "18885649049"
+        self.ingress_extension = "1030605"
         self.add_inbound_create()
         self.event = {
             "Event-Name": "CHANNEL_CALLSTATE",
@@ -55,7 +56,7 @@ class RingingDetectorTests(unittest.TestCase):
         details = {
             "Unique-ID": self.inbound_uuid,
             "Call-Direction": "inbound",
-            "Caller-Destination-Number": did or self.did,
+            "Caller-Destination-Number": did or self.ingress_extension,
             "Caller-Context": "public",
             "Channel-Name": "sofia/external/provider-call",
         }
@@ -86,6 +87,17 @@ class RingingDetectorTests(unittest.TestCase):
             1,
         )
         self.assertEqual(send.call_count, 2)
+
+
+    def test_internal_ingress_extension_maps_to_only_public_did(self):
+        with patch.object(collector, "send_pending_ringing") as send:
+            collector.queue_ringing_event(self.db, self.event)
+        row = self.db.execute(
+            "SELECT destination FROM ringing_notifications WHERE call_uuid=?",
+            (self.inbound_uuid,),
+        ).fetchone()
+        self.assertEqual(row[0], "18885649049")
+        send.assert_called_once_with(self.db)
 
     def test_called_party_header_overrides_trunk_registration_alias(self):
         self.db.execute("DELETE FROM call_events")

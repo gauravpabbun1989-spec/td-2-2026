@@ -607,6 +607,14 @@ describe("call-tracker FreeSWITCH ringing conversion", () => {
     }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret" });
     expect(response.status).toBe(202);
     expect(await response.json()).toMatchObject({ ok: true, goal_id: "6487", recorded: true });
+    expect(db.ringingEvents.get("bd5a41e2-8e85-4a0a-965a-561f4cae1bcb")).toMatchObject({
+      destination: "18885649049",
+      agent_extension: "1001",
+    });
+    expect(db.calls.get("bd5a41e2-8e85-4a0a-965a-561f4cae1bcb")).toMatchObject({
+      destination: "18885649049",
+      acceptance_reason: "agent_leg_ringing",
+    });
   });
 
   it("rejects ringing events for an unexpected DID or extension", async () => {
@@ -857,6 +865,7 @@ describe("call-tracker DNI DID assignment", () => {
     }), { DB: db as unknown as CallTrackerEnv["DB"], CALL_INGEST_SECRET: "test-secret", CLICKFLARE_POSTBACK_ENABLED: "true" });
     expect(response.status).toBe(202);
     expect(await response.json()).toMatchObject({ attribution: "unmatched", clickflare_postback_status: "unattributed" });
+    expect(db.ringingEvents.get("4d7c2a1f-2e4a-4f3e-a5d8-1a2b3c4d5e6f")).toMatchObject({ destination: "18885649049" });
     expect(db.clickflareConversions.size).toBe(0);
   });
 });

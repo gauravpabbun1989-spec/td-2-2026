@@ -2,11 +2,11 @@
   <extension name="ticketdepart_telxio_inbound">
     <!-- Keep the TicketDepart route scoped to the registered Telxio gateway. -->
     <condition field="${sip_gateway}" expression="^telxio$">
-      <!-- Current public DID plus the Telxio SIP-side inbound alias. -->
+      <!-- One public DID (+1-888-564-9049); 1030605 is its internal Telxio ingress extension, not a second DID. -->
       <condition field="destination_number" expression="^(?:1030605|\+?1?8885649049)$">
         <action application="transfer" data="1001 XML default"/>
       </condition>
     </condition>
   </extension>
-  <!-- If the provider places a tracking DID in Request-URI, add it to this allowlist. A called-party header with the trunk alias can use the existing 1030605 route. -->
+  <!-- Preserve this single-DID route. 1030605 is an internal ingress extension; 1001 is the agent extension behind it. -->
 </include>

@@ -14,6 +14,7 @@ import urllib.error
 CALLS_DB = "/var/lib/ticketdepart-calltracker/calls.sqlite3"
 STATE_DB = "/var/lib/ticketdepart-calltracker/cloudflare-sync.sqlite3"
 ENDPOINT = "https://ticketdepart-call-tracker.gaurav-pabbun.workers.dev/v1/calls/ingest"
+PUBLIC_DID = "18885649049"
 
 # Calls explicitly classified by the account owner as test traffic. Keep these
 # out of production call reporting and never upload them to the Worker.
@@ -116,7 +117,7 @@ def main():
                 billsec = 0
             calls.append({
                 "call_uuid": row["uuid"],
-                "destination": "1030605",
+                "destination": PUBLIC_DID,
                 "agent_extension": "1001",
                 "created_at": row["first_seen"],
                 "answered_at": row["answered_at"] or None,
