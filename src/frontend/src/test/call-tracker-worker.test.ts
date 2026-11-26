@@ -775,7 +775,7 @@ describe("call-tracker single-number intent candidates", () => {
       const callback = new URL(String(fetchMock.mock.calls[0][0]));
       expect(callback.origin + callback.pathname).toBe("https://globalvisitlog.com/cf/cv");
       expect(callback.searchParams.get("click_id")).toBe("cf-click-paid");
-      expect(callback.searchParams.get("payout")).toBe("15");
+      expect(callback.searchParams.get("payout")).toBe("20");
       expect(callback.searchParams.get("txid")).toBe(callUuid);
       expect(callback.searchParams.get("ct")).toBe("call");
       expect(db.clickflareConversions.get(callUuid)).toMatchObject({ status: "sent", attempt_count: 1 });

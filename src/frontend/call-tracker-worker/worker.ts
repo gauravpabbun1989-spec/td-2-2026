@@ -291,7 +291,7 @@ async function retryFailedPostbacks(env: CallTrackerEnv) {
 }
 
 const CLICKFLARE_POSTBACK_URL = "https://globalvisitlog.com/cf/cv";
-const CALL_PAYOUT_USD = "15";
+const CALL_PAYOUT_USD = "20";
 const CLICKFLARE_CONVERSION_TYPE = "call";
 
 type ClickFlarePostbackResult = {
